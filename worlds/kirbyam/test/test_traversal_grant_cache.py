@@ -28,7 +28,7 @@ def test_repeated_source_key_resolved_once_per_evaluation(monkeypatch):
         return original(key, permitted)
 
     monkeypatch.setattr(policy, "grant", counted)
-    for expected in (1, 2):
+    for expected in (2, 4):  # One permitted grant and one unrestricted grant per search.
         result = graph().evaluate(policy, frozenset({"Wheel Ability"}), True)
         assert result.reaches("target")
         assert calls == {"WHEELIE": expected}

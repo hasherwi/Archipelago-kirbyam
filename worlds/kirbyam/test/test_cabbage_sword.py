@@ -10,6 +10,7 @@ import pytest
 from BaseClasses import CollectionState, ItemClassification
 
 from .support.source_policy import set_rule_test_policy
+from .support.cabbage_statues import statue_alternative_available
 from .. import KirbyAmWorld, traversal_rules as rules
 from ..data import data
 from ..traversal import CAPABILITY_ABILITIES, CAPABILITY_CONSUMED_ABILITIES, Position, SourcePolicy
@@ -63,7 +64,7 @@ def test_finite_source_and_own_capability(gating, area_keys):
 @pytest.mark.parametrize('pool,weight', [(['Sword', 'Beam'], 0), (['Sword'], 50), (['Sword'], 100), (None, 0)])
 def test_uncertain_raw_policy_is_not_narrowed_by_permission(gating, pool, weight):
     resolver = policy(2, pool=pool, weight=weight)
-    assert not rules.target_applies(cabbage_row(), resolver)
+    assert rules.target_applies(cabbage_row(), resolver)  # Native hub statues remain independent.
     graph = room_traversal_graph(TARGET, 'hub2_sword_entry')
     for owned in (frozenset(), frozenset({'Sword Ability'}), frozenset({'Sword Ability', 'Beam Ability'})):
         assert not graph.evaluate(resolver, owned, gating, allow_documented_retries=True).positions
@@ -105,13 +106,13 @@ def test_actual_world_scope_and_existing_progression(
         assert not chest.access_rule(state)
         state.remove(item)
         state.can_reach_region = lambda name, player: name == UPSTREAM
-        assert chest.access_rule(state) is (not gating)
+        assert chest.access_rule(state) is (not gating or statue_alternative_available(world, state))
         state.collect(world.create_item('Missile Ability'), prevent_sweep=True)
-        assert chest.access_rule(state) is (not gating)
+        assert chest.access_rule(state) is (not gating or statue_alternative_available(world, state))
         state.collect(item, prevent_sweep=True)
         assert chest.access_rule(state)
         state.remove(item)
-        assert chest.access_rule(state) is (not gating)
+        assert chest.access_rule(state) is (not gating or statue_alternative_available(world, state))
     else:
         with pytest.raises(KeyError):
             world.multiworld.get_location(data.locations[CHEST].label, 1)
@@ -168,7 +169,7 @@ def test_full_seed4_fill_and_start_inventory(tmp_path, monkeypatch, gating, area
     state = CollectionState(multiworld)
     state.can_reach_region = lambda name, player: name == UPSTREAM
     chest = multiworld.get_location(data.locations[CHEST].label, 1)
-    assert chest.access_rule(state) is (not gating or bool(count))
+    assert chest.access_rule(state) is (not gating or bool(count) or statue_alternative_available(world, state))
     state.collect(world.create_item('Sword Ability'), prevent_sweep=True)
     assert chest.access_rule(state)
 
@@ -176,7 +177,8 @@ def test_full_seed4_fill_and_start_inventory(tmp_path, monkeypatch, gating, area
 def test_prior_catalog_and_graphs_unchanged():
     doc = document()
     rooms = json.loads((ROOT / 'data/regions/rooms.json').read_text())
-    row = rooms[OWNER]['traversal']['targets'][0]
+    from .support.cabbage_statue_history import before_cabbage_statues_target
+    row = before_cabbage_statues_target(rooms[OWNER]['traversal']['targets'][0])
 
     def digest(value):
         return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(',', ':')).encode()).hexdigest()
@@ -184,8 +186,7 @@ def test_prior_catalog_and_graphs_unchanged():
     assert len(doc['prior_graphs_sha256']) == 7
     for name, expected in doc['prior_graphs_sha256'].items():
         assert digest(row['graphs'][name]) == expected
-    stripped = deepcopy(rooms)
-    target = stripped[OWNER]['traversal']['targets'][0]
+    target = deepcopy(row)
     assert digest(target['graphs'].pop('hub2_ufo_entry')) == (
         '6ef3439b8a90da73387bdc7e9d4372baae9e889eb936c82508b5a0e74e15986a')
     target['requires_guaranteed_source']['abilities'].remove('UFO')
@@ -199,4 +200,4 @@ def test_prior_catalog_and_graphs_unchanged():
     assert digest(target) == 'ce3d579238309e6c778f9776595b48ae253a2406d00a4d9e3d9a69d2a644f51f'
     owners = [(row['id'], name) for row in room_traversal_targets('block') for name, graph in row['graphs'].items()
               if any(route.get('capability') == CAPABILITY for route in graph['routes'])]
-    assert owners == [(TARGET, 'hub2_sword_entry')]
+    assert owners == [(TARGET, 'hub2_sword_entry'), (TARGET, 'hub2_statues_entry')]

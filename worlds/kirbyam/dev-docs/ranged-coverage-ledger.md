@@ -16,12 +16,16 @@ The current source-backed subset includes:
 - Conditional 533 small-switch alternatives: Bomb, UFO, Crash and bounded Magic
   Meta Knight. Each has its own `mustard-room15-*-source-witness.md` record;
   the original Bomb record is `mustard-room15-source-witness.md`.
-- Conditional 310 map alternatives: UFO, Crash, Cupid and Cutter, documented in their
+- Conditional 310 map alternatives: four Twister witnesses (UFO, Crash, Cupid and Cutter)
+  and local Sir Kibble Cutter, documented in their
   `mustard-map-*-source-witness.md` records.
-- The 825 Sound Effects target is unconditional, with four OR witnesses: finite
+- The 825 Sound Effects target is unconditional, with four Standard OR witnesses: finite
   Frosty Ice/UFO and independent Central/Peppermint290 statue Ice. Only the finite
   graphs have Frosty source conditions; their native evidence remains individually
-  qualified. See `main-ranged-integration.md` and `olive-sound-effects-ufo.md`.
+  qualified. See `main-ranged-integration.md` and `olive-sound-effects-ufo.md`. Advanced Logic adds
+  one finite exhaustive Frosty-cube Ice acquisition composed with the existing
+  retained-Ice suffix; see `frosty825-generated-ice-composition.md` for the
+  native branch controls, resource invariants and composition limits.
 - An optional, fail-closed native538 Beam left exit from VERTICAL directly to
   Rainbow39/native537, documented in `rainbow-beam538-source-witness.md`. It
   adds no reverse crossover, direct539 route or mandatory Beam requirement. The
@@ -41,7 +45,7 @@ ability, arbitrary range, collision equivalence or a complete route.
 
 ## AP ownership census
 
-`tools/build_ranged_target_coverage.py` reads production-normalized `data.regions` rather than a parallel raw-room loader. After integration with the source-aware metal traversal baseline it covers 382 regions, including 352 mapped native definitions (322 parents and 30 logical compartments), area/other connectivity and synthetic RoomSanity sinks. It records 384 uniquely owned locations, including 263 RoomSanity checks, and 1,083 location/exit surfaces. All 57 current traversal target definitions (147 witnesses) bind to exact normalized surfaces. The top-level union catalog has 55 rows; normalization adds `mini_321_right_lower` and `fuse_323`. These counts describe AP structure, **not** the number of attack-dependent targets.
+`tools/build_ranged_target_coverage.py` reads production-normalized `data.regions` rather than a parallel raw-room loader. After integration with the source-aware metal traversal baseline it covers 386 regions, including 354 mapped native definitions, area/other connectivity and synthetic RoomSanity sinks. It records 401 uniquely owned locations, including 263 RoomSanity checks, and 1,108 location/exit surfaces. All 65 current traversal target definitions (158 witnesses) bind to exact normalized surfaces. The top-level union catalog has 61 rows; normalization adds `mini_321_right_lower`, `fuse_323`, `mirra_141_top_mustard` and `mirra_141_east_moonlight`. These counts describe AP structure, **not** the number of attack-dependent targets.
 
 Generated JSON includes SHA-256 hashes of the normalizer, every data JSON and native mapping. Tests cover moved location ownership, nested Mustard Mini/Fuse targets, Carrot's overridden compartment entrance, area adjacency and RoomSanity sinks. RoomSanity is recorded separately and must not inherit a chest/exit attack gate.
 
@@ -642,7 +646,7 @@ proposed fresh15/repeat16 are unrun.
 Existing null 22→23/23→24 rules, Paint01 peg, RoomSanity and 200→BOSS stay
 unchanged. Right-side 217/225 ingress to the 221 left bay is not proved. No
 new target, source-policy binding or generic Normal ability gate is added.
-Current counts are 57 targets/147 witnesses/three target-wide fallbacks after the Ice533 extension and #1099 fail-closed rule.
+Current counts are 58 targets/148 witnesses/three target-wide fallbacks after the Ice533 extension, #1099 fail-closed rule and bounded Normal617 map route (#1114).
 
 
 ## Normal-logic Ice at Mustard Room15 (#1099)
@@ -655,3 +659,25 @@ Eight cold production-fixture runs cover HP 1/6 × health 100%/500% with matched
 no-freeze controls. This is not arbitrary carried-Ice access or a mixed/failable
 source guarantee. The second spawned Foley is one finite projectile, not an
 unlimited source. The route is available at both logic levels; all unrelated targets are unchanged.
+
+The local Sir Kibble alternative in [#1117](https://github.com/hasherwi/Archipelago-kirbyam/issues/1117)
+now enforces physical acquisition for the native Mustard map profile. It adds
+one separately verified graph, preserving all four Twister alternatives. The
+[acceptance record](mustard-map-kibble-source-witness.md) covers finite first
+acquisition, carried Cutter and setting-specific timed crossings; unsupported
+source policies still require the separate #1119 work.
+
+The subsequent #1119 binding adds `normal_815_vitality` after independent Olive
+chest-room access, preserving the historical551 boundary and original fixtures.
+Five additional current-patch replays cover the moved-block/timed-puff recipe;
+the no-puff control stays alive and collects nothing. See
+`normal815-traversal-witness.md`. This changes the current local rule to the exact
+Normal target, without asserting global access or a generic block capability.
+
+## Scoped continuation after Chocolate
+
+PR #1116 finishes the Hub2 statue composition for Chocolate. The remaining
+143 action tokens, policy fallbacks and unbound acquisition/encounter contexts
+are tracked in [v1.0.0 follow-up #1122](https://github.com/hasherwi/Archipelago-kirbyam/issues/1122).
+Review readiness of this scoped PR does not mean the full inventory is a proven
+acquisition map or that the outstanding #1114 goal is complete.

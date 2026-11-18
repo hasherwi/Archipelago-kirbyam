@@ -28,17 +28,21 @@ PROFILE = {
 }
 
 
+# PROFILE retains historical fixture settings; player health does not qualify routes.
+_ROUTE_PROFILE = {name: value for name, value in PROFILE.items()
+                  if name not in ("minimum_health", "maximum_health", "one_hit_mode")}
+
 def validate_profile(world: Any, *, install: bool = False) -> bool:
     """Refuse stale installed rules before validation, slot or ROM publication."""
     options = getattr(world, "options", None)
-    values = tuple(getattr(option, "value", option) for name in PROFILE
+    values = tuple(getattr(option, "value", option) for name in _ROUTE_PROFILE
                    for option in (getattr(options, name, None),))
     raw = getattr(world, "_enemy_copy_ability_policy", None)
     serialized = json.dumps(raw, sort_keys=True, separators=(",", ":"))
     signature = (tuple((type(value).__name__, value) for value in values), serialized)
     qualified = (bool(getattr(world, "ENABLE_MINOR_CHESTS", False))
                  and all(type(value) is int and value in ((0, 1) if name in ("room_sanity", "ability_gating") else (expected,))
-                         for name, value, expected in zip(PROFILE, values, PROFILE.values()))
+                         for name, value, expected in zip(_ROUTE_PROFILE, values, _ROUTE_PROFILE.values()))
                  and hashlib.sha256(serialized.encode()).hexdigest() == POLICY_SHA256
                  and SourcePolicy(raw).grant("SPARKY", lambda _: True).guaranteed == frozenset({"Cupid"}))
     installed = getattr(world, "_yellow_cupid_signature", None)

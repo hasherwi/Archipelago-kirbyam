@@ -11,6 +11,7 @@ from test.general import setup_multiworld
 from worlds.AutoWorld import call_all
 
 from .support.source_policy import set_rule_test_policy
+from .support.cabbage_statues import chocolate_permission_is_progression
 from .support.normal110_history import before_normal110
 from .. import KirbyAmWorld, traversal_rules as rules
 from ..enemy_ability_data import ABILITY_NAME_TO_ID, GATEABLE_ENEMY_COPY_ABILITIES
@@ -64,8 +65,8 @@ def test_actual_world_policy_or_requires_only_the_available_permission(
         state.collect(world.create_item(f'{ability} Ability'), prevent_sweep=True)
     state.can_reach_region = lambda name, player: name in {OWNER, 'REGION_RAINBOW_ROUTE/ROOM_1_06_UPPER'}
     assert not entrance.access_rule(state)
-    # Room 110 and Green have Normal alternatives; Chocolate's actual Doo grant still promotes Spark.
-    spark_progression = gating and resolver.grant('WADDLE_DOO', lambda _: True).guaranteed == frozenset({'Spark'})
+    # Room 110 and Green have Normal alternatives; Chocolate has enemy and statue sources.
+    spark_progression = gating and chocolate_permission_is_progression(resolver, 'Spark')
     assert world.create_item('Spark Ability').classification == (
         ItemClassification.progression if spark_progression else ItemClassification.useful)
     assert world.create_item('Sword Ability').classification == ItemClassification.progression

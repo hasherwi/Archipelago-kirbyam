@@ -2323,12 +2323,98 @@
           "can_fly"
         ]
       },
-      "REGION_CARROT_CASTLE/ROOM_5_02": {
-        "all": [
-          "can_break_block",
-          "can_mirra"
-        ]
-      }
+      "REGION_CARROT_CASTLE/ROOM_5_02": null
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "mirra_117_carrot",
+          "kind": "block",
+          "native_room": 117,
+          "exit": "REGION_CARROT_CASTLE/ROOM_5_02",
+          "graphs": {
+            "normal_upper_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3"
+              },
+              "nodes": [
+                {
+                  "id": "mirra_117_carrot:arrival",
+                  "native_room": 117
+                },
+                {
+                  "id": "mirra_117_carrot:ladder",
+                  "native_room": 117
+                },
+                {
+                  "id": "mirra_117_carrot:corridor",
+                  "native_room": 117
+                },
+                {
+                  "id": "mirra_117_carrot:cleared",
+                  "native_room": 117
+                }
+              ],
+              "starts": [
+                "mirra_117_carrot:arrival"
+              ],
+              "required_targets": [
+                "mirra_117_carrot:cleared"
+              ],
+              "sources": [
+                {
+                  "id": "0x088B9904",
+                  "inventory_id": "room:117/template:0x088B9904",
+                  "node": "mirra_117_carrot:arrival",
+                  "source_key": "WADDLE_DOO",
+                  "acquisition_evidence": "dev-docs/mirra117-normal-witness.md: actual192 entry and recorded approach reach this original finite enemy. Normal intake and B-only spit; no Down swallow, copied equipment or retry is assumed."
+                },
+                {
+                  "id": "0x088B9874",
+                  "inventory_id": "room:117/template:0x088B9874",
+                  "node": "mirra_117_carrot:ladder",
+                  "source_key": "WADDLE_DEE",
+                  "acquisition_evidence": "dev-docs/mirra117-normal-witness.md: actual192 entry and recorded approach reach this original finite enemy. Normal intake and B-only spit; no Down swallow, copied equipment or retry is assumed."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "mirra_117_carrot:arrival",
+                  "to": "mirra_117_carrot:ladder",
+                  "capability": "mirra_117_upper_payload",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/mirra117-normal-witness.md: exact recorded finite Normal sequence; no persistent opens or arbitrary room-wide action.",
+                  "uses_object": "0x088B9904"
+                },
+                {
+                  "from": "mirra_117_carrot:ladder",
+                  "to": "mirra_117_carrot:corridor",
+                  "capability": "mirra_117_lower_payload",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/mirra117-normal-witness.md: exact recorded finite Normal sequence; no persistent opens or arbitrary room-wide action.",
+                  "uses_object": "0x088B9874"
+                },
+                {
+                  "from": "mirra_117_carrot:corridor",
+                  "to": "mirra_117_carrot:cleared",
+                  "capability": "mirra_117_normal_clearance",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/mirra117-normal-witness.md: exact recorded finite Normal sequence; no persistent opens or arbitrary room-wide action."
+                }
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_24_UPPER": {
@@ -3077,9 +3163,220 @@
     },
     "exits": {
       "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4": "can_break_block",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_15": "can_break_block",
-      "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST": "can_break_block",
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_15": null,
+      "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST": null,
       "REGION_RAINBOW_ROUTE/ROOM_1_35": "can_break_block"
+    },
+    "traversal": {
+      "targets": [
+        {
+          "id": "normal_534_mustard_entry",
+          "kind": "block",
+          "native_room": 310,
+          "exit": "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST",
+          "graphs": {
+            "normal_hub4_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4"
+              },
+              "nodes": [
+                {
+                  "id": "normal_534_mustard_entry:hub4",
+                  "native_room": 590
+                },
+                {
+                  "id": "normal_534_mustard_entry:rainbow34",
+                  "native_room": 534
+                },
+                {
+                  "id": "normal_534_mustard_entry:lower_payload",
+                  "native_room": 534
+                },
+                {
+                  "id": "normal_534_mustard_entry:lower_clear",
+                  "native_room": 534
+                },
+                {
+                  "id": "normal_534_mustard_entry:arrival",
+                  "native_room": 310
+                }
+              ],
+              "starts": [
+                "normal_534_mustard_entry:hub4"
+              ],
+              "required_targets": [
+                "normal_534_mustard_entry:arrival"
+              ],
+              "sources": [
+                {
+                  "id": "0x088B59B4",
+                  "inventory_id": "room:534/template:0x088B59B4",
+                  "node": "normal_534_mustard_entry:rainbow34",
+                  "source_key": "TWISTER",
+                  "acquisition_evidence": "dev-docs/normal534-mustard-entry.md; original finite object observed entering the human intake callback, followed by B-only disposal without swallowing a Copy Ability."
+                },
+                {
+                  "id": "0x088B596C",
+                  "inventory_id": "room:534/template:0x088B596C",
+                  "node": "normal_534_mustard_entry:lower_payload",
+                  "source_key": "WADDLE_DEE",
+                  "acquisition_evidence": "dev-docs/normal534-mustard-entry.md; original finite object observed entering the human intake callback, followed by B-only disposal without swallowing a Copy Ability."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "normal_534_mustard_entry:hub4",
+                  "to": "normal_534_mustard_entry:rainbow34",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/mustard-map-kibble-source-witness.md; Single forward door, no retry loop.",
+                  "evidence": "dev-docs/normal534-mustard-entry.md; dev-docs/mustard-map-kibble-source-witness.md; Normal590 to534 through the real door; independent Rainbow Hub4 access.",
+                  "required_equipment": [
+                    "Normal"
+                  ]
+                },
+                {
+                  "from": "normal_534_mustard_entry:rainbow34",
+                  "to": "normal_534_mustard_entry:lower_payload",
+                  "capability": "normal_534_twister_payload",
+                  "uses_object": "0x088B59B4",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/normal534-mustard-entry.md; original finite payload intake and B-only spit. No permission, copied equipment, persistent opening or retry."
+                },
+                {
+                  "from": "normal_534_mustard_entry:lower_payload",
+                  "to": "normal_534_mustard_entry:lower_clear",
+                  "capability": "normal_534_dee_payload",
+                  "uses_object": "0x088B596C",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/normal534-mustard-entry.md; original finite payload intake and B-only spit. No permission, copied equipment, persistent opening or retry."
+                },
+                {
+                  "from": "normal_534_mustard_entry:lower_clear",
+                  "to": "normal_534_mustard_entry:arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/mustard-map-kibble-source-witness.md; Single forward door, no retry loop.",
+                  "evidence": "dev-docs/normal534-mustard-entry.md; dev-docs/mustard-map-kibble-source-witness.md; Normal air puffs, slides and flight through534, entering310 through the upper-right door. No permission or source assumed.",
+                  "required_equipment": [
+                    "Normal"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "normal_534_room15_entry",
+          "kind": "block",
+          "native_room": 533,
+          "exit": "REGION_MUSTARD_MOUNTAIN/ROOM_4_15",
+          "graphs": {
+            "normal_hub4_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4"
+              },
+              "nodes": [
+                {
+                  "id": "normal_534_mustard_entry:hub4",
+                  "native_room": 590
+                },
+                {
+                  "id": "normal_534_mustard_entry:rainbow34",
+                  "native_room": 534
+                },
+                {
+                  "id": "normal_534_mustard_entry:lower_payload",
+                  "native_room": 534
+                },
+                {
+                  "id": "normal_534_mustard_entry:lower_clear",
+                  "native_room": 534
+                },
+                {
+                  "id": "normal_534_mustard_entry:room15_arrival",
+                  "native_room": 533
+                }
+              ],
+              "starts": [
+                "normal_534_mustard_entry:hub4"
+              ],
+              "required_targets": [
+                "normal_534_mustard_entry:room15_arrival"
+              ],
+              "sources": [
+                {
+                  "id": "0x088B59B4",
+                  "inventory_id": "room:534/template:0x088B59B4",
+                  "node": "normal_534_mustard_entry:rainbow34",
+                  "source_key": "TWISTER",
+                  "acquisition_evidence": "dev-docs/normal534-mustard-entry.md; original finite object observed entering the human intake callback, followed by B-only disposal without swallowing a Copy Ability."
+                },
+                {
+                  "id": "0x088B596C",
+                  "inventory_id": "room:534/template:0x088B596C",
+                  "node": "normal_534_mustard_entry:lower_payload",
+                  "source_key": "WADDLE_DEE",
+                  "acquisition_evidence": "dev-docs/normal534-mustard-entry.md; original finite object observed entering the human intake callback, followed by B-only disposal without swallowing a Copy Ability."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "normal_534_mustard_entry:hub4",
+                  "to": "normal_534_mustard_entry:rainbow34",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/mustard-map-kibble-source-witness.md; Single forward door, no retry loop.",
+                  "evidence": "dev-docs/normal534-mustard-entry.md; dev-docs/mustard-map-kibble-source-witness.md; Normal590 to534 through the real door; independent Rainbow Hub4 access.",
+                  "required_equipment": [
+                    "Normal"
+                  ]
+                },
+                {
+                  "from": "normal_534_mustard_entry:rainbow34",
+                  "to": "normal_534_mustard_entry:lower_payload",
+                  "capability": "normal_534_twister_payload",
+                  "uses_object": "0x088B59B4",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/normal534-mustard-entry.md; original finite payload intake and B-only spit. No permission, copied equipment, persistent opening or retry."
+                },
+                {
+                  "from": "normal_534_mustard_entry:lower_payload",
+                  "to": "normal_534_mustard_entry:lower_clear",
+                  "capability": "normal_534_dee_payload",
+                  "uses_object": "0x088B596C",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/normal534-mustard-entry.md; original finite payload intake and B-only spit. No permission, copied equipment, persistent opening or retry."
+                },
+                {
+                  "from": "normal_534_mustard_entry:lower_clear",
+                  "to": "normal_534_mustard_entry:room15_arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/normal534-room15-entry.md; actual single forward door, not a retry loop.",
+                  "evidence": "dev-docs/normal534-room15-entry.md; after original finite Twister/Dee payloads, observed Normal air-puff approach and actual534-to-533 door transition; no Foley acquisition or Room16 crossing credit.",
+                  "required_equipment": [
+                    "Normal"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "version": 1
     }
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_35": {
@@ -3579,7 +3876,7 @@
               "id": "0x088B78E8",
               "node": "metal_141:lower_source",
               "source_key": "FLAMER",
-              "acquisition_evidence": "dev-docs/ordinary-141-directed-burning-acceptance.json actual_lower_source_forward_banks: actual native type0x13 at152,192 inhaled and swallowed, Normal→Burning3, before either F5 bank. Actual source policy and permission still apply."
+              "acquisition_evidence": "dev-docs/ordinary-141-directed-burning-acceptance.json actual_lower_source_forward_banks: actual native type0x13 at152,192 inhaled and swallowed, Normal\u2192Burning3, before either F5 bank. Actual source policy and permission still apply."
             }
           ]
         },
@@ -3734,17 +4031,113 @@
         "locations": [],
         "exits": {
           "REGION_RAINBOW_ROUTE/ROOM_1_41_UPPER": null,
-          "REGION_MUSTARD_MOUNTAIN/ROOM_4_07": "can_mirra"
+          "REGION_MUSTARD_MOUNTAIN/ROOM_4_07": null
         },
-        "evidence": "dev-docs/ordinary-141-directed-burning-acceptance.json actual545 entry lands536,56.996 above the banks; Normal crouch/Down+A activates right Bomb trigger25,4 and reaches upper-left pocket, then open x12 leads inner. Return Mirra/545 door keeps its prior ordinary requirement; not a newly accepted transition."
+        "evidence": "dev-docs/ordinary-141-directed-burning-acceptance.json actual545 entry lands536,56.996 above the banks; Normal crouch/Down+A activates right Bomb trigger25,4 and reaches upper-left pocket, then open x12 leads inner. Return Mirra/545 clearance is now independently verified by dev-docs/mirra141-normal-witness.md; the prior Burning acceptance did not establish that return.",
+        "traversal": {
+          "version": 1,
+          "targets": [
+            {
+              "id": "mirra_141_top_mustard",
+              "kind": "block",
+              "native_room": 141,
+              "exit": "REGION_MUSTARD_MOUNTAIN/ROOM_4_07",
+              "graphs": {
+                "normal_top_entry": {
+                  "version": 1,
+                  "status": "reviewed",
+                  "access": {
+                    "region": "REGION_RAINBOW_ROUTE/ROOM_1_41__LOGIC__TOP_MUSTARD"
+                  },
+                  "nodes": [
+                    {
+                      "id": "mirra_141_top_mustard:arrival",
+                      "native_room": 141
+                    },
+                    {
+                      "id": "mirra_141_top_mustard:cleared",
+                      "native_room": 141
+                    }
+                  ],
+                  "starts": [
+                    "mirra_141_top_mustard:arrival"
+                  ],
+                  "required_targets": [
+                    "mirra_141_top_mustard:cleared"
+                  ],
+                  "sources": [],
+                  "routes": [
+                    {
+                      "from": "mirra_141_top_mustard:arrival",
+                      "to": "mirra_141_top_mustard:cleared",
+                      "capability": "mirra_141_top_normal_puff",
+                      "required_equipment": [
+                        "Normal"
+                      ],
+                      "evidence": "dev-docs/mirra141-normal-witness.md; independent top-compartment entry, leftward Normal setup, dry air puff clearing original Mirra 0x088B7780, and actual545 door verification. This graph models local clearance; the entrance retains its Area Key/base transition rule."
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
       },
       "EAST_MOONLIGHT": {
         "locations": [],
         "exits": {
           "REGION_RAINBOW_ROUTE/ROOM_1_41__LOGIC__TOP_MUSTARD": null,
-          "REGION_MOONLIGHT_MANSION/ROOM_2_16": "can_mirra"
+          "REGION_MOONLIGHT_MANSION/ROOM_2_16": null
         },
-        "evidence": "dev-docs/ordinary-141-directed-burning-acceptance.json normal_east_to_top: explicitly Normal ordinary flight crosses row4 0x0F upward. Native144 record0x8822FC arrives141spawn43,9 on this east side, not lower. The outward Mirra/native144 transition is unaccepted; retain its existing can_mirra placeholder separately."
+        "evidence": "dev-docs/ordinary-141-directed-burning-acceptance.json normal_east_to_top preserves the Normal upward crossing. Native144 record0x8822FC arrives141spawn43,9 on this east side, not lower. dev-docs/mirra141-east-normal-witness.md independently verifies bounded Normal Mirra clearance and actual return to144.",
+        "traversal": {
+          "version": 1,
+          "targets": [
+            {
+              "id": "mirra_141_east_moonlight",
+              "kind": "block",
+              "native_room": 141,
+              "exit": "REGION_MOONLIGHT_MANSION/ROOM_2_16",
+              "graphs": {
+                "normal_east_entry": {
+                  "version": 1,
+                  "status": "reviewed",
+                  "access": {
+                    "region": "REGION_RAINBOW_ROUTE/ROOM_1_41__LOGIC__EAST_MOONLIGHT"
+                  },
+                  "nodes": [
+                    {
+                      "id": "mirra_141_east_moonlight:arrival",
+                      "native_room": 141
+                    },
+                    {
+                      "id": "mirra_141_east_moonlight:cleared",
+                      "native_room": 141
+                    }
+                  ],
+                  "starts": [
+                    "mirra_141_east_moonlight:arrival"
+                  ],
+                  "required_targets": [
+                    "mirra_141_east_moonlight:cleared"
+                  ],
+                  "sources": [],
+                  "routes": [
+                    {
+                      "from": "mirra_141_east_moonlight:arrival",
+                      "to": "mirra_141_east_moonlight:cleared",
+                      "capability": "mirra_141_east_normal_puff",
+                      "required_equipment": [
+                        "Normal"
+                      ],
+                      "evidence": "dev-docs/mirra141-east-normal-witness.md: independent EAST_MOONLIGHT access, bounded leftward Normal setup and air puff clearing original Mirra0x088B77A4, actual144-to141-to144 verification. Local clearance only; destination Area Key remains required."
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
       }
     }
   },
@@ -4062,7 +4455,7 @@
         }
       ]
     },
-    "evidence": "Inner and upper-left pocket connect by ordinary flight/drop beside x10..11 cap. The existing floating-block/Bomb requirement toward the top-right Mustard side is retained: left-trigger reverse Bomb crossing is not controller-accepted. No top→east downward-cap route is added."
+    "evidence": "Inner and upper-left pocket connect by ordinary flight/drop beside x10..11 cap. The existing floating-block/Bomb requirement toward the top-right Mustard side is retained: left-trigger reverse Bomb crossing is not controller-accepted. No top\u2192east downward-cap route is added."
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_42": {
     "locations": {
@@ -6483,21 +6876,6 @@
           "kind": "block",
           "native_room": 517,
           "location": "MINOR_CHEST_SPRAY_PAINT_12",
-          "requires_guaranteed_source": {
-            "source_key": "WADDLE_DOO",
-            "abilities": [
-              "Beam",
-              "Smash",
-              "Fire",
-              "Missile",
-              "Parasol",
-              "Spark",
-              "Ice",
-              "Sword",
-              "Fighter",
-              "UFO"
-            ]
-          },
           "graphs": {
             "hub2_entry": {
               "version": 1,
@@ -6560,7 +6938,11 @@
                   ],
                   "evidence": "dev-docs/cabbage-room6-source-witness.md; complete Beam-specific carry through lower corridor to upper-left pose, gate activation then chest57/spray11. Other target providers do not inherit this carry witness."
                 }
-              ]
+              ],
+              "requires_guaranteed_source": {
+                "source_key": "WADDLE_DOO",
+                "ability": "Beam"
+              }
             },
             "hub2_smash_entry": {
               "version": 1,
@@ -7169,8 +7551,201 @@
                 "source_key": "WADDLE_DOO",
                 "ability": "UFO"
               }
+            },
+            "hub2_statues_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_2"
+              },
+              "nodes": [
+                {
+                  "id": "bomb_517_statues:hub2",
+                  "native_room": 591
+                },
+                {
+                  "id": "bomb_517_statues:arrival",
+                  "native_room": 517
+                },
+                {
+                  "id": "bomb_517_statues:source",
+                  "native_room": 517
+                },
+                {
+                  "id": "bomb_517_statues:chest",
+                  "native_room": 517
+                }
+              ],
+              "starts": [
+                "bomb_517_statues:hub2"
+              ],
+              "required_targets": [
+                "bomb_517_statues:chest"
+              ],
+              "source_sets": [
+                {
+                  "id": "statues_591",
+                  "node": "bomb_517_statues:hub2",
+                  "retry_evidence": "docs/traversal-logic.md#ordinary-hub-statue-network; permanent statue retouch before departure uses the existing documented positive-support fairness assumption, not a finite RNG guarantee."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "bomb_517_statues:hub2",
+                  "to": "bomb_517_statues:arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "evidence": "dev-docs/cabbage-hub2-statue-composition.md; ordinary movement from the reviewed native591 statue compartment through its517 door to the right-hand source approach. Carry the acquired ability; no Doo inhale is required.",
+                  "reset_evidence": "Fresh unoccupied517 from591 in single-player acceptance. No source respawn or retry loop is modeled."
+                },
+                {
+                  "from": "bomb_517_statues:arrival",
+                  "to": "bomb_517_statues:source",
+                  "evidence": "dev-docs/cabbage-hub2-statue-composition.md; ordinary movement from the reviewed native591 statue compartment through its517 door to the right-hand source approach. Carry the acquired ability; no Doo inhale is required."
+                },
+                {
+                  "from": "bomb_517_statues:source",
+                  "to": "bomb_517_statues:chest",
+                  "capability": "bomb_517_chocolate",
+                  "allowed_abilities": [
+                    "Beam"
+                  ],
+                  "evidence": "dev-docs/cabbage-room6-source-witness.md; complete Beam-specific carry through lower corridor to upper-left pose, gate activation then chest57/spray11. Other target providers do not inherit this carry witness."
+                },
+                {
+                  "from": "bomb_517_statues:source",
+                  "to": "bomb_517_statues:chest",
+                  "capability": "bomb_517_chocolate",
+                  "allowed_abilities": [
+                    "Smash"
+                  ],
+                  "evidence": "dev-docs/cabbage-smash-source-witness.md; complete Smash-specific carry, rising Up+B opens intended F1 at3129, linked F2 then clear by3179. Physical chest57 opens at4421, event0x088CA0B8 maps through actual client to LocationChecks3960511. HP1/6 \u00d7 enemy100/500%, no damage or ability loss. Other providers do not inherit this route."
+                },
+                {
+                  "from": "bomb_517_statues:source",
+                  "to": "bomb_517_statues:chest",
+                  "capability": "bomb_517_fire_breath",
+                  "allowed_abilities": [
+                    "Fire"
+                  ],
+                  "evidence": "dev-docs/cabbage-fire-source-witness.md; complete Fire-specific carry to (185.9961,120.9961), neutral B for 30 frames. Traveling packet opens F1 at frame 3341, seven linked F2 clear by 3371. Physical chest 57 opens at 4252 and the production client captures check 3960511. HP 1/6 and enemy health 100/500%, no damage or ability loss. No other provider inherits this route."
+                },
+                {
+                  "from": "bomb_517_statues:source",
+                  "to": "bomb_517_statues:chest",
+                  "capability": "bomb_517_missile_blast",
+                  "allowed_abilities": [
+                    "Missile"
+                  ],
+                  "evidence": "dev-docs/cabbage-missile-source-witness.md; complete Missile-specific carry to dry pose (201.9961,88.9961), B for one frame then down-right for 70 frames. Local detonation opens F1 at frame 3771 and linked F2 by 3801. Physical chest 57 opens at 4885; production client captures check 3960511. HP 1/6 and enemy health 100/500%, no damage, Missile retained. Tile scan uses +/-24, not damage bounds or piercing flight. No other provider inherits this route."
+                },
+                {
+                  "from": "bomb_517_statues:source",
+                  "to": "bomb_517_statues:chest",
+                  "capability": "bomb_517_parasol_swing",
+                  "allowed_abilities": [
+                    "Parasol"
+                  ],
+                  "evidence": "dev-docs/cabbage-parasol-source-witness.md; Complete Parasol-specific corridor swing and carry to the dry right-facing pose (185.9961,120.9961). Active animation 0x35 uses scan bounds (16,-11,48,11), opening F1 (14,7) at frame 3078 and all seven F2 by 3108. Physical chest 57 opens at 3979; the production client captures check 3960511. Four HP 1/6 and enemy health 100/500% positives and matched full-length no-target-swing controls preserve HP and Parasol. No other move or provider inherits this route."
+                },
+                {
+                  "from": "bomb_517_statues:source",
+                  "to": "bomb_517_statues:chest",
+                  "capability": "bomb_517_chocolate",
+                  "allowed_abilities": [
+                    "Spark"
+                  ],
+                  "evidence": "dev-docs/cabbage-spark-source-witness.md; Complete Spark-specific source corridor clearing and retained carry to dry pose (201.9961,88.9961), using ordinary attached Spark field to open F1 (14,7) and seven linked F2 cells before physical chest57 collection and production client check3960511. Four HP1/6 by enemy100/500 positives and four full target-only omissions. Non-source enemies avoided; no frozen enemies, platforms or payloads. No intermediate-health or broader arrival claim."
+                },
+                {
+                  "from": "bomb_517_statues:source",
+                  "to": "bomb_517_statues:chest",
+                  "capability": "bomb_517_chocolate",
+                  "allowed_abilities": [
+                    "Ice"
+                  ],
+                  "evidence": "dev-docs/cabbage-ice-source-witness.md; Complete Ice-specific source corridor clearing and retained carry to dry pose (185.9961,120.9961), using ordinary right-facing traveling Ice breath to open F1 (14,7) and seven linked F2 cells before physical chest57 collection and production client check3960511. Four HP1/6 by enemy100/500 positives and four full target-only omissions. Non-source enemies avoided; no frozen enemies, platforms or payloads. No intermediate-health or broader arrival claim."
+                },
+                {
+                  "from": "bomb_517_statues:source",
+                  "to": "bomb_517_statues:chest",
+                  "capability": "bomb_517_sword_first_slash",
+                  "allowed_abilities": [
+                    "Sword"
+                  ],
+                  "evidence": "dev-docs/cabbage-sword-source-witness.md; Complete Sword-specific corridor clearing and no-damage carry to dry pose (185.9961,120.9961), then one ordinary first slash (animation52/header5), not repeated slash or landing wave. Attached scanner opens F1 (14,7) and seven linked F2 cells before physical chest57 and production client check3960511. Four HP1/6 by enemy100/500 positives and four full single-tap omissions. Non-source enemies avoided; no combat payload dependency, intermediate-health or broader arrival claim."
+                },
+                {
+                  "from": "bomb_517_statues:source",
+                  "to": "bomb_517_statues:chest",
+                  "capability": "bomb_517_fighter_first_combo",
+                  "allowed_abilities": [
+                    "Fighter"
+                  ],
+                  "evidence": "dev-docs/cabbage-fighter-source-witness.md; Complete Fighter-specific corridor clearing, short punches and continuous flight to dry pose (185.9961,120.9961), then one ordinary first combo (Kirby animation53/header1, attached animation0x1FA/0). No charged or HP1 wave appears. Attached scanner opens F1 (14,7) and seven linked F2 cells before physical chest57 and production client check3960511. Four HP1/6 by enemy100/500 positives and four full single-tap omissions. Non-source enemies avoided; no combat payload dependency, intermediate-health or broader arrival claim."
+                },
+                {
+                  "from": "bomb_517_statues:source",
+                  "to": "bomb_517_statues:chest",
+                  "capability": "bomb_517_ufo_top_charge",
+                  "allowed_abilities": [
+                    "UFO"
+                  ],
+                  "evidence": "dev-docs/cabbage-ufo-source-witness.md; Continuous UFO-specific corridor whip (2016), obstacle clearing (2201/2272) and carried flight reach dry right-facing pose (185.9961,120.9961). Maximum counter3/animation23 charge releases the player-owned large shot 0x198; its tile scanner, not damage box, reaches F1 (14,7) at 2873 through the wall. Seven F2 cells finish 2903, physical chest57 opens 3345 and the unchanged client emits local check3960511. Four HP1/6 by enemy100/500 positives and full target omissions; separate low/medium wall-stop and bounded no-permission controls. No source refresh, helper, non-source combat, generic range or intermediate-health claim.",
+                  "required_equipment": [
+                    "UFO"
+                  ]
+                }
+              ]
             }
-          }
+          },
+          "requires_any_guaranteed_source": [
+            {
+              "source_key": "WADDLE_DOO",
+              "abilities": [
+                "Beam",
+                "Smash",
+                "Fire",
+                "Missile",
+                "Parasol",
+                "Spark",
+                "Ice",
+                "Sword",
+                "Fighter",
+                "UFO"
+              ]
+            },
+            {
+              "source_key": "STATUE:353906",
+              "abilities": [
+                "Beam",
+                "Smash",
+                "Fire",
+                "Missile",
+                "Parasol",
+                "Spark",
+                "Ice",
+                "Sword",
+                "Fighter",
+                "UFO"
+              ]
+            },
+            {
+              "source_key": "STATUE:353901",
+              "abilities": [
+                "Beam",
+                "Smash",
+                "Fire",
+                "Missile",
+                "Parasol",
+                "Spark",
+                "Ice",
+                "Sword",
+                "Fighter",
+                "UFO"
+              ]
+            }
+          ]
         }
       ]
     }
@@ -7973,15 +8548,6 @@
           "kind": "switch",
           "native_room": 310,
           "location": "MAJOR_CHEST_MUSTARD_MOUNTAIN",
-          "requires_guaranteed_source": {
-            "source_key": "TWISTER",
-            "abilities": [
-              "UFO",
-              "Crash",
-              "Cupid",
-              "Cutter"
-            ]
-          },
           "graphs": {
             "hub4_ufo_entry": {
               "version": 1,
@@ -8327,10 +8893,126 @@
                 "source_key": "TWISTER",
                 "ability": "Cutter"
               }
+            },
+            "hub4_kibble_cutter_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4"
+              },
+              "nodes": [
+                {
+                  "id": "switch_310_mustard_map:kibble_hub4",
+                  "native_room": 590
+                },
+                {
+                  "id": "switch_310_mustard_map:kibble_rainbow34",
+                  "native_room": 534
+                },
+                {
+                  "id": "switch_310_mustard_map:kibble_arrival",
+                  "native_room": 310
+                },
+                {
+                  "id": "switch_310_mustard_map:kibble_source",
+                  "native_room": 310
+                },
+                {
+                  "id": "switch_310_mustard_map:kibble_roof",
+                  "native_room": 310
+                },
+                {
+                  "id": "switch_310_mustard_map:kibble_crossed",
+                  "native_room": 310
+                },
+                {
+                  "id": "switch_310_mustard_map:kibble_chest",
+                  "native_room": 310
+                }
+              ],
+              "starts": [
+                "switch_310_mustard_map:kibble_hub4"
+              ],
+              "required_targets": [
+                "switch_310_mustard_map:kibble_chest"
+              ],
+              "sources": [
+                {
+                  "id": "0x088C3FEC",
+                  "inventory_id": "room:310/template:0x088C3FEC",
+                  "node": "switch_310_mustard_map:kibble_source",
+                  "source_key": "SIR_KIBBLE",
+                  "acquisition_evidence": "dev-docs/mustard-map-kibble-source-witness.md; Original finite Sir Kibble, actual Normal inhale/swallow before barrier; raw guaranteed Cutter and ownership required, never a possible random draw."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "switch_310_mustard_map:kibble_hub4",
+                  "to": "switch_310_mustard_map:kibble_rainbow34",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/mustard-map-kibble-source-witness.md; Single forward door, no retry loop.",
+                  "evidence": "dev-docs/mustard-map-kibble-source-witness.md; Normal590 to534 through the real door; independent Rainbow Hub4 access."
+                },
+                {
+                  "from": "switch_310_mustard_map:kibble_rainbow34",
+                  "to": "switch_310_mustard_map:kibble_arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/mustard-map-kibble-source-witness.md; Single forward door, no retry loop.",
+                  "evidence": "dev-docs/mustard-map-kibble-source-witness.md; Normal air puffs, slides and flight through534, entering310 through the upper-right door. No permission or source assumed."
+                },
+                {
+                  "from": "switch_310_mustard_map:kibble_arrival",
+                  "to": "switch_310_mustard_map:kibble_source",
+                  "evidence": "dev-docs/mustard-map-kibble-source-witness.md; Normal approach to original Sir Kibble176,88 before the switch barrier; finite inhale and swallow."
+                },
+                {
+                  "from": "switch_310_mustard_map:kibble_source",
+                  "to": "switch_310_mustard_map:kibble_roof",
+                  "required_equipment": [
+                    "Cutter"
+                  ],
+                  "evidence": "dev-docs/mustard-map-kibble-source-witness.md; Carry acquired Cutter to the dry roof without damage or other acquisition."
+                },
+                {
+                  "from": "switch_310_mustard_map:kibble_roof",
+                  "to": "switch_310_mustard_map:kibble_crossed",
+                  "capability": "switch_310_kibble_cutter_roof_returns",
+                  "evidence": "dev-docs/mustard-map-kibble-source-witness.md; Bounded UP throws clear Chip; delayed DOWN roof returns cycle the switch and avoid live Knight during full-body gate crossing. No persistent open credit."
+                },
+                {
+                  "from": "switch_310_mustard_map:kibble_crossed",
+                  "to": "switch_310_mustard_map:kibble_chest",
+                  "required_equipment": [
+                    "Cutter"
+                  ],
+                  "evidence": "dev-docs/mustard-map-kibble-source-witness.md; Retained Cutter breaks the final obstruction; native chest39 and AP3960205 observed with no native map delivery."
+                }
+              ],
+              "requires_guaranteed_source": {
+                "source_key": "SIR_KIBBLE",
+                "ability": "Cutter"
+              }
             }
           },
           "advanced_graphs": [
             "hub4_crash_entry"
+          ],
+          "requires_any_guaranteed_source": [
+            {
+              "source_key": "TWISTER",
+              "abilities": [
+                "UFO",
+                "Crash",
+                "Cupid",
+                "Cutter"
+              ]
+            },
+            {
+              "source_key": "SIR_KIBBLE",
+              "ability": "Cutter"
+            }
           ]
         }
       ]
@@ -11032,7 +11714,7 @@
         "location_id": 3961152,
         "bit_index": 200
       },
-      "VITALITY_CHEST_OLIVE_OCEAN": "can_break_block"
+      "VITALITY_CHEST_OLIVE_OCEAN": null
     },
     "exits": {
       "REGION_OLIVE_OCEAN/ROOM_6_16": {
@@ -11041,6 +11723,54 @@
           "can_swim"
         ]
       }
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "normal_815_vitality",
+          "kind": "block",
+          "native_room": 815,
+          "location": "VITALITY_CHEST_OLIVE_OCEAN",
+          "graphs": {
+            "normal_arrival": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_OLIVE_OCEAN/ROOM_6_CHEST_1"
+              },
+              "nodes": [
+                {
+                  "id": "normal_815_vitality:arrival",
+                  "native_room": 815
+                },
+                {
+                  "id": "normal_815_vitality:chest",
+                  "native_room": 815
+                }
+              ],
+              "starts": [
+                "normal_815_vitality:arrival"
+              ],
+              "required_targets": [
+                "normal_815_vitality:chest"
+              ],
+              "sources": [],
+              "routes": [
+                {
+                  "from": "normal_815_vitality:arrival",
+                  "to": "normal_815_vitality:chest",
+                  "capability": "normal_815_vitality_sequence",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/normal815-traversal-witness.md; original unconsumed silver block0x088CCCFC maintains lower-switch contact, intrinsic air puff triggers the timed upper switch, Normal crosses and collects chest0x088CCC90. No Copy Ability, mouth payload, persistent opens event or retry."
+                }
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_OLIVE_OCEAN/ROOM_6_CHEST_2": {
@@ -11557,8 +12287,142 @@
                 "source_key": "MR_FROSTY",
                 "ability": "UFO"
               }
+            },
+            "generated_ice": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_OLIVE_OCEAN/ROOM_6_14"
+              },
+              "nodes": [
+                {
+                  "id": "frozen_825_generated:entry831",
+                  "native_room": 831
+                },
+                {
+                  "id": "frozen_825_generated:door831",
+                  "native_room": 831
+                },
+                {
+                  "id": "frozen_825_generated:arrival",
+                  "native_room": 825
+                },
+                {
+                  "id": "frozen_825_generated:arena",
+                  "native_room": 825
+                },
+                {
+                  "id": "frozen_825_generated:cube_live",
+                  "native_room": 825
+                },
+                {
+                  "id": "frozen_825_generated:launch",
+                  "native_room": 825
+                },
+                {
+                  "id": "frozen_825_generated:chest",
+                  "native_room": 825
+                }
+              ],
+              "starts": [
+                "frozen_825_generated:entry831"
+              ],
+              "required_targets": [
+                "frozen_825_generated:chest"
+              ],
+              "routes": [
+                {
+                  "from": "frozen_825_generated:entry831",
+                  "to": "frozen_825_generated:door831",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "Native814 doorway enters831 at bottom-left (40,280.996), its sole normalized incoming route. Continuous cold HP1/6 and enemy100/500 runs traverse the complete current/spike maze as Normal and reach the far-right825 door. Independent access is ROOM_6_14, not arbitrary814 arrival."
+                },
+                {
+                  "from": "frozen_825_generated:door831",
+                  "to": "frozen_825_generated:arrival",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "Physical native831 far-right door enters825 at (280,296.996), after the verified complete Normal maze traversal."
+                },
+                {
+                  "from": "frozen_825_generated:arrival",
+                  "to": "frozen_825_generated:arena",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "Continuous native lower arrival route reaches Frosty arena as Normal without helper attacks or imported equipment."
+                },
+                {
+                  "from": "frozen_825_generated:arena",
+                  "to": "frozen_825_generated:cube_live",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "activates_lifetimes": [
+                    "room:825/template:0x088CD3F0/choice:mr_frosty_cube_size"
+                  ],
+                  "activation_evidence": "dev-docs/frosty825-generated-ice-composition.md; wait for the original live Frosty cube attack, then acquire its single exhaustive small/large output. No favorable-size selection or repeated ability draw.",
+                  "evidence": "dev-docs/frosty825-generated-ice-composition.md; existing Normal approach and observed conditional generation."
+                },
+                {
+                  "from": "frozen_825_generated:cube_live",
+                  "to": "frozen_825_generated:launch",
+                  "required_equipment": [
+                    "Ice"
+                  ],
+                  "ends_lifetimes": [
+                    "room:825/template:0x088CD3F0/choice:mr_frosty_cube_size"
+                  ],
+                  "lifetime_evidence": "dev-docs/frosty825-generated-ice-composition.md; original finite child has been swallowed; later parent defeat gives no new child or source. Held Ice persists.",
+                  "evidence": "dev-docs/frosty825-generated-ice-composition.md; compose retained Ice in the same arena with the separately qualified original-Frosty fight using Ice and native frozen cubes. Preserve original Waddle for the final projectile; controller streams are not claimed identical."
+                },
+                {
+                  "from": "frozen_825_generated:launch",
+                  "to": "frozen_825_generated:chest",
+                  "required_equipment": [
+                    "Ice"
+                  ],
+                  "capability": "frozen_enemy_hit",
+                  "uses_object": "0x088CD318",
+                  "frozen_enemy_evidence": "dev-docs/frosty825-generated-ice-composition.md; reuse the reviewed finite original Waddle freeze/kick through wall, timed switch crossing and chest66 suffix.",
+                  "evidence": "dev-docs/frosty825-generated-ice-composition.md; original finite Waddle, no persistent opens event."
+                }
+              ],
+              "sources": [
+                {
+                  "id": "room:825/template:0x088CD3F0/choice:mr_frosty_cube_size",
+                  "node": "frozen_825_generated:cube_live",
+                  "source_key": "MR_FROSTY_ICE_CUBE",
+                  "renewable": false,
+                  "generation_evidence": "dev-docs/frosty825-generated-ice-composition.md; original live Frosty cube attack. Timing is reactive, not a fixed-frame or finite-delay assertion; one output is consumed.",
+                  "lifetime_evidence": "dev-docs/frosty825-generated-ice-composition.md; live attached child before swallow; no respawn, reset or reacquisition.",
+                  "acquisition_evidence": "dev-docs/frosty825-generated-ice-composition.md; actual single-cube intake gives runtime Ice, without copying the parent.",
+                  "inventory_alternatives": [
+                    "room:825/template:0x088CD3F0/encounter:56/src/mr_frosty.c:762/type:166",
+                    "room:825/template:0x088CD3F0/encounter:56/src/mr_frosty.c:765/type:167"
+                  ],
+                  "alternatives_acquisition_evidence": "dev-docs/frosty825-composition-prefix.json and dev-docs/frosty825-large-cube-controls.json; actual single intakes cover both native sizes, same runtime source key and preserved original ammunition."
+                },
+                {
+                  "id": "0x088CD318",
+                  "node": "frozen_825_generated:launch",
+                  "source_key": "WADDLE_DEE",
+                  "renewable": false,
+                  "acquisition_evidence": "dev-docs/frosty825-generated-ice-composition.md; original Waddle remains unspent through the acquisition prefix and retained-Ice fight; consuming it blocks the final frozen projectile."
+                }
+              ],
+              "requires_guaranteed_source": {
+                "source_key": "MR_FROSTY_ICE_CUBE",
+                "ability": "Ice"
+              }
             }
-          }
+          },
+          "advanced_graphs": [
+            "generated_ice"
+          ]
         }
       ],
       "graph_parts": {
@@ -12275,19 +13139,61 @@
           "can_break_block"
         ]
       },
-      "REGION_OLIVE_OCEAN/ROOM_6_15": {
-        "all": [
-          "can_swim",
-          "can_break_block",
-          "can_mirra"
-        ]
-      },
+      "REGION_OLIVE_OCEAN/ROOM_6_15": "can_swim",
       "REGION_OLIVE_OCEAN/ROOM_6_18": {
         "all": [
           "can_swim",
           "can_break_block"
         ]
       }
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "mirra_811_olive",
+          "kind": "block",
+          "native_room": 811,
+          "exit": "REGION_OLIVE_OCEAN/ROOM_6_15",
+          "graphs": {
+            "normal_right_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_OLIVE_OCEAN/ROOM_6_11"
+              },
+              "nodes": [
+                {
+                  "id": "mirra_811_olive:arrival",
+                  "native_room": 811
+                },
+                {
+                  "id": "mirra_811_olive:cleared",
+                  "native_room": 811
+                }
+              ],
+              "starts": [
+                "mirra_811_olive:arrival"
+              ],
+              "required_targets": [
+                "mirra_811_olive:cleared"
+              ],
+              "sources": [],
+              "routes": [
+                {
+                  "from": "mirra_811_olive:arrival",
+                  "to": "mirra_811_olive:cleared",
+                  "capability": "mirra_811_normal_puff",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/mirra811-normal-witness.md: actual829 entry, right-side water-to-flight setup and dry air puff clear original Mirra0x088CC730, then actual551 transition. Independent room829 access; no source, copied ability or arbitrary phase assumed."
+                }
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_OLIVE_OCEAN/ROOM_6_11": {
@@ -15532,10 +16438,58 @@
         "location_id": 3961218,
         "bit_index": 237
       },
-      "MAJOR_CHEST_RADISH_RUINS": "can_get_rr_map_chest"
+      "MAJOR_CHEST_RADISH_RUINS": null
     },
     "exits": {
       "REGION_RADISH_RUINS/ROOM_8_16": null
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "bomb_617_radish_map",
+          "kind": "block",
+          "native_room": 617,
+          "location": "MAJOR_CHEST_RADISH_RUINS",
+          "graphs": {
+            "normal_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RADISH_RUINS/ROOM_8_CHEST_2"
+              },
+              "nodes": [
+                {
+                  "id": "bomb_617_radish_map:arrival",
+                  "native_room": 617
+                },
+                {
+                  "id": "bomb_617_radish_map:chest",
+                  "native_room": 617
+                }
+              ],
+              "starts": [
+                "bomb_617_radish_map:arrival"
+              ],
+              "required_targets": [
+                "bomb_617_radish_map:chest"
+              ],
+              "sources": [],
+              "routes": [
+                {
+                  "from": "bomb_617_radish_map:arrival",
+                  "to": "bomb_617_radish_map:chest",
+                  "capability": "bomb_617_normal_puff_slide",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/radish617-normal-witness.md; four fresh native runs, 1/6 HP, gating on/off, no permissions, helpers or acquisition."
+                }
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_RADISH_RUINS/ROOM_8_GOAL_1": {

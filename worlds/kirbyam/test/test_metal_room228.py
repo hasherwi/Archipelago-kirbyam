@@ -94,6 +94,7 @@ def test_exact_joint_suffix_accepts_only_retained_hammer(ability: str) -> None:
 def test_finite_hammer_pool_gate_filter_does_not_credit_mixed_equipment() -> None:
     graph = joint_graph()
     resolver = policy(2, pool=['Hammer', 'Stone'], weight=0)
-    assert graph.evaluate(resolver, frozenset({'Hammer Ability'}), True).reaches(END)
+    # A temporarily filtered singleton is not a monotone finite guarantee.
+    assert not graph.evaluate(resolver, frozenset({'Hammer Ability'}), True).reaches(END)
     assert not graph.evaluate(resolver, frozenset({'Hammer Ability', 'Stone Ability'}), True).reaches(END)
     assert not graph.evaluate(resolver, frozenset({'Stone Ability'}), True).reaches(END)

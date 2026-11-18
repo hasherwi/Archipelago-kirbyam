@@ -9,8 +9,9 @@ or discarded-star sources. The 315/310/426/511 candidates are not admitted by it
 ## Qualified profile and resources
 
 Every new seed includes Phone ownership, without an option. The physically
-qualified profile is native ability assignment, gating off, HP 6–10, enemy
-health 100%, either Room Sanity setting and no One-Hit preset. Its resolved Sir
+qualified profile is native ability assignment, gating off, enemy
+health 100% and either Room Sanity setting. Player health and One-Hit settings
+do not qualify traversal: damage in an execution attempt is not a required cost. Its resolved Sir
 Kibble source must grant Cutter. Generation and output recheck the installed
 profile/source signature so later mutations cannot retain stale qualification.
 
@@ -35,7 +36,8 @@ The real-hub ungated positive and repeat in `phone-real-hub-evidence.json`
 actually reach 148 and collect Chalk, beyond the intermediate script event 15.
 `phone-reset-source-evidence.json` and `phone-helper-source-boundaries.json`
 retain the resource and helper-history qualifications. Gated/HP 1 successes are
-historical corroboration, not additional admitted profiles. Area Keys off only
+historical corroboration; gating remains separately constrained, while player
+health is excluded from route qualification. Area Keys off only
 removes the approach door lock; it adds no helper/source behavior.
 
 ## Pre-live-charge source equivalence bridge

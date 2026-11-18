@@ -1,0 +1,3700 @@
+{
+  "version": 1,
+  "scope": "Configured Boss Endurance room951 local fixture running Adventure AP context; not a production world entry. Same statue persists while live per-touch runtime draws vary. Mask-zero paired control deliberately disables the per-touch hook; static table writes are retained for this control.",
+  "configured_arrival": {
+    "native_room": 951,
+    "x": 128,
+    "y": 144,
+    "helpers_room": 101,
+    "cold_save": "blank",
+    "equipment": "Normal"
+  },
+  "cases": [
+    {
+      "case": "statue-live-retouch",
+      "statue_runtime_mask": 0,
+      "script_sha256": "c6da6be14ebd186e9af7af7f8a7e3de8c65fa33fc2ee51bb4ad09a12d6e945d9",
+      "patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "policy": {
+        "mode": 2,
+        "allowed_abilities": [
+          "Beam",
+          "Ice"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "seed": 11313160015481018921,
+        "mapping_style": "per_grant_event"
+      },
+      "snapshots": [
+        {
+          "label": "startup",
+          "frame": 1086,
+          "room": 951,
+          "x": 120.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "left",
+          "frame": 1151,
+          "room": 951,
+          "x": 40.625,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "stop-left",
+          "frame": 1211,
+          "room": 951,
+          "x": 40.625,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 2,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "drop-platform",
+          "frame": 1212,
+          "room": 951,
+          "x": 40.625,
+          "y": 132.99609375,
+          "hp": 6,
+          "ability": 2,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "contact",
+          "frame": 1302,
+          "room": 951,
+          "x": 40.625,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 2,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "away",
+          "frame": 1327,
+          "room": 951,
+          "x": 68.125,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 2,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "drop",
+          "frame": 1328,
+          "room": 951,
+          "x": 69.3671875,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "dropwait",
+          "frame": 1388,
+          "room": 951,
+          "x": 82.859375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "retouch",
+          "frame": 1413,
+          "room": 951,
+          "x": 55.359375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "retouchwait",
+          "frame": 1473,
+          "room": 951,
+          "x": 40.90625,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 2,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "away-0",
+          "frame": 1498,
+          "room": 951,
+          "x": 54.265625,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 2,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "drop-0",
+          "frame": 1499,
+          "room": 951,
+          "x": 55.5078125,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "dropwait-0",
+          "frame": 1559,
+          "room": 951,
+          "x": 69.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "retouch-0",
+          "frame": 1584,
+          "room": 951,
+          "x": 41.5,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "retouchwait-0",
+          "frame": 1644,
+          "room": 951,
+          "x": 40.2578125,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 2,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "away-1",
+          "frame": 1669,
+          "room": 951,
+          "x": 67.7578125,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 2,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "drop-1",
+          "frame": 1670,
+          "room": 951,
+          "x": 69.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "dropwait-1",
+          "frame": 1730,
+          "room": 951,
+          "x": 82.4921875,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "retouch-1",
+          "frame": 1755,
+          "room": 951,
+          "x": 54.9921875,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "retouchwait-1",
+          "frame": 1815,
+          "room": 951,
+          "x": 40.7421875,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 2,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "away-2",
+          "frame": 1840,
+          "room": 951,
+          "x": 48.9140625,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 2,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "drop-2",
+          "frame": 1841,
+          "room": 951,
+          "x": 50.15625,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "dropwait-2",
+          "frame": 1901,
+          "room": 951,
+          "x": 63.6484375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "retouch-2",
+          "frame": 1926,
+          "room": 951,
+          "x": 40.0390625,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "retouchwait-2",
+          "frame": 1986,
+          "room": 951,
+          "x": 40.0390625,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 2,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "away-3",
+          "frame": 2011,
+          "room": 951,
+          "x": 67.5390625,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 2,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "drop-3",
+          "frame": 2012,
+          "room": 951,
+          "x": 68.78125,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "dropwait-3",
+          "frame": 2072,
+          "room": 951,
+          "x": 82.2734375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "retouch-3",
+          "frame": 2097,
+          "room": 951,
+          "x": 54.7734375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "retouchwait-3",
+          "frame": 2157,
+          "room": 951,
+          "x": 40.78125,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 2,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "away-4",
+          "frame": 2182,
+          "room": 951,
+          "x": 51.546875,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 2,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "drop-4",
+          "frame": 2183,
+          "room": 951,
+          "x": 52.7890625,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "dropwait-4",
+          "frame": 2243,
+          "room": 951,
+          "x": 66.28125,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "retouch-4",
+          "frame": 2268,
+          "room": 951,
+          "x": 40.078125,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "retouchwait-4",
+          "frame": 2328,
+          "room": 951,
+          "x": 40.078125,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 2,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "away-5",
+          "frame": 2353,
+          "room": 951,
+          "x": 67.578125,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 2,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "drop-5",
+          "frame": 2354,
+          "room": 951,
+          "x": 68.8203125,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "dropwait-5",
+          "frame": 2414,
+          "room": 951,
+          "x": 82.3125,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "retouch-5",
+          "frame": 2439,
+          "room": 951,
+          "x": 54.8125,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "retouchwait-5",
+          "frame": 2499,
+          "room": 951,
+          "x": 40.8203125,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 2,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "away-6",
+          "frame": 2524,
+          "room": 951,
+          "x": 58.0703125,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 2,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "drop-6",
+          "frame": 2525,
+          "room": 951,
+          "x": 59.3125,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "dropwait-6",
+          "frame": 2585,
+          "room": 951,
+          "x": 72.8046875,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "retouch-6",
+          "frame": 2610,
+          "room": 951,
+          "x": 45.3046875,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "retouchwait-6",
+          "frame": 2670,
+          "room": 951,
+          "x": 40.6640625,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 2,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "away-7",
+          "frame": 2695,
+          "room": 951,
+          "x": 68.1640625,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 2,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "drop-7",
+          "frame": 2696,
+          "room": 951,
+          "x": 69.40625,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "dropwait-7",
+          "frame": 2756,
+          "room": 951,
+          "x": 82.8984375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "retouch-7",
+          "frame": 2781,
+          "room": 951,
+          "x": 55.3984375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "retouchwait-7",
+          "frame": 2841,
+          "room": 951,
+          "x": 40.9453125,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 2,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        }
+      ],
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 422,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 423,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 663,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 664,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 844,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 845,
+          "frames": 241,
+          "keys": 0
+        },
+        {
+          "start": 1086,
+          "frames": 65,
+          "keys": 32
+        },
+        {
+          "start": 1151,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 1211,
+          "frames": 1,
+          "keys": 129
+        },
+        {
+          "start": 1212,
+          "frames": 90,
+          "keys": 0
+        },
+        {
+          "start": 1302,
+          "frames": 25,
+          "keys": 16
+        },
+        {
+          "start": 1327,
+          "frames": 1,
+          "keys": 4
+        },
+        {
+          "start": 1328,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 1388,
+          "frames": 25,
+          "keys": 32
+        },
+        {
+          "start": 1413,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 1473,
+          "frames": 25,
+          "keys": 16
+        },
+        {
+          "start": 1498,
+          "frames": 1,
+          "keys": 4
+        },
+        {
+          "start": 1499,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 1559,
+          "frames": 25,
+          "keys": 32
+        },
+        {
+          "start": 1584,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 1644,
+          "frames": 25,
+          "keys": 16
+        },
+        {
+          "start": 1669,
+          "frames": 1,
+          "keys": 4
+        },
+        {
+          "start": 1670,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 1730,
+          "frames": 25,
+          "keys": 32
+        },
+        {
+          "start": 1755,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 1815,
+          "frames": 25,
+          "keys": 16
+        },
+        {
+          "start": 1840,
+          "frames": 1,
+          "keys": 4
+        },
+        {
+          "start": 1841,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 1901,
+          "frames": 25,
+          "keys": 32
+        },
+        {
+          "start": 1926,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 1986,
+          "frames": 25,
+          "keys": 16
+        },
+        {
+          "start": 2011,
+          "frames": 1,
+          "keys": 4
+        },
+        {
+          "start": 2012,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 2072,
+          "frames": 25,
+          "keys": 32
+        },
+        {
+          "start": 2097,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 2157,
+          "frames": 25,
+          "keys": 16
+        },
+        {
+          "start": 2182,
+          "frames": 1,
+          "keys": 4
+        },
+        {
+          "start": 2183,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 2243,
+          "frames": 25,
+          "keys": 32
+        },
+        {
+          "start": 2268,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 2328,
+          "frames": 25,
+          "keys": 16
+        },
+        {
+          "start": 2353,
+          "frames": 1,
+          "keys": 4
+        },
+        {
+          "start": 2354,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 2414,
+          "frames": 25,
+          "keys": 32
+        },
+        {
+          "start": 2439,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 2499,
+          "frames": 25,
+          "keys": 16
+        },
+        {
+          "start": 2524,
+          "frames": 1,
+          "keys": 4
+        },
+        {
+          "start": 2525,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 2585,
+          "frames": 25,
+          "keys": 32
+        },
+        {
+          "start": 2610,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 2670,
+          "frames": 25,
+          "keys": 16
+        },
+        {
+          "start": 2695,
+          "frames": 1,
+          "keys": 4
+        },
+        {
+          "start": 2696,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 2756,
+          "frames": 25,
+          "keys": 32
+        },
+        {
+          "start": 2781,
+          "frames": 60,
+          "keys": 0
+        }
+      ],
+      "runtime_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "02000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "291ae629",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "186b009d",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "84000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "restored_state": false
+    },
+    {
+      "case": "statue-live-retouch-v2",
+      "statue_runtime_mask": 132,
+      "script_sha256": "5b3d750cfea2a8f8fce0af699490021bf78f621c107dc68d9c470b7c90943d27",
+      "patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "policy": {
+        "mode": 2,
+        "allowed_abilities": [
+          "Beam",
+          "Ice"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "seed": 11313160015481018921,
+        "mapping_style": "per_grant_event"
+      },
+      "snapshots": [
+        {
+          "label": "startup",
+          "frame": 1086,
+          "room": 951,
+          "x": 120.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "left",
+          "frame": 1151,
+          "room": 951,
+          "x": 40.625,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "stop-left",
+          "frame": 1211,
+          "room": 951,
+          "x": 40.625,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 2,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "drop-platform",
+          "frame": 1212,
+          "room": 951,
+          "x": 40.625,
+          "y": 132.99609375,
+          "hp": 6,
+          "ability": 2,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "contact",
+          "frame": 1302,
+          "room": 951,
+          "x": 40.625,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 2,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "away",
+          "frame": 1327,
+          "room": 951,
+          "x": 68.125,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 2,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "drop",
+          "frame": 1328,
+          "room": 951,
+          "x": 69.3671875,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "dropwait",
+          "frame": 1388,
+          "room": 951,
+          "x": 82.859375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "retouch",
+          "frame": 1413,
+          "room": 951,
+          "x": 55.359375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "retouchwait",
+          "frame": 1473,
+          "room": 951,
+          "x": 40.90625,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 2,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "away-0",
+          "frame": 1498,
+          "room": 951,
+          "x": 54.265625,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 2,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "drop-0",
+          "frame": 1499,
+          "room": 951,
+          "x": 55.5078125,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "dropwait-0",
+          "frame": 1559,
+          "room": 951,
+          "x": 69.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "retouch-0",
+          "frame": 1584,
+          "room": 951,
+          "x": 41.5,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "retouchwait-0",
+          "frame": 1644,
+          "room": 951,
+          "x": 40.2578125,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 7,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "away-1",
+          "frame": 1669,
+          "room": 951,
+          "x": 67.7578125,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 7,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "drop-1",
+          "frame": 1670,
+          "room": 951,
+          "x": 69.0,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "dropwait-1",
+          "frame": 1730,
+          "room": 951,
+          "x": 82.4921875,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "retouch-1",
+          "frame": 1755,
+          "room": 951,
+          "x": 54.9921875,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "retouchwait-1",
+          "frame": 1815,
+          "room": 951,
+          "x": 40.7421875,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 7,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "away-2",
+          "frame": 1840,
+          "room": 951,
+          "x": 43.3671875,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 7,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "drop-2",
+          "frame": 1841,
+          "room": 951,
+          "x": 44.0625,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "dropwait-2",
+          "frame": 1901,
+          "room": 951,
+          "x": 48.140625,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "retouch-2",
+          "frame": 1926,
+          "room": 951,
+          "x": 40.09375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "retouchwait-2",
+          "frame": 1986,
+          "room": 951,
+          "x": 40.09375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 2,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "away-3",
+          "frame": 2011,
+          "room": 951,
+          "x": 67.59375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 2,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "drop-3",
+          "frame": 2012,
+          "room": 951,
+          "x": 68.8359375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "dropwait-3",
+          "frame": 2072,
+          "room": 951,
+          "x": 82.328125,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "retouch-3",
+          "frame": 2097,
+          "room": 951,
+          "x": 54.828125,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "retouchwait-3",
+          "frame": 2157,
+          "room": 951,
+          "x": 40.8359375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 2,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "away-4",
+          "frame": 2182,
+          "room": 951,
+          "x": 51.6015625,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 2,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "drop-4",
+          "frame": 2183,
+          "room": 951,
+          "x": 52.84375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "dropwait-4",
+          "frame": 2243,
+          "room": 951,
+          "x": 66.3359375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "retouch-4",
+          "frame": 2268,
+          "room": 951,
+          "x": 40.1328125,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "retouchwait-4",
+          "frame": 2328,
+          "room": 951,
+          "x": 40.1328125,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 2,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "away-5",
+          "frame": 2353,
+          "room": 951,
+          "x": 67.6328125,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 2,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "drop-5",
+          "frame": 2354,
+          "room": 951,
+          "x": 68.875,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "dropwait-5",
+          "frame": 2414,
+          "room": 951,
+          "x": 82.3671875,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "retouch-5",
+          "frame": 2439,
+          "room": 951,
+          "x": 54.8671875,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "retouchwait-5",
+          "frame": 2499,
+          "room": 951,
+          "x": 40.875,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 7,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "away-6",
+          "frame": 2524,
+          "room": 951,
+          "x": 50.34375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 7,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "drop-6",
+          "frame": 2525,
+          "room": 951,
+          "x": 51.5859375,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "dropwait-6",
+          "frame": 2585,
+          "room": 951,
+          "x": 65.078125,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "retouch-6",
+          "frame": 2610,
+          "room": 951,
+          "x": 40.171875,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "retouchwait-6",
+          "frame": 2670,
+          "room": 951,
+          "x": 40.171875,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 2,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "away-7",
+          "frame": 2695,
+          "room": 951,
+          "x": 67.671875,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 2,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "drop-7",
+          "frame": 2696,
+          "room": 951,
+          "x": 68.9140625,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "dropwait-7",
+          "frame": 2756,
+          "room": 951,
+          "x": 82.40625,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "retouch-7",
+          "frame": 2781,
+          "room": 951,
+          "x": 54.90625,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 0,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        },
+        {
+          "label": "retouchwait-7",
+          "frame": 2841,
+          "room": 951,
+          "x": 40.9140625,
+          "y": 136.99609375,
+          "hp": 6,
+          "ability": 7,
+          "statues": [
+            {
+              "template": "0x20229e0",
+              "parent": "0x0",
+              "object": "0x20003b4",
+              "type_id": 146,
+              "native_ability": 2,
+              "x": 32.0,
+              "y": 128.0
+            },
+            {
+              "template": "0x2022a04",
+              "parent": "0x0",
+              "object": "0x2000470",
+              "type_id": 147,
+              "native_ability": 7,
+              "x": 224.0,
+              "y": 128.0
+            }
+          ]
+        }
+      ],
+      "inputs": [
+        {
+          "start": 0,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 180,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 181,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 301,
+          "frames": 1,
+          "keys": 8
+        },
+        {
+          "start": 302,
+          "frames": 120,
+          "keys": 0
+        },
+        {
+          "start": 422,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 423,
+          "frames": 240,
+          "keys": 0
+        },
+        {
+          "start": 663,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 664,
+          "frames": 180,
+          "keys": 0
+        },
+        {
+          "start": 844,
+          "frames": 1,
+          "keys": 1
+        },
+        {
+          "start": 845,
+          "frames": 241,
+          "keys": 0
+        },
+        {
+          "start": 1086,
+          "frames": 65,
+          "keys": 32
+        },
+        {
+          "start": 1151,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 1211,
+          "frames": 1,
+          "keys": 129
+        },
+        {
+          "start": 1212,
+          "frames": 90,
+          "keys": 0
+        },
+        {
+          "start": 1302,
+          "frames": 25,
+          "keys": 16
+        },
+        {
+          "start": 1327,
+          "frames": 1,
+          "keys": 4
+        },
+        {
+          "start": 1328,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 1388,
+          "frames": 25,
+          "keys": 32
+        },
+        {
+          "start": 1413,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 1473,
+          "frames": 25,
+          "keys": 16
+        },
+        {
+          "start": 1498,
+          "frames": 1,
+          "keys": 4
+        },
+        {
+          "start": 1499,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 1559,
+          "frames": 25,
+          "keys": 32
+        },
+        {
+          "start": 1584,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 1644,
+          "frames": 25,
+          "keys": 16
+        },
+        {
+          "start": 1669,
+          "frames": 1,
+          "keys": 4
+        },
+        {
+          "start": 1670,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 1730,
+          "frames": 25,
+          "keys": 32
+        },
+        {
+          "start": 1755,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 1815,
+          "frames": 25,
+          "keys": 16
+        },
+        {
+          "start": 1840,
+          "frames": 1,
+          "keys": 4
+        },
+        {
+          "start": 1841,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 1901,
+          "frames": 25,
+          "keys": 32
+        },
+        {
+          "start": 1926,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 1986,
+          "frames": 25,
+          "keys": 16
+        },
+        {
+          "start": 2011,
+          "frames": 1,
+          "keys": 4
+        },
+        {
+          "start": 2012,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 2072,
+          "frames": 25,
+          "keys": 32
+        },
+        {
+          "start": 2097,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 2157,
+          "frames": 25,
+          "keys": 16
+        },
+        {
+          "start": 2182,
+          "frames": 1,
+          "keys": 4
+        },
+        {
+          "start": 2183,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 2243,
+          "frames": 25,
+          "keys": 32
+        },
+        {
+          "start": 2268,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 2328,
+          "frames": 25,
+          "keys": 16
+        },
+        {
+          "start": 2353,
+          "frames": 1,
+          "keys": 4
+        },
+        {
+          "start": 2354,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 2414,
+          "frames": 25,
+          "keys": 32
+        },
+        {
+          "start": 2439,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 2499,
+          "frames": 25,
+          "keys": 16
+        },
+        {
+          "start": 2524,
+          "frames": 1,
+          "keys": 4
+        },
+        {
+          "start": 2525,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 2585,
+          "frames": 25,
+          "keys": 32
+        },
+        {
+          "start": 2610,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 2670,
+          "frames": 25,
+          "keys": 16
+        },
+        {
+          "start": 2695,
+          "frames": 1,
+          "keys": 4
+        },
+        {
+          "start": 2696,
+          "frames": 60,
+          "keys": 0
+        },
+        {
+          "start": 2756,
+          "frames": 25,
+          "keys": 32
+        },
+        {
+          "start": 2781,
+          "frames": 60,
+          "keys": 0
+        }
+      ],
+      "runtime_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "02000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "291ae629",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "186b009d",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "84000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "restored_state": false
+    }
+  ]
+}

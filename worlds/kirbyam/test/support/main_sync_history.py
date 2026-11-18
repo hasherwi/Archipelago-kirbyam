@@ -40,6 +40,8 @@ def main_surfaces(surfaces: list[dict[str, Any]]) -> list[dict[str, Any]]:
     # its grouping cannot conceal an undeclared order mutation. Within-owner
     # order remains protected by the lever fixture and full historical hash.
     assert surfaces == sorted(surfaces, key=lambda row: row['owner']), 'Unreviewed surface order'
+    from .radish617_history import before_radish617_surfaces
+    surfaces = before_radish617_surfaces(surfaces)
     from .lever_history import before_lever_compartments
     surfaces = before_lever_compartments(surfaces)
     entry = record()['surfaces']

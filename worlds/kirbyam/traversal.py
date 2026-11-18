@@ -54,6 +54,17 @@ CAPABILITY_ABILITIES: Mapping[str, frozenset[str]] = {
     "bomb_110_upper_normal_spit": frozenset({"Normal"}),
     "bomb_110_room9_underwater_normal_spray": frozenset({"Normal"}),
     # Select only lower F1, leaving the upper blocking-chain trigger intact.
+    "bomb_617_normal_puff_slide": frozenset({"Normal"}),
+    "mirra_141_top_normal_puff": frozenset({"Normal"}),
+    "mirra_141_east_normal_puff": frozenset({"Normal"}),
+    "mirra_117_upper_payload": frozenset({"Normal"}),
+    "mirra_117_lower_payload": frozenset({"Normal"}),
+    "mirra_117_normal_clearance": frozenset({"Normal"}),
+    "mirra_811_normal_puff": frozenset({"Normal"}),
+    "normal_815_vitality_sequence": frozenset({"Normal"}),
+    "normal_534_twister_payload": frozenset({"Normal"}),
+    "normal_534_dee_payload": frozenset({"Normal"}),
+
     "bomb_138_green": frozenset({"Spark"}),
     "bomb_138_green_normal_lower_slide": frozenset({"Normal"}),
     # Grounded left-ledge sweep and completed chain crossing, not Beam range.
@@ -84,6 +95,7 @@ CAPABILITY_ABILITIES: Mapping[str, frozenset[str]] = {
     "switch_310_cupid_up_left_q0": frozenset({"Cupid"}),
     # Five roof returns, enemy-aware setup and timed crossing, not any Cutter shot.
     "switch_310_cutter_five_roof_returns": frozenset({"Cutter"}),
+    "switch_310_kibble_cutter_roof_returns": frozenset({"Cutter"}),
     "switch_825_ufo_top_charge": frozenset({"UFO"}),
     # Only attach to a route whose timing has actually been established.
     "wheel_race": frozenset({"Wheel"}),
@@ -95,6 +107,17 @@ ROOM_SCOPED_CAPABILITIES: Mapping[str, int] = {
     "bomb_110_room9_underwater_sword": 110,
     "bomb_110_upper_normal_spit": 110,
     "bomb_110_room9_underwater_normal_spray": 110,
+    "bomb_617_normal_puff_slide": 617,
+    "mirra_141_top_normal_puff": 141,
+    "mirra_141_east_normal_puff": 141,
+    "mirra_117_upper_payload": 117,
+    "mirra_117_lower_payload": 117,
+    "mirra_117_normal_clearance": 117,
+    "mirra_811_normal_puff": 811,
+    "normal_815_vitality_sequence": 815,
+    "normal_534_twister_payload": 534,
+    "normal_534_dee_payload": 534,
+
     "bomb_138_green": 138,
     "bomb_138_green_normal_lower_slide": 138,
     "bomb_538_beam_left_crossover": 538,
@@ -121,6 +144,7 @@ ROOM_SCOPED_CAPABILITIES: Mapping[str, int] = {
     "switch_310_crash_viewport": 310,
     "switch_310_cupid_up_left_q0": 310,
     "switch_310_cutter_five_roof_returns": 310,
+    "switch_310_kibble_cutter_roof_returns": 310,
     "switch_825_ufo_top_charge": 825,
 }
 
@@ -197,7 +221,8 @@ class SourcePolicy:
         self.source_config = build_enemy_source_runtime_config(policy)
         self.statue_mask = build_statue_runtime_allowed_mask(policy, include_statues)
 
-    def grant(self, key: str, permitted: Callable[[str], bool]) -> Grant:
+    def grant(self, key: str, permitted: Callable[[str], bool],
+              native_grants: tuple[str, ...] = ()) -> Grant:
         if key == CENTRAL_MASTER_SOURCE:
             # Conditional output only. Physical Normal contact and availability
             # are enforced by the bounded witness, not ordinary permission RNG.
@@ -229,8 +254,28 @@ class SourcePolicy:
                 pool = frozenset()
         if randomized:
             return Grant(pool, randomized=True, can_fail=can_fail)
+        if native_grants and address not in self.writes:
+            # Filtering permission cannot turn an unknown native phase into a
+            # convenient singleton. Fixed phase choices are not live RNG retries.
+            return Grant(frozenset(name for name in native_grants if name != "Normal" and permitted(name)),
+                         can_fail=any(name == "Normal" or not permitted(name) for name in native_grants))
         ability = _ID_TO_NAME[self.writes.get(address, ABILITY_NAME_TO_ID[native_name])]
         return Grant(frozenset({ability}) if ability != "Normal" and permitted(ability) else frozenset())
+
+    def grant_choice(self, keys: tuple[str, ...], permitted: Callable[[str], bool]) -> Grant:
+        """A fixed native branch must work for every possible selected source.
+
+        Retouch cannot select a more convenient native branch. It can repeat
+        a live runtime draw when every fixed branch has the identical runtime
+        outcome contract; that does not reroll the native selection itself.
+        """
+        if not keys:
+            return Grant(frozenset(), can_fail=True)
+        grants = tuple(self.grant(key, permitted) for key in keys)
+        if grants[0].randomized and all(grant == grants[0] for grant in grants):
+            return grants[0]
+        return Grant(frozenset().union(*(grant.abilities for grant in grants)),
+                     can_fail=any(grant.can_fail or not grant.abilities for grant in grants))
 
     def dropped_star_grant(self, previous_ability: str, permitted: Callable[[str], bool]) -> Grant:
         """Recovery is conditional on a previously acquired ability.
@@ -291,6 +336,10 @@ class Route:
     uses_object: str | None = None
     # Physical carry/ladder state, independent of attack-provider substitution.
     required_equipment: frozenset[str] | None = None
+    loses_equipment: bool = False
+    ends_lifetimes: frozenset[str] = frozenset()
+    revives_lifetimes: frozenset[str] = frozenset()
+    activates_lifetimes: frozenset[str] = frozenset()
 
 
 @dataclass(frozen=True)
@@ -308,6 +357,11 @@ class Placement:
     retry_evidence: str | None = None
     identity: str | None = None
     renewable: bool = False
+    lifetime: str | None = None
+    source_choices: tuple[str, ...] = ()
+    room_reset_respawns: bool = True
+    # Witnessed alternatives of native state writes; runtime assignments take precedence.
+    native_grants: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -316,6 +370,8 @@ class Position:
     equipped: str | frozenset[str] = "Normal"
     opened: frozenset[str] = frozenset()
     consumed: frozenset[str] = frozenset()
+    expired: frozenset[str] = frozenset()
+    active: frozenset[str] = frozenset()
 
     @property
     def equipment_outcomes(self) -> frozenset[str]:
@@ -399,19 +455,53 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
     placement_list = list(placements)
     route_list = list(routes)
     start_list = list(starts)
+    lifetimes = frozenset(source.lifetime for source in placement_list if source.lifetime is not None)
+    if any(not isinstance(key, str) or not key.strip() for key in lifetimes):
+        raise ValueError('Source lifetime must be a nonempty identity')
+    for route in route_list:
+        if (not isinstance(route.loses_equipment, bool)
+                or not isinstance(route.ends_lifetimes, frozenset)
+                or not isinstance(route.revives_lifetimes, frozenset)
+                or not isinstance(route.activates_lifetimes, frozenset)
+                or not (route.ends_lifetimes | route.revives_lifetimes | route.activates_lifetimes) <= lifetimes
+                or route.ends_lifetimes & (route.revives_lifetimes | route.activates_lifetimes)):
+            raise ValueError('Invalid source lifetime or equipment-loss effect')
+        if route.revives_lifetimes and not route.resets_room_instance:
+            raise ValueError('Source lifetime revival requires an explicit room-instance reset')
     _validate_central_master_witness(node_list, route_list, placement_list, start_list)
     objects: dict[str, list[Placement]] = defaultdict(list)
     for source in placement_list:
+        if source.source_choices and (
+            not isinstance(source.source_choices, tuple)
+            or source.source_key not in source.source_choices
+            or len(set(source.source_choices)) != len(source.source_choices)
+            or any(key not in _SOURCE_BY_KEY and key not in _STATUE_DEFAULTS for key in source.source_choices)
+        ):
+            raise ValueError('Fixed native source choices require distinct valid keys')
         identity = source.identity or f"{source.node}:{source.source_key}"
         objects[identity].append(source)
+    if any(len({source.lifetime for source in candidates}) > 1 for candidates in objects.values()):
+        raise ValueError("One physical source cannot have conflicting output lifetimes")
     node_by_key = {node.key: node for node in node_list}
     if len(node_by_key) != len(node_list):
         raise ValueError("Duplicate traversal compartment")
+    lifetime_rooms: dict[str, int] = {}
+    for source in placement_list:
+        if source.node not in node_by_key:
+            raise ValueError(f"Unknown source compartment: {source.node}")
+        if source.lifetime is not None:
+            room = node_by_key[source.node].room
+            if source.lifetime in lifetime_rooms and lifetime_rooms[source.lifetime] != room:
+                raise ValueError("Generated output lifetime cannot span native rooms")
+            lifetime_rooms[source.lifetime] = room
     outgoing: dict[str, list[Route]] = defaultdict(list)
     sources: dict[str, list[Placement]] = defaultdict(list)
     for route in route_list:
         if route.source not in node_by_key or route.target not in node_by_key:
             raise ValueError(f"Unknown traversal endpoint: {route}")
+        if any(lifetime_rooms[key] != node_by_key[route.target].room
+               for key in route.activates_lifetimes | route.revives_lifetimes):
+            raise ValueError("Generated activation or revival must enter its native room")
         if route.capability is not None and route.capability not in CAPABILITY_ABILITIES:
             raise ValueError(f"Unknown traversal capability: {route.capability}")
         if route.capability is not None and route.capability in ROOM_SCOPED_CAPABILITIES:
@@ -444,11 +534,15 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
                 raise ValueError("An ordinary-block attack sequence must remain in its native room")
         if route.capability == "underwater_block_hit" and route.water_state != "swimming":
             raise ValueError("An underwater block hit needs swimming attack state")
-        if (route.capability in {"frozen_enemy_hit", "metal_throw", "bomb_110_upper_normal_spit"}) != (
+        if (route.capability in {"frozen_enemy_hit", "metal_throw", "bomb_110_upper_normal_spit",
+                                "mirra_117_upper_payload", "mirra_117_lower_payload",
+                                "normal_534_twister_payload", "normal_534_dee_payload"}) != (
             route.uses_object is not None
         ):
             raise ValueError("A projectile hit needs a physical target object and no unrelated capability")
-        if route.capability in {"frozen_enemy_hit", "metal_throw", "bomb_110_upper_normal_spit"} \
+        if route.capability in {"frozen_enemy_hit", "metal_throw", "bomb_110_upper_normal_spit",
+                                "mirra_117_upper_payload", "mirra_117_lower_payload",
+                                "normal_534_twister_payload", "normal_534_dee_payload"} \
                 and route.opens is not None:
             raise ValueError("Projectile hit cannot have a persistent opens event")
         if route.capability in {"bomb_110_upper_normal_spit", "bomb_110_room9_underwater_normal_spray"}:
@@ -462,6 +556,52 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
                     or route.source != "bomb_138_green:normal_lower_slide"
                     or route.target != "bomb_138_green:normal_chest"):
                 raise ValueError("Green138 Normal slide is an exact chest-only local action")
+        if route.capability == "bomb_617_normal_puff_slide":
+            if (route.required_equipment != frozenset({"Normal"}) or route.opens is not None
+                    or route.room_transition or route.items or route.recover_dropped_ability
+                    or route.source != "bomb_617_radish_map:arrival"
+                    or route.target != "bomb_617_radish_map:chest"):
+                raise ValueError("Radish617 Normal puff/slide is an exact chest-only local action")
+        if route.capability == "mirra_141_top_normal_puff" and route != Route(
+            "mirra_141_top_mustard:arrival", "mirra_141_top_mustard:cleared",
+            capability="mirra_141_top_normal_puff", required_equipment=frozenset({"Normal"}),
+        ):
+            raise ValueError("Mirra141 Normal puff is an exact top-compartment clearance")
+        if route.capability == "mirra_141_east_normal_puff" and route != Route(
+            "mirra_141_east_moonlight:arrival", "mirra_141_east_moonlight:cleared",
+            capability="mirra_141_east_normal_puff", required_equipment=frozenset({"Normal"}),
+        ):
+            raise ValueError("Mirra141 Normal puff is an exact east-compartment clearance")
+        if route.capability == "mirra_811_normal_puff" and route != Route(
+            "mirra_811_olive:arrival", "mirra_811_olive:cleared",
+            capability="mirra_811_normal_puff", required_equipment=frozenset({"Normal"}),
+        ):
+            raise ValueError("Mirra811 requires its exact right-side Normal sequence")
+        mirra117_actions = {
+            "mirra_117_upper_payload": ("arrival", "ladder", "0x088B9904"),
+            "mirra_117_lower_payload": ("ladder", "corridor", "0x088B9874"),
+            "mirra_117_normal_clearance": ("corridor", "cleared", None),
+        }
+        if route.capability in mirra117_actions:
+            start, end, payload = mirra117_actions[route.capability]
+            if route != Route("mirra_117_carrot:" + start, "mirra_117_carrot:" + end,
+                              capability=route.capability, uses_object=payload,
+                              required_equipment=frozenset({"Normal"})):
+                raise ValueError("Mirra117 requires its exact finite Normal sequence")
+        if route.capability == "normal_815_vitality_sequence":
+            if route != Route("normal_815_vitality:arrival", "normal_815_vitality:chest",
+                              capability=route.capability, required_equipment=frozenset({"Normal"})):
+                raise ValueError("Normal815 requires its exact unconsumed-block and timed-puff sequence")
+        normal534_actions = {
+            "normal_534_twister_payload": ("rainbow34", "lower_payload", "0x088B59B4"),
+            "normal_534_dee_payload": ("lower_payload", "lower_clear", "0x088B596C"),
+        }
+        if route.capability in normal534_actions:
+            start, end, payload = normal534_actions[route.capability]
+            if route != Route("normal_534_mustard_entry:" + start, "normal_534_mustard_entry:" + end,
+                              capability=route.capability, uses_object=payload,
+                              required_equipment=frozenset({"Normal"})):
+                raise ValueError("Normal534 requires its exact finite payload sequence")
         if route.uses_object is not None:
             if not isinstance(route.uses_object, str) or not route.uses_object.strip():
                 raise ValueError("Route object identity must be a nonempty string")
@@ -489,7 +629,8 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
         # Cutter310 setup cycles the gate and crosses after its final return.
         if (route.capability in {"fuse", "switch_533_crash_viewport", "switch_310_crash_viewport",
                                  "switch_825_ufo_top_charge", "switch_310_cupid_up_left_q0",
-                                 "switch_533_magic_meta_knight", "switch_310_cutter_five_roof_returns"}
+                                 "switch_533_magic_meta_knight", "switch_310_cutter_five_roof_returns",
+                                 "switch_310_kibble_cutter_roof_returns"}
                 and route.opens is not None):
             raise ValueError("Timed fuse ignition cannot have a persistent opens event"
                              if route.capability == "fuse"
@@ -500,6 +641,8 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
         ):
             raise ValueError("Allowed abilities must narrow the route capability providers")
         transitions = route.room_transition or node_by_key[route.source].room != node_by_key[route.target].room
+        if route.revives_lifetimes and not transitions:
+            raise ValueError("Source lifetime revival requires an actual room-reset transition")
         if route.resets_room_instance and route.preserves_room_instance:
             raise ValueError("A room instance cannot be both reset and preserved")
         if route.opens and transitions:
@@ -514,18 +657,21 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
     queue = deque(start_list)
     visited: set[Position] = set()
     assumptions: set[str] = set()
-    grants: dict[str, Grant] = {}
-    expanded_sources: set[tuple[str, frozenset[str], frozenset[str]]] = set()
+    grants: dict[tuple[str, tuple[str, ...]], Grant] = {}
+    raw_grants: dict[tuple[str, tuple[str, ...]], Grant] = {}
+    expanded_sources: set[tuple[str, frozenset[str], frozenset[str], frozenset[str], frozenset[str]]] = set()
 
     def permitted(ability: str) -> bool:
         return ability_permission(ability, owned, gating)
 
-    def source_grant(key: str) -> Grant:
+    def source_grant(key: str, native_grants: tuple[str, ...]) -> Grant:
         # Grants describe deterministic possibilities, not individual RNG draws.
         # Policy, owned permissions and gating are fixed for this evaluation.
-        if key not in grants:
-            grants[key] = policy.grant(key, permitted)
-        return grants[key]
+        cache_key = (key, native_grants)
+        if cache_key not in grants:
+            grants[cache_key] = (policy.grant(key, permitted, native_grants) if native_grants
+                                 else policy.grant(key, permitted))
+        return grants[cache_key]
 
     while queue:
         position = queue.popleft()
@@ -533,15 +679,17 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
             continue
         if position.node not in node_by_key:
             raise ValueError(f"Unknown starting compartment: {position.node}")
+        if not (position.expired | position.active) <= lifetimes or position.expired & position.active:
+            raise ValueError('Unknown or conflicting source lifetime state')
         visited.add(position)
         # Dropping is possible, but a dropped star is NOT a free initial source.
         if position.equipped != "Normal":
-            queue.append(Position(position.node, "Normal", position.opened, position.consumed))
+            queue.append(Position(position.node, "Normal", position.opened, position.consumed, position.expired, position.active))
         # Acquiring a source replaces equipment; its successors depend only on
         # this physical phase and the fixed policy/permissions, not what is held.
         # Keep both phase sets: finite source use and opened barriers must never
         # be merged. Route, drop and recovery expansion still uses every Position.
-        source_phase = (position.node, position.opened, position.consumed)
+        source_phase = (position.node, position.opened, position.consumed, position.expired, position.active)
         if source_phase not in expanded_sources:
             expanded_sources.add(source_phase)
             for source in sources[position.node]:
@@ -549,22 +697,37 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
                     continue  # The admitted Normal prefix makes phase deduplication safe.
                 if not source.requirements <= owned:
                     continue
+                if source.lifetime is not None and source.lifetime not in position.active:
+                    continue
                 identity = source.identity or f"{source.node}:{source.source_key}"
                 if identity in position.consumed:
                     continue
                 consumed = position.consumed if source.renewable else position.consumed | {identity}
-                grant = source_grant(source.source_key)
-                abilities = grant.guaranteed
+                grant = (policy.grant_choice(source.source_choices, permitted) if source.source_choices
+                         else source_grant(source.source_key, source.native_grants))
+                # Ownership-filtered live pools can expand on later unlocks.
+                # A finite guarantee must survive that expansion; renewable
+                # documented retries below retain the actual runtime pool.
+                raw_key = (source.source_key, source.native_grants)
+                if source.source_choices:
+                    raw_grant = policy.grant_choice(source.source_choices, lambda _: True)
+                else:
+                    if raw_key not in raw_grants:
+                        raw_grants[raw_key] = (policy.grant(source.source_key, lambda _: True, source.native_grants)
+                                              if source.native_grants else policy.grant(source.source_key, lambda _: True))
+                    raw_grant = raw_grants[raw_key]
+                bounded = not raw_grant.can_fail and grant.abilities == raw_grant.abilities
+                abilities = grant.guaranteed if bounded else frozenset()
                 if (allow_documented_retries and source.renewable and source.retry_evidence
                         and grant.randomized and grant.abilities):
                     abilities = grant.abilities
                     assumptions.add(source.retry_evidence)
                 for granted_ability in abilities:
-                    queue.append(Position(position.node, granted_ability, position.opened, consumed))
-                if not grant.can_fail and grant.abilities and not abilities:
+                    queue.append(Position(position.node, granted_ability, position.opened, consumed, position.expired, position.active))
+                if bounded and not grant.can_fail and grant.abilities and not abilities:
                     # Player receives one of these, not all of them. Retain the
                     # uncertainty: a subsequent edge must work for EVERY outcome.
-                    queue.append(Position(position.node, grant.abilities, position.opened, consumed))
+                    queue.append(Position(position.node, grant.abilities, position.opened, consumed, position.expired, position.active))
         for route in outgoing[position.node]:
             if not route.items <= owned:
                 continue
@@ -589,6 +752,8 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
                     continue
             if not already_open and route.uses_object is not None:
                 if (route.uses_object in position.consumed
+                        or (objects[route.uses_object][0].lifetime is not None
+                            and objects[route.uses_object][0].lifetime not in position.active)
                         or not objects[route.uses_object][0].requirements <= owned):
                     continue
             if route.recover_dropped_ability:
@@ -608,6 +773,7 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
                 elif ability & spent:
                     ability = (ability - spent) | {"Normal"}
             consumed = position.consumed
+            active = position.active
             if route.uses_object is not None and not already_open:
                 consumed |= {route.uses_object}
             if route.room_transition or node_by_key[position.node].room != node_by_key[route.target].room:
@@ -616,13 +782,41 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
                 # WITHOUT granting a free source respawn.
                 if not route.preserves_room_instance:
                     opened = frozenset()
+                    # Unknown room retention cannot preserve credit for a
+                    # live encounter output. Held equipment is independent.
+                    active = frozenset()
                 if route.resets_room_instance:
-                    consumed = frozenset()
+                    # A room reset can recreate ordinary placements, but is
+                    # not evidence that a consumed generated output returns.
+                    # Retain its use until this particular lifetime has an
+                    # explicit revival contract, even if it was never marked
+                    # expired (e.g. swallowed before the controller died).
+                    # Only the destination room resets. Remote or unresolved
+                    # identities retain consumption; resetting elsewhere cannot
+                    # manufacture another finite acquisition on a return trip.
+                    consumed = frozenset(
+                        identity for identity in consumed
+                        if identity not in objects
+                        or any(node_by_key[source.node].room != node_by_key[route.target].room
+                               for source in objects[identity])
+                        or not all(source.room_reset_respawns for source in objects[identity])
+                        or (objects[identity][0].lifetime is not None
+                            and objects[identity][0].lifetime not in route.revives_lifetimes)
+                    )
+                    active = frozenset()
                 if ability == "Mini":
                     ability = "Normal"
                 elif isinstance(ability, frozenset) and "Mini" in ability:
                     ability = (ability - {"Mini"}) | {"Normal"}
-            queue.append(Position(route.target, ability, opened, consumed))
+            if route.loses_equipment:
+                ability = "Normal"
+            # Clearing finite room-instance uses never revives an encounter by
+            # itself. Revival is a separately evidenced reset effect.
+            expired = (position.expired | route.ends_lifetimes) - route.revives_lifetimes
+            # A revived controller is eligible to activate again, not already spawned.
+            active = ((active - route.ends_lifetimes - route.revives_lifetimes)
+                      | (route.activates_lifetimes - expired))
+            queue.append(Position(route.target, ability, opened, consumed, expired, active))
     return TraversalResult(frozenset(visited), frozenset(assumptions))
 
 
@@ -675,6 +869,10 @@ def _validate_projectile_evidence(row: Mapping[str, Any]) -> None:
         "frozen_enemy_hit": "frozen_enemy_evidence", "metal_throw": "throw_evidence",
         # One atomic capture/carry/spit witness uses the existing evidence field.
         "bomb_110_upper_normal_spit": "evidence",
+        "mirra_117_upper_payload": "evidence",
+        "mirra_117_lower_payload": "evidence",
+        "normal_534_twister_payload": "evidence",
+        "normal_534_dee_payload": "evidence",
     }.get(row.get("capability", ""))
     if row.get("uses_object") is not None:
         if evidence_key is None:
@@ -717,6 +915,8 @@ def _compile_route(row: Mapping[str, Any], area_keys: bool) -> Route:
         "allowed_abilities", "recover_dropped_ability", "room_transition",
         "room_instance", "reset_evidence", "water_state", "uses_object",
         "frozen_enemy_evidence", "required_equipment", "heave_ho_evidence", "metal_evidence", "throw_evidence",
+        "loses_equipment", "loss_evidence", "ends_lifetimes", "lifetime_evidence",
+        "revives_lifetimes", "revival_evidence", "activates_lifetimes", "activation_evidence",
     }:
         raise ValueError("Unknown traversal route field or effect")
     if not row.get("evidence"):
@@ -742,7 +942,8 @@ def _compile_route(row: Mapping[str, Any], area_keys: bool) -> Route:
     capability = row.get("capability")
     if (capability in {"fuse", "switch_533_crash_viewport", "switch_310_crash_viewport",
                        "switch_825_ufo_top_charge", "switch_310_cupid_up_left_q0",
-                       "switch_533_magic_meta_knight", "switch_310_cutter_five_roof_returns"}
+                       "switch_533_magic_meta_knight", "switch_310_cutter_five_roof_returns",
+                       "switch_310_kibble_cutter_roof_returns"}
             and row.get("opens") is not None):
         raise ValueError("Timed fuse ignition cannot have a persistent opens event"
                          if capability == "fuse" else "Timed switch attack cannot have a persistent opens event")
@@ -753,6 +954,18 @@ def _compile_route(row: Mapping[str, Any], area_keys: bool) -> Route:
         not allowed or not set(allowed) <= providers
     ):
         raise ValueError("Allowed abilities must narrow the route capability providers")
+    for field, evidence in (("loses_equipment", "loss_evidence"),
+                            ("ends_lifetimes", "lifetime_evidence"),
+                            ("revives_lifetimes", "revival_evidence"),
+                            ("activates_lifetimes", "activation_evidence")):
+        value = row.get(field, False if field == 'loses_equipment' else [])
+        if field == 'loses_equipment':
+            if not isinstance(value, bool):
+                raise ValueError('loses_equipment must be a boolean')
+        elif not isinstance(value, list) or any(not isinstance(key, str) or not key.strip() for key in value):
+            raise ValueError(f'{field} must contain lifetime identities')
+        if value and (not isinstance(row.get(evidence), str) or not row[evidence].strip()):
+            raise ValueError(f'{field} requires {evidence}')
     return Route(
         row["from"], row["to"], row.get("capability"), row.get("opens"),
         frozenset(row.get("items", ())) | frozenset(row.get("area_key_items", ()) if area_keys else ()),
@@ -763,6 +976,9 @@ def _compile_route(row: Mapping[str, Any], area_keys: bool) -> Route:
         row.get("room_instance") == "preserve",
         row.get("water_state", "dry"), row.get("uses_object"),
         None if equipment is None else frozenset(equipment),
+        row.get('loses_equipment', False), frozenset(row.get('ends_lifetimes', ())),
+        frozenset(row.get('revives_lifetimes', ())),
+        frozenset(row.get('activates_lifetimes', ())),
     )
 
 
@@ -774,16 +990,27 @@ def _compile_placement(row: Mapping[str, Any]) -> Placement:
             raise ValueError("Unknown Central Master placement field or effect")
     elif row["source_key"] not in _SOURCE_BY_KEY and row["source_key"] not in _STATUE_DEFAULTS:
         raise ValueError(f"Unknown ability source: {row['source_key']}")
+    if not isinstance(row.get("room_reset_respawns", True), bool):
+        raise ValueError("room_reset_respawns must be a boolean")
     if not isinstance(row.get("renewable", False), bool):
         raise ValueError("renewable must be a boolean")
     if row.get("renewable") and not row.get("renewable_evidence"):
         raise ValueError("Renewable source is missing repeatability evidence")
     if row.get("retry_evidence") and not row.get("renewable"):
         raise ValueError("Retry evidence requires a renewable source")
+    native_grants = row.get('native_grants', [])
+    if (not isinstance(native_grants, list) or any(not isinstance(name, str) or name not in _NATIVE_EQUIPMENT for name in native_grants)
+            or len(set(native_grants)) != len(native_grants)):
+        raise ValueError('Native phase grants must be distinct native equipment names')
+    if native_grants and row.get('source_choices'):
+        raise ValueError('Native phases cannot be applied to unrelated fixed source choices')
     return Placement(
         row["node"], row["source_key"], frozenset(row.get("items", ())),
         retry_evidence=row.get("retry_evidence"),
         identity=row.get("id"), renewable=bool(row.get("renewable", False)),
+        lifetime=row.get('lifetime'), source_choices=tuple(row.get('source_choices', ())),
+        room_reset_respawns=row.get('room_reset_respawns', True),
+        native_grants=tuple(native_grants),
     )
 
 

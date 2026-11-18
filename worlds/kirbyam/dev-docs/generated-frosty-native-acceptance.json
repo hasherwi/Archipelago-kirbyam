@@ -1,0 +1,150 @@
+{
+  "version": 1,
+  "issue": 1118,
+  "inventory_id": "room:955/template:0x088D5CD0/encounter:56/src/mr_frosty.c:762/type:166",
+  "scope": "Conditional generated projectile acquisition in a configured fresh room955 arena; not an AP entry, one-hit-safe carry or repeatability witness.",
+  "native_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "base_patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+  "native_sources": {
+    "mr_frosty.c": "6efd791e49aa53cc2b6c272007ecc1f2c69a28cb7e45193daa118a3871e0e209",
+    "object.c": "a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645"
+  },
+  "cases": [
+    {
+      "case": "frosty-shuffled",
+      "minimum_hp": 5,
+      "abilities": [
+        0,
+        6
+      ],
+      "first_projectile": {
+        "frame": 1593,
+        "type_id": 166,
+        "native_ability": 6,
+        "hp": 1,
+        "parent": "0x2000008",
+        "x": 74.0,
+        "y": 126.0,
+        "template": "0x20229e0"
+      },
+      "last_projectile": {
+        "frame": 1695,
+        "type_id": 166,
+        "native_ability": 0,
+        "hp": 0,
+        "parent": "0x2000008",
+        "x": 213.8984375,
+        "y": 136.86328125,
+        "template": "0x20229e0"
+      },
+      "first_copy_frame": 1752,
+      "frosty_hp_at_copy": 30,
+      "final": {
+        "frame": 1765,
+        "room": 955,
+        "hp": 5,
+        "ability": 6,
+        "x": 229.8984375,
+        "y": 136.99609375,
+        "ability_gate": 0,
+        "ability_unlocks": 0
+      },
+      "runtime_write_count": 0,
+      "private_evidence_sha256": "99bbc1b922fe63b0ab38aa81a50b35ded8ad67fa3623eb756697b432e296dfe7",
+      "runtime_sha256": "322bfd4526e9441c8b29bc0bf41034aef63abae22a3def66fadd5c2fc28980c3",
+      "script_sha256": "9a6a2c07816aeb0a23d53821409b6f703886578418a1bb19a9764a4cbff8adf7"
+    },
+    {
+      "case": "frosty-vanilla5",
+      "minimum_hp": 5,
+      "abilities": [
+        0
+      ],
+      "first_projectile": {
+        "frame": 1593,
+        "type_id": 166,
+        "native_ability": 0,
+        "hp": 1,
+        "parent": "0x2000008",
+        "x": 74.0,
+        "y": 126.0,
+        "template": "0x20229e0"
+      },
+      "last_projectile": {
+        "frame": 1695,
+        "type_id": 166,
+        "native_ability": 0,
+        "hp": 0,
+        "parent": "0x2000008",
+        "x": 213.8984375,
+        "y": 136.86328125,
+        "template": "0x20229e0"
+      },
+      "first_copy_frame": null,
+      "frosty_hp_at_copy": null,
+      "final": {
+        "frame": 1765,
+        "room": 955,
+        "hp": 5,
+        "ability": 0,
+        "x": 229.8984375,
+        "y": 136.99609375,
+        "ability_gate": 0,
+        "ability_unlocks": 0
+      },
+      "runtime_write_count": 0,
+      "private_evidence_sha256": "55297a1d1a9ae7fec08058d92c4b936da2966afec813e77123533d0f81b3bfc2",
+      "runtime_sha256": "e907a7e017a2c5265fa98df32741da26ec2585bb326e25ad7dc3fdebb52289c3",
+      "script_sha256": "84766aa9e0a61bbd0558abcfe9b068ceb969debc90fad64267e68159f467b6e0"
+    },
+    {
+      "case": "frosty-unowned5",
+      "minimum_hp": 5,
+      "abilities": [
+        0
+      ],
+      "first_projectile": {
+        "frame": 1593,
+        "type_id": 166,
+        "native_ability": 6,
+        "hp": 1,
+        "parent": "0x2000008",
+        "x": 74.0,
+        "y": 126.0,
+        "template": "0x20229e0"
+      },
+      "last_projectile": {
+        "frame": 1695,
+        "type_id": 166,
+        "native_ability": 0,
+        "hp": 0,
+        "parent": "0x2000008",
+        "x": 213.8984375,
+        "y": 136.86328125,
+        "template": "0x20229e0"
+      },
+      "first_copy_frame": null,
+      "frosty_hp_at_copy": null,
+      "final": {
+        "frame": 1765,
+        "room": 955,
+        "hp": 5,
+        "ability": 0,
+        "x": 229.8984375,
+        "y": 136.99609375,
+        "ability_gate": 67108734,
+        "ability_unlocks": 0
+      },
+      "runtime_write_count": 0,
+      "private_evidence_sha256": "c6e0ee7f6b51a0607e2c3baceb84cda3bf8ca3852ad8e95306cf94fa09f307ac",
+      "runtime_sha256": "6cc482c78f56ae0f6eec615b1167012843704924e3d85ee4f669c66a614a7640",
+      "script_sha256": "84766aa9e0a61bbd0558abcfe9b068ceb969debc90fad64267e68159f467b6e0"
+    }
+  ],
+  "limitations": [
+    "All fixtures start with 6 HP and take one hit before acquisition; no one-hit-mode route is admitted.",
+    "The initial room and position are fixture configuration, not evidence of independent AP access.",
+    "Only the observed small-cube branch is witnessed; alternate large cube and other call sites remain separate.",
+    "No safe defeat, room-reset revival or random retry loop is inferred."
+  ]
+}

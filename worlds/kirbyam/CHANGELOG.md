@@ -30,6 +30,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Testing covers selected gameplay scenarios, not a complete playthrough or every multiplayer setup.
 
 ### Bug Fixes
+- Logic previously only cared if you unlocked an ability, not if it was actually obtainable from an enemy or statue. This is fixed. Miniboss and area boss spawns are also considered but only under the new Advanced Logic option (PR #1116).
 - Corrected the Chalk chest compartment (PR #1086).
 - Keep the Mustard Mountain Room 15 timed exit out of logic when no reviewed source-backed route is available, including mixed/failable source policies (Issue #1099). The ordinary Room 17 bypass remains available.
 

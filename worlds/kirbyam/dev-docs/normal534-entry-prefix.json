@@ -1,0 +1,1212 @@
+{
+  "scope": "Normal590-to-534-to-310 prefix only; no chest acquisition or general room534 approach",
+  "cases": [
+    {
+      "case": "v14-ungated50-1",
+      "private_evidence_sha256": "3c689f2d2b571c620cbd4065dc1b0b16ef82eea12f287f9b5ca3f558f97cc25f",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-ungated63-1",
+      "private_evidence_sha256": "65251caa600265f914e1fd6deaea59083ee931cfcd9c8a568f67fba05a21283c",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-ungated75-1",
+      "private_evidence_sha256": "07f76233b4e9dfd18562f66ac15350c49ce1f42ccd810c4f6cc03027716d929e",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-ungated100-1",
+      "private_evidence_sha256": "9c3878fcd623d2a19aad972a1a2a18191d47ced6c709deb4f006cfb8f691d372",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-ungated113-1",
+      "private_evidence_sha256": "4c45613d1e7778d9a6b4b53a157b912e2081d057abe78d67c814395f85168bd6",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-ungated125-1",
+      "private_evidence_sha256": "e936eab7ac7a8640b228f799d78408399dee56aa5f066352addfd4559f77cc88",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-ungated138-1",
+      "private_evidence_sha256": "cca7d8914fb1502ae4b8bfc24e7f3cfffcfbf4d3ee3797840999967bf47959ab",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-ungated163-1",
+      "private_evidence_sha256": "c69065a8627f3fcfd70da6aa40c6f9cb7be81f1abb1ba52959ed47545fd184ed",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-ungated175-1",
+      "private_evidence_sha256": "9cd493a8edef0434880f53f055ed96a1e4f2bd218479c6f75af719fadb3ac232",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-ungated188-1",
+      "private_evidence_sha256": "9bb45555e87d4eef21a2dbb69256ec1f99430ee7164f1d99a1d5185728604c77",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-ungated224-1",
+      "private_evidence_sha256": "d7f17952790e80fe88a3f7b8c41aaa480dd948969fae33ae355d348441bc0aab",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-ungated225-1-delay180",
+      "private_evidence_sha256": "78294c2ffea4f361600c21ef0455a3d709833beaa5eeea9c5ad0786238d5c20d",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-ungated238-1-delay180",
+      "private_evidence_sha256": "dbbd600fabc2c0925bb2a8525762f36a9575eed86a97b6180d8ba74207ccc6a8",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-ungated263-1-delay180",
+      "private_evidence_sha256": "0194c22038ce4f655d7279d3b26deb274ed026d2ff4dff392a02e5930d63825a",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-ungated275-1-delay180",
+      "private_evidence_sha256": "d16b2d5186949f3df959e0cd442b4309311bdc2294c517e15efac158079c3a39",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-ungated288-1-delay180",
+      "private_evidence_sha256": "23f480a3ac0908fafcd518fe9999275d125dee4fb065442b22455514c7711b6d",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-ungated313-1-delay180",
+      "private_evidence_sha256": "8df738be16ecd645933dfc46acb15ef819a967ed1f17fa5b288b87edee92558a",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-ungated325-1-delay180",
+      "private_evidence_sha256": "4e4c0bcaa7ae149fb7208a7b14c09acb047e46271957a995a2c9513ecdfdaefa",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-ungated338-1-delay180",
+      "private_evidence_sha256": "71faa2b8f95888d90d8caf79eae5947239f2eee714dcb278bfdde3204251f66c",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-ungated363-1-delay180",
+      "private_evidence_sha256": "fcfabfcfb9f5f09819e6d219ad9037bd76020d2bf2121c3101eec2c687965142",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-ungated375-1-delay180",
+      "private_evidence_sha256": "0832ae0a5a264f53da819251624c1b451cfcfcab5fb2e7a87f8d3172ea0a2c8b",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-ungated388-1-delay180",
+      "private_evidence_sha256": "733356c7b50ca7e7340d20f50ee3ecd8bc510dad5bd8a0dffbb07242674467a4",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-ungated424-1-delay180",
+      "private_evidence_sha256": "12dd817196153da010529745a358fb578893772a858d90c8d32982ce4e109a4a",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-ungated425-1",
+      "private_evidence_sha256": "695da0bb7c0e6682943a5469d5ffcbc92fda6029678413659d6ecc2c8e282886",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-ungated438-1",
+      "private_evidence_sha256": "df1bd86529c0eb3a874eab11b94472dfa7e2ed7d45fc812f8eb9f8efcf2e26e2",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-ungated463-1",
+      "private_evidence_sha256": "6d27adf6ea65f0dbadbf8e5e856f05d9da645957c0e8c5d2547a3d5804753130",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-ungated475-1",
+      "private_evidence_sha256": "00372fb47199e8a4a65f2e819a1898ab509c91925a17d4a4f92940096be7a95f",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-ungated500-1",
+      "private_evidence_sha256": "0b5da098d5ba5dd740c6cad5dfe5de9efc23e91d8f9851850c9035f09b33b5f0",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-gated50-1",
+      "private_evidence_sha256": "112e9d9743819e036fb827ad731f294c83b5b8a7ca404623aab2d71ced52c403",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-gated63-1",
+      "private_evidence_sha256": "8531831b9d681eace07914111841fe3b2eeb6033a9ad1590ce39aa6b367b5f67",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-gated75-1",
+      "private_evidence_sha256": "8743c0e14ab42af5d046790b1e7a9bd3ac22fe0318c9f28d3517b2a95d686098",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-gated100-1",
+      "private_evidence_sha256": "076236b57adf87b9e274ca4025f11b6434a030f1b38bd17c35dd6b93f841940f",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-gated113-1",
+      "private_evidence_sha256": "509223ffd81ba3cc6cc515d3128bd800b6ec7ed1564b7639f2eeb0ecee655296",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-gated125-1",
+      "private_evidence_sha256": "67b8a174af9a0438fbe59f0510670eb0e61968e0e31e21caff7d6ca097f61d91",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-gated138-1",
+      "private_evidence_sha256": "a4fc68c6e89d672f766241356fb832417e98d8699bec878e2c7f3af8eaacf620",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-gated163-1",
+      "private_evidence_sha256": "31ab7a6b8b2de9c2603bebf8762cd162ecbcfa38ccb525d44d9f52ab0524e9c1",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-gated175-1",
+      "private_evidence_sha256": "0e9ba6b7692b91f4dc13e0fd4053d95960163dc07d24fbaae7d9c518aff79f46",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-gated188-1",
+      "private_evidence_sha256": "87374089ff79f163a030df16cf3c61b3e64268bce830ceea8203dd08ac71e4c0",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-gated224-1",
+      "private_evidence_sha256": "1dd0e7cf70ce4919f4e3d4cc7db6efc7a6045452196a5fb258479b9e6e2a27ba",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-gated225-1-delay100",
+      "private_evidence_sha256": "c9be99341330cbd2533dc5c44a3e9cfb7c3241098e08caf7a7edb8364bf56709",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-gated238-1-delay100",
+      "private_evidence_sha256": "dabcde62ec2a0c0be2b8f086cd645c8bc30b48a3bd58353d80f7f80d9cb3e9ab",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-gated263-1-delay100",
+      "private_evidence_sha256": "84cc2fadd708da5e8f30b5371de1680b608f9198858aad210f705782bf76d47d",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-gated275-1-delay100",
+      "private_evidence_sha256": "78c19d7ea44edf36c9950beffb58455d48805810756f8066fd5ca5ac9dca0b75",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-gated288-1-delay100",
+      "private_evidence_sha256": "21cdb2bf3851b23b4495576f84f4ee71f19cc6193c6d987189fadbae764afd3a",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-gated313-1-delay100",
+      "private_evidence_sha256": "c4b6c8256265c358474952103db1833c4931f25f490e80cfb313d13a2b1daeb2",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-gated325-1-delay100",
+      "private_evidence_sha256": "0ebbae8057db8672efa1347ff346b42632ab1c6953f71f2e15f9eb79891a8743",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-gated338-1-delay100",
+      "private_evidence_sha256": "6292a8f2ba5a11cd7b4f458d294606b833035859c75ec0337666a9c76f6154ec",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-gated363-1-delay100",
+      "private_evidence_sha256": "1f7d71d3bb0fb1b697c0043e489d3856d85d08449f30b4c7acba3484eafb295d",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-gated375-1-delay100",
+      "private_evidence_sha256": "13771002f852deb6d806459fe7611c0a99c797333b883112c51acdcd7d825413",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-gated388-1-delay100",
+      "private_evidence_sha256": "248f681d49d46d10169c18cbf9030d4315feca0165a1dff52b7ab8de1cf60896",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-gated424-1-delay100",
+      "private_evidence_sha256": "212e8073f70a6bcd81f8fcde3d681e26b848f844016e1feee91c9b9459b35e55",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-gated425-1",
+      "private_evidence_sha256": "a97421deddcefcbbaf0fc8067aba850506c52c1adb80244a1de3c51914e36468",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-gated438-1",
+      "private_evidence_sha256": "c81d0e71109284744003afd6c291a243494a9bfadef257d88c663cf2d775e1dc",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-gated463-1",
+      "private_evidence_sha256": "7034a2b46d21842d34929883925f9dcbb44782186080fef148c1f32e393d6b57",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-gated475-1",
+      "private_evidence_sha256": "4a268bb581f49c7944bce0bbda90fa5ea71ea730075c8ad9fd189f6080d88a23",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-gated500-1",
+      "private_evidence_sha256": "6445db75260a0fc3837accd12ba2dd78af16097116f88ac4b84d0021569f18eb",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-hp6-False-100",
+      "private_evidence_sha256": "6c96c388bd08b98697034f3c55b075829c01a7a2b8a37837ba8a2c565c36fcc8",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 6,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-hp6-False-500",
+      "private_evidence_sha256": "745940e137d0c45f0e5a7f5355ee89c9edf80af54dc3ffe55c27a58f91e397bc",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 6,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-hp6-True-100",
+      "private_evidence_sha256": "01ea4eb615951e8850ae9e4665ad9cb4c3d383217c8d2a56e88e3177675ed2e4",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 6,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-hp6-True-500",
+      "private_evidence_sha256": "fbbb27ab4242eafa4d05008e2807c759533223277dc3556f7e531d469c42c485",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 6,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-mode1-False",
+      "private_evidence_sha256": "29cc992b972fc9b7d88cf257165153dbf22ea5ae6510f04779d2bad489ba9328",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-mode1-True",
+      "private_evidence_sha256": "5639cae05158097f4fb985d76d031e2d5d3e7b88d7f482f86e3c4f9a539b0bf3",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-mode2-False",
+      "private_evidence_sha256": "d45cedc00b97632b9dae769da14c713032e742d2305d228cae9546482303fbfd",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-mode2-True",
+      "private_evidence_sha256": "68700f6d1f5cff114996839937dcc2e37791ca3464d518b3196a2926fb4991fa",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v15-fullpool51-false",
+      "private_evidence_sha256": "0b3847c9b4f8cf12d5fc2dc46d00cf40dee7c57bcbccb253b24950b643f0dd17",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v15-fullpool51-true",
+      "private_evidence_sha256": "cedf2add4f2d720bdc1394ea4ffff5235980073611b94d1f8f909f2ace9da798",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-omit-acquisition",
+      "private_evidence_sha256": "a75868103aa2cf528995d81977aaaa29c8c2991fbaee038d005511c12888d4e7",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 6,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-omit-final_shot",
+      "private_evidence_sha256": "d81e9000a028150b249f8e9cd5335241b7e48a0c500063d023203c6f9ab92f3d",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 6,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-omit-permission",
+      "private_evidence_sha256": "db76b692129f6c727c58afcb987db71bdcc4d847d5b4197fe30b601832a7c970",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 6,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-control-wrong",
+      "private_evidence_sha256": "7de9e77291bdc96475e52882b72c833f89d562aa5152c7e0f015425dbea6dd54",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 6,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    },
+    {
+      "case": "v14-control-none",
+      "private_evidence_sha256": "4054c8ae7b5c7bec511f50da0a8b939135bab8cbff09d6875a45803967275777",
+      "endpoint": {
+        "frame": 2520,
+        "room": 310,
+        "x": 56.0,
+        "y": 136.99609375,
+        "hp": 6,
+        "ability": 0
+      },
+      "rooms": [
+        590,
+        534,
+        310
+      ]
+    }
+  ]
+}

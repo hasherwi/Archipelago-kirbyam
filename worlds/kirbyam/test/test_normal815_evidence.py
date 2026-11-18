@@ -20,7 +20,7 @@ def evidence():
     return json.loads(EVIDENCE.read_text(encoding='utf-8'))
 
 
-def test_exact_vitality_ownership_preserves_ordinary_rule_and_other_surfaces():
+def test_historical_vitality_ownership_and_current_binding_preserve_other_surfaces():
     assert evidence()['target'] == {
         'owner': OWNER, 'location_key': KEY, 'location_id': 3960301,
         'native_room': 815, 'chest_template': '0x088CCC90', 'requirement': 'can_break_block',
@@ -28,21 +28,30 @@ def test_exact_vitality_ownership_preserves_ordinary_rule_and_other_surfaces():
     assert data.locations[KEY].parent_region == OWNER
     assert data.locations[KEY].location_id == 3960301
     room = load_json_data('regions/rooms.json')[OWNER]
-    assert room['locations'][KEY] == 'can_break_block'
+    assert room['locations'][KEY] is None
     assert room['locations']['room_sanity'] == {'included': True, 'location_id': 3961152, 'bit_index': 200}
     assert room['exits'] == {'REGION_OLIVE_OCEAN/ROOM_6_16': {'any': ['can_break_block', 'can_swim']}}
-    assert 'traversal' not in room
+    assert [row['id'] for row in room['traversal']['targets']] == ['normal_815_vitality']
 
 
 @pytest.mark.parametrize('ability_gating', [0, 1])
 @pytest.mark.parametrize('ability_randomization_mode', [0, 1, 2])
-def test_local_rule_does_not_require_copy_item_or_health(ability_gating, ability_randomization_mode):
+def test_local_rule_does_not_require_copy_item_or_health(monkeypatch, ability_gating, ability_randomization_mode):
     mw = setup_multiworld(KirbyAmWorld, seed=815, options={
         'ability_gating': ability_gating, 'ability_randomization_mode': ability_randomization_mode,
         'minimum_health': 1, 'maximum_health': 1,
     })
     # This tests only the local AP predicate, not arrival reachability or a new native replay.
-    assert mw.get_location(data.locations[KEY].label, 1).access_rule(CollectionState(mw))
+    from .. import rules
+    monkeypatch.setattr(rules, '_allow_pending_ability_gate', lambda *args: pytest.fail('pending fallback'))
+    state = CollectionState(mw)
+    rule = mw.get_location(data.locations[KEY].label, 1).access_rule
+    monkeypatch.setattr(state, 'can_reach_region', lambda name, player: False)
+    assert not rule(state)
+    monkeypatch.setattr(state, 'has', lambda *args: True)
+    assert not rule(state)
+    monkeypatch.setattr(state, 'can_reach_region', lambda name, player: name == OWNER)
+    assert rule(state)
 
 
 def test_four_cases_and_one_bit_control_are_bounded():

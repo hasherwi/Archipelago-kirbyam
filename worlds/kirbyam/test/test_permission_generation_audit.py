@@ -34,10 +34,11 @@ PROFILES = (
 )
 
 
-# Beam+Ice starts and Goal Game slots change deterministic fill. Classify every retained minimal
-# sample explicitly: neither outcome is optional, and no seed is replaced.
+# Beam+Ice starts, Goal Game slots and Chocolate statue progression change fill.
+# Classify every retained minimal sample explicitly: neither outcome is optional,
+# and no seed is replaced.
 EXPECTED_REFUSED_MINIMAL_ARCHIVES = frozenset({
-    (0, 1, 1), (0, 2, 1), (2, 2, 1),
+    (0, 1, 1), (0, 2, 1), (1, 0, 1), (2, 2, 1),
 })
 REQUIRED_MINIMAL_ARCHIVES = frozenset(
     (profile, mode, gating)
@@ -150,6 +151,16 @@ def test_generated_all_check_smoke_matrix(
         # not by changing the option or silently treating the selected goal as all checks.
         assert accessibility == "minimal"
         assert (profile, mode, gating) in EXPECTED_REFUSED_MINIMAL_ARCHIVES, "Known safe minimal archive regressed"
+        if (profile, mode, gating) == (1, 0, 1):
+            # Native Spark/Fighter progression changes deterministic minimal fill,
+            # not physical feasibility. Pin the new strand and preserve refusal.
+            assert audit_local_checks(audited_worlds[-1], 1) == LocalCheckAudit((), (
+                'Cabbage Cavern 3-09 - Small Chest', 'Cabbage Cavern 3-14 - Spray Paint #8 Chest',
+                'Cabbage Cavern 3-15 - Small Chest', 'Candy Constellation Sound Player - Big Chest',
+                'Candy Constellation Vitality - Big Chest', 'Peppermint Palace 7-06 - Music Sheet #2 Chest',
+                'Peppermint Palace 7-22 - Spray Paint #1 Chest', 'Radish Ruins Vitality - Big Chest',
+                'Rainbow Route 1-39 - Music Sheet #1 Chest', 'Room 8-CHEST_1', 'Room 9-09',
+                'Room 9-CHEST_1'), ())
         assert "Try full accessibility" in str(error)
         assert "unreachable from placed progression=" in str(error)
         assert "unfilled=[]; unavailable even with all inventory=[]" in str(error)
@@ -215,13 +226,13 @@ def test_seed105100_refuses_original_and_controlled_smash_lock(
 
     def inspect_dependency(multiworld: MultiWorld, players: Iterable[int]) -> None:
         location = multiworld.get_location("Moonlight Mansion 2-20 - Small Chest", 1)
-        assert location.item and location.item.name == "Candy Constellation - Map"
+        assert location.item and location.item.name == "Spray Paint #8"
         if not controlled_smash_lock:
-            # The same unmodified seed now has six placed-progression strands.
-            assert audit_local_checks(multiworld, 1) == LocalCheckAudit((), (
+            # Chocolate statue progression changes fill; pin the four remaining strands.
+            actual = audit_local_checks(multiworld, 1)
+            assert actual == LocalCheckAudit((), (
                 'Carrot Castle Vitality - Big Chest', 'Olive Ocean 6-06 - Spray Paint #7 Chest',
-                'Olive Ocean 6-16 - Small Chest', 'Olive Ocean Map - Big Chest',
-                'Peppermint Palace 7-09 - Small Chest', 'Peppermint Palace 7-10 - Small Chest #2'), ())
+                'Peppermint Palace 7-09 - Small Chest', 'Peppermint Palace 7-10 - Small Chest #2'), ()), actual
             inspected.append(True)
             original(multiworld, players)
             return

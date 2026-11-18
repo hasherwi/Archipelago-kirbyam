@@ -109,10 +109,11 @@ def test_active_swing_contract_and_prior_graphs_are_unchanged():
     assert 'bomb_517_parasol_swing' not in CAPABILITY_CONSUMED_ABILITIES
     owners = [(r['id'], key) for r in room_traversal_targets('block') for key, g in r['graphs'].items()
               if any(route.get('capability') == 'bomb_517_parasol_swing' for route in g['routes'])]
-    assert owners == [(TARGET, 'hub2_parasol_entry')]
+    assert owners == [(TARGET, 'hub2_parasol_entry'), (TARGET, 'hub2_statues_entry')]
     preserved = evidence['prior_graphs_sha256']
     assert set(preserved) == {'hub2_entry', 'hub2_smash_entry', 'hub2_fire_entry', 'hub2_missile_entry'}
-    graphs = cabbage_row()['graphs']
+    from .support.cabbage_statue_history import before_cabbage_statues_target
+    graphs = before_cabbage_statues_target(cabbage_row())['graphs']
     for name, digest in preserved.items():
         raw = json.dumps(graphs[name], sort_keys=True, separators=(',', ':')).encode()
         assert hashlib.sha256(raw).hexdigest() == digest

@@ -62,40 +62,40 @@ def goal2_ice_is_progression(world: Any) -> bool:
             and data.locations["MINOR_CHEST_MUSIC_NOTE_10"].source_rom_offset is not None)
 
 
-def cabbage_missile_is_progression(world: Any) -> bool:
-    """Only the enabled, guaranteed-Doo chest rule needs a Missile permission."""
+def cabbage_source_is_progression(world: Any, ability: str) -> bool:
+    """Use the enforced Chocolate graph's actual enemy and statue assignments."""
     raw = getattr(world, "_enemy_copy_ability_policy", None)
     if not isinstance(raw, dict) or not world._ability_gating_enabled():
         return False
-    try:
-        world.multiworld.get_location(data.locations["MINOR_CHEST_SPRAY_PAINT_12"].label, world.player)
-    except KeyError:
+    if (not bool(getattr(world, "ENABLE_MINOR_CHESTS", False))
+            or data.locations["MINOR_CHEST_SPRAY_PAINT_12"].source_rom_offset is None):
         return False
-    return SourcePolicy(raw).grant("WADDLE_DOO", lambda _: True).guaranteed == frozenset({"Missile"})
+    statue_option = getattr(getattr(world, "options", None), "ability_randomization_statues", None)
+    policy = SourcePolicy(raw, bool(getattr(statue_option, "value", 0)))
+    row = next(row for row in room_traversal_targets("block") if row["id"] == "bomb_517_chocolate")
+    if not target_applies(row, policy):
+        return False
+    graphs = [room_traversal_graph("bomb_517_chocolate", name)
+              for name in ("hub2_entry", "hub2_statues_entry")]
+    sources = [source for graph in graphs for source in graph.placements]
+    for source in sources:
+        grant = policy.grant(source.source_key, lambda _: True)
+        if ability in grant.guaranteed or (
+                source.renewable and source.retry_evidence and grant.randomized and ability in grant.abilities):
+            return True
+    return False
+
+
+def cabbage_missile_is_progression(world: Any) -> bool:
+    return cabbage_source_is_progression(world, "Missile")
 
 
 def cabbage_parasol_is_progression(world: Any) -> bool:
-    """Only the enabled, guaranteed-Doo chest rule needs a Parasol permission."""
-    raw = getattr(world, "_enemy_copy_ability_policy", None)
-    if not isinstance(raw, dict) or not world._ability_gating_enabled():
-        return False
-    try:
-        world.multiworld.get_location(data.locations["MINOR_CHEST_SPRAY_PAINT_12"].label, world.player)
-    except KeyError:
-        return False
-    return SourcePolicy(raw).grant("WADDLE_DOO", lambda _: True).guaranteed == frozenset({"Parasol"})
+    return cabbage_source_is_progression(world, "Parasol")
 
 
 def cabbage_element_is_progression(world: Any, ability: str) -> bool:
-    """Only the enabled Chocolate chest's raw guaranteed Spark/Ice carry needs permission."""
-    raw = getattr(world, "_enemy_copy_ability_policy", None)
-    if ability not in {"Spark", "Ice"} or not isinstance(raw, dict) or not world._ability_gating_enabled():
-        return False
-    try:
-        world.multiworld.get_location(data.locations["MINOR_CHEST_SPRAY_PAINT_12"].label, world.player)
-    except KeyError:
-        return False
-    return SourcePolicy(raw).grant("WADDLE_DOO", lambda _: True).guaranteed == frozenset({ability})
+    return ability in {"Spark", "Ice"} and cabbage_source_is_progression(world, ability)
 
 
 def mustard_crash_is_progression(world: Any) -> bool:

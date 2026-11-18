@@ -20,7 +20,7 @@ UPSTREAM = 'REGION_RAINBOW_ROUTE/ROOM_1_HUB_4'
 SOURCE_ROOM = 'REGION_RAINBOW_ROUTE/ROOM_1_34'
 LOCATION = 'MAJOR_CHEST_MUSTARD_MOUNTAIN'
 POLICIES = [
-    (0, None, 0, False),  # Native Twister is Tornado, not UFO.
+    (0, None, 0, True),  # Native Sir Kibble now supplies the independent Cutter alternative.
     (1, ['UFO'], 0, True), (1, ['Bomb'], 0, False),
     (2, ['UFO'], 0, True), (2, ['UFO', 'Bomb'], 0, False),
     (2, ['UFO'], 50, False), (2, ['UFO'], 100, False),
@@ -69,7 +69,7 @@ def test_map_conditional_policy_and_independent_entry_matrix(
     # Reaching either the target room or the source room does not prove this approach.
     state.can_reach_region = lambda name, player: name in {OWNER, SOURCE_ROOM}
     assert target.access_rule(state) is (not applies)
-    owned.add('UFO Ability')
+    owned.add('UFO Ability' if mode else 'Cutter Ability')
     assert target.access_rule(state) is (not applies)
     state.can_reach_region = lambda name, player: name == UPSTREAM
     assert target.access_rule(state)
@@ -103,16 +103,17 @@ def test_actual_world_wires_only_map_and_preserves_ufo_progression(
     state.collect(world.create_item('Mustard Mountain - Area Key'), prevent_sweep=True)
     assert incoming.access_rule(state)
     assert target.access_rule(state) is (not applies or not gating)
-    item = world.create_item('UFO Ability')
+    item = world.create_item('UFO Ability' if mode else 'Cutter Ability')
     assert item.classification == ItemClassification.progression
     state.collect(item, prevent_sweep=True)
-    assert state.has('UFO Ability', 1)
+    assert state.has(item.name, 1)
     assert target.access_rule(state)
     for accessible in (OWNER, SOURCE_ROOM):
         state.can_reach_region = lambda name, player, accessible=accessible: name == accessible
         assert target.access_rule(state) is (not applies)
         assert world.multiworld.get_entrance(f'{OWNER} -> {SOURCE_ROOM}', 1).access_rule(state)
-        assert world.multiworld.get_entrance(f'{SOURCE_ROOM} -> {OWNER}', 1).access_rule(state)
+        # The separate Normal entrance requires its independent Hub4 payload route.
+        assert not world.multiworld.get_entrance(f'{SOURCE_ROOM} -> {OWNER}', 1).access_rule(state)
         # RoomSanity is normalized into its own sink, never this chest rule.
         owner = world.multiworld.get_region(OWNER, 1)
         room_checks = [location for location in world.multiworld.get_locations(1)

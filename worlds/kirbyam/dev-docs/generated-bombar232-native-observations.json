@@ -1,0 +1,1053 @@
+{
+  "version": 1,
+  "status": "mechanics_only_not_route",
+  "controller_inventory_id": "room:232/template:0x088C0D84",
+  "native_activation_offsets": [
+    -24,
+    -48,
+    240,
+    144
+  ],
+  "control": {
+    "policy": {
+      "mode": 0,
+      "allowed_abilities": [
+        "Beam",
+        "Bomb",
+        "Burning",
+        "Cook",
+        "Crash",
+        "Cupid",
+        "Cutter",
+        "Fighter",
+        "Fire",
+        "Hammer",
+        "Ice",
+        "Laser",
+        "Magic",
+        "Mini",
+        "Missile",
+        "Parasol",
+        "Sleep",
+        "Smash",
+        "Spark",
+        "Stone",
+        "Sword",
+        "Throw",
+        "Tornado",
+        "UFO",
+        "Wheel"
+      ],
+      "ability_randomization_boss_spawns": true,
+      "ability_randomization_minibosses": true,
+      "ability_randomization_minny": false,
+      "ability_randomization_passive_enemies": true,
+      "ability_randomization_no_ability_weight": 0,
+      "identity_map": {
+        "Beam": "Beam",
+        "Bomb": "Bomb",
+        "Burning": "Burning",
+        "Cook": "Cook",
+        "Crash": "Crash",
+        "Cupid": "Cupid",
+        "Cutter": "Cutter",
+        "Fighter": "Fighter",
+        "Fire": "Fire",
+        "Hammer": "Hammer",
+        "Ice": "Ice",
+        "Laser": "Laser",
+        "Magic": "Magic",
+        "Mini": "Mini",
+        "Missile": "Missile",
+        "Parasol": "Parasol",
+        "Sleep": "Sleep",
+        "Smash": "Smash",
+        "Spark": "Spark",
+        "Stone": "Stone",
+        "Sword": "Sword",
+        "Throw": "Throw",
+        "Tornado": "Tornado",
+        "UFO": "UFO",
+        "Wheel": "Wheel"
+      }
+    },
+    "health_percent": 100,
+    "gated": false,
+    "configured_hp": 6,
+    "omission": null,
+    "configured_start": [
+      232,
+      112,
+      96
+    ],
+    "native_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+    "base_patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+    "production_rom_sha256": "e81f98c79c2ff93d2d8263e2ed178ec46d2dde2231c7679b3f0a13aed0ded759",
+    "script_sha256": "1b2640532021c1c3b033140b09f92c2fe92d03d2b0ed7d70d7f9e8f61e0df227",
+    "case": "bombar232-near-left",
+    "private_trace_sha256": "f3fe32d67c6816429b714606af4db54035b610feb0e8cbe7dc556503ad3ca24a",
+    "runtime_sha256": "9a24b1fe540de34ee02df096999a2a490082ad01123ace15e543c9910ffaf90b",
+    "fixture_rom_sha256": "349d77b14055aa11d5f13d6fa6a465644fbf999645ed8a200186e5985467855a",
+    "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+    "initial": {
+      "label": "arrival",
+      "frame": 1085,
+      "room": 232,
+      "x": 104.0,
+      "y": 88.99609375,
+      "hp": 6,
+      "ability": 0,
+      "flags": 0,
+      "ai": 0,
+      "humans": 1,
+      "slot": 0,
+      "world18": 0,
+      "ability_gate": 0,
+      "ability_unlocks": 0,
+      "copy_context": [
+        1,
+        1,
+        0,
+        0,
+        0,
+        50338348,
+        0,
+        1129333554,
+        0
+      ],
+      "copy_request": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "world22_31": [
+        67305985,
+        134678021,
+        202050057,
+        269422093,
+        1129578496,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "final": {
+      "label": "final",
+      "frame": 3182,
+      "room": 232,
+      "x": 104.703125,
+      "y": 88.99609375,
+      "hp": 6,
+      "ability": 0,
+      "flags": 0,
+      "ai": 0,
+      "humans": 1,
+      "slot": 0,
+      "world18": 0,
+      "ability_gate": 0,
+      "ability_unlocks": 0,
+      "copy_context": [
+        1,
+        1,
+        0,
+        0,
+        0,
+        50338348,
+        0,
+        1129333554,
+        0
+      ],
+      "copy_request": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "world22_31": [
+        67305985,
+        134678021,
+        202050057,
+        269422093,
+        1129578496,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "minimum_hp": 6,
+    "abilities": [
+      0
+    ],
+    "runtime_writes": [],
+    "equipment_health_changes": [
+      {
+        "frame": 1086,
+        "hp": 6,
+        "ability": 0,
+        "room": 232,
+        "x": 104.25,
+        "y": 88.99609375
+      }
+    ],
+    "first_activated_frame": null,
+    "landmarks": []
+  },
+  "activated": {
+    "policy": {
+      "mode": 0,
+      "allowed_abilities": [
+        "Beam",
+        "Bomb",
+        "Burning",
+        "Cook",
+        "Crash",
+        "Cupid",
+        "Cutter",
+        "Fighter",
+        "Fire",
+        "Hammer",
+        "Ice",
+        "Laser",
+        "Magic",
+        "Mini",
+        "Missile",
+        "Parasol",
+        "Sleep",
+        "Smash",
+        "Spark",
+        "Stone",
+        "Sword",
+        "Throw",
+        "Tornado",
+        "UFO",
+        "Wheel"
+      ],
+      "ability_randomization_boss_spawns": true,
+      "ability_randomization_minibosses": true,
+      "ability_randomization_minny": false,
+      "ability_randomization_passive_enemies": true,
+      "ability_randomization_no_ability_weight": 0,
+      "identity_map": {
+        "Beam": "Beam",
+        "Bomb": "Bomb",
+        "Burning": "Burning",
+        "Cook": "Cook",
+        "Crash": "Crash",
+        "Cupid": "Cupid",
+        "Cutter": "Cutter",
+        "Fighter": "Fighter",
+        "Fire": "Fire",
+        "Hammer": "Hammer",
+        "Ice": "Ice",
+        "Laser": "Laser",
+        "Magic": "Magic",
+        "Mini": "Mini",
+        "Missile": "Missile",
+        "Parasol": "Parasol",
+        "Sleep": "Sleep",
+        "Smash": "Smash",
+        "Spark": "Spark",
+        "Stone": "Stone",
+        "Sword": "Sword",
+        "Throw": "Throw",
+        "Tornado": "Tornado",
+        "UFO": "UFO",
+        "Wheel": "Wheel"
+      }
+    },
+    "health_percent": 100,
+    "gated": false,
+    "configured_hp": 6,
+    "omission": null,
+    "configured_start": [
+      232,
+      112,
+      96
+    ],
+    "native_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+    "base_patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+    "production_rom_sha256": "e81f98c79c2ff93d2d8263e2ed178ec46d2dde2231c7679b3f0a13aed0ded759",
+    "script_sha256": "9e8d77c8f9ea4d1046c92bda574193c90ac50c134cd4289a284a253525b68230",
+    "case": "bombar232-activate",
+    "private_trace_sha256": "119500f375b57696a1a8e4f93492a417e4da84c5463426a63cb1d7498c2ad711",
+    "runtime_sha256": "729520a177ceb557d4d315983d0f8ac305b8595d37e5f435a72387f854abbb90",
+    "fixture_rom_sha256": "349d77b14055aa11d5f13d6fa6a465644fbf999645ed8a200186e5985467855a",
+    "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+    "initial": {
+      "label": "arrival",
+      "frame": 1085,
+      "room": 232,
+      "x": 104.0,
+      "y": 88.99609375,
+      "hp": 6,
+      "ability": 0,
+      "flags": 0,
+      "ai": 0,
+      "humans": 1,
+      "slot": 0,
+      "world18": 0,
+      "ability_gate": 0,
+      "ability_unlocks": 0,
+      "copy_context": [
+        1,
+        1,
+        0,
+        0,
+        0,
+        50338348,
+        0,
+        1129333554,
+        0
+      ],
+      "copy_request": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "world22_31": [
+        67305985,
+        134678021,
+        202050057,
+        269422093,
+        1129578496,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "final": {
+      "label": "final",
+      "frame": 3198,
+      "room": 232,
+      "x": 120.046875,
+      "y": 40.99609375,
+      "hp": 3,
+      "ability": 25,
+      "flags": 0,
+      "ai": 0,
+      "humans": 1,
+      "slot": 0,
+      "world18": 0,
+      "ability_gate": 0,
+      "ability_unlocks": 0,
+      "copy_context": [
+        1,
+        1,
+        0,
+        0,
+        0,
+        50338348,
+        0,
+        1129333554,
+        0
+      ],
+      "copy_request": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "world22_31": [
+        67305985,
+        134678021,
+        202050057,
+        269422093,
+        1129578496,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "minimum_hp": 3,
+    "abilities": [
+      0,
+      5,
+      25
+    ],
+    "runtime_writes": [],
+    "equipment_health_changes": [
+      {
+        "frame": 1086,
+        "hp": 6,
+        "ability": 0,
+        "room": 232,
+        "x": 104.25,
+        "y": 88.99609375
+      },
+      {
+        "frame": 1615,
+        "hp": 5,
+        "ability": 0,
+        "room": 232,
+        "x": 134.5625,
+        "y": 88.99609375
+      },
+      {
+        "frame": 1829,
+        "hp": 4,
+        "ability": 0,
+        "room": 232,
+        "x": 120.03125,
+        "y": 88.99609375
+      },
+      {
+        "frame": 2304,
+        "hp": 4,
+        "ability": 5,
+        "room": 232,
+        "x": 120.03125,
+        "y": 88.99609375
+      },
+      {
+        "frame": 2463,
+        "hp": 3,
+        "ability": 0,
+        "room": 232,
+        "x": 120.03125,
+        "y": 88.99609375
+      },
+      {
+        "frame": 2666,
+        "hp": 3,
+        "ability": 25,
+        "room": 232,
+        "x": 120.03125,
+        "y": 88.99609375
+      }
+    ],
+    "first_activated_frame": 1096,
+    "landmarks": [
+      {
+        "frame": 2083,
+        "hp": 4,
+        "ability": 0,
+        "room": 232,
+        "animation": 107,
+        "x": 120.03125,
+        "y": 88.99609375,
+        "actors": [
+          {
+            "template": "0x88c0d84",
+            "parent": "0x0",
+            "object": "0x2000054",
+            "type_id": 63,
+            "native_ability": 25,
+            "hp": 40,
+            "x": 326.375,
+            "y": 57.0,
+            "state": "0x80d9389",
+            "flags": "0x16200140"
+          },
+          {
+            "template": "0x20229e0",
+            "parent": "0x2000054",
+            "object": "0x20003ac",
+            "type_id": 179,
+            "native_ability": 25,
+            "hp": 1,
+            "x": 339.4375,
+            "y": 67.5625,
+            "state": "0x80d9a05",
+            "flags": "0x10000141"
+          },
+          {
+            "template": "0x2022a04",
+            "parent": "0x2000054",
+            "object": "0x2000468",
+            "type_id": 179,
+            "native_ability": 25,
+            "hp": 1,
+            "x": 311.4375,
+            "y": 67.5625,
+            "state": "0x80d9a05",
+            "flags": "0x10000141"
+          }
+        ]
+      },
+      {
+        "frame": 2212,
+        "hp": 4,
+        "ability": 0,
+        "room": 232,
+        "animation": 107,
+        "x": 120.03125,
+        "y": 88.99609375,
+        "actors": [
+          {
+            "template": "0x88c0d84",
+            "parent": "0x0",
+            "object": "0x2000054",
+            "type_id": 63,
+            "native_ability": 25,
+            "hp": 40,
+            "x": 222.0,
+            "y": 112.625,
+            "state": "0x80d7dcd",
+            "flags": "0x16200144"
+          },
+          {
+            "template": "0x20229e0",
+            "parent": "0x2000054",
+            "object": "0x20003ac",
+            "type_id": 179,
+            "native_ability": 25,
+            "hp": 0,
+            "x": 174.25,
+            "y": 58.59375,
+            "state": "0x809c48d",
+            "flags": "0x10040b43"
+          },
+          {
+            "template": "0x2022a04",
+            "parent": "0x2000054",
+            "object": "0x2000468",
+            "type_id": 179,
+            "native_ability": 25,
+            "hp": 0,
+            "x": 146.25,
+            "y": 58.59375,
+            "state": "0x809c48d",
+            "flags": "0x10040b43"
+          }
+        ]
+      },
+      {
+        "frame": 2233,
+        "hp": 4,
+        "ability": 0,
+        "room": 232,
+        "animation": 30,
+        "x": 120.03125,
+        "y": 88.99609375,
+        "actors": [
+          {
+            "template": "0x88c0d84",
+            "parent": "0x0",
+            "object": "0x2000054",
+            "type_id": 63,
+            "native_ability": 25,
+            "hp": 40,
+            "x": 195.75,
+            "y": 106.4375,
+            "state": "0x80d7dcd",
+            "flags": "0x16200144"
+          },
+          {
+            "template": "0x20229e0",
+            "parent": "0x2000054",
+            "object": "0x20003ac",
+            "type_id": 179,
+            "native_ability": 0,
+            "hp": 0,
+            "x": 136.3515625,
+            "y": 87.140625,
+            "state": "0x809c48d",
+            "flags": "0x10001b43"
+          }
+        ]
+      },
+      {
+        "frame": 2234,
+        "hp": 4,
+        "ability": 0,
+        "room": 232,
+        "animation": 30,
+        "x": 120.03125,
+        "y": 88.99609375,
+        "actors": [
+          {
+            "template": "0x88c0d84",
+            "parent": "0x0",
+            "object": "0x2000054",
+            "type_id": 63,
+            "native_ability": 25,
+            "hp": 40,
+            "x": 194.5,
+            "y": 107.75,
+            "state": "0x80d7dcd",
+            "flags": "0x16200144"
+          }
+        ]
+      },
+      {
+        "frame": 2304,
+        "hp": 4,
+        "ability": 5,
+        "room": 232,
+        "animation": 95,
+        "x": 120.03125,
+        "y": 88.99609375,
+        "actors": [
+          {
+            "template": "0x88c0d84",
+            "parent": "0x0",
+            "object": "0x2000054",
+            "type_id": 63,
+            "native_ability": 25,
+            "hp": 40,
+            "x": 173.25,
+            "y": 114.0,
+            "state": "0x80d7dcd",
+            "flags": "0x16200144"
+          }
+        ]
+      },
+      {
+        "frame": 2407,
+        "hp": 4,
+        "ability": 5,
+        "room": 232,
+        "animation": 0,
+        "x": 120.03125,
+        "y": 88.99609375,
+        "actors": [
+          {
+            "template": "0x88c0d84",
+            "parent": "0x0",
+            "object": "0x2000054",
+            "type_id": 63,
+            "native_ability": 25,
+            "hp": 40,
+            "x": 138.75,
+            "y": 112.0,
+            "state": "0x80d9389",
+            "flags": "0x16200140"
+          },
+          {
+            "template": "0x20229e0",
+            "parent": "0x2000054",
+            "object": "0x20003fc",
+            "type_id": 179,
+            "native_ability": 25,
+            "hp": 1,
+            "x": 151.4375,
+            "y": 122.4375,
+            "state": "0x80d9a05",
+            "flags": "0x10000141"
+          },
+          {
+            "template": "0x2022a04",
+            "parent": "0x2000054",
+            "object": "0x20004b8",
+            "type_id": 179,
+            "native_ability": 25,
+            "hp": 1,
+            "x": 123.4375,
+            "y": 122.4375,
+            "state": "0x80d9a05",
+            "flags": "0x10000141"
+          }
+        ]
+      },
+      {
+        "frame": 2463,
+        "hp": 3,
+        "ability": 0,
+        "room": 232,
+        "animation": 39,
+        "x": 120.03125,
+        "y": 88.99609375,
+        "actors": [
+          {
+            "template": "0x88c0d84",
+            "parent": "0x0",
+            "object": "0x2000054",
+            "type_id": 63,
+            "native_ability": 25,
+            "hp": 36,
+            "x": 138.75,
+            "y": 104.0,
+            "state": "0x80d8951",
+            "flags": "0x17200144"
+          },
+          {
+            "template": "0x20229e0",
+            "parent": "0x2000054",
+            "object": "0x20003fc",
+            "type_id": 179,
+            "native_ability": 25,
+            "hp": 0,
+            "x": 135.5625,
+            "y": 106.5625,
+            "state": "0x809f88d",
+            "flags": "0x10000b61"
+          },
+          {
+            "template": "0x2022a04",
+            "parent": "0x2000054",
+            "object": "0x20004b8",
+            "type_id": 179,
+            "native_ability": 25,
+            "hp": 1,
+            "x": 106.25,
+            "y": 104.9375,
+            "state": "0x80d9a05",
+            "flags": "0x10000143"
+          }
+        ]
+      },
+      {
+        "frame": 2550,
+        "hp": 3,
+        "ability": 0,
+        "room": 232,
+        "animation": 26,
+        "x": 120.03125,
+        "y": 88.99609375,
+        "actors": [
+          {
+            "template": "0x88c0d84",
+            "parent": "0x0",
+            "object": "0x2000054",
+            "type_id": 63,
+            "native_ability": 25,
+            "hp": 36,
+            "x": 138.75,
+            "y": 52.75,
+            "state": "0x80d8c99",
+            "flags": "0x16200144"
+          },
+          {
+            "template": "0x2022a04",
+            "parent": "0x2000054",
+            "object": "0x20004b8",
+            "type_id": 179,
+            "native_ability": 25,
+            "hp": 0,
+            "x": 135.125,
+            "y": 101.96875,
+            "state": "0x809c48d",
+            "flags": "0x10040b43"
+          }
+        ]
+      },
+      {
+        "frame": 2552,
+        "hp": 3,
+        "ability": 0,
+        "room": 232,
+        "animation": 30,
+        "x": 120.03125,
+        "y": 88.99609375,
+        "actors": [
+          {
+            "template": "0x88c0d84",
+            "parent": "0x0",
+            "object": "0x2000054",
+            "type_id": 63,
+            "native_ability": 25,
+            "hp": 36,
+            "x": 138.75,
+            "y": 52.25,
+            "state": "0x80d8c99",
+            "flags": "0x16200144"
+          },
+          {
+            "template": "0x2022a04",
+            "parent": "0x2000054",
+            "object": "0x20004b8",
+            "type_id": 179,
+            "native_ability": 0,
+            "hp": 0,
+            "x": 134.6328125,
+            "y": 98.9296875,
+            "state": "0x809c48d",
+            "flags": "0x10001b43"
+          }
+        ]
+      },
+      {
+        "frame": 2553,
+        "hp": 3,
+        "ability": 0,
+        "room": 232,
+        "animation": 30,
+        "x": 120.03125,
+        "y": 88.99609375,
+        "actors": [
+          {
+            "template": "0x88c0d84",
+            "parent": "0x0",
+            "object": "0x2000054",
+            "type_id": 63,
+            "native_ability": 25,
+            "hp": 36,
+            "x": 138.75,
+            "y": 52.125,
+            "state": "0x80d8c99",
+            "flags": "0x16200144"
+          }
+        ]
+      },
+      {
+        "frame": 2666,
+        "hp": 3,
+        "ability": 25,
+        "room": 232,
+        "animation": 95,
+        "x": 120.03125,
+        "y": 88.99609375,
+        "actors": [
+          {
+            "template": "0x88c0d84",
+            "parent": "0x0",
+            "object": "0x2000054",
+            "type_id": 63,
+            "native_ability": 25,
+            "hp": 36,
+            "x": 251.875,
+            "y": 51.0,
+            "state": "0x80d8f35",
+            "flags": "0x16200140"
+          },
+          {
+            "template": "0x2022a04",
+            "parent": "0x2000054",
+            "object": "0x20004b8",
+            "type_id": 178,
+            "native_ability": 9,
+            "hp": 1,
+            "x": 192.6875,
+            "y": 93.3046875,
+            "state": "0x80d9709",
+            "flags": "0x10000022"
+          },
+          {
+            "template": "0x20229e0",
+            "parent": "0x2000054",
+            "object": "0x20003ac",
+            "type_id": 178,
+            "native_ability": 9,
+            "hp": 1,
+            "x": 238.125,
+            "y": 51.953125,
+            "state": "0x80d9709",
+            "flags": "0x10000022"
+          }
+        ]
+      }
+    ]
+  },
+  "failed_one_hp": {
+    "policy": {
+      "mode": 0,
+      "allowed_abilities": [
+        "Beam",
+        "Bomb",
+        "Burning",
+        "Cook",
+        "Crash",
+        "Cupid",
+        "Cutter",
+        "Fighter",
+        "Fire",
+        "Hammer",
+        "Ice",
+        "Laser",
+        "Magic",
+        "Mini",
+        "Missile",
+        "Parasol",
+        "Sleep",
+        "Smash",
+        "Spark",
+        "Stone",
+        "Sword",
+        "Throw",
+        "Tornado",
+        "UFO",
+        "Wheel"
+      ],
+      "ability_randomization_boss_spawns": true,
+      "ability_randomization_minibosses": true,
+      "ability_randomization_minny": false,
+      "ability_randomization_passive_enemies": true,
+      "ability_randomization_no_ability_weight": 0,
+      "identity_map": {
+        "Beam": "Beam",
+        "Bomb": "Bomb",
+        "Burning": "Burning",
+        "Cook": "Cook",
+        "Crash": "Crash",
+        "Cupid": "Cupid",
+        "Cutter": "Cutter",
+        "Fighter": "Fighter",
+        "Fire": "Fire",
+        "Hammer": "Hammer",
+        "Ice": "Ice",
+        "Laser": "Laser",
+        "Magic": "Magic",
+        "Mini": "Mini",
+        "Missile": "Missile",
+        "Parasol": "Parasol",
+        "Sleep": "Sleep",
+        "Smash": "Smash",
+        "Spark": "Spark",
+        "Stone": "Stone",
+        "Sword": "Sword",
+        "Throw": "Throw",
+        "Tornado": "Tornado",
+        "UFO": "UFO",
+        "Wheel": "Wheel"
+      }
+    },
+    "health_percent": 100,
+    "gated": false,
+    "configured_hp": 1,
+    "omission": null,
+    "configured_start": [
+      232,
+      112,
+      96
+    ],
+    "native_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+    "base_patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+    "production_rom_sha256": "e81f98c79c2ff93d2d8263e2ed178ec46d2dde2231c7679b3f0a13aed0ded759",
+    "script_sha256": "93120fbca0f9bb61d3a0022305c1bd64afc307b4698009ac4fb88a34046ec6a8",
+    "case": "bombar232-retreat-onehp",
+    "private_trace_sha256": "5734cb4c4397e3a1efe9103ee27cc6e1ce5ebb2523afff17083f19a81867e0a7",
+    "runtime_sha256": "30073b81667fcc5c54cec332b25fea52919b4a46f6f06b30d17001eeafda4f9f",
+    "fixture_rom_sha256": "973bee97a12b88e64218e949e2ac1936805cd92e9e2a041959e65ee45cae4ba0",
+    "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+    "initial": {
+      "label": "arrival",
+      "frame": 1085,
+      "room": 232,
+      "x": 104.0,
+      "y": 88.99609375,
+      "hp": 1,
+      "ability": 0,
+      "flags": 0,
+      "ai": 0,
+      "humans": 1,
+      "slot": 0,
+      "world18": 0,
+      "ability_gate": 0,
+      "ability_unlocks": 0,
+      "copy_context": [
+        1,
+        1,
+        0,
+        0,
+        0,
+        50338348,
+        0,
+        1129333554,
+        0
+      ],
+      "copy_request": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "world22_31": [
+        67305985,
+        134678021,
+        202050057,
+        269422093,
+        1129578496,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "final": {
+      "label": "final",
+      "frame": 3211,
+      "room": 232,
+      "x": 104.0,
+      "y": 88.99609375,
+      "hp": 1,
+      "ability": 0,
+      "flags": 0,
+      "ai": 0,
+      "humans": 1,
+      "slot": 0,
+      "world18": 0,
+      "ability_gate": 0,
+      "ability_unlocks": 0,
+      "copy_context": [
+        1,
+        1,
+        0,
+        0,
+        0,
+        50338348,
+        0,
+        1129333554,
+        0
+      ],
+      "copy_request": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "world22_31": [
+        67305985,
+        134678021,
+        202050057,
+        269422093,
+        1129578496,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "minimum_hp": 0,
+    "abilities": [
+      0
+    ],
+    "runtime_writes": [],
+    "equipment_health_changes": [
+      {
+        "frame": 1086,
+        "hp": 1,
+        "ability": 0,
+        "room": 232,
+        "x": 104.25,
+        "y": 88.99609375
+      },
+      {
+        "frame": 1672,
+        "hp": 0,
+        "ability": 0,
+        "room": 232,
+        "x": 125.546875,
+        "y": 88.99609375
+      },
+      {
+        "frame": 1912,
+        "hp": 1,
+        "ability": 0,
+        "room": 232,
+        "x": 104.0,
+        "y": 88.99609375
+      }
+    ],
+    "first_activated_frame": 1096,
+    "landmarks": []
+  },
+  "limits": [
+    "Configured local arrival, not an independently reached Adventure entry.",
+    "Activated case takes three hits; no one-HP-safe acquisition or carry route.",
+    "Two Missile-type objects enter intake together before Parasol appears; this is not accepted as either object's individual grant.",
+    "Later single Missile intake yields Missile; no guarantee for other subtype/timing/health/ownership policies.",
+    "No retry, reset, revival, finite attack-entry or encounter-defeat guarantee."
+  ]
+}

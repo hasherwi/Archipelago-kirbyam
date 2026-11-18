@@ -1,0 +1,400 @@
+{
+  "version": 1,
+  "status": "conditional_acquisition_evidence",
+  "scope": "Fresh original room 825 large-cube intake with matched physical controls; no joined chest replay or universal attack-entry claim. Player damage is observed execution, not an eligibility requirement.",
+  "inventory_id": "room:825/template:0x088CD3F0/encounter:56/src/mr_frosty.c:765/type:167",
+  "source_key": "MR_FROSTY_ICE_CUBE",
+  "physical_prefix_equal_across_cases": true,
+  "cases": [
+    {
+      "case": "branch825-hp10-delay20",
+      "policy": {
+        "mode": 1,
+        "allowed_abilities": [
+          "Ice"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "seed": 11313160015481018921,
+        "mapping_style": "per_enemy_type"
+      },
+      "gating": false,
+      "omitted_permission": null,
+      "enemy_health_percent": 100,
+      "first_frame": 1085,
+      "last_frame": 2021,
+      "audited_frames": 937,
+      "intake_frames": [
+        1933,
+        1944
+      ],
+      "intake_type": 167,
+      "intake_parent_template": "0x088CD3F0",
+      "final": {
+        "frame": 2021,
+        "room": 825,
+        "x": 387.8984375,
+        "y": 120.99609375,
+        "hp": 9,
+        "ability": 2
+      },
+      "player_hp_observed": [
+        10,
+        9
+      ],
+      "original_parent_hp": 30,
+      "waddle_bit_clear_all_slots": true,
+      "script_sha256": "1a43ddad34bcab8a02024e1c2fdb82e84d2c5f07f0c987a9647689312fef674a",
+      "patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "prefix_audit_sha256": "7272f1db0261ff1efbc733f8665537e759b6781e5b82559241676f62138f2274",
+      "evidence_sha256": "ef9f7408429a0f152a3bdb513d8ae11b34d7d73460c47aeed77837c59554ae7e",
+      "runtime_write_frames": [
+        1085
+      ]
+    },
+    {
+      "case": "large825-native",
+      "policy": {
+        "mode": 0,
+        "allowed_abilities": [
+          "Beam",
+          "Bomb",
+          "Burning",
+          "Cook",
+          "Crash",
+          "Cupid",
+          "Cutter",
+          "Fighter",
+          "Fire",
+          "Hammer",
+          "Ice",
+          "Laser",
+          "Magic",
+          "Mini",
+          "Missile",
+          "Parasol",
+          "Sleep",
+          "Smash",
+          "Spark",
+          "Stone",
+          "Sword",
+          "Throw",
+          "Tornado",
+          "UFO",
+          "Wheel"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "identity_map": {
+          "Beam": "Beam",
+          "Bomb": "Bomb",
+          "Burning": "Burning",
+          "Cook": "Cook",
+          "Crash": "Crash",
+          "Cupid": "Cupid",
+          "Cutter": "Cutter",
+          "Fighter": "Fighter",
+          "Fire": "Fire",
+          "Hammer": "Hammer",
+          "Ice": "Ice",
+          "Laser": "Laser",
+          "Magic": "Magic",
+          "Mini": "Mini",
+          "Missile": "Missile",
+          "Parasol": "Parasol",
+          "Sleep": "Sleep",
+          "Smash": "Smash",
+          "Spark": "Spark",
+          "Stone": "Stone",
+          "Sword": "Sword",
+          "Throw": "Throw",
+          "Tornado": "Tornado",
+          "UFO": "UFO",
+          "Wheel": "Wheel"
+        }
+      },
+      "gating": false,
+      "omitted_permission": null,
+      "enemy_health_percent": 100,
+      "first_frame": 1085,
+      "last_frame": 2021,
+      "audited_frames": 937,
+      "intake_frames": [
+        1933,
+        1944
+      ],
+      "intake_type": 167,
+      "intake_parent_template": "0x088CD3F0",
+      "final": {
+        "frame": 2021,
+        "room": 825,
+        "x": 387.8984375,
+        "y": 120.99609375,
+        "hp": 9,
+        "ability": 0
+      },
+      "player_hp_observed": [
+        10,
+        9
+      ],
+      "original_parent_hp": 30,
+      "waddle_bit_clear_all_slots": true,
+      "script_sha256": "1a43ddad34bcab8a02024e1c2fdb82e84d2c5f07f0c987a9647689312fef674a",
+      "patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "prefix_audit_sha256": "0efb4934482677fdabe9a10a71395d2dc7acec8b06aeba6ec5d6a363a6cda6f7",
+      "evidence_sha256": "9e006bd89308258c335aafc30c65a0702cc2e15befa85d7021298f54e8ed182d",
+      "runtime_write_frames": []
+    },
+    {
+      "case": "large825-wrong-beam",
+      "policy": {
+        "mode": 1,
+        "allowed_abilities": [
+          "Beam"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "seed": 11313160015481018921,
+        "mapping_style": "per_enemy_type"
+      },
+      "gating": false,
+      "omitted_permission": null,
+      "enemy_health_percent": 100,
+      "first_frame": 1085,
+      "last_frame": 2021,
+      "audited_frames": 937,
+      "intake_frames": [
+        1933,
+        1944
+      ],
+      "intake_type": 167,
+      "intake_parent_template": "0x088CD3F0",
+      "final": {
+        "frame": 2021,
+        "room": 825,
+        "x": 387.8984375,
+        "y": 120.99609375,
+        "hp": 9,
+        "ability": 7
+      },
+      "player_hp_observed": [
+        10,
+        9
+      ],
+      "original_parent_hp": 30,
+      "waddle_bit_clear_all_slots": true,
+      "script_sha256": "1a43ddad34bcab8a02024e1c2fdb82e84d2c5f07f0c987a9647689312fef674a",
+      "patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "prefix_audit_sha256": "b016ef5859ee9aac2ca4d29b28693333135548a663cf7b95a7db2c86f3a98dc7",
+      "evidence_sha256": "c55419c11e2dbf412d2691855daef6b3a1201ffd6bc0af7b6f5fc290934d2871",
+      "runtime_write_frames": [
+        1085
+      ]
+    },
+    {
+      "case": "large825-unowned",
+      "policy": {
+        "mode": 1,
+        "allowed_abilities": [
+          "Ice"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "seed": 11313160015481018921,
+        "mapping_style": "per_enemy_type"
+      },
+      "gating": true,
+      "omitted_permission": "permission",
+      "enemy_health_percent": 100,
+      "first_frame": 1085,
+      "last_frame": 2021,
+      "audited_frames": 937,
+      "intake_frames": [
+        1933,
+        1944
+      ],
+      "intake_type": 167,
+      "intake_parent_template": "0x088CD3F0",
+      "final": {
+        "frame": 2021,
+        "room": 825,
+        "x": 387.8984375,
+        "y": 120.99609375,
+        "hp": 9,
+        "ability": 0
+      },
+      "player_hp_observed": [
+        10,
+        9
+      ],
+      "original_parent_hp": 30,
+      "waddle_bit_clear_all_slots": true,
+      "script_sha256": "1a43ddad34bcab8a02024e1c2fdb82e84d2c5f07f0c987a9647689312fef674a",
+      "patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "prefix_audit_sha256": "1c906c6312a73513dbd48ecfd2efe442665118e108d21b23f90a53af381dd6e9",
+      "evidence_sha256": "888edb254dd373602452e11d7f862f0eaec887f96094ea0ddb242f40598fda56",
+      "runtime_write_frames": [
+        1085
+      ]
+    },
+    {
+      "case": "large825-owned",
+      "policy": {
+        "mode": 1,
+        "allowed_abilities": [
+          "Ice"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "seed": 11313160015481018921,
+        "mapping_style": "per_enemy_type"
+      },
+      "gating": true,
+      "omitted_permission": null,
+      "enemy_health_percent": 100,
+      "first_frame": 1085,
+      "last_frame": 2021,
+      "audited_frames": 937,
+      "intake_frames": [
+        1933,
+        1944
+      ],
+      "intake_type": 167,
+      "intake_parent_template": "0x088CD3F0",
+      "final": {
+        "frame": 2021,
+        "room": 825,
+        "x": 387.8984375,
+        "y": 120.99609375,
+        "hp": 9,
+        "ability": 2
+      },
+      "player_hp_observed": [
+        10,
+        9
+      ],
+      "original_parent_hp": 30,
+      "waddle_bit_clear_all_slots": true,
+      "script_sha256": "1a43ddad34bcab8a02024e1c2fdb82e84d2c5f07f0c987a9647689312fef674a",
+      "patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "prefix_audit_sha256": "7272f1db0261ff1efbc733f8665537e759b6781e5b82559241676f62138f2274",
+      "evidence_sha256": "746d7832f58f79384ea85fffab3b673dec871e18fcd8b0cca5ced16700e1559e",
+      "runtime_write_frames": [
+        1085
+      ]
+    },
+    {
+      "case": "large825-live-singleton",
+      "policy": {
+        "mode": 2,
+        "allowed_abilities": [
+          "Ice"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "seed": 11313160015481018921,
+        "mapping_style": "per_grant_event"
+      },
+      "gating": false,
+      "omitted_permission": null,
+      "enemy_health_percent": 100,
+      "first_frame": 1085,
+      "last_frame": 2021,
+      "audited_frames": 937,
+      "intake_frames": [
+        1933,
+        1944
+      ],
+      "intake_type": 167,
+      "intake_parent_template": "0x088CD3F0",
+      "final": {
+        "frame": 2021,
+        "room": 825,
+        "x": 387.8984375,
+        "y": 120.99609375,
+        "hp": 9,
+        "ability": 2
+      },
+      "player_hp_observed": [
+        10,
+        9
+      ],
+      "original_parent_hp": 30,
+      "waddle_bit_clear_all_slots": true,
+      "script_sha256": "1a43ddad34bcab8a02024e1c2fdb82e84d2c5f07f0c987a9647689312fef674a",
+      "patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "prefix_audit_sha256": "7272f1db0261ff1efbc733f8665537e759b6781e5b82559241676f62138f2274",
+      "evidence_sha256": "749d6cc64b86ddc26c062150bd8008be31158fb67a07af0455a5b307ee0bd7a5",
+      "runtime_write_frames": [
+        1085
+      ]
+    },
+    {
+      "case": "large825-owned-500",
+      "policy": {
+        "mode": 1,
+        "allowed_abilities": [
+          "Ice"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "seed": 11313160015481018921,
+        "mapping_style": "per_enemy_type"
+      },
+      "gating": true,
+      "omitted_permission": null,
+      "enemy_health_percent": 500,
+      "first_frame": 1085,
+      "last_frame": 2021,
+      "audited_frames": 937,
+      "intake_frames": [
+        1933,
+        1944
+      ],
+      "intake_type": 167,
+      "intake_parent_template": "0x088CD3F0",
+      "final": {
+        "frame": 2021,
+        "room": 825,
+        "x": 387.8984375,
+        "y": 120.99609375,
+        "hp": 9,
+        "ability": 2
+      },
+      "player_hp_observed": [
+        10,
+        9
+      ],
+      "original_parent_hp": 150,
+      "waddle_bit_clear_all_slots": true,
+      "script_sha256": "1a43ddad34bcab8a02024e1c2fdb82e84d2c5f07f0c987a9647689312fef674a",
+      "patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "prefix_audit_sha256": "f82381e1909a43f68c1df4d3254b089cc72a2ca4948fcc2d5b6b3d066dbe6556",
+      "evidence_sha256": "d30b9a3ec13f65d0bdbe089982a7eebe49421593df1e46f0a7b6b3b5eda76e9d",
+      "runtime_write_frames": [
+        1085
+      ]
+    }
+  ]
+}

@@ -3,7 +3,10 @@
 Keep its unoptimized source expansion unchanged when adjusting the optimized
 source loop. The main/ranged union adds only the independently tested per-route
 required_equipment guard to this reference. The later Normal110 addition extends
-only exact action validation; the unoptimized search loop remains frozen. No
+only exact action validation. The finite-acquisition extension rejects temporary
+permission-filtered guarantees using an independently evaluated unrestricted pool. #1114 updates the independently tested destination-room
+reset transfer: remote and persistent-bank sources retain consumption. The
+unoptimized source expansion remains frozen. No
 source deduplication is copied. The shared value types and pure policy helpers allow exact full-result comparison.
 This is a synthetic algorithm oracle, not native gameplay evidence.
 """
@@ -68,11 +71,15 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
             raise ValueError("A metal attack sequence must remain in its native room")
         if route.capability == "underwater_block_hit" and route.water_state != "swimming":
             raise ValueError("An underwater block hit needs swimming attack state")
-        if (route.capability in {"frozen_enemy_hit", "metal_throw", "bomb_110_upper_normal_spit"}) != (
+        if (route.capability in {"frozen_enemy_hit", "metal_throw", "bomb_110_upper_normal_spit",
+                                "mirra_117_upper_payload", "mirra_117_lower_payload",
+                                "normal_534_twister_payload", "normal_534_dee_payload"}) != (
             route.uses_object is not None
         ):
             raise ValueError("A projectile hit needs a physical target object and no unrelated capability")
-        if route.capability in {"frozen_enemy_hit", "metal_throw", "bomb_110_upper_normal_spit"} \
+        if route.capability in {"frozen_enemy_hit", "metal_throw", "bomb_110_upper_normal_spit",
+                                "mirra_117_upper_payload", "mirra_117_lower_payload",
+                                "normal_534_twister_payload", "normal_534_dee_payload"} \
                 and route.opens is not None:
             raise ValueError("Projectile hit cannot have a persistent opens event")
         if route.capability in {"bomb_110_upper_normal_spit", "bomb_110_room9_underwater_normal_spray"}:
@@ -127,17 +134,19 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
     queue = deque(starts)
     visited: set[Position] = set()
     assumptions: set[str] = set()
-    grants: dict[str, Grant] = {}
+    grants: dict[tuple[str, tuple[str, ...]], Grant] = {}
 
     def permitted(ability: str) -> bool:
         return ability_permission(ability, owned, gating)
 
-    def source_grant(key: str) -> Grant:
+    def source_grant(key: str, native_grants: tuple[str, ...]) -> Grant:
         # Grants describe deterministic possibilities, not individual RNG draws.
         # Policy, owned permissions and gating are fixed for this evaluation.
-        if key not in grants:
-            grants[key] = policy.grant(key, permitted)
-        return grants[key]
+        cache_key = (key, native_grants)
+        if cache_key not in grants:
+            grants[cache_key] = (policy.grant(key, permitted, native_grants) if native_grants
+                                 else policy.grant(key, permitted))
+        return grants[cache_key]
 
     while queue:
         position = queue.popleft()
@@ -148,26 +157,37 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
         visited.add(position)
         # Dropping is possible, but a dropped star is NOT a free initial source.
         if position.equipped != "Normal":
-            queue.append(Position(position.node, "Normal", position.opened, position.consumed))
+            queue.append(Position(position.node, "Normal", position.opened, position.consumed,
+                                      position.expired, position.active))
         for source in sources[position.node]:
             if not source.requirements <= owned:
+                continue
+            if source.lifetime is not None and source.lifetime not in position.active:
                 continue
             identity = source.identity or f"{source.node}:{source.source_key}"
             if identity in position.consumed:
                 continue
             consumed = position.consumed if source.renewable else position.consumed | {identity}
-            grant = source_grant(source.source_key)
-            abilities = grant.guaranteed
+            grant = source_grant(source.source_key, source.native_grants)
+            unrestricted = (policy.grant(source.source_key, lambda _: True, source.native_grants)
+                            if source.native_grants else policy.grant(source.source_key, lambda _: True))
+            if source.source_choices:
+                grant = policy.grant_choice(source.source_choices, permitted)
+                unrestricted = policy.grant_choice(source.source_choices, lambda _: True)
+            bounded = not unrestricted.can_fail and unrestricted.abilities == grant.abilities
+            abilities = grant.guaranteed if bounded else frozenset()
             if (allow_documented_retries and source.renewable and source.retry_evidence
                     and grant.randomized and grant.abilities):
                 abilities = grant.abilities
                 assumptions.add(source.retry_evidence)
             for granted_ability in abilities:
-                queue.append(Position(position.node, granted_ability, position.opened, consumed))
-            if not grant.can_fail and grant.abilities and not abilities:
+                queue.append(Position(position.node, granted_ability, position.opened, consumed,
+                                      position.expired, position.active))
+            if bounded and not grant.can_fail and grant.abilities and not abilities:
                 # Player receives one of these, not all of them. Retain the
                 # uncertainty: a subsequent edge must work for EVERY outcome.
-                queue.append(Position(position.node, grant.abilities, position.opened, consumed))
+                queue.append(Position(position.node, grant.abilities, position.opened, consumed,
+                                      position.expired, position.active))
         for route in outgoing[position.node]:
             if not route.items <= owned:
                 continue
@@ -192,7 +212,9 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
                     continue
             if not already_open and route.uses_object is not None:
                 if (route.uses_object in position.consumed
-                        or not objects[route.uses_object][0].requirements <= owned):
+                        or not objects[route.uses_object][0].requirements <= owned
+                        or (objects[route.uses_object][0].lifetime is not None
+                            and objects[route.uses_object][0].lifetime not in position.active)):
                     continue
             if route.recover_dropped_ability:
                 if not all(
@@ -220,10 +242,28 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
                 if not route.preserves_room_instance:
                     opened = frozenset()
                 if route.resets_room_instance:
-                    consumed = frozenset()
+                    # Recreate only aliases in the destination's resettable bank.
+                    # Unknown, remote and persistent identities remain spent.
+                    resettable = set()
+                    for identity, aliases in objects.items():
+                        if all(node_by_key[source.node].room == node_by_key[route.target].room
+                               and source.room_reset_respawns
+                               and (source.lifetime is None or source.lifetime in route.revives_lifetimes)
+                               for source in aliases):
+                            resettable.add(identity)
+                    consumed = consumed - resettable
                 if ability == "Mini":
                     ability = "Normal"
                 elif isinstance(ability, frozenset) and "Mini" in ability:
                     ability = (ability - {"Mini"}) | {"Normal"}
-            queue.append(Position(route.target, ability, opened, consumed))
+            if route.loses_equipment:
+                ability = "Normal"
+            expired = position.expired.union(route.ends_lifetimes).difference(route.revives_lifetimes)
+            active = set(position.active)
+            crosses_room = route.room_transition or node_by_key[position.node].room != node_by_key[route.target].room
+            if crosses_room and (not route.preserves_room_instance or route.resets_room_instance):
+                active.clear()
+            active.difference_update(route.ends_lifetimes, route.revives_lifetimes)
+            active.update(lifetime for lifetime in route.activates_lifetimes if lifetime not in expired)
+            queue.append(Position(route.target, ability, opened, consumed, expired, frozenset(active)))
     return TraversalResult(frozenset(visited), frozenset(assumptions))

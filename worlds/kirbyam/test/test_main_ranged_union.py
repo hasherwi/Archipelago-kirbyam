@@ -29,7 +29,8 @@ def test_one_installed_goal2_rule_ors_all_four_independent_sources(
 ) -> None:
     row, = [r for r in room_traversal_targets('block') if r['id'] == TARGET]
     assert 'requires_guaranteed_source' not in row
-    assert len(row['graphs']) == 4
+    assert len(row['graphs']) == 5
+    assert row['advanced_graphs'] == ['generated_ice']
     monkeypatch.setattr(rules, 'extra_traversal_targets', lambda: (row,))
     resolver = policy(1, pool=[grant])
     target = SimpleNamespace(access_rule=lambda state: state.base_rule)
@@ -128,9 +129,23 @@ def test_all_catalog_entries_match_the_two_reviewed_parents() -> None:
     for region, room in rooms.items():
         traversal = room.get('traversal', {})
         for row in traversal.get('targets', []):
+            from .support.radish617_history import TARGET, before_radish617_targets
+            if row['id'] == TARGET:
+                assert before_radish617_targets([{'owner': region, 'target': row}]) == []
+                continue
+            if row['id'] in {'mirra_117_carrot', 'mirra_811_olive', 'normal_534_mustard_entry', 'normal_534_room15_entry', 'normal_815_vitality'}:
+                from .support.mirra141_history import before_mirra141_targets
+                assert before_mirra141_targets([{'owner': region, 'target': {'region': region, **row}}]) == []
+                continue
+            if row['id'] in {'frozen_825_sound_effects', 'bomb_517_chocolate'}:
+                from .support.mirra141_history import before_mirra141_targets
+                projected, = before_mirra141_targets([{'owner': region, 'target': row}])
+                row = projected['target']
             assert row['id'] not in catalogs['targets']
             # These unchanged pins describe the reviewed parents before the later
             # additions. Strict projections pin each complete added graph.
+            from .support.kibble310_history import before_kibble310
+            row = before_kibble310(row)
             catalogs['targets'][row['id']] = before_normal110(
                 before_master719(before_green138(before_advanced_crash({'region': region, **row}))))
         for kind in ('graph_parts', 'source_sets'):

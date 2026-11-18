@@ -38,7 +38,8 @@ permissions: {}
 
 jobs:
   unit:
-    runs-on: ${{ matrix.os }}
+    # Preserve the check identity while avoiding unavailable hosted ARM capacity.
+    runs-on: ${{ matrix.runner || matrix.os }}
     name: Test Python ${{ matrix.python.version }} ${{ matrix.os }}
 
     strategy:
@@ -56,6 +57,7 @@ jobs:
             os: windows-latest
           - python: {version: '3.13'}  # current
             os: macos-latest
+            runner: macos-15-intel
 
     steps:
     - uses: actions/checkout@v6.0.2

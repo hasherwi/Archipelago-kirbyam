@@ -139,10 +139,15 @@ def test_mixed_peg_and_wheel_outputs_cannot_be_union_planned() -> None:
     assert not result.reaches("other")
 
 
-def test_gate_filter_turns_random_peg_pool_into_guaranteed_stone() -> None:
-    result = run([PEG], [Placement("pre", "ROCKY")], source_policy=policy(2, pool=["Hammer", "Stone"]),
+def test_runtime_gate_filter_does_not_create_monotone_finite_guarantee() -> None:
+    resolver = policy(2, pool=["Hammer", "Stone"])
+    assert resolver.grant("ROCKY", lambda a: a == "Stone").guaranteed == frozenset({"Stone"})
+    result = run([PEG], [Placement("pre", "ROCKY")], source_policy=resolver,
                  owned=frozenset({"Stone Ability"}))
-    assert any(p.node == "pre" and p.equipped == "Stone" for p in result.positions)
+    assert not result.reaches("post")
+    # Full permissions retain the common capability without choosing an outcome.
+    result = run([PEG], [Placement("pre", "ROCKY")], source_policy=resolver,
+                 owned=frozenset({"Stone Ability", "Hammer Ability"}))
     assert result.reaches("post")
 
 
@@ -286,7 +291,7 @@ def test_transition_does_not_renew_sources_without_reset_evidence() -> None:
         (Route("pre", "post", room_transition=True), set(), {"physical_rocky"}),
         (Route("pre", "post", room_transition=True, resets_room_instance=True), set(), set()),
     ]:
-        result = run([route], starts=[initial])
+        result = run([route], [Placement("post", "ROCKY", identity="physical_rocky")], starts=[initial])
         assert Position("post", "Normal", frozenset(opened), frozenset(consumed)) in result.positions
 
 
@@ -295,3 +300,53 @@ def test_compiler_requires_renewable_evidence() -> None:
     payload["sources"][0]["renewable"] = True
     with pytest.raises(ValueError, match="repeatability"):
         compile_traversal_graph(payload)
+
+
+@pytest.mark.parametrize("renewable", [False, True])
+def test_equipment_loss_requires_a_live_reacquisition_source(renewable):
+    source = Placement("pre", "ROCKY", identity="rock", renewable=renewable, lifetime="encounter")
+    routes = [Route("pre", "post", loses_equipment=True),
+              Route("post", "other", required_equipment=frozenset({"Stone"}))]
+    assert not run(routes, [source], gating=False, starts=[Position("pre", active=frozenset({"encounter"}))]).reaches("other")
+    at_destination = Placement("post", "ROCKY", identity="next-rock", renewable=renewable,
+                               lifetime="encounter")
+    assert run(routes, [source, at_destination], gating=False, starts=[Position("pre", active=frozenset({"encounter"}))]).reaches("other")
+    expired = [Route("pre", "post", loses_equipment=True,
+                     ends_lifetimes=frozenset({"encounter"})), routes[1]]
+    assert not run(expired, [source, at_destination], gating=False, starts=[Position("pre", active=frozenset({"encounter"}))]).reaches("other")
+
+
+@pytest.mark.parametrize("revive", [False, True])
+@pytest.mark.parametrize("renewable", [False, True])
+def test_room_reset_does_not_implicitly_revive_encounter(revive, renewable):
+    source = Placement("post", "ROCKY", identity="rock", renewable=renewable, lifetime="encounter")
+    routes = [Route("pre", "post", room_transition=True, resets_room_instance=True,
+                    revives_lifetimes=frozenset({"encounter"}) if revive else frozenset(),
+                    activates_lifetimes=frozenset({"encounter"}) if revive else frozenset()),
+              Route("post", "other", required_equipment=frozenset({"Stone"}))]
+    result = run(routes, [source], starts=[Position("pre", consumed=frozenset({"rock"}), expired=frozenset({"encounter"}))], gating=False)
+    assert result.reaches("other") == revive
+
+
+def test_lifetime_effects_reject_unknown_or_unevidenced_reset():
+    with pytest.raises(ValueError, match="Invalid source lifetime"):
+        run([Route("pre", "post", ends_lifetimes=frozenset({"unknown"}))])
+    with pytest.raises(ValueError, match="explicit room-instance reset"):
+        run([Route("pre", "post", revives_lifetimes=frozenset({"encounter"}))],
+            [Placement("pre", "ROCKY", lifetime="encounter")])
+
+
+
+def test_revival_cannot_use_a_reset_annotation_without_a_transition():
+    with pytest.raises(ValueError, match='actual room-reset transition'):
+        run([Route('pre', 'post', resets_room_instance=True,
+                   revives_lifetimes=frozenset({'encounter'}))],
+            [Placement('pre', 'ROCKY', lifetime='encounter')])
+
+
+def test_ending_source_lifetime_preserves_equipment_already_acquired():
+    result = run([Route('pre', 'post', ends_lifetimes=frozenset({'encounter'})),
+                  Route('post', 'other', required_equipment=frozenset({'Stone'}))],
+                 [Placement('pre', 'ROCKY', identity='rock', lifetime='encounter')], gating=False,
+                 starts=[Position('pre', active=frozenset({'encounter'}))])
+    assert result.reaches('other')

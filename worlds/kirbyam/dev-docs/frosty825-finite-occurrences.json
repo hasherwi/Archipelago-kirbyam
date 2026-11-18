@@ -1,0 +1,74 @@
+{
+  "version": 1,
+  "status": "two_finite_occurrences_only",
+  "scope": "Fresh original room825 encounter, two single intakes with locked permission. Native address reuse is not object continuity. No reset, boss defeat, held-ability recovery, fixed latency, or unlimited retry guarantee is claimed.",
+  "prototype_group": "room:825/template:0x088CD3F0/choice:mr_frosty_cube_size",
+  "policy": {
+    "mode": 1,
+    "allowed_abilities": [
+      "Ice"
+    ],
+    "ability_randomization_boss_spawns": true,
+    "ability_randomization_minibosses": true,
+    "ability_randomization_minny": false,
+    "ability_randomization_passive_enemies": true,
+    "ability_randomization_no_ability_weight": 0,
+    "seed": 11313160015481018921,
+    "mapping_style": "per_enemy_type"
+  },
+  "gating": true,
+  "permission_owned": false,
+  "first_frame": 1085,
+  "last_frame": 2565,
+  "audited_frames": 1481,
+  "rooms": [
+    825
+  ],
+  "abilities_observed": [
+    0
+  ],
+  "parent_hp_observed": [
+    30
+  ],
+  "player_hp_observed": [
+    8,
+    9,
+    10
+  ],
+  "waddle_bit_clear_all_slots": true,
+  "large_cube_presence_intervals": [
+    {
+      "first_frame": 1829,
+      "last_frame": 1944,
+      "object": "0x20000c4",
+      "type": 167,
+      "parent": "0x2000344"
+    },
+    {
+      "first_frame": 2041,
+      "last_frame": 2226,
+      "object": "0x20000c4",
+      "type": 167,
+      "parent": "0x2000344"
+    }
+  ],
+  "intakes": [
+    {
+      "first_frame": 1933,
+      "last_frame": 1944,
+      "type": 167
+    },
+    {
+      "first_frame": 2205,
+      "last_frame": 2226,
+      "type": 167
+    }
+  ],
+  "runtime_write_frames": [
+    1085
+  ],
+  "script_sha256": "1a43ddad34bcab8a02024e1c2fdb82e84d2c5f07f0c987a9647689312fef674a",
+  "production_patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+  "evidence_sha256": "f6b4b452f0286290953e5cb78d8e7c27805998308e9c4dce4da86eb75da8aab5",
+  "audit_sha256": "a55e7de5f92415f6e844336b92f9cc38d2272165a097f9102243f15c85227c51"
+}

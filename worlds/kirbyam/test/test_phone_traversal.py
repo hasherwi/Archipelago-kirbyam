@@ -45,7 +45,7 @@ def test_installed_witness_and_each_missing_resource(keys):
 
 
 @pytest.mark.parametrize('field,value', [('ability_randomization_mode',1),('ability_gating',1),
-    ('minimum_health',1),('maximum_health',9),('enemy_health_multiplier',101),('one_hit_mode',1)])
+    ('enemy_health_multiplier',101)])
 def test_unsupported_profile_gets_only_ownership_constraint(field,value):
     w, edge, other, indirect = world()
     getattr(w.options,field).value=value
@@ -109,7 +109,7 @@ def test_actual_generated_graph_phone_has_progression_without_source_self_lock(k
     assert chalk.can_reach(s)
 
 @pytest.mark.parametrize('field,value', [('ability_gating',False),
-    ('minimum_health',6.0),('enemy_health_multiplier',100.0),('room_sanity',False)])
+    ('enemy_health_multiplier',100.0),('room_sanity',False)])
 def test_noncanonical_profile_values_rejected(field,value):
     w,*_=world()
     getattr(w.options,field).value=value
@@ -133,10 +133,25 @@ def test_prior_constraint_survives_ownership_and_qualified_rules(qualified):
     assert not edge.access_rule(state({p.PHONE,p.EAST_HUB,p.MOONLIGHT_KEY}))
 
 
-@pytest.mark.parametrize('field,value', [('ability_gating',1),('minimum_health',1),('room_sanity',1)])
+@pytest.mark.parametrize('field,value', [('ability_gating',1),('enemy_health_multiplier',500),('room_sanity',1)])
 def test_installed_profile_cannot_change_before_publication(field,value):
     w,*_=world()
     p.install_phone_rules(w)
     getattr(w.options,field).value=value
     with pytest.raises(ValueError,match='changed after'):
         p.validate_phone_profile(w, require_policy=True)
+
+
+@pytest.mark.parametrize("minimum,maximum,one_hit", [(1, 1, 0), (1, 10, 1), (6, 10, 2)])
+def test_player_health_does_not_replace_physical_phone_resources(minimum, maximum, one_hit):
+    w, edge, _, _ = world()
+    p.install_phone_rules(w)
+    w.options.minimum_health.value = minimum
+    w.options.maximum_health.value = maximum
+    w.options.one_hit_mode.value = one_hit
+    assert p.validate_phone_profile(w, require_policy=True)
+    items = {p.PHONE, p.EAST_HUB, p.MOONLIGHT_KEY}
+    assert edge.access_rule(state(items))
+    assert not edge.access_rule(state(items, source=False))
+    for item in items:
+        assert not edge.access_rule(state(items - {item}))

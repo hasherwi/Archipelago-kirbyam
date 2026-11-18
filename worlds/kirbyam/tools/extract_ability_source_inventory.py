@@ -1,0 +1,1069 @@
+"""Extract physical placement facts from the pinned USA ROM, never access rules.
+
+The output contains decoded metadata, not ROM bytes. Dynamic encounter calls
+are a candidate census: unresolved expressions and unproved acquisition remain
+explicitly unresolved, and are never automatically admitted by traversal.
+"""
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import re
+from pathlib import Path
+
+from extract_room_evidence import USA_SHA1, ROOM_COUNT, ROOM_PROPS, pointer, unpack
+from enrich_native_object_room_usage import build_doors_idx_to_ap_room_keys
+
+ROOT = Path(__file__).resolve().parents[1]
+DECOMP_REFERENCE_COMMIT = "7d969fbce14fdc838d2c1ea01389717fb96c3189"
+OBJECT_LISTS = 0xD637AC
+# These are dedicated Boss Endurance rooms, not the shared boss arenas.
+# Adventure's Copy Ability Room is 970 and must not be confused with 950.
+BOSS_ENDURANCE_ROOMS = frozenset({950, 951, 955, 956, 957, 969})
+STATUES = {0x92: (0x3538FC, 8), 0x93: (0x353904, 7),
+           0x94: (0x35390B, 1), 0x95: (0x35390C, 3)}
+# Native encounter controller translation units, not a guessed global grant map.
+ENCOUNTERS = {
+    0x38: "mr_frosty", 0x39: "bonkers", 0x3A: "phan_phan", 0x3B: "batafire",
+    0x3C: "box_boxer", 0x3D: "boxy", 0x3E: "master_hand", 0x3F: "bombar",
+    0x45: "kracko", 0x46: "king_golem", 0x47: "crazy_hand", 0x48: "gobbler",
+    0x49: "wiz", 0x4A: "moley", 0x4B: "mega_titan", 0x4C: "mega_titan",
+    0x4D: "crazy_hand", 0x4E: "dark_meta_knight", 0x4F: "dark_mind",
+    0x50: "dark_mind", 0x51: "dark_mind", 0x52: "dark_meta_knight",
+}
+
+
+def decode_records(rom: bytes, index: int) -> list[dict]:
+    if not 0 <= index < 287:
+        raise ValueError(f"Invalid object list index {index}")
+    header = pointer(rom, OBJECT_LISTS + 4 * index)
+    if unpack(rom, '<I', header)[0] == 0:
+        return []
+    cursor = pointer(rom, header)
+    records = []
+    for ordinal in range(4096):
+        table, size = unpack(rom, '<BB', cursor)
+        if not size:
+            return records
+        if table not in (1, 2) or size != 0x24:
+            raise ValueError(f"Unsupported object record at {cursor:#x}: {table}/{size}")
+        unpack(rom, '<36x', cursor)
+        records.append({
+            'template_address': f'0x{cursor + 0x08000000:08X}', 'ordinal': ordinal,
+            'spawn_table': table, 'type_id': rom[cursor + 12],
+            'position_pixels': list(unpack(rom, '<hh', cursor + 6)),
+            'subtype1': rom[cursor + 14], 'subtype2': rom[cursor + 16],
+            'template_flags_22': unpack(rom, '<H', cursor + 0x22)[0],
+            'spawn_conditions': {'state_bank': rom[cursor + 2],
+                                 'bit_index': rom[cursor + 3],
+                                 'test': 'bit_clear' if rom[cursor + 2] <= 2 else 'unconditional',
+                                 'flags': rom[cursor + 5],
+                                 'predicate': 'code_080023A4.c:CreateLevelObjects/sub_080027E8'},
+        })
+        cursor += size
+    raise ValueError('Unterminated object list')
+
+
+def spawner_output(rom: bytes, parent: dict) -> dict:
+    """Decode a child prototype, not an accessible or renewable placement.
+
+    Pinned asm/object_spawner.s:sub_0811BAAC copies coordinates and subtypes,
+    creates a table-1 child from template +0x14's low byte, and tracks at most
+    the high byte's count. sub_0811BE64 reclaims destroyed slots when enabled.
+    """
+    offset = int(parent['template_address'], 16) - 0x08000000
+    typ, capacity = unpack(rom, '<BB', offset + 0x14)
+    flags = unpack(rom, '<H', offset + 0x22)[0]
+    return {
+        'id': f"{parent['id']}/spawner-output", 'native_room': parent['native_room'],
+        'parent_placement': parent['id'], 'spawn_table': 1, 'type_id': typ,
+        'position_pixels': list(parent['position_pixels']),
+        'subtype1': parent['subtype1'], 'subtype2': parent['subtype2'],
+        'configured_child_capacity': capacity,
+        'template_flags_22': 5 if 0x38 <= typ <= 0x52 else 0,
+        'native_state_identity': {'state_bank': 0, 'bit_index': 31},
+        'reclaims_destroyed_slots': not bool(flags & 1),
+        'status': 'unresolved',
+        'spawn_conditions': {
+            'controller': parent['id'], 'status': 'decoded_predicates',
+            'room_counter_bank': 1 if flags & 2 else 0,
+            'room_counter_at_least': rom[offset + 0x19],
+            'spawned_count_below': capacity,
+            'delay_counter_bits': 8,
+            'delay_counter_at_least': unpack(rom, '<H', offset + 0x12)[0],
+            'startup_counter_initial': 0 if 0x38 <= typ <= 0x52 else 70,
+            'startup_counter_previous_signed_value_above': 64,
+            'global_slot_search_limit': 32,
+            'exhausted_slot_behavior': 'not_certified',
+            'slot_boundary_contract': {
+                'source_sha256': '3005540eafef8701613009ae0b0e5be0133dd9a5a0ea767cfe71efceabda5a47',
+                'evidence': 'asm/object_spawner.s:sub_0811BAAC at the pinned decomp reference',
+                'full_bitmap': 4294967295, 'exhausted_index': 32,
+                'exhaustion_returns_before_construction': False,
+                'construction_path': 'The full search branches to the same template-construction label with index32; no successful allocation is inferred.',
+                'null_child_return': 'If CreateObject returns NULL and a tracked slot is empty, the pointer remains NULL but spawned_count increments; there is no child-return guard.',
+                'safe_exhaustion_or_recovery_certified': False,
+            },
+            'reason': 'Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified.'},
+        'lifetime': {'identity': f"{parent['id']}/spawner-output",
+                     'child_has_native_parent_attachment': False,
+                     'reason': 'Construction has no parent attachment; destruction still needs child-specific evidence.'},
+        'evidence': ('https://github.com/jiangzhengwenjz/katam/blob/' + DECOMP_REFERENCE_COMMIT
+                     + '/asm/object_spawner.s#L364-L455'),
+    }
+
+
+
+def counter_contributions(record: dict) -> list[dict]:
+    """Conditional native counter events, not AP access or repeatability proofs.
+
+    Keep destruction separate from collection and never count a template twice
+    merely because it supports both callbacks. Chest branches require runtime
+    contents and patch evidence, so their contributions remain unresolved.
+    """
+    if record['spawn_table'] != 1:
+        return []
+    typ = record['type_id']
+    result = []
+    if typ <= 0x64 and record['template_flags_22'] & 1:
+        result.append({'bank': 0, 'amount': 1, 'event': 'ObjectDestroy',
+                       'requires': ['assigned room slot', 'object HP <= 0'],
+                       'evidence': 'src/object.c:ObjectDestroy'})
+    state = record.get('native_state_identity', record.get('spawn_conditions', {}))
+    if 0x5E <= typ <= 0x64 and (state.get('state_bank'), state.get('bit_index')) != (0, 31):
+        result.append({'bank': 1, 'amount': 1, 'event': 'BonusSetFunc',
+                       'requires': ['living Kirby contact', 'Macro_0810B1F4 returns false'],
+                       'evidence': 'src/bonus.c:BonusSetFunc'})
+    if typ in (0x80, 0x81):
+        result.append({'bank': 1, 'amount': 1, 'event': 'chest callback',
+                       'requires': ['already collected chest or qualifying popup branch',
+                                    'AP lever wall ownership or unsuppressed native popup contribution'],
+                       'status': 'unresolved',
+                       'evidence': 'src/chest.c:sub_0800B97C/sub_0800BD4C',
+                       'runtime_evidence': 'kirby_ap_payload/ap_payload.c:ap_on_initialize_chest/ap_on_chest_popup_room_counter/ap_update_lever_wall',
+                       'excludes': ['physical AP lever pull without wall item',
+                                    'suppressed AP ordinary bonus popup']})
+    return result
+
+
+def macro_calls(text: str, pattern: str = r'CreateObjTemplateAndObj(?:WithSettingParent)?'):
+    """Split macro arguments with nesting; do not evaluate native expressions."""
+    for match in re.finditer(pattern + r'\s*\(', text):
+        start = cursor = match.end()
+        depth = 1
+        args = []
+        while cursor < len(text) and depth:
+            char = text[cursor]
+            if char == '(':
+                depth += 1
+            elif char == ')':
+                depth -= 1
+            if (char == ',' and depth == 1) or depth == 0:
+                args.append(text[start:cursor].strip())
+                start = cursor + 1
+            cursor += 1
+        if depth:
+            raise ValueError('Unterminated native creation macro')
+        yield text.count('\n', 0, match.start()) + 1, args
+
+
+# Audited variable-type branches. Hashes prevent applying these facts to changed
+# native code; a different source snapshot stays visibly unresolved.
+VARIABLE_TYPES = {
+    ('kracko.c', 'type'): ('6085113c8f08b82b1433723fadfc4aa62d509fe7f36bd1d5653618513895bea8',
+                          (0x12, 0x13, 0x1C)),
+    ('king_golem.c', 'type'): ('ef358db61ff4189e9a158742ea2553a03f94aa2025174626cdfce1cde27ed3aa',
+                              (0x9B, 0x9C)),
+    ('king_golem.c', 'r + OBJ_GOLEM_1'): (
+        'ef358db61ff4189e9a158742ea2553a03f94aa2025174626cdfce1cde27ed3aa', (0x1F, 0x20, 0x21)),
+    ('dark_mind.c', 'OBJ_DARK_MIND_STAR_FIRE + r3'): (
+        '841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158', (0xCB, 0xCC, 0xCD, 0xCE)),
+    ('moley.c', 'type'): ('fbd225320d9f65cf65a8b358deba4144d2b908b17eac4cdb5380e0fd175f65e5',
+                         tuple(range(0xC1, 0xC8))),
+}
+
+FROSTY_REVIEW_SHA256 = '6efd791e49aa53cc2b6c272007ecc1f2c69a28cb7e45193daa118a3871e0e209'
+
+
+def frostys_cube_contract(source_hash: str, type_id: int) -> dict | None:
+    """Conditional native facts, never a guarantee of reaching an attack state."""
+    if source_hash != FROSTY_REVIEW_SHA256 or type_id not in (166, 167):
+        return None
+    return {
+        'status': 'conditional_native_contract', 'source_sha256': source_hash,
+        'generation_function': 'sub_080CCEE0',
+        'attack_callbacks': ['sub_080CD47C', 'sub_080CD4D0', 'sub_080CD524'],
+        'attack_selection': 'sub_080CD3FC: counter > 43, then RandLessThan3()',
+        'attack_entry_guaranteed': False,
+        'branch': 'RandLessThan3() != 0' if type_id == 166 else 'RandLessThan3() == 0',
+        'alternative_types': [166, 167],
+        'alternative_source_keys': ['MR_FROSTY_ICE_CUBE'],
+        'parent_attachment': 'creating Frosty',
+        'parent_expiry_callback': 'sub_0809F840',
+        'phase_expiry': 'parent animation > 16; child collision mask0x1; before throw also collision mask0x4',
+        'throw_transition': 'parent callback sub_080CC4C8 and animation 11',
+        'initial_throw_protection_counter': 4,
+        'repeatability': 'not_certified',
+        'acquisition': 'not_implied_by_shared_grant; size, collision and attack timing differ',
+    }
+
+
+BONKERS_REVIEW_SHA256 = '10f5a98389ba5760df3ce46ca0bcb22d4c27d86eb4a54c00f0b4096daeb92e97'
+
+
+def bonkers_nut_contract(source_hash: str, type_id: int) -> dict | None:
+    """Shared native branch/lifetime facts; no automatic attack or access credit."""
+    if source_hash != BONKERS_REVIEW_SHA256 or type_id not in (168, 169):
+        return None
+    return {
+        'status': 'conditional_native_contract', 'source_sha256': source_hash,
+        'generation_function': 'BonkersThrowNut',
+        'attack_callback': 'BonkersNutAttack',
+        'activation': 'throwing phase (animation != 0x12) and header.unk1 == 0x44',
+        'attack_entry_guaranteed': False,
+        'branch': 'RandLessThan3() != 0' if type_id == 168 else 'RandLessThan3() == 0',
+        'alternative_types': [168, 169],
+        'parent_attachment': 'creating Bonkers',
+        'parent_expiry_callback': 'sub_0809F840',
+        'collision_lifetime': 'one bounce on collision mask0x4; next such collision or mask0x1 destroys nut',
+        'large_variant': 'larger collision bounds; half horizontal launch and bounce speeds',
+        'repeatability': 'not_certified',
+        'runtime_source': 'no configured source key; native Normal grant; retained as physical encounter output',
+        'acquisition': 'not_certified; native projectile presence is not Copy Ability acquisition',
+    }
+
+
+BOMBAR_REVIEW_SHA256 = 'd148e12823ac6fb845c1a8de482460554c7efd3ae132631068a701d074a7af28'
+
+
+def bombar_output_contract(source_hash: str, type_id: int) -> dict | None:
+    """Distinguish paired missiles and subtype selection from output expiry."""
+    if source_hash != BOMBAR_REVIEW_SHA256 or type_id not in (178, 179):
+        return None
+    result = {
+        'status': 'conditional_native_contract', 'source_sha256': source_hash,
+        'parent_attachment': 'creating Bombar',
+        'parent_expiry_callback': 'sub_0809F840',
+        'attack_entry_guaranteed': False, 'allocation_success_certified': False,
+        'repeatability': 'not_certified',
+        'acquisition': 'unresolved; attack presence and native grant do not prove safe contact or swallowing',
+    }
+    if type_id == 178:
+        result.update(
+            generation_function='sub_080D95A4', attack_callback='sub_080D8F34',
+            activation='direction/subtype-specific horizontal threshold during bomb attack',
+            constructor_calls_per_helper_invocation=1,
+            collision_expiry='sub_080D9708: collision mask0x4 triggers destruction',
+            native_grant_source_key='BOMBAR_BOMB',
+        )
+    else:
+        result.update(
+            generation_function='sub_080D9764', attack_callback='sub_080D9388',
+            activation='animation6 and header.unk1 == 3',
+            constructor_calls_per_helper_invocation=2,
+            output_relationship='two simultaneous objects at separate offsets, not alternative outputs',
+            native_subtype_branch='Rand16() & 1 selects subtype0; otherwise subtype1; same subtype for both missiles',
+            retarget_interval=16, homing_speed_caps={'subtype0': 416, 'subtype1': 512},
+            behavior_counter_initial=256, behavior_counter_is_expiry=False,
+            counter_transition='at counter0 and abs(xspeed)+abs(yspeed)>=0x180, switches to trail callback sub_080D9E34',
+            native_grant_source_key='BOMBAR_MISSILE',
+        )
+    return result
+
+
+BOXY_REVIEW_SHA256 = '79e51fbc9bb15f3b1f73c4253f84c43c3fd19a596632344d325948dbee8fe0be'
+
+
+def boxy_output_contract(source_hash: str, type_id: int, callsite: str) -> dict | None:
+    """Keep present generation distinct from its mutually exclusive contents."""
+    branches = {
+        ('src/boxy.c:783', 94): 'selector0 and Rand16() & 1 != 0: small food',
+        ('src/boxy.c:828', 98): 'selector0 and Rand16() & 1 == 0: battery',
+        ('src/boxy.c:835', 39): 'selector1 and no tracked Minny and controller template flag8 clear',
+        ('src/boxy.c:840', 173): 'selector1 and (tracked Minny exists or controller template flag8 set)',
+        ('src/boxy.c:846', 173): 'selector2',
+    }
+    is_box = (callsite, type_id) == ('src/boxy.c:666', 176)
+    if source_hash != BOXY_REVIEW_SHA256 or (not is_box and (callsite, type_id) not in branches):
+        return None
+    result = {
+        'status': 'conditional_native_contract', 'source_sha256': source_hash,
+        'attack_entry_guaranteed': False, 'allocation_success_certified': False,
+        'acquisition': 'not_certified', 'repeatability': 'not_certified',
+    }
+    if is_box:
+        result.update(
+            generation_function='sub_080D6E1C', attack_callback='sub_080D6D90',
+            activation='header.unk1 == 9',
+            trajectory_branch='RandLessThan3() selects subtype0/1/2 before construction',
+            parent_attachment='creating Boxy', parent_expiry_callback='sub_0809F840',
+            opening='after first floor bounce, floor collision and target horizontal distance < 0x3000; otherwise ground-contact counter reaches zero',
+            ground_contact_counter_initial=480, counter_is_wall_clock_expiry=False,
+            content_selection='sub_080D73C8 at opening counter52; independent RandLessThan3()',
+            opening_counter_initial=60,
+            expiry='opening counter reaches zero and sets flags0x1000',
+        )
+    else:
+        result.update(
+            generation_function='sub_080D73C8', activation='opening box counter == 52',
+            branch=branches[(callsite, type_id)],
+            output_relationship='mutually exclusive contents of one present, not simultaneous grants',
+            parent_attachment='opening box' if type_id == 173 else 'not assigned by generation helper',
+            child_lifetime='not_certified; box expiry alone does not prove child expiry',
+        )
+    return result
+
+
+DARK_MIND_REVIEW_SHA256 = '841b204cd3edf9129b59207ff731cfc651917a529efede581569009bd3b7f158'
+OBJECT_REVIEW_SHA256 = 'a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645'
+
+DARK_MIND_ENEMY_TABLES = {
+    'src/dark_mind.c:8365': (10, [18, 18, 18, 18, 20, 22, 24, 25, 37, 37]),
+    'src/dark_mind.c:8377': (16, [18, 20, 22, 24, 25, 37, 29, 29, 34, 34]),
+    'src/dark_mind.c:8391': (22, [18, 20, 21, 21, 22, 24, 25, 37, 37, 29, 27]),
+}
+
+
+def dark_mind_enemy_contract(source_hash: str, object_hash: str, type_id: int, callsite: str) -> dict | None:
+    entry = DARK_MIND_ENEMY_TABLES.get(callsite)
+    if (source_hash != DARK_MIND_REVIEW_SHA256 or object_hash != OBJECT_REVIEW_SHA256
+            or entry is None or type_id not in entry[1]):
+        return None
+    return {
+        'status': 'conditional_native_contract', 'source_sha256': source_hash,
+        'object_source_sha256': object_hash,
+        'generation_function': 'DarkMindForm2CreateRandomEnemies',
+        'immediate_controller': 'DarkMindMirror attached to DarkMindForm2',
+        'root_to_phase_lineage': 'unresolved; translation-unit candidate is not phase access',
+        'activation': f'parent unk12E clear and mirror counter == {entry[0]}',
+        'sweep_counter_initial': 36,
+        'selection_table': entry[1], 'initial_random_index_range': [0, 9],
+        'selection_override': ('selected Wheelie and Rand16() & 3 == 0 redirects to index10 (UFO)'
+                               if entry[0] == 22 else None),
+        'output_relationship': 'one selected enemy at each of three separate counter events',
+        'parent_attachment': 'not assigned by Macro_081059A8_2',
+        'tracked_by': f'form2 enemy{3 if entry[0] == 10 else 2 if entry[0] == 16 else 1}',
+        'cleanup': 'sub_0810CBE8 marks tracked enemy unkC0x2000 unless interaction flag0x400 set; ObjectMain converts this to destruction flag0x1000',
+        'attack_entry_guaranteed': False, 'allocation_success_certified': False,
+        'acquisition': 'not_certified', 'repeatability': 'not_certified',
+    }
+
+
+def dark_mind_projectile_contract(source_hash: str, type_id: int, callsite: str) -> dict | None:
+    helpers = {'src/dark_mind.c:3824': 'sub_08105EC4',
+               'src/dark_mind.c:3856': 'sub_081060C0',
+               'src/dark_mind.c:3877': 'sub_081062B4'}
+    star = callsite in helpers and type_id in (203, 204, 205, 206)
+    bomb = callsite == 'src/dark_mind.c:4172' and type_id == 48
+    if source_hash != DARK_MIND_REVIEW_SHA256 or not (star or bomb):
+        return None
+    result = {
+        'status': 'conditional_native_contract', 'source_sha256': source_hash,
+        'root_to_phase_lineage': 'unresolved; translation-unit candidate is not phase access',
+        'attack_entry_guaranteed': False, 'allocation_success_certified': False,
+        'acquisition': 'not_certified', 'repeatability': 'not_certified',
+        'parent_attachment': 'creating controller via Macro_081059A8',
+    }
+    if bomb:
+        result.update(generation_function='sub_08107254',
+            parent_expiry_callback='sub_0810A034 calls sub_0809F840',
+            constructor_calls_per_helper_invocation=1,
+            spawn_y_offset='32 pixels for Form2, zero otherwise',
+            initial_counter=200, counter_is_wall_clock_expiry=False,
+            initial_counter_effect='sub_08107408 decrements on floor collision; zero starts rising phase, not destruction')
+    else:
+        result.update(generation_function=helpers[callsite],
+            immediate_controller='DarkMindForm1', parent_expiry_callback='sub_0809F840',
+            native_selection_by_subtype={'0': [203], '1': [203, 204], '2': [203, 204, 205],
+                                         'other': [203, 204, 205, 206]},
+            selection='RandomFunction uses fixed zero, Rand16() & 1, RandLessThan3(), or Rand16() & 3 by subtype',
+            native_mix_type=206,
+            constructor_calls_per_helper_invocation=2 if callsite.endswith(':3824') else 1)
+        if callsite.endswith(':3824'):
+            result.update(output_relationship='two constructed stars, separately selected types',
+                initial_behavior='sub_08106508/sub_081065B0: 128 counter, collision bounce, destruction at zero')
+        elif callsite.endswith(':3856'):
+            result.update(initial_behavior='sub_08106804/sub_08109E98: supplied velocity; unk85 permits vertical reflection at y16/y140; unk58 mask0x200 destroys')
+        else:
+            result.update(initial_behavior='parent unkDA14 selects sub_081068F8, otherwise sub_08109EF8',
+                phase_release='first path releases when parent unk83 not7/9; second path aims and releases when parent unk83 outside1..7; both enter sub_08109E98',
+                phase_transition_is_expiry=False)
+    return result
+
+
+OTHER_ENCOUNTER_REVIEW_SHA256 = {
+    'bronto_burt': '4cca38d388ec3bee7d852ba3491b0945581984048e272d77b468a69c9f28fb82',
+    'master_hand': 'daa7f69cdc25505023c85887aa06bc1280f17fd78ea441035f2c99a6917e286e',
+    'crazy_hand': 'c86577dacbfe3bfd8a5d3422477e35cc7429dfc10534f9e259df4d5ff6f21212',
+    'king_golem': 'ef358db61ff4189e9a158742ea2553a03f94aa2025174626cdfce1cde27ed3aa',
+    'golem': '8399d5f2bad9211e186e7c9a2374ca09de65867d10a8cc35ec28c4ecaac0ed31',
+    'kracko': '6085113c8f08b82b1433723fadfc4aa62d509fe7f36bd1d5653618513895bea8',
+    'gobbler': '76a954ec2b358c4f09e2d505a1a25220982cb1876d29fb0d9559d16d98602396',
+    'moley': 'fbd225320d9f65cf65a8b358deba4144d2b908b17eac4cdb5380e0fd175f65e5',
+    'wiz': '850ead2af3f3eaaa092fa5e3647d18b6685c743eb0374e2eec87995bf0a14102',
+}
+
+OTHER_ENCOUNTER_CALLS = {
+    'src/master_hand.c:2456': ('master_hand', 'sub_080D4DA4', (200,), 'unk83 == 7 and header.unk1 == 8'),
+    'src/crazy_hand.c:2902': ('crazy_hand', 'sub_080E31D4', (200,), 'unk83 == 7 and header.unk1 == 1'),
+    'src/king_golem.c:439': ('king_golem', 'sub_080DB43C', (31, 32, 33), 'sub_080DB6DC incremented counter == 8'),
+    'src/kracko.c:1258': ('kracko', 'sub_080DE064', (18, 19, 28), 'sub_080DCA44 decremented counter == 0'),
+    'src/gobbler.c:2378': ('gobbler', 'sub_080E7848', (159,), 'sub_080E5A20 counters expire in sequence for baby slots0/1/2'),
+    'src/moley.c:754': ('moley', 'sub_080EC650', tuple(range(193, 200)), 'caller mode0/1/2; mode1 additionally needs sprite mask0x800 and unkB4 clear'),
+    'src/wiz.c:783': ('wiz', 'sub_080E9524', (182,), 'selector1 or selector8 with Rand16() & 1 == 0'),
+    'src/wiz.c:957': ('wiz', 'sub_080E9A54', (184,), 'selector3 or selector9 with Rand16() & 1 == 0'),
+    'src/wiz.c:1020': ('wiz', 'sub_080E9C58', (185,), 'selector4'),
+    'src/wiz.c:1107': ('wiz', 'sub_080E9FC0', (186,), 'selector5'),
+    'src/wiz.c:1161': ('wiz', 'sub_080EA1C0', (1,), 'selector6'),
+    'src/wiz.c:1176': ('wiz', 'sub_080EA27C', (187,), 'selector7'),
+}
+
+
+def other_encounter_contract(source_hashes: dict, type_id: int, callsite: str) -> dict | None:
+    entry = OTHER_ENCOUNTER_CALLS.get(callsite)
+    if entry is None or type_id not in entry[2]:
+        return None
+    file, helper, _, activation = entry
+    dependencies = {file}
+    if file == 'master_hand':
+        dependencies.add('crazy_hand')  # The bullet constructor is in this file.
+    if file == 'king_golem':
+        dependencies.add('golem')
+    if file == 'wiz' and type_id == 1:
+        dependencies.add('bronto_burt')
+    hashes = {'src/' + name + '.c': OTHER_ENCOUNTER_REVIEW_SHA256[name] for name in sorted(dependencies)}
+    if any(source_hashes.get(name) != digest for name, digest in hashes.items()):
+        return None
+    result = {
+        'status': 'conditional_native_contract', 'source_sha256': hashes['src/' + file + '.c'],
+        'dependency_sha256': hashes,
+        'generation_function': helper, 'activation': activation,
+        'parent_attachment': 'creating encounter controller',
+        'initial_parent_expiry_callback': None if (file == 'wiz' and type_id == 1) else 'sub_0809F840',
+        'later_phase_lifetime': 'unresolved; initial callback does not certify all later states',
+        'attack_entry_guaranteed': False, 'allocation_success_certified': False,
+        'acquisition': 'not_certified', 'repeatability': 'not_certified',
+    }
+    if file in ('master_hand', 'crazy_hand'):
+        result.update(bullet_constructor='crazy_hand.c:CreateMasterHandBullet',
+            horizontal_speed_by_subtype={'0': 1408, '1': 1664},
+            release='bullet header.unk1 == 8 clears flags0x800/0x200; this is not expiry')
+    elif file == 'king_golem':
+        result.update(selection='Rand16() & 3 retries value3, then adds OBJ_GOLEM_1',
+            native_alternative_types=[31, 32, 33], child_subtype1=128,
+            entry_prerequisites='sub_080DA540: controller HP <= gUnk_08351530[0xE][human_count-1] >> 1, random/unk85 branch, and no tracked enemy',
+            tracked_child_release='golem.c:sub_080C6734 destructor clears KingGolem enemy pointer before ObjectDestroy',
+            initial_parent_expiry_condition='golem.c:CreateGolem subtype1 mask0x80')
+    elif file == 'kracko':
+        result.update(selection='first Rand16() & 1 selects Waddle Doo; otherwise second Rand16() & 3 selects Flamer, zero selects Twister',
+            native_alternative_types=[18, 19, 28],
+            branch='first draw nonzero' if type_id == 18 else 'first draw zero; second draw nonzero' if type_id == 19 else 'both draws zero')
+    elif file == 'gobbler':
+        result.update(output_relationship='three separately tracked baby slots, not one always-live source',
+            child_subtype1='caller baby slot0/1/2',
+            tracked_child_capacity=3,
+            slot_generation='sub_080E59B4 schedules only NULL slots; first missing slot counter1, later missing slots counter16; sub_080E5A20 processes one counter at a time',
+            tracked_child_release='sub_080E7C54 clears a slot only when its tracked child has base.flags mask0x1000; HP0 alone is not this predicate',
+            regeneration='a newly empty slot still needs a subsequent spawn-attack entry; no immediate replacement or safe retry is certified')
+    elif file == 'moley':
+        result.update(selection='RandLessThan(7) + OBJ_MOLEY_ROCK', native_alternative_types=list(range(193, 200)),
+            output_relationship='one selected object per helper call; includes unconfigured rock and screw outcomes',
+            trajectory='subtype1 mode1 starts sub_080EC8E8; other modes start sub_080ED8C4; sizes and later behaviors differ by type')
+    else:
+        result.update(attack_callback='sub_080E9034: header.unk1 == 0x28 calls sub_080E921C',
+            selection='sub_080E921C RandLessThan(10); selectors8/9 make a second binary selection',
+            output_relationship='one helper selected per hat event, including unconfigured football/balloon branches',
+            subtype='car/bomb/cloud/apple use health/subtype-conditioned binary parameter; Bronto Burt/Droppy inherit template subtype2')
+    if file == 'wiz' and type_id == 1:
+        result['parent_expiry_limit'] = ('bronto_burt.c:CreateBrontoBurt explicitly sets unk7C to NULL; '
+            'wiz.c:sub_080EA1C0 assigns parent only, so attachment does not install sub_0809F840')
+    return result
+
+
+def parent_expiry_predicate(contract, source_hashes):
+    """Conditional shared callback semantics, never a guaranteed lifetime edge."""
+    callbacks = (contract.get('parent_expiry_callback'), contract.get('initial_parent_expiry_callback'))
+    if not any(isinstance(value, str) and 'sub_0809F840' in value for value in callbacks):
+        return None
+    expected = 'a8dafe88feef039bf1e707a8f238283e9e753029198f7fb613fbe9837b9be645'
+    if source_hashes.get('src/object.c') != expected:
+        raise ValueError('Shared parent-expiry callback requires reviewed object.c')
+    return {
+        'function': 'object.c:sub_0809F840', 'source_sha256': expected,
+        'requires_callback_execution': True,
+        'parent_trigger': {'any': [{'flags_mask_set': 4096}, {'hp_lte': 0}]},
+        'child_protection': {'field': 'base.unkC', 'mask': 1024, 'must_be_clear': True},
+        'effects': {'child_hp': 0, 'child_flags_or': 4096,
+                    'death_effect': 'sub_0809DA30 only if child destruction flag was previously clear'},
+        'scope': 'When this callback executes with its original parent; neither parent HP0 alone nor attachment alone proves expiry.',
+        'not_certified': ['callback retention in later phases', 'physical destruction timing',
+                          'spawner slot reclamation', 'safe reacquisition', 'room reset or revival'],
+    }
+
+
+MINIBOSS_ACTIVATION_HEADER_SHA256 = '5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38'
+# Reviewed waiting callbacks and macro anchors, pinned independently per file.
+MINIBOSS_ACTIVATION = {
+    56: ('mr_frosty', '6efd791e49aa53cc2b6c272007ecc1f2c69a28cb7e45193daa118a3871e0e209',
+         'sub_080CB7E8', 2),
+    57: ('bonkers', '10f5a98389ba5760df3ce46ca0bcb22d4c27d86eb4a54c00f0b4096daeb92e97',
+         'BonkersWaitForKirby', 2),
+    58: ('phan_phan', '647caf06d0880c4a7632f7c2e7b117c38b53b3ad02f1783f74cf805340822a09',
+         'sub_080CD6C0', 2),
+    59: ('batafire', '40016aa6800c2b49001baab7962d35b0ef0642839b04e37a227b0d7f0f7e548a',
+         'sub_080C939C', 1),
+    60: ('box_boxer', 'e428e757790ae4a6523460148552d72ee4810e23e69d78623b25dfea5e6a49a8',
+         'sub_080C72CC', 2),
+    61: ('boxy', '79e51fbc9bb15f3b1f73c4253f84c43c3fd19a596632344d325948dbee8fe0be',
+         'sub_080D571C', 2),
+    62: ('master_hand', 'daa7f69cdc25505023c85887aa06bc1280f17fd78ea441035f2c99a6917e286e',
+         'sub_080D1780', 1),
+    63: ('bombar', 'd148e12823ac6fb845c1a8de482460554c7efd3ae132631068a701d074a7af28',
+         'sub_080D7A6C', 1),
+}
+
+
+def miniboss_activation(rom: bytes, record: dict, source_hash: str, header_hash: str) -> dict | None:
+    entry = MINIBOSS_ACTIVATION.get(record.get('type_id'))
+    if (record.get('spawn_table') != 1 or entry is None or source_hash != entry[1]
+            or header_hash != MINIBOSS_ACTIVATION_HEADER_SHA256):
+        return None
+    offset = int(record['template_address'], 16) - 0x08000000
+    dx, dy, width, height = unpack(rom, '<hhHH', offset + 0x1A)
+    return {
+        'status': 'conditional_native_contract', 'source_sha256': source_hash,
+        'header_sha256': header_hash, 'callback': entry[2],
+        'rectangle_anchor': 'live controller position' if entry[3] == 1 else 'template position',
+        'rectangle': {'left_offset': dx, 'top_offset': dy, 'width': width, 'height': height},
+        'coordinate_test': 'integer target origin: left-1 <= x <= left+width; top-1 <= y <= top+height',
+        'requires': ['selected target in same native room', 'target unkC mask0x8000 clear',
+                     'sub_08039430 coordinate predicate'],
+        'predicate_evidence': ('https://github.com/jiangzhengwenjz/katam/blob/' + DECOMP_REFERENCE_COMMIT
+                               + '/asm/code_08032E98.s#L12052-L12108'),
+        'access_certified': False,
+    }
+
+
+def encounter_calls(text: str, filename: str):
+    for line, args in macro_calls(text):
+        if 'typeVal' not in args[9]:  # Macro definition, not an instantiated call.
+            yield line, args[1], args[9]
+    if filename == 'dark_mind.c':
+        for line, args in macro_calls(text, r'Macro_081059A8(?:_2|_3)?'):
+            if args[3] != 'typeVal':
+                yield line, '1', args[3]
+
+
+def possible_types(filename: str, expression: str, file_hash: str,
+                   text: str, names: dict[int, str]) -> list[int]:
+    by_name = {name: value for value, name in names.items()}
+    if expression in by_name:
+        return [by_name[expression]]
+    audited = VARIABLE_TYPES.get((filename, expression))
+    if audited is not None and file_hash == audited[0]:
+        return list(audited[1])
+    array = re.fullmatch(r'(gDarkMindForm2Enemy[123]Types)\[r4\]', expression)
+    if array is not None and filename == 'dark_mind.c':
+        declaration = re.search(r'static const u8 ' + array[1] + r'\[\]\s*=\s*\{([^}]+)\}', text)
+        if declaration is not None:
+            tokens = [token.strip() for token in declaration[1].split(',') if token.strip()]
+            if all(token in by_name for token in tokens):
+                return sorted({by_name[token] for token in tokens})
+    return []
+
+
+def generated_encounter_sources(calls, controllers):
+    """Index candidate outputs by physical encounter; never certify a branch."""
+    parents = {row['id']: row for row in controllers}
+    result = []
+    for call in calls:
+        for parent_id in call.get('candidate_root_encounters', []):
+            parent = parents[parent_id]
+            for output in call.get('possible_outputs', []):
+                result.append({
+                    'id': (f"{parent_id}/encounter:{call['controller_type']}/"
+                           f"{call['evidence']}/type:{output['type_id']}"),
+                    'native_room': parent['native_room'], 'source_type': 'encounter_spawn',
+                    'logic': 'advanced', 'parent_placement': parent_id,
+                    'source_key': output['source_key'], 'native_grant': output['native_grant'],
+                    'native_grant_id': output['native_grant_id'], 'type_id': output['type_id'],
+                    'native_name': output['native_name'], 'position_pixels': None,
+                    'generation': {'controller_type': call['controller_type'],
+                                   'callsite': call['evidence'],
+                                   'candidate_types': [o['type_id'] for o in call['possible_outputs']],
+                                   'status': 'unresolved'},
+                    'access': {'status': 'unresolved', 'reason':
+                               'Requires branch/activation, acquisition and encounter-lifetime evidence.'},
+                    'repeatability': 'unresolved',
+                })
+    if len({row['id'] for row in result}) != len(result):
+        raise ValueError('Duplicate generated encounter source identity')
+    return result
+
+
+def iter_traversals(value):
+    """Include logical subregions as well as top-level native rooms."""
+    if isinstance(value, dict):
+        if isinstance(value.get('traversal'), dict):
+            yield value['traversal']
+        for child in value.values():
+            yield from iter_traversals(child)
+    elif isinstance(value, list):
+        for child in value:
+            yield from iter_traversals(child)
+
+
+def golem_grant_contract(record: dict, source_hash: str) -> dict | None:
+    """Native state writes, not a promise that any attack phase is safely reachable."""
+    if record.get('source_key') != 'GOLEM':
+        return None
+    if source_hash != '8399d5f2bad9211e186e7c9a2374ca09de65867d10a8cc35ec28c4ecaac0ed31':
+        raise ValueError('Golem native grant contract requires the reviewed source hash')
+    subtype = record.get('subtype1', record.get('native_contract', {}).get('child_subtype1'))
+    if subtype is None or subtype & 0x7F:
+        options = ['Stone', 'Wheel', 'Fighter']
+    else:
+        options = {31: ['Stone'], 32: ['Stone', 'Wheel'], 33: ['Stone', 'Fighter']}[record['type_id']]
+    return {
+        'status': 'conditional_native_state_contract', 'source_sha256': source_hash,
+        'options': options, 'native_type': record['type_id'], 'subtype1': subtype,
+        'state_selection': 'sub_080C5500 -> sub_080C5AB4/sub_080C5B50; nonzero subtype low7 bits allow all actions',
+        'writes': {'Stone': ['sub_080C6404', 'sub_080C645C', 'sub_080C65B8', 'sub_080C65F8', 'sub_080C6634', 'sub_080C66DC'],
+                   'Wheel': ['sub_080C64A4', 'sub_080C6528', 'sub_080C6588'],
+                   'Fighter': ['sub_080C6674']},
+        'scope': 'Vanilla or runtime-excluded grants; eligible shuffled/live hooks override these state writes.',
+        'phase_acquisition': 'unresolved; narrowing requires a separate native acquisition witness',
+    }
+
+
+PARASOL_PARENT_HASHES = {
+    'src/waddle_dee.c': '2d8a2fb72a703ea99a0380be19cb4c48378833c32c485b06f0342506ed0c9aa1',
+    'src/waddle_doo.c': 'c5800083cc82856f859ab0b355a3c53bfdfd95544f46c98c4c6241d6513f0f77',
+    'src/parasol.c': 'fe32bf4a1ce1c3ca280fee1d1248d851961a3c0f305ed2d3da7a95962133a487',
+}
+
+
+def parasol_parent_grant_contract(record: dict, source_hashes: dict) -> dict | None:
+    """Only the reviewed attached-Parasol template variants, not arbitrary children."""
+    kind, subtype = record.get('type_id'), record.get('subtype1')
+    if not ((kind == 0 and subtype in (3, 4)) or (kind == 18 and subtype == 1)):
+        return None
+    if any(source_hashes.get(name) != digest for name, digest in PARASOL_PARENT_HASHES.items()):
+        raise ValueError('Attached Parasol grant contract requires the reviewed source hashes')
+    options = ['Parasol'] if kind == 0 and subtype == 4 else ['Parasol', 'Normal' if kind == 0 else 'Beam']
+    return {
+        'status': 'conditional_native_state_contract',
+        'dependency_sha256': dict(PARASOL_PARENT_HASHES),
+        'options': options, 'native_type': kind, 'subtype1': subtype,
+        'state_selection': 'CreateWaddleDee subtype3/4 or CreateWaddleDoo subtype1 installs attached-Parasol states',
+        'writes': {'Parasol': ['waddle_dee.c:WaddleDeeSetStill/sub_080A45A8/sub_080A45D8',
+                               'waddle_doo.c:sub_080B7460/sub_080B73D8'],
+                   'detached_parent': 'parasol.c:sub_080C2D44 restores Beam for WaddleDoo, Normal except WaddleDee subtype4'},
+        'scope': 'Native parent grants only; eligible shuffled/live swallow hooks retain precedence. Detached Parasol is a separate object.',
+        'phase_acquisition': 'unresolved; attachment-phase narrowing requires a separate native acquisition witness',
+    }
+
+
+def dark_mind_template_star_selection(parent: dict, record: dict, source_hashes: dict) -> dict | None:
+    """Bind direct Form1 star candidates to template subtype, not inferred phase access."""
+    generation = record.get('generation', {})
+    if (parent.get('spawn_table') != 1 or parent.get('type_id') != 79
+            or generation.get('controller_type') != 79
+            or generation.get('callsite') not in {'src/dark_mind.c:3824', 'src/dark_mind.c:3856', 'src/dark_mind.c:3877'}
+            or record.get('type_id') not in (203, 204, 205, 206)):
+        return None
+    subtype = parent.get('subtype2')
+    if type(subtype) is not int or subtype not in range(4):
+        return None
+    hashes = {'src/dark_mind.c': DARK_MIND_REVIEW_SHA256, 'src/object.c': OBJECT_REVIEW_SHA256}
+    if any(source_hashes.get(name) != digest for name, digest in hashes.items()):
+        raise ValueError('Dark Mind template selection requires the reviewed source hashes')
+    types = list(range(203, 204 + subtype))
+    return {
+        'status': 'conditional_template_phase_selection', 'dependency_sha256': hashes,
+        'parent_template_subtype2': subtype,
+        'subtype_origin': 'object.c:InitObject copies template subtype2; CreateDarkMindForm1 overrides subtype to3 when gUnk_0203AD10 &4',
+        'possible_types_when_mode_flag4_clear': types,
+        'possible_types_when_mode_flag4_set': [203, 204, 205, 206],
+        'candidate_possible_when_mode_flag4_clear': record['type_id'] in types,
+        'selection': 'dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection',
+        'scope': 'Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee.',
+    }
+
+
+def build_ap_region_inventory(rooms: dict, native_rooms: list[dict]) -> list[dict]:
+    """List every declared compartment without assigning room-wide source access."""
+    aliases = {}
+    for native in native_rooms:
+        for region in native['ap_room_keys']:
+            aliases.setdefault(region, []).append(native['native_room'])
+    declared = {region: None for region in rooms}
+    for parent, definition in rooms.items():
+        for key in definition.get('logical_subregions', {}):
+            region = f'{parent}__LOGIC__{key}'
+            if region in declared:
+                raise ValueError(f'Duplicate declared AP compartment: {region}')
+            declared[region] = parent
+    return [{
+        'region': region, 'parent_region': parent,
+        'native_rooms': sorted(aliases.get(parent if parent is not None else region, [])),
+        'mapping_evidence': ('declared_logical_parent_door_alias' if parent is not None else 'native_door_list_alias')
+                            if aliases.get(parent if parent is not None else region) else 'unresolved',
+        'compartment_placement_membership': 'unresolved; use separately reviewed physical source bindings',
+    } for region, parent in sorted(declared.items())]
+
+
+def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dict:
+    if len(rom) != 0x1000000 or hashlib.sha1(rom).hexdigest() != USA_SHA1:
+        raise ValueError('Expected unmodified USA ROM (size and SHA-1 mismatch)')
+    header = (decomp / 'include/constants/object_types.h').read_text()
+    names = {int(value, 16): name for name, value in
+             re.findall(r'#define\s+(OBJ_\w+)\s+(0x[0-9A-Fa-f]+)', header)}
+    source_types = {}
+    for key, spec in enemies.items():
+        for address in spec['addresses']:
+            offset = int(address, 0) if isinstance(address, str) else address
+            delta = offset - 0x35164E
+            if delta >= 0 and delta % 24 == 0:
+                source_types[delta // 24] = (key, spec)
+
+    ability_names = {value['runtime_ability_id']: key for key, value in
+                     json.loads((ROOT / 'data/abilities.json').read_text()).items()}
+
+    def classify(record):
+        typ = record['type_id']
+        record.update(native_name=names.get(typ) if record['spawn_table'] == 1 else None,
+                      source_key=None, native_grant=None, source_type='unclassified',
+                      logic='standard', access={'status': 'unresolved', 'reason':
+                      'Presence does not prove compartment access, acquisition, carry or repeatability.'},
+                      repeatability='unresolved')
+        if record['spawn_table'] != 1:
+            return
+        if typ in source_types:
+            key, spec = source_types[typ]
+            native_grant = ability_names[rom[0x35164E + 24 * typ]]
+            if native_grant != spec['default_ability']:
+                raise ValueError(f'Native grant disagrees with runtime policy table: {key}')
+            record.update(source_key=key, native_grant=native_grant, source_type=spec['kind'],
+                          can_be_swallowed=spec.get('can_be_swallowed', True))
+            if spec['kind'] == 'boss_spawned':
+                record['logic'] = 'advanced'
+        elif typ in STATUES:
+            base, count = STATUES[typ]
+            if record['subtype1'] >= count:
+                raise ValueError('Invalid statue subtype')
+            address = base + record['subtype1']
+            record.update(source_key=f'STATUE:{address:06X}', source_type='statue',
+                          native_grant=ability_names[rom[address]], repeatability='retouch')
+        elif typ in ENCOUNTERS:
+            record['source_type'] = 'boss'
+        elif typ in (0x96, 0x98):
+            record['source_type'] = 'random_statue' if typ == 0x96 else 'master_stand'
+        elif typ == 0x73:
+            record['source_type'] = 'object_spawner'
+        elif typ < 0x38 or typ == 0x70:
+            record['source_type'] = 'enemy'
+            record['native_grant'] = ability_names.get(rom[0x35164E + 24 * typ])
+            record['grant_status'] = 'runtime source eligibility unresolved'
+        else:
+            record['source_type'] = 'other_object'
+
+    aliases = build_doors_idx_to_ap_room_keys(rooms)
+    lists = {index: decode_records(rom, index) for index in range(287)}
+    native_rooms = []
+    placements = []
+    encounter_types = set()
+    for room_id in range(ROOM_COUNT):
+        props = ROOM_PROPS + room_id * 0x28
+        index, doors = unpack(rom, '<H', props + 32)[0], unpack(rom, '<H', props + 36)[0]
+        room = {'native_room': room_id, 'ap_room_keys': aliases.get(doors, []),
+                'object_list_index': index, 'placements': [], 'static_inventory': 'complete',
+                'encounter_inventory': 'unresolved',
+                'unused_room_slot': index == 0xFFFF}
+        for raw in ([] if index == 0xFFFF else lists[index]):
+            record = dict(raw)
+            record.update(id=f"room:{room_id}/template:{raw['template_address']}", native_room=room_id)
+            classify(record)
+            placements.append(record)
+            room['placements'].append(record['id'])
+            if record['spawn_table'] == 1 and record['type_id'] in ENCOUNTERS:
+                encounter_types.add(record['type_id'])
+        native_rooms.append(room)
+    spawner_outputs = []
+    for parent in placements:
+        if parent['source_type'] == 'object_spawner':
+            child = spawner_output(rom, parent)
+            classify(child)
+            spawner_outputs.append(child)
+            if child['type_id'] in ENCOUNTERS:
+                encounter_types.add(child['type_id'])
+    activation_header_hash = hashlib.sha256((decomp / 'include/object.h').read_bytes()).hexdigest()
+    for record in placements:
+        entry = MINIBOSS_ACTIVATION.get(record.get('type_id'))
+        if record['spawn_table'] == 1 and entry is not None:
+            native_hash = hashlib.sha256((decomp / 'src' / (entry[0] + '.c')).read_bytes()).hexdigest()
+            contract = miniboss_activation(rom, record, native_hash, activation_header_hash)
+            if contract is not None:
+                record['native_activation'] = contract
+    controllers = placements + spawner_outputs
+    for record in controllers:
+        events = counter_contributions(record)
+        if events:
+            record['conditional_room_counter_events'] = events
+    for child in spawner_outputs:
+        bank = child['spawn_conditions']['room_counter_bank']
+        child['spawn_conditions']['candidate_counter_contributors'] = [
+            record['id'] for record in controllers
+            if record['native_room'] == child['native_room']
+            and any(event['bank'] == bank for event in record.get('conditional_room_counter_events', []))]
+        child['spawn_conditions']['counter_reset'] = 'new room slot clears both banks; occupied room slot is reused'
+        child['spawn_conditions']['counter_access_certified'] = False
+        contributors = [record for record in controllers
+                        if record['id'] in child['spawn_conditions']['candidate_counter_contributors']]
+        if (child['spawn_conditions']['room_counter_at_least'] > 0 and contributors
+                and all(record['source_type'] in ('boss', 'miniboss') for record in contributors)):
+            child['logic'] = 'advanced'
+            child['logic_reason'] = 'Native counter contributors are encounter defeats; access remains unresolved.'
+    for room in native_rooms:
+        room['spawner_outputs'] = [p['id'] for p in spawner_outputs
+                                   if p['native_room'] == room['native_room']]
+    source_hashes = {'include/constants/object_types.h':
+                     hashlib.sha256((decomp / 'include/constants/object_types.h').read_bytes()).hexdigest()}
+    for relative in ('src/waddle_dee.c', 'src/waddle_doo.c', 'src/parasol.c', 'src/bronto_burt.c', 'src/golem.c', 'include/data.h', 'include/object.h', 'src/code_080023A4.c', 'src/ability_objects.c',
+                     'src/object.c', 'src/bonus.c', 'src/chest.c', 'src/level.c'):
+        source_hashes[relative] = hashlib.sha256((decomp / relative).read_bytes()).hexdigest()
+    calls = []
+    pending_types = set(encounter_types)
+    scanned_types = set()
+    while pending_types:
+        typ = min(pending_types)
+        pending_types.remove(typ)
+        scanned_types.add(typ)
+        filename = ENCOUNTERS[typ] + '.c'
+        path = decomp / 'src' / filename
+        if not path.exists():
+            calls.append({'controller_type': typ, 'status': 'unresolved', 'logic': 'advanced',
+                          'reason': f'Missing {filename}'})
+            continue
+        source_hashes[f'src/{filename}'] = hashlib.sha256(path.read_bytes()).hexdigest()
+        native_text = path.read_text()
+        for line, table_expression, type_expression in encounter_calls(native_text, filename):
+            types = (possible_types(filename, type_expression, source_hashes[f'src/{filename}'], native_text, names)
+                     if table_expression == '1' else [])
+            outputs = []
+            for native_type in types:
+                if native_type in ENCOUNTERS and native_type not in scanned_types:
+                    pending_types.add(native_type)
+                grant_entry = source_types.get(native_type)
+                native_grant_id = rom[0x35164E + 24 * native_type]
+                native_grant = ability_names.get(native_grant_id)
+                if grant_entry is not None and native_grant != grant_entry[1]['default_ability']:
+                    raise ValueError(f'Native encounter grant disagrees with runtime policy: {grant_entry[0]}')
+                outputs.append({'type_id': native_type, 'native_name': names[native_type],
+                                'source_key': grant_entry[0] if grant_entry is not None else None,
+                                'native_grant_id': native_grant_id, 'native_grant': native_grant})
+            calls.append({'controller_type': typ, 'evidence': f'src/{filename}:{line}',
+                          'spawn_table_expression': table_expression, 'type_expression': type_expression,
+                          'possible_outputs': outputs,
+                          'source_key': outputs[0]['source_key'] if len(outputs) == 1 else None,
+                          'logic': 'advanced', 'status': 'unresolved',
+                          'candidate_encounters': [p['id'] for p in controllers
+                              if p['spawn_table'] == 1 and p['type_id'] == typ],
+                          'reason': ('Call-site census requires branch, helper and encounter-lifetime review; '
+                                     'not an acquisition witness.')})
+    # A type-level closure terminates even when a phase file can create its
+    # own controller type. These are possible roots, never acquisition paths.
+    roots = {typ: {p['id'] for p in controllers if p['spawn_table'] == 1 and p['type_id'] == typ}
+             for typ in scanned_types}
+    changed = True
+    while changed:
+        changed = False
+        for call in calls:
+            for output in call.get('possible_outputs', []):
+                child = output['type_id']
+                if child in roots:
+                    before = len(roots[child])
+                    roots[child].update(roots[call['controller_type']])
+                    changed |= len(roots[child]) != before
+    for call in calls:
+        call['candidate_root_encounters'] = sorted(roots[call['controller_type']])
+        call['controller_parent_calls'] = sorted({
+            f"{parent['controller_type']}:{parent['evidence']}" for parent in calls
+            if any(output['type_id'] == call['controller_type'] for output in parent.get('possible_outputs', []))})
+    encounter_sources = generated_encounter_sources(calls, controllers)
+    for record in encounter_sources:
+        if record['generation']['controller_type'] == 56:
+            contract = frostys_cube_contract(source_hashes.get('src/mr_frosty.c', ''), record['type_id'])
+            if contract is not None:
+                record['native_contract'] = contract
+        if record['generation']['controller_type'] == 57:
+            contract = bonkers_nut_contract(source_hashes.get('src/bonkers.c', ''), record['type_id'])
+            if contract is not None:
+                record['native_contract'] = contract
+        if record['generation']['controller_type'] == 61:
+            contract = boxy_output_contract(source_hashes.get('src/boxy.c', ''), record['type_id'],
+                                           record['generation']['callsite'])
+            if contract is not None:
+                record['native_contract'] = contract
+        if record['generation']['controller_type'] == 63:
+            contract = bombar_output_contract(source_hashes.get('src/bombar.c', ''), record['type_id'])
+            if contract is not None:
+                record['native_contract'] = contract
+        if record['generation']['controller_type'] in (79, 80, 81):
+            projectile_contract = dark_mind_projectile_contract(source_hashes.get('src/dark_mind.c', ''),
+                record['type_id'], record['generation']['callsite'])
+            if projectile_contract is not None:
+                record['native_contract'] = projectile_contract
+            contract = dark_mind_enemy_contract(source_hashes.get('src/dark_mind.c', ''),
+                source_hashes.get('src/object.c', ''), record['type_id'], record['generation']['callsite'])
+            if contract is not None:
+                record['native_contract'] = contract
+        contract = other_encounter_contract(source_hashes, record['type_id'], record['generation']['callsite'])
+        if contract is not None:
+            record['native_contract'] = contract
+    for room in native_rooms:
+        room['encounter_controllers'] = [p['id'] for p in controllers
+            if p['native_room'] == room['native_room'] and p['spawn_table'] == 1
+            and p['type_id'] in ENCOUNTERS]
+        room['encounter_sources'] = [p['id'] for p in encounter_sources
+                                     if p['native_room'] == room['native_room']]
+    generated_statues = []
+    for parent in placements:
+        if parent['source_type'] != 'random_statue':
+            continue
+        offset = int(parent['template_address'], 16) - 0x08000000
+        x, y = parent['position_pixels']
+        first_x = x + unpack(rom, '<h', offset + 0x1A)[0]
+        second_x = first_x + unpack(rom, '<H', offset + 0x1E)[0]
+        alternatives = []
+        for index in range(19):
+            group = rom[0x35390F + index]
+            subtype = index - rom[0x353922 + group]
+            base, count = STATUES[0x92 + group]
+            if not 0 <= subtype < count:
+                raise ValueError('Invalid native random-statue selector table')
+            alternatives.append(f'STATUE:{base + subtype:06X}')
+        for slot, child_x in enumerate((first_x, second_x)):
+            generated_statues.append({
+                'id': f"{parent['id']}/statue-slot:{slot}", 'native_room': parent['native_room'],
+                'parent_placement': parent['id'], 'source_type': 'statue', 'logic': 'standard',
+                'position_pixels': [child_x, y], 'source_key': None, 'native_grant': None,
+                'possible_source_keys': alternatives,
+                'selection': ('Two distinct native statue indices chosen when the controller spawns; '
+                              'fixed for that instance.'),
+                'repeatability': 'Retouch of the selected statue does not reroll its native index.',
+                'lifetime': {'identity': f"{parent['id']}/statue-slot:{slot}",
+                             'controller_death_implies_child_death': False,
+                             'reason': 'Controller marks itself destroyed after creating two independent statues.'},
+                'access': {'status': 'unresolved',
+                           'reason': 'Requires controller spawning and physical contact; no retry route inferred.'},
+                'evidence': 'src/ability_objects.c:sub_080AA6F8/sub_080AA588',
+            })
+    for record in encounter_sources:
+        contract = record.get('native_contract', {})
+        predicate = parent_expiry_predicate(contract, source_hashes)
+        if predicate is not None:
+            contract['parent_expiry_predicate'] = predicate
+    for record in generated_statues:
+        record['bounded_native_evidence'] = {
+            'record': 'dev-docs/generated-statue-native-acceptance.json',
+            'compartment': 'room951 lower statue floor',
+            'scope': 'Configured local contact and retouch in a Boss Endurance room; not Adventure access.'}
+    for record in encounter_sources:
+        if record['id'] == 'room:825/template:0x088CD3F0/encounter:56/src/mr_frosty.c:762/type:166':
+            record['bounded_native_evidence'] = {
+                'record': 'dev-docs/generated-frosty825-native-acceptance.json',
+                'compartment': 'room825 lower arrival to upper arena, live original Frosty',
+                'scope': 'Nine matched 1 HP cases; conditional small-cube acquisition only. Other attack timings and safe combat/carry suffix remain uncertified.'}
+        if record['id'] == 'room:955/template:0x088D5CD0/encounter:56/src/mr_frosty.c:762/type:166':
+            record['bounded_native_evidence'] = {
+                'record': 'dev-docs/generated-frosty-native-acceptance.json',
+                'compartment': 'room955 arena, live original Frosty',
+                'scope': 'Configured Boss Endurance room fixture; observed 6 HP arrival and one hit before finite small-cube acquisition. Damage is execution evidence, not a health prerequisite. Adventure access is not established.'}
+    # One native constructor call chooses exactly one size, not two available cubes.
+    cube_groups = {}
+    for record in encounter_sources:
+        if (record.get('native_contract', {}).get('generation_function') == 'sub_080CCEE0'
+                and record['type_id'] in (166, 167)):
+            cube_groups.setdefault(record['parent_placement'], []).append(record)
+    for parent, choices in cube_groups.items():
+        if {r['type_id'] for r in choices} != {166, 167} or len(choices) != 2:
+            raise ValueError('Frosty size selection requires both exclusive native branches')
+        group = {'id': parent + '/choice:mr_frosty_cube_size',
+                 'members': sorted(r['id'] for r in choices),
+                 'source_sha256': source_hashes['src/mr_frosty.c'],
+                 'constructor': 'mr_frosty.c:sub_080CCEE0', 'outputs_per_call': 1,
+                 'selection': 'RandLessThan3() nonzero selects166; zero selects167',
+                 'repeatability': 'not_certified'}
+        for record in choices:
+            record['exclusive_generation_group'] = group
+    static_parents = {record['id']: record for record in placements}
+    for record in encounter_sources:
+        selection = dark_mind_template_star_selection(static_parents.get(record['parent_placement'], {}),
+                                                      record, source_hashes)
+        if selection is not None:
+            record['native_phase_selection'] = selection
+            record['native_contract']['root_to_phase_lineage'] = 'Direct static Form1 controller; template subtype2 and conditional mode-flag override are recorded separately. Attack entry remains unresolved.'
+    for record in placements + spawner_outputs + encounter_sources:
+        contract = (golem_grant_contract(record, source_hashes['src/golem.c'])
+                    or parasol_parent_grant_contract(record, source_hashes))
+        if contract is not None:
+            record['native_grant_states'] = contract
+    bindings = {}
+    by_template = {(p['native_room'], p['template_address'].lower()): p for p in placements}
+
+    def bind(source, native_room):
+        matches = re.findall(r'(?:0x)?(08[89][0-9a-fA-F]{5}|8[89][0-9a-fA-F]{5})', source.get('id', ''))
+        if not matches:
+            return
+        address = f"0x{int(matches[-1], 16):08x}"
+        placement = by_template.get((native_room, address))
+        if placement is not None and placement['source_key'] == source['source_key']:
+            bindings[f"{native_room}:{source['id']}"] = placement['id']
+
+    for traversal in iter_traversals(rooms):
+        for definition in traversal.get('source_sets', {}).values():
+            for source in definition['sources']:
+                bind(source, definition['native_room'])
+        graphs = list(traversal.get('graph_parts', {}).values()) + [
+            graph for target in traversal.get('targets', []) for graph in target['graphs'].values()]
+        for graph in graphs:
+            nodes = {node['id']: node['native_room'] for node in graph.get('nodes', [])}
+            for source in graph.get('sources', []):
+                bind(source, nodes.get(source['node']))
+    for record in native_rooms + placements + generated_statues + spawner_outputs + encounter_sources:
+        if record['native_room'] in BOSS_ENDURANCE_ROOMS:
+            record['world_access'] = {
+                'status': 'outside_adventure', 'mode': 'boss_endurance',
+                'evidence': 'dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room',
+                'reason': 'Dedicated Boss Endurance room; local configured fixtures are not Adventure entries.'}
+    return {'version': 1, 'rom_sha1': USA_SHA1, 'decomp_reference_commit': DECOMP_REFERENCE_COMMIT,
+            'decomp_file_sha256': source_hashes,
+            'scope': 'All native room object lists, including empty and aliased rooms; dynamic census is unresolved.',
+            'rooms': native_rooms, 'ap_region_inventory': build_ap_region_inventory(rooms, native_rooms),
+            'placements': placements, 'encounter_calls': calls,
+            'reviewed_bindings': dict(sorted(bindings.items())),
+            'generated_statue_slots': generated_statues, 'spawner_outputs': spawner_outputs,
+            'encounter_sources': encounter_sources,
+            'dynamic_grant_types': [{'source_key': key, 'native_grant': spec['default_ability'],
+                                    'logic': 'advanced', 'access': 'unresolved'}
+                                   for key, spec in enemies.items() if spec['kind'] == 'boss_spawned']}
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--rom', type=Path, required=True)
+    parser.add_argument('--decomp', type=Path, required=True)
+    parser.add_argument('--output', type=Path, required=True)
+    args = parser.parse_args()
+    result = build_inventory(args.rom.read_bytes(), args.decomp,
+                             json.loads((ROOT / 'data/regions/rooms.json').read_text()),
+                             json.loads((ROOT / 'data/enemies.json').read_text()))
+    args.output.write_text(json.dumps(result, indent=2) + '\n')
+    print(f"{len(result['rooms'])} rooms, {len(result['placements'])} placements, "
+          f"{len(result['encounter_calls'])} controller/call-site candidate pairs")
+
+
+if __name__ == '__main__':
+    main()

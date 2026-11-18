@@ -11,6 +11,7 @@ from BaseClasses import CollectionState, ItemClassification
 from test.general import setup_multiworld
 
 from .support.source_policy import set_rule_test_policy
+from .support.cabbage_statues import statue_alternative_available, chocolate_policy_applies, finite_doo_graphs
 from .. import KirbyAmWorld, traversal_rules as rules
 from ..data import data
 from ..traversal import Grant, SourcePolicy
@@ -43,12 +44,12 @@ def cabbage_row():
 def test_only_guaranteed_singleton_beam_or_smash_applies(mode, pool, weight, applies, statues):
     resolver = policy(mode, pool=pool, weight=weight, statues=statues)
     row = cabbage_row()
-    assert rules.target_applies(row, resolver) is applies
+    assert rules.target_applies(row, resolver) is chocolate_policy_applies(resolver)
     # Existing Beam witness and new Smash witness are alternatives, not AND gates.
     if applies:
         ability, = resolver.grant('WADDLE_DOO', lambda _: True).guaranteed
         results = [rules.graph_succeeds(graph, resolver, frozenset({f'{ability} Ability'}), True,
-                                        retries=False) for graph in rules.target_graphs(row, False)]
+                                        retries=False) for graph in finite_doo_graphs(row)]
         assert results == [ability == name for name in
                            ('Beam', 'Smash', 'Fire', 'Missile', 'Parasol', 'Spark', 'Ice', 'Sword', 'Fighter', 'UFO')]
     # Carrot's late OR is installed, but this matrix still has only the finite Beam alternative.
@@ -107,7 +108,8 @@ def test_smash_graph_requires_finite_actual_source_not_inventory(gating, area_ke
     {'requires_guaranteed_source': {'source_key': 'WADDLE_DOO', 'abilities': ['Smash']}},
 ])
 def test_smash_applicability_schema_cannot_spread_to_other_targets(update):
-    row = deepcopy(cabbage_row())
+    from .support.cabbage_statue_history import before_cabbage_statues_target
+    row = before_cabbage_statues_target(cabbage_row())
     row.update(update)
     region = row.pop('region')
     with pytest.raises(ValueError, match='applicability'):
@@ -145,13 +147,13 @@ def test_actual_world_only_chocolate_chest_uses_smash_permission(
         assert not target.access_rule(state)  # Inventory cannot supply independent entry.
         state.remove(world.create_item('Smash Ability'))
         state.can_reach_region = lambda name, player: name == UPSTREAM
-        assert target.access_rule(state) is (not gating)
+        assert target.access_rule(state) is (not gating or statue_alternative_available(world, state))
         state.collect(world.create_item('Beam Ability'), prevent_sweep=True)
-        assert target.access_rule(state) is (not gating)  # Source grants Smash, not Beam.
+        assert target.access_rule(state) is (not gating or statue_alternative_available(world, state))  # Source grants Smash, not Beam.
         state.collect(world.create_item('Smash Ability'), prevent_sweep=True)
         assert target.access_rule(state)
         state.remove(world.create_item('Smash Ability'))
-        assert target.access_rule(state) is (not gating)
+        assert target.access_rule(state) is (not gating or statue_alternative_available(world, state))
     else:
         with pytest.raises(KeyError):
             multiworld.get_location(data.locations[CHEST].label, 1)
@@ -209,7 +211,7 @@ def test_full_generation_seed173_keeps_production_smash_assignment(tmp_path, mon
     state = CollectionState(multiworld)
     state.can_reach_region = lambda name, player: name == UPSTREAM
     target = multiworld.get_location(data.locations[CHEST].label, 1)
-    assert target.access_rule(state) is (not gating)
+    assert target.access_rule(state) is (not gating or statue_alternative_available(world, state))
     state.collect(world.create_item('Smash Ability'), prevent_sweep=True)
     assert target.access_rule(state)
 
@@ -221,7 +223,7 @@ def test_full_generation_seed173_keeps_production_smash_assignment(tmp_path, mon
     (2, ['Smash'], 50, False), (2, ['Smash'], 100, False), (2, None, 0, False),
 ])
 @pytest.mark.parametrize('gating', [0, 1])
-def test_actual_world_policy_applicability_preserves_unproved_assignments(
+def test_actual_world_policy_applicability_includes_native_statues(
         monkeypatch, mode, pool, weight, applies, gating):
     resolver = policy(mode, pool=pool, weight=weight, minny=False)
     # Restricted pools are rule-layer fixtures, not successful full generations.
@@ -231,12 +233,11 @@ def test_actual_world_policy_applicability_preserves_unproved_assignments(
     chest = world.multiworld.get_location(data.locations[CHEST].label, 1)
     state = CollectionState(world.multiworld)
     state.can_reach_region = lambda name, player: name == OWNER
-    assert chest.access_rule(state) is (not applies)
+    assert not chest.access_rule(state)
     for ability in ('Beam', 'Smash', 'Spark', 'Ice'):
         state.collect(world.create_item(f'{ability} Ability'), prevent_sweep=True)
-    assert chest.access_rule(state) is (not applies)
+    assert not chest.access_rule(state)
     state.can_reach_region = lambda name, player: name == UPSTREAM
     assert chest.access_rule(state)
     state.remove(world.create_item('Smash Ability'))
-    requires_smash = resolver.grant('WADDLE_DOO', lambda _: True).guaranteed == frozenset({'Smash'})
-    assert chest.access_rule(state) is (not (applies and requires_smash and gating))
+    assert chest.access_rule(state)  # Native Spark statue permission remains owned.

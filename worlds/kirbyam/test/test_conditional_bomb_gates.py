@@ -16,6 +16,8 @@ from .support.normal110_history import before_normal110
 from .support.source_policy import set_rule_test_policy
 from .support.master719_history import before_master719
 from ..master_source import CENTRAL_REGION
+from ..enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES
+from .support.cabbage_statues import chocolate_policy_applies, statue_alternative_available, PROVIDERS
 
 OWNER = 'REGION_RAINBOW_ROUTE/ROOM_1_08'
 UPSTREAM = 'REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_MID'
@@ -108,7 +110,7 @@ def test_actual_world_wires_only_room9_edge_and_collects_spark(
     assert target.access_rule(state)  # Source-policy-independent Normal route.
     item = world.create_item('Spark Ability')
     state.collect(item, prevent_sweep=True)
-    progression = bool(gating and chocolate_spark)
+    progression = bool(gating)  # Native Hub2 Spark statue is an independent source.
     assert rules.cabbage_element_is_progression(world, 'Spark') is progression
     assert item.classification == (ItemClassification.progression if progression else ItemClassification.useful)
     # Logical CollectionState does not count useful rewards. Physical Copy permission
@@ -128,7 +130,7 @@ def test_actual_world_wires_only_room9_edge_and_collects_spark(
         assert location.access_rule(state)
 
 
-@pytest.mark.parametrize('mode,pool,weight,applies', [
+@pytest.mark.parametrize('mode,pool,weight,doo_applies', [
     (0, None, 0, True), (1, ['Beam'], 0, True), (1, ['Spark'], 0, True), (1, ['Ice'], 0, True),
     (1, ['Sword'], 0, True), (2, ['Sword'], 0, True),
     (1, ['Fighter'], 0, True), (2, ['Fighter'], 0, True),
@@ -141,10 +143,12 @@ def test_actual_world_wires_only_room9_edge_and_collects_spark(
 @pytest.mark.parametrize('area_keys', [False, True])
 @pytest.mark.parametrize('statues', [False, True])
 def test_cabbage_conditional_policy_category_and_entry_matrix(
-        monkeypatch, mode, pool, weight, applies, gating, enabled, area_keys, statues):
+        monkeypatch, mode, pool, weight, doo_applies, gating, enabled, area_keys, statues):
     resolver = policy(mode, pool=pool, weight=weight, statues=statues)
     row = next(r for r in room_traversal_targets('block') if r['id'] == 'bomb_517_chocolate')
     monkeypatch.setattr(rules, 'extra_traversal_targets', lambda: (row,))
+    assert bool(resolver.grant('WADDLE_DOO', lambda _: True).guaranteed & PROVIDERS) is doo_applies
+    applies = chocolate_policy_applies(resolver)
     assert rules.target_applies(row, resolver) is applies
     assert rules.static_extra_witness(resolver)
     target = SimpleNamespace(access_rule=lambda state: state.base_rule)
@@ -169,15 +173,21 @@ def test_cabbage_conditional_policy_category_and_entry_matrix(
         name == 'REGION_CABBAGE_CAVERN/ROOM_3_HUB_2' and state.upstream)
     assert target.access_rule(state) is (not (applies and enabled))
     state.upstream = True
-    assignment = resolver.grant('WADDLE_DOO', lambda _: True).guaranteed
-    needs_permission = enabled and applies and gating and bool(assignment & {'Spark', 'Ice', 'Sword', 'Fighter', 'UFO'})
+    assignment = resolver.grant('WADDLE_DOO', lambda _: True).guaranteed & PROVIDERS
+    finite_available = bool(assignment) and all(
+        not gating or a not in GATEABLE_ENEMY_COPY_ABILITIES or f'{a} Ability' in owned
+        for a in assignment)
+    needs_permission = enabled and applies and not (
+        finite_available or statue_alternative_available(world, state))
     assert target.access_rule(state) is (not needs_permission)
     if needs_permission:
-        # The independent entry is necessary but not a substitute for permission.
-        owned.add('Missile Ability')
+        owned.add('Bomb Ability')  # Not one of the ten Chocolate providers.
         assert not target.access_rule(state)
-        ability, = assignment
-        owned.add(f'{ability} Ability')
+        candidates = set(assignment)
+        for key in ('STATUE:353906', 'STATUE:353901'):
+            candidates.update(resolver.grant(key, lambda _: True).guaranteed & PROVIDERS)
+        assert candidates
+        owned.add(f'{sorted(candidates)[0]} Ability')
         assert target.access_rule(state)
     state.base_rule = False
     assert not target.access_rule(state)

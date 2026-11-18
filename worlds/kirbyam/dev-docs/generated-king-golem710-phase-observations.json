@@ -1,0 +1,1627 @@
+{
+  "version": 1,
+  "status": "mechanics_observations_not_safe_route",
+  "controller_inventory_id": "room:710/template:0x088BD2B0",
+  "cases": {
+    "king-golem710-fighter-phase-wait": {
+      "policy": {
+        "mode": 0,
+        "allowed_abilities": [
+          "Beam",
+          "Bomb",
+          "Burning",
+          "Cook",
+          "Crash",
+          "Cupid",
+          "Cutter",
+          "Fighter",
+          "Fire",
+          "Hammer",
+          "Ice",
+          "Laser",
+          "Magic",
+          "Mini",
+          "Missile",
+          "Parasol",
+          "Sleep",
+          "Smash",
+          "Spark",
+          "Stone",
+          "Sword",
+          "Throw",
+          "Tornado",
+          "UFO",
+          "Wheel"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "identity_map": {
+          "Beam": "Beam",
+          "Bomb": "Bomb",
+          "Burning": "Burning",
+          "Cook": "Cook",
+          "Crash": "Crash",
+          "Cupid": "Cupid",
+          "Cutter": "Cutter",
+          "Fighter": "Fighter",
+          "Fire": "Fire",
+          "Hammer": "Hammer",
+          "Ice": "Ice",
+          "Laser": "Laser",
+          "Magic": "Magic",
+          "Mini": "Mini",
+          "Missile": "Missile",
+          "Parasol": "Parasol",
+          "Sleep": "Sleep",
+          "Smash": "Smash",
+          "Spark": "Spark",
+          "Stone": "Stone",
+          "Sword": "Sword",
+          "Throw": "Throw",
+          "Tornado": "Tornado",
+          "UFO": "UFO",
+          "Wheel": "Wheel"
+        }
+      },
+      "health_percent": 100,
+      "gated": false,
+      "configured_hp": 1,
+      "configured_start": [
+        710,
+        16,
+        288
+      ],
+      "native_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "base_patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "production_rom_sha256": "e81f98c79c2ff93d2d8263e2ed178ec46d2dde2231c7679b3f0a13aed0ded759",
+      "script_sha256": "2eda191dfe142472fd7a3bf25c138adc9f1bfc6cfa8c05ed16f37a955c1526d5",
+      "private_trace_sha256": "74a24fcb387aee93e7d44c2faf67a6f17cda581989aa949811a4c5b17e2d732a",
+      "runtime_sha256": "f8c86583418c83fd3129dcb3f85b7aef46d3a96c85b019e0ac4123e7987beb50",
+      "fixture_rom_sha256": "915b3f2a53553a4cf02433d07abc4208584af9d939059f45af1328fc60e00d6f",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "initial": {
+        "label": "arrival",
+        "frame": 1085,
+        "room": 710,
+        "x": 16.0,
+        "y": 281.44140625,
+        "hp": 1,
+        "ability": 0,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          50338348,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          67305985,
+          134678021,
+          202050057,
+          269422093,
+          1129578496,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "final": {
+        "frame": 1489,
+        "hp": 0,
+        "ability": 0,
+        "room": 710,
+        "x": 16.0,
+        "y": 296.99609375
+      },
+      "minimum_hp": 0,
+      "first_input": 32,
+      "phase_observations": [],
+      "intakes": [],
+      "equipment_transitions": [],
+      "runtime_writes": []
+    },
+    "king-golem710-fighter-phase-right": {
+      "policy": {
+        "mode": 0,
+        "allowed_abilities": [
+          "Beam",
+          "Bomb",
+          "Burning",
+          "Cook",
+          "Crash",
+          "Cupid",
+          "Cutter",
+          "Fighter",
+          "Fire",
+          "Hammer",
+          "Ice",
+          "Laser",
+          "Magic",
+          "Mini",
+          "Missile",
+          "Parasol",
+          "Sleep",
+          "Smash",
+          "Spark",
+          "Stone",
+          "Sword",
+          "Throw",
+          "Tornado",
+          "UFO",
+          "Wheel"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "identity_map": {
+          "Beam": "Beam",
+          "Bomb": "Bomb",
+          "Burning": "Burning",
+          "Cook": "Cook",
+          "Crash": "Crash",
+          "Cupid": "Cupid",
+          "Cutter": "Cutter",
+          "Fighter": "Fighter",
+          "Fire": "Fire",
+          "Hammer": "Hammer",
+          "Ice": "Ice",
+          "Laser": "Laser",
+          "Magic": "Magic",
+          "Mini": "Mini",
+          "Missile": "Missile",
+          "Parasol": "Parasol",
+          "Sleep": "Sleep",
+          "Smash": "Smash",
+          "Spark": "Spark",
+          "Stone": "Stone",
+          "Sword": "Sword",
+          "Throw": "Throw",
+          "Tornado": "Tornado",
+          "UFO": "UFO",
+          "Wheel": "Wheel"
+        }
+      },
+      "health_percent": 100,
+      "gated": false,
+      "configured_hp": 1,
+      "configured_start": [
+        710,
+        16,
+        288
+      ],
+      "native_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "base_patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "production_rom_sha256": "e81f98c79c2ff93d2d8263e2ed178ec46d2dde2231c7679b3f0a13aed0ded759",
+      "script_sha256": "2eda191dfe142472fd7a3bf25c138adc9f1bfc6cfa8c05ed16f37a955c1526d5",
+      "private_trace_sha256": "af9c41d23fe058bf95c1280a218f69e24ff713f56f44d582c5f0ff9ea3c128fe",
+      "runtime_sha256": "7f5a63ac237b4fe9fbdacbec02a6d19fdcf4ea1701bb1f8173ad0a72d955917a",
+      "fixture_rom_sha256": "915b3f2a53553a4cf02433d07abc4208584af9d939059f45af1328fc60e00d6f",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "initial": {
+        "label": "arrival",
+        "frame": 1085,
+        "room": 710,
+        "x": 16.0,
+        "y": 281.44140625,
+        "hp": 1,
+        "ability": 0,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          50338348,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          67305985,
+          134678021,
+          202050057,
+          269422093,
+          1129578496,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "final": {
+        "frame": 3972,
+        "hp": 0,
+        "ability": 0,
+        "room": 710,
+        "x": 16.65625,
+        "y": 296.99609375
+      },
+      "minimum_hp": 0,
+      "first_input": 16,
+      "phase_observations": [
+        {
+          "frame": 3633,
+          "player_hp": 1,
+          "source": {
+            "template": "0x20229e0",
+            "parent": "0x2000054",
+            "object": "0x200016c",
+            "type_id": 31,
+            "native_ability": 8,
+            "hp": 7,
+            "x": 196.0,
+            "y": 276.0,
+            "state": "0x80c5a3d",
+            "flags": "0x10200341"
+          }
+        }
+      ],
+      "intakes": [],
+      "equipment_transitions": [],
+      "runtime_writes": []
+    },
+    "king-golem710-fighter-filter-sixhp": {
+      "policy": {
+        "mode": 0,
+        "allowed_abilities": [
+          "Beam",
+          "Bomb",
+          "Burning",
+          "Cook",
+          "Crash",
+          "Cupid",
+          "Cutter",
+          "Fighter",
+          "Fire",
+          "Hammer",
+          "Ice",
+          "Laser",
+          "Magic",
+          "Mini",
+          "Missile",
+          "Parasol",
+          "Sleep",
+          "Smash",
+          "Spark",
+          "Stone",
+          "Sword",
+          "Throw",
+          "Tornado",
+          "UFO",
+          "Wheel"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "identity_map": {
+          "Beam": "Beam",
+          "Bomb": "Bomb",
+          "Burning": "Burning",
+          "Cook": "Cook",
+          "Crash": "Crash",
+          "Cupid": "Cupid",
+          "Cutter": "Cutter",
+          "Fighter": "Fighter",
+          "Fire": "Fire",
+          "Hammer": "Hammer",
+          "Ice": "Ice",
+          "Laser": "Laser",
+          "Magic": "Magic",
+          "Mini": "Mini",
+          "Missile": "Missile",
+          "Parasol": "Parasol",
+          "Sleep": "Sleep",
+          "Smash": "Smash",
+          "Spark": "Spark",
+          "Stone": "Stone",
+          "Sword": "Sword",
+          "Throw": "Throw",
+          "Tornado": "Tornado",
+          "UFO": "UFO",
+          "Wheel": "Wheel"
+        }
+      },
+      "health_percent": 100,
+      "gated": false,
+      "configured_hp": 6,
+      "configured_start": [
+        710,
+        16,
+        288
+      ],
+      "native_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "base_patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "production_rom_sha256": "e81f98c79c2ff93d2d8263e2ed178ec46d2dde2231c7679b3f0a13aed0ded759",
+      "script_sha256": "c24346e3df13ff9a25a80896c32e36f0370332e3d66e9977c2b1bf79b2ed774c",
+      "private_trace_sha256": "ba2bd0eb87d7d163dc8340d76706370122ecf59fdca0e812a2b43be70510f92e",
+      "runtime_sha256": "8dfa489f000040ccaca8974a457a97ea6fcd405938f161ef601e81125ae46423",
+      "fixture_rom_sha256": "9b7a9d7307e8cd66c2948e954f4ed0b9ecd9c305dc533570ce11182bfedefdb7",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "initial": {
+        "label": "arrival",
+        "frame": 1085,
+        "room": 710,
+        "x": 16.0,
+        "y": 281.44140625,
+        "hp": 6,
+        "ability": 0,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          50338348,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          67305985,
+          134678021,
+          202050057,
+          269422093,
+          1129578496,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "final": {
+        "frame": 5881,
+        "hp": 0,
+        "ability": 0,
+        "room": 710,
+        "x": 35.453125,
+        "y": 296.99609375
+      },
+      "minimum_hp": 0,
+      "first_input": 16,
+      "phase_observations": [
+        {
+          "frame": 3585,
+          "player_hp": 6,
+          "source": {
+            "template": "0x2022a4c",
+            "parent": "0x2000054",
+            "object": "0x20003a0",
+            "type_id": 32,
+            "native_ability": 8,
+            "hp": 7,
+            "x": 196.0,
+            "y": 276.0,
+            "state": "0x80c5a3d",
+            "flags": "0x10200341"
+          }
+        },
+        {
+          "frame": 3787,
+          "player_hp": 6,
+          "source": {
+            "template": "0x2022a4c",
+            "parent": "0x2000054",
+            "object": "0x20003a0",
+            "type_id": 32,
+            "native_ability": 4,
+            "hp": 7,
+            "x": 56.671875,
+            "y": 289.99609375,
+            "state": "0x80c64ed",
+            "flags": "0x10200001"
+          }
+        },
+        {
+          "frame": 3828,
+          "player_hp": 6,
+          "source": {
+            "template": "0x2022a4c",
+            "parent": "0x2000054",
+            "object": "0x20003a0",
+            "type_id": 32,
+            "native_ability": 0,
+            "hp": 0,
+            "x": 32.546875,
+            "y": 296.15625,
+            "state": "0x809c48d",
+            "flags": "0x10201b41"
+          }
+        },
+        {
+          "frame": 3950,
+          "player_hp": 5,
+          "source": {
+            "template": "0x2022a04",
+            "parent": "0x2000054",
+            "object": "0x2000228",
+            "type_id": 31,
+            "native_ability": 8,
+            "hp": 7,
+            "x": 196.0,
+            "y": 276.0,
+            "state": "0x80c5a3d",
+            "flags": "0x10200341"
+          }
+        },
+        {
+          "frame": 5079,
+          "player_hp": 3,
+          "source": {
+            "template": "0x2022a04",
+            "parent": "0x2000054",
+            "object": "0x2000228",
+            "type_id": 31,
+            "native_ability": 0,
+            "hp": 0,
+            "x": 33.59375,
+            "y": 296.49609375,
+            "state": "0x809c48d",
+            "flags": "0x10201b41"
+          }
+        },
+        {
+          "frame": 5232,
+          "player_hp": 3,
+          "source": {
+            "template": "0x2022a04",
+            "parent": "0x2000054",
+            "object": "0x2000228",
+            "type_id": 33,
+            "native_ability": 8,
+            "hp": 7,
+            "x": 196.0,
+            "y": 276.0,
+            "state": "0x80c5a3d",
+            "flags": "0x10200341"
+          }
+        },
+        {
+          "frame": 5332,
+          "player_hp": 3,
+          "source": {
+            "template": "0x2022a04",
+            "parent": "0x2000054",
+            "object": "0x2000228",
+            "type_id": 33,
+            "native_ability": 20,
+            "hp": 7,
+            "x": 143.421875,
+            "y": 289.99609375,
+            "state": "0x80c5f21",
+            "flags": "0x10200001"
+          }
+        },
+        {
+          "frame": 5800,
+          "player_hp": 1,
+          "source": {
+            "template": "0x2022a04",
+            "parent": "0x2000054",
+            "object": "0x2000228",
+            "type_id": 33,
+            "native_ability": 0,
+            "hp": 0,
+            "x": 44.9921875,
+            "y": 291.63671875,
+            "state": "0x809c48d",
+            "flags": "0x10201b41"
+          }
+        }
+      ],
+      "intakes": [
+        {
+          "frame": 3812,
+          "player_hp": 6,
+          "source": {
+            "template": "0x2022a4c",
+            "parent": "0x2000054",
+            "object": "0x20003a0",
+            "type_id": 32,
+            "native_ability": 4,
+            "hp": 0,
+            "x": 54.859375,
+            "y": 289.99609375,
+            "state": "0x809c48d",
+            "flags": "0x10240b41"
+          },
+          "last_observed_source": {
+            "template": "0x2022a4c",
+            "parent": "0x2000054",
+            "object": "0x20003a0",
+            "type_id": 32,
+            "native_ability": 4,
+            "hp": 7,
+            "x": 56.671875,
+            "y": 289.99609375,
+            "state": "0x80c64ed",
+            "flags": "0x10200003"
+          }
+        },
+        {
+          "frame": 5059,
+          "player_hp": 3,
+          "source": {
+            "template": "0x2022a04",
+            "parent": "0x2000054",
+            "object": "0x2000228",
+            "type_id": 31,
+            "native_ability": 8,
+            "hp": 0,
+            "x": 68.046875,
+            "y": 289.99609375,
+            "state": "0x809c48d",
+            "flags": "0x10240b43"
+          },
+          "last_observed_source": {
+            "template": "0x2022a04",
+            "parent": "0x2000054",
+            "object": "0x2000228",
+            "type_id": 31,
+            "native_ability": 8,
+            "hp": 7,
+            "x": 68.046875,
+            "y": 289.99609375,
+            "state": "0x80c5ab5",
+            "flags": "0x10200003"
+          }
+        },
+        {
+          "frame": 5798,
+          "player_hp": 1,
+          "source": {
+            "template": "0x2022a04",
+            "parent": "0x2000054",
+            "object": "0x2000228",
+            "type_id": 33,
+            "native_ability": 20,
+            "hp": 0,
+            "x": 45.484375,
+            "y": 289.99609375,
+            "state": "0x809c48d",
+            "flags": "0x10240b41"
+          },
+          "last_observed_source": {
+            "template": "0x2022a04",
+            "parent": "0x2000054",
+            "object": "0x2000228",
+            "type_id": 33,
+            "native_ability": 20,
+            "hp": 7,
+            "x": 45.796875,
+            "y": 289.99609375,
+            "state": "0x80c5f21",
+            "flags": "0x10200001"
+          }
+        }
+      ],
+      "equipment_transitions": [
+        {
+          "frame": 3887,
+          "hp": 6,
+          "ability": 4,
+          "room": 710,
+          "x": 16.65625,
+          "y": 296.99609375
+        },
+        {
+          "frame": 4127,
+          "hp": 5,
+          "ability": 4,
+          "room": 710,
+          "x": 16.03125,
+          "y": 296.99609375
+        },
+        {
+          "frame": 4300,
+          "hp": 4,
+          "ability": 4,
+          "room": 710,
+          "x": 16.0,
+          "y": 296.99609375
+        },
+        {
+          "frame": 5134,
+          "hp": 3,
+          "ability": 8,
+          "room": 710,
+          "x": 16.03125,
+          "y": 296.99609375
+        }
+      ],
+      "runtime_writes": []
+    },
+    "king-golem710-wheel-phase-onehp": {
+      "policy": {
+        "mode": 0,
+        "allowed_abilities": [
+          "Beam",
+          "Bomb",
+          "Burning",
+          "Cook",
+          "Crash",
+          "Cupid",
+          "Cutter",
+          "Fighter",
+          "Fire",
+          "Hammer",
+          "Ice",
+          "Laser",
+          "Magic",
+          "Mini",
+          "Missile",
+          "Parasol",
+          "Sleep",
+          "Smash",
+          "Spark",
+          "Stone",
+          "Sword",
+          "Throw",
+          "Tornado",
+          "UFO",
+          "Wheel"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "identity_map": {
+          "Beam": "Beam",
+          "Bomb": "Bomb",
+          "Burning": "Burning",
+          "Cook": "Cook",
+          "Crash": "Crash",
+          "Cupid": "Cupid",
+          "Cutter": "Cutter",
+          "Fighter": "Fighter",
+          "Fire": "Fire",
+          "Hammer": "Hammer",
+          "Ice": "Ice",
+          "Laser": "Laser",
+          "Magic": "Magic",
+          "Mini": "Mini",
+          "Missile": "Missile",
+          "Parasol": "Parasol",
+          "Sleep": "Sleep",
+          "Smash": "Smash",
+          "Spark": "Spark",
+          "Stone": "Stone",
+          "Sword": "Sword",
+          "Throw": "Throw",
+          "Tornado": "Tornado",
+          "UFO": "UFO",
+          "Wheel": "Wheel"
+        }
+      },
+      "health_percent": 100,
+      "gated": false,
+      "configured_hp": 1,
+      "configured_start": [
+        710,
+        16,
+        288
+      ],
+      "native_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "base_patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "production_rom_sha256": "e81f98c79c2ff93d2d8263e2ed178ec46d2dde2231c7679b3f0a13aed0ded759",
+      "script_sha256": "806dfb6a6ea84e6b7dbb417536b527e5d4a4786c27e1beafb90ad8557abc465b",
+      "private_trace_sha256": "e97a01515d245b08c0d3941fb9eb534a74c26843b7ec1b766d815b4255018c54",
+      "runtime_sha256": "b3b40b442bf65601ac658cdb7aa66226ec4c54157e111a180060a2f3934e683a",
+      "fixture_rom_sha256": "915b3f2a53553a4cf02433d07abc4208584af9d939059f45af1328fc60e00d6f",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "initial": {
+        "label": "arrival",
+        "frame": 1085,
+        "room": 710,
+        "x": 16.0,
+        "y": 281.44140625,
+        "hp": 1,
+        "ability": 0,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          50338348,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          67305985,
+          134678021,
+          202050057,
+          269422093,
+          1129578496,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "final": {
+        "frame": 3895,
+        "hp": 1,
+        "ability": 4,
+        "room": 710,
+        "x": 16.65625,
+        "y": 296.99609375
+      },
+      "minimum_hp": 1,
+      "first_input": 16,
+      "phase_observations": [
+        {
+          "frame": 3585,
+          "player_hp": 1,
+          "source": {
+            "template": "0x2022a4c",
+            "parent": "0x2000054",
+            "object": "0x20003a0",
+            "type_id": 32,
+            "native_ability": 8,
+            "hp": 7,
+            "x": 196.0,
+            "y": 276.0,
+            "state": "0x80c5a3d",
+            "flags": "0x10200341"
+          }
+        },
+        {
+          "frame": 3787,
+          "player_hp": 1,
+          "source": {
+            "template": "0x2022a4c",
+            "parent": "0x2000054",
+            "object": "0x20003a0",
+            "type_id": 32,
+            "native_ability": 4,
+            "hp": 7,
+            "x": 56.671875,
+            "y": 289.99609375,
+            "state": "0x80c64ed",
+            "flags": "0x10200001"
+          }
+        },
+        {
+          "frame": 3828,
+          "player_hp": 1,
+          "source": {
+            "template": "0x2022a4c",
+            "parent": "0x2000054",
+            "object": "0x20003a0",
+            "type_id": 32,
+            "native_ability": 0,
+            "hp": 0,
+            "x": 32.546875,
+            "y": 296.15625,
+            "state": "0x809c48d",
+            "flags": "0x10201b41"
+          }
+        }
+      ],
+      "intakes": [
+        {
+          "frame": 3812,
+          "player_hp": 1,
+          "source": {
+            "template": "0x2022a4c",
+            "parent": "0x2000054",
+            "object": "0x20003a0",
+            "type_id": 32,
+            "native_ability": 4,
+            "hp": 0,
+            "x": 54.859375,
+            "y": 289.99609375,
+            "state": "0x809c48d",
+            "flags": "0x10240b41"
+          },
+          "last_observed_source": {
+            "template": "0x2022a4c",
+            "parent": "0x2000054",
+            "object": "0x20003a0",
+            "type_id": 32,
+            "native_ability": 4,
+            "hp": 7,
+            "x": 56.671875,
+            "y": 289.99609375,
+            "state": "0x80c64ed",
+            "flags": "0x10200003"
+          }
+        }
+      ],
+      "equipment_transitions": [
+        {
+          "frame": 3887,
+          "hp": 1,
+          "ability": 4,
+          "room": 710,
+          "x": 16.65625,
+          "y": 296.99609375
+        }
+      ],
+      "runtime_writes": []
+    },
+    "king-golem710-wheel-phase-shuffled": {
+      "policy": {
+        "mode": 1,
+        "allowed_abilities": [
+          "Ice"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "seed": 11313160015481018921,
+        "mapping_style": "per_enemy_type"
+      },
+      "health_percent": 100,
+      "gated": true,
+      "configured_hp": 1,
+      "configured_start": [
+        710,
+        16,
+        288
+      ],
+      "native_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "base_patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "production_rom_sha256": "2fddc161f9f207c6c6b1ab104e6a19421187fffa64a520ea525212c6c88b99e4",
+      "script_sha256": "b906926404cf47f2030575c727c676a9858a48450655ce417dae8115e4c5f2be",
+      "private_trace_sha256": "2db28baf8b7975e5d7c0ed0b928e74622cf69f0edfe355fafb425a674095b412",
+      "runtime_sha256": "aa1aedd1c219cc58fabb00e9862afddd18c3e73e682a8cc025adc1b1fcedbee8",
+      "fixture_rom_sha256": "da9f7e19aedd62923b43ca422265499b6c64b7acfbeb7033eb10d89819ae447b",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "initial": {
+        "label": "arrival",
+        "frame": 1085,
+        "room": 710,
+        "x": 16.0,
+        "y": 281.44140625,
+        "hp": 1,
+        "ability": 0,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 67108734,
+        "ability_unlocks": 4,
+        "copy_context": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          50338348,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          67305985,
+          134678021,
+          202050057,
+          269422093,
+          1129578496,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "final": {
+        "frame": 3778,
+        "hp": 0,
+        "ability": 0,
+        "room": 710,
+        "x": 16.65625,
+        "y": 296.99609375
+      },
+      "minimum_hp": 0,
+      "first_input": 16,
+      "phase_observations": [
+        {
+          "frame": 3417,
+          "player_hp": 1,
+          "source": {
+            "template": "0x20229e0",
+            "parent": "0x2000054",
+            "object": "0x200016c",
+            "type_id": 33,
+            "native_ability": 8,
+            "hp": 7,
+            "x": 196.0,
+            "y": 276.0,
+            "state": "0x80c5a3d",
+            "flags": "0x10200341"
+          }
+        },
+        {
+          "frame": 3516,
+          "player_hp": 1,
+          "source": {
+            "template": "0x20229e0",
+            "parent": "0x2000054",
+            "object": "0x200016c",
+            "type_id": 33,
+            "native_ability": 20,
+            "hp": 7,
+            "x": 143.421875,
+            "y": 289.99609375,
+            "state": "0x80c5f21",
+            "flags": "0x10200001"
+          }
+        }
+      ],
+      "intakes": [],
+      "equipment_transitions": [],
+      "runtime_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "291ae629",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "186b009d",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "04000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "7effff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "04000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ]
+    },
+    "king-golem710-wheel-phase-unowned": {
+      "policy": {
+        "mode": 1,
+        "allowed_abilities": [
+          "Ice"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "seed": 11313160015481018921,
+        "mapping_style": "per_enemy_type"
+      },
+      "health_percent": 100,
+      "gated": true,
+      "configured_hp": 1,
+      "configured_start": [
+        710,
+        16,
+        288
+      ],
+      "native_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "base_patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "production_rom_sha256": "2fddc161f9f207c6c6b1ab104e6a19421187fffa64a520ea525212c6c88b99e4",
+      "script_sha256": "b906926404cf47f2030575c727c676a9858a48450655ce417dae8115e4c5f2be",
+      "private_trace_sha256": "cccb5107e5191af7606f26c2f18ba098f71765c6fa118d1f9f25d3af6a3d0d34",
+      "runtime_sha256": "12689ab6ca5451daee6c9e39304f3e1cab24869c8a2ff453f0a18a034f3600b8",
+      "fixture_rom_sha256": "da9f7e19aedd62923b43ca422265499b6c64b7acfbeb7033eb10d89819ae447b",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "initial": {
+        "label": "arrival",
+        "frame": 1085,
+        "room": 710,
+        "x": 16.0,
+        "y": 281.44140625,
+        "hp": 1,
+        "ability": 0,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 67108734,
+        "ability_unlocks": 0,
+        "copy_context": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          50338348,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          67305985,
+          134678021,
+          202050057,
+          269422093,
+          1129578496,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "final": {
+        "frame": 3778,
+        "hp": 0,
+        "ability": 0,
+        "room": 710,
+        "x": 16.65625,
+        "y": 296.99609375
+      },
+      "minimum_hp": 0,
+      "first_input": 16,
+      "phase_observations": [
+        {
+          "frame": 3417,
+          "player_hp": 1,
+          "source": {
+            "template": "0x20229e0",
+            "parent": "0x2000054",
+            "object": "0x200016c",
+            "type_id": 33,
+            "native_ability": 8,
+            "hp": 7,
+            "x": 196.0,
+            "y": 276.0,
+            "state": "0x80c5a3d",
+            "flags": "0x10200341"
+          }
+        },
+        {
+          "frame": 3516,
+          "player_hp": 1,
+          "source": {
+            "template": "0x20229e0",
+            "parent": "0x2000054",
+            "object": "0x200016c",
+            "type_id": 33,
+            "native_ability": 20,
+            "hp": 7,
+            "x": 143.421875,
+            "y": 289.99609375,
+            "state": "0x80c5f21",
+            "flags": "0x10200001"
+          }
+        }
+      ],
+      "intakes": [],
+      "equipment_transitions": [],
+      "runtime_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "291ae629",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "186b009d",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "04000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "7effff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ]
+    },
+    "king-golem710-wheel-phase-live": {
+      "policy": {
+        "mode": 2,
+        "allowed_abilities": [
+          "Ice"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "seed": 11313160015481018921,
+        "mapping_style": "per_grant_event"
+      },
+      "health_percent": 100,
+      "gated": true,
+      "configured_hp": 1,
+      "configured_start": [
+        710,
+        16,
+        288
+      ],
+      "native_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "base_patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "production_rom_sha256": "2fddc161f9f207c6c6b1ab104e6a19421187fffa64a520ea525212c6c88b99e4",
+      "script_sha256": "b906926404cf47f2030575c727c676a9858a48450655ce417dae8115e4c5f2be",
+      "private_trace_sha256": "92c308df6eb8ab50e77358d07bf1bbd846c8b8f4ec7d4480089078e8219a82bf",
+      "runtime_sha256": "9aa60af13d761bc95b0138af582dc7601ec65d0d216cf907c4314e13f2669967",
+      "fixture_rom_sha256": "da9f7e19aedd62923b43ca422265499b6c64b7acfbeb7033eb10d89819ae447b",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "initial": {
+        "label": "arrival",
+        "frame": 1085,
+        "room": 710,
+        "x": 16.0,
+        "y": 281.44140625,
+        "hp": 1,
+        "ability": 0,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 67108734,
+        "ability_unlocks": 4,
+        "copy_context": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          50338348,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          67305985,
+          134678021,
+          202050057,
+          269422093,
+          1129578496,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "final": {
+        "frame": 3778,
+        "hp": 0,
+        "ability": 0,
+        "room": 710,
+        "x": 16.65625,
+        "y": 296.99609375
+      },
+      "minimum_hp": 0,
+      "first_input": 16,
+      "phase_observations": [
+        {
+          "frame": 3417,
+          "player_hp": 1,
+          "source": {
+            "template": "0x20229e0",
+            "parent": "0x2000054",
+            "object": "0x200016c",
+            "type_id": 33,
+            "native_ability": 8,
+            "hp": 7,
+            "x": 196.0,
+            "y": 276.0,
+            "state": "0x80c5a3d",
+            "flags": "0x10200341"
+          }
+        },
+        {
+          "frame": 3516,
+          "player_hp": 1,
+          "source": {
+            "template": "0x20229e0",
+            "parent": "0x2000054",
+            "object": "0x200016c",
+            "type_id": 33,
+            "native_ability": 20,
+            "hp": 7,
+            "x": 143.421875,
+            "y": 289.99609375,
+            "state": "0x80c5f21",
+            "flags": "0x10200001"
+          }
+        }
+      ],
+      "intakes": [],
+      "equipment_transitions": [],
+      "runtime_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "02000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "291ae629",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "186b009d",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "04000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "7effff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "04000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ]
+    },
+    "king-golem710-wheel-phase-health500": {
+      "policy": {
+        "mode": 0,
+        "allowed_abilities": [
+          "Beam",
+          "Bomb",
+          "Burning",
+          "Cook",
+          "Crash",
+          "Cupid",
+          "Cutter",
+          "Fighter",
+          "Fire",
+          "Hammer",
+          "Ice",
+          "Laser",
+          "Magic",
+          "Mini",
+          "Missile",
+          "Parasol",
+          "Sleep",
+          "Smash",
+          "Spark",
+          "Stone",
+          "Sword",
+          "Throw",
+          "Tornado",
+          "UFO",
+          "Wheel"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "identity_map": {
+          "Beam": "Beam",
+          "Bomb": "Bomb",
+          "Burning": "Burning",
+          "Cook": "Cook",
+          "Crash": "Crash",
+          "Cupid": "Cupid",
+          "Cutter": "Cutter",
+          "Fighter": "Fighter",
+          "Fire": "Fire",
+          "Hammer": "Hammer",
+          "Ice": "Ice",
+          "Laser": "Laser",
+          "Magic": "Magic",
+          "Mini": "Mini",
+          "Missile": "Missile",
+          "Parasol": "Parasol",
+          "Sleep": "Sleep",
+          "Smash": "Smash",
+          "Spark": "Spark",
+          "Stone": "Stone",
+          "Sword": "Sword",
+          "Throw": "Throw",
+          "Tornado": "Tornado",
+          "UFO": "UFO",
+          "Wheel": "Wheel"
+        }
+      },
+      "health_percent": 500,
+      "gated": false,
+      "configured_hp": 1,
+      "configured_start": [
+        710,
+        16,
+        288
+      ],
+      "native_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "base_patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "production_rom_sha256": "b964deedc14715d3f90695381fc343d0412104c75c3684956da9dbdc099ec434",
+      "script_sha256": "b906926404cf47f2030575c727c676a9858a48450655ce417dae8115e4c5f2be",
+      "private_trace_sha256": "95480eb32a91ac283814642c6208ce26b79a527fbc2c697baf1f438e8d84bfe5",
+      "runtime_sha256": "1df803711124b3b4a3166f1382a681d76b07793821f342e6c0861fbcc0c382e1",
+      "fixture_rom_sha256": "5ce262dab9733f8c794ed8130e431c3b0923bea77d7b45976e577a84322abcf1",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "initial": {
+        "label": "arrival",
+        "frame": 1085,
+        "room": 710,
+        "x": 16.0,
+        "y": 281.44140625,
+        "hp": 1,
+        "ability": 0,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          50338348,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          67305985,
+          134678021,
+          202050057,
+          269422093,
+          1129578496,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "final": {
+        "frame": 5576,
+        "hp": 0,
+        "ability": 0,
+        "room": 710,
+        "x": 16.65625,
+        "y": 296.99609375
+      },
+      "minimum_hp": 0,
+      "first_input": 16,
+      "phase_observations": [],
+      "intakes": [],
+      "equipment_transitions": [],
+      "runtime_writes": []
+    }
+  },
+  "limits": [
+    "First wait probe faced left and died before reducing boss HP; retained as failed control, not comparable attack-prefix success.",
+    "Right-facing one-HP wait reached half boss health, but a Stone-only child appeared and Kirby died without acquisition.",
+    "Six-HP filter probe acquired Wheel and later Stone, observed Fighter writes, and died without receiving Fighter. Later Wheel transitions are not credited as new Golem acquisitions; dropped stars and object-address reuse remain distinct.",
+    "Vanilla one-HP Wheel prefix succeeds at 100% enemy health, remaining HP1 through frame3895. This establishes one local phase acquisition only.",
+    "The gated shuffled/live Ice variants and unowned control die before acquisition at frame3778. They do not prove a successful permission-controlled Wheel-phase route. The 500% health probe dies before acquisition at5576.",
+    "Native state writers are not automatic acquisition evidence; Fighter acquisition remains unresolved.",
+    "Configured local fixtures only; no world access, arbitrary attack branch selection, defeat suffix, reset, repeatability or carry-to-target is certified.",
+    "Separate occurrences and reused actor addresses do not imply renewable finite sources."
+  ]
+}

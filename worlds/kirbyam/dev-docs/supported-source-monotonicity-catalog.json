@@ -2,20 +2,22 @@
   "schema": 2,
   "scope": "Current supported public generation, not custom narrowed policy safety or native gameplay. All compiled targets including logical subregions, both area-key modes. The always-on Phone 146 ownership rule and its separately profile-qualified witness are described in phone-progression-admission.md; neither is a compiled attack-provider graph, and the implementation is pinned here.",
   "source_sha256": {
-    "worlds/kirbyam/__init__.py": "625f269c94a867025f6648a9cb7133192bdbc3981943d59d640ce926337e65ad",
+    "worlds/kirbyam/__init__.py": "f94ada19816028552fc4366b3c2b672a0208e3b00e7bcfaf4b6a425fdff6d723",
     "worlds/kirbyam/ability_randomization.py": "0ede749f3cfe63dde9747c9f31184731b21c2b0d173501f8e94e090861979aaf",
     "worlds/kirbyam/enemy_ability_data.py": "53a3b016462f875e43a036de2739b8315b87962f68aeda9e0eb74725eaa36e2a",
     "worlds/kirbyam/enemy_ability_runtime_patch.py": "22d2ea7c858c23f57112e0af40320fa94c68038ce2bad185655c2d9a436d6f55",
     "worlds/kirbyam/data/abilities.json": "d180e496d17544579aefca6714716f27e7d0c8fdbfcc40196a72ef441a5c5f22",
-    "worlds/kirbyam/traversal.py": "eae58b5e6b717efc25d0ac827ecc7eb2265afdc2899855c5f2433c78bec83b01",
-    "worlds/kirbyam/traversal_data.py": "dbd3eacc0decf9dbae3696b041c5a55f55cb2ade37d3236ebe5be9ee572a7f6b",
+    "worlds/kirbyam/traversal.py": "fd6465d5c9371f2d98d20adbaabddeb8c823666ec7b41a75cc4fce16d057dab9",
+    "worlds/kirbyam/traversal_data.py": "c876bfc98d0ca9432cad5b526a8a813492bd0333b5fca9fc6a627cac67365e12",
     "worlds/kirbyam/master_source.py": "ff8d987ae8913391865c2c8c28dd4efe01d83546eefdb4d965032b944dd11e2e",
-    "worlds/kirbyam/data/regions/rooms.json": "72dacbb918c2ced62e4b09fd17106f2d134d8e87f29e601bb73f577e848982af",
-    "worlds/kirbyam/phone_traversal.py": "2b0bcaa85287451856188362f45d22d176bb743c045d119b1a1d0e94486115c3",
-    "worlds/kirbyam/rules.py": "af2187f2537516594d59f6168ce8df191e230a3708c5c7afbb6f5d019955f952"
+    "worlds/kirbyam/data/regions/rooms.json": "31c30aef2a08531f981ed9d3fb5e167bff8330fe371f2d84ee3d0d470b90d44c",
+    "worlds/kirbyam/phone_traversal.py": "bdafd7ff6de2583b8ed87da0668d41f1107660488812ca923caf330f366dc879",
+    "worlds/kirbyam/rules.py": "7afff4b83e12775debcdd9896ca07683d52d7db332cd057de6c621b7e110f5e2",
+    "worlds/kirbyam/ability_source_inventory.py": "333a5ffcaf2d7896f62a13f627ce0f956b20fcb3655359744b5a0af378b5ee55",
+    "worlds/kirbyam/data/ability_source_inventory.json": "8d85df5c6ff423f9799e4dc751bbd3849e184b97253d4be3efd8b4419d57cc2b"
   },
-  "witnesses": 147,
-  "variants": 294,
+  "witnesses": 158,
+  "variants": 316,
   "valid_pool": [
     "Beam",
     "Bomb",
@@ -113,6 +115,36 @@
     "bomb_110_room9_underwater_normal_spray": [
       "Normal"
     ],
+    "bomb_617_normal_puff_slide": [
+      "Normal"
+    ],
+    "mirra_141_top_normal_puff": [
+      "Normal"
+    ],
+    "mirra_141_east_normal_puff": [
+      "Normal"
+    ],
+    "mirra_117_upper_payload": [
+      "Normal"
+    ],
+    "mirra_117_lower_payload": [
+      "Normal"
+    ],
+    "mirra_117_normal_clearance": [
+      "Normal"
+    ],
+    "mirra_811_normal_puff": [
+      "Normal"
+    ],
+    "normal_815_vitality_sequence": [
+      "Normal"
+    ],
+    "normal_534_twister_payload": [
+      "Normal"
+    ],
+    "normal_534_dee_payload": [
+      "Normal"
+    ],
     "bomb_138_green": [
       "Spark"
     ],
@@ -192,6 +224,9 @@
       "Cupid"
     ],
     "switch_310_cutter_five_roof_returns": [
+      "Cutter"
+    ],
+    "switch_310_kibble_cutter_roof_returns": [
       "Cutter"
     ],
     "switch_825_ufo_top_charge": [
@@ -634,6 +669,22 @@
         "documented_retry": false
       }
     ],
+    "WADDLE_DOO@0x088B9904": [
+      {
+        "source_key": "WADDLE_DOO",
+        "identity": "0x088B9904",
+        "renewable": false,
+        "documented_retry": false
+      }
+    ],
+    "WADDLE_DEE@0x088B9874": [
+      {
+        "source_key": "WADDLE_DEE",
+        "identity": "0x088B9874",
+        "renewable": false,
+        "documented_retry": false
+      }
+    ],
     "SPARKY@0x088B9F90": [
       {
         "source_key": "SPARKY",
@@ -696,6 +747,22 @@
         "documented_retry": false
       }
     ],
+    "TWISTER@0x088B59B4": [
+      {
+        "source_key": "TWISTER",
+        "identity": "0x088B59B4",
+        "renewable": false,
+        "documented_retry": false
+      }
+    ],
+    "WADDLE_DEE@0x088B596C": [
+      {
+        "source_key": "WADDLE_DEE",
+        "identity": "0x088B596C",
+        "renewable": false,
+        "documented_retry": false
+      }
+    ],
     "WADDLE_DOO@0x088B6138": [
       {
         "source_key": "WADDLE_DOO",
@@ -752,10 +819,10 @@
         "documented_retry": false
       }
     ],
-    "TWISTER@0x088B59B4": [
+    "SIR_KIBBLE@0x088C3FEC": [
       {
-        "source_key": "TWISTER",
-        "identity": "0x088B59B4",
+        "source_key": "SIR_KIBBLE",
+        "identity": "0x088C3FEC",
         "renewable": false,
         "documented_retry": false
       }
@@ -868,6 +935,14 @@
       {
         "source_key": "WADDLE_DEE",
         "identity": "0x088CD318",
+        "renewable": false,
+        "documented_retry": false
+      }
+    ],
+    "MR_FROSTY_ICE_CUBE@room:825/template:0x088CD3F0/choice:mr_frosty_cube_size": [
+      {
+        "source_key": "MR_FROSTY_ICE_CUBE",
+        "identity": "room:825/template:0x088CD3F0/choice:mr_frosty_cube_size",
         "renewable": false,
         "documented_retry": false
       }
@@ -6138,23 +6213,58 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "WADDLE_DOO",
-        "abilities": [
-          "Beam",
-          "Smash",
-          "Fire",
-          "Missile",
-          "Parasol",
-          "Spark",
-          "Ice",
-          "Sword",
-          "Fighter",
-          "UFO"
-        ]
-      },
-      "target_source_alternatives": null,
-      "graph_source_condition": null,
+      "target_source_condition": null,
+      "target_source_alternatives": [
+        {
+          "source_key": "WADDLE_DOO",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353906",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353901",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        }
+      ],
+      "graph_source_condition": [
+        "WADDLE_DOO",
+        "Beam"
+      ],
       "equipment_routes": []
     },
     {
@@ -6179,23 +6289,58 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "WADDLE_DOO",
-        "abilities": [
-          "Beam",
-          "Smash",
-          "Fire",
-          "Missile",
-          "Parasol",
-          "Spark",
-          "Ice",
-          "Sword",
-          "Fighter",
-          "UFO"
-        ]
-      },
-      "target_source_alternatives": null,
-      "graph_source_condition": null,
+      "target_source_condition": null,
+      "target_source_alternatives": [
+        {
+          "source_key": "WADDLE_DOO",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353906",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353901",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        }
+      ],
+      "graph_source_condition": [
+        "WADDLE_DOO",
+        "Beam"
+      ],
       "equipment_routes": []
     },
     {
@@ -6220,22 +6365,54 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "WADDLE_DOO",
-        "abilities": [
-          "Beam",
-          "Smash",
-          "Fire",
-          "Missile",
-          "Parasol",
-          "Spark",
-          "Ice",
-          "Sword",
-          "Fighter",
-          "UFO"
-        ]
-      },
-      "target_source_alternatives": null,
+      "target_source_condition": null,
+      "target_source_alternatives": [
+        {
+          "source_key": "WADDLE_DOO",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353906",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353901",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        }
+      ],
       "graph_source_condition": null,
       "equipment_routes": []
     },
@@ -6261,22 +6438,54 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "WADDLE_DOO",
-        "abilities": [
-          "Beam",
-          "Smash",
-          "Fire",
-          "Missile",
-          "Parasol",
-          "Spark",
-          "Ice",
-          "Sword",
-          "Fighter",
-          "UFO"
-        ]
-      },
-      "target_source_alternatives": null,
+      "target_source_condition": null,
+      "target_source_alternatives": [
+        {
+          "source_key": "WADDLE_DOO",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353906",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353901",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        }
+      ],
       "graph_source_condition": null,
       "equipment_routes": []
     },
@@ -6302,22 +6511,54 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "WADDLE_DOO",
-        "abilities": [
-          "Beam",
-          "Smash",
-          "Fire",
-          "Missile",
-          "Parasol",
-          "Spark",
-          "Ice",
-          "Sword",
-          "Fighter",
-          "UFO"
-        ]
-      },
-      "target_source_alternatives": null,
+      "target_source_condition": null,
+      "target_source_alternatives": [
+        {
+          "source_key": "WADDLE_DOO",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353906",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353901",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        }
+      ],
       "graph_source_condition": [
         "WADDLE_DOO",
         "Fire"
@@ -6346,22 +6587,54 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "WADDLE_DOO",
-        "abilities": [
-          "Beam",
-          "Smash",
-          "Fire",
-          "Missile",
-          "Parasol",
-          "Spark",
-          "Ice",
-          "Sword",
-          "Fighter",
-          "UFO"
-        ]
-      },
-      "target_source_alternatives": null,
+      "target_source_condition": null,
+      "target_source_alternatives": [
+        {
+          "source_key": "WADDLE_DOO",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353906",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353901",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        }
+      ],
       "graph_source_condition": [
         "WADDLE_DOO",
         "Fire"
@@ -6390,22 +6663,54 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "WADDLE_DOO",
-        "abilities": [
-          "Beam",
-          "Smash",
-          "Fire",
-          "Missile",
-          "Parasol",
-          "Spark",
-          "Ice",
-          "Sword",
-          "Fighter",
-          "UFO"
-        ]
-      },
-      "target_source_alternatives": null,
+      "target_source_condition": null,
+      "target_source_alternatives": [
+        {
+          "source_key": "WADDLE_DOO",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353906",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353901",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        }
+      ],
       "graph_source_condition": [
         "WADDLE_DOO",
         "Missile"
@@ -6434,22 +6739,54 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "WADDLE_DOO",
-        "abilities": [
-          "Beam",
-          "Smash",
-          "Fire",
-          "Missile",
-          "Parasol",
-          "Spark",
-          "Ice",
-          "Sword",
-          "Fighter",
-          "UFO"
-        ]
-      },
-      "target_source_alternatives": null,
+      "target_source_condition": null,
+      "target_source_alternatives": [
+        {
+          "source_key": "WADDLE_DOO",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353906",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353901",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        }
+      ],
       "graph_source_condition": [
         "WADDLE_DOO",
         "Missile"
@@ -6478,22 +6815,54 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "WADDLE_DOO",
-        "abilities": [
-          "Beam",
-          "Smash",
-          "Fire",
-          "Missile",
-          "Parasol",
-          "Spark",
-          "Ice",
-          "Sword",
-          "Fighter",
-          "UFO"
-        ]
-      },
-      "target_source_alternatives": null,
+      "target_source_condition": null,
+      "target_source_alternatives": [
+        {
+          "source_key": "WADDLE_DOO",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353906",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353901",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        }
+      ],
       "graph_source_condition": [
         "WADDLE_DOO",
         "Parasol"
@@ -6522,22 +6891,54 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "WADDLE_DOO",
-        "abilities": [
-          "Beam",
-          "Smash",
-          "Fire",
-          "Missile",
-          "Parasol",
-          "Spark",
-          "Ice",
-          "Sword",
-          "Fighter",
-          "UFO"
-        ]
-      },
-      "target_source_alternatives": null,
+      "target_source_condition": null,
+      "target_source_alternatives": [
+        {
+          "source_key": "WADDLE_DOO",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353906",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353901",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        }
+      ],
       "graph_source_condition": [
         "WADDLE_DOO",
         "Parasol"
@@ -6566,22 +6967,54 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "WADDLE_DOO",
-        "abilities": [
-          "Beam",
-          "Smash",
-          "Fire",
-          "Missile",
-          "Parasol",
-          "Spark",
-          "Ice",
-          "Sword",
-          "Fighter",
-          "UFO"
-        ]
-      },
-      "target_source_alternatives": null,
+      "target_source_condition": null,
+      "target_source_alternatives": [
+        {
+          "source_key": "WADDLE_DOO",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353906",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353901",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        }
+      ],
       "graph_source_condition": [
         "WADDLE_DOO",
         "Spark"
@@ -6610,22 +7043,54 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "WADDLE_DOO",
-        "abilities": [
-          "Beam",
-          "Smash",
-          "Fire",
-          "Missile",
-          "Parasol",
-          "Spark",
-          "Ice",
-          "Sword",
-          "Fighter",
-          "UFO"
-        ]
-      },
-      "target_source_alternatives": null,
+      "target_source_condition": null,
+      "target_source_alternatives": [
+        {
+          "source_key": "WADDLE_DOO",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353906",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353901",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        }
+      ],
       "graph_source_condition": [
         "WADDLE_DOO",
         "Spark"
@@ -6654,22 +7119,54 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "WADDLE_DOO",
-        "abilities": [
-          "Beam",
-          "Smash",
-          "Fire",
-          "Missile",
-          "Parasol",
-          "Spark",
-          "Ice",
-          "Sword",
-          "Fighter",
-          "UFO"
-        ]
-      },
-      "target_source_alternatives": null,
+      "target_source_condition": null,
+      "target_source_alternatives": [
+        {
+          "source_key": "WADDLE_DOO",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353906",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353901",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        }
+      ],
       "graph_source_condition": [
         "WADDLE_DOO",
         "Ice"
@@ -6698,22 +7195,54 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "WADDLE_DOO",
-        "abilities": [
-          "Beam",
-          "Smash",
-          "Fire",
-          "Missile",
-          "Parasol",
-          "Spark",
-          "Ice",
-          "Sword",
-          "Fighter",
-          "UFO"
-        ]
-      },
-      "target_source_alternatives": null,
+      "target_source_condition": null,
+      "target_source_alternatives": [
+        {
+          "source_key": "WADDLE_DOO",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353906",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353901",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        }
+      ],
       "graph_source_condition": [
         "WADDLE_DOO",
         "Ice"
@@ -6742,22 +7271,54 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "WADDLE_DOO",
-        "abilities": [
-          "Beam",
-          "Smash",
-          "Fire",
-          "Missile",
-          "Parasol",
-          "Spark",
-          "Ice",
-          "Sword",
-          "Fighter",
-          "UFO"
-        ]
-      },
-      "target_source_alternatives": null,
+      "target_source_condition": null,
+      "target_source_alternatives": [
+        {
+          "source_key": "WADDLE_DOO",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353906",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353901",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        }
+      ],
       "graph_source_condition": [
         "WADDLE_DOO",
         "Sword"
@@ -6786,22 +7347,54 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "WADDLE_DOO",
-        "abilities": [
-          "Beam",
-          "Smash",
-          "Fire",
-          "Missile",
-          "Parasol",
-          "Spark",
-          "Ice",
-          "Sword",
-          "Fighter",
-          "UFO"
-        ]
-      },
-      "target_source_alternatives": null,
+      "target_source_condition": null,
+      "target_source_alternatives": [
+        {
+          "source_key": "WADDLE_DOO",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353906",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353901",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        }
+      ],
       "graph_source_condition": [
         "WADDLE_DOO",
         "Sword"
@@ -6830,22 +7423,54 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "WADDLE_DOO",
-        "abilities": [
-          "Beam",
-          "Smash",
-          "Fire",
-          "Missile",
-          "Parasol",
-          "Spark",
-          "Ice",
-          "Sword",
-          "Fighter",
-          "UFO"
-        ]
-      },
-      "target_source_alternatives": null,
+      "target_source_condition": null,
+      "target_source_alternatives": [
+        {
+          "source_key": "WADDLE_DOO",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353906",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353901",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        }
+      ],
       "graph_source_condition": [
         "WADDLE_DOO",
         "Fighter"
@@ -6874,22 +7499,54 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "WADDLE_DOO",
-        "abilities": [
-          "Beam",
-          "Smash",
-          "Fire",
-          "Missile",
-          "Parasol",
-          "Spark",
-          "Ice",
-          "Sword",
-          "Fighter",
-          "UFO"
-        ]
-      },
-      "target_source_alternatives": null,
+      "target_source_condition": null,
+      "target_source_alternatives": [
+        {
+          "source_key": "WADDLE_DOO",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353906",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353901",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        }
+      ],
       "graph_source_condition": [
         "WADDLE_DOO",
         "Fighter"
@@ -6918,22 +7575,54 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "WADDLE_DOO",
-        "abilities": [
-          "Beam",
-          "Smash",
-          "Fire",
-          "Missile",
-          "Parasol",
-          "Spark",
-          "Ice",
-          "Sword",
-          "Fighter",
-          "UFO"
-        ]
-      },
-      "target_source_alternatives": null,
+      "target_source_condition": null,
+      "target_source_alternatives": [
+        {
+          "source_key": "WADDLE_DOO",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353906",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353901",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        }
+      ],
       "graph_source_condition": [
         "WADDLE_DOO",
         "UFO"
@@ -6984,22 +7673,54 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "WADDLE_DOO",
-        "abilities": [
-          "Beam",
-          "Smash",
-          "Fire",
-          "Missile",
-          "Parasol",
-          "Spark",
-          "Ice",
-          "Sword",
-          "Fighter",
-          "UFO"
-        ]
-      },
-      "target_source_alternatives": null,
+      "target_source_condition": null,
+      "target_source_alternatives": [
+        {
+          "source_key": "WADDLE_DOO",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353906",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353901",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        }
+      ],
       "graph_source_condition": [
         "WADDLE_DOO",
         "UFO"
@@ -7498,16 +8219,22 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "TWISTER",
-        "abilities": [
-          "UFO",
-          "Crash",
-          "Cupid",
-          "Cutter"
-        ]
-      },
-      "target_source_alternatives": null,
+      "target_source_condition": null,
+      "target_source_alternatives": [
+        {
+          "source_key": "TWISTER",
+          "abilities": [
+            "UFO",
+            "Crash",
+            "Cupid",
+            "Cutter"
+          ]
+        },
+        {
+          "source_key": "SIR_KIBBLE",
+          "ability": "Cutter"
+        }
+      ],
       "graph_source_condition": null,
       "equipment_routes": []
     },
@@ -7533,16 +8260,22 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "TWISTER",
-        "abilities": [
-          "UFO",
-          "Crash",
-          "Cupid",
-          "Cutter"
-        ]
-      },
-      "target_source_alternatives": null,
+      "target_source_condition": null,
+      "target_source_alternatives": [
+        {
+          "source_key": "TWISTER",
+          "abilities": [
+            "UFO",
+            "Crash",
+            "Cupid",
+            "Cutter"
+          ]
+        },
+        {
+          "source_key": "SIR_KIBBLE",
+          "ability": "Cutter"
+        }
+      ],
       "graph_source_condition": null,
       "equipment_routes": []
     },
@@ -7568,16 +8301,22 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "TWISTER",
-        "abilities": [
-          "UFO",
-          "Crash",
-          "Cupid",
-          "Cutter"
-        ]
-      },
-      "target_source_alternatives": null,
+      "target_source_condition": null,
+      "target_source_alternatives": [
+        {
+          "source_key": "TWISTER",
+          "abilities": [
+            "UFO",
+            "Crash",
+            "Cupid",
+            "Cutter"
+          ]
+        },
+        {
+          "source_key": "SIR_KIBBLE",
+          "ability": "Cutter"
+        }
+      ],
       "graph_source_condition": [
         "TWISTER",
         "Crash"
@@ -7621,16 +8360,22 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "TWISTER",
-        "abilities": [
-          "UFO",
-          "Crash",
-          "Cupid",
-          "Cutter"
-        ]
-      },
-      "target_source_alternatives": null,
+      "target_source_condition": null,
+      "target_source_alternatives": [
+        {
+          "source_key": "TWISTER",
+          "abilities": [
+            "UFO",
+            "Crash",
+            "Cupid",
+            "Cutter"
+          ]
+        },
+        {
+          "source_key": "SIR_KIBBLE",
+          "ability": "Cutter"
+        }
+      ],
       "graph_source_condition": [
         "TWISTER",
         "Crash"
@@ -7674,16 +8419,22 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "TWISTER",
-        "abilities": [
-          "UFO",
-          "Crash",
-          "Cupid",
-          "Cutter"
-        ]
-      },
-      "target_source_alternatives": null,
+      "target_source_condition": null,
+      "target_source_alternatives": [
+        {
+          "source_key": "TWISTER",
+          "abilities": [
+            "UFO",
+            "Crash",
+            "Cupid",
+            "Cutter"
+          ]
+        },
+        {
+          "source_key": "SIR_KIBBLE",
+          "ability": "Cutter"
+        }
+      ],
       "graph_source_condition": [
         "TWISTER",
         "Cupid"
@@ -7727,16 +8478,22 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "TWISTER",
-        "abilities": [
-          "UFO",
-          "Crash",
-          "Cupid",
-          "Cutter"
-        ]
-      },
-      "target_source_alternatives": null,
+      "target_source_condition": null,
+      "target_source_alternatives": [
+        {
+          "source_key": "TWISTER",
+          "abilities": [
+            "UFO",
+            "Crash",
+            "Cupid",
+            "Cutter"
+          ]
+        },
+        {
+          "source_key": "SIR_KIBBLE",
+          "ability": "Cutter"
+        }
+      ],
       "graph_source_condition": [
         "TWISTER",
         "Cupid"
@@ -7780,16 +8537,22 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "TWISTER",
-        "abilities": [
-          "UFO",
-          "Crash",
-          "Cupid",
-          "Cutter"
-        ]
-      },
-      "target_source_alternatives": null,
+      "target_source_condition": null,
+      "target_source_alternatives": [
+        {
+          "source_key": "TWISTER",
+          "abilities": [
+            "UFO",
+            "Crash",
+            "Cupid",
+            "Cutter"
+          ]
+        },
+        {
+          "source_key": "SIR_KIBBLE",
+          "ability": "Cutter"
+        }
+      ],
       "graph_source_condition": [
         "TWISTER",
         "Cutter"
@@ -7833,16 +8596,22 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "TWISTER",
-        "abilities": [
-          "UFO",
-          "Crash",
-          "Cupid",
-          "Cutter"
-        ]
-      },
-      "target_source_alternatives": null,
+      "target_source_condition": null,
+      "target_source_alternatives": [
+        {
+          "source_key": "TWISTER",
+          "abilities": [
+            "UFO",
+            "Crash",
+            "Cupid",
+            "Cutter"
+          ]
+        },
+        {
+          "source_key": "SIR_KIBBLE",
+          "ability": "Cutter"
+        }
+      ],
       "graph_source_condition": [
         "TWISTER",
         "Cutter"
@@ -13906,6 +14675,1432 @@
           "to": "switch_533_room16:ice_destination",
           "required_equipment": [
             "Ice"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "bomb_617_radish_map",
+      "witness": "normal_entry",
+      "area_keys": false,
+      "source_ids": [],
+      "capability_routes": [
+        {
+          "from": "bomb_617_radish_map:arrival",
+          "to": "bomb_617_radish_map:chest",
+          "capability": "bomb_617_normal_puff_slide",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Normal"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": true,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "bomb_617_radish_map:arrival",
+          "to": "bomb_617_radish_map:chest",
+          "required_equipment": [
+            "Normal"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "bomb_617_radish_map",
+      "witness": "normal_entry",
+      "area_keys": true,
+      "source_ids": [],
+      "capability_routes": [
+        {
+          "from": "bomb_617_radish_map:arrival",
+          "to": "bomb_617_radish_map:chest",
+          "capability": "bomb_617_normal_puff_slide",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Normal"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": true,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "bomb_617_radish_map:arrival",
+          "to": "bomb_617_radish_map:chest",
+          "required_equipment": [
+            "Normal"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "switch_310_mustard_map",
+      "witness": "hub4_kibble_cutter_entry",
+      "area_keys": false,
+      "source_ids": [
+        "SIR_KIBBLE@0x088C3FEC"
+      ],
+      "capability_routes": [
+        {
+          "from": "switch_310_mustard_map:kibble_roof",
+          "to": "switch_310_mustard_map:kibble_crossed",
+          "capability": "switch_310_kibble_cutter_roof_returns",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Cutter"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": [
+        {
+          "source_key": "TWISTER",
+          "abilities": [
+            "UFO",
+            "Crash",
+            "Cupid",
+            "Cutter"
+          ]
+        },
+        {
+          "source_key": "SIR_KIBBLE",
+          "ability": "Cutter"
+        }
+      ],
+      "graph_source_condition": [
+        "SIR_KIBBLE",
+        "Cutter"
+      ],
+      "equipment_routes": [
+        {
+          "from": "switch_310_mustard_map:kibble_source",
+          "to": "switch_310_mustard_map:kibble_roof",
+          "required_equipment": [
+            "Cutter"
+          ]
+        },
+        {
+          "from": "switch_310_mustard_map:kibble_crossed",
+          "to": "switch_310_mustard_map:kibble_chest",
+          "required_equipment": [
+            "Cutter"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "switch_310_mustard_map",
+      "witness": "hub4_kibble_cutter_entry",
+      "area_keys": true,
+      "source_ids": [
+        "SIR_KIBBLE@0x088C3FEC"
+      ],
+      "capability_routes": [
+        {
+          "from": "switch_310_mustard_map:kibble_roof",
+          "to": "switch_310_mustard_map:kibble_crossed",
+          "capability": "switch_310_kibble_cutter_roof_returns",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Cutter"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": [
+        {
+          "source_key": "TWISTER",
+          "abilities": [
+            "UFO",
+            "Crash",
+            "Cupid",
+            "Cutter"
+          ]
+        },
+        {
+          "source_key": "SIR_KIBBLE",
+          "ability": "Cutter"
+        }
+      ],
+      "graph_source_condition": [
+        "SIR_KIBBLE",
+        "Cutter"
+      ],
+      "equipment_routes": [
+        {
+          "from": "switch_310_mustard_map:kibble_source",
+          "to": "switch_310_mustard_map:kibble_roof",
+          "required_equipment": [
+            "Cutter"
+          ]
+        },
+        {
+          "from": "switch_310_mustard_map:kibble_crossed",
+          "to": "switch_310_mustard_map:kibble_chest",
+          "required_equipment": [
+            "Cutter"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "mirra_141_top_mustard",
+      "witness": "normal_top_entry",
+      "area_keys": false,
+      "source_ids": [],
+      "capability_routes": [
+        {
+          "from": "mirra_141_top_mustard:arrival",
+          "to": "mirra_141_top_mustard:cleared",
+          "capability": "mirra_141_top_normal_puff",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Normal"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": true,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "mirra_141_top_mustard:arrival",
+          "to": "mirra_141_top_mustard:cleared",
+          "required_equipment": [
+            "Normal"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "mirra_141_top_mustard",
+      "witness": "normal_top_entry",
+      "area_keys": true,
+      "source_ids": [],
+      "capability_routes": [
+        {
+          "from": "mirra_141_top_mustard:arrival",
+          "to": "mirra_141_top_mustard:cleared",
+          "capability": "mirra_141_top_normal_puff",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Normal"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": true,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "mirra_141_top_mustard:arrival",
+          "to": "mirra_141_top_mustard:cleared",
+          "required_equipment": [
+            "Normal"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "mirra_141_east_moonlight",
+      "witness": "normal_east_entry",
+      "area_keys": false,
+      "source_ids": [],
+      "capability_routes": [
+        {
+          "from": "mirra_141_east_moonlight:arrival",
+          "to": "mirra_141_east_moonlight:cleared",
+          "capability": "mirra_141_east_normal_puff",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Normal"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": true,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "mirra_141_east_moonlight:arrival",
+          "to": "mirra_141_east_moonlight:cleared",
+          "required_equipment": [
+            "Normal"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "mirra_141_east_moonlight",
+      "witness": "normal_east_entry",
+      "area_keys": true,
+      "source_ids": [],
+      "capability_routes": [
+        {
+          "from": "mirra_141_east_moonlight:arrival",
+          "to": "mirra_141_east_moonlight:cleared",
+          "capability": "mirra_141_east_normal_puff",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Normal"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": true,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "mirra_141_east_moonlight:arrival",
+          "to": "mirra_141_east_moonlight:cleared",
+          "required_equipment": [
+            "Normal"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "mirra_117_carrot",
+      "witness": "normal_upper_entry",
+      "area_keys": false,
+      "source_ids": [
+        "WADDLE_DEE@0x088B9874",
+        "WADDLE_DOO@0x088B9904"
+      ],
+      "capability_routes": [
+        {
+          "from": "mirra_117_carrot:arrival",
+          "to": "mirra_117_carrot:ladder",
+          "capability": "mirra_117_upper_payload",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Normal"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": true,
+          "recover_dropped_ability": false
+        },
+        {
+          "from": "mirra_117_carrot:ladder",
+          "to": "mirra_117_carrot:corridor",
+          "capability": "mirra_117_lower_payload",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Normal"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": true,
+          "recover_dropped_ability": false
+        },
+        {
+          "from": "mirra_117_carrot:corridor",
+          "to": "mirra_117_carrot:cleared",
+          "capability": "mirra_117_normal_clearance",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Normal"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": true,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "mirra_117_carrot:arrival",
+          "to": "mirra_117_carrot:ladder",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "mirra_117_carrot:ladder",
+          "to": "mirra_117_carrot:corridor",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "mirra_117_carrot:corridor",
+          "to": "mirra_117_carrot:cleared",
+          "required_equipment": [
+            "Normal"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "mirra_117_carrot",
+      "witness": "normal_upper_entry",
+      "area_keys": true,
+      "source_ids": [
+        "WADDLE_DEE@0x088B9874",
+        "WADDLE_DOO@0x088B9904"
+      ],
+      "capability_routes": [
+        {
+          "from": "mirra_117_carrot:arrival",
+          "to": "mirra_117_carrot:ladder",
+          "capability": "mirra_117_upper_payload",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Normal"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": true,
+          "recover_dropped_ability": false
+        },
+        {
+          "from": "mirra_117_carrot:ladder",
+          "to": "mirra_117_carrot:corridor",
+          "capability": "mirra_117_lower_payload",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Normal"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": true,
+          "recover_dropped_ability": false
+        },
+        {
+          "from": "mirra_117_carrot:corridor",
+          "to": "mirra_117_carrot:cleared",
+          "capability": "mirra_117_normal_clearance",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Normal"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": true,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "mirra_117_carrot:arrival",
+          "to": "mirra_117_carrot:ladder",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "mirra_117_carrot:ladder",
+          "to": "mirra_117_carrot:corridor",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "mirra_117_carrot:corridor",
+          "to": "mirra_117_carrot:cleared",
+          "required_equipment": [
+            "Normal"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "mirra_811_olive",
+      "witness": "normal_right_entry",
+      "area_keys": false,
+      "source_ids": [],
+      "capability_routes": [
+        {
+          "from": "mirra_811_olive:arrival",
+          "to": "mirra_811_olive:cleared",
+          "capability": "mirra_811_normal_puff",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Normal"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": true,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "mirra_811_olive:arrival",
+          "to": "mirra_811_olive:cleared",
+          "required_equipment": [
+            "Normal"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "mirra_811_olive",
+      "witness": "normal_right_entry",
+      "area_keys": true,
+      "source_ids": [],
+      "capability_routes": [
+        {
+          "from": "mirra_811_olive:arrival",
+          "to": "mirra_811_olive:cleared",
+          "capability": "mirra_811_normal_puff",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Normal"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": true,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "mirra_811_olive:arrival",
+          "to": "mirra_811_olive:cleared",
+          "required_equipment": [
+            "Normal"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "normal_534_mustard_entry",
+      "witness": "normal_hub4_entry",
+      "area_keys": false,
+      "source_ids": [
+        "TWISTER@0x088B59B4",
+        "WADDLE_DEE@0x088B596C"
+      ],
+      "capability_routes": [
+        {
+          "from": "normal_534_mustard_entry:rainbow34",
+          "to": "normal_534_mustard_entry:lower_payload",
+          "capability": "normal_534_twister_payload",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Normal"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": true,
+          "recover_dropped_ability": false
+        },
+        {
+          "from": "normal_534_mustard_entry:lower_payload",
+          "to": "normal_534_mustard_entry:lower_clear",
+          "capability": "normal_534_dee_payload",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Normal"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": true,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "normal_534_mustard_entry:hub4",
+          "to": "normal_534_mustard_entry:rainbow34",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "normal_534_mustard_entry:rainbow34",
+          "to": "normal_534_mustard_entry:lower_payload",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "normal_534_mustard_entry:lower_payload",
+          "to": "normal_534_mustard_entry:lower_clear",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "normal_534_mustard_entry:lower_clear",
+          "to": "normal_534_mustard_entry:arrival",
+          "required_equipment": [
+            "Normal"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "normal_534_mustard_entry",
+      "witness": "normal_hub4_entry",
+      "area_keys": true,
+      "source_ids": [
+        "TWISTER@0x088B59B4",
+        "WADDLE_DEE@0x088B596C"
+      ],
+      "capability_routes": [
+        {
+          "from": "normal_534_mustard_entry:rainbow34",
+          "to": "normal_534_mustard_entry:lower_payload",
+          "capability": "normal_534_twister_payload",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Normal"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": true,
+          "recover_dropped_ability": false
+        },
+        {
+          "from": "normal_534_mustard_entry:lower_payload",
+          "to": "normal_534_mustard_entry:lower_clear",
+          "capability": "normal_534_dee_payload",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Normal"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": true,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "normal_534_mustard_entry:hub4",
+          "to": "normal_534_mustard_entry:rainbow34",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "normal_534_mustard_entry:rainbow34",
+          "to": "normal_534_mustard_entry:lower_payload",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "normal_534_mustard_entry:lower_payload",
+          "to": "normal_534_mustard_entry:lower_clear",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "normal_534_mustard_entry:lower_clear",
+          "to": "normal_534_mustard_entry:arrival",
+          "required_equipment": [
+            "Normal"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "normal_534_room15_entry",
+      "witness": "normal_hub4_entry",
+      "area_keys": false,
+      "source_ids": [
+        "TWISTER@0x088B59B4",
+        "WADDLE_DEE@0x088B596C"
+      ],
+      "capability_routes": [
+        {
+          "from": "normal_534_mustard_entry:rainbow34",
+          "to": "normal_534_mustard_entry:lower_payload",
+          "capability": "normal_534_twister_payload",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Normal"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": true,
+          "recover_dropped_ability": false
+        },
+        {
+          "from": "normal_534_mustard_entry:lower_payload",
+          "to": "normal_534_mustard_entry:lower_clear",
+          "capability": "normal_534_dee_payload",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Normal"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": true,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "normal_534_mustard_entry:hub4",
+          "to": "normal_534_mustard_entry:rainbow34",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "normal_534_mustard_entry:rainbow34",
+          "to": "normal_534_mustard_entry:lower_payload",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "normal_534_mustard_entry:lower_payload",
+          "to": "normal_534_mustard_entry:lower_clear",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "normal_534_mustard_entry:lower_clear",
+          "to": "normal_534_mustard_entry:room15_arrival",
+          "required_equipment": [
+            "Normal"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "normal_534_room15_entry",
+      "witness": "normal_hub4_entry",
+      "area_keys": true,
+      "source_ids": [
+        "TWISTER@0x088B59B4",
+        "WADDLE_DEE@0x088B596C"
+      ],
+      "capability_routes": [
+        {
+          "from": "normal_534_mustard_entry:rainbow34",
+          "to": "normal_534_mustard_entry:lower_payload",
+          "capability": "normal_534_twister_payload",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Normal"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": true,
+          "recover_dropped_ability": false
+        },
+        {
+          "from": "normal_534_mustard_entry:lower_payload",
+          "to": "normal_534_mustard_entry:lower_clear",
+          "capability": "normal_534_dee_payload",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Normal"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": true,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "normal_534_mustard_entry:hub4",
+          "to": "normal_534_mustard_entry:rainbow34",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "normal_534_mustard_entry:rainbow34",
+          "to": "normal_534_mustard_entry:lower_payload",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "normal_534_mustard_entry:lower_payload",
+          "to": "normal_534_mustard_entry:lower_clear",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "normal_534_mustard_entry:lower_clear",
+          "to": "normal_534_mustard_entry:room15_arrival",
+          "required_equipment": [
+            "Normal"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "normal_815_vitality",
+      "witness": "normal_arrival",
+      "area_keys": false,
+      "source_ids": [],
+      "capability_routes": [
+        {
+          "from": "normal_815_vitality:arrival",
+          "to": "normal_815_vitality:chest",
+          "capability": "normal_815_vitality_sequence",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Normal"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": true,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "normal_815_vitality:arrival",
+          "to": "normal_815_vitality:chest",
+          "required_equipment": [
+            "Normal"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "normal_815_vitality",
+      "witness": "normal_arrival",
+      "area_keys": true,
+      "source_ids": [],
+      "capability_routes": [
+        {
+          "from": "normal_815_vitality:arrival",
+          "to": "normal_815_vitality:chest",
+          "capability": "normal_815_vitality_sequence",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Normal"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": true,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "normal_815_vitality:arrival",
+          "to": "normal_815_vitality:chest",
+          "required_equipment": [
+            "Normal"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "frozen_825_sound_effects",
+      "witness": "generated_ice",
+      "area_keys": false,
+      "source_ids": [
+        "MR_FROSTY_ICE_CUBE@room:825/template:0x088CD3F0/choice:mr_frosty_cube_size",
+        "WADDLE_DEE@0x088CD318"
+      ],
+      "capability_routes": [
+        {
+          "from": "frozen_825_generated:launch",
+          "to": "frozen_825_generated:chest",
+          "capability": "frozen_enemy_hit",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Ice"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": null,
+      "graph_source_condition": [
+        "MR_FROSTY_ICE_CUBE",
+        "Ice"
+      ],
+      "equipment_routes": [
+        {
+          "from": "frozen_825_generated:entry831",
+          "to": "frozen_825_generated:door831",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "frozen_825_generated:door831",
+          "to": "frozen_825_generated:arrival",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "frozen_825_generated:arrival",
+          "to": "frozen_825_generated:arena",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "frozen_825_generated:arena",
+          "to": "frozen_825_generated:cube_live",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "frozen_825_generated:cube_live",
+          "to": "frozen_825_generated:launch",
+          "required_equipment": [
+            "Ice"
+          ]
+        },
+        {
+          "from": "frozen_825_generated:launch",
+          "to": "frozen_825_generated:chest",
+          "required_equipment": [
+            "Ice"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "frozen_825_sound_effects",
+      "witness": "generated_ice",
+      "area_keys": true,
+      "source_ids": [
+        "MR_FROSTY_ICE_CUBE@room:825/template:0x088CD3F0/choice:mr_frosty_cube_size",
+        "WADDLE_DEE@0x088CD318"
+      ],
+      "capability_routes": [
+        {
+          "from": "frozen_825_generated:launch",
+          "to": "frozen_825_generated:chest",
+          "capability": "frozen_enemy_hit",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Ice"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": null,
+      "graph_source_condition": [
+        "MR_FROSTY_ICE_CUBE",
+        "Ice"
+      ],
+      "equipment_routes": [
+        {
+          "from": "frozen_825_generated:entry831",
+          "to": "frozen_825_generated:door831",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "frozen_825_generated:door831",
+          "to": "frozen_825_generated:arrival",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "frozen_825_generated:arrival",
+          "to": "frozen_825_generated:arena",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "frozen_825_generated:arena",
+          "to": "frozen_825_generated:cube_live",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "frozen_825_generated:cube_live",
+          "to": "frozen_825_generated:launch",
+          "required_equipment": [
+            "Ice"
+          ]
+        },
+        {
+          "from": "frozen_825_generated:launch",
+          "to": "frozen_825_generated:chest",
+          "required_equipment": [
+            "Ice"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "bomb_517_chocolate",
+      "witness": "hub2_statues_entry",
+      "area_keys": false,
+      "source_ids": [
+        "STATUE:353901@0x088CB034",
+        "STATUE:353906@0x088CB010"
+      ],
+      "capability_routes": [
+        {
+          "from": "bomb_517_statues:source",
+          "to": "bomb_517_statues:chest",
+          "capability": "bomb_517_chocolate",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Beam"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": true,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        },
+        {
+          "from": "bomb_517_statues:source",
+          "to": "bomb_517_statues:chest",
+          "capability": "bomb_517_chocolate",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Smash"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        },
+        {
+          "from": "bomb_517_statues:source",
+          "to": "bomb_517_statues:chest",
+          "capability": "bomb_517_fire_breath",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Fire"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        },
+        {
+          "from": "bomb_517_statues:source",
+          "to": "bomb_517_statues:chest",
+          "capability": "bomb_517_missile_blast",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Missile"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        },
+        {
+          "from": "bomb_517_statues:source",
+          "to": "bomb_517_statues:chest",
+          "capability": "bomb_517_parasol_swing",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Parasol"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        },
+        {
+          "from": "bomb_517_statues:source",
+          "to": "bomb_517_statues:chest",
+          "capability": "bomb_517_chocolate",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Spark"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        },
+        {
+          "from": "bomb_517_statues:source",
+          "to": "bomb_517_statues:chest",
+          "capability": "bomb_517_chocolate",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Ice"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        },
+        {
+          "from": "bomb_517_statues:source",
+          "to": "bomb_517_statues:chest",
+          "capability": "bomb_517_sword_first_slash",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Sword"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        },
+        {
+          "from": "bomb_517_statues:source",
+          "to": "bomb_517_statues:chest",
+          "capability": "bomb_517_fighter_first_combo",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Fighter"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        },
+        {
+          "from": "bomb_517_statues:source",
+          "to": "bomb_517_statues:chest",
+          "capability": "bomb_517_ufo_top_charge",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "UFO"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": [
+        {
+          "source_key": "WADDLE_DOO",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353906",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353901",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        }
+      ],
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "bomb_517_statues:source",
+          "to": "bomb_517_statues:chest",
+          "required_equipment": [
+            "UFO"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "bomb_517_chocolate",
+      "witness": "hub2_statues_entry",
+      "area_keys": true,
+      "source_ids": [
+        "STATUE:353901@0x088CB034",
+        "STATUE:353906@0x088CB010"
+      ],
+      "capability_routes": [
+        {
+          "from": "bomb_517_statues:source",
+          "to": "bomb_517_statues:chest",
+          "capability": "bomb_517_chocolate",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Beam"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": true,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        },
+        {
+          "from": "bomb_517_statues:source",
+          "to": "bomb_517_statues:chest",
+          "capability": "bomb_517_chocolate",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Smash"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        },
+        {
+          "from": "bomb_517_statues:source",
+          "to": "bomb_517_statues:chest",
+          "capability": "bomb_517_fire_breath",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Fire"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        },
+        {
+          "from": "bomb_517_statues:source",
+          "to": "bomb_517_statues:chest",
+          "capability": "bomb_517_missile_blast",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Missile"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        },
+        {
+          "from": "bomb_517_statues:source",
+          "to": "bomb_517_statues:chest",
+          "capability": "bomb_517_parasol_swing",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Parasol"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        },
+        {
+          "from": "bomb_517_statues:source",
+          "to": "bomb_517_statues:chest",
+          "capability": "bomb_517_chocolate",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Spark"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        },
+        {
+          "from": "bomb_517_statues:source",
+          "to": "bomb_517_statues:chest",
+          "capability": "bomb_517_chocolate",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Ice"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        },
+        {
+          "from": "bomb_517_statues:source",
+          "to": "bomb_517_statues:chest",
+          "capability": "bomb_517_sword_first_slash",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Sword"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        },
+        {
+          "from": "bomb_517_statues:source",
+          "to": "bomb_517_statues:chest",
+          "capability": "bomb_517_fighter_first_combo",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Fighter"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        },
+        {
+          "from": "bomb_517_statues:source",
+          "to": "bomb_517_statues:chest",
+          "capability": "bomb_517_ufo_top_charge",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "UFO"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": [
+        {
+          "source_key": "WADDLE_DOO",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353906",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353901",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        }
+      ],
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "bomb_517_statues:source",
+          "to": "bomb_517_statues:chest",
+          "required_equipment": [
+            "UFO"
           ]
         }
       ]

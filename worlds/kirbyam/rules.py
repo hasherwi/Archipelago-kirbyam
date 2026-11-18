@@ -107,17 +107,17 @@ _ROOM_LEVER_WALL_ITEMS = {
     "cc_lever": "Carrot Castle 5-05 - Lever Wall",
     "rr_lever": "Radish Ruins 8-12 - Lever Wall",
 }
+# Normal Kirby can fly, swim and climb without acquiring a Copy Ability. These
+# are movement predicates, not pending equipment sources. Carry restrictions
+# remain on the reviewed compartment routes that actually carry equipment.
+_NORMAL_MOVEMENT_REQUIREMENTS = frozenset({'can_fly', 'can_swim', 'can_climb'})
 _PENDING_ROOM_ABILITY_REQUIREMENTS = frozenset({
     "can_break_floating_block",
     "can_break_metal",
     "can_break_metal_throw",
-    "can_climb",
-    "can_fly",
-    "can_swim",
     "can_wheel",
     "can_mirra",
     "can_hit_far_switch",
-    "can_get_rr_map_chest",
 })
 
 
@@ -195,16 +195,39 @@ _ROOM_ABILITY_GATE_RULES = {
 }
 
 
+def normal_movement_satisfies_requirement(requirement) -> bool:
+    """Recognize existing Boolean Normal alternatives without invoking ability gates.
+
+    This proves only the authored compact requirement, not physical geometry,
+    equipment carry, or a separately installed traversal target.
+    """
+    if requirement is None:
+        return True
+    if isinstance(requirement, str):
+        return requirement in _NORMAL_MOVEMENT_REQUIREMENTS
+    if isinstance(requirement, dict) and len(requirement) == 1:
+        operator, operands = next(iter(requirement.items()))
+        if isinstance(operands, list):
+            if operator == "all":
+                return all(normal_movement_satisfies_requirement(item) for item in operands)
+            if operator == "any":
+                return any(normal_movement_satisfies_requirement(item) for item in operands)
+    return False
+
+
 def evaluate_room_logic_requirement(requirement, state: CollectionState, player: int) -> bool:
     """Evaluate the compact condition values used by room exits and locations.
 
-    Ability-related tokens intentionally retain the existing permissive behavior
+    Normal movement needs no Copy Ability acquisition. Other ability-related
+    tokens intentionally retain the existing permissive behavior
     until their source-backed predicates are finalized. Every lever token
     requires its matching Lever Wall progression item, not a physical event.
     """
     if requirement is None:
         return True
     if isinstance(requirement, str):
+        if requirement in _NORMAL_MOVEMENT_REQUIREMENTS:
+            return True
         if requirement in _ROOM_LEVER_WALL_ITEMS:
             return state.has(_ROOM_LEVER_WALL_ITEMS[requirement], player)
         if requirement in _ROOM_ABILITY_GATE_RULES:
@@ -220,7 +243,10 @@ def evaluate_room_logic_requirement(requirement, state: CollectionState, player:
             if operator == "all":
                 return all(evaluate_room_logic_requirement(item, state, player) for item in operands)
             if operator == "any":
-                return any(evaluate_room_logic_requirement(item, state, player) for item in operands)
+                # A declared Normal alternative must not consult an unrelated
+                # pending equipment branch just because it appears first.
+                return (normal_movement_satisfies_requirement(requirement)
+                        or any(evaluate_room_logic_requirement(item, state, player) for item in operands))
     raise TypeError(f"Invalid KirbyAM room logic requirement: {requirement!r}")
 
 

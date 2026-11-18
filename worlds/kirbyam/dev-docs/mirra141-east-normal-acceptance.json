@@ -1,0 +1,4116 @@
+{
+  "version": 1,
+  "target": "mirra_141_east_moonlight",
+  "native_template": "0x088B77A4",
+  "scope": "Bounded EAST_MOONLIGHT Normal clearance; configured local arrivals and actual144-to141-to144 joins. No arbitrary timing or other compartment access.",
+  "positive": [
+    {
+      "policy": {
+        "mode": 0,
+        "allowed_abilities": [
+          "Beam",
+          "Bomb",
+          "Burning",
+          "Cook",
+          "Crash",
+          "Cupid",
+          "Cutter",
+          "Fighter",
+          "Fire",
+          "Hammer",
+          "Ice",
+          "Laser",
+          "Magic",
+          "Mini",
+          "Missile",
+          "Parasol",
+          "Sleep",
+          "Smash",
+          "Spark",
+          "Stone",
+          "Sword",
+          "Throw",
+          "Tornado",
+          "UFO",
+          "Wheel"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "identity_map": {
+          "Beam": "Beam",
+          "Bomb": "Bomb",
+          "Burning": "Burning",
+          "Cook": "Cook",
+          "Crash": "Crash",
+          "Cupid": "Cupid",
+          "Cutter": "Cutter",
+          "Fighter": "Fighter",
+          "Fire": "Fire",
+          "Hammer": "Hammer",
+          "Ice": "Ice",
+          "Laser": "Laser",
+          "Magic": "Magic",
+          "Mini": "Mini",
+          "Missile": "Missile",
+          "Parasol": "Parasol",
+          "Sleep": "Sleep",
+          "Smash": "Smash",
+          "Spark": "Spark",
+          "Stone": "Stone",
+          "Sword": "Sword",
+          "Throw": "Throw",
+          "Tornado": "Tornado",
+          "UFO": "UFO",
+          "Wheel": "Wheel"
+        }
+      },
+      "health_percent": 100,
+      "gated": false,
+      "configured_hp": 1,
+      "omission": null,
+      "configured_start": [
+        141,
+        696,
+        144
+      ],
+      "native_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "base_patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "production_rom_sha256": "e81f98c79c2ff93d2d8263e2ed178ec46d2dde2231c7679b3f0a13aed0ded759",
+      "script_sha256": "1c15b278df5314afe7ab6488ca4c312bdb351ff3cb84c68bdb2f9e4c1f202e82",
+      "case": "mirra141-east-puff-fast",
+      "private_evidence_sha256": "1131b73722dede86cf4680f721ad20c02027fba556df050ffe1f1fa76335fd9a",
+      "runtime_sha256": "3821749c2b7dc80a30fb96ac612f2183c2b02f0dcce3759ee6739676c7563d23",
+      "fixture_rom_sha256": "ec59715daac097f70437b49bbca48d4bbe145dee8662b41f93bf08e5e0c033ee",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "initial": {
+        "label": "arrival",
+        "frame": 1085,
+        "room": 141,
+        "x": 680.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          50338348,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          67305985,
+          134678021,
+          202050057,
+          269422093,
+          1129578496,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "final": {
+        "label": "final",
+        "frame": 1461,
+        "room": 144,
+        "x": 56.0,
+        "y": 56.99609375,
+        "hp": 1,
+        "ability": 0,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          50338348,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          67305985,
+          134678021,
+          202050057,
+          269422093,
+          1129578496,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "minimum_hp": 1,
+      "abilities": [
+        0
+      ],
+      "runtime_writes": [],
+      "room_changes": [
+        {
+          "frame": 1086,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 679.875,
+          "y": 136.99609375
+        },
+        {
+          "frame": 1368,
+          "room": 144,
+          "hp": 1,
+          "ability": 0,
+          "x": 56.0,
+          "y": 56.99609375
+        }
+      ],
+      "joined_arrival": null,
+      "mirra_landmarks": [
+        {
+          "frame": 1086,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 679.875,
+          "y": 136.99609375,
+          "mirra": {
+            "template": "0x88b77a4",
+            "parent": "0x0",
+            "object": "0x20000c4",
+            "type_id": 52,
+            "native_ability": 0,
+            "hp": 2,
+            "x": 696.0,
+            "y": 128.0,
+            "state": "0x80b10a9",
+            "flags": "0x12000845"
+          }
+        },
+        {
+          "frame": 1308,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 634.6640625,
+          "y": 136.99609375,
+          "mirra": {
+            "template": "0x88b77a4",
+            "parent": "0x0",
+            "object": "0x20000c4",
+            "type_id": 52,
+            "native_ability": 0,
+            "hp": 0,
+            "x": 696.0,
+            "y": 128.0,
+            "state": "0x809b6a9",
+            "flags": "0x13048b65"
+          }
+        },
+        {
+          "frame": 1320,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 649.7109375,
+          "y": 136.99609375,
+          "mirra": {
+            "template": "0x88b77a4",
+            "parent": "0x0",
+            "object": "0x20000c4",
+            "type_id": 52,
+            "native_ability": 0,
+            "hp": 0,
+            "x": 699.5,
+            "y": 126.0,
+            "state": "0x809b93d",
+            "flags": "0x13008363"
+          }
+        },
+        {
+          "frame": 1339,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 674.3515625,
+          "y": 136.99609375,
+          "mirra": {
+            "template": "0x88b77a4",
+            "parent": "0x0",
+            "object": "0x20000c4",
+            "type_id": 52,
+            "native_ability": 0,
+            "hp": 0,
+            "x": 751.8125,
+            "y": 114.71484375,
+            "state": "0x80b10a9",
+            "flags": "0x12009b61"
+          }
+        },
+        {
+          "frame": 1340,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 675.6484375,
+          "y": 136.99609375,
+          "mirra": null
+        }
+      ]
+    },
+    {
+      "policy": {
+        "mode": 0,
+        "allowed_abilities": [
+          "Beam",
+          "Bomb",
+          "Burning",
+          "Cook",
+          "Crash",
+          "Cupid",
+          "Cutter",
+          "Fighter",
+          "Fire",
+          "Hammer",
+          "Ice",
+          "Laser",
+          "Magic",
+          "Mini",
+          "Missile",
+          "Parasol",
+          "Sleep",
+          "Smash",
+          "Spark",
+          "Stone",
+          "Sword",
+          "Throw",
+          "Tornado",
+          "UFO",
+          "Wheel"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "identity_map": {
+          "Beam": "Beam",
+          "Bomb": "Bomb",
+          "Burning": "Burning",
+          "Cook": "Cook",
+          "Crash": "Crash",
+          "Cupid": "Cupid",
+          "Cutter": "Cutter",
+          "Fighter": "Fighter",
+          "Fire": "Fire",
+          "Hammer": "Hammer",
+          "Ice": "Ice",
+          "Laser": "Laser",
+          "Magic": "Magic",
+          "Mini": "Mini",
+          "Missile": "Missile",
+          "Parasol": "Parasol",
+          "Sleep": "Sleep",
+          "Smash": "Smash",
+          "Spark": "Spark",
+          "Stone": "Stone",
+          "Sword": "Sword",
+          "Throw": "Throw",
+          "Tornado": "Tornado",
+          "UFO": "UFO",
+          "Wheel": "Wheel"
+        }
+      },
+      "health_percent": 500,
+      "gated": true,
+      "configured_hp": 1,
+      "omission": "permission",
+      "configured_start": [
+        141,
+        696,
+        144
+      ],
+      "native_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "base_patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "production_rom_sha256": "b964deedc14715d3f90695381fc343d0412104c75c3684956da9dbdc099ec434",
+      "script_sha256": "1c15b278df5314afe7ab6488ca4c312bdb351ff3cb84c68bdb2f9e4c1f202e82",
+      "case": "mirra141-east-health500",
+      "private_evidence_sha256": "42e76a8a6c3c2e5a22eda9ab3454c67d4970f09152b24b403ad4474fdb03ba72",
+      "runtime_sha256": "b731a70fdfbcd27ce78faf56eb4a3e774579e120951c8ab45529b4e20b2b79dc",
+      "fixture_rom_sha256": "18eaaf6e3c6d12bc60b21d307f63ce5c62a4acfe97bcb7e3affc00d5fbe51915",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "initial": {
+        "label": "arrival",
+        "frame": 1085,
+        "room": 141,
+        "x": 680.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 67108734,
+        "ability_unlocks": 0,
+        "copy_context": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          50338348,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          67305985,
+          134678021,
+          202050057,
+          269422093,
+          1129578496,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "final": {
+        "label": "final",
+        "frame": 1461,
+        "room": 144,
+        "x": 56.0,
+        "y": 56.99609375,
+        "hp": 1,
+        "ability": 0,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 67108734,
+        "ability_unlocks": 0,
+        "copy_context": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          50338348,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          67305985,
+          134678021,
+          202050057,
+          269422093,
+          1129578496,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "minimum_hp": 1,
+      "abilities": [
+        0
+      ],
+      "runtime_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "7effff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "room_changes": [
+        {
+          "frame": 1086,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 679.875,
+          "y": 136.99609375
+        },
+        {
+          "frame": 1368,
+          "room": 144,
+          "hp": 1,
+          "ability": 0,
+          "x": 56.0,
+          "y": 56.99609375
+        }
+      ],
+      "joined_arrival": null,
+      "mirra_landmarks": [
+        {
+          "frame": 1086,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 679.875,
+          "y": 136.99609375,
+          "mirra": {
+            "template": "0x88b77a4",
+            "parent": "0x0",
+            "object": "0x20000c4",
+            "type_id": 52,
+            "native_ability": 0,
+            "hp": 10,
+            "x": 696.0,
+            "y": 128.0,
+            "state": "0x80b10a9",
+            "flags": "0x12000845"
+          }
+        },
+        {
+          "frame": 1308,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 634.6640625,
+          "y": 136.99609375,
+          "mirra": {
+            "template": "0x88b77a4",
+            "parent": "0x0",
+            "object": "0x20000c4",
+            "type_id": 52,
+            "native_ability": 0,
+            "hp": 0,
+            "x": 696.0,
+            "y": 128.0,
+            "state": "0x809b6a9",
+            "flags": "0x13048b65"
+          }
+        },
+        {
+          "frame": 1320,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 649.7109375,
+          "y": 136.99609375,
+          "mirra": {
+            "template": "0x88b77a4",
+            "parent": "0x0",
+            "object": "0x20000c4",
+            "type_id": 52,
+            "native_ability": 0,
+            "hp": 0,
+            "x": 699.5,
+            "y": 126.0,
+            "state": "0x809b93d",
+            "flags": "0x13008363"
+          }
+        },
+        {
+          "frame": 1339,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 674.3515625,
+          "y": 136.99609375,
+          "mirra": {
+            "template": "0x88b77a4",
+            "parent": "0x0",
+            "object": "0x20000c4",
+            "type_id": 52,
+            "native_ability": 0,
+            "hp": 0,
+            "x": 751.8125,
+            "y": 114.71484375,
+            "state": "0x80b10a9",
+            "flags": "0x12009b61"
+          }
+        },
+        {
+          "frame": 1340,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 675.6484375,
+          "y": 136.99609375,
+          "mirra": null
+        }
+      ]
+    },
+    {
+      "policy": {
+        "mode": 1,
+        "allowed_abilities": [
+          "Beam"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "seed": 11313160015481018921,
+        "mapping_style": "per_enemy_type"
+      },
+      "health_percent": 100,
+      "gated": false,
+      "configured_hp": 1,
+      "omission": null,
+      "configured_start": [
+        141,
+        696,
+        144
+      ],
+      "native_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "base_patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "production_rom_sha256": "69d6614554a4ff6759cfbe3b3299d662185c26b8901101c970e8075292244463",
+      "script_sha256": "1c15b278df5314afe7ab6488ca4c312bdb351ff3cb84c68bdb2f9e4c1f202e82",
+      "case": "mirra141-east-shuffled",
+      "private_evidence_sha256": "416da79e4f15e778da4aaed02d693224be1b0a2e7e338808d2ac1886ceb9aba1",
+      "runtime_sha256": "a650c7c4a36269f687c67c4800e17bf138baca5057b7dd0e58c8aff0b8731b33",
+      "fixture_rom_sha256": "7ecd6eac059140ead29c7a312130aba758a3ad4d469de78a8f2eb5cf9fc84e89",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "initial": {
+        "label": "arrival",
+        "frame": 1085,
+        "room": 141,
+        "x": 680.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          50338348,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          67305985,
+          134678021,
+          202050057,
+          269422093,
+          1129578496,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "final": {
+        "label": "final",
+        "frame": 1461,
+        "room": 144,
+        "x": 56.0,
+        "y": 56.99609375,
+        "hp": 1,
+        "ability": 0,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          50338348,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          67305985,
+          134678021,
+          202050057,
+          269422093,
+          1129578496,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "minimum_hp": 1,
+      "abilities": [
+        0
+      ],
+      "runtime_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "291ae629",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "186b009d",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "80000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "room_changes": [
+        {
+          "frame": 1086,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 679.875,
+          "y": 136.99609375
+        },
+        {
+          "frame": 1368,
+          "room": 144,
+          "hp": 1,
+          "ability": 0,
+          "x": 56.0,
+          "y": 56.99609375
+        }
+      ],
+      "joined_arrival": null,
+      "mirra_landmarks": [
+        {
+          "frame": 1086,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 679.875,
+          "y": 136.99609375,
+          "mirra": {
+            "template": "0x88b77a4",
+            "parent": "0x0",
+            "object": "0x20000c4",
+            "type_id": 52,
+            "native_ability": 0,
+            "hp": 2,
+            "x": 696.0,
+            "y": 128.0,
+            "state": "0x80b10a9",
+            "flags": "0x12000845"
+          }
+        },
+        {
+          "frame": 1308,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 634.6640625,
+          "y": 136.99609375,
+          "mirra": {
+            "template": "0x88b77a4",
+            "parent": "0x0",
+            "object": "0x20000c4",
+            "type_id": 52,
+            "native_ability": 0,
+            "hp": 0,
+            "x": 696.0,
+            "y": 128.0,
+            "state": "0x809b6a9",
+            "flags": "0x13048b65"
+          }
+        },
+        {
+          "frame": 1320,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 649.7109375,
+          "y": 136.99609375,
+          "mirra": {
+            "template": "0x88b77a4",
+            "parent": "0x0",
+            "object": "0x20000c4",
+            "type_id": 52,
+            "native_ability": 0,
+            "hp": 0,
+            "x": 699.5,
+            "y": 126.0,
+            "state": "0x809b93d",
+            "flags": "0x13008363"
+          }
+        },
+        {
+          "frame": 1339,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 674.3515625,
+          "y": 136.99609375,
+          "mirra": {
+            "template": "0x88b77a4",
+            "parent": "0x0",
+            "object": "0x20000c4",
+            "type_id": 52,
+            "native_ability": 0,
+            "hp": 0,
+            "x": 751.8125,
+            "y": 114.71484375,
+            "state": "0x80b10a9",
+            "flags": "0x12009b61"
+          }
+        },
+        {
+          "frame": 1340,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 675.6484375,
+          "y": 136.99609375,
+          "mirra": null
+        }
+      ]
+    },
+    {
+      "policy": {
+        "mode": 2,
+        "allowed_abilities": [
+          "Beam",
+          "Bomb",
+          "Burning",
+          "Cook",
+          "Crash",
+          "Cupid",
+          "Cutter",
+          "Fighter",
+          "Fire",
+          "Hammer",
+          "Ice",
+          "Laser",
+          "Magic",
+          "Mini",
+          "Missile",
+          "Parasol",
+          "Sleep",
+          "Smash",
+          "Spark",
+          "Stone",
+          "Sword",
+          "Throw",
+          "Tornado",
+          "UFO",
+          "Wheel"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "seed": 11313160015481018921,
+        "mapping_style": "per_grant_event"
+      },
+      "health_percent": 100,
+      "gated": true,
+      "configured_hp": 1,
+      "omission": "permission",
+      "configured_start": [
+        141,
+        696,
+        144
+      ],
+      "native_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "base_patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "production_rom_sha256": "1cbf7938ec4dcf0710b1cd93ffcfa3509027234d85d306afe18947fa0518d0d8",
+      "script_sha256": "1c15b278df5314afe7ab6488ca4c312bdb351ff3cb84c68bdb2f9e4c1f202e82",
+      "case": "mirra141-east-live",
+      "private_evidence_sha256": "84a56f0557e43fe43b08e72a18e6c69b31f3614b442c5c8a5c625ae83f235912",
+      "runtime_sha256": "a0b988d3f8e75e7e2e3e1846a87f9514cd4f9d370a6d20e9515ba0a343d24714",
+      "fixture_rom_sha256": "dfc9fd3f2ffeebf94ca7c838e53b1a9c41a1cbc881c57996d8953e6abafcbdf6",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "initial": {
+        "label": "arrival",
+        "frame": 1085,
+        "room": 141,
+        "x": 680.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 67108734,
+        "ability_unlocks": 0,
+        "copy_context": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          50338348,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          67305985,
+          134678021,
+          202050057,
+          269422093,
+          1129578496,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "final": {
+        "label": "final",
+        "frame": 1461,
+        "room": 144,
+        "x": 56.0,
+        "y": 56.99609375,
+        "hp": 1,
+        "ability": 0,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 67108734,
+        "ability_unlocks": 0,
+        "copy_context": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          50338348,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          67305985,
+          134678021,
+          202050057,
+          269422093,
+          1129578496,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "minimum_hp": 1,
+      "abilities": [
+        0
+      ],
+      "runtime_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "02000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "291ae629",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "186b009d",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "7effff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "room_changes": [
+        {
+          "frame": 1086,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 679.875,
+          "y": 136.99609375
+        },
+        {
+          "frame": 1368,
+          "room": 144,
+          "hp": 1,
+          "ability": 0,
+          "x": 56.0,
+          "y": 56.99609375
+        }
+      ],
+      "joined_arrival": null,
+      "mirra_landmarks": [
+        {
+          "frame": 1086,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 679.875,
+          "y": 136.99609375,
+          "mirra": {
+            "template": "0x88b77a4",
+            "parent": "0x0",
+            "object": "0x20000c4",
+            "type_id": 52,
+            "native_ability": 0,
+            "hp": 2,
+            "x": 696.0,
+            "y": 128.0,
+            "state": "0x80b10a9",
+            "flags": "0x12000845"
+          }
+        },
+        {
+          "frame": 1308,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 634.6640625,
+          "y": 136.99609375,
+          "mirra": {
+            "template": "0x88b77a4",
+            "parent": "0x0",
+            "object": "0x20000c4",
+            "type_id": 52,
+            "native_ability": 0,
+            "hp": 0,
+            "x": 696.0,
+            "y": 128.0,
+            "state": "0x809b6a9",
+            "flags": "0x13048b65"
+          }
+        },
+        {
+          "frame": 1320,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 649.7109375,
+          "y": 136.99609375,
+          "mirra": {
+            "template": "0x88b77a4",
+            "parent": "0x0",
+            "object": "0x20000c4",
+            "type_id": 52,
+            "native_ability": 0,
+            "hp": 0,
+            "x": 699.5,
+            "y": 126.0,
+            "state": "0x809b93d",
+            "flags": "0x13008363"
+          }
+        },
+        {
+          "frame": 1339,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 674.3515625,
+          "y": 136.99609375,
+          "mirra": {
+            "template": "0x88b77a4",
+            "parent": "0x0",
+            "object": "0x20000c4",
+            "type_id": 52,
+            "native_ability": 0,
+            "hp": 0,
+            "x": 751.8125,
+            "y": 114.71484375,
+            "state": "0x80b10a9",
+            "flags": "0x12009b61"
+          }
+        },
+        {
+          "frame": 1340,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 675.6484375,
+          "y": 136.99609375,
+          "mirra": null
+        }
+      ]
+    },
+    {
+      "policy": {
+        "mode": 0,
+        "allowed_abilities": [
+          "Beam",
+          "Bomb",
+          "Burning",
+          "Cook",
+          "Crash",
+          "Cupid",
+          "Cutter",
+          "Fighter",
+          "Fire",
+          "Hammer",
+          "Ice",
+          "Laser",
+          "Magic",
+          "Mini",
+          "Missile",
+          "Parasol",
+          "Sleep",
+          "Smash",
+          "Spark",
+          "Stone",
+          "Sword",
+          "Throw",
+          "Tornado",
+          "UFO",
+          "Wheel"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "identity_map": {
+          "Beam": "Beam",
+          "Bomb": "Bomb",
+          "Burning": "Burning",
+          "Cook": "Cook",
+          "Crash": "Crash",
+          "Cupid": "Cupid",
+          "Cutter": "Cutter",
+          "Fighter": "Fighter",
+          "Fire": "Fire",
+          "Hammer": "Hammer",
+          "Ice": "Ice",
+          "Laser": "Laser",
+          "Magic": "Magic",
+          "Mini": "Mini",
+          "Missile": "Missile",
+          "Parasol": "Parasol",
+          "Sleep": "Sleep",
+          "Smash": "Smash",
+          "Spark": "Spark",
+          "Stone": "Stone",
+          "Sword": "Sword",
+          "Throw": "Throw",
+          "Tornado": "Tornado",
+          "UFO": "UFO",
+          "Wheel": "Wheel"
+        }
+      },
+      "health_percent": 100,
+      "gated": false,
+      "configured_hp": 1,
+      "omission": null,
+      "configured_start": [
+        144,
+        56,
+        64
+      ],
+      "native_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "base_patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "production_rom_sha256": "e81f98c79c2ff93d2d8263e2ed178ec46d2dde2231c7679b3f0a13aed0ded759",
+      "script_sha256": "1302e2cb987f7bd3a46d6a675b44bba30d1d2ac7eec9b3b2988cd4c72fc97e37",
+      "case": "mirra141-east-joined-vanilla",
+      "private_evidence_sha256": "c18be9fb62507b3515fa7c993249e2c49df0d982127a3f7230c71f0735283c38",
+      "runtime_sha256": "b85dbbf6315786d8cbbf91b8c4fb31416a5aaa8f1949c9b067981450b7d74469",
+      "fixture_rom_sha256": "0eecb3055f576bbd40468671d95a357bf264adcf83764aa56f0f3147ddf146dc",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "initial": {
+        "label": "arrival",
+        "frame": 1085,
+        "room": 144,
+        "x": 40.0,
+        "y": 56.99609375,
+        "hp": 1,
+        "ability": 0,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          50338348,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          67305985,
+          134678021,
+          202050057,
+          269422093,
+          1129578496,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "final": {
+        "label": "final",
+        "frame": 1492,
+        "room": 144,
+        "x": 56.0,
+        "y": 56.99609375,
+        "hp": 1,
+        "ability": 0,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          50338348,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          67305985,
+          134678021,
+          202050057,
+          269422093,
+          1129578496,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "minimum_hp": 1,
+      "abilities": [
+        0
+      ],
+      "runtime_writes": [],
+      "room_changes": [
+        {
+          "frame": 1086,
+          "room": 144,
+          "hp": 1,
+          "ability": 0,
+          "x": 40.0,
+          "y": 56.99609375
+        },
+        {
+          "frame": 1098,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 680.0,
+          "y": 136.99609375
+        },
+        {
+          "frame": 1399,
+          "room": 144,
+          "hp": 1,
+          "ability": 0,
+          "x": 56.0,
+          "y": 56.99609375
+        }
+      ],
+      "joined_arrival": {
+        "label": "joined-arrival",
+        "frame": 1116,
+        "room": 141,
+        "x": 680.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          50338348,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          67305985,
+          134678021,
+          202050057,
+          269422093,
+          1129578496,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "mirra_landmarks": [
+        {
+          "frame": 1086,
+          "room": 144,
+          "hp": 1,
+          "ability": 0,
+          "x": 40.0,
+          "y": 56.99609375,
+          "mirra": null
+        },
+        {
+          "frame": 1109,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 680.0,
+          "y": 136.99609375,
+          "mirra": {
+            "template": "0x88b77a4",
+            "parent": "0x0",
+            "object": "0x20000c4",
+            "type_id": 52,
+            "native_ability": 0,
+            "hp": 2,
+            "x": 696.0,
+            "y": 128.0,
+            "state": "0x80b10a9",
+            "flags": "0x12000845"
+          }
+        },
+        {
+          "frame": 1339,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 634.6640625,
+          "y": 136.99609375,
+          "mirra": {
+            "template": "0x88b77a4",
+            "parent": "0x0",
+            "object": "0x20000c4",
+            "type_id": 52,
+            "native_ability": 0,
+            "hp": 0,
+            "x": 696.0,
+            "y": 128.0,
+            "state": "0x809b6a9",
+            "flags": "0x13048b65"
+          }
+        },
+        {
+          "frame": 1351,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 649.7109375,
+          "y": 136.99609375,
+          "mirra": {
+            "template": "0x88b77a4",
+            "parent": "0x0",
+            "object": "0x20000c4",
+            "type_id": 52,
+            "native_ability": 0,
+            "hp": 0,
+            "x": 699.5,
+            "y": 126.0,
+            "state": "0x809b93d",
+            "flags": "0x13008363"
+          }
+        },
+        {
+          "frame": 1370,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 674.3515625,
+          "y": 136.99609375,
+          "mirra": {
+            "template": "0x88b77a4",
+            "parent": "0x0",
+            "object": "0x20000c4",
+            "type_id": 52,
+            "native_ability": 0,
+            "hp": 0,
+            "x": 751.8125,
+            "y": 114.71484375,
+            "state": "0x80b10a9",
+            "flags": "0x12009b61"
+          }
+        },
+        {
+          "frame": 1371,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 675.6484375,
+          "y": 136.99609375,
+          "mirra": null
+        }
+      ]
+    },
+    {
+      "policy": {
+        "mode": 0,
+        "allowed_abilities": [
+          "Beam",
+          "Bomb",
+          "Burning",
+          "Cook",
+          "Crash",
+          "Cupid",
+          "Cutter",
+          "Fighter",
+          "Fire",
+          "Hammer",
+          "Ice",
+          "Laser",
+          "Magic",
+          "Mini",
+          "Missile",
+          "Parasol",
+          "Sleep",
+          "Smash",
+          "Spark",
+          "Stone",
+          "Sword",
+          "Throw",
+          "Tornado",
+          "UFO",
+          "Wheel"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "identity_map": {
+          "Beam": "Beam",
+          "Bomb": "Bomb",
+          "Burning": "Burning",
+          "Cook": "Cook",
+          "Crash": "Crash",
+          "Cupid": "Cupid",
+          "Cutter": "Cutter",
+          "Fighter": "Fighter",
+          "Fire": "Fire",
+          "Hammer": "Hammer",
+          "Ice": "Ice",
+          "Laser": "Laser",
+          "Magic": "Magic",
+          "Mini": "Mini",
+          "Missile": "Missile",
+          "Parasol": "Parasol",
+          "Sleep": "Sleep",
+          "Smash": "Smash",
+          "Spark": "Spark",
+          "Stone": "Stone",
+          "Sword": "Sword",
+          "Throw": "Throw",
+          "Tornado": "Tornado",
+          "UFO": "UFO",
+          "Wheel": "Wheel"
+        }
+      },
+      "health_percent": 500,
+      "gated": true,
+      "configured_hp": 1,
+      "omission": "permission",
+      "configured_start": [
+        144,
+        56,
+        64
+      ],
+      "native_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "base_patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "production_rom_sha256": "b964deedc14715d3f90695381fc343d0412104c75c3684956da9dbdc099ec434",
+      "script_sha256": "1302e2cb987f7bd3a46d6a675b44bba30d1d2ac7eec9b3b2988cd4c72fc97e37",
+      "case": "mirra141-east-joined-health500",
+      "private_evidence_sha256": "41b6282d405108a7146aa7cdd628922dd59cafc7e87f343f5914f67163e341bf",
+      "runtime_sha256": "65ec63c6edac592520b644e6343059068e91dd32c75927bfeccdc8245161bd12",
+      "fixture_rom_sha256": "ef45ab74bd1df59aaa9b1cc148f5f6df8c8c01147074c477666ff4287cc5aac1",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "initial": {
+        "label": "arrival",
+        "frame": 1085,
+        "room": 144,
+        "x": 40.0,
+        "y": 56.99609375,
+        "hp": 1,
+        "ability": 0,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 67108734,
+        "ability_unlocks": 0,
+        "copy_context": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          50338348,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          67305985,
+          134678021,
+          202050057,
+          269422093,
+          1129578496,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "final": {
+        "label": "final",
+        "frame": 1492,
+        "room": 144,
+        "x": 56.0,
+        "y": 56.99609375,
+        "hp": 1,
+        "ability": 0,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 67108734,
+        "ability_unlocks": 0,
+        "copy_context": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          50338348,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          67305985,
+          134678021,
+          202050057,
+          269422093,
+          1129578496,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "minimum_hp": 1,
+      "abilities": [
+        0
+      ],
+      "runtime_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "7effff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "room_changes": [
+        {
+          "frame": 1086,
+          "room": 144,
+          "hp": 1,
+          "ability": 0,
+          "x": 40.0,
+          "y": 56.99609375
+        },
+        {
+          "frame": 1098,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 680.0,
+          "y": 136.99609375
+        },
+        {
+          "frame": 1399,
+          "room": 144,
+          "hp": 1,
+          "ability": 0,
+          "x": 56.0,
+          "y": 56.99609375
+        }
+      ],
+      "joined_arrival": {
+        "label": "joined-arrival",
+        "frame": 1116,
+        "room": 141,
+        "x": 680.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 67108734,
+        "ability_unlocks": 0,
+        "copy_context": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          50338348,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          67305985,
+          134678021,
+          202050057,
+          269422093,
+          1129578496,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "mirra_landmarks": [
+        {
+          "frame": 1086,
+          "room": 144,
+          "hp": 1,
+          "ability": 0,
+          "x": 40.0,
+          "y": 56.99609375,
+          "mirra": null
+        },
+        {
+          "frame": 1109,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 680.0,
+          "y": 136.99609375,
+          "mirra": {
+            "template": "0x88b77a4",
+            "parent": "0x0",
+            "object": "0x20000c4",
+            "type_id": 52,
+            "native_ability": 0,
+            "hp": 10,
+            "x": 696.0,
+            "y": 128.0,
+            "state": "0x80b10a9",
+            "flags": "0x12000845"
+          }
+        },
+        {
+          "frame": 1339,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 634.6640625,
+          "y": 136.99609375,
+          "mirra": {
+            "template": "0x88b77a4",
+            "parent": "0x0",
+            "object": "0x20000c4",
+            "type_id": 52,
+            "native_ability": 0,
+            "hp": 0,
+            "x": 696.0,
+            "y": 128.0,
+            "state": "0x809b6a9",
+            "flags": "0x13048b65"
+          }
+        },
+        {
+          "frame": 1351,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 649.7109375,
+          "y": 136.99609375,
+          "mirra": {
+            "template": "0x88b77a4",
+            "parent": "0x0",
+            "object": "0x20000c4",
+            "type_id": 52,
+            "native_ability": 0,
+            "hp": 0,
+            "x": 699.5,
+            "y": 126.0,
+            "state": "0x809b93d",
+            "flags": "0x13008363"
+          }
+        },
+        {
+          "frame": 1370,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 674.3515625,
+          "y": 136.99609375,
+          "mirra": {
+            "template": "0x88b77a4",
+            "parent": "0x0",
+            "object": "0x20000c4",
+            "type_id": 52,
+            "native_ability": 0,
+            "hp": 0,
+            "x": 751.8125,
+            "y": 114.71484375,
+            "state": "0x80b10a9",
+            "flags": "0x12009b61"
+          }
+        },
+        {
+          "frame": 1371,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 675.6484375,
+          "y": 136.99609375,
+          "mirra": null
+        }
+      ]
+    },
+    {
+      "policy": {
+        "mode": 1,
+        "allowed_abilities": [
+          "Beam"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "seed": 11313160015481018921,
+        "mapping_style": "per_enemy_type"
+      },
+      "health_percent": 100,
+      "gated": false,
+      "configured_hp": 1,
+      "omission": null,
+      "configured_start": [
+        144,
+        56,
+        64
+      ],
+      "native_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "base_patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "production_rom_sha256": "69d6614554a4ff6759cfbe3b3299d662185c26b8901101c970e8075292244463",
+      "script_sha256": "1302e2cb987f7bd3a46d6a675b44bba30d1d2ac7eec9b3b2988cd4c72fc97e37",
+      "case": "mirra141-east-joined-shuffled",
+      "private_evidence_sha256": "3aa5b601cd7aa0a0e8809899f499fe780046c50acc1292fb6bbe93b400ff10c3",
+      "runtime_sha256": "f77ad6b69723e4554ee8c1bd16351360e66aeae8227e6e154963acd0eb4e9ae2",
+      "fixture_rom_sha256": "4afbc5b95b75b07a2e8df6b02641ffd5c4f4eaf10b0f87d974b6ac1c474538c1",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "initial": {
+        "label": "arrival",
+        "frame": 1085,
+        "room": 144,
+        "x": 40.0,
+        "y": 56.99609375,
+        "hp": 1,
+        "ability": 0,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          50338348,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          67305985,
+          134678021,
+          202050057,
+          269422093,
+          1129578496,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "final": {
+        "label": "final",
+        "frame": 1492,
+        "room": 144,
+        "x": 56.0,
+        "y": 56.99609375,
+        "hp": 1,
+        "ability": 0,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          50338348,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          67305985,
+          134678021,
+          202050057,
+          269422093,
+          1129578496,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "minimum_hp": 1,
+      "abilities": [
+        0
+      ],
+      "runtime_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "291ae629",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "186b009d",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "80000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "room_changes": [
+        {
+          "frame": 1086,
+          "room": 144,
+          "hp": 1,
+          "ability": 0,
+          "x": 40.0,
+          "y": 56.99609375
+        },
+        {
+          "frame": 1098,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 680.0,
+          "y": 136.99609375
+        },
+        {
+          "frame": 1399,
+          "room": 144,
+          "hp": 1,
+          "ability": 0,
+          "x": 56.0,
+          "y": 56.99609375
+        }
+      ],
+      "joined_arrival": {
+        "label": "joined-arrival",
+        "frame": 1116,
+        "room": 141,
+        "x": 680.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          50338348,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          67305985,
+          134678021,
+          202050057,
+          269422093,
+          1129578496,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "mirra_landmarks": [
+        {
+          "frame": 1086,
+          "room": 144,
+          "hp": 1,
+          "ability": 0,
+          "x": 40.0,
+          "y": 56.99609375,
+          "mirra": null
+        },
+        {
+          "frame": 1109,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 680.0,
+          "y": 136.99609375,
+          "mirra": {
+            "template": "0x88b77a4",
+            "parent": "0x0",
+            "object": "0x20000c4",
+            "type_id": 52,
+            "native_ability": 0,
+            "hp": 2,
+            "x": 696.0,
+            "y": 128.0,
+            "state": "0x80b10a9",
+            "flags": "0x12000845"
+          }
+        },
+        {
+          "frame": 1339,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 634.6640625,
+          "y": 136.99609375,
+          "mirra": {
+            "template": "0x88b77a4",
+            "parent": "0x0",
+            "object": "0x20000c4",
+            "type_id": 52,
+            "native_ability": 0,
+            "hp": 0,
+            "x": 696.0,
+            "y": 128.0,
+            "state": "0x809b6a9",
+            "flags": "0x13048b65"
+          }
+        },
+        {
+          "frame": 1351,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 649.7109375,
+          "y": 136.99609375,
+          "mirra": {
+            "template": "0x88b77a4",
+            "parent": "0x0",
+            "object": "0x20000c4",
+            "type_id": 52,
+            "native_ability": 0,
+            "hp": 0,
+            "x": 699.5,
+            "y": 126.0,
+            "state": "0x809b93d",
+            "flags": "0x13008363"
+          }
+        },
+        {
+          "frame": 1370,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 674.3515625,
+          "y": 136.99609375,
+          "mirra": {
+            "template": "0x88b77a4",
+            "parent": "0x0",
+            "object": "0x20000c4",
+            "type_id": 52,
+            "native_ability": 0,
+            "hp": 0,
+            "x": 751.8125,
+            "y": 114.71484375,
+            "state": "0x80b10a9",
+            "flags": "0x12009b61"
+          }
+        },
+        {
+          "frame": 1371,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 675.6484375,
+          "y": 136.99609375,
+          "mirra": null
+        }
+      ]
+    },
+    {
+      "policy": {
+        "mode": 2,
+        "allowed_abilities": [
+          "Beam",
+          "Bomb",
+          "Burning",
+          "Cook",
+          "Crash",
+          "Cupid",
+          "Cutter",
+          "Fighter",
+          "Fire",
+          "Hammer",
+          "Ice",
+          "Laser",
+          "Magic",
+          "Mini",
+          "Missile",
+          "Parasol",
+          "Sleep",
+          "Smash",
+          "Spark",
+          "Stone",
+          "Sword",
+          "Throw",
+          "Tornado",
+          "UFO",
+          "Wheel"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "seed": 11313160015481018921,
+        "mapping_style": "per_grant_event"
+      },
+      "health_percent": 100,
+      "gated": true,
+      "configured_hp": 1,
+      "omission": "permission",
+      "configured_start": [
+        144,
+        56,
+        64
+      ],
+      "native_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "base_patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "production_rom_sha256": "1cbf7938ec4dcf0710b1cd93ffcfa3509027234d85d306afe18947fa0518d0d8",
+      "script_sha256": "1302e2cb987f7bd3a46d6a675b44bba30d1d2ac7eec9b3b2988cd4c72fc97e37",
+      "case": "mirra141-east-joined-live",
+      "private_evidence_sha256": "18344acf9dfa63e81e1ec7e1892276e79b5a6a2aac79c754345a6adcdc13eafa",
+      "runtime_sha256": "141a34adf4a07b40195a9c01a494470aa154b905fd5030ed7e12286b520a3b8a",
+      "fixture_rom_sha256": "7c6e2e3fb953504688e5969b272624bb84482396615fd23bb707a50382676691",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "initial": {
+        "label": "arrival",
+        "frame": 1085,
+        "room": 144,
+        "x": 40.0,
+        "y": 56.99609375,
+        "hp": 1,
+        "ability": 0,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 67108734,
+        "ability_unlocks": 0,
+        "copy_context": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          50338348,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          67305985,
+          134678021,
+          202050057,
+          269422093,
+          1129578496,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "final": {
+        "label": "final",
+        "frame": 1492,
+        "room": 144,
+        "x": 56.0,
+        "y": 56.99609375,
+        "hp": 1,
+        "ability": 0,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 67108734,
+        "ability_unlocks": 0,
+        "copy_context": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          50338348,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          67305985,
+          134678021,
+          202050057,
+          269422093,
+          1129578496,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "minimum_hp": 1,
+      "abilities": [
+        0
+      ],
+      "runtime_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "02000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "291ae629",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "186b009d",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "7effff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "room_changes": [
+        {
+          "frame": 1086,
+          "room": 144,
+          "hp": 1,
+          "ability": 0,
+          "x": 40.0,
+          "y": 56.99609375
+        },
+        {
+          "frame": 1098,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 680.0,
+          "y": 136.99609375
+        },
+        {
+          "frame": 1399,
+          "room": 144,
+          "hp": 1,
+          "ability": 0,
+          "x": 56.0,
+          "y": 56.99609375
+        }
+      ],
+      "joined_arrival": {
+        "label": "joined-arrival",
+        "frame": 1116,
+        "room": 141,
+        "x": 680.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 67108734,
+        "ability_unlocks": 0,
+        "copy_context": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          50338348,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          67305985,
+          134678021,
+          202050057,
+          269422093,
+          1129578496,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "mirra_landmarks": [
+        {
+          "frame": 1086,
+          "room": 144,
+          "hp": 1,
+          "ability": 0,
+          "x": 40.0,
+          "y": 56.99609375,
+          "mirra": null
+        },
+        {
+          "frame": 1109,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 680.0,
+          "y": 136.99609375,
+          "mirra": {
+            "template": "0x88b77a4",
+            "parent": "0x0",
+            "object": "0x20000c4",
+            "type_id": 52,
+            "native_ability": 0,
+            "hp": 2,
+            "x": 696.0,
+            "y": 128.0,
+            "state": "0x80b10a9",
+            "flags": "0x12000845"
+          }
+        },
+        {
+          "frame": 1339,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 634.6640625,
+          "y": 136.99609375,
+          "mirra": {
+            "template": "0x88b77a4",
+            "parent": "0x0",
+            "object": "0x20000c4",
+            "type_id": 52,
+            "native_ability": 0,
+            "hp": 0,
+            "x": 696.0,
+            "y": 128.0,
+            "state": "0x809b6a9",
+            "flags": "0x13048b65"
+          }
+        },
+        {
+          "frame": 1351,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 649.7109375,
+          "y": 136.99609375,
+          "mirra": {
+            "template": "0x88b77a4",
+            "parent": "0x0",
+            "object": "0x20000c4",
+            "type_id": 52,
+            "native_ability": 0,
+            "hp": 0,
+            "x": 699.5,
+            "y": 126.0,
+            "state": "0x809b93d",
+            "flags": "0x13008363"
+          }
+        },
+        {
+          "frame": 1370,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 674.3515625,
+          "y": 136.99609375,
+          "mirra": {
+            "template": "0x88b77a4",
+            "parent": "0x0",
+            "object": "0x20000c4",
+            "type_id": 52,
+            "native_ability": 0,
+            "hp": 0,
+            "x": 751.8125,
+            "y": 114.71484375,
+            "state": "0x80b10a9",
+            "flags": "0x12009b61"
+          }
+        },
+        {
+          "frame": 1371,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 675.6484375,
+          "y": 136.99609375,
+          "mirra": null
+        }
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "policy": {
+        "mode": 0,
+        "allowed_abilities": [
+          "Beam",
+          "Bomb",
+          "Burning",
+          "Cook",
+          "Crash",
+          "Cupid",
+          "Cutter",
+          "Fighter",
+          "Fire",
+          "Hammer",
+          "Ice",
+          "Laser",
+          "Magic",
+          "Mini",
+          "Missile",
+          "Parasol",
+          "Sleep",
+          "Smash",
+          "Spark",
+          "Stone",
+          "Sword",
+          "Throw",
+          "Tornado",
+          "UFO",
+          "Wheel"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "identity_map": {
+          "Beam": "Beam",
+          "Bomb": "Bomb",
+          "Burning": "Burning",
+          "Cook": "Cook",
+          "Crash": "Crash",
+          "Cupid": "Cupid",
+          "Cutter": "Cutter",
+          "Fighter": "Fighter",
+          "Fire": "Fire",
+          "Hammer": "Hammer",
+          "Ice": "Ice",
+          "Laser": "Laser",
+          "Magic": "Magic",
+          "Mini": "Mini",
+          "Missile": "Missile",
+          "Parasol": "Parasol",
+          "Sleep": "Sleep",
+          "Smash": "Smash",
+          "Spark": "Spark",
+          "Stone": "Stone",
+          "Sword": "Sword",
+          "Throw": "Throw",
+          "Tornado": "Tornado",
+          "UFO": "UFO",
+          "Wheel": "Wheel"
+        }
+      },
+      "health_percent": 100,
+      "gated": false,
+      "configured_hp": 1,
+      "omission": "final_shot",
+      "configured_start": [
+        141,
+        696,
+        144
+      ],
+      "native_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "base_patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "production_rom_sha256": "e81f98c79c2ff93d2d8263e2ed178ec46d2dde2231c7679b3f0a13aed0ded759",
+      "script_sha256": "1c15b278df5314afe7ab6488ca4c312bdb351ff3cb84c68bdb2f9e4c1f202e82",
+      "case": "mirra141-east-negative",
+      "private_evidence_sha256": "22d0d24f12f79880f4680f1d16e89a5178b43c4740c22a0a53643fb45f9846fc",
+      "runtime_sha256": "967347de157ae47cf89f48d37af5a2d00a82d48862c1b43ebcef008de07e431c",
+      "fixture_rom_sha256": "ec59715daac097f70437b49bbca48d4bbe145dee8662b41f93bf08e5e0c033ee",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "initial": {
+        "label": "arrival",
+        "frame": 1085,
+        "room": 141,
+        "x": 680.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          50338348,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          67305985,
+          134678021,
+          202050057,
+          269422093,
+          1129578496,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "final": {
+        "label": "final",
+        "frame": 1461,
+        "room": 141,
+        "x": 695.640625,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          50338348,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          67305985,
+          134678021,
+          202050057,
+          269422093,
+          1129578496,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "minimum_hp": 1,
+      "abilities": [
+        0
+      ],
+      "runtime_writes": [],
+      "room_changes": [
+        {
+          "frame": 1086,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 679.875,
+          "y": 136.99609375
+        }
+      ],
+      "joined_arrival": null,
+      "mirra_landmarks": [
+        {
+          "frame": 1086,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 679.875,
+          "y": 136.99609375,
+          "mirra": {
+            "template": "0x88b77a4",
+            "parent": "0x0",
+            "object": "0x20000c4",
+            "type_id": 52,
+            "native_ability": 0,
+            "hp": 2,
+            "x": 696.0,
+            "y": 128.0,
+            "state": "0x80b10a9",
+            "flags": "0x12000845"
+          }
+        }
+      ]
+    },
+    {
+      "policy": {
+        "mode": 0,
+        "allowed_abilities": [
+          "Beam",
+          "Bomb",
+          "Burning",
+          "Cook",
+          "Crash",
+          "Cupid",
+          "Cutter",
+          "Fighter",
+          "Fire",
+          "Hammer",
+          "Ice",
+          "Laser",
+          "Magic",
+          "Mini",
+          "Missile",
+          "Parasol",
+          "Sleep",
+          "Smash",
+          "Spark",
+          "Stone",
+          "Sword",
+          "Throw",
+          "Tornado",
+          "UFO",
+          "Wheel"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "identity_map": {
+          "Beam": "Beam",
+          "Bomb": "Bomb",
+          "Burning": "Burning",
+          "Cook": "Cook",
+          "Crash": "Crash",
+          "Cupid": "Cupid",
+          "Cutter": "Cutter",
+          "Fighter": "Fighter",
+          "Fire": "Fire",
+          "Hammer": "Hammer",
+          "Ice": "Ice",
+          "Laser": "Laser",
+          "Magic": "Magic",
+          "Mini": "Mini",
+          "Missile": "Missile",
+          "Parasol": "Parasol",
+          "Sleep": "Sleep",
+          "Smash": "Smash",
+          "Spark": "Spark",
+          "Stone": "Stone",
+          "Sword": "Sword",
+          "Throw": "Throw",
+          "Tornado": "Tornado",
+          "UFO": "UFO",
+          "Wheel": "Wheel"
+        }
+      },
+      "health_percent": 100,
+      "gated": false,
+      "configured_hp": 1,
+      "omission": "final_shot",
+      "configured_start": [
+        144,
+        56,
+        64
+      ],
+      "native_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "base_patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "production_rom_sha256": "e81f98c79c2ff93d2d8263e2ed178ec46d2dde2231c7679b3f0a13aed0ded759",
+      "script_sha256": "1302e2cb987f7bd3a46d6a675b44bba30d1d2ac7eec9b3b2988cd4c72fc97e37",
+      "case": "mirra141-east-joined-negative",
+      "private_evidence_sha256": "d2d1d5cad6c443bf09fef2de561ffb8a9ab8466f15f94ba7b4801bb25e67aed9",
+      "runtime_sha256": "832512acbaa834fa35fa810f5d89ec410c5d3a4136aece2b289bc03740ad03df",
+      "fixture_rom_sha256": "0eecb3055f576bbd40468671d95a357bf264adcf83764aa56f0f3147ddf146dc",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "initial": {
+        "label": "arrival",
+        "frame": 1085,
+        "room": 144,
+        "x": 40.0,
+        "y": 56.99609375,
+        "hp": 1,
+        "ability": 0,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          50338348,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          67305985,
+          134678021,
+          202050057,
+          269422093,
+          1129578496,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "final": {
+        "label": "final",
+        "frame": 1492,
+        "room": 141,
+        "x": 695.640625,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          50338348,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          67305985,
+          134678021,
+          202050057,
+          269422093,
+          1129578496,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "minimum_hp": 1,
+      "abilities": [
+        0
+      ],
+      "runtime_writes": [],
+      "room_changes": [
+        {
+          "frame": 1086,
+          "room": 144,
+          "hp": 1,
+          "ability": 0,
+          "x": 40.0,
+          "y": 56.99609375
+        },
+        {
+          "frame": 1098,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 680.0,
+          "y": 136.99609375
+        }
+      ],
+      "joined_arrival": {
+        "label": "joined-arrival",
+        "frame": 1116,
+        "room": 141,
+        "x": 680.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          50338348,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          67305985,
+          134678021,
+          202050057,
+          269422093,
+          1129578496,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "mirra_landmarks": [
+        {
+          "frame": 1086,
+          "room": 144,
+          "hp": 1,
+          "ability": 0,
+          "x": 40.0,
+          "y": 56.99609375,
+          "mirra": null
+        },
+        {
+          "frame": 1109,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 680.0,
+          "y": 136.99609375,
+          "mirra": {
+            "template": "0x88b77a4",
+            "parent": "0x0",
+            "object": "0x20000c4",
+            "type_id": 52,
+            "native_ability": 0,
+            "hp": 2,
+            "x": 696.0,
+            "y": 128.0,
+            "state": "0x80b10a9",
+            "flags": "0x12000845"
+          }
+        }
+      ]
+    }
+  ],
+  "failed_timings": [
+    {
+      "policy": {
+        "mode": 0,
+        "allowed_abilities": [
+          "Beam",
+          "Bomb",
+          "Burning",
+          "Cook",
+          "Crash",
+          "Cupid",
+          "Cutter",
+          "Fighter",
+          "Fire",
+          "Hammer",
+          "Ice",
+          "Laser",
+          "Magic",
+          "Mini",
+          "Missile",
+          "Parasol",
+          "Sleep",
+          "Smash",
+          "Spark",
+          "Stone",
+          "Sword",
+          "Throw",
+          "Tornado",
+          "UFO",
+          "Wheel"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "identity_map": {
+          "Beam": "Beam",
+          "Bomb": "Bomb",
+          "Burning": "Burning",
+          "Cook": "Cook",
+          "Crash": "Crash",
+          "Cupid": "Cupid",
+          "Cutter": "Cutter",
+          "Fighter": "Fighter",
+          "Fire": "Fire",
+          "Hammer": "Hammer",
+          "Ice": "Ice",
+          "Laser": "Laser",
+          "Magic": "Magic",
+          "Mini": "Mini",
+          "Missile": "Missile",
+          "Parasol": "Parasol",
+          "Sleep": "Sleep",
+          "Smash": "Smash",
+          "Spark": "Spark",
+          "Stone": "Stone",
+          "Sword": "Sword",
+          "Throw": "Throw",
+          "Tornado": "Tornado",
+          "UFO": "UFO",
+          "Wheel": "Wheel"
+        }
+      },
+      "health_percent": 100,
+      "gated": false,
+      "configured_hp": 1,
+      "omission": null,
+      "configured_start": [
+        141,
+        696,
+        144
+      ],
+      "native_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "base_patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "production_rom_sha256": "e81f98c79c2ff93d2d8263e2ed178ec46d2dde2231c7679b3f0a13aed0ded759",
+      "script_sha256": "b2c7ad071b6ba490d64619337899a5ba019b19e58421812251d7d87d2e4cd0cb",
+      "case": "mirra141-east-puff",
+      "private_evidence_sha256": "9574f3e9e8b027e0049d23b1fb2533e8d11ae3a87887cec669fa1e9fea45b03f",
+      "runtime_sha256": "ea2143decc81f07e5064211bacc2941489503244d639d7f2216d7442e64ef0ce",
+      "fixture_rom_sha256": "ec59715daac097f70437b49bbca48d4bbe145dee8662b41f93bf08e5e0c033ee",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "initial": {
+        "label": "arrival",
+        "frame": 1085,
+        "room": 141,
+        "x": 680.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          50338348,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          67305985,
+          134678021,
+          202050057,
+          269422093,
+          1129578496,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "final": {
+        "label": "final",
+        "frame": 1649,
+        "room": 141,
+        "x": 680.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          50338348,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          67305985,
+          134678021,
+          202050057,
+          269422093,
+          1129578496,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "minimum_hp": 0,
+      "abilities": [
+        0
+      ],
+      "runtime_writes": [],
+      "room_changes": [
+        {
+          "frame": 1086,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 679.875,
+          "y": 136.99609375
+        }
+      ],
+      "joined_arrival": null,
+      "mirra_landmarks": [
+        {
+          "frame": 1086,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 679.875,
+          "y": 136.99609375,
+          "mirra": {
+            "template": "0x88b77a4",
+            "parent": "0x0",
+            "object": "0x20000c4",
+            "type_id": 52,
+            "native_ability": 0,
+            "hp": 2,
+            "x": 696.0,
+            "y": 128.0,
+            "state": "0x80b10a9",
+            "flags": "0x12000845"
+          }
+        },
+        {
+          "frame": 1566,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 680.0,
+          "y": 136.99609375,
+          "mirra": {
+            "template": "0x88b77a4",
+            "parent": "0x0",
+            "object": "0x20000c4",
+            "type_id": 52,
+            "native_ability": 0,
+            "hp": 1,
+            "x": 696.0,
+            "y": 128.0,
+            "state": "0x80b10a9",
+            "flags": "0x12001845"
+          }
+        },
+        {
+          "frame": 1567,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 680.0,
+          "y": 136.99609375,
+          "mirra": null
+        },
+        {
+          "frame": 1568,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 680.0,
+          "y": 136.99609375,
+          "mirra": {
+            "template": "0x88b77a4",
+            "parent": "0x0",
+            "object": "0x20000c4",
+            "type_id": 52,
+            "native_ability": 0,
+            "hp": 2,
+            "x": 696.0,
+            "y": 128.0,
+            "state": "0x80b10a9",
+            "flags": "0x12000845"
+          }
+        }
+      ]
+    },
+    {
+      "policy": {
+        "mode": 0,
+        "allowed_abilities": [
+          "Beam",
+          "Bomb",
+          "Burning",
+          "Cook",
+          "Crash",
+          "Cupid",
+          "Cutter",
+          "Fighter",
+          "Fire",
+          "Hammer",
+          "Ice",
+          "Laser",
+          "Magic",
+          "Mini",
+          "Missile",
+          "Parasol",
+          "Sleep",
+          "Smash",
+          "Spark",
+          "Stone",
+          "Sword",
+          "Throw",
+          "Tornado",
+          "UFO",
+          "Wheel"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "identity_map": {
+          "Beam": "Beam",
+          "Bomb": "Bomb",
+          "Burning": "Burning",
+          "Cook": "Cook",
+          "Crash": "Crash",
+          "Cupid": "Cupid",
+          "Cutter": "Cutter",
+          "Fighter": "Fighter",
+          "Fire": "Fire",
+          "Hammer": "Hammer",
+          "Ice": "Ice",
+          "Laser": "Laser",
+          "Magic": "Magic",
+          "Mini": "Mini",
+          "Missile": "Missile",
+          "Parasol": "Parasol",
+          "Sleep": "Sleep",
+          "Smash": "Smash",
+          "Spark": "Spark",
+          "Stone": "Stone",
+          "Sword": "Sword",
+          "Throw": "Throw",
+          "Tornado": "Tornado",
+          "UFO": "UFO",
+          "Wheel": "Wheel"
+        }
+      },
+      "health_percent": 100,
+      "gated": false,
+      "configured_hp": 1,
+      "omission": null,
+      "configured_start": [
+        144,
+        56,
+        64
+      ],
+      "native_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "base_patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "production_rom_sha256": "e81f98c79c2ff93d2d8263e2ed178ec46d2dde2231c7679b3f0a13aed0ded759",
+      "script_sha256": "e87d8d129ca24757935d4c14863835dc51d4adbffed058b56a56f7b3f716b973",
+      "case": "mirra141-east-actual144",
+      "private_evidence_sha256": "e1a2d4fd1def1adaaaf46aac144a4123bcf86a73bcee8515c7dfc17bc272dd70",
+      "runtime_sha256": "555588f08cbb9bc3c62e5050ba11d69a3393d24ea6f6de7a58ac2fb5bb4a06f6",
+      "fixture_rom_sha256": "0eecb3055f576bbd40468671d95a357bf264adcf83764aa56f0f3147ddf146dc",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "initial": {
+        "label": "arrival",
+        "frame": 1085,
+        "room": 144,
+        "x": 40.0,
+        "y": 56.99609375,
+        "hp": 1,
+        "ability": 0,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          50338348,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          67305985,
+          134678021,
+          202050057,
+          269422093,
+          1129578496,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "final": {
+        "label": "final",
+        "frame": 1552,
+        "room": 141,
+        "x": 630.0,
+        "y": 482.81640625,
+        "hp": 0,
+        "ability": 0,
+        "flags": 256,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          50338348,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          67305985,
+          134678021,
+          202050057,
+          269422093,
+          1129578496,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "minimum_hp": 0,
+      "abilities": [
+        0
+      ],
+      "runtime_writes": [],
+      "room_changes": [
+        {
+          "frame": 1177,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 679.75,
+          "y": 136.99609375
+        }
+      ],
+      "joined_arrival": {
+        "label": "joined-arrival",
+        "frame": 1176,
+        "room": 141,
+        "x": 680.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          50338348,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          67305985,
+          134678021,
+          202050057,
+          269422093,
+          1129578496,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "mirra_landmarks": [
+        {
+          "frame": 1177,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 679.75,
+          "y": 136.99609375,
+          "mirra": {
+            "template": "0x88b77a4",
+            "parent": "0x0",
+            "object": "0x20000c4",
+            "type_id": 52,
+            "native_ability": 0,
+            "hp": 2,
+            "x": 696.0,
+            "y": 128.0,
+            "state": "0x80b10a9",
+            "flags": "0x12000845"
+          }
+        }
+      ]
+    },
+    {
+      "policy": {
+        "mode": 0,
+        "allowed_abilities": [
+          "Beam",
+          "Bomb",
+          "Burning",
+          "Cook",
+          "Crash",
+          "Cupid",
+          "Cutter",
+          "Fighter",
+          "Fire",
+          "Hammer",
+          "Ice",
+          "Laser",
+          "Magic",
+          "Mini",
+          "Missile",
+          "Parasol",
+          "Sleep",
+          "Smash",
+          "Spark",
+          "Stone",
+          "Sword",
+          "Throw",
+          "Tornado",
+          "UFO",
+          "Wheel"
+        ],
+        "ability_randomization_boss_spawns": true,
+        "ability_randomization_minibosses": true,
+        "ability_randomization_minny": false,
+        "ability_randomization_passive_enemies": true,
+        "ability_randomization_no_ability_weight": 0,
+        "identity_map": {
+          "Beam": "Beam",
+          "Bomb": "Bomb",
+          "Burning": "Burning",
+          "Cook": "Cook",
+          "Crash": "Crash",
+          "Cupid": "Cupid",
+          "Cutter": "Cutter",
+          "Fighter": "Fighter",
+          "Fire": "Fire",
+          "Hammer": "Hammer",
+          "Ice": "Ice",
+          "Laser": "Laser",
+          "Magic": "Magic",
+          "Mini": "Mini",
+          "Missile": "Missile",
+          "Parasol": "Parasol",
+          "Sleep": "Sleep",
+          "Smash": "Smash",
+          "Spark": "Spark",
+          "Stone": "Stone",
+          "Sword": "Sword",
+          "Throw": "Throw",
+          "Tornado": "Tornado",
+          "UFO": "UFO",
+          "Wheel": "Wheel"
+        }
+      },
+      "health_percent": 100,
+      "gated": false,
+      "configured_hp": 1,
+      "omission": null,
+      "configured_start": [
+        144,
+        56,
+        64
+      ],
+      "native_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "base_patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "production_rom_sha256": "e81f98c79c2ff93d2d8263e2ed178ec46d2dde2231c7679b3f0a13aed0ded759",
+      "script_sha256": "770c0770e56631803df6577d687c01a405ce54a3ef9e7292c1e5b0d55868af4b",
+      "case": "mirra141-east-actual144-wait45",
+      "private_evidence_sha256": "ff0c4c99b137cb9e03411b5b180ff0f49561aa1ebd7e4fa22cd27da2d1db05ed",
+      "runtime_sha256": "a925edb445da44537c2fbfcdf01535e9998e6e6d12bd909c82d1d4e85d768821",
+      "fixture_rom_sha256": "0eecb3055f576bbd40468671d95a357bf264adcf83764aa56f0f3147ddf146dc",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "initial": {
+        "label": "arrival",
+        "frame": 1085,
+        "room": 144,
+        "x": 40.0,
+        "y": 56.99609375,
+        "hp": 1,
+        "ability": 0,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          50338348,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          67305985,
+          134678021,
+          202050057,
+          269422093,
+          1129578496,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "final": {
+        "label": "final",
+        "frame": 1507,
+        "room": 141,
+        "x": 630.3671875,
+        "y": 323.99609375,
+        "hp": 0,
+        "ability": 0,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          50338348,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          67305985,
+          134678021,
+          202050057,
+          269422093,
+          1129578496,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "minimum_hp": 0,
+      "abilities": [
+        0
+      ],
+      "runtime_writes": [],
+      "room_changes": [
+        {
+          "frame": 1132,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 679.75,
+          "y": 136.99609375
+        }
+      ],
+      "joined_arrival": {
+        "label": "joined-arrival",
+        "frame": 1131,
+        "room": 141,
+        "x": 680.0,
+        "y": 136.99609375,
+        "hp": 1,
+        "ability": 0,
+        "flags": 0,
+        "ai": 0,
+        "humans": 1,
+        "slot": 0,
+        "world18": 0,
+        "ability_gate": 0,
+        "ability_unlocks": 0,
+        "copy_context": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          50338348,
+          0,
+          1129333554,
+          0
+        ],
+        "copy_request": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "world22_31": [
+          67305985,
+          134678021,
+          202050057,
+          269422093,
+          1129578496,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "mirra_landmarks": [
+        {
+          "frame": 1132,
+          "room": 141,
+          "hp": 1,
+          "ability": 0,
+          "x": 679.75,
+          "y": 136.99609375,
+          "mirra": {
+            "template": "0x88b77a4",
+            "parent": "0x0",
+            "object": "0x20000c4",
+            "type_id": 52,
+            "native_ability": 0,
+            "hp": 2,
+            "x": 696.0,
+            "y": 128.0,
+            "state": "0x80b10a9",
+            "flags": "0x12000845"
+          }
+        },
+        {
+          "frame": 1355,
+          "room": 141,
+          "hp": 0,
+          "ability": 0,
+          "x": 630.3671875,
+          "y": 136.99609375,
+          "mirra": {
+            "template": "0x88b77a4",
+            "parent": "0x0",
+            "object": "0x20000c4",
+            "type_id": 52,
+            "native_ability": 0,
+            "hp": 0,
+            "x": 696.0,
+            "y": 128.0,
+            "state": "0x809b6a9",
+            "flags": "0x13048b65"
+          }
+        },
+        {
+          "frame": 1367,
+          "room": 141,
+          "hp": 0,
+          "ability": 0,
+          "x": 630.3671875,
+          "y": 136.99609375,
+          "mirra": {
+            "template": "0x88b77a4",
+            "parent": "0x0",
+            "object": "0x20000c4",
+            "type_id": 52,
+            "native_ability": 0,
+            "hp": 0,
+            "x": 699.5,
+            "y": 126.0,
+            "state": "0x809b93d",
+            "flags": "0x13008363"
+          }
+        },
+        {
+          "frame": 1386,
+          "room": 141,
+          "hp": 0,
+          "ability": 0,
+          "x": 630.3671875,
+          "y": 136.99609375,
+          "mirra": {
+            "template": "0x88b77a4",
+            "parent": "0x0",
+            "object": "0x20000c4",
+            "type_id": 52,
+            "native_ability": 0,
+            "hp": 0,
+            "x": 751.8125,
+            "y": 114.71484375,
+            "state": "0x80b10a9",
+            "flags": "0x12009b61"
+          }
+        },
+        {
+          "frame": 1387,
+          "room": 141,
+          "hp": 0,
+          "ability": 0,
+          "x": 630.3671875,
+          "y": 136.99609375,
+          "mirra": null
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "Actual entry uses the recorded30-frame settle.45/90-frame variants die to the wandering enemy; a longer local wait also fails.",
+    "No generic scared-Mirra clearance, source acquisition, other compartment approach or global entry is inferred.",
+    "Destination Area Key and existing independent EAST_MOONLIGHT access remain required."
+  ]
+}

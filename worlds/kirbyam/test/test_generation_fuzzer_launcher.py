@@ -531,7 +531,8 @@ def test_room16_flag_alone_does_not_enable_minimal_placement_classification(tmp_
 
 
 def test_room16_classifier_direct_script_import_path(tmp_path: Path) -> None:
-    """Exercise the script's import environment, without pytest/PYTHONPATH help."""
+    """Exercise script-path isolation without importing unrelated world plugins."""
+    import os
     import subprocess
     import sys
     launcher = load_launcher()
@@ -539,7 +540,10 @@ def test_room16_classifier_direct_script_import_path(tmp_path: Path) -> None:
     report_path = tmp_path / 'report.json'
     report_path.write_text(json.dumps(report))
     code = (
-        'import json, runpy, sys; from pathlib import Path; '
+        # unittest activates the existing AP_TEST_WORLDS loader filter; it
+        # supplies no repository path. Keep -I and the pre-import path check.
+        'import json, runpy, sys, unittest; from pathlib import Path; '
+        'assert "pytest" not in sys.modules; '
         'assert str(Path(sys.argv[1]).resolve().parents[1]) not in sys.path; '
         'module = runpy.run_path(sys.argv[1]); '
         'root = Path(sys.argv[2]); '
@@ -549,5 +553,6 @@ def test_room16_classifier_direct_script_import_path(tmp_path: Path) -> None:
         'assert not result["unclassified"], result'
     )
     completed = subprocess.run([sys.executable, '-I', '-c', code, str(LAUNCHER_PATH), str(tmp_path)],
-                               cwd=tmp_path, capture_output=True, text=True, timeout=60)
+                               cwd=tmp_path, capture_output=True, text=True, timeout=60,
+                               env={**os.environ, "AP_TEST_WORLDS": "kirbyam"})
     assert completed.returncode == 0, completed.stdout + completed.stderr

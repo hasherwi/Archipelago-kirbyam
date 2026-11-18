@@ -14,6 +14,14 @@ from .test_hosting_integration import FIXTURE_YAML, _read_room_info_with_retry
 read_room_info = cast(Callable[[str], tuple[dict[str, Any], dict[str, Any]]], _read_room_info_with_retry)
 
 
+def _hosting_client(address: str) -> Client:
+    client = Client(address, "Kirby & The Amazing Mirror", "KirbyAM Test")
+    # Two real server processes share CPU with aggregate generation tests.
+    # Keep login bounded while allowing their Connected response to be handled.
+    client.recv_timeout = 10.0
+    return client
+
+
 def test_concurrent_kirby_hosts_ignore_occupied_default_port(tmp_path: Path) -> None:
     archive = generate_archive_from_fixture(FIXTURE_YAML, tmp_path / "first", seed=367)
     second_dir = tmp_path / "second"
@@ -37,7 +45,7 @@ def test_concurrent_kirby_hosts_ignore_occupied_default_port(tmp_path: Path) -> 
                 room_info, packages = read_room_info(host.address)
                 assert {"Kirby & The Amazing Mirror", "Archipelago"} <= set(room_info["games"])
                 assert {"Kirby & The Amazing Mirror", "Archipelago"} <= set(packages)
-            with Client(first.address, "Kirby & The Amazing Mirror", "KirbyAM Test") as client:
+            with _hosting_client(first.address) as client:
                 collected_location = next(iter(client.missing_locations))
                 client.collect([collected_location])
         assert first._exitcode == second._exitcode == 0
@@ -47,6 +55,6 @@ def test_concurrent_kirby_hosts_ignore_occupied_default_port(tmp_path: Path) -> 
 
     # The other shared-helper caller relies on persisted checks after a normal stop/restart.
     with LocalServeGame(archive) as restarted:
-        with Client(restarted.address, "Kirby & The Amazing Mirror", "KirbyAM Test") as client:
+        with _hosting_client(restarted.address) as client:
             assert collected_location in client.checked_locations
     assert restarted._exitcode == 0 and restarted._proc is None

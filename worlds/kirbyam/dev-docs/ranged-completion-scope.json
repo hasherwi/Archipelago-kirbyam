@@ -20,29 +20,24 @@
   ],
   "public_profile_fallbacks": {
     "native": [
-      "bomb_733_yellow",
-      "switch_310_mustard_map"
+      "bomb_733_yellow"
     ],
     "shuffled_seed427": [
       "bomb_733_yellow"
     ],
     "full_live_normal0": [
-      "bomb_517_chocolate",
       "bomb_733_yellow",
       "switch_310_mustard_map"
     ],
     "full_live_normal99": [
-      "bomb_517_chocolate",
       "bomb_733_yellow",
       "switch_310_mustard_map"
     ],
     "full_live_normal100": [
-      "bomb_517_chocolate",
       "bomb_733_yellow",
       "switch_310_mustard_map"
     ],
     "full_live_passive_excluded": [
-      "bomb_517_chocolate",
       "bomb_733_yellow",
       "switch_310_mustard_map"
     ]
@@ -50,7 +45,7 @@
   "unresolved_evidence": [
     "Known source-policy fallbacks need reviewed routes or justified ordinary alternatives, not blanket restrictions.",
     "Relevant physical outcomes still need individual AP dependency and route adjudication; static cells are not missing gates.",
-    "Native entry, health, permission and continuity limits remain those of each historical witness; this report adds no native proof.",
+    "Native entry, permission and continuity limits remain those of each historical witness; this report adds no native proof.",
     "No reliance on helper Copy Abilities, Bomb activation, combat, acquisition or carry; helpers may only assist small switches and Heave-Ho blocks. No Phone capability is implemented."
   ]
 }

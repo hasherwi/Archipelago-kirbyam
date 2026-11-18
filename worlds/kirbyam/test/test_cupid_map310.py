@@ -29,7 +29,7 @@ LOCATION = 'MAJOR_CHEST_MUSTARD_MOUNTAIN'
 CAPABILITY = 'switch_310_cupid_up_left_q0'
 EVIDENCE = Path(__file__).resolve().parents[1] / 'dev-docs/mustard-map-cupid-acceptance.json'
 POLICIES = [
-    (0, None, 0, False), (1, ['Cupid'], 0, True), (1, ['Bomb'], 0, False),
+    (0, None, 0, True), (1, ['Cupid'], 0, True), (1, ['Bomb'], 0, False),
     (2, ['Cupid'], 0, True), (2, ['Cupid', 'Bomb'], 0, False),
     (2, ['Cupid'], 50, False), (2, ['Cupid'], 100, False),
 ]
@@ -79,7 +79,7 @@ def test_conditional_policy_preserves_base_rule_and_independent_entry(
     state = SimpleNamespace(base_rule=True, has=lambda item, player: item in owned,
                             can_reach_region=lambda name, player: name in {OWNER, SOURCE_ROOM})
     assert target.access_rule(state) is (not applies)
-    owned.add('Cupid Ability')
+    owned.add('Cupid Ability' if mode else 'Cutter Ability')
     assert target.access_rule(state) is (not applies)
     state.can_reach_region = lambda name, player: name == UPSTREAM
     assert target.access_rule(state)
@@ -111,10 +111,10 @@ def test_actual_world_only_map_and_unchanged_cupid_classification(
     state.collect(world.create_item('Mustard Mountain - Area Key'), prevent_sweep=True)
     assert incoming.access_rule(state)
     assert target.access_rule(state) is (not applies or not gating)
-    item = world.create_item('Cupid Ability')
+    item = world.create_item('Cupid Ability' if mode else 'Cutter Ability')
     assert item.classification == ItemClassification.progression
     state.collect(item, prevent_sweep=True)
-    assert state.has('Cupid Ability', 1) and target.access_rule(state)
+    assert state.has(item.name, 1) and target.access_rule(state)
     state.remove(item)
     assert target.access_rule(state) is (not applies or not gating)
     state.collect(item, prevent_sweep=True)
@@ -122,7 +122,8 @@ def test_actual_world_only_map_and_unchanged_cupid_classification(
         state.can_reach_region = lambda name, player, accessible=accessible: name == accessible
         assert target.access_rule(state) is (not applies)
         assert world.multiworld.get_entrance(f'{OWNER} -> {SOURCE_ROOM}', 1).access_rule(state)
-        assert incoming.access_rule(state)
+        # The separate Normal entrance requires its independent Hub4 payload route.
+        assert not incoming.access_rule(state)
         owner = world.multiworld.get_region(OWNER, 1)
         other_checks = [location for location in world.multiworld.get_locations(1)
                         if location.parent_region.name.startswith(OWNER) and location is not target]
@@ -204,7 +205,7 @@ def test_kernel_and_compiler_reject_widened_attack(mutation):
 
 def test_four_or_alternatives_exact_target_and_preserved_prior_graphs():
     row = target_row()
-    assert set(row['graphs']) == {'hub4_ufo_entry', 'hub4_crash_entry', 'hub4_cupid_entry', 'hub4_cutter_entry'}
+    assert set(row['graphs']) == {'hub4_ufo_entry', 'hub4_crash_entry', 'hub4_cupid_entry', 'hub4_cutter_entry', 'hub4_kibble_cutter_entry'}
     expected = json.loads(EVIDENCE.read_text(encoding='utf-8'))['preserved_graph_sha256']
     for key, digest in expected.items():
         assert hashlib.sha256(json.dumps(row['graphs'][key], sort_keys=True).encode()).hexdigest() == digest
@@ -213,7 +214,7 @@ def test_four_or_alternatives_exact_target_and_preserved_prior_graphs():
         assert rules.target_applies(row, resolver)
         assert [rules.graph_succeeds(g, resolver, frozenset({f'{ability} Ability'}), True, retries=True)
                 for g in rules.target_graphs(row, False, advanced=True)] == [
-                    ability == 'UFO', ability == 'Crash', ability == 'Cupid', False]
+                    ability == 'UFO', ability == 'Crash', ability == 'Cupid', False, False]
     for key, wrong in [('id', 'switch_other'), ('native_room', 533), ('kind', 'block'),
                        ('region', SOURCE_ROOM), ('location', 'MAJOR_CHEST_RAINBOW_ROUTE')]:
         altered = deepcopy(row)

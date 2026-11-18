@@ -12,6 +12,8 @@ from typing import Any, Mapping
 
 from Options import Accessibility
 
+from .ability_source_inventory import (generation_instance_suffix, inventory_alternative_group,
+                                       resolve_inventory_source)
 from .data import LocationCategory, data
 from .enemy_ability_data import ABILITY_NAME_TO_ID, ABILITY_SOURCES
 from .traversal import TraversalGraph, compile_traversal_graph
@@ -82,7 +84,7 @@ def _expand_graph_parts(expanded: dict[str, Any], graph_parts: Mapping[str, Any]
 
 def compile_room_graph(
     payload: Mapping[str, Any], source_sets: Mapping[str, Any], *, area_keys: bool = False,
-    graph_parts: Mapping[str, Any] | None = None,
+    graph_parts: Mapping[str, Any] | None = None, advanced: bool = False, require_inventory: bool = False,
 ) -> TraversalGraph:
     """Expand physical placements without changing their identity or retry policy."""
     expanded = deepcopy(dict(payload))
@@ -107,6 +109,44 @@ def compile_room_graph(
             if "retry_evidence" in reference:
                 source["retry_evidence"] = reference["retry_evidence"]
             sources.append(source)
+    physical_identities: dict[str, str] = {}
+    identity_placements: dict[str, str] = {}
+    prototype_instance_modes: dict[str, bool] = {}
+    for source in sources:
+        alternative = inventory_alternative_group(source)
+        inventory_id = source.get("inventory_id") if alternative is None else alternative["id"]
+        if inventory_id is not None:
+            suffix = generation_instance_suffix(source)
+            explicit = bool(suffix)
+            if inventory_id in prototype_instance_modes and prototype_instance_modes[inventory_id] != explicit:
+                raise ValueError("Generated prototype cannot mix implicit and explicit instances")
+            prototype_instance_modes[inventory_id] = explicit
+            physical_id = inventory_id + suffix
+            identity = source.get("id") or physical_id
+            if physical_id in physical_identities and physical_identities[physical_id] != identity:
+                raise ValueError("One physical source cannot have multiple consumption identities")
+            if identity in identity_placements and identity_placements[identity] != physical_id:
+                raise ValueError("Different physical sources cannot share one consumption identity")
+            identity_placements[identity] = physical_id
+            members = ([inventory_id] if alternative is None else
+                       alternative['exclusive_generation_group']['members'])
+            for member in members:
+                if member in prototype_instance_modes and prototype_instance_modes[member] != explicit:
+                    raise ValueError("Generated alternatives cannot mix implicit and explicit instances")
+                prototype_instance_modes[member] = explicit
+                member_id = member + suffix
+                if member_id in physical_identities and physical_identities[member_id] != identity:
+                    raise ValueError("Exclusive native alternatives cannot multiply physical supply")
+                physical_identities[member_id] = identity
+            physical_identities[physical_id] = identity
+            source["id"] = identity
+    expanded["sources"] = [resolve_inventory_source(source, nodes.get(source["node"]), advanced=advanced,
+                                                      require_inventory=require_inventory)
+                           for source in sources]
+    if not advanced:
+        encounter_keys = {source.key for source in ABILITY_SOURCES if source.kind == "boss_spawned"}
+        if any(source["source_key"] in encounter_keys for source in expanded["sources"]):
+            raise ValueError("Encounter-generated sources require an Advanced Logic graph")
     graph = compile_traversal_graph(expanded, area_keys=area_keys)
     if graph.access_region is not None and graph.access_region not in data.regions:
         raise ValueError(f"Unknown traversal access region: {graph.access_region}")
@@ -114,7 +154,7 @@ def compile_room_graph(
 
 
 def load_room_traversal(
-    rooms: Mapping[str, Mapping[str, Any]],
+    rooms: Mapping[str, Mapping[str, Any]], *, require_inventory: bool = False,
 ) -> tuple[tuple[dict[str, Any], ...], dict[str, Any], dict[str, Any]]:
     """Collect the shared schema and reject invalid or detached AP targets."""
     targets: list[dict[str, Any]] = []
@@ -146,13 +186,14 @@ def load_room_traversal(
                 raise ValueError(f"Unknown traversal target kind: {row['kind']}")
             _validate_target(row)
             targets.append(row)
-    _validate_graph_parts(graph_parts, source_sets)
+    _validate_graph_parts(graph_parts, source_sets, require_inventory=require_inventory)
     for row in targets:
-        _validate_graphs(row, source_sets, graph_parts)
+        _validate_graphs(row, source_sets, graph_parts, require_inventory=require_inventory)
     return tuple(targets), source_sets, graph_parts
 
 
-def _validate_graph_parts(graph_parts: Mapping[str, Any], source_sets: Mapping[str, Any]) -> None:
+def _validate_graph_parts(graph_parts: Mapping[str, Any], source_sets: Mapping[str, Any],
+                          *, require_inventory: bool = False) -> None:
     for key, definition in graph_parts.items():
         if not definition.get("nodes"):
             raise ValueError(f"Empty traversal graph part: {key}")
@@ -160,18 +201,20 @@ def _validate_graph_parts(graph_parts: Mapping[str, Any], source_sets: Mapping[s
         compile_room_graph({
             "version": 1, "status": "reviewed", "nodes": [], "routes": [],
             "starts": [definition["nodes"][0]["id"]], "graph_parts": [key],
-        }, source_sets, graph_parts=graph_parts)
+        }, source_sets, graph_parts=graph_parts, advanced=True, require_inventory=require_inventory)
 
 
-def _validate_graphs(row: Mapping[str, Any], source_sets: Mapping[str, Any], graph_parts: Mapping[str, Any]) -> None:
+def _validate_graphs(row: Mapping[str, Any], source_sets: Mapping[str, Any], graph_parts: Mapping[str, Any],
+                     *, require_inventory: bool = False) -> None:
     if not row.get("graphs"):
         raise ValueError(f"Traversal target has no reviewed graphs: {row['id']}")
     advanced = row.get("advanced_graphs", [])
     if (not isinstance(advanced, list) or any(not isinstance(name, str) for name in advanced)
             or len(set(advanced)) != len(advanced) or any(name not in row["graphs"] for name in advanced)):
         raise ValueError(f"Invalid advanced traversal graph list: {row['id']}")
-    for payload in row["graphs"].values():
-        graph = compile_room_graph(payload, source_sets, graph_parts=graph_parts)
+    for name, payload in row["graphs"].items():
+        graph = compile_room_graph(payload, source_sets, graph_parts=graph_parts, advanced=name in advanced,
+                                   require_inventory=require_inventory)
         from .master_source import CENTRAL_MASTER_SOURCE
         if any(source.source_key == CENTRAL_MASTER_SOURCE for source in graph.placements) and (
             row.get("id"), row.get("kind"), row.get("native_room"), row.get("region"), row.get("exit")
@@ -222,6 +265,58 @@ def _validate_source_condition(condition: Any) -> None:
 
 
 def _validate_target(row: Mapping[str, Any]) -> None:
+    if row.get("id") == "normal_815_vitality":
+        owner = "REGION_OLIVE_OCEAN/ROOM_6_CHEST_1"
+        prefix = "normal_815_vitality:"
+        if tuple(row.get(key) for key in ("kind", "native_room", "region", "location", "exit")) != (
+                "block", 815, owner, "VITALITY_CHEST_OLIVE_OCEAN", None):
+            raise ValueError("Normal815 belongs only to the Olive Vitality chest")
+        if set(row.get("graphs", {})) != {"normal_arrival"}:
+            raise ValueError("Normal815 requires its reviewed arrival graph")
+        graph = row["graphs"]["normal_arrival"]
+        if (graph.get("access") != {"region": owner}
+                or graph.get("sources") != [] or graph.get("source_sets") or graph.get("graph_parts")
+                or graph.get("starts") != [prefix + "arrival"]
+                or graph.get("required_targets") != [prefix + "chest"]
+                or graph.get("nodes") != [{"id": prefix + n, "native_room": 815} for n in ("arrival", "chest")]
+                or len(graph.get("routes", [])) != 1
+                or graph["routes"][0].get("capability") != "normal_815_vitality_sequence"):
+            raise ValueError("Normal815 requires independent room access and its bounded Normal sequence")
+    if row.get("id") in {"normal_534_mustard_entry", "normal_534_room15_entry"}:
+        destination_room, destination_region, arrival = (
+            (310, "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST", "arrival")
+            if row['id'] == "normal_534_mustard_entry" else
+            (533, "REGION_MUSTARD_MOUNTAIN/ROOM_4_15", "room15_arrival"))
+        if tuple(row.get(key) for key in ("kind", "native_room", "region", "exit")) != (
+                "block", destination_room, "REGION_RAINBOW_ROUTE/ROOM_1_34", destination_region):
+            raise ValueError("Normal534 prefix belongs only to the Mustard entrance")
+        for graph in row.get("graphs", {}).values():
+            prefix = "normal_534_mustard_entry:"
+            if (graph.get("access") != {"region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4"}
+                    or [(route.get("from"), route.get("to"), route.get("required_equipment"),
+                         route.get("capability"), route.get("uses_object"))
+                        for route in graph.get("routes", ()) if not route.get("room_transition")] != [
+                            (prefix + start, prefix + end, ["Normal"], capability, identity)
+                            for start, end, capability, identity in (
+                                ("rainbow34", "lower_payload", "normal_534_twister_payload", "0x088B59B4"),
+                                ("lower_payload", "lower_clear", "normal_534_dee_payload", "0x088B596C"))]
+                    or [(source.get("id"), source.get("inventory_id"), source.get("node"))
+                        for source in graph.get("sources", ())] != [
+                            (identity, "room:534/template:" + identity, prefix + node)
+                            for identity, node in (("0x088B59B4", "rainbow34"),
+                                                   ("0x088B596C", "lower_payload"))]
+                    or graph.get("starts") != [prefix + "hub4"]
+                    or graph.get("required_targets") != [prefix + arrival]
+                    or graph.get("nodes") != [
+                        {"id": prefix + key, "native_room": room}
+                        for key, room in (("hub4", 590), ("rainbow34", 534),
+                                          ("lower_payload", 534), ("lower_clear", 534), (arrival, destination_room))]
+                    or [(route.get("from"), route.get("to"), route.get("required_equipment"),
+                         route.get("room_transition"), route.get("room_instance"))
+                        for route in graph.get("routes", ()) if route.get("room_transition")] != [
+                            (prefix + a, prefix + b, ["Normal"], True, "reset")
+                            for a, b in (("hub4", "rainbow34"), ("lower_clear", arrival))]):
+                raise ValueError("Normal534 requires the reviewed finite-payload Hub4 prefix")
     from .master_source import MASTER719_CAPABILITY
     if any(route.get("capability") == MASTER719_CAPABILITY
            for graph in row.get("graphs", {}).values() for route in graph.get("routes", ())) and (
@@ -231,6 +326,45 @@ def _validate_target(row: Mapping[str, Any]) -> None:
         "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_07",
     ):
         raise ValueError("Central Master belongs only to the reviewed Carrot entry")
+    if any(route.get("capability") == "mirra_141_top_normal_puff"
+           for graph in row.get("graphs", {}).values() for route in graph.get("routes", ())) and (
+            row.get("id"), row.get("kind"), row.get("native_room"), row.get("region"), row.get("exit")) != (
+            "mirra_141_top_mustard", "block", 141,
+            "REGION_RAINBOW_ROUTE/ROOM_1_41__LOGIC__TOP_MUSTARD",
+            "REGION_MUSTARD_MOUNTAIN/ROOM_4_07"):
+        raise ValueError("Mirra141 Normal clearance belongs only to the top Mustard exit")
+    if any(route.get("capability") == "mirra_141_east_normal_puff"
+           for graph in row.get("graphs", {}).values() for route in graph.get("routes", ())) and (
+            row.get("id"), row.get("kind"), row.get("native_room"), row.get("region"), row.get("exit")) != (
+            "mirra_141_east_moonlight", "block", 141,
+            "REGION_RAINBOW_ROUTE/ROOM_1_41__LOGIC__EAST_MOONLIGHT",
+            "REGION_MOONLIGHT_MANSION/ROOM_2_16"):
+        raise ValueError("Mirra141 Normal clearance belongs only to the east Moonlight exit")
+    if any(route.get("capability", "").startswith("mirra_117_")
+           for graph in row.get("graphs", {}).values() for route in graph.get("routes", ())) and (
+            row.get("id"), row.get("kind"), row.get("native_room"), row.get("region"), row.get("exit")) != (
+            "mirra_117_carrot", "block", 117, "REGION_RAINBOW_ROUTE/ROOM_1_24",
+            "REGION_CARROT_CASTLE/ROOM_5_02"):
+        raise ValueError("Mirra117 Normal clearance belongs only to the Carrot exit")
+    if row.get("id") == "mirra_117_carrot":
+        for graph in row.get("graphs", {}).values():
+            if graph.get("access") != {"region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3"}:
+                raise ValueError("Mirra117 requires independent native192 access")
+            if [(source.get("id"), source.get("inventory_id"), source.get("node"))
+                for source in graph.get("sources", ())] != [
+                    ("0x088B9904", "room:117/template:0x088B9904", "mirra_117_carrot:arrival"),
+                    ("0x088B9874", "room:117/template:0x088B9874", "mirra_117_carrot:ladder")]:
+                raise ValueError("Mirra117 requires its original two finite payloads")
+    if any(route.get("capability") == "mirra_811_normal_puff"
+           for graph in row.get("graphs", {}).values() for route in graph.get("routes", ())) and (
+            row.get("id"), row.get("kind"), row.get("native_room"), row.get("region"), row.get("exit")) != (
+            "mirra_811_olive", "block", 811, "REGION_OLIVE_OCEAN/ROOM_6_10",
+            "REGION_OLIVE_OCEAN/ROOM_6_15"):
+        raise ValueError("Mirra811 Normal clearance belongs only to the Olive15 exit")
+    if row.get("id") == "mirra_811_olive" and any(
+            graph.get("access") != {"region": "REGION_OLIVE_OCEAN/ROOM_6_11"}
+            or graph.get("sources") for graph in row.get("graphs", {}).values()):
+        raise ValueError("Mirra811 requires independent native829 access without acquired equipment")
     _validate_new_connection(row)
     if not isinstance(row.get("fail_closed", False), bool):
         raise ValueError("fail_closed must be a boolean")
@@ -241,18 +375,25 @@ def _validate_target(row: Mapping[str, Any]) -> None:
     if "requires_any_guaranteed_source" in row:
         if "requires_guaranteed_source" in row:
             raise ValueError("Guaranteed-source conditions are mutually exclusive")
-        # This is a disjunction of two independently witnessed physical sources,
-        # not a general permission to combine source policies on other targets.
-        if alternatives != [
-            {"source_key": "SPARKY", "ability": "Spark"},
-            {"source_key": "SWORD_KNIGHT", "ability": "Sword"},
-        ] or (
-            row.get("id"), row.get("kind"), row.get("native_room"), row.get("region"), row.get("exit"),
-        ) != (
-            "bomb_110_room9", "block", 110, "REGION_RAINBOW_ROUTE/ROOM_1_08",
-            "REGION_RAINBOW_ROUTE/ROOM_1_09",
-        ):
-            raise ValueError("Unsupported target-specific guaranteed-source alternatives")
+        scoped_alternatives = (
+            ([{"source_key": "SPARKY", "ability": "Spark"},
+              {"source_key": "SWORD_KNIGHT", "ability": "Sword"}],
+             ("bomb_110_room9", "block", 110, "REGION_RAINBOW_ROUTE/ROOM_1_08",
+              "REGION_RAINBOW_ROUTE/ROOM_1_09", None)),
+            ([{"source_key": "TWISTER", "abilities": ["UFO", "Crash", "Cupid", "Cutter"]},
+              {"source_key": "SIR_KIBBLE", "ability": "Cutter"}],
+             ("switch_310_mustard_map", "switch", 310, "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST",
+              None, "MAJOR_CHEST_MUSTARD_MOUNTAIN")),
+            ([{"source_key": key,
+               "abilities": ["Beam", "Smash", "Fire", "Missile", "Parasol", "Spark", "Ice", "Sword", "Fighter", "UFO"]}
+              for key in ("WADDLE_DOO", "STATUE:353906", "STATUE:353901")],
+             ("bomb_517_chocolate", "block", 517, "REGION_CABBAGE_CAVERN/ROOM_3_06",
+              None, "MINOR_CHEST_SPRAY_PAINT_12")),
+        )
+        if not any(alternatives == expected and tuple(row.get(key) for key in (
+                "id", "kind", "native_room", "region", "exit", "location")) == target
+                   for expected, target in scoped_alternatives):
+            raise ValueError("Unsupported target-specific guaranteed-source alternatives; reviewed chest target only")
     # These selective carry proofs may not spread to another source or surface.
     scoped_conditions = (
         ({"source_key": "TWISTER", "abilities": ["UFO", "Crash", "Cupid", "Cutter"]}, (
@@ -306,7 +447,8 @@ def _validate_mustard_source_condition(row: Mapping[str, Any], condition: Any) -
 
 @lru_cache(maxsize=1)
 def _room_catalog() -> tuple[tuple[dict[str, Any], ...], dict[str, Any], dict[str, Any]]:
-    return load_room_traversal({name: {"traversal": region.traversal} for name, region in data.regions.items()})
+    return load_room_traversal({name: {"traversal": region.traversal} for name, region in data.regions.items()},
+                               require_inventory=True)
 
 
 def room_traversal_targets(kind: str) -> tuple[dict[str, Any], ...]:
@@ -317,4 +459,5 @@ def room_traversal_targets(kind: str) -> tuple[dict[str, Any], ...]:
 def room_traversal_graph(target_id: str, witness: str, area_keys: bool = False) -> TraversalGraph:
     targets, source_sets, graph_parts = _room_catalog()
     row = next(row for row in targets if row["id"] == target_id)
-    return compile_room_graph(row["graphs"][witness], source_sets, area_keys=area_keys, graph_parts=graph_parts)
+    return compile_room_graph(row["graphs"][witness], source_sets, area_keys=area_keys, graph_parts=graph_parts,
+                              advanced=witness in row.get("advanced_graphs", ()), require_inventory=True)

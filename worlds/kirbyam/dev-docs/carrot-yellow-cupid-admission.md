@@ -14,8 +14,9 @@ Only the complete production source policy with SHA256
 is admitted. It is the actual seed14 assignment in the retained fixtures and
 complete generation test, with original upper/lower Sparky granting Cupid.
 Another policy granting Cupid is not enough. Required settings are mode1,
-gated or ungated abilities, statues off, minimum and maximum health6, enemy health100,
-no One-Hit preset, Area Keys off and Advanced Logic off. Room Sanity on and off
+gated or ungated abilities, statues off, enemy health100,
+Area Keys off and Advanced Logic off. Player health and One-Hit settings are not
+route prerequisites; the historical HP6 fixture remains unchanged. Room Sanity on and off
 were replayed separately. This is not native unshuffled ability assignment.
 
 `yellow_cupid.py` checks canonical option values and the full policy digest,
@@ -37,7 +38,7 @@ requires Cupid permission through the existing traversal evaluator. Cupid is
 already a progression item; no classification change is needed. Changing the
 gating setting after rule installation still invalidates the profile signature.
 
-## Native route and health budget
+## Native route and observed damage
 
 The sealed replay starts at the existing real719 door fixture (232,56), applies
 only eight production client source-configuration writes at1085, then uses
@@ -73,8 +74,11 @@ without certifying a complete Room Sanity seed under that policy.
 
 The older unrestricted fallback outside reviewed source/profile coverage
 remains an unresolved #1087 gap. No Phone helper Bomb Block or ability attack is
-admitted. No other health, gating, source assignment, Area Key setting, upstream
-719 compartment or Normal+Phone result is inferred. #1087 and #1097 remain open.
+admitted. No other source assignment, Area Key setting, upstream
+719 compartment or Normal+Phone result is inferred. Recorded damage is an
+execution observation, not a minimum-health requirement or proof that a
+low-health route is impossible. The graph retains its Normal ladder segment
+and two finite acquisitions; it does not require taking damage to drop Cupid. #1087 and #1097 remain open.
 The static ranged catalog remains its existing census; this separately guarded
 profile supplement is documented here rather than counted as a global witness.
 

@@ -1,0 +1,3212 @@
+{
+  "version": 1,
+  "scope": "Actual192 entry through original117 corridor, bomb barrier and Mirra to120. Finite original Waddle Doo and Waddle Dee are used as mouth payloads, never copied equipment.",
+  "positive": [
+    {
+      "health_percent": 100,
+      "gated": false,
+      "configured_hp": 1,
+      "omission": null,
+      "configured_start": [
+        192,
+        40,
+        144
+      ],
+      "native_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "base_patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "production_rom_sha256": "e81f98c79c2ff93d2d8263e2ed178ec46d2dde2231c7679b3f0a13aed0ded759",
+      "script_sha256": "e8977d3d4be21d78c41c839927a95db35f24289f9bdc421090497e25bee7f3d4",
+      "case": "mirra117-actual192-final-vanilla",
+      "private_evidence_sha256": "63df2037dbfb49c177aeee42810301c0cf6be3544a25c805086402409c2826f5",
+      "runtime_sha256": "a5fe558d2884992710e18c1cf8a0b1cd372b0852e22e1dd39c153c3346670639",
+      "fixture_rom_sha256": "c5ba1e25956ebc0d2415a342d753f4a1bbc941ae89a392dc7b07177dba4301b4",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "policy_sha256": "d40778f555c17f744bcb2fd70c50002bd7a1b14658af69ae266b01f8a322ff5c",
+      "initial": {
+        "frame": 1085,
+        "room": 192,
+        "hp": 1,
+        "ability": 0,
+        "x": 24.0,
+        "y": 136.99609375
+      },
+      "joined_arrival": {
+        "frame": 1116,
+        "room": 117,
+        "hp": 1,
+        "ability": 0,
+        "x": 184.0,
+        "y": 40.99609375
+      },
+      "final": {
+        "frame": 2671,
+        "room": 120,
+        "hp": 1,
+        "ability": 0,
+        "x": 440.0,
+        "y": 456.99609375
+      },
+      "minimum_hp": 1,
+      "abilities": [
+        0
+      ],
+      "runtime_writes": [],
+      "room_changes": [
+        {
+          "frame": 1086,
+          "room": 192,
+          "hp": 1,
+          "ability": 0,
+          "x": 24.0,
+          "y": 136.99609375
+        },
+        {
+          "frame": 1097,
+          "room": 117,
+          "hp": 1,
+          "ability": 0,
+          "x": 184.0,
+          "y": 40.99609375
+        },
+        {
+          "frame": 2578,
+          "room": 120,
+          "hp": 1,
+          "ability": 0,
+          "x": 440.0,
+          "y": 456.99609375
+        }
+      ],
+      "objects": {
+        "0x88b9904": [
+          {
+            "frame": 1107,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 184.0,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b9904",
+              "parent": "0x0",
+              "object": "0x2000180",
+              "type_id": 18,
+              "native_ability": 7,
+              "hp": 4,
+              "x": 312.0,
+              "y": 21.99609375,
+              "state": "0x80b6b69",
+              "flags": "0x10000005"
+            }
+          },
+          {
+            "frame": 1160,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 233.6796875,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b9904",
+              "parent": "0x0",
+              "object": "0x2000180",
+              "type_id": 18,
+              "native_ability": 7,
+              "hp": 0,
+              "x": 286.0,
+              "y": 37.99609375,
+              "state": "0x809c48d",
+              "flags": "0x10040b45"
+            }
+          },
+          {
+            "frame": 1181,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 239.203125,
+            "y": 40.99609375,
+            "object": null
+          }
+        ],
+        "0x88b9874": [
+          {
+            "frame": 1107,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 184.0,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b9874",
+              "parent": "0x0",
+              "object": "0x20000c4",
+              "type_id": 0,
+              "native_ability": 0,
+              "hp": 2,
+              "x": 344.0,
+              "y": 118.99609375,
+              "state": "0x80a4455",
+              "flags": "0x10000005"
+            }
+          },
+          {
+            "frame": 1410,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 279.828125,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b9874",
+              "parent": "0x0",
+              "object": "0x20000c4",
+              "type_id": 0,
+              "native_ability": 0,
+              "hp": 0,
+              "x": 267.0,
+              "y": 134.99609375,
+              "state": "0x809c48d",
+              "flags": "0x10040b44"
+            }
+          },
+          {
+            "frame": 1413,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 279.828125,
+            "y": 136.99609375,
+            "object": null
+          }
+        ],
+        "0x88b99dc": [
+          {
+            "frame": 1107,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 184.0,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 7,
+              "native_ability": 0,
+              "hp": 4,
+              "x": 168.0,
+              "y": 136.0,
+              "state": "0x80acbed",
+              "flags": "0x10000004"
+            }
+          },
+          {
+            "frame": 1249,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 239.203125,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 7,
+              "native_ability": 0,
+              "hp": 4,
+              "x": 168.0,
+              "y": 135.99609375,
+              "state": "0x80ac381",
+              "flags": "0x10000000"
+            }
+          },
+          {
+            "frame": 1609,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 244.09375,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 7,
+              "native_ability": 0,
+              "hp": 4,
+              "x": 186.4375,
+              "y": 135.99609375,
+              "state": "0x80acbed",
+              "flags": "0x10000000"
+            }
+          },
+          {
+            "frame": 1688,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 244.09375,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 7,
+              "native_ability": 0,
+              "hp": 65530,
+              "x": 186.4375,
+              "y": 135.99609375,
+              "state": "0x809b6a9",
+              "flags": "0x11040925"
+            }
+          },
+          {
+            "frame": 1700,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 244.09375,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 7,
+              "native_ability": 0,
+              "hp": 65530,
+              "x": 181.4375,
+              "y": 130.99609375,
+              "state": "0x809b93d",
+              "flags": "0x11000123"
+            }
+          },
+          {
+            "frame": 1719,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 233.453125,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 14,
+              "native_ability": 0,
+              "hp": 65530,
+              "x": 98.3125,
+              "y": 63.45703125,
+              "state": "0x80ac45d",
+              "flags": "0x10001120"
+            }
+          },
+          {
+            "frame": 1720,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 232.15625,
+            "y": 136.99609375,
+            "object": null
+          }
+        ],
+        "0x88b9808": [
+          {
+            "frame": 1107,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 184.0,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b9808",
+              "parent": "0x0",
+              "object": "0x2000008",
+              "type_id": 52,
+              "native_ability": 0,
+              "hp": 2,
+              "x": 24.0,
+              "y": 128.0,
+              "state": "0x80b10a9",
+              "flags": "0x12000844"
+            }
+          },
+          {
+            "frame": 2510,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 86.359375,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b9808",
+              "parent": "0x0",
+              "object": "0x2000008",
+              "type_id": 52,
+              "native_ability": 0,
+              "hp": 0,
+              "x": 24.0,
+              "y": 128.0,
+              "state": "0x809b6a9",
+              "flags": "0x13048b64"
+            }
+          },
+          {
+            "frame": 2522,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 71.3125,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b9808",
+              "parent": "0x0",
+              "object": "0x2000008",
+              "type_id": 52,
+              "native_ability": 0,
+              "hp": 0,
+              "x": 20.5,
+              "y": 126.0,
+              "state": "0x809b93d",
+              "flags": "0x13008362"
+            }
+          },
+          {
+            "frame": 2541,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 46.671875,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b9808",
+              "parent": "0x0",
+              "object": "0x2000008",
+              "type_id": 52,
+              "native_ability": 0,
+              "hp": 0,
+              "x": -31.8125,
+              "y": 114.71484375,
+              "state": "0x80b10a9",
+              "flags": "0x12009b60"
+            }
+          },
+          {
+            "frame": 2542,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 45.375,
+            "y": 136.99609375,
+            "object": null
+          }
+        ]
+      }
+    },
+    {
+      "health_percent": 100,
+      "gated": false,
+      "configured_hp": 1,
+      "omission": null,
+      "configured_start": [
+        192,
+        40,
+        144
+      ],
+      "native_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "base_patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "production_rom_sha256": "69d6614554a4ff6759cfbe3b3299d662185c26b8901101c970e8075292244463",
+      "script_sha256": "e8977d3d4be21d78c41c839927a95db35f24289f9bdc421090497e25bee7f3d4",
+      "case": "mirra117-actual192-final-shuffled",
+      "private_evidence_sha256": "f3a2ec2ffe20d8088bd80c12b6db79a65e2c5de7209ad3813c02f4fb2ffe08e9",
+      "runtime_sha256": "3461cd1aa0e2191f578a2267b278eebbc5dd127954b4796185cf853715656014",
+      "fixture_rom_sha256": "2d382860446348ad75f13a054f3b5e8f15697d135a9ee90abf62f5ef2c5a07d9",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "policy_sha256": "09e985fd641243dee24d20d2bfdcb63595665fac58fb9d01180e7ef1f4f97730",
+      "initial": {
+        "frame": 1085,
+        "room": 192,
+        "hp": 1,
+        "ability": 0,
+        "x": 24.0,
+        "y": 136.99609375
+      },
+      "joined_arrival": {
+        "frame": 1116,
+        "room": 117,
+        "hp": 1,
+        "ability": 0,
+        "x": 184.0,
+        "y": 40.99609375
+      },
+      "final": {
+        "frame": 2671,
+        "room": 120,
+        "hp": 1,
+        "ability": 0,
+        "x": 440.0,
+        "y": 456.99609375
+      },
+      "minimum_hp": 1,
+      "abilities": [
+        0
+      ],
+      "runtime_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "01000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "291ae629",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "186b009d",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "80000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "room_changes": [
+        {
+          "frame": 1086,
+          "room": 192,
+          "hp": 1,
+          "ability": 0,
+          "x": 24.0,
+          "y": 136.99609375
+        },
+        {
+          "frame": 1097,
+          "room": 117,
+          "hp": 1,
+          "ability": 0,
+          "x": 184.0,
+          "y": 40.99609375
+        },
+        {
+          "frame": 2578,
+          "room": 120,
+          "hp": 1,
+          "ability": 0,
+          "x": 440.0,
+          "y": 456.99609375
+        }
+      ],
+      "objects": {
+        "0x88b9904": [
+          {
+            "frame": 1107,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 184.0,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b9904",
+              "parent": "0x0",
+              "object": "0x2000180",
+              "type_id": 18,
+              "native_ability": 7,
+              "hp": 4,
+              "x": 312.0,
+              "y": 21.99609375,
+              "state": "0x80b6b69",
+              "flags": "0x10000005"
+            }
+          },
+          {
+            "frame": 1160,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 233.6796875,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b9904",
+              "parent": "0x0",
+              "object": "0x2000180",
+              "type_id": 18,
+              "native_ability": 7,
+              "hp": 0,
+              "x": 286.0,
+              "y": 37.99609375,
+              "state": "0x809c48d",
+              "flags": "0x10040b45"
+            }
+          },
+          {
+            "frame": 1181,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 239.203125,
+            "y": 40.99609375,
+            "object": null
+          }
+        ],
+        "0x88b9874": [
+          {
+            "frame": 1107,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 184.0,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b9874",
+              "parent": "0x0",
+              "object": "0x20000c4",
+              "type_id": 0,
+              "native_ability": 7,
+              "hp": 2,
+              "x": 344.0,
+              "y": 118.99609375,
+              "state": "0x80a4455",
+              "flags": "0x10000005"
+            }
+          },
+          {
+            "frame": 1410,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 279.828125,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b9874",
+              "parent": "0x0",
+              "object": "0x20000c4",
+              "type_id": 0,
+              "native_ability": 7,
+              "hp": 0,
+              "x": 267.0,
+              "y": 134.99609375,
+              "state": "0x809c48d",
+              "flags": "0x10040b44"
+            }
+          },
+          {
+            "frame": 1413,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 279.828125,
+            "y": 136.99609375,
+            "object": null
+          }
+        ],
+        "0x88b99dc": [
+          {
+            "frame": 1107,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 184.0,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 7,
+              "native_ability": 7,
+              "hp": 4,
+              "x": 168.0,
+              "y": 136.0,
+              "state": "0x80acbed",
+              "flags": "0x10000004"
+            }
+          },
+          {
+            "frame": 1249,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 239.203125,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 7,
+              "native_ability": 7,
+              "hp": 4,
+              "x": 168.0,
+              "y": 135.99609375,
+              "state": "0x80ac381",
+              "flags": "0x10000000"
+            }
+          },
+          {
+            "frame": 1609,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 244.09375,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 7,
+              "native_ability": 7,
+              "hp": 4,
+              "x": 186.4375,
+              "y": 135.99609375,
+              "state": "0x80acbed",
+              "flags": "0x10000000"
+            }
+          },
+          {
+            "frame": 1688,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 244.09375,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 7,
+              "native_ability": 7,
+              "hp": 65530,
+              "x": 186.4375,
+              "y": 135.99609375,
+              "state": "0x809b6a9",
+              "flags": "0x11040925"
+            }
+          },
+          {
+            "frame": 1700,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 244.09375,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 7,
+              "native_ability": 7,
+              "hp": 65530,
+              "x": 181.4375,
+              "y": 130.99609375,
+              "state": "0x809b93d",
+              "flags": "0x11000123"
+            }
+          },
+          {
+            "frame": 1719,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 233.453125,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 14,
+              "native_ability": 7,
+              "hp": 65530,
+              "x": 98.3125,
+              "y": 63.45703125,
+              "state": "0x80ac45d",
+              "flags": "0x10001120"
+            }
+          },
+          {
+            "frame": 1720,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 232.15625,
+            "y": 136.99609375,
+            "object": null
+          }
+        ],
+        "0x88b9808": [
+          {
+            "frame": 1107,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 184.0,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b9808",
+              "parent": "0x0",
+              "object": "0x2000008",
+              "type_id": 52,
+              "native_ability": 0,
+              "hp": 2,
+              "x": 24.0,
+              "y": 128.0,
+              "state": "0x80b10a9",
+              "flags": "0x12000844"
+            }
+          },
+          {
+            "frame": 2510,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 86.359375,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b9808",
+              "parent": "0x0",
+              "object": "0x2000008",
+              "type_id": 52,
+              "native_ability": 0,
+              "hp": 0,
+              "x": 24.0,
+              "y": 128.0,
+              "state": "0x809b6a9",
+              "flags": "0x13048b64"
+            }
+          },
+          {
+            "frame": 2522,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 71.3125,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b9808",
+              "parent": "0x0",
+              "object": "0x2000008",
+              "type_id": 52,
+              "native_ability": 0,
+              "hp": 0,
+              "x": 20.5,
+              "y": 126.0,
+              "state": "0x809b93d",
+              "flags": "0x13008362"
+            }
+          },
+          {
+            "frame": 2541,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 46.671875,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b9808",
+              "parent": "0x0",
+              "object": "0x2000008",
+              "type_id": 52,
+              "native_ability": 0,
+              "hp": 0,
+              "x": -31.8125,
+              "y": 114.71484375,
+              "state": "0x80b10a9",
+              "flags": "0x12009b60"
+            }
+          },
+          {
+            "frame": 2542,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 45.375,
+            "y": 136.99609375,
+            "object": null
+          }
+        ]
+      }
+    },
+    {
+      "health_percent": 100,
+      "gated": true,
+      "configured_hp": 1,
+      "omission": "permission",
+      "configured_start": [
+        192,
+        40,
+        144
+      ],
+      "native_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "base_patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "production_rom_sha256": "1cbf7938ec4dcf0710b1cd93ffcfa3509027234d85d306afe18947fa0518d0d8",
+      "script_sha256": "e8977d3d4be21d78c41c839927a95db35f24289f9bdc421090497e25bee7f3d4",
+      "case": "mirra117-actual192-final-live",
+      "private_evidence_sha256": "85dc1460ffee5c4df731a0e48d073d2522f473c8667a0a6c97c2d2b6825f9eb5",
+      "runtime_sha256": "ab60c02b90ea035c1befc07f2477047e1dd6e8881a7fb78cc705aad1ceab8a2a",
+      "fixture_rom_sha256": "39f201e5a7edc473c8b8c38e57a9cc8b63d7f1ad9356f9d3655d25334a92dcb8",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "policy_sha256": "2f17d2946b875d921e647714e392a8ae365f4d1c2e2ecd1b34bcc139a67b47fd",
+      "initial": {
+        "frame": 1085,
+        "room": 192,
+        "hp": 1,
+        "ability": 0,
+        "x": 24.0,
+        "y": 136.99609375
+      },
+      "joined_arrival": {
+        "frame": 1116,
+        "room": 117,
+        "hp": 1,
+        "ability": 0,
+        "x": 184.0,
+        "y": 40.99609375
+      },
+      "final": {
+        "frame": 2671,
+        "room": 120,
+        "hp": 1,
+        "ability": 0,
+        "x": 440.0,
+        "y": 456.99609375
+      },
+      "minimum_hp": 1,
+      "abilities": [
+        0
+      ],
+      "runtime_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "02000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "291ae629",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "186b009d",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "7effff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "room_changes": [
+        {
+          "frame": 1086,
+          "room": 192,
+          "hp": 1,
+          "ability": 0,
+          "x": 24.0,
+          "y": 136.99609375
+        },
+        {
+          "frame": 1097,
+          "room": 117,
+          "hp": 1,
+          "ability": 0,
+          "x": 184.0,
+          "y": 40.99609375
+        },
+        {
+          "frame": 2578,
+          "room": 120,
+          "hp": 1,
+          "ability": 0,
+          "x": 440.0,
+          "y": 456.99609375
+        }
+      ],
+      "objects": {
+        "0x88b9904": [
+          {
+            "frame": 1107,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 184.0,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b9904",
+              "parent": "0x0",
+              "object": "0x2000180",
+              "type_id": 18,
+              "native_ability": 7,
+              "hp": 4,
+              "x": 312.0,
+              "y": 21.99609375,
+              "state": "0x80b6b69",
+              "flags": "0x10000005"
+            }
+          },
+          {
+            "frame": 1160,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 233.6796875,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b9904",
+              "parent": "0x0",
+              "object": "0x2000180",
+              "type_id": 18,
+              "native_ability": 7,
+              "hp": 0,
+              "x": 286.0,
+              "y": 37.99609375,
+              "state": "0x809c48d",
+              "flags": "0x10040b45"
+            }
+          },
+          {
+            "frame": 1181,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 239.203125,
+            "y": 40.99609375,
+            "object": null
+          }
+        ],
+        "0x88b9874": [
+          {
+            "frame": 1107,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 184.0,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b9874",
+              "parent": "0x0",
+              "object": "0x20000c4",
+              "type_id": 0,
+              "native_ability": 21,
+              "hp": 2,
+              "x": 344.0,
+              "y": 118.99609375,
+              "state": "0x80a4455",
+              "flags": "0x10000005"
+            }
+          },
+          {
+            "frame": 1410,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 279.828125,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b9874",
+              "parent": "0x0",
+              "object": "0x20000c4",
+              "type_id": 0,
+              "native_ability": 21,
+              "hp": 0,
+              "x": 267.0,
+              "y": 134.99609375,
+              "state": "0x809c48d",
+              "flags": "0x10040b44"
+            }
+          },
+          {
+            "frame": 1413,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 279.828125,
+            "y": 136.99609375,
+            "object": null
+          }
+        ],
+        "0x88b99dc": [
+          {
+            "frame": 1107,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 184.0,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 7,
+              "native_ability": 23,
+              "hp": 4,
+              "x": 168.0,
+              "y": 136.0,
+              "state": "0x80acbed",
+              "flags": "0x10000004"
+            }
+          },
+          {
+            "frame": 1249,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 239.203125,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 7,
+              "native_ability": 23,
+              "hp": 4,
+              "x": 168.0,
+              "y": 135.99609375,
+              "state": "0x80ac381",
+              "flags": "0x10000000"
+            }
+          },
+          {
+            "frame": 1609,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 244.09375,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 7,
+              "native_ability": 23,
+              "hp": 4,
+              "x": 186.4375,
+              "y": 135.99609375,
+              "state": "0x80acbed",
+              "flags": "0x10000000"
+            }
+          },
+          {
+            "frame": 1688,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 244.09375,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 7,
+              "native_ability": 23,
+              "hp": 65530,
+              "x": 186.4375,
+              "y": 135.99609375,
+              "state": "0x809b6a9",
+              "flags": "0x11040925"
+            }
+          },
+          {
+            "frame": 1700,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 244.09375,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 7,
+              "native_ability": 23,
+              "hp": 65530,
+              "x": 181.4375,
+              "y": 130.99609375,
+              "state": "0x809b93d",
+              "flags": "0x11000123"
+            }
+          },
+          {
+            "frame": 1719,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 233.453125,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 14,
+              "native_ability": 23,
+              "hp": 65530,
+              "x": 98.3125,
+              "y": 63.45703125,
+              "state": "0x80ac45d",
+              "flags": "0x10001120"
+            }
+          },
+          {
+            "frame": 1720,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 232.15625,
+            "y": 136.99609375,
+            "object": null
+          }
+        ],
+        "0x88b9808": [
+          {
+            "frame": 1107,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 184.0,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b9808",
+              "parent": "0x0",
+              "object": "0x2000008",
+              "type_id": 52,
+              "native_ability": 0,
+              "hp": 2,
+              "x": 24.0,
+              "y": 128.0,
+              "state": "0x80b10a9",
+              "flags": "0x12000844"
+            }
+          },
+          {
+            "frame": 2510,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 86.359375,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b9808",
+              "parent": "0x0",
+              "object": "0x2000008",
+              "type_id": 52,
+              "native_ability": 0,
+              "hp": 0,
+              "x": 24.0,
+              "y": 128.0,
+              "state": "0x809b6a9",
+              "flags": "0x13048b64"
+            }
+          },
+          {
+            "frame": 2522,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 71.3125,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b9808",
+              "parent": "0x0",
+              "object": "0x2000008",
+              "type_id": 52,
+              "native_ability": 0,
+              "hp": 0,
+              "x": 20.5,
+              "y": 126.0,
+              "state": "0x809b93d",
+              "flags": "0x13008362"
+            }
+          },
+          {
+            "frame": 2541,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 46.671875,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b9808",
+              "parent": "0x0",
+              "object": "0x2000008",
+              "type_id": 52,
+              "native_ability": 0,
+              "hp": 0,
+              "x": -31.8125,
+              "y": 114.71484375,
+              "state": "0x80b10a9",
+              "flags": "0x12009b60"
+            }
+          },
+          {
+            "frame": 2542,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 45.375,
+            "y": 136.99609375,
+            "object": null
+          }
+        ]
+      }
+    },
+    {
+      "health_percent": 500,
+      "gated": true,
+      "configured_hp": 1,
+      "omission": "permission",
+      "configured_start": [
+        192,
+        40,
+        144
+      ],
+      "native_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "base_patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "production_rom_sha256": "b964deedc14715d3f90695381fc343d0412104c75c3684956da9dbdc099ec434",
+      "script_sha256": "e8977d3d4be21d78c41c839927a95db35f24289f9bdc421090497e25bee7f3d4",
+      "case": "mirra117-actual192-complete-health500-inhale",
+      "private_evidence_sha256": "497412b814a585b4e89d81af545abc1a6cb2fbf8e6a5fa0ef8eab8a4cfd9f8c9",
+      "runtime_sha256": "0629d3ff8f618ed9a68f35e6af3b209bb817a11db75af2a8f51673ecf4e6876e",
+      "fixture_rom_sha256": "d7ce74cd3217e243bbfbbcece9687cac981bcb7dd2204d9dbef66f1e28faf5ba",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "policy_sha256": "d40778f555c17f744bcb2fd70c50002bd7a1b14658af69ae266b01f8a322ff5c",
+      "initial": {
+        "frame": 1085,
+        "room": 192,
+        "hp": 1,
+        "ability": 0,
+        "x": 24.0,
+        "y": 136.99609375
+      },
+      "joined_arrival": {
+        "frame": 1116,
+        "room": 117,
+        "hp": 1,
+        "ability": 0,
+        "x": 184.0,
+        "y": 40.99609375
+      },
+      "final": {
+        "frame": 2671,
+        "room": 120,
+        "hp": 1,
+        "ability": 0,
+        "x": 440.0,
+        "y": 456.99609375
+      },
+      "minimum_hp": 1,
+      "abilities": [
+        0
+      ],
+      "runtime_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "7effff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "room_changes": [
+        {
+          "frame": 1086,
+          "room": 192,
+          "hp": 1,
+          "ability": 0,
+          "x": 24.0,
+          "y": 136.99609375
+        },
+        {
+          "frame": 1097,
+          "room": 117,
+          "hp": 1,
+          "ability": 0,
+          "x": 184.0,
+          "y": 40.99609375
+        },
+        {
+          "frame": 2578,
+          "room": 120,
+          "hp": 1,
+          "ability": 0,
+          "x": 440.0,
+          "y": 456.99609375
+        }
+      ],
+      "objects": {
+        "0x88b9904": [
+          {
+            "frame": 1107,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 184.0,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b9904",
+              "parent": "0x0",
+              "object": "0x2000180",
+              "type_id": 18,
+              "native_ability": 7,
+              "hp": 20,
+              "x": 312.0,
+              "y": 21.99609375,
+              "state": "0x80b6b69",
+              "flags": "0x10000005"
+            }
+          },
+          {
+            "frame": 1160,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 233.6796875,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b9904",
+              "parent": "0x0",
+              "object": "0x2000180",
+              "type_id": 18,
+              "native_ability": 7,
+              "hp": 0,
+              "x": 286.0,
+              "y": 37.99609375,
+              "state": "0x809c48d",
+              "flags": "0x10040b45"
+            }
+          },
+          {
+            "frame": 1181,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 239.203125,
+            "y": 40.99609375,
+            "object": null
+          }
+        ],
+        "0x88b9874": [
+          {
+            "frame": 1107,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 184.0,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b9874",
+              "parent": "0x0",
+              "object": "0x20000c4",
+              "type_id": 0,
+              "native_ability": 0,
+              "hp": 10,
+              "x": 344.0,
+              "y": 118.99609375,
+              "state": "0x80a4455",
+              "flags": "0x10000005"
+            }
+          },
+          {
+            "frame": 1410,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 279.828125,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b9874",
+              "parent": "0x0",
+              "object": "0x20000c4",
+              "type_id": 0,
+              "native_ability": 0,
+              "hp": 0,
+              "x": 267.0,
+              "y": 134.99609375,
+              "state": "0x809c48d",
+              "flags": "0x10040b44"
+            }
+          },
+          {
+            "frame": 1413,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 279.828125,
+            "y": 136.99609375,
+            "object": null
+          }
+        ],
+        "0x88b99dc": [
+          {
+            "frame": 1107,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 184.0,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 7,
+              "native_ability": 0,
+              "hp": 20,
+              "x": 168.0,
+              "y": 136.0,
+              "state": "0x80acbed",
+              "flags": "0x10000004"
+            }
+          },
+          {
+            "frame": 1249,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 239.203125,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 7,
+              "native_ability": 0,
+              "hp": 20,
+              "x": 168.0,
+              "y": 135.99609375,
+              "state": "0x80ac381",
+              "flags": "0x10000000"
+            }
+          },
+          {
+            "frame": 1609,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 244.09375,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 7,
+              "native_ability": 0,
+              "hp": 20,
+              "x": 186.4375,
+              "y": 135.99609375,
+              "state": "0x80acbed",
+              "flags": "0x10000000"
+            }
+          },
+          {
+            "frame": 1688,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 244.09375,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 7,
+              "native_ability": 0,
+              "hp": 10,
+              "x": 186.4375,
+              "y": 135.99609375,
+              "state": "0x809b6a9",
+              "flags": "0x11040825"
+            }
+          },
+          {
+            "frame": 1700,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 244.09375,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 7,
+              "native_ability": 0,
+              "hp": 10,
+              "x": 183.9375,
+              "y": 133.49609375,
+              "state": "0x809b93d",
+              "flags": "0x11000003"
+            }
+          },
+          {
+            "frame": 1719,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 233.453125,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 14,
+              "native_ability": 0,
+              "hp": 10,
+              "x": 148.3125,
+              "y": 125.953125,
+              "state": "0x80ac45d",
+              "flags": "0x10000020"
+            }
+          },
+          {
+            "frame": 1744,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 202.5625,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 14,
+              "native_ability": 0,
+              "hp": 0,
+              "x": 166.0625,
+              "y": 135.99609375,
+              "state": "0x809c48d",
+              "flags": "0x10040b44"
+            }
+          },
+          {
+            "frame": 1760,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 195.375,
+            "y": 136.99609375,
+            "object": null
+          }
+        ],
+        "0x88b9808": [
+          {
+            "frame": 1107,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 184.0,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b9808",
+              "parent": "0x0",
+              "object": "0x2000008",
+              "type_id": 52,
+              "native_ability": 0,
+              "hp": 10,
+              "x": 24.0,
+              "y": 128.0,
+              "state": "0x80b10a9",
+              "flags": "0x12000844"
+            }
+          },
+          {
+            "frame": 2506,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 81.96875,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b9808",
+              "parent": "0x0",
+              "object": "0x2000008",
+              "type_id": 52,
+              "native_ability": 0,
+              "hp": 0,
+              "x": 24.0,
+              "y": 128.0,
+              "state": "0x809b6a9",
+              "flags": "0x13048b64"
+            }
+          },
+          {
+            "frame": 2518,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 69.359375,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b9808",
+              "parent": "0x0",
+              "object": "0x2000008",
+              "type_id": 52,
+              "native_ability": 0,
+              "hp": 0,
+              "x": 20.5,
+              "y": 126.0,
+              "state": "0x809b93d",
+              "flags": "0x13008362"
+            }
+          },
+          {
+            "frame": 2537,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 44.71875,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b9808",
+              "parent": "0x0",
+              "object": "0x2000008",
+              "type_id": 52,
+              "native_ability": 0,
+              "hp": 0,
+              "x": -31.8125,
+              "y": 114.71484375,
+              "state": "0x80b10a9",
+              "flags": "0x12009b60"
+            }
+          },
+          {
+            "frame": 2538,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 43.421875,
+            "y": 136.99609375,
+            "object": null
+          }
+        ]
+      }
+    }
+  ],
+  "controls": [
+    {
+      "health_percent": 100,
+      "gated": false,
+      "configured_hp": 1,
+      "omission": null,
+      "configured_start": [
+        192,
+        40,
+        144
+      ],
+      "native_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "base_patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "production_rom_sha256": "e81f98c79c2ff93d2d8263e2ed178ec46d2dde2231c7679b3f0a13aed0ded759",
+      "script_sha256": "308d9be76cf0acc6b619ae1f8a6fce5fcce17c694113d6c61a80a93150770181",
+      "case": "mirra117-actual192-final-negative",
+      "private_evidence_sha256": "25da31311fd8a3a1c9fcaf6d3d4afde679ab50df020eccc6a60a9e2f10c5cc7a",
+      "runtime_sha256": "a99213add0b8a19d43acf1b8179f88fb5a9907fad2702ef2a128d43a6a5b0563",
+      "fixture_rom_sha256": "c5ba1e25956ebc0d2415a342d753f4a1bbc941ae89a392dc7b07177dba4301b4",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "policy_sha256": "d40778f555c17f744bcb2fd70c50002bd7a1b14658af69ae266b01f8a322ff5c",
+      "initial": {
+        "frame": 1085,
+        "room": 192,
+        "hp": 1,
+        "ability": 0,
+        "x": 24.0,
+        "y": 136.99609375
+      },
+      "joined_arrival": {
+        "frame": 1116,
+        "room": 117,
+        "hp": 1,
+        "ability": 0,
+        "x": 184.0,
+        "y": 40.99609375
+      },
+      "final": {
+        "frame": 2671,
+        "room": 117,
+        "hp": 1,
+        "ability": 0,
+        "x": 22.0,
+        "y": 136.99609375
+      },
+      "minimum_hp": 1,
+      "abilities": [
+        0
+      ],
+      "runtime_writes": [],
+      "room_changes": [
+        {
+          "frame": 1086,
+          "room": 192,
+          "hp": 1,
+          "ability": 0,
+          "x": 24.0,
+          "y": 136.99609375
+        },
+        {
+          "frame": 1097,
+          "room": 117,
+          "hp": 1,
+          "ability": 0,
+          "x": 184.0,
+          "y": 40.99609375
+        }
+      ],
+      "objects": {
+        "0x88b9904": [
+          {
+            "frame": 1107,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 184.0,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b9904",
+              "parent": "0x0",
+              "object": "0x2000180",
+              "type_id": 18,
+              "native_ability": 7,
+              "hp": 4,
+              "x": 312.0,
+              "y": 21.99609375,
+              "state": "0x80b6b69",
+              "flags": "0x10000005"
+            }
+          },
+          {
+            "frame": 1160,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 233.6796875,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b9904",
+              "parent": "0x0",
+              "object": "0x2000180",
+              "type_id": 18,
+              "native_ability": 7,
+              "hp": 0,
+              "x": 286.0,
+              "y": 37.99609375,
+              "state": "0x809c48d",
+              "flags": "0x10040b45"
+            }
+          },
+          {
+            "frame": 1181,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 239.203125,
+            "y": 40.99609375,
+            "object": null
+          }
+        ],
+        "0x88b9874": [
+          {
+            "frame": 1107,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 184.0,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b9874",
+              "parent": "0x0",
+              "object": "0x20000c4",
+              "type_id": 0,
+              "native_ability": 0,
+              "hp": 2,
+              "x": 344.0,
+              "y": 118.99609375,
+              "state": "0x80a4455",
+              "flags": "0x10000005"
+            }
+          },
+          {
+            "frame": 1410,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 279.828125,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b9874",
+              "parent": "0x0",
+              "object": "0x20000c4",
+              "type_id": 0,
+              "native_ability": 0,
+              "hp": 0,
+              "x": 267.0,
+              "y": 134.99609375,
+              "state": "0x809c48d",
+              "flags": "0x10040b44"
+            }
+          },
+          {
+            "frame": 1413,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 279.828125,
+            "y": 136.99609375,
+            "object": null
+          }
+        ],
+        "0x88b99dc": [
+          {
+            "frame": 1107,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 184.0,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 7,
+              "native_ability": 0,
+              "hp": 4,
+              "x": 168.0,
+              "y": 136.0,
+              "state": "0x80acbed",
+              "flags": "0x10000004"
+            }
+          },
+          {
+            "frame": 1249,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 239.203125,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 7,
+              "native_ability": 0,
+              "hp": 4,
+              "x": 168.0,
+              "y": 135.99609375,
+              "state": "0x80ac381",
+              "flags": "0x10000000"
+            }
+          },
+          {
+            "frame": 1609,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 244.09375,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 7,
+              "native_ability": 0,
+              "hp": 4,
+              "x": 186.4375,
+              "y": 135.99609375,
+              "state": "0x80acbed",
+              "flags": "0x10000000"
+            }
+          },
+          {
+            "frame": 1688,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 244.09375,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 7,
+              "native_ability": 0,
+              "hp": 65530,
+              "x": 186.4375,
+              "y": 135.99609375,
+              "state": "0x809b6a9",
+              "flags": "0x11040925"
+            }
+          },
+          {
+            "frame": 1700,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 244.09375,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 7,
+              "native_ability": 0,
+              "hp": 65530,
+              "x": 181.4375,
+              "y": 130.99609375,
+              "state": "0x809b93d",
+              "flags": "0x11000123"
+            }
+          },
+          {
+            "frame": 1719,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 233.453125,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 14,
+              "native_ability": 0,
+              "hp": 65530,
+              "x": 98.3125,
+              "y": 63.45703125,
+              "state": "0x80ac45d",
+              "flags": "0x10001120"
+            }
+          },
+          {
+            "frame": 1720,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 232.15625,
+            "y": 136.99609375,
+            "object": null
+          }
+        ],
+        "0x88b9808": [
+          {
+            "frame": 1107,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 184.0,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b9808",
+              "parent": "0x0",
+              "object": "0x2000008",
+              "type_id": 52,
+              "native_ability": 0,
+              "hp": 2,
+              "x": 24.0,
+              "y": 128.0,
+              "state": "0x80b10a9",
+              "flags": "0x12000844"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "failures": [
+    {
+      "health_percent": 100,
+      "gated": false,
+      "configured_hp": 1,
+      "omission": null,
+      "configured_start": [
+        192,
+        40,
+        144
+      ],
+      "native_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "base_patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "production_rom_sha256": "e81f98c79c2ff93d2d8263e2ed178ec46d2dde2231c7679b3f0a13aed0ded759",
+      "script_sha256": "1d144aca185ea7e1750386d09e6c34a5e54bfdd8b4af34875221386e34e1584b",
+      "case": "mirra117-actual192-ladder-center",
+      "private_evidence_sha256": "112f61f196f727667fb23cd43345a5a5725b1f7c60ced1f3d6bd6ac1bd012588",
+      "runtime_sha256": "f9a8f2fe438fe4a6a7bc48258078c48e884275357746762e74fd4ae1de5a84b6",
+      "fixture_rom_sha256": "c5ba1e25956ebc0d2415a342d753f4a1bbc941ae89a392dc7b07177dba4301b4",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "policy_sha256": "d40778f555c17f744bcb2fd70c50002bd7a1b14658af69ae266b01f8a322ff5c",
+      "initial": {
+        "frame": 1085,
+        "room": 192,
+        "hp": 1,
+        "ability": 0,
+        "x": 24.0,
+        "y": 136.99609375
+      },
+      "joined_arrival": {
+        "frame": 1116,
+        "room": 117,
+        "hp": 1,
+        "ability": 0,
+        "x": 184.0,
+        "y": 40.99609375
+      },
+      "final": {
+        "frame": 1488,
+        "room": 117,
+        "hp": 0,
+        "ability": 0,
+        "x": 280.0,
+        "y": 70.99609375
+      },
+      "minimum_hp": 0,
+      "abilities": [
+        0
+      ],
+      "runtime_writes": [],
+      "room_changes": [
+        {
+          "frame": 1086,
+          "room": 192,
+          "hp": 1,
+          "ability": 0,
+          "x": 24.0,
+          "y": 136.99609375
+        },
+        {
+          "frame": 1097,
+          "room": 117,
+          "hp": 1,
+          "ability": 0,
+          "x": 184.0,
+          "y": 40.99609375
+        }
+      ],
+      "objects": {
+        "0x88b9904": [
+          {
+            "frame": 1107,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 184.0,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b9904",
+              "parent": "0x0",
+              "object": "0x2000180",
+              "type_id": 18,
+              "native_ability": 7,
+              "hp": 4,
+              "x": 312.0,
+              "y": 21.99609375,
+              "state": "0x80b6b69",
+              "flags": "0x10000005"
+            }
+          },
+          {
+            "frame": 1160,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 233.6796875,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b9904",
+              "parent": "0x0",
+              "object": "0x2000180",
+              "type_id": 18,
+              "native_ability": 7,
+              "hp": 0,
+              "x": 286.0,
+              "y": 37.99609375,
+              "state": "0x809c48d",
+              "flags": "0x10040b45"
+            }
+          },
+          {
+            "frame": 1181,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 239.203125,
+            "y": 40.99609375,
+            "object": null
+          }
+        ],
+        "0x88b9874": [
+          {
+            "frame": 1107,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 184.0,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b9874",
+              "parent": "0x0",
+              "object": "0x20000c4",
+              "type_id": 0,
+              "native_ability": 0,
+              "hp": 2,
+              "x": 344.0,
+              "y": 118.99609375,
+              "state": "0x80a4455",
+              "flags": "0x10000005"
+            }
+          },
+          {
+            "frame": 1412,
+            "room": 117,
+            "hp": 0,
+            "ability": 0,
+            "x": 280.0,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b9874",
+              "parent": "0x0",
+              "object": "0x20000c4",
+              "type_id": 0,
+              "native_ability": 0,
+              "hp": 1,
+              "x": 268.0,
+              "y": 134.99609375,
+              "state": "0x809b6a9",
+              "flags": "0x11040824"
+            }
+          },
+          {
+            "frame": 1424,
+            "room": 117,
+            "hp": 0,
+            "ability": 0,
+            "x": 280.0,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b9874",
+              "parent": "0x0",
+              "object": "0x20000c4",
+              "type_id": 0,
+              "native_ability": 0,
+              "hp": 1,
+              "x": 266.5,
+              "y": 134.99609375,
+              "state": "0x809b93d",
+              "flags": "0x11000002"
+            }
+          },
+          {
+            "frame": 1443,
+            "room": 117,
+            "hp": 0,
+            "ability": 0,
+            "x": 280.0,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b9874",
+              "parent": "0x0",
+              "object": "0x20000c4",
+              "type_id": 0,
+              "native_ability": 0,
+              "hp": 1,
+              "x": 250.375,
+              "y": 134.99609375,
+              "state": "0x80a4455",
+              "flags": "0x10000000"
+            }
+          }
+        ],
+        "0x88b99dc": [
+          {
+            "frame": 1107,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 184.0,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 7,
+              "native_ability": 0,
+              "hp": 4,
+              "x": 168.0,
+              "y": 136.0,
+              "state": "0x80acbed",
+              "flags": "0x10000004"
+            }
+          },
+          {
+            "frame": 1249,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 239.203125,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 7,
+              "native_ability": 0,
+              "hp": 4,
+              "x": 168.0,
+              "y": 135.99609375,
+              "state": "0x80ac381",
+              "flags": "0x10000000"
+            }
+          },
+          {
+            "frame": 1429,
+            "room": 117,
+            "hp": 0,
+            "ability": 0,
+            "x": 280.0,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 7,
+              "native_ability": 0,
+              "hp": 4,
+              "x": 149.18359375,
+              "y": 135.99609375,
+              "state": "0x80acbed",
+              "flags": "0x10000001"
+            }
+          }
+        ],
+        "0x88b9808": [
+          {
+            "frame": 1107,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 184.0,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b9808",
+              "parent": "0x0",
+              "object": "0x2000008",
+              "type_id": 52,
+              "native_ability": 0,
+              "hp": 2,
+              "x": 24.0,
+              "y": 128.0,
+              "state": "0x80b10a9",
+              "flags": "0x12000844"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "health_percent": 500,
+      "gated": true,
+      "configured_hp": 1,
+      "omission": "permission",
+      "configured_start": [
+        192,
+        40,
+        144
+      ],
+      "native_rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+      "base_patch_sha256": "068f5b56df0d48bd8fabd4cba918c1a1bf0492cb2f3f126c325a1e8148aeec82",
+      "production_rom_sha256": "b964deedc14715d3f90695381fc343d0412104c75c3684956da9dbdc099ec434",
+      "script_sha256": "752c449cde20e7125ad08dfe189e63695f3e859ce323fe6c74ac7a12647ec93b",
+      "case": "mirra117-actual192-complete-health500",
+      "private_evidence_sha256": "298ba4b34a52747ce3b5453e0eb863185916128378df9315f1219fb329fad8d9",
+      "runtime_sha256": "9bb06dd421cbb3bab0becebfe8937c37dfa380454320837bbeb9977428c4ee1d",
+      "fixture_rom_sha256": "d7ce74cd3217e243bbfbbcece9687cac981bcb7dd2204d9dbef66f1e28faf5ba",
+      "bridge_sha256": "792606f07fac288d7a2201af1f1c5f9ac578adb4ccfcfa6c1344f93d1ce66055",
+      "policy_sha256": "d40778f555c17f744bcb2fd70c50002bd7a1b14658af69ae266b01f8a322ff5c",
+      "initial": {
+        "frame": 1085,
+        "room": 192,
+        "hp": 1,
+        "ability": 0,
+        "x": 24.0,
+        "y": 136.99609375
+      },
+      "joined_arrival": {
+        "frame": 1116,
+        "room": 117,
+        "hp": 1,
+        "ability": 0,
+        "x": 184.0,
+        "y": 40.99609375
+      },
+      "final": {
+        "frame": 2519,
+        "room": 117,
+        "hp": 1,
+        "ability": 0,
+        "x": 184.0,
+        "y": 40.99609375
+      },
+      "minimum_hp": 0,
+      "abilities": [
+        0
+      ],
+      "runtime_writes": [
+        {
+          "frame": 1085,
+          "address": "0x203b064",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b068",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b06c",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b070",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b074",
+          "size": 4,
+          "value": "feffff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b0",
+          "size": 4,
+          "value": "7effff03",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b0b4",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        },
+        {
+          "frame": 1085,
+          "address": "0x203b078",
+          "size": 4,
+          "value": "00000000",
+          "guard_failed": false,
+          "origin": "KirbyAmClient._sync_enemy_copy_ability_runtime_config"
+        }
+      ],
+      "room_changes": [
+        {
+          "frame": 1086,
+          "room": 192,
+          "hp": 1,
+          "ability": 0,
+          "x": 24.0,
+          "y": 136.99609375
+        },
+        {
+          "frame": 1097,
+          "room": 117,
+          "hp": 1,
+          "ability": 0,
+          "x": 184.0,
+          "y": 40.99609375
+        },
+        {
+          "frame": 2140,
+          "room": 192,
+          "hp": 1,
+          "ability": 0,
+          "x": 40.0,
+          "y": 136.99609375
+        },
+        {
+          "frame": 2426,
+          "room": 117,
+          "hp": 1,
+          "ability": 0,
+          "x": 184.0,
+          "y": 40.99609375
+        }
+      ],
+      "objects": {
+        "0x88b9904": [
+          {
+            "frame": 1107,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 184.0,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b9904",
+              "parent": "0x0",
+              "object": "0x2000180",
+              "type_id": 18,
+              "native_ability": 7,
+              "hp": 20,
+              "x": 312.0,
+              "y": 21.99609375,
+              "state": "0x80b6b69",
+              "flags": "0x10000005"
+            }
+          },
+          {
+            "frame": 1160,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 233.6796875,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b9904",
+              "parent": "0x0",
+              "object": "0x2000180",
+              "type_id": 18,
+              "native_ability": 7,
+              "hp": 0,
+              "x": 286.0,
+              "y": 37.99609375,
+              "state": "0x809c48d",
+              "flags": "0x10040b45"
+            }
+          },
+          {
+            "frame": 1181,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 239.203125,
+            "y": 40.99609375,
+            "object": null
+          },
+          {
+            "frame": 2001,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 184.0,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b9904",
+              "parent": "0x0",
+              "object": "0x2000180",
+              "type_id": 18,
+              "native_ability": 7,
+              "hp": 20,
+              "x": 312.0,
+              "y": 21.99609375,
+              "state": "0x80b6b69",
+              "flags": "0x10000005"
+            }
+          },
+          {
+            "frame": 2037,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 184.0,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b9904",
+              "parent": "0x0",
+              "object": "0x2000180",
+              "type_id": 18,
+              "native_ability": 7,
+              "hp": 20,
+              "x": 294.5,
+              "y": 37.99609375,
+              "state": "0x80b7361",
+              "flags": "0x10000001"
+            }
+          },
+          {
+            "frame": 2102,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 183.3203125,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b9904",
+              "parent": "0x0",
+              "object": "0x2000180",
+              "type_id": 18,
+              "native_ability": 7,
+              "hp": 20,
+              "x": 294.5,
+              "y": 37.99609375,
+              "state": "0x80b6cd9",
+              "flags": "0x10000001"
+            }
+          },
+          {
+            "frame": 2135,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 166.0,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b9904",
+              "parent": "0x0",
+              "object": "0x2000180",
+              "type_id": 18,
+              "native_ability": 7,
+              "hp": 20,
+              "x": 294.0,
+              "y": 37.99609375,
+              "state": "0x80b6b69",
+              "flags": "0x10000001"
+            }
+          },
+          {
+            "frame": 2140,
+            "room": 192,
+            "hp": 1,
+            "ability": 0,
+            "x": 40.0,
+            "y": 136.99609375,
+            "object": null
+          },
+          {
+            "frame": 2437,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 184.0,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b9904",
+              "parent": "0x0",
+              "object": "0x2000180",
+              "type_id": 18,
+              "native_ability": 7,
+              "hp": 20,
+              "x": 312.0,
+              "y": 21.99609375,
+              "state": "0x80b6b69",
+              "flags": "0x10000005"
+            }
+          }
+        ],
+        "0x88b9874": [
+          {
+            "frame": 1107,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 184.0,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b9874",
+              "parent": "0x0",
+              "object": "0x20000c4",
+              "type_id": 0,
+              "native_ability": 0,
+              "hp": 10,
+              "x": 344.0,
+              "y": 118.99609375,
+              "state": "0x80a4455",
+              "flags": "0x10000005"
+            }
+          },
+          {
+            "frame": 1410,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 279.828125,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b9874",
+              "parent": "0x0",
+              "object": "0x20000c4",
+              "type_id": 0,
+              "native_ability": 0,
+              "hp": 0,
+              "x": 267.0,
+              "y": 134.99609375,
+              "state": "0x809c48d",
+              "flags": "0x10040b44"
+            }
+          },
+          {
+            "frame": 1413,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 279.828125,
+            "y": 136.99609375,
+            "object": null
+          },
+          {
+            "frame": 2001,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 184.0,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b9874",
+              "parent": "0x0",
+              "object": "0x20000c4",
+              "type_id": 0,
+              "native_ability": 0,
+              "hp": 10,
+              "x": 344.0,
+              "y": 118.99609375,
+              "state": "0x80a4455",
+              "flags": "0x10000005"
+            }
+          },
+          {
+            "frame": 2140,
+            "room": 192,
+            "hp": 1,
+            "ability": 0,
+            "x": 40.0,
+            "y": 136.99609375,
+            "object": null
+          },
+          {
+            "frame": 2437,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 184.0,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b9874",
+              "parent": "0x0",
+              "object": "0x20000c4",
+              "type_id": 0,
+              "native_ability": 0,
+              "hp": 10,
+              "x": 344.0,
+              "y": 118.99609375,
+              "state": "0x80a4455",
+              "flags": "0x10000005"
+            }
+          }
+        ],
+        "0x88b99dc": [
+          {
+            "frame": 1107,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 184.0,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 7,
+              "native_ability": 0,
+              "hp": 20,
+              "x": 168.0,
+              "y": 136.0,
+              "state": "0x80acbed",
+              "flags": "0x10000004"
+            }
+          },
+          {
+            "frame": 1249,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 239.203125,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 7,
+              "native_ability": 0,
+              "hp": 20,
+              "x": 168.0,
+              "y": 135.99609375,
+              "state": "0x80ac381",
+              "flags": "0x10000000"
+            }
+          },
+          {
+            "frame": 1609,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 244.09375,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 7,
+              "native_ability": 0,
+              "hp": 20,
+              "x": 186.4375,
+              "y": 135.99609375,
+              "state": "0x80acbed",
+              "flags": "0x10000000"
+            }
+          },
+          {
+            "frame": 1688,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 244.09375,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 7,
+              "native_ability": 0,
+              "hp": 10,
+              "x": 186.4375,
+              "y": 135.99609375,
+              "state": "0x809b6a9",
+              "flags": "0x11040825"
+            }
+          },
+          {
+            "frame": 1700,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 244.09375,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 7,
+              "native_ability": 0,
+              "hp": 10,
+              "x": 183.9375,
+              "y": 133.49609375,
+              "state": "0x809b93d",
+              "flags": "0x11000003"
+            }
+          },
+          {
+            "frame": 1719,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 233.453125,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 14,
+              "native_ability": 0,
+              "hp": 10,
+              "x": 148.3125,
+              "y": 125.953125,
+              "state": "0x80ac45d",
+              "flags": "0x10000020"
+            }
+          },
+          {
+            "frame": 1753,
+            "room": 117,
+            "hp": 0,
+            "ability": 0,
+            "x": 189.359375,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 14,
+              "native_ability": 0,
+              "hp": 9,
+              "x": 180.6875,
+              "y": 135.99609375,
+              "state": "0x809b6a9",
+              "flags": "0x11040824"
+            }
+          },
+          {
+            "frame": 1765,
+            "room": 117,
+            "hp": 0,
+            "ability": 0,
+            "x": 189.359375,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 14,
+              "native_ability": 0,
+              "hp": 9,
+              "x": 179.1875,
+              "y": 135.99609375,
+              "state": "0x809b93d",
+              "flags": "0x11000002"
+            }
+          },
+          {
+            "frame": 1784,
+            "room": 117,
+            "hp": 0,
+            "ability": 0,
+            "x": 189.359375,
+            "y": 136.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 14,
+              "native_ability": 0,
+              "hp": 9,
+              "x": 162.5625,
+              "y": 135.99609375,
+              "state": "0x80ac45d",
+              "flags": "0x10000000"
+            }
+          },
+          {
+            "frame": 2000,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 184.0,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 14,
+              "native_ability": 0,
+              "hp": 1,
+              "x": 404.62109375,
+              "y": 135.99609375,
+              "state": "0x80ac45d",
+              "flags": "0x10001005"
+            }
+          },
+          {
+            "frame": 2001,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 184.0,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 7,
+              "native_ability": 0,
+              "hp": 20,
+              "x": 168.0,
+              "y": 136.0,
+              "state": "0x80acbed",
+              "flags": "0x10000004"
+            }
+          },
+          {
+            "frame": 2140,
+            "room": 192,
+            "hp": 1,
+            "ability": 0,
+            "x": 40.0,
+            "y": 136.99609375,
+            "object": null
+          },
+          {
+            "frame": 2437,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 184.0,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b99dc",
+              "parent": "0x0",
+              "object": "0x200023c",
+              "type_id": 7,
+              "native_ability": 0,
+              "hp": 20,
+              "x": 168.0,
+              "y": 136.0,
+              "state": "0x80acbed",
+              "flags": "0x10000004"
+            }
+          }
+        ],
+        "0x88b9808": [
+          {
+            "frame": 1107,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 184.0,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b9808",
+              "parent": "0x0",
+              "object": "0x2000008",
+              "type_id": 52,
+              "native_ability": 0,
+              "hp": 10,
+              "x": 24.0,
+              "y": 128.0,
+              "state": "0x80b10a9",
+              "flags": "0x12000844"
+            }
+          },
+          {
+            "frame": 1999,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 184.0,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b9808",
+              "parent": "0x0",
+              "object": "0x2000008",
+              "type_id": 52,
+              "native_ability": 0,
+              "hp": 1,
+              "x": 24.0,
+              "y": 128.0,
+              "state": "0x80b10a9",
+              "flags": "0x12001844"
+            }
+          },
+          {
+            "frame": 2000,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 184.0,
+            "y": 40.99609375,
+            "object": null
+          },
+          {
+            "frame": 2001,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 184.0,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b9808",
+              "parent": "0x0",
+              "object": "0x2000008",
+              "type_id": 52,
+              "native_ability": 0,
+              "hp": 10,
+              "x": 24.0,
+              "y": 128.0,
+              "state": "0x80b10a9",
+              "flags": "0x12000844"
+            }
+          },
+          {
+            "frame": 2140,
+            "room": 192,
+            "hp": 1,
+            "ability": 0,
+            "x": 40.0,
+            "y": 136.99609375,
+            "object": null
+          },
+          {
+            "frame": 2437,
+            "room": 117,
+            "hp": 1,
+            "ability": 0,
+            "x": 184.0,
+            "y": 40.99609375,
+            "object": {
+              "template": "0x88b9808",
+              "parent": "0x0",
+              "object": "0x2000008",
+              "type_id": 52,
+              "native_ability": 0,
+              "hp": 10,
+              "x": 24.0,
+              "y": 128.0,
+              "state": "0x80b10a9",
+              "flags": "0x12000844"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "limits": [
+    "No arbitrary arrival phase, enemy replacement, missing payload, repeatability or global entry proof.",
+    "500% health needs the additional Snooter inhale; the shorter recipe dies and later respawns.",
+    "No room811 clearance is inferred."
+  ]
+}

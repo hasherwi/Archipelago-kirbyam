@@ -1,0 +1,5169 @@
+{
+  "version": 1,
+  "issue": 1119,
+  "complete": false,
+  "counts": {
+    "declared_normal_alternative": 5,
+    "installed_witness": 29,
+    "lever_item": 8,
+    "normal_movement": 218,
+    "policy_scoped_witness": 2,
+    "unresolved_action_context": 143
+  },
+  "surfaces": [
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_01",
+      "kind": "exit",
+      "target": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_1",
+      "requirement": "can_swim",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_swim",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_01",
+      "kind": "exit",
+      "target": "REGION_CABBAGE_CAVERN/ROOM_3_02",
+      "requirement": "can_swim",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_swim",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_01",
+      "kind": "exit",
+      "target": "REGION_CABBAGE_CAVERN/ROOM_3_03",
+      "requirement": "can_swim",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_swim",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_02",
+      "kind": "exit",
+      "target": "REGION_CABBAGE_CAVERN/ROOM_3_01",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_break_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_02",
+      "kind": "exit",
+      "target": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_2",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_break_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_03",
+      "kind": "exit",
+      "target": "REGION_CABBAGE_CAVERN/ROOM_3_01",
+      "requirement": "can_swim",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_swim",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_03",
+      "kind": "exit",
+      "target": "REGION_CABBAGE_CAVERN/ROOM_3_04",
+      "requirement": "can_swim",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_swim",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_03",
+      "kind": "exit",
+      "target": "REGION_CABBAGE_CAVERN/ROOM_3_03__LOGIC__UPPER_LEFT",
+      "requirement": "can_swim",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_swim",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_04",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_13",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_04",
+      "kind": "exit",
+      "target": "REGION_CABBAGE_CAVERN/ROOM_3_03",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_05",
+      "kind": "exit",
+      "target": "REGION_CABBAGE_CAVERN/ROOM_3_GOAL",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_06",
+      "kind": "exit",
+      "target": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_2",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_06",
+      "kind": "exit",
+      "target": "REGION_CABBAGE_CAVERN/ROOM_3_07",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_break_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_07",
+      "kind": "exit",
+      "target": "REGION_CABBAGE_CAVERN/ROOM_3_08_RIGHT",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_08",
+      "kind": "exit",
+      "target": "REGION_CABBAGE_CAVERN/ROOM_3_09",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_08",
+      "kind": "exit",
+      "target": "REGION_CABBAGE_CAVERN/ROOM_3_13",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_08_RIGHT",
+      "kind": "exit",
+      "target": "REGION_CABBAGE_CAVERN/ROOM_3_07",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_08_RIGHT",
+      "kind": "exit",
+      "target": "REGION_CABBAGE_CAVERN/ROOM_3_08",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_09",
+      "kind": "exit",
+      "target": "REGION_CABBAGE_CAVERN/ROOM_3_08",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_09",
+      "kind": "exit",
+      "target": "REGION_CABBAGE_CAVERN/ROOM_3_10_RIGHT",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_break_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_10",
+      "kind": "exit",
+      "target": "REGION_CABBAGE_CAVERN/ROOM_3_10_RIGHT",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_swim"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_swim",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_10",
+      "kind": "exit",
+      "target": "REGION_CABBAGE_CAVERN/ROOM_3_10_LEFT",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_swim"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_swim",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_10",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_15",
+      "requirement": "can_swim",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_swim",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_10_LEFT",
+      "kind": "exit",
+      "target": "REGION_CABBAGE_CAVERN/ROOM_3_10",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_swim",
+          "can_break_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_swim",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_10_LEFT",
+      "kind": "exit",
+      "target": "REGION_CABBAGE_CAVERN/ROOM_3_11",
+      "requirement": "can_swim",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_swim",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_10_LOWER_RIGHT",
+      "kind": "exit",
+      "target": "REGION_CABBAGE_CAVERN/ROOM_3_10_RIGHT",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_10_RIGHT",
+      "kind": "exit",
+      "target": "REGION_CABBAGE_CAVERN/ROOM_3_10",
+      "requirement": "can_swim",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_swim",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_11",
+      "kind": "exit",
+      "target": "REGION_CABBAGE_CAVERN/ROOM_3_10_LEFT",
+      "requirement": {
+        "all": [
+          "can_swim",
+          "can_break_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_swim",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_11",
+      "kind": "exit",
+      "target": "REGION_CABBAGE_CAVERN/ROOM_3_12_UPPER",
+      "requirement": {
+        "all": [
+          "can_swim",
+          "can_break_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_swim",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_12",
+      "kind": "exit",
+      "target": "REGION_CABBAGE_CAVERN/ROOM_3_12_UPPER",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_12",
+      "kind": "exit",
+      "target": "REGION_CABBAGE_CAVERN/ROOM_3_13",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_12",
+      "kind": "exit",
+      "target": "REGION_CABBAGE_CAVERN/ROOM_3_12_LOWER",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_12_UPPER",
+      "kind": "exit",
+      "target": "REGION_CABBAGE_CAVERN/ROOM_3_11",
+      "requirement": "can_swim",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_swim",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_13",
+      "kind": "exit",
+      "target": "REGION_CABBAGE_CAVERN/ROOM_3_10_LOWER_RIGHT",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_swim"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_swim",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_13",
+      "kind": "exit",
+      "target": "REGION_CABBAGE_CAVERN/ROOM_3_13_LOWER",
+      "requirement": "can_pound_pegs",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_pound_pegs",
+          "category": "installed_witness"
+        }
+      ],
+      "installed_targets": [
+        "peg_513_4_7"
+      ]
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_13_LOWER",
+      "kind": "exit",
+      "target": "REGION_CABBAGE_CAVERN/ROOM_3_13",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_14",
+      "kind": "exit",
+      "target": "REGION_CABBAGE_CAVERN/ROOM_3_15_UPPER_ENTRY",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_14",
+      "kind": "exit",
+      "target": "REGION_CABBAGE_CAVERN/ROOM_3_15_LOWER_ENTRY",
+      "requirement": "can_pound_pegs",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_pound_pegs",
+          "category": "installed_witness"
+        }
+      ],
+      "installed_targets": [
+        "peg_527_56_16"
+      ]
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_15",
+      "kind": "exit",
+      "target": "REGION_CABBAGE_CAVERN/ROOM_3_13_LOWER",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_break_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_15",
+      "kind": "exit",
+      "target": "REGION_CABBAGE_CAVERN/ROOM_3_16",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_15_LOWER_ENTRY",
+      "kind": "exit",
+      "target": "REGION_CABBAGE_CAVERN/ROOM_3_15",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_break_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_15_LOWER_ENTRY",
+      "kind": "exit",
+      "target": "REGION_CABBAGE_CAVERN/ROOM_3_15__LOGIC__LOWER_CHEST",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_break_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_15_UPPER_ENTRY",
+      "kind": "exit",
+      "target": "REGION_CABBAGE_CAVERN/ROOM_3_15",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_GOAL",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
+      "requirement": {
+        "all": [
+          "can_break_block",
+          "can_fly"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        },
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_GOAL",
+      "kind": "location",
+      "target": "GOAL_GAME_3_GOAL",
+      "requirement": {
+        "all": [
+          "can_break_block",
+          "can_fly"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        },
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_GOAL",
+      "kind": "location",
+      "target": "MAJOR_CHEST_CABBAGE_CAVERN",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_break_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_2",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_2",
+      "requirement": {
+        "all": [
+          "can_fly",
+          {
+            "item": "Cabbage Cavern Center - Hub Connection"
+          }
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CANDY_CONSTELLATION/ROOM_9_06",
+      "kind": "exit",
+      "target": "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_1",
+      "requirement": "can_pound_pegs",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_pound_pegs",
+          "category": "installed_witness"
+        }
+      ],
+      "installed_targets": [
+        "peg_401_28_30"
+      ]
+    },
+    {
+      "owner": "REGION_CANDY_CONSTELLATION/ROOM_9_08",
+      "kind": "exit",
+      "target": "REGION_CANDY_CONSTELLATION/ROOM_9_09",
+      "requirement": "can_pound_pegs",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_pound_pegs",
+          "category": "installed_witness"
+        }
+      ],
+      "installed_targets": [
+        "peg_411_4_3"
+      ]
+    },
+    {
+      "owner": "REGION_CARROT_CASTLE/ROOM_5_01",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_21",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CARROT_CASTLE/ROOM_5_01",
+      "kind": "exit",
+      "target": "REGION_CARROT_CASTLE/ROOM_5_HUB",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CARROT_CASTLE/ROOM_5_01",
+      "kind": "exit",
+      "target": "REGION_CARROT_CASTLE/ROOM_5_03",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_break_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CARROT_CASTLE/ROOM_5_02",
+      "kind": "exit",
+      "target": "REGION_CARROT_CASTLE/ROOM_5_01",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CARROT_CASTLE/ROOM_5_02",
+      "kind": "exit",
+      "target": "REGION_CARROT_CASTLE/ROOM_5_03",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CARROT_CASTLE/ROOM_5_03",
+      "kind": "exit",
+      "target": "REGION_CARROT_CASTLE/ROOM_5_01",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_break_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CARROT_CASTLE/ROOM_5_03",
+      "kind": "exit",
+      "target": "REGION_CARROT_CASTLE/ROOM_5_04",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_break_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CARROT_CASTLE/ROOM_5_05",
+      "kind": "exit",
+      "target": "REGION_CARROT_CASTLE/ROOM_5_05__LOGIC__CHUTE_SIDE",
+      "requirement": "cc_lever",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "cc_lever",
+          "category": "lever_item"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CARROT_CASTLE/ROOM_5_05__LOGIC__CHUTE_SIDE",
+      "kind": "exit",
+      "target": "REGION_CARROT_CASTLE/ROOM_5_05",
+      "requirement": "cc_lever",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "cc_lever",
+          "category": "lever_item"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CARROT_CASTLE/ROOM_5_07",
+      "kind": "exit",
+      "target": "REGION_CARROT_CASTLE/ROOM_5_08",
+      "requirement": {
+        "all": [
+          "can_climb",
+          "can_break_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_climb",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CARROT_CASTLE/ROOM_5_07",
+      "kind": "exit",
+      "target": "REGION_CARROT_CASTLE/ROOM_5_14",
+      "requirement": {
+        "all": [
+          "can_climb",
+          "can_break_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_climb",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CARROT_CASTLE/ROOM_5_10",
+      "kind": "exit",
+      "target": "REGION_CARROT_CASTLE/ROOM_5_CHEST_1",
+      "requirement": "can_use_mini",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_use_mini",
+          "category": "installed_witness"
+        }
+      ],
+      "installed_targets": [
+        "mini_736_chest"
+      ]
+    },
+    {
+      "owner": "REGION_CARROT_CASTLE/ROOM_5_10",
+      "kind": "exit",
+      "target": "REGION_CARROT_CASTLE/ROOM_5_11",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CARROT_CASTLE/ROOM_5_15",
+      "kind": "exit",
+      "target": "REGION_CARROT_CASTLE/ROOM_5_16",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CARROT_CASTLE/ROOM_5_15",
+      "kind": "exit",
+      "target": "REGION_CARROT_CASTLE/ROOM_5_17",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CARROT_CASTLE/ROOM_5_16",
+      "kind": "exit",
+      "target": "REGION_CARROT_CASTLE/ROOM_5_09",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CARROT_CASTLE/ROOM_5_17",
+      "kind": "exit",
+      "target": "REGION_CARROT_CASTLE/ROOM_5_18",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CARROT_CASTLE/ROOM_5_18",
+      "kind": "exit",
+      "target": "REGION_CARROT_CASTLE/ROOM_5_WARP",
+      "requirement": {
+        "all": [
+          "can_break_block",
+          {
+            "any": [
+              "can_fly",
+              "can_climb"
+            ]
+          }
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        },
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_climb",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CARROT_CASTLE/ROOM_5_CHEST_2",
+      "kind": "exit",
+      "target": "REGION_CARROT_CASTLE/ROOM_5_12",
+      "requirement": "can_climb",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_climb",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CARROT_CASTLE/ROOM_5_HUB",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_3",
+      "requirement": {
+        "all": [
+          "can_fly",
+          {
+            "item": "Carrot Castle - Hub Connection"
+          }
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CARROT_CASTLE/ROOM_5_WARP",
+      "kind": "exit",
+      "target": "REGION_CARROT_CASTLE/ROOM_5_CHEST_2",
+      "requirement": "can_climb",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_climb",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_CARROT_CASTLE/ROOM_5_WARP",
+      "kind": "exit",
+      "target": "REGION_PEPPERMINT_PALACE/ROOM_7_04",
+      "requirement": {
+        "any": [
+          "can_fly",
+          "can_climb"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_climb",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MOONLIGHT_MANSION/ROOM_2_01",
+      "kind": "exit",
+      "target": "REGION_MOONLIGHT_MANSION/ROOM_2_01_UPPER_PLATFORM",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_LEFT",
+      "kind": "exit",
+      "target": "REGION_MOONLIGHT_MANSION/ROOM_2_11",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MOONLIGHT_MANSION/ROOM_2_01_PAST_METAL_BLOCKS",
+      "kind": "exit",
+      "target": "REGION_MOONLIGHT_MANSION/ROOM_2_03_LOWER",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MOONLIGHT_MANSION/ROOM_2_01_UPPER_PLATFORM",
+      "kind": "exit",
+      "target": "REGION_MOONLIGHT_MANSION/ROOM_2_01",
+      "requirement": "can_climb",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_climb",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MOONLIGHT_MANSION/ROOM_2_02",
+      "kind": "exit",
+      "target": "REGION_MOONLIGHT_MANSION/ROOM_2_02_RIGHT",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MOONLIGHT_MANSION/ROOM_2_02",
+      "kind": "exit",
+      "target": "REGION_MOONLIGHT_MANSION/ROOM_2_02_ENTRY",
+      "requirement": "can_climb",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_climb",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MOONLIGHT_MANSION/ROOM_2_02_ENTRY",
+      "kind": "exit",
+      "target": "REGION_MOONLIGHT_MANSION/ROOM_2_02",
+      "requirement": "can_climb",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_climb",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MOONLIGHT_MANSION/ROOM_2_02_RIGHT",
+      "kind": "exit",
+      "target": "REGION_MOONLIGHT_MANSION/ROOM_2_02",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_break_floating_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_floating_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MOONLIGHT_MANSION/ROOM_2_02_RIGHT",
+      "kind": "exit",
+      "target": "REGION_MOONLIGHT_MANSION/ROOM_2_HUB",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MOONLIGHT_MANSION/ROOM_2_03",
+      "kind": "exit",
+      "target": "REGION_MOONLIGHT_MANSION/ROOM_2_04",
+      "requirement": {
+        "all": [
+          "can_climb",
+          "can_break_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_climb",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MOONLIGHT_MANSION/ROOM_2_04",
+      "kind": "exit",
+      "target": "REGION_MOONLIGHT_MANSION/ROOM_2_07_UPPER_LEFT",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MOONLIGHT_MANSION/ROOM_2_04",
+      "kind": "exit",
+      "target": "REGION_MOONLIGHT_MANSION/ROOM_2_04_PAST_SWITCH_WALL",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MOONLIGHT_MANSION/ROOM_2_04_FROM_2_07",
+      "kind": "exit",
+      "target": "REGION_MOONLIGHT_MANSION/ROOM_2_04",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MOONLIGHT_MANSION/ROOM_2_04_PAST_SWITCH_WALL",
+      "kind": "exit",
+      "target": "REGION_MOONLIGHT_MANSION/ROOM_2_08",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MOONLIGHT_MANSION/ROOM_2_04_PAST_SWITCH_WALL",
+      "kind": "exit",
+      "target": "REGION_MOONLIGHT_MANSION/ROOM_2_13",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_break_metal"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_metal",
+          "category": "installed_witness"
+        }
+      ],
+      "installed_targets": [
+        "metal_707_to_712"
+      ]
+    },
+    {
+      "owner": "REGION_MOONLIGHT_MANSION/ROOM_2_05",
+      "kind": "exit",
+      "target": "REGION_MOONLIGHT_MANSION/ROOM_2_05_UPPER_LEDGE",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_break_floating_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_floating_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MOONLIGHT_MANSION/ROOM_2_05_LOWER",
+      "kind": "exit",
+      "target": "REGION_MOONLIGHT_MANSION/ROOM_2_05",
+      "requirement": {
+        "all": [
+          "can_climb",
+          "can_fly"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_climb",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MOONLIGHT_MANSION/ROOM_2_05_LOWER",
+      "kind": "exit",
+      "target": "REGION_MOONLIGHT_MANSION/ROOM_2_06",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MOONLIGHT_MANSION/ROOM_2_05_UPPER_LEDGE",
+      "kind": "exit",
+      "target": "REGION_MOONLIGHT_MANSION/ROOM_2_05",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MOONLIGHT_MANSION/ROOM_2_06",
+      "kind": "exit",
+      "target": "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_1",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MOONLIGHT_MANSION/ROOM_2_08",
+      "kind": "exit",
+      "target": "REGION_MOONLIGHT_MANSION/ROOM_2_09",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MOONLIGHT_MANSION/ROOM_2_08",
+      "kind": "exit",
+      "target": "REGION_MOONLIGHT_MANSION/ROOM_2_07_UPPER_RIGHT",
+      "requirement": "can_break_floating_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_floating_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MOONLIGHT_MANSION/ROOM_2_08_BOMB_ROOM",
+      "kind": "exit",
+      "target": "REGION_MOONLIGHT_MANSION/ROOM_2_08",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MOONLIGHT_MANSION/ROOM_2_09",
+      "kind": "exit",
+      "target": "REGION_MOONLIGHT_MANSION/ROOM_2_10",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MOONLIGHT_MANSION/ROOM_2_11",
+      "kind": "exit",
+      "target": "REGION_MOONLIGHT_MANSION/ROOM_2_11_AFTER_LEVER",
+      "requirement": {
+        "all": [
+          "can_climb",
+          "can_fly",
+          "can_break_block",
+          "mm_lever"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_climb",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        },
+        {
+          "token": "mm_lever",
+          "category": "lever_item"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MOONLIGHT_MANSION/ROOM_2_11_AFTER_LEVER",
+      "kind": "exit",
+      "target": "REGION_MOONLIGHT_MANSION/ROOM_2_11",
+      "requirement": "mm_lever",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "mm_lever",
+          "category": "lever_item"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MOONLIGHT_MANSION/ROOM_2_13",
+      "kind": "exit",
+      "target": "REGION_MOONLIGHT_MANSION/ROOM_2_14",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MOONLIGHT_MANSION/ROOM_2_14",
+      "kind": "exit",
+      "target": "REGION_MOONLIGHT_MANSION/ROOM_2_15",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MOONLIGHT_MANSION/ROOM_2_14_UPPER",
+      "kind": "exit",
+      "target": "REGION_MOONLIGHT_MANSION/ROOM_2_15__LOGIC__UPPER_RETURN",
+      "requirement": {
+        "all": [
+          "can_break_block",
+          "can_fly"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        },
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MOONLIGHT_MANSION/ROOM_2_15",
+      "kind": "exit",
+      "target": "REGION_MOONLIGHT_MANSION/ROOM_2_14_UPPER",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_break_floating_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_floating_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MOONLIGHT_MANSION/ROOM_2_15",
+      "kind": "exit",
+      "target": "REGION_MOONLIGHT_MANSION/ROOM_2_WARP",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_break_floating_block",
+          "can_break_metal"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_floating_block",
+          "category": "installed_witness"
+        },
+        {
+          "token": "can_break_metal",
+          "category": "installed_witness"
+        }
+      ],
+      "installed_targets": [
+        "metal_742_lower_to_warp"
+      ]
+    },
+    {
+      "owner": "REGION_MOONLIGHT_MANSION/ROOM_2_18",
+      "kind": "exit",
+      "target": "REGION_MOONLIGHT_MANSION/ROOM_2_18_UPPER_LEFT",
+      "requirement": "can_climb",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_climb",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MOONLIGHT_MANSION/ROOM_2_18_BOTTOM_RIGHT",
+      "kind": "exit",
+      "target": "REGION_MOONLIGHT_MANSION/ROOM_2_18",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MOONLIGHT_MANSION/ROOM_2_19",
+      "kind": "exit",
+      "target": "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_UPPER_RIGHT",
+      "requirement": {
+        "all": [
+          "can_climb",
+          "can_break_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_climb",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MOONLIGHT_MANSION/ROOM_2_20",
+      "kind": "exit",
+      "target": "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_BOTTOM_RIGHT",
+      "requirement": {
+        "all": [
+          "can_break_block",
+          "can_swim"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        },
+        {
+          "token": "can_swim",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MOONLIGHT_MANSION/ROOM_2_20",
+      "kind": "exit",
+      "target": "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2",
+      "requirement": {
+        "all": [
+          "can_break_block",
+          "can_swim"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        },
+        {
+          "token": "can_swim",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_break_floating_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_floating_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2",
+      "kind": "location",
+      "target": "GOAL_GAME_2_GOAL_2",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_break_floating_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_floating_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MOONLIGHT_MANSION/ROOM_2_WARP",
+      "kind": "exit",
+      "target": "REGION_CANDY_CONSTELLATION/ROOM_9_04",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_break_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MUSTARD_MOUNTAIN/ROOM_4_01",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_36_HORIZONTAL",
+      "requirement": "can_climb",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_climb",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MUSTARD_MOUNTAIN/ROOM_4_01",
+      "kind": "exit",
+      "target": "REGION_MUSTARD_MOUNTAIN/ROOM_4_02",
+      "requirement": "can_climb",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_climb",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MUSTARD_MOUNTAIN/ROOM_4_02",
+      "kind": "exit",
+      "target": "REGION_MUSTARD_MOUNTAIN/ROOM_4_01",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MUSTARD_MOUNTAIN/ROOM_4_02",
+      "kind": "exit",
+      "target": "REGION_MUSTARD_MOUNTAIN/ROOM_4_03",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_break_floating_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_floating_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MUSTARD_MOUNTAIN/ROOM_4_03",
+      "kind": "exit",
+      "target": "REGION_MUSTARD_MOUNTAIN/ROOM_4_02",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_break_floating_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_floating_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MUSTARD_MOUNTAIN/ROOM_4_03",
+      "kind": "exit",
+      "target": "REGION_MUSTARD_MOUNTAIN/ROOM_4_HUB",
+      "requirement": "can_break_floating_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_floating_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MUSTARD_MOUNTAIN/ROOM_4_05",
+      "kind": "exit",
+      "target": "REGION_MUSTARD_MOUNTAIN/ROOM_4_06",
+      "requirement": "can_use_mini",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_use_mini",
+          "category": "installed_witness"
+        }
+      ],
+      "installed_targets": [
+        "mini_321_lower"
+      ]
+    },
+    {
+      "owner": "REGION_MUSTARD_MOUNTAIN/ROOM_4_05",
+      "kind": "exit",
+      "target": "REGION_MUSTARD_MOUNTAIN/ROOM_4_09",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MUSTARD_MOUNTAIN/ROOM_4_05",
+      "kind": "exit",
+      "target": "REGION_MUSTARD_MOUNTAIN/ROOM_4_05__LOGIC__RIGHT_ENTRY",
+      "requirement": "can_use_mini",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_use_mini",
+          "category": "installed_witness"
+        }
+      ],
+      "installed_targets": [
+        "mini_321_cross_to_right"
+      ]
+    },
+    {
+      "owner": "REGION_MUSTARD_MOUNTAIN/ROOM_4_05__LOGIC__RIGHT_ENTRY",
+      "kind": "exit",
+      "target": "REGION_MUSTARD_MOUNTAIN/ROOM_4_06",
+      "requirement": "can_use_mini",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_use_mini",
+          "category": "installed_witness"
+        }
+      ],
+      "installed_targets": [
+        "mini_321_right_lower"
+      ]
+    },
+    {
+      "owner": "REGION_MUSTARD_MOUNTAIN/ROOM_4_05__LOGIC__RIGHT_ENTRY",
+      "kind": "exit",
+      "target": "REGION_MUSTARD_MOUNTAIN/ROOM_4_09",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MUSTARD_MOUNTAIN/ROOM_4_06",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_40",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MUSTARD_MOUNTAIN/ROOM_4_07",
+      "kind": "exit",
+      "target": "REGION_MUSTARD_MOUNTAIN/ROOM_4_08",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MUSTARD_MOUNTAIN/ROOM_4_08",
+      "kind": "exit",
+      "target": "REGION_MUSTARD_MOUNTAIN/ROOM_4_05__LOGIC__RIGHT_ENTRY",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_break_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MUSTARD_MOUNTAIN/ROOM_4_08",
+      "kind": "exit",
+      "target": "REGION_MUSTARD_MOUNTAIN/ROOM_4_GOAL_1",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_break_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MUSTARD_MOUNTAIN/ROOM_4_09",
+      "kind": "exit",
+      "target": "REGION_MUSTARD_MOUNTAIN/ROOM_4_10",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MUSTARD_MOUNTAIN/ROOM_4_10",
+      "kind": "exit",
+      "target": "REGION_MUSTARD_MOUNTAIN/ROOM_4_11",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MUSTARD_MOUNTAIN/ROOM_4_11",
+      "kind": "exit",
+      "target": "REGION_MUSTARD_MOUNTAIN/ROOM_4_12",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MUSTARD_MOUNTAIN/ROOM_4_12",
+      "kind": "exit",
+      "target": "REGION_MUSTARD_MOUNTAIN/ROOM_4_13",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MUSTARD_MOUNTAIN/ROOM_4_12",
+      "kind": "exit",
+      "target": "REGION_MUSTARD_MOUNTAIN/ROOM_4_13__LOGIC__CANNON_LEFT",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MUSTARD_MOUNTAIN/ROOM_4_13",
+      "kind": "exit",
+      "target": "REGION_MUSTARD_MOUNTAIN/ROOM_4_14",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MUSTARD_MOUNTAIN/ROOM_4_13__LOGIC__CANNON_LEFT",
+      "kind": "exit",
+      "target": "REGION_MUSTARD_MOUNTAIN/ROOM_4_14__LOGIC__CANNON_LEFT",
+      "requirement": "can_light_fuses",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_light_fuses",
+          "category": "installed_witness"
+        }
+      ],
+      "installed_targets": [
+        "fuse_323"
+      ]
+    },
+    {
+      "owner": "REGION_MUSTARD_MOUNTAIN/ROOM_4_14",
+      "kind": "exit",
+      "target": "REGION_MUSTARD_MOUNTAIN/ROOM_4_BOSS",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MUSTARD_MOUNTAIN/ROOM_4_14__LOGIC__CANNON_LEFT",
+      "kind": "exit",
+      "target": "REGION_MUSTARD_MOUNTAIN/ROOM_4_BOSS",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MUSTARD_MOUNTAIN/ROOM_4_15",
+      "kind": "exit",
+      "target": "REGION_MUSTARD_MOUNTAIN/ROOM_4_16",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_hit_far_switch"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_hit_far_switch",
+          "category": "installed_witness"
+        }
+      ],
+      "installed_targets": [
+        "switch_533_room16"
+      ]
+    },
+    {
+      "owner": "REGION_MUSTARD_MOUNTAIN/ROOM_4_15",
+      "kind": "exit",
+      "target": "REGION_MUSTARD_MOUNTAIN/ROOM_4_17",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_break_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MUSTARD_MOUNTAIN/ROOM_4_16",
+      "kind": "exit",
+      "target": "REGION_MUSTARD_MOUNTAIN/ROOM_4_17_LEFT",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MUSTARD_MOUNTAIN/ROOM_4_17",
+      "kind": "exit",
+      "target": "REGION_MUSTARD_MOUNTAIN/ROOM_4_18",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_break_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MUSTARD_MOUNTAIN/ROOM_4_17_LEFT",
+      "kind": "exit",
+      "target": "REGION_MUSTARD_MOUNTAIN/ROOM_4_18",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MUSTARD_MOUNTAIN/ROOM_4_18",
+      "kind": "exit",
+      "target": "REGION_MUSTARD_MOUNTAIN/ROOM_4_19",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MUSTARD_MOUNTAIN/ROOM_4_18",
+      "kind": "exit",
+      "target": "REGION_MUSTARD_MOUNTAIN/ROOM_4_WARP",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_use_mini"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_use_mini",
+          "category": "installed_witness"
+        }
+      ],
+      "installed_targets": [
+        "mini_312_warp"
+      ]
+    },
+    {
+      "owner": "REGION_MUSTARD_MOUNTAIN/ROOM_4_19",
+      "kind": "exit",
+      "target": "REGION_MUSTARD_MOUNTAIN/ROOM_4_GOAL_2",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST",
+      "kind": "location",
+      "target": "MAJOR_CHEST_MUSTARD_MOUNTAIN",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_hit_far_switch",
+          "can_break_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_hit_far_switch",
+          "category": "policy_scoped_witness"
+        },
+        {
+          "token": "can_break_block",
+          "category": "policy_scoped_witness"
+        }
+      ],
+      "installed_targets": [
+        "switch_310_mustard_map"
+      ]
+    },
+    {
+      "owner": "REGION_MUSTARD_MOUNTAIN/ROOM_4_GOAL_1",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MUSTARD_MOUNTAIN/ROOM_4_GOAL_1",
+      "kind": "location",
+      "target": "GOAL_GAME_4_GOAL_1",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MUSTARD_MOUNTAIN/ROOM_4_GOAL_2",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MUSTARD_MOUNTAIN/ROOM_4_GOAL_2",
+      "kind": "location",
+      "target": "GOAL_GAME_4_GOAL_2",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_MUSTARD_MOUNTAIN/ROOM_4_WARP",
+      "kind": "exit",
+      "target": "REGION_CANDY_CONSTELLATION/ROOM_9_06",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_OLIVE_OCEAN/ROOM_6_02",
+      "kind": "exit",
+      "target": "REGION_OLIVE_OCEAN/ROOM_6_03",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_OLIVE_OCEAN/ROOM_6_03",
+      "kind": "exit",
+      "target": "REGION_OLIVE_OCEAN/ROOM_6_02",
+      "requirement": "can_swim",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_swim",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_OLIVE_OCEAN/ROOM_6_04",
+      "kind": "exit",
+      "target": "REGION_OLIVE_OCEAN/ROOM_6_05_SUBROOM",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_OLIVE_OCEAN/ROOM_6_06",
+      "kind": "exit",
+      "target": "REGION_OLIVE_OCEAN/ROOM_6_GOAL_1",
+      "requirement": {
+        "all": [
+          "can_break_block",
+          "can_fly"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        },
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_OLIVE_OCEAN/ROOM_6_07",
+      "kind": "exit",
+      "target": "REGION_OLIVE_OCEAN/ROOM_6_08",
+      "requirement": {
+        "all": [
+          "can_break_block",
+          "can_swim",
+          "can_fly"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        },
+        {
+          "token": "can_swim",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_OLIVE_OCEAN/ROOM_6_08",
+      "kind": "exit",
+      "target": "REGION_OLIVE_OCEAN/ROOM_6_07",
+      "requirement": {
+        "all": [
+          "can_swim",
+          "can_break_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_swim",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_OLIVE_OCEAN/ROOM_6_08",
+      "kind": "exit",
+      "target": "REGION_OLIVE_OCEAN/ROOM_6_09",
+      "requirement": {
+        "all": [
+          "can_swim",
+          "can_fly",
+          "can_break_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_swim",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_OLIVE_OCEAN/ROOM_6_09",
+      "kind": "exit",
+      "target": "REGION_OLIVE_OCEAN/ROOM_6_08",
+      "requirement": {
+        "all": [
+          "can_swim",
+          "can_fly",
+          "can_break_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_swim",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_OLIVE_OCEAN/ROOM_6_09",
+      "kind": "exit",
+      "target": "REGION_OLIVE_OCEAN/ROOM_6_HUB",
+      "requirement": {
+        "all": [
+          "can_swim",
+          "can_fly",
+          "can_break_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_swim",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_OLIVE_OCEAN/ROOM_6_10",
+      "kind": "exit",
+      "target": "REGION_OLIVE_OCEAN/ROOM_6_HUB",
+      "requirement": {
+        "all": [
+          "can_swim",
+          "can_break_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_swim",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_OLIVE_OCEAN/ROOM_6_10",
+      "kind": "exit",
+      "target": "REGION_OLIVE_OCEAN/ROOM_6_11",
+      "requirement": {
+        "all": [
+          "can_swim",
+          "can_break_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_swim",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_OLIVE_OCEAN/ROOM_6_10",
+      "kind": "exit",
+      "target": "REGION_OLIVE_OCEAN/ROOM_6_15",
+      "requirement": "can_swim",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_swim",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": [
+        "mirra_811_olive"
+      ]
+    },
+    {
+      "owner": "REGION_OLIVE_OCEAN/ROOM_6_10",
+      "kind": "exit",
+      "target": "REGION_OLIVE_OCEAN/ROOM_6_18",
+      "requirement": {
+        "all": [
+          "can_swim",
+          "can_break_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_swim",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_OLIVE_OCEAN/ROOM_6_11",
+      "kind": "exit",
+      "target": "REGION_OLIVE_OCEAN/ROOM_6_10",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_OLIVE_OCEAN/ROOM_6_11",
+      "kind": "exit",
+      "target": "REGION_OLIVE_OCEAN/ROOM_6_12",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_OLIVE_OCEAN/ROOM_6_12",
+      "kind": "exit",
+      "target": "REGION_OLIVE_OCEAN/ROOM_6_11",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_OLIVE_OCEAN/ROOM_6_13",
+      "kind": "exit",
+      "target": "REGION_MOONLIGHT_MANSION/ROOM_2_12_RIGHT",
+      "requirement": "oo_lever",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "oo_lever",
+          "category": "lever_item"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_OLIVE_OCEAN/ROOM_6_13__LOGIC__ENTRY_FROM_MOONLIGHT",
+      "kind": "exit",
+      "target": "REGION_OLIVE_OCEAN/ROOM_6_13",
+      "requirement": "oo_lever",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "oo_lever",
+          "category": "lever_item"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_OLIVE_OCEAN/ROOM_6_14",
+      "kind": "exit",
+      "target": "REGION_OLIVE_OCEAN/ROOM_6_GOAL_2",
+      "requirement": "can_swim",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_swim",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_OLIVE_OCEAN/ROOM_6_15",
+      "kind": "exit",
+      "target": "REGION_OLIVE_OCEAN/ROOM_6_CHEST_1",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_OLIVE_OCEAN/ROOM_6_16",
+      "kind": "exit",
+      "target": "REGION_OLIVE_OCEAN/ROOM_6_17",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_OLIVE_OCEAN/ROOM_6_17",
+      "kind": "exit",
+      "target": "REGION_OLIVE_OCEAN/ROOM_6_12",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_OLIVE_OCEAN/ROOM_6_17",
+      "kind": "exit",
+      "target": "REGION_OLIVE_OCEAN/ROOM_6_22",
+      "requirement": {
+        "all": [
+          "can_break_block",
+          "can_swim"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        },
+        {
+          "token": "can_swim",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_OLIVE_OCEAN/ROOM_6_20",
+      "kind": "exit",
+      "target": "REGION_OLIVE_OCEAN/ROOM_6_CHEST_2",
+      "requirement": "can_swim",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_swim",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_OLIVE_OCEAN/ROOM_6_21",
+      "kind": "exit",
+      "target": "REGION_OLIVE_OCEAN/ROOM_6_22",
+      "requirement": "can_swim",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_swim",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": [
+        "underwater_819_exit"
+      ]
+    },
+    {
+      "owner": "REGION_OLIVE_OCEAN/ROOM_6_22",
+      "kind": "exit",
+      "target": "REGION_OLIVE_OCEAN/ROOM_6_23",
+      "requirement": "can_swim",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_swim",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_OLIVE_OCEAN/ROOM_6_CHEST_1",
+      "kind": "exit",
+      "target": "REGION_OLIVE_OCEAN/ROOM_6_16",
+      "requirement": {
+        "any": [
+          "can_break_block",
+          "can_swim"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "declared_normal_alternative"
+        },
+        {
+          "token": "can_swim",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_OLIVE_OCEAN/ROOM_6_CHEST_2",
+      "kind": "exit",
+      "target": "REGION_OLIVE_OCEAN/ROOM_6_21",
+      "requirement": "can_swim",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_swim",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_OLIVE_OCEAN/ROOM_6_CHEST_2",
+      "kind": "location",
+      "target": "MAJOR_CHEST_OLIVE_OCEAN",
+      "requirement": "can_pound_pegs",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_pound_pegs",
+          "category": "installed_witness"
+        }
+      ],
+      "installed_targets": [
+        "peg_816_26_3"
+      ]
+    },
+    {
+      "owner": "REGION_OLIVE_OCEAN/ROOM_6_GOAL_1",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
+      "requirement": {
+        "any": [
+          "can_fly",
+          "can_swim"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_swim",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_OLIVE_OCEAN/ROOM_6_GOAL_1",
+      "kind": "location",
+      "target": "GOAL_GAME_6_GOAL_1",
+      "requirement": {
+        "any": [
+          "can_fly",
+          "can_swim"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_swim",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_OLIVE_OCEAN/ROOM_6_GOAL_2",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_break_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_OLIVE_OCEAN/ROOM_6_GOAL_2",
+      "kind": "location",
+      "target": "GOAL_GAME_6_GOAL_2",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_break_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_OLIVE_OCEAN/ROOM_6_HUB",
+      "kind": "exit",
+      "target": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_1",
+      "requirement": {
+        "all": [
+          "can_fly",
+          {
+            "item": "Olive Ocean - Hub Connection"
+          }
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_PEPPERMINT_PALACE/ROOM_7_01",
+      "kind": "exit",
+      "target": "REGION_PEPPERMINT_PALACE/ROOM_7_02",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_PEPPERMINT_PALACE/ROOM_7_02",
+      "kind": "exit",
+      "target": "REGION_PEPPERMINT_PALACE/ROOM_7_01",
+      "requirement": {
+        "any": [
+          "can_swim",
+          "can_break_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_swim",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_block",
+          "category": "declared_normal_alternative"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_PEPPERMINT_PALACE/ROOM_7_02",
+      "kind": "exit",
+      "target": "REGION_PEPPERMINT_PALACE/ROOM_7_03",
+      "requirement": {
+        "any": [
+          "can_swim",
+          "can_break_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_swim",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_block",
+          "category": "declared_normal_alternative"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_PEPPERMINT_PALACE/ROOM_7_03",
+      "kind": "exit",
+      "target": "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_1",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_PEPPERMINT_PALACE/ROOM_7_03",
+      "kind": "exit",
+      "target": "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST__LOGIC__BOTTOM_MINOR",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": [
+        "normal_208_to_209_bottom"
+      ]
+    },
+    {
+      "owner": "REGION_PEPPERMINT_PALACE/ROOM_7_05",
+      "kind": "exit",
+      "target": "REGION_PEPPERMINT_PALACE/ROOM_7_06",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_PEPPERMINT_PALACE/ROOM_7_05",
+      "kind": "exit",
+      "target": "REGION_PEPPERMINT_PALACE/ROOM_7_07",
+      "requirement": {
+        "any": [
+          "can_fly",
+          "can_climb"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_climb",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_PEPPERMINT_PALACE/ROOM_7_07",
+      "kind": "exit",
+      "target": "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_break_metal",
+          "can_swim"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_metal",
+          "category": "installed_witness"
+        },
+        {
+          "token": "can_swim",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": [
+        "metal_205_to_209_top"
+      ]
+    },
+    {
+      "owner": "REGION_PEPPERMINT_PALACE/ROOM_7_07",
+      "kind": "exit",
+      "target": "REGION_PEPPERMINT_PALACE/ROOM_7_08",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_swim"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_swim",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_PEPPERMINT_PALACE/ROOM_7_07",
+      "kind": "exit",
+      "target": "REGION_PEPPERMINT_PALACE/ROOM_7_09",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_swim"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_swim",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_PEPPERMINT_PALACE/ROOM_7_08",
+      "kind": "exit",
+      "target": "REGION_PEPPERMINT_PALACE/ROOM_7_GOAL_1",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_PEPPERMINT_PALACE/ROOM_7_09",
+      "kind": "exit",
+      "target": "REGION_PEPPERMINT_PALACE/ROOM_7_10",
+      "requirement": {
+        "all": [
+          "can_break_block",
+          {
+            "any": [
+              "can_fly",
+              "can_climb"
+            ]
+          }
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        },
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_climb",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_PEPPERMINT_PALACE/ROOM_7_10",
+      "kind": "exit",
+      "target": "REGION_PEPPERMINT_PALACE/ROOM_7_WARP",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_PEPPERMINT_PALACE/ROOM_7_11",
+      "kind": "exit",
+      "target": "REGION_PEPPERMINT_PALACE/ROOM_7_07",
+      "requirement": {
+        "any": [
+          "can_climb",
+          "can_fly"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_climb",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_PEPPERMINT_PALACE/ROOM_7_12",
+      "kind": "exit",
+      "target": "REGION_PEPPERMINT_PALACE/ROOM_7_06__LOGIC__HAPPY_NOTES_ENTRY",
+      "requirement": "can_pound_pegs",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_pound_pegs",
+          "category": "installed_witness"
+        }
+      ],
+      "installed_targets": [
+        "peg_204_62_4"
+      ]
+    },
+    {
+      "owner": "REGION_PEPPERMINT_PALACE/ROOM_7_20",
+      "kind": "exit",
+      "target": "REGION_PEPPERMINT_PALACE/ROOM_7_21",
+      "requirement": "can_cut_ropes",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_cut_ropes",
+          "category": "installed_witness"
+        }
+      ],
+      "installed_targets": [
+        "rope_217_6_5"
+      ]
+    },
+    {
+      "owner": "REGION_PEPPERMINT_PALACE/ROOM_7_GOAL_1",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
+      "requirement": {
+        "all": [
+          "can_break_block",
+          "can_fly"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        },
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_PEPPERMINT_PALACE/ROOM_7_GOAL_1",
+      "kind": "location",
+      "target": "GOAL_GAME_7_GOAL_1",
+      "requirement": {
+        "all": [
+          "can_break_block",
+          "can_fly"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        },
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_1",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
+      "requirement": {
+        "all": [
+          "can_fly",
+          {
+            "item": "Peppermint Palace East - Hub Connection"
+          }
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_1",
+      "kind": "exit",
+      "target": "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_2",
+      "requirement": {
+        "all": [
+          "can_fly",
+          {
+            "item": "Peppermint Palace West - Hub Connection"
+          }
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_2",
+      "kind": "exit",
+      "target": "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_1",
+      "requirement": {
+        "all": [
+          "can_fly",
+          {
+            "item": "Peppermint Palace West - Hub Connection"
+          }
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_PEPPERMINT_PALACE/ROOM_7_WARP",
+      "kind": "exit",
+      "target": "REGION_CANDY_CONSTELLATION/ROOM_9_01",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RADISH_RUINS/ROOM_8_03",
+      "kind": "exit",
+      "target": "REGION_RADISH_RUINS/ROOM_8_CHEST_1",
+      "requirement": "can_pound_pegs",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_pound_pegs",
+          "category": "installed_witness"
+        }
+      ],
+      "installed_targets": [
+        "peg_605_12_24"
+      ]
+    },
+    {
+      "owner": "REGION_RADISH_RUINS/ROOM_8_12",
+      "kind": "exit",
+      "target": "REGION_RADISH_RUINS/ROOM_8_12__LOGIC__CARROT_SIDE",
+      "requirement": "rr_lever",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "rr_lever",
+          "category": "lever_item"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RADISH_RUINS/ROOM_8_12__LOGIC__CARROT_SIDE",
+      "kind": "exit",
+      "target": "REGION_RADISH_RUINS/ROOM_8_12",
+      "requirement": "rr_lever",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "rr_lever",
+          "category": "lever_item"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_01",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_02",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_03_LOWER",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_06_UPPER",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_03_UPPER",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_04",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_04",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_05",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_05",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_WARP",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_MID",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_06_UPPER",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_MID",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_RIGHT",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_MID",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_CHEST",
+      "requirement": "can_wheel",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_wheel",
+          "category": "installed_witness"
+        }
+      ],
+      "installed_targets": [
+        "wheel_108_chest"
+      ]
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_RIGHT",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_MID",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_08",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_MID",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_08",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_09",
+      "requirement": {
+        "all": [
+          "can_break_block",
+          "can_fly"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "installed_witness"
+        },
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": [
+        "bomb_110_room9"
+      ]
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_08",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_12",
+      "requirement": {
+        "all": [
+          "can_break_block",
+          "can_fly"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        },
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_10",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_11",
+      "requirement": {
+        "all": [
+          "can_break_block",
+          "can_swim"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        },
+        {
+          "token": "can_swim",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_12",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_08",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_12",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_13",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_13_LOWER",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_13",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_14",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_13",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_break_floating_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_floating_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_14",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_2",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_break_floating_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_floating_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_14",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_31",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_break_floating_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_floating_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_15",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_15_LOWER",
+      "requirement": "can_break_floating_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_floating_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_15_LOWER",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_15",
+      "requirement": {
+        "all": [
+          "can_break_block",
+          "can_fly"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        },
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_16",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_16_MID",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_break_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_16_MID",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_16",
+      "requirement": {
+        "all": [
+          "can_climb",
+          "can_break_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_climb",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_16_MID",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_16_UPPER",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_break_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_16_MID",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_17",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_16_UPPER",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_16_MID",
+      "requirement": "can_climb",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_climb",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_18_UPPER",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_18",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_21",
+      "kind": "exit",
+      "target": "REGION_CARROT_CASTLE/ROOM_5_01",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_21",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_20",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_22",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_16_UPPER",
+      "requirement": "can_climb",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_climb",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_22",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_23",
+      "requirement": {
+        "any": [
+          "can_climb",
+          "can_fly"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_climb",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_23",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_24",
+      "requirement": {
+        "any": [
+          "can_climb",
+          "can_fly"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_climb",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_23",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_22",
+      "requirement": {
+        "any": [
+          "can_climb",
+          "can_break_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_climb",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_block",
+          "category": "declared_normal_alternative"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_24",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_24_UPPER",
+      "requirement": {
+        "any": [
+          "can_climb",
+          "can_fly"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_climb",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_24_UPPER",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_24",
+      "requirement": {
+        "any": [
+          "can_climb",
+          "can_break_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_climb",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_block",
+          "category": "declared_normal_alternative"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_24_UPPER",
+      "kind": "exit",
+      "target": "REGION_CARROT_CASTLE/ROOM_5_02",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_26",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_26_UPPER_RIGHT",
+      "requirement": {
+        "any": [
+          "can_fly",
+          "can_climb"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_climb",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_26_UPPER_RIGHT",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_26",
+      "requirement": {
+        "any": [
+          "can_climb"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_climb",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_27",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_27_UPPER_LEFT",
+      "requirement": {
+        "all": [
+          "can_break_floating_block",
+          {
+            "any": [
+              "can_fly",
+              "can_climb"
+            ]
+          }
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_floating_block",
+          "category": "unresolved_action_context"
+        },
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_climb",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_27_UPPER_LEFT",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_28",
+      "requirement": {
+        "any": [
+          "can_fly",
+          "can_climb"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_climb",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_27_UPPER_LEFT",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_27",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_27_UPPER_RIGHT",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_27",
+      "requirement": "can_climb",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_climb",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_28",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_29",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_30",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_33_LEFT",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_30",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_27",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_31",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_32",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_32",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_33_LEFT",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_break_floating_block",
+          "can_light_fuses"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_floating_block",
+          "category": "installed_witness"
+        },
+        {
+          "token": "can_light_fuses",
+          "category": "installed_witness"
+        }
+      ],
+      "installed_targets": [
+        "fuse_126"
+      ]
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_34",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_34",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_35",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_35",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_34",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_break_floating_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_floating_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_35",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_36_VERTICAL",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_36_HORIZONTAL",
+      "kind": "exit",
+      "target": "REGION_MUSTARD_MOUNTAIN/ROOM_4_01",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_36_HORIZONTAL",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_39",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_37",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_36_VERTICAL",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_break_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_37",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_38",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_break_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_37",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_40",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_38",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_39",
+      "requirement": "can_climb",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_climb",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_38",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_37",
+      "requirement": {
+        "any": [
+          "can_fly",
+          "can_climb"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_climb",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_40",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_37",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_40",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_41",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_41",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_40",
+      "requirement": {
+        "any": [
+          "can_fly",
+          "can_climb"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_climb",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_41",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_41_UPPER",
+      "requirement": {
+        "all": [
+          "can_fly",
+          "can_break_metal"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_metal",
+          "category": "installed_witness"
+        }
+      ],
+      "installed_targets": [
+        "metal_141_left_forward"
+      ]
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_41_UPPER",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_41__LOGIC__EAST_MOONLIGHT",
+      "requirement": {
+        "all": [
+          "can_break_block",
+          "can_break_metal"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "installed_witness"
+        },
+        {
+          "token": "can_break_metal",
+          "category": "installed_witness"
+        }
+      ],
+      "installed_targets": [
+        "metal_141_right_forward"
+      ]
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_41_UPPER",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_41__LOGIC__TOP_MUSTARD",
+      "requirement": "can_break_floating_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_floating_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_41_UPPER",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_41",
+      "requirement": {
+        "all": [
+          "can_break_block",
+          "can_break_metal"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "installed_witness"
+        },
+        {
+          "token": "can_break_metal",
+          "category": "installed_witness"
+        }
+      ],
+      "installed_targets": [
+        "metal_141_left_reverse"
+      ]
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_42",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_41",
+      "requirement": {
+        "any": [
+          "can_fly",
+          "can_climb"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_climb",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_42",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1",
+      "requirement": "can_climb",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_climb",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_42",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_42_CUT",
+      "requirement": {
+        "all": [
+          "can_cut_ropes",
+          {
+            "any": [
+              "can_fly",
+              "can_climb"
+            ]
+          }
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_cut_ropes",
+          "category": "installed_witness"
+        },
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_climb",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": [
+        "rope_143_23_14"
+      ]
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_42_CUT",
+      "kind": "exit",
+      "target": "REGION_MOONLIGHT_MANSION/ROOM_2_17",
+      "requirement": {
+        "all": [
+          "can_break_block",
+          {
+            "any": [
+              "can_fly",
+              "can_climb"
+            ]
+          }
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        },
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_climb",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_42_CUT",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_42",
+      "requirement": {
+        "all": [
+          "can_climb",
+          "can_break_block"
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_climb",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE_UPPER_PLATFORMS",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_1",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_1",
+      "kind": "location",
+      "target": "GOAL_GAME_1_GOAL_1",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_2",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
+      "requirement": "can_break_floating_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_floating_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_2",
+      "kind": "location",
+      "target": "GOAL_GAME_1_GOAL_2",
+      "requirement": "can_break_floating_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_floating_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_3",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_GOAL_3",
+      "kind": "location",
+      "target": "GOAL_GAME_1_GOAL_3",
+      "requirement": "can_break_block",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1",
+      "kind": "exit",
+      "target": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
+      "requirement": {
+        "all": [
+          "can_fly",
+          {
+            "item": "Rainbow Route East - Hub Connection"
+          }
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_RAINBOW_ROUTE/ROOM_1_WARP",
+      "kind": "exit",
+      "target": "REGION_MOONLIGHT_MANSION/ROOM_2_ENTRY",
+      "requirement": "can_fly",
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    }
+  ],
+  "policy_fallback_targets": [
+    "bomb_517_chocolate",
+    "bomb_733_yellow",
+    "switch_310_mustard_map"
+  ],
+  "scope": "Normalized AP requirement surfaces; exact Boolean alternatives are preserved.",
+  "limitations": [
+    "An installed target is structural coverage, not proof that every source policy is supported.",
+    "Declared Normal alternatives are existing Boolean rules, not newly verified physical routes.",
+    "Unresolved action tokens do not prove an ability is required or a Normal route impossible.",
+    "No global ability source reachability, room-wide acquisition or three-room carry rule is inferred."
+  ]
+}
