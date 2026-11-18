@@ -20,7 +20,7 @@ def test_normal_route_consumes_physical_payloads_without_copy_permission(mode,po
     assert ends and all(p.consumed >= PAYLOADS and p.equipped=='Normal' for p in ends)
     assert not result.retry_assumptions
 
-@pytest.mark.parametrize('spent',list(PAYLOADS))
+@pytest.mark.parametrize('spent',sorted(PAYLOADS))
 def test_spent_payload_cannot_be_manufactured(spent):
     graph=room_traversal_graph(TARGET,'normal_upper_entry')
     graph=replace(graph,starts=tuple(replace(p,consumed=frozenset({spent})) for p in graph.starts))
