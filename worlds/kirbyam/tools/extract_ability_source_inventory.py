@@ -18,6 +18,9 @@ from enrich_native_object_room_usage import build_doors_idx_to_ap_room_keys
 ROOT = Path(__file__).resolve().parents[1]
 DECOMP_REFERENCE_COMMIT = "7d969fbce14fdc838d2c1ea01389717fb96c3189"
 OBJECT_LISTS = 0xD637AC
+# These are dedicated Boss Endurance rooms, not the shared boss arenas.
+# Adventure's Copy Ability Room is 970 and must not be confused with 950.
+BOSS_ENDURANCE_ROOMS = frozenset({950, 951, 955, 956, 957, 969})
 STATUES = {0x92: (0x3538FC, 8), 0x93: (0x353904, 7),
            0x94: (0x35390B, 1), 0x95: (0x35390C, 3)}
 # Native encounter controller translation units, not a guessed global grant map.
@@ -398,13 +401,13 @@ def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dic
         record['bounded_native_evidence'] = {
             'record': 'dev-docs/generated-statue-native-acceptance.json',
             'compartment': 'room951 lower statue floor',
-            'scope': 'Configured local contact and retouch; independent AP entry remains unresolved.'}
+            'scope': 'Configured local contact and retouch in a Boss Endurance room; not Adventure access.'}
     for record in encounter_sources:
         if record['id'] == 'room:955/template:0x088D5CD0/encounter:56/src/mr_frosty.c:762/type:166':
             record['bounded_native_evidence'] = {
                 'record': 'dev-docs/generated-frosty-native-acceptance.json',
                 'compartment': 'room955 arena, live original Frosty',
-                'scope': 'Configured 6 HP arrival; one hit before finite small-cube acquisition. No safe 1 HP route.'}
+                'scope': 'Configured Boss Endurance room fixture; 6 HP arrival and one hit before finite small-cube acquisition. Not Adventure access or a safe 1 HP route.'}
     bindings = {}
     by_template = {(p['native_room'], p['template_address'].lower()): p for p in placements}
 
@@ -427,6 +430,12 @@ def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dic
             nodes = {node['id']: node['native_room'] for node in graph.get('nodes', [])}
             for source in graph.get('sources', []):
                 bind(source, nodes.get(source['node']))
+    for record in native_rooms + placements + generated_statues + spawner_outputs + encounter_sources:
+        if record['native_room'] in BOSS_ENDURANCE_ROOMS:
+            record['world_access'] = {
+                'status': 'outside_adventure', 'mode': 'boss_endurance',
+                'evidence': 'dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room',
+                'reason': 'Dedicated Boss Endurance room; local configured fixtures are not Adventure entries.'}
     return {'version': 1, 'rom_sha1': USA_SHA1, 'decomp_reference_commit': DECOMP_REFERENCE_COMMIT,
             'decomp_file_sha256': source_hashes,
             'scope': 'All native room object lists, including empty and aliased rooms; dynamic census is unresolved.',

@@ -16573,7 +16573,13 @@
       "unused_room_slot": false,
       "spawner_outputs": [],
       "encounter_controllers": [],
-      "encounter_sources": []
+      "encounter_sources": [],
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "native_room": 951,
@@ -16593,7 +16599,13 @@
       "unused_room_slot": false,
       "spawner_outputs": [],
       "encounter_controllers": [],
-      "encounter_sources": []
+      "encounter_sources": [],
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "native_room": 952,
@@ -16658,7 +16670,13 @@
         "room:955/template:0x088D5D18/spawner-output/encounter:57/src/bonkers.c:701/type:168",
         "room:955/template:0x088D5D18/spawner-output/encounter:57/src/bonkers.c:705/type:169",
         "room:955/template:0x088D5CF4/spawner-output/encounter:58/src/phan_phan.c:741/type:170"
-      ]
+      ],
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "native_room": 956,
@@ -16690,7 +16708,13 @@
         "room:956/template:0x088D5D84/spawner-output/encounter:61/src/boxy.c:840/type:173",
         "room:956/template:0x088D5D84/spawner-output/encounter:61/src/boxy.c:846/type:173",
         "room:956/template:0x088D5DA8/spawner-output/encounter:62/src/master_hand.c:2456/type:200"
-      ]
+      ],
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "native_room": 957,
@@ -16717,7 +16741,13 @@
         "room:957/template:0x088D5E38/spawner-output/encounter:63/src/bombar.c:1212/type:178",
         "room:957/template:0x088D5E38/spawner-output/encounter:63/src/bombar.c:1260/type:179",
         "room:957/template:0x088D5E38/spawner-output/encounter:63/src/bombar.c:1269/type:179"
-      ]
+      ],
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "native_room": 958,
@@ -16861,7 +16891,13 @@
       "unused_room_slot": false,
       "spawner_outputs": [],
       "encounter_controllers": [],
-      "encounter_sources": []
+      "encounter_sources": [],
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "native_room": 970,
@@ -124789,7 +124825,13 @@
         "status": "unresolved",
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
-      "repeatability": "retouch"
+      "repeatability": "retouch",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "template_address": "0x088D58DC",
@@ -124820,7 +124862,13 @@
         "status": "unresolved",
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
-      "repeatability": "retouch"
+      "repeatability": "retouch",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "template_address": "0x088D5900",
@@ -124851,7 +124899,13 @@
         "status": "unresolved",
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "template_address": "0x088D5924",
@@ -124882,7 +124936,13 @@
         "status": "unresolved",
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
-      "repeatability": "retouch"
+      "repeatability": "retouch",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "template_address": "0x088D5948",
@@ -124913,7 +124973,13 @@
         "status": "unresolved",
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
-      "repeatability": "retouch"
+      "repeatability": "retouch",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "template_address": "0x088D596C",
@@ -124944,7 +125010,13 @@
         "status": "unresolved",
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
-      "repeatability": "retouch"
+      "repeatability": "retouch",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "template_address": "0x088D5990",
@@ -124975,7 +125047,13 @@
         "status": "unresolved",
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
-      "repeatability": "retouch"
+      "repeatability": "retouch",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "template_address": "0x088D59B4",
@@ -125006,7 +125084,13 @@
         "status": "unresolved",
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
-      "repeatability": "retouch"
+      "repeatability": "retouch",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "template_address": "0x088D59D8",
@@ -125037,7 +125121,13 @@
         "status": "unresolved",
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
-      "repeatability": "retouch"
+      "repeatability": "retouch",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "template_address": "0x088D59FC",
@@ -125068,7 +125158,13 @@
         "status": "unresolved",
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
-      "repeatability": "retouch"
+      "repeatability": "retouch",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "template_address": "0x088D5A20",
@@ -125099,7 +125195,13 @@
         "status": "unresolved",
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
-      "repeatability": "retouch"
+      "repeatability": "retouch",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "template_address": "0x088D5A44",
@@ -125130,7 +125232,13 @@
         "status": "unresolved",
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
-      "repeatability": "retouch"
+      "repeatability": "retouch",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "template_address": "0x088D5A68",
@@ -125161,7 +125269,13 @@
         "status": "unresolved",
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
-      "repeatability": "retouch"
+      "repeatability": "retouch",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "template_address": "0x088D5A8C",
@@ -125192,7 +125306,13 @@
         "status": "unresolved",
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
-      "repeatability": "retouch"
+      "repeatability": "retouch",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "template_address": "0x088D5AB0",
@@ -125223,7 +125343,13 @@
         "status": "unresolved",
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
-      "repeatability": "retouch"
+      "repeatability": "retouch",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "template_address": "0x088D5AD4",
@@ -125254,7 +125380,13 @@
         "status": "unresolved",
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
-      "repeatability": "retouch"
+      "repeatability": "retouch",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "template_address": "0x088D5AF8",
@@ -125285,7 +125417,13 @@
         "status": "unresolved",
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
-      "repeatability": "retouch"
+      "repeatability": "retouch",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "template_address": "0x088D5B1C",
@@ -125316,7 +125454,13 @@
         "status": "unresolved",
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
-      "repeatability": "retouch"
+      "repeatability": "retouch",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "template_address": "0x088D5B40",
@@ -125347,7 +125491,13 @@
         "status": "unresolved",
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
-      "repeatability": "retouch"
+      "repeatability": "retouch",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "template_address": "0x088D5B64",
@@ -125378,7 +125528,13 @@
         "status": "unresolved",
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
-      "repeatability": "retouch"
+      "repeatability": "retouch",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "template_address": "0x088D5BB0",
@@ -125409,7 +125565,13 @@
         "status": "unresolved",
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "template_address": "0x088D5BD4",
@@ -125440,7 +125602,13 @@
         "status": "unresolved",
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "template_address": "0x088D5BF8",
@@ -125471,7 +125639,13 @@
         "status": "unresolved",
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "template_address": "0x088D5C1C",
@@ -125502,7 +125676,13 @@
         "status": "unresolved",
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "template_address": "0x088D5C40",
@@ -125533,7 +125713,13 @@
         "status": "unresolved",
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "template_address": "0x088D5C64",
@@ -125564,7 +125750,13 @@
         "status": "unresolved",
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "template_address": "0x088D5C88",
@@ -125595,7 +125787,13 @@
         "status": "unresolved",
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "template_address": "0x088D5CD0",
@@ -125627,7 +125825,13 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "template_address": "0x088D5CF4",
@@ -125658,7 +125862,13 @@
         "status": "unresolved",
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "template_address": "0x088D5D18",
@@ -125689,7 +125899,13 @@
         "status": "unresolved",
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "template_address": "0x088D5D60",
@@ -125721,7 +125937,13 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "template_address": "0x088D5D84",
@@ -125752,7 +125974,13 @@
         "status": "unresolved",
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "template_address": "0x088D5DA8",
@@ -125783,7 +126011,13 @@
         "status": "unresolved",
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "template_address": "0x088D5DF0",
@@ -125815,7 +126049,13 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "template_address": "0x088D5E14",
@@ -125846,7 +126086,13 @@
         "status": "unresolved",
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "template_address": "0x088D5E38",
@@ -125877,7 +126123,13 @@
         "status": "unresolved",
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "template_address": "0x088D5EA4",
@@ -131344,7 +131596,13 @@
       "bounded_native_evidence": {
         "record": "dev-docs/generated-statue-native-acceptance.json",
         "compartment": "room951 lower statue floor",
-        "scope": "Configured local contact and retouch; independent AP entry remains unresolved."
+        "scope": "Configured local contact and retouch in a Boss Endurance room; not Adventure access."
+      },
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
       }
     },
     {
@@ -131395,7 +131653,13 @@
       "bounded_native_evidence": {
         "record": "dev-docs/generated-statue-native-acceptance.json",
         "compartment": "room951 lower statue floor",
-        "scope": "Configured local contact and retouch; independent AP entry remains unresolved."
+        "scope": "Configured local contact and retouch in a Boss Endurance room; not Adventure access."
+      },
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
       }
     }
   ],
@@ -132902,7 +133166,13 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "id": "room:955/template:0x088D5D18/spawner-output",
@@ -132949,7 +133219,13 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "id": "room:956/template:0x088D5D84/spawner-output",
@@ -132996,7 +133272,13 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "id": "room:956/template:0x088D5DA8/spawner-output",
@@ -133043,7 +133325,13 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "id": "room:957/template:0x088D5E14/spawner-output",
@@ -133090,7 +133378,13 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "id": "room:957/template:0x088D5E38/spawner-output",
@@ -133137,7 +133431,13 @@
         "reason": "Presence does not prove compartment access, acquisition, carry or repeatability."
       },
       "repeatability": "unresolved",
-      "can_be_swallowed": true
+      "can_be_swallowed": true,
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     }
   ],
   "encounter_sources": [
@@ -133247,7 +133547,13 @@
       "bounded_native_evidence": {
         "record": "dev-docs/generated-frosty-native-acceptance.json",
         "compartment": "room955 arena, live original Frosty",
-        "scope": "Configured 6 HP arrival; one hit before finite small-cube acquisition. No safe 1 HP route."
+        "scope": "Configured Boss Endurance room fixture; 6 HP arrival and one hit before finite small-cube acquisition. Not Adventure access or a safe 1 HP route."
+      },
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
       }
     },
     {
@@ -133352,7 +133658,13 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "id": "room:210/template:0x088BF730/encounter:57/src/bonkers.c:701/type:168",
@@ -133560,7 +133872,13 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "id": "room:210/template:0x088BF730/encounter:57/src/bonkers.c:705/type:169",
@@ -133768,7 +134086,13 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "id": "room:224/template:0x088C1F6C/encounter:58/src/phan_phan.c:741/type:170",
@@ -133898,7 +134222,13 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "id": "room:176/template:0x088BAE50/encounter:59/src/batafire.c:905/type:161",
@@ -134028,7 +134358,13 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "id": "room:177/template:0x088BAFE4/encounter:60/src/box_boxer.c:762/type:180",
@@ -134184,7 +134520,13 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "id": "room:148/template:0x088BBF64/encounter:61/src/boxy.c:666/type:176",
@@ -134340,7 +134682,13 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "id": "room:148/template:0x088BBF64/encounter:61/src/boxy.c:783/type:94",
@@ -134496,7 +134844,13 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "id": "room:148/template:0x088BBF64/encounter:61/src/boxy.c:828/type:98",
@@ -134652,7 +135006,13 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "id": "room:148/template:0x088BBF64/encounter:61/src/boxy.c:835/type:39",
@@ -134808,7 +135168,13 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "id": "room:148/template:0x088BBF64/encounter:61/src/boxy.c:840/type:173",
@@ -134964,7 +135330,13 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "id": "room:148/template:0x088BBF64/encounter:61/src/boxy.c:846/type:173",
@@ -135120,7 +135492,13 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "id": "room:415/template:0x088C72DC/encounter:62/src/master_hand.c:2456/type:200",
@@ -135224,7 +135602,13 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "id": "room:232/template:0x088C0D84/encounter:63/src/bombar.c:1212/type:178",
@@ -135328,7 +135712,13 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "id": "room:232/template:0x088C0D84/encounter:63/src/bombar.c:1260/type:179",
@@ -135432,7 +135822,13 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "id": "room:232/template:0x088C0D84/encounter:63/src/bombar.c:1269/type:179",
@@ -135536,7 +135932,13 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "world_access": {
+        "status": "outside_adventure",
+        "mode": "boss_endurance",
+        "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
+        "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
+      }
     },
     {
       "id": "room:324/template:0x088C524C/encounter:69/src/kracko.c:1258/type:18",

@@ -43,6 +43,33 @@ def test_room_reset_clears_activation_without_manufacturing_new_output():
     assert not run([reset, NEEDS_STONE], [SOURCE], starts=[start], gating=False).reaches('other')
 
 
+@pytest.mark.parametrize('revive', [False, True])
+@pytest.mark.parametrize('gating', [False, True])
+def test_reset_and_activation_do_not_recycle_consumed_output_without_revival(revive, gating):
+    reset = Route('pre', 'post', room_transition=True, resets_room_instance=True,
+                  activates_lifetimes=LIFE, revives_lifetimes=LIFE if revive else frozenset())
+    # Swallowing consumes a finite object without necessarily ending its
+    # controller lifetime. Reset must not bypass the separate revival proof.
+    start = Position('pre', consumed=frozenset({'finite-output'}), active=LIFE)
+    assert run([reset, NEEDS_STONE], [SOURCE], starts=[start], gating=gating,
+               owned=frozenset({'Stone Ability'})).reaches('other') is revive
+
+
+def test_revival_of_other_output_does_not_clear_consumption():
+    other = replace(SOURCE, identity='other-output', lifetime='other-instance', source_key='WADDLE_DEE')
+    reset = Route('pre', 'post', room_transition=True, resets_room_instance=True,
+                  activates_lifetimes=LIFE, revives_lifetimes=frozenset({'other-instance'}))
+    start = Position('pre', consumed=frozenset({'finite-output'}), active=LIFE)
+    assert not run([reset, NEEDS_STONE], [SOURCE, other], starts=[start], gating=False).reaches('other')
+
+
+def test_ordinary_source_reset_retains_existing_reacquisition_behavior():
+    reset = Route('pre', 'post', room_transition=True, resets_room_instance=True)
+    start = Position('pre', consumed=frozenset({'finite-output'}))
+    assert run([reset, NEEDS_STONE], [replace(SOURCE, lifetime=None)],
+               starts=[start], gating=False).reaches('other')
+
+
 def test_expiry_preserves_equipment_but_prevents_loss_reacquisition():
     source = replace(SOURCE, node='pre')
     start = Position('pre', active=LIFE)
@@ -97,7 +124,8 @@ def statue_graph():
 def test_native_statue_choice_uses_all_runtime_grants(mode, pool, statues, expected):
     from ..traversal_data import compile_room_graph
     from .test_traversal import policy
-    graph = compile_room_graph(statue_graph(), {}, require_inventory=True)
+    # Isolated mechanics fixture, not a production Adventure graph.
+    graph = compile_room_graph(statue_graph(), {})
     assert len(graph.placements[0].source_choices) == 19
     assert graph.evaluate(policy(mode, pool=pool, statues=statues), frozenset(), False, True).reaches('target') is expected
 
@@ -211,3 +239,10 @@ def test_bounded_evidence_bindings_do_not_mark_unknown_world_access_reviewed():
     bound = [record for record in source_inventory().values() if 'bounded_native_evidence' in record]
     assert len(bound) == 3
     assert all(record['access']['status'] == 'unresolved' for record in bound)
+    assert all(record['world_access']['status'] == 'outside_adventure' for record in bound)
+
+
+def test_boss_endurance_statue_fixture_cannot_be_installed_as_adventure_access():
+    from ..traversal_data import compile_room_graph
+    with pytest.raises(ValueError, match='outside Adventure'):
+        compile_room_graph(statue_graph(), {}, require_inventory=True)

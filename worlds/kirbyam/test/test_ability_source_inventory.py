@@ -44,6 +44,27 @@ def test_native_census_has_explicit_rooms_and_unique_placements():
     assert all(row['status'] == 'unresolved' for row in inventory['encounter_calls'])
 
 
+def test_dedicated_boss_endurance_records_remain_in_census_but_not_adventure_logic():
+    inventory = json.loads((ROOT / 'data/ability_source_inventory.json').read_text())
+    excluded = {950, 951, 955, 956, 957, 969}
+    assert {r['native_room'] for r in inventory['rooms'] if 'world_access' in r} == excluded
+    for row in source_inventory().values():
+        if row['native_room'] in excluded:
+            assert row['world_access']['status'] == 'outside_adventure'
+            with pytest.raises(ValueError, match='outside Adventure'):
+                resolve_inventory_source({'inventory_id': row['id']}, row['native_room'],
+                                         advanced=True, require_inventory=True)
+        else:
+            assert 'world_access' not in row
+    # Copy Ability Room remains an Adventure source, unlike starting room950.
+    statues = [r for r in source_inventory().values()
+               if r['native_room'] == 970 and r['source_type'] == 'statue']
+    assert statues
+    for row in statues:
+        assert resolve_inventory_source({'inventory_id': row['id']}, 970,
+                                        require_inventory=True)['source_key'] == row['source_key']
+
+
 def test_inventory_reference_checks_room_grant_and_unknowns():
     source = payload()['sources'][0]
     assert resolve_inventory_source(source, 401)['source_key'] == 'ROCKY'

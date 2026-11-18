@@ -58,6 +58,8 @@ def resolve_inventory_source(source: Mapping[str, Any], native_room: int,
         raise ValueError(f'Unknown physical ability placement: {identity}')
     if record['native_room'] != native_room:
         raise ValueError(f'Physical ability placement belongs to another room: {identity}')
+    if require_inventory and record.get('world_access', {}).get('status') == 'outside_adventure':
+        raise ValueError(f'Physical ability placement is outside Adventure: {identity}')
     key = record['source_key']
     if key is None:
         choices = record.get('possible_source_keys')

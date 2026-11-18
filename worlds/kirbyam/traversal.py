@@ -679,7 +679,16 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
                 if not route.preserves_room_instance:
                     opened = frozenset()
                 if route.resets_room_instance:
-                    consumed = frozenset()
+                    # A room reset can recreate ordinary placements, but is
+                    # not evidence that a consumed generated output returns.
+                    # Retain its use until this particular lifetime has an
+                    # explicit revival contract, even if it was never marked
+                    # expired (e.g. swallowed before the controller died).
+                    consumed = frozenset(
+                        identity for identity in consumed
+                        if identity in objects and objects[identity][0].lifetime is not None
+                        and objects[identity][0].lifetime not in route.revives_lifetimes
+                    )
                     active = frozenset()
                 if ability == "Mini":
                     ability = "Normal"

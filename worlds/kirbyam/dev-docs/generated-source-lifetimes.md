@@ -9,6 +9,18 @@ activation; explicit revival only permits subsequent generation. It does not
 manufacture a live object. An activation cannot revive an expired output or
 recycle a consumed finite instance.
 
+Finite generated consumption now survives a generic room reset, even when
+the output was swallowed without an explicit expiry edge. Only revival of that
+specific lifetime clears its consumption. Revival of a different output does
+not help. Ordinary placement reset behavior is unchanged. This closes the
+reset-plus-activation bypass without treating a surviving held ability as lost.
+
+Native `level.c` room loading reuses another Kirby's room slot if it remains
+occupied. A newly allocated slot clears room-local object bits and room-local
+state, not the session/world banks used by `sub_080027E8`. Door travel alone
+therefore cannot certify recreation. Native predicate evidence and a physical
+return route remain separate requirements; no RNG reroll guarantee follows.
+
 The lifetime identity is the generated output record, not its parent placement.
 Native `sub_080AA6F8` destroys the random-statue controller after creating two
 independent statues. Ordinary spawner construction likewise does not attach the
@@ -40,9 +52,8 @@ From a configured lower-floor arrival, vanilla contact grants Beam, dropping it
 and retouching the same statue grants Beam again, and singleton shuffled contact
 and retouch grant Cutter. Unowned gated Cutter grants nothing. Both outputs have
 no parent attachment and persist after their controller disappears. The upper
-platform fixture cannot contact them. Room951 has no reviewed independent AP
-entry; the lower-floor fixture does not establish one. No room-reset selection
-or route into the lower floor is inferred.
+platform fixture cannot contact them. Room951 is the Boss Endurance rest room,
+not an Adventure source. No room-reset selection or Adventure route is inferred.
 
 `generated-frosty-native-acceptance.json` binds the original room955 Frosty's
 small-cube call at `src/mr_frosty.c:762`. With singleton shuffled Cutter, the
@@ -51,8 +62,20 @@ cube is attached to that Frosty; its vanilla native grant is Normal. Vanilla and
 unowned gated Cutter controls do not acquire an ability during the matched
 1765-frame checks. Each starts at 6 HP and takes one hit. This is a conditional
 local acquisition witness, not a safe one-hit-mode or independent world route.
-Encounter-generated sources remain Advanced-only, including normally empty
+Room955 is a dedicated Boss Endurance encounter, so this fixture does not install
+Adventure access either. Encounter-generated sources remain Advanced-only, including normally empty
 projectiles that become eligible through the actual runtime configuration.
+
+The inventory preserves dedicated Boss Endurance rooms 950, 951, 955, 956, 957
+and 969 with `world_access.status = outside_adventure`. Production Adventure
+graph compilation rejects their sources; isolated mechanics fixtures can still
+join their native records. Adventure's Copy Ability Room970 and shared boss
+arenas are not excluded. The initializer, Boss Challenge Door destination table
+and boss-clear return handling are documented in
+[`native-room-wikirby-map.md`](native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room).
+The existing native menu checks in `goal-game-evidence.json` separately verify
+inactive AP context in Boss Endurance. An unmapped room alone is not evidence
+of exclusion; only the six specifically identified rooms receive this status.
 
 These records certify the shared mechanics and bounded observations. They do
 not certify all 731 encounter candidates, all branch predicates, phase changes,
