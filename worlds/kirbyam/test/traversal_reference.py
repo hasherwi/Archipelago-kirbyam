@@ -3,7 +3,9 @@
 Keep its unoptimized source expansion unchanged when adjusting the optimized
 source loop. The main/ranged union adds only the independently tested per-route
 required_equipment guard to this reference. The later Normal110 addition extends
-only exact action validation; the unoptimized search loop remains frozen. No
+only exact action validation. #1114 updates the independently tested destination-room
+reset transfer: remote and persistent-bank sources retain consumption. The
+unoptimized source expansion remains frozen. No
 source deduplication is copied. The shared value types and pure policy helpers allow exact full-result comparison.
 This is a synthetic algorithm oracle, not native gameplay evidence.
 """
@@ -220,7 +222,16 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
                 if not route.preserves_room_instance:
                     opened = frozenset()
                 if route.resets_room_instance:
-                    consumed = frozenset()
+                    # Recreate only aliases in the destination's resettable bank.
+                    # Unknown, remote and persistent identities remain spent.
+                    resettable = set()
+                    for identity, aliases in objects.items():
+                        if all(node_by_key[source.node].room == node_by_key[route.target].room
+                               and source.room_reset_respawns
+                               and (source.lifetime is None or source.lifetime in route.revives_lifetimes)
+                               for source in aliases):
+                            resettable.add(identity)
+                    consumed = consumed - resettable
                 if ability == "Mini":
                     ability = "Normal"
                 elif isinstance(ability, frozenset) and "Mini" in ability:

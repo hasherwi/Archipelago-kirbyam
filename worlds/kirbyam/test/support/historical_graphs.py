@@ -38,6 +38,7 @@ def historical_main_compiled(graph: TraversalGraph, target: str, witness: str) -
     for placement in payload['placements']:
         assert placement.pop('lifetime') is None
         assert placement.pop('source_choices') == ()
+        assert placement.pop('room_reset_respawns') is True
     for start in payload['starts']:
         assert start.pop('expired') == frozenset()
         assert start.pop('active') == frozenset()
