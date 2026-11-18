@@ -25,9 +25,9 @@ def _value(world: Any, name: str, default: Any = None) -> Any:
     return getattr(option, "value", option)
 
 
+# Player damage in a replay is execution history, not an acquisition prerequisite.
 _PROFILE = {"ability_randomization_mode": 0, "ability_gating": 0,
-            "minimum_health": 6, "maximum_health": 10,
-            "enemy_health_multiplier": 100, "one_hit_mode": 0}
+            "enemy_health_multiplier": 100}
 
 
 def validate_phone_profile(world: Any, *, require_policy: bool = False) -> bool:
@@ -37,7 +37,7 @@ def validate_phone_profile(world: Any, *, require_policy: bool = False) -> bool:
     profiles cannot publish a stale qualified rule.
     """
     import json
-    values = {name: _value(world, name, 0 if name == "one_hit_mode" else None)
+    values = {name: _value(world, name)
               for name in (*_PROFILE, "room_sanity")}
     for name, value in values.items():
         if type(value) is not int:
@@ -45,8 +45,6 @@ def validate_phone_profile(world: Any, *, require_policy: bool = False) -> bool:
     for name in ("ability_gating", "room_sanity"):
         if values[name] not in (0, 1):
             raise ValueError(f"Phone route profile requires canonical {name}")
-    if values["one_hit_mode"] not in (0, 1, 2):
-        raise ValueError("Phone route profile requires canonical one_hit_mode")
     if values["ability_randomization_mode"] not in (0, 1, 2):
         raise ValueError("Phone route profile requires canonical ability_randomization_mode")
     raw = getattr(world, "_enemy_copy_ability_policy", None)
@@ -71,7 +69,7 @@ def install_phone_rules(world: Any) -> None:
     import json
     from worlds.generic.Rules import add_rule
     qualified = validate_phone_profile(world, require_policy=True)
-    values = {name: _value(world, name, 0 if name == "one_hit_mode" else None)
+    values = {name: _value(world, name)
               for name in (*_PROFILE, "room_sanity")}
     world._phone_route_signature = (tuple(values.items()), json.dumps(
         world._enemy_copy_ability_policy, sort_keys=True, separators=(",", ":")))

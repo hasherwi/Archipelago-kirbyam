@@ -74,10 +74,10 @@ def test_two_distinct_finite_sources_and_normal_ladder_are_required(gating):
 
 
 @pytest.mark.parametrize("field,value", [
-    ("ability_gating", 2), ("minimum_health", 1), ("maximum_health", 10),
-    ("enemy_health_multiplier", 500), ("one_hit_mode", 1), ("area_keys", 1),
+    ("ability_gating", 2),
+    ("enemy_health_multiplier", 500), ("area_keys", 1),
     ("ability_randomization_statues", 1), ("advanced_logic", 1),
-    ("ability_randomization_mode", 2), ("minimum_health", True),
+    ("ability_randomization_mode", 2),
 ])
 def test_profile_changes_cannot_retain_an_installed_witness(field, value):
     world = make_world()
@@ -108,9 +108,9 @@ def test_same_cupid_outcome_does_not_qualify_another_policy():
 
 
 def test_becoming_qualified_after_rules_does_not_publish_missing_chest_guard():
-    world = make_world(maximum_health=10)
+    world = make_world(enemy_health_multiplier=500)
     assert not y.validate_profile(world)
-    world.options.maximum_health.value = 6
+    world.options.enemy_health_multiplier.value = 100
     with pytest.raises(ValueError, match="Yellow Cupid profile changed"):
         y.validate_profile(world)
 
@@ -201,3 +201,18 @@ def test_gating_change_still_requires_reinstalling_rules(original, replacement):
         y.validate_profile(world)
     del world._yellow_cupid_signature
     assert y.validate_profile(world)
+
+
+@pytest.mark.parametrize("one_hit", [0, 1, 2])
+def test_player_health_does_not_replace_finite_cupid_sources(one_hit):
+    world = make_world()
+    world.options.minimum_health.value = 1
+    world.options.maximum_health.value = 10
+    world.options.one_hit_mode.value = one_hit
+    assert y.validate_profile(world)
+    target = world.multiworld.get_location(data.locations[y.LOCATION].label, 1)
+    state = CollectionState(world.multiworld)
+    state.can_reach_region = lambda name, player: name == y.OWNER
+    assert not target.access_rule(state)
+    state.can_reach_region = lambda name, player: name == y.SOURCE_REGION
+    assert target.access_rule(state)

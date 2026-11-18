@@ -122,7 +122,7 @@
     {
       "from": "bomb_733_yellow:upper_source",
       "to": "bomb_733_yellow:loss_pocket",
-      "evidence": "dev-docs/carrot-yellow-cupid-admission.md; Carry upper Cupid through the maze to the hidden-door pocket; observed damage loses Cupid at6479. Exact HP6 profile bounds this route.",
+      "evidence": "dev-docs/carrot-yellow-cupid-admission.md; Carry upper Cupid through the maze to the hidden-door pocket; observed damage loses Cupid at6479. Recorded damage is not a required health cost; the following Normal segment permits voluntarily dropping Cupid.",
       "required_equipment": [
         "Cupid"
       ]

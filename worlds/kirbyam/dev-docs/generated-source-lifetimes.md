@@ -1,5 +1,19 @@
 # Generated source activation and lifetime (#1118)
 
+## Interpreting execution observations
+
+Player damage, failed timings and deaths in the retained fixtures are execution
+observations, not traversal prerequisites or evidence of impossibility. A route
+is not excluded because our controller lost health. References below to an
+unobserved one-HP route describe the retained recording, not a minimum-health
+condition. No player-health restriction is added to the common carry engine.
+Mechanical conditions remain separate: boss-health thresholds that trigger an
+attack, actual grants and ownership, finite objects, equipment loss, room access
+and source lifetime still require their own evidence. Successful acquisition at
+one health setting can support the acquisition mechanism without certifying an
+unrelated entrance, exit, attack branch or infinite reacquisition.
+
+
 Generated inventory candidates require an evidenced activation edge before they
 can be acquired. Permission and reaching the source compartment do not activate
 it. The carry solver tracks active and expired output lifetimes separately from
