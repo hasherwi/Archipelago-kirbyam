@@ -384,6 +384,7 @@ def dark_mind_projectile_contract(source_hash: str, type_id: int, callsite: str)
 
 
 OTHER_ENCOUNTER_REVIEW_SHA256 = {
+    'bronto_burt': '4cca38d388ec3bee7d852ba3491b0945581984048e272d77b468a69c9f28fb82',
     'master_hand': 'daa7f69cdc25505023c85887aa06bc1280f17fd78ea441035f2c99a6917e286e',
     'crazy_hand': 'c86577dacbfe3bfd8a5d3422477e35cc7429dfc10534f9e259df4d5ff6f21212',
     'king_golem': 'ef358db61ff4189e9a158742ea2553a03f94aa2025174626cdfce1cde27ed3aa',
@@ -420,6 +421,8 @@ def other_encounter_contract(source_hashes: dict, type_id: int, callsite: str) -
         dependencies.add('crazy_hand')  # The bullet constructor is in this file.
     if file == 'king_golem':
         dependencies.add('golem')
+    if file == 'wiz' and type_id == 1:
+        dependencies.add('bronto_burt')
     hashes = {'src/' + name + '.c': OTHER_ENCOUNTER_REVIEW_SHA256[name] for name in sorted(dependencies)}
     if any(source_hashes.get(name) != digest for name, digest in hashes.items()):
         return None
@@ -428,7 +431,7 @@ def other_encounter_contract(source_hashes: dict, type_id: int, callsite: str) -
         'dependency_sha256': hashes,
         'generation_function': helper, 'activation': activation,
         'parent_attachment': 'creating encounter controller',
-        'initial_parent_expiry_callback': 'unreviewed' if (file == 'wiz' and type_id == 1) else 'sub_0809F840',
+        'initial_parent_expiry_callback': None if (file == 'wiz' and type_id == 1) else 'sub_0809F840',
         'later_phase_lifetime': 'unresolved; initial callback does not certify all later states',
         'attack_entry_guaranteed': False, 'allocation_success_certified': False,
         'acquisition': 'not_certified', 'repeatability': 'not_certified',
@@ -449,7 +452,11 @@ def other_encounter_contract(source_hashes: dict, type_id: int, callsite: str) -
             branch='first draw nonzero' if type_id == 18 else 'first draw zero; second draw nonzero' if type_id == 19 else 'both draws zero')
     elif file == 'gobbler':
         result.update(output_relationship='three separately tracked baby slots, not one always-live source',
-            child_subtype1='caller baby slot0/1/2')
+            child_subtype1='caller baby slot0/1/2',
+            tracked_child_capacity=3,
+            slot_generation='sub_080E59B4 schedules only NULL slots; first missing slot counter1, later missing slots counter16; sub_080E5A20 processes one counter at a time',
+            tracked_child_release='sub_080E7C54 clears a slot only when its tracked child has base.flags mask0x1000; HP0 alone is not this predicate',
+            regeneration='a newly empty slot still needs a subsequent spawn-attack entry; no immediate replacement or safe retry is certified')
     elif file == 'moley':
         result.update(selection='RandLessThan(7) + OBJ_MOLEY_ROCK', native_alternative_types=list(range(193, 200)),
             output_relationship='one selected object per helper call; includes unconfigured rock and screw outcomes',
@@ -459,6 +466,9 @@ def other_encounter_contract(source_hashes: dict, type_id: int, callsite: str) -
             selection='sub_080E921C RandLessThan(10); selectors8/9 make a second binary selection',
             output_relationship='one helper selected per hat event, including unconfigured football/balloon branches',
             subtype='car/bomb/cloud/apple use health/subtype-conditioned binary parameter; Bronto Burt/Droppy inherit template subtype2')
+    if file == 'wiz' and type_id == 1:
+        result['parent_expiry_limit'] = ('bronto_burt.c:CreateBrontoBurt explicitly sets unk7C to NULL; '
+            'wiz.c:sub_080EA1C0 assigns parent only, so attachment does not install sub_0809F840')
     return result
 
 
@@ -690,7 +700,7 @@ def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dic
                                    if p['native_room'] == room['native_room']]
     source_hashes = {'include/constants/object_types.h':
                      hashlib.sha256((decomp / 'include/constants/object_types.h').read_bytes()).hexdigest()}
-    for relative in ('src/golem.c', 'include/data.h', 'include/object.h', 'src/code_080023A4.c', 'src/ability_objects.c',
+    for relative in ('src/bronto_burt.c', 'src/golem.c', 'include/data.h', 'include/object.h', 'src/code_080023A4.c', 'src/ability_objects.c',
                      'src/object.c', 'src/bonus.c', 'src/chest.c', 'src/level.c'):
         source_hashes[relative] = hashlib.sha256((decomp / relative).read_bytes()).hexdigest()
     calls = []

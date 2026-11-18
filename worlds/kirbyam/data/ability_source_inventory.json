@@ -4,6 +4,7 @@
   "decomp_reference_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
   "decomp_file_sha256": {
     "include/constants/object_types.h": "b4faa1b6ca67d6f70b7be0aba5e1fd37e8529acf6b0b4ecfe88331df862a4fc3",
+    "src/bronto_burt.c": "4cca38d388ec3bee7d852ba3491b0945581984048e272d77b468a69c9f28fb82",
     "src/golem.c": "8399d5f2bad9211e186e7c9a2374ca09de65867d10a8cc35ec28c4ecaac0ed31",
     "include/data.h": "02ca9bb101debdcc792e46cd00f413c660c866bd35758f81ff0a1d86d1440df1",
     "include/object.h": "5ed2e44f4329b09b2acc1d9e20d9259d8c54d70dc6b8afc0431f60f1bca7aa38",
@@ -148888,7 +148889,11 @@
         "acquisition": "not_certified",
         "repeatability": "not_certified",
         "output_relationship": "three separately tracked baby slots, not one always-live source",
-        "child_subtype1": "caller baby slot0/1/2"
+        "child_subtype1": "caller baby slot0/1/2",
+        "tracked_child_capacity": 3,
+        "slot_generation": "sub_080E59B4 schedules only NULL slots; first missing slot counter1, later missing slots counter16; sub_080E5A20 processes one counter at a time",
+        "tracked_child_release": "sub_080E7C54 clears a slot only when its tracked child has base.flags mask0x1000; HP0 alone is not this predicate",
+        "regeneration": "a newly empty slot still needs a subsequent spawn-attack entry; no immediate replacement or safe retry is certified"
       }
     },
     {
@@ -149182,12 +149187,13 @@
         "status": "conditional_native_contract",
         "source_sha256": "850ead2af3f3eaaa092fa5e3647d18b6685c743eb0374e2eec87995bf0a14102",
         "dependency_sha256": {
+          "src/bronto_burt.c": "4cca38d388ec3bee7d852ba3491b0945581984048e272d77b468a69c9f28fb82",
           "src/wiz.c": "850ead2af3f3eaaa092fa5e3647d18b6685c743eb0374e2eec87995bf0a14102"
         },
         "generation_function": "sub_080EA1C0",
         "activation": "selector6",
         "parent_attachment": "creating encounter controller",
-        "initial_parent_expiry_callback": "unreviewed",
+        "initial_parent_expiry_callback": null,
         "later_phase_lifetime": "unresolved; initial callback does not certify all later states",
         "attack_entry_guaranteed": false,
         "allocation_success_certified": false,
@@ -149196,7 +149202,8 @@
         "attack_callback": "sub_080E9034: header.unk1 == 0x28 calls sub_080E921C",
         "selection": "sub_080E921C RandLessThan(10); selectors8/9 make a second binary selection",
         "output_relationship": "one helper selected per hat event, including unconfigured football/balloon branches",
-        "subtype": "car/bomb/cloud/apple use health/subtype-conditioned binary parameter; Bronto Burt/Droppy inherit template subtype2"
+        "subtype": "car/bomb/cloud/apple use health/subtype-conditioned binary parameter; Bronto Burt/Droppy inherit template subtype2",
+        "parent_expiry_limit": "bronto_burt.c:CreateBrontoBurt explicitly sets unk7C to NULL; wiz.c:sub_080EA1C0 assigns parent only, so attachment does not install sub_0809F840"
       }
     },
     {

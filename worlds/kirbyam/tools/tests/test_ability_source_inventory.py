@@ -359,7 +359,14 @@ class RemainingConfiguredEncounterContractTests(unittest.TestCase):
         self.assertEqual(moley['native_alternative_types'], list(range(193, 200)))
         self.assertIn('unconfigured rock and screw', moley['output_relationship'])
         bronto = extract.other_encounter_contract(hashes, 1, 'src/wiz.c:1161')
-        self.assertEqual(bronto['initial_parent_expiry_callback'], 'unreviewed')
+        self.assertIsNone(bronto['initial_parent_expiry_callback'])
+        self.assertIn('src/bronto_burt.c', bronto['dependency_sha256'])
+        changed = dict(hashes, **{'src/bronto_burt.c': 'changed'})
+        self.assertIsNone(extract.other_encounter_contract(changed, 1, 'src/wiz.c:1161'))
+        gobbler = extract.other_encounter_contract(hashes, 159, 'src/gobbler.c:2378')
+        self.assertEqual(gobbler['tracked_child_capacity'], 3)
+        self.assertIn('only NULL slots', gobbler['slot_generation'])
+        self.assertIn('HP0 alone is not', gobbler['tracked_child_release'])
         self.assertIsNone(extract.other_encounter_contract(hashes, 200, 'src/wiz.c:1161'))
 
     def test_all_configured_candidates_have_conditional_generation_facts_not_access(self):

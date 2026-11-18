@@ -108,3 +108,26 @@ def test_random_statue_slot_cannot_multiply_its_fixed_native_selection():
             'inventory_id': 'room:951/template:0x088D5BF8/statue-slot:0',
             'generation_instance': 'reroll', 'instance_evidence': 'invented',
         }, 951, advanced=True)
+
+
+@pytest.mark.parametrize('mode,pool,weight,expected', [
+    (0, None, 0, True),
+    (1, ['Stone'], 0, True),
+    (1, ['Ice'], 0, False),
+    (2, ['Stone'], 0, True),
+    (2, ['Stone', 'Ice'], 0, False),
+    (2, ['Stone'], 100, False),
+])
+@pytest.mark.parametrize('gating,owned', [(False, False), (True, False), (True, True), (True, 'both')])
+def test_two_finite_occurrences_preserve_runtime_grants_and_permission(mode, pool, weight, expected, gating, owned):
+    graph = compile_room_graph(payload(), {}, advanced=True, require_inventory=True)
+    items = (frozenset({'Stone Ability', 'Ice Ability'}) if owned == 'both' else
+             frozenset({'Stone Ability'}) if owned else frozenset())
+    result = graph.evaluate(policy(mode=mode, pool=pool, weight=weight), items, gating=gating,
+                            allow_documented_retries=True)
+    # Runtime gating filters the live pool before drawing: only owning Stone
+    # makes a zero-failure Stone/Ice pool a singleton. Owning both restores risk.
+    if mode == 2 and pool == ['Stone', 'Ice'] and gating and owned is True:
+        expected = True
+    # Enabling random retries cannot turn two finite draws into guaranteed Stone.
+    assert result.reaches('goal') is bool(expected and (owned or not gating))

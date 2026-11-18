@@ -394,3 +394,14 @@ no-ability controls remain alive and Normal at their matched positive endpoints,
 but die later. The 500% health fixture dies before acquisition. These failures
 remain part of the evidence: neither universal safe acquisition nor repeatable
 reacquisition, world entry, a defeat suffix or onward carry is established.
+
+Gobbler's three child slots are separately tracked. `sub_080E59B4` schedules
+only NULL slots: the first missing slot uses counter1 and subsequent missing
+slots counter16; `sub_080E5A20` advances one counter at a time. The cleanup
+callback clears pointers on the child's destruction flag, not HP0 alone. A
+newly empty slot still requires another spawn-attack entry; neither a free slot
+nor an earlier acquisition guarantees safe replacement. Wiz's Bronto Burt
+constructor explicitly leaves its secondary callback NULL. Wiz assigns a
+parent pointer without installing `sub_0809F840`, so parent attachment alone
+cannot justify a parent-death expiry edge. Both constructor files are pinned
+for that contract; later-state behavior and safe world access remain unresolved.
