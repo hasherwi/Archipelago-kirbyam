@@ -20,8 +20,7 @@
   ],
   "public_profile_fallbacks": {
     "native": [
-      "bomb_733_yellow",
-      "switch_310_mustard_map"
+      "bomb_733_yellow"
     ],
     "shuffled_seed427": [
       "bomb_733_yellow"

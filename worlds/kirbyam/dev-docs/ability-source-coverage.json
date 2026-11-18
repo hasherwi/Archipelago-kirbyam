@@ -17,8 +17,8 @@
     "statue": 95
   },
   "unknown_inventory_references": [],
-  "reviewed_inventory_references": 109,
-  "distinct_referenced_placements": 108,
+  "reviewed_inventory_references": 111,
+  "distinct_referenced_placements": 109,
   "unbound_source_or_encounter_placements": [
     "room:101/template:0x088B6950",
     "room:101/template:0x088B6974",
@@ -685,7 +685,6 @@
     "room:310/template:0x088C3F5C",
     "room:310/template:0x088C3F80",
     "room:310/template:0x088C3FC8",
-    "room:310/template:0x088C3FEC",
     "room:312/template:0x088C4038",
     "room:312/template:0x088C40C8",
     "room:312/template:0x088C40EC",

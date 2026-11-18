@@ -136,8 +136,9 @@ def test_exact_owner_native_rooms_and_unchanged_neighbor_contracts():
     # The main merge deliberately changes its reviewed targets. Keep the old native
     # record historical; compare those targets against the separate pinned union.
     union = json.loads((ROOT / 'dev-docs/main-ranged-union-catalog.json').read_text())
-    current = {t['id']: t for t in raw_targets(rooms)}
-    targets = {t['id']: t for t in raw_targets(before_reviewed_fire719_addition(rooms))}
+    from .support.kibble310_history import before_kibble310
+    current = {t['id']: before_kibble310(t) for t in raw_targets(rooms)}
+    targets = {t['id']: before_kibble310(t) for t in raw_targets(before_reviewed_fire719_addition(rooms))}
     assert len(e['preserved_target_sha256']) == 37
     for name, sha256 in e['preserved_target_sha256'].items():
         if name in union['main_changed_targets']:

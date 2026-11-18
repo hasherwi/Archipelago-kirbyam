@@ -265,18 +265,20 @@ def _validate_target(row: Mapping[str, Any]) -> None:
     if "requires_any_guaranteed_source" in row:
         if "requires_guaranteed_source" in row:
             raise ValueError("Guaranteed-source conditions are mutually exclusive")
-        # This is a disjunction of two independently witnessed physical sources,
-        # not a general permission to combine source policies on other targets.
-        if alternatives != [
-            {"source_key": "SPARKY", "ability": "Spark"},
-            {"source_key": "SWORD_KNIGHT", "ability": "Sword"},
-        ] or (
-            row.get("id"), row.get("kind"), row.get("native_room"), row.get("region"), row.get("exit"),
-        ) != (
-            "bomb_110_room9", "block", 110, "REGION_RAINBOW_ROUTE/ROOM_1_08",
-            "REGION_RAINBOW_ROUTE/ROOM_1_09",
-        ):
-            raise ValueError("Unsupported target-specific guaranteed-source alternatives")
+        scoped_alternatives = (
+            ([{"source_key": "SPARKY", "ability": "Spark"},
+              {"source_key": "SWORD_KNIGHT", "ability": "Sword"}],
+             ("bomb_110_room9", "block", 110, "REGION_RAINBOW_ROUTE/ROOM_1_08",
+              "REGION_RAINBOW_ROUTE/ROOM_1_09", None)),
+            ([{"source_key": "TWISTER", "abilities": ["UFO", "Crash", "Cupid", "Cutter"]},
+              {"source_key": "SIR_KIBBLE", "ability": "Cutter"}],
+             ("switch_310_mustard_map", "switch", 310, "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST",
+              None, "MAJOR_CHEST_MUSTARD_MOUNTAIN")),
+        )
+        if not any(alternatives == expected and tuple(row.get(key) for key in (
+                "id", "kind", "native_room", "region", "exit", "location")) == target
+                   for expected, target in scoped_alternatives):
+            raise ValueError("Unsupported target-specific guaranteed-source alternatives; reviewed chest target only")
     # These selective carry proofs may not spread to another source or surface.
     scoped_conditions = (
         ({"source_key": "TWISTER", "abilities": ["UFO", "Crash", "Cupid", "Cutter"]}, (

@@ -16,7 +16,8 @@ The current source-backed subset includes:
 - Conditional 533 small-switch alternatives: Bomb, UFO, Crash and bounded Magic
   Meta Knight. Each has its own `mustard-room15-*-source-witness.md` record;
   the original Bomb record is `mustard-room15-source-witness.md`.
-- Conditional 310 map alternatives: UFO, Crash, Cupid and Cutter, documented in their
+- Conditional 310 map alternatives: four Twister witnesses (UFO, Crash, Cupid and Cutter)
+  and local Sir Kibble Cutter, documented in their
   `mustard-map-*-source-witness.md` records.
 - The 825 Sound Effects target is unconditional, with four OR witnesses: finite
   Frosty Ice/UFO and independent Central/Peppermint290 statue Ice. Only the finite
@@ -41,7 +42,7 @@ ability, arbitrary range, collision equivalence or a complete route.
 
 ## AP ownership census
 
-`tools/build_ranged_target_coverage.py` reads production-normalized `data.regions` rather than a parallel raw-room loader. After integration with the source-aware metal traversal baseline it covers 386 regions, including 354 mapped native definitions, area/other connectivity and synthetic RoomSanity sinks. It records 401 uniquely owned locations, including 263 RoomSanity checks, and 1,108 location/exit surfaces. All 58 current traversal target definitions (148 witnesses) bind to exact normalized surfaces. The top-level union catalog has 56 rows; normalization adds `mini_321_right_lower` and `fuse_323`. These counts describe AP structure, **not** the number of attack-dependent targets.
+`tools/build_ranged_target_coverage.py` reads production-normalized `data.regions` rather than a parallel raw-room loader. After integration with the source-aware metal traversal baseline it covers 386 regions, including 354 mapped native definitions, area/other connectivity and synthetic RoomSanity sinks. It records 401 uniquely owned locations, including 263 RoomSanity checks, and 1,108 location/exit surfaces. All 58 current traversal target definitions (149 witnesses) bind to exact normalized surfaces. The top-level union catalog has 56 rows; normalization adds `mini_321_right_lower` and `fuse_323`. These counts describe AP structure, **not** the number of attack-dependent targets.
 
 Generated JSON includes SHA-256 hashes of the normalizer, every data JSON and native mapping. Tests cover moved location ownership, nested Mustard Mini/Fuse targets, Carrot's overridden compartment entrance, area adjacency and RoomSanity sinks. RoomSanity is recorded separately and must not inherit a chest/exit attack gate.
 
@@ -655,3 +656,10 @@ Eight cold production-fixture runs cover HP 1/6 × health 100%/500% with matched
 no-freeze controls. This is not arbitrary carried-Ice access or a mixed/failable
 source guarantee. The second spawned Foley is one finite projectile, not an
 unlimited source. The route is available at both logic levels; all unrelated targets are unchanged.
+
+The local Sir Kibble alternative in [#1117](https://github.com/hasherwi/Archipelago-kirbyam/issues/1117)
+now enforces physical acquisition for the native Mustard map profile. It adds
+one separately verified graph, preserving all four Twister alternatives. The
+[acceptance record](mustard-map-kibble-source-witness.md) covers finite first
+acquisition, carried Cutter and setting-specific timed crossings; unsupported
+source policies still require the separate #1119 work.

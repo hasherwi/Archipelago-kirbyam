@@ -14,9 +14,10 @@ facts, not copied ROM payloads. The source grant key points to the existing
 `SourcePolicy`, which uses actual runtime writes/configuration in vanilla,
 shuffled and live-random modes. No new random-assignment approximation is used.
 
-All 133 ordinary source rows in existing reviewed source sets and graph parts
-now join this inventory through 109 legacy identity bindings (108 distinct
-placements). The reviewed graph JSON and its fingerprints are unchanged.
+All 134 ordinary source rows in existing reviewed source sets and graph parts
+now join this inventory through 110 legacy identity bindings (109 distinct
+placements). The pre-existing reviewed graphs and their fingerprints are
+unchanged; #1117 adds a separately verified local Sir Kibble alternative.
 Production room graphs require an inventory binding; isolated solver fixtures
 retain their explicit synthetic-source API. Compilation rejects unknown
 references, room and
@@ -106,11 +107,14 @@ behavior are still present. The draft neither invents those witnesses nor
 reports unreviewed routes as physically impossible.
 
 
-## Deferred route evidence
+## Follow-up evidence
 
-Per the requested broad mechanical scope, individual ambiguous routes are tracked
-outside this PR: [Mustard local Cutter route #1117](https://github.com/hasherwi/Archipelago-kirbyam/issues/1117),
-[generated activation/lifetimes #1118](https://github.com/hasherwi/Archipelago-kirbyam/issues/1118),
-and [remaining legacy fallbacks #1119](https://github.com/hasherwi/Archipelago-kirbyam/issues/1119).
-These follow-ups are not completed by catalog coverage. The exact requested
-changelog wording must not be used as evidence that every legacy gate is fixed.
+The separately verified [Mustard local Cutter route #1117](https://github.com/hasherwi/Archipelago-kirbyam/issues/1117)
+is now included; its [native witness](mustard-map-kibble-source-witness.md) and
+acceptance manifest document bounded claims; earlier failed timings remain in
+the private evidence packets.
+[Generated activation/lifetimes #1118](https://github.com/hasherwi/Archipelago-kirbyam/issues/1118)
+and [remaining legacy fallbacks #1119](https://github.com/hasherwi/Archipelago-kirbyam/issues/1119)
+are being addressed separately in sequence. Catalog coverage alone does not
+complete them. The exact requested changelog wording must not be used as evidence
+that every legacy gate is fixed.

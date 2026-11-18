@@ -7973,15 +7973,6 @@
           "kind": "switch",
           "native_room": 310,
           "location": "MAJOR_CHEST_MUSTARD_MOUNTAIN",
-          "requires_guaranteed_source": {
-            "source_key": "TWISTER",
-            "abilities": [
-              "UFO",
-              "Crash",
-              "Cupid",
-              "Cutter"
-            ]
-          },
           "graphs": {
             "hub4_ufo_entry": {
               "version": 1,
@@ -8327,10 +8318,126 @@
                 "source_key": "TWISTER",
                 "ability": "Cutter"
               }
+            },
+            "hub4_kibble_cutter_entry": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4"
+              },
+              "nodes": [
+                {
+                  "id": "switch_310_mustard_map:kibble_hub4",
+                  "native_room": 590
+                },
+                {
+                  "id": "switch_310_mustard_map:kibble_rainbow34",
+                  "native_room": 534
+                },
+                {
+                  "id": "switch_310_mustard_map:kibble_arrival",
+                  "native_room": 310
+                },
+                {
+                  "id": "switch_310_mustard_map:kibble_source",
+                  "native_room": 310
+                },
+                {
+                  "id": "switch_310_mustard_map:kibble_roof",
+                  "native_room": 310
+                },
+                {
+                  "id": "switch_310_mustard_map:kibble_crossed",
+                  "native_room": 310
+                },
+                {
+                  "id": "switch_310_mustard_map:kibble_chest",
+                  "native_room": 310
+                }
+              ],
+              "starts": [
+                "switch_310_mustard_map:kibble_hub4"
+              ],
+              "required_targets": [
+                "switch_310_mustard_map:kibble_chest"
+              ],
+              "sources": [
+                {
+                  "id": "0x088C3FEC",
+                  "inventory_id": "room:310/template:0x088C3FEC",
+                  "node": "switch_310_mustard_map:kibble_source",
+                  "source_key": "SIR_KIBBLE",
+                  "acquisition_evidence": "dev-docs/mustard-map-kibble-source-witness.md; Original finite Sir Kibble, actual Normal inhale/swallow before barrier; raw guaranteed Cutter and ownership required, never a possible random draw."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "switch_310_mustard_map:kibble_hub4",
+                  "to": "switch_310_mustard_map:kibble_rainbow34",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/mustard-map-kibble-source-witness.md; Single forward door, no retry loop.",
+                  "evidence": "dev-docs/mustard-map-kibble-source-witness.md; Normal590 to534 through the real door; independent Rainbow Hub4 access."
+                },
+                {
+                  "from": "switch_310_mustard_map:kibble_rainbow34",
+                  "to": "switch_310_mustard_map:kibble_arrival",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "dev-docs/mustard-map-kibble-source-witness.md; Single forward door, no retry loop.",
+                  "evidence": "dev-docs/mustard-map-kibble-source-witness.md; Normal air puffs, slides and flight through534, entering310 through the upper-right door. No permission or source assumed."
+                },
+                {
+                  "from": "switch_310_mustard_map:kibble_arrival",
+                  "to": "switch_310_mustard_map:kibble_source",
+                  "evidence": "dev-docs/mustard-map-kibble-source-witness.md; Normal approach to original Sir Kibble176,88 before the switch barrier; finite inhale and swallow."
+                },
+                {
+                  "from": "switch_310_mustard_map:kibble_source",
+                  "to": "switch_310_mustard_map:kibble_roof",
+                  "required_equipment": [
+                    "Cutter"
+                  ],
+                  "evidence": "dev-docs/mustard-map-kibble-source-witness.md; Carry acquired Cutter to the dry roof without damage or other acquisition."
+                },
+                {
+                  "from": "switch_310_mustard_map:kibble_roof",
+                  "to": "switch_310_mustard_map:kibble_crossed",
+                  "capability": "switch_310_kibble_cutter_roof_returns",
+                  "evidence": "dev-docs/mustard-map-kibble-source-witness.md; Bounded UP throws clear Chip; delayed DOWN roof returns cycle the switch and avoid live Knight during full-body gate crossing. No persistent open credit."
+                },
+                {
+                  "from": "switch_310_mustard_map:kibble_crossed",
+                  "to": "switch_310_mustard_map:kibble_chest",
+                  "required_equipment": [
+                    "Cutter"
+                  ],
+                  "evidence": "dev-docs/mustard-map-kibble-source-witness.md; Retained Cutter breaks the final obstruction; native chest39 and AP3960205 observed with no native map delivery."
+                }
+              ],
+              "requires_guaranteed_source": {
+                "source_key": "SIR_KIBBLE",
+                "ability": "Cutter"
+              }
             }
           },
           "advanced_graphs": [
             "hub4_crash_entry"
+          ],
+          "requires_any_guaranteed_source": [
+            {
+              "source_key": "TWISTER",
+              "abilities": [
+                "UFO",
+                "Crash",
+                "Cupid",
+                "Cutter"
+              ]
+            },
+            {
+              "source_key": "SIR_KIBBLE",
+              "ability": "Cutter"
+            }
           ]
         }
       ]

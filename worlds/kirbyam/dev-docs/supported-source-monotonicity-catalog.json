@@ -7,17 +7,17 @@
     "worlds/kirbyam/enemy_ability_data.py": "53a3b016462f875e43a036de2739b8315b87962f68aeda9e0eb74725eaa36e2a",
     "worlds/kirbyam/enemy_ability_runtime_patch.py": "22d2ea7c858c23f57112e0af40320fa94c68038ce2bad185655c2d9a436d6f55",
     "worlds/kirbyam/data/abilities.json": "d180e496d17544579aefca6714716f27e7d0c8fdbfcc40196a72ef441a5c5f22",
-    "worlds/kirbyam/traversal.py": "6d5676d54cc783674af303cf6a02159ca68a251ee14efcc578c7f6687d5b3c5a",
-    "worlds/kirbyam/traversal_data.py": "1a123627f329d9297d6f6aabdf5d767964fbbf826dd9a70f1b14ec9ef19e194b",
+    "worlds/kirbyam/traversal.py": "ba272952da87857e7e857dfeaa72c8a4805cabb97d78343b90ea2c28b4cf1766",
+    "worlds/kirbyam/traversal_data.py": "20eb14f22055237e744d769078a39d03fce9244b48e123812cd8197d1ecd520d",
     "worlds/kirbyam/master_source.py": "ff8d987ae8913391865c2c8c28dd4efe01d83546eefdb4d965032b944dd11e2e",
-    "worlds/kirbyam/data/regions/rooms.json": "87b169da8d9732d0e4c0e944e8e528cc500f7b3ca67f147019e50569d0f1aa3e",
+    "worlds/kirbyam/data/regions/rooms.json": "05a0a7580041d272d114e6e742bd80a7067db1f5fb8d9a6c931d8b4ad28964ff",
     "worlds/kirbyam/phone_traversal.py": "2b0bcaa85287451856188362f45d22d176bb743c045d119b1a1d0e94486115c3",
     "worlds/kirbyam/rules.py": "7c21059da144662d641b9cbe09efdb75c47b6999d03084b02b4d5fe15a3bd180",
     "worlds/kirbyam/ability_source_inventory.py": "f6e0577948f263f85493ca7bbff1854ea76af1c232963f1ffc0c25d43145aa9a",
-    "worlds/kirbyam/data/ability_source_inventory.json": "1ac75d7c35d6d64f0d633b0b06dc7f5cf261b496c92e22be375f2f0ba32212c9"
+    "worlds/kirbyam/data/ability_source_inventory.json": "25c26eedc8fd113b9b33dc96a844c57a763b8e16af338a30aca40d70a8fc743f"
   },
-  "witnesses": 148,
-  "variants": 296,
+  "witnesses": 149,
+  "variants": 298,
   "valid_pool": [
     "Beam",
     "Bomb",
@@ -197,6 +197,9 @@
       "Cupid"
     ],
     "switch_310_cutter_five_roof_returns": [
+      "Cutter"
+    ],
+    "switch_310_kibble_cutter_roof_returns": [
       "Cutter"
     ],
     "switch_825_ufo_top_charge": [
@@ -761,6 +764,14 @@
       {
         "source_key": "TWISTER",
         "identity": "0x088B59B4",
+        "renewable": false,
+        "documented_retry": false
+      }
+    ],
+    "SIR_KIBBLE@0x088C3FEC": [
+      {
+        "source_key": "SIR_KIBBLE",
+        "identity": "0x088C3FEC",
         "renewable": false,
         "documented_retry": false
       }
@@ -7503,16 +7514,22 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "TWISTER",
-        "abilities": [
-          "UFO",
-          "Crash",
-          "Cupid",
-          "Cutter"
-        ]
-      },
-      "target_source_alternatives": null,
+      "target_source_condition": null,
+      "target_source_alternatives": [
+        {
+          "source_key": "TWISTER",
+          "abilities": [
+            "UFO",
+            "Crash",
+            "Cupid",
+            "Cutter"
+          ]
+        },
+        {
+          "source_key": "SIR_KIBBLE",
+          "ability": "Cutter"
+        }
+      ],
       "graph_source_condition": null,
       "equipment_routes": []
     },
@@ -7538,16 +7555,22 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "TWISTER",
-        "abilities": [
-          "UFO",
-          "Crash",
-          "Cupid",
-          "Cutter"
-        ]
-      },
-      "target_source_alternatives": null,
+      "target_source_condition": null,
+      "target_source_alternatives": [
+        {
+          "source_key": "TWISTER",
+          "abilities": [
+            "UFO",
+            "Crash",
+            "Cupid",
+            "Cutter"
+          ]
+        },
+        {
+          "source_key": "SIR_KIBBLE",
+          "ability": "Cutter"
+        }
+      ],
       "graph_source_condition": null,
       "equipment_routes": []
     },
@@ -7573,16 +7596,22 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "TWISTER",
-        "abilities": [
-          "UFO",
-          "Crash",
-          "Cupid",
-          "Cutter"
-        ]
-      },
-      "target_source_alternatives": null,
+      "target_source_condition": null,
+      "target_source_alternatives": [
+        {
+          "source_key": "TWISTER",
+          "abilities": [
+            "UFO",
+            "Crash",
+            "Cupid",
+            "Cutter"
+          ]
+        },
+        {
+          "source_key": "SIR_KIBBLE",
+          "ability": "Cutter"
+        }
+      ],
       "graph_source_condition": [
         "TWISTER",
         "Crash"
@@ -7626,16 +7655,22 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "TWISTER",
-        "abilities": [
-          "UFO",
-          "Crash",
-          "Cupid",
-          "Cutter"
-        ]
-      },
-      "target_source_alternatives": null,
+      "target_source_condition": null,
+      "target_source_alternatives": [
+        {
+          "source_key": "TWISTER",
+          "abilities": [
+            "UFO",
+            "Crash",
+            "Cupid",
+            "Cutter"
+          ]
+        },
+        {
+          "source_key": "SIR_KIBBLE",
+          "ability": "Cutter"
+        }
+      ],
       "graph_source_condition": [
         "TWISTER",
         "Crash"
@@ -7679,16 +7714,22 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "TWISTER",
-        "abilities": [
-          "UFO",
-          "Crash",
-          "Cupid",
-          "Cutter"
-        ]
-      },
-      "target_source_alternatives": null,
+      "target_source_condition": null,
+      "target_source_alternatives": [
+        {
+          "source_key": "TWISTER",
+          "abilities": [
+            "UFO",
+            "Crash",
+            "Cupid",
+            "Cutter"
+          ]
+        },
+        {
+          "source_key": "SIR_KIBBLE",
+          "ability": "Cutter"
+        }
+      ],
       "graph_source_condition": [
         "TWISTER",
         "Cupid"
@@ -7732,16 +7773,22 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "TWISTER",
-        "abilities": [
-          "UFO",
-          "Crash",
-          "Cupid",
-          "Cutter"
-        ]
-      },
-      "target_source_alternatives": null,
+      "target_source_condition": null,
+      "target_source_alternatives": [
+        {
+          "source_key": "TWISTER",
+          "abilities": [
+            "UFO",
+            "Crash",
+            "Cupid",
+            "Cutter"
+          ]
+        },
+        {
+          "source_key": "SIR_KIBBLE",
+          "ability": "Cutter"
+        }
+      ],
       "graph_source_condition": [
         "TWISTER",
         "Cupid"
@@ -7785,16 +7832,22 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "TWISTER",
-        "abilities": [
-          "UFO",
-          "Crash",
-          "Cupid",
-          "Cutter"
-        ]
-      },
-      "target_source_alternatives": null,
+      "target_source_condition": null,
+      "target_source_alternatives": [
+        {
+          "source_key": "TWISTER",
+          "abilities": [
+            "UFO",
+            "Crash",
+            "Cupid",
+            "Cutter"
+          ]
+        },
+        {
+          "source_key": "SIR_KIBBLE",
+          "ability": "Cutter"
+        }
+      ],
       "graph_source_condition": [
         "TWISTER",
         "Cutter"
@@ -7838,16 +7891,22 @@
           "recover_dropped_ability": false
         }
       ],
-      "target_source_condition": {
-        "source_key": "TWISTER",
-        "abilities": [
-          "UFO",
-          "Crash",
-          "Cupid",
-          "Cutter"
-        ]
-      },
-      "target_source_alternatives": null,
+      "target_source_condition": null,
+      "target_source_alternatives": [
+        {
+          "source_key": "TWISTER",
+          "abilities": [
+            "UFO",
+            "Crash",
+            "Cupid",
+            "Cutter"
+          ]
+        },
+        {
+          "source_key": "SIR_KIBBLE",
+          "ability": "Cutter"
+        }
+      ],
       "graph_source_condition": [
         "TWISTER",
         "Cutter"
@@ -13977,6 +14036,124 @@
           "to": "bomb_617_radish_map:chest",
           "required_equipment": [
             "Normal"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "switch_310_mustard_map",
+      "witness": "hub4_kibble_cutter_entry",
+      "area_keys": false,
+      "source_ids": [
+        "SIR_KIBBLE@0x088C3FEC"
+      ],
+      "capability_routes": [
+        {
+          "from": "switch_310_mustard_map:kibble_roof",
+          "to": "switch_310_mustard_map:kibble_crossed",
+          "capability": "switch_310_kibble_cutter_roof_returns",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Cutter"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": [
+        {
+          "source_key": "TWISTER",
+          "abilities": [
+            "UFO",
+            "Crash",
+            "Cupid",
+            "Cutter"
+          ]
+        },
+        {
+          "source_key": "SIR_KIBBLE",
+          "ability": "Cutter"
+        }
+      ],
+      "graph_source_condition": [
+        "SIR_KIBBLE",
+        "Cutter"
+      ],
+      "equipment_routes": [
+        {
+          "from": "switch_310_mustard_map:kibble_source",
+          "to": "switch_310_mustard_map:kibble_roof",
+          "required_equipment": [
+            "Cutter"
+          ]
+        },
+        {
+          "from": "switch_310_mustard_map:kibble_crossed",
+          "to": "switch_310_mustard_map:kibble_chest",
+          "required_equipment": [
+            "Cutter"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "switch_310_mustard_map",
+      "witness": "hub4_kibble_cutter_entry",
+      "area_keys": true,
+      "source_ids": [
+        "SIR_KIBBLE@0x088C3FEC"
+      ],
+      "capability_routes": [
+        {
+          "from": "switch_310_mustard_map:kibble_roof",
+          "to": "switch_310_mustard_map:kibble_crossed",
+          "capability": "switch_310_kibble_cutter_roof_returns",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Cutter"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": [
+        {
+          "source_key": "TWISTER",
+          "abilities": [
+            "UFO",
+            "Crash",
+            "Cupid",
+            "Cutter"
+          ]
+        },
+        {
+          "source_key": "SIR_KIBBLE",
+          "ability": "Cutter"
+        }
+      ],
+      "graph_source_condition": [
+        "SIR_KIBBLE",
+        "Cutter"
+      ],
+      "equipment_routes": [
+        {
+          "from": "switch_310_mustard_map:kibble_source",
+          "to": "switch_310_mustard_map:kibble_roof",
+          "required_equipment": [
+            "Cutter"
+          ]
+        },
+        {
+          "from": "switch_310_mustard_map:kibble_crossed",
+          "to": "switch_310_mustard_map:kibble_chest",
+          "required_equipment": [
+            "Cutter"
           ]
         }
       ]

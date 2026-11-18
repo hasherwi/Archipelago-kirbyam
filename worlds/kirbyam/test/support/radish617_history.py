@@ -12,7 +12,8 @@ def before_radish617_targets(rows):
     assert added['owner'] == OWNER
     assert hashlib.sha256(json.dumps(added['target'], sort_keys=True).encode()).hexdigest() == (
         'da4f72bd492a4df1dec26fd997972ec500b72e39f54a26ea03911f22867e4cd8')
-    return [row for row in rows if row is not added]
+    from .kibble310_history import before_kibble310
+    return [{**row, 'target': before_kibble310(row['target'])} for row in rows if row is not added]
 
 
 def before_radish617_surfaces(rows):
@@ -26,7 +27,8 @@ def before_radish617_surfaces(rows):
 
 
 def catalog_before_radish617(catalog):
-    result = deepcopy(catalog)
+    from .kibble310_history import catalog_before_kibble310
+    result = catalog_before_kibble310(catalog)
     assert (result['witnesses'], result['variants']) == (148, 296)
     added = [row for row in result['graphs'] if row['target'] == TARGET]
     assert hashlib.sha256(json.dumps(added, sort_keys=True, separators=(',', ':')).encode()).hexdigest() == (
