@@ -3,7 +3,8 @@ from collections import Counter
 import json
 from pathlib import Path
 
-from ..rules import _NORMAL_MOVEMENT_REQUIREMENTS, _ROOM_LEVER_WALL_ITEMS
+from ..rules import (_NORMAL_MOVEMENT_REQUIREMENTS, _ROOM_LEVER_WALL_ITEMS,
+                     normal_movement_satisfies_requirement)
 from ..traversal_data import _room_catalog
 from .build_ranged_target_coverage import build_coverage
 
@@ -39,6 +40,8 @@ def classify(surfaces, targets):
                 category = 'lever_item'
             elif matched:
                 category = 'policy_scoped_witness' if scoped else 'installed_witness'
+            elif normal_movement_satisfies_requirement(surface['requirement']):
+                category = 'declared_normal_alternative'
             else:
                 category = 'unresolved_action_context'
             totals[category] += 1
@@ -54,6 +57,7 @@ def classify(surfaces, targets):
             'scope': 'Normalized AP requirement surfaces; exact Boolean alternatives are preserved.',
             'limitations': [
                 'An installed target is structural coverage, not proof that every source policy is supported.',
+                'Declared Normal alternatives are existing Boolean rules, not newly verified physical routes.',
                 'Unresolved action tokens do not prove an ability is required or a Normal route impossible.',
                 'No global ability source reachability, room-wide acquisition or three-room carry rule is inferred.']}
 

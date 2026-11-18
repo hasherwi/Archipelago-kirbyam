@@ -3,11 +3,12 @@
   "issue": 1119,
   "complete": false,
   "counts": {
+    "declared_normal_alternative": 5,
     "installed_witness": 29,
     "lever_item": 8,
     "normal_movement": 218,
     "policy_scoped_witness": 2,
-    "unresolved_action_context": 149
+    "unresolved_action_context": 144
   },
   "surfaces": [
     {
@@ -3073,7 +3074,7 @@
       "tokens": [
         {
           "token": "can_break_block",
-          "category": "unresolved_action_context"
+          "category": "declared_normal_alternative"
         },
         {
           "token": "can_swim",
@@ -3271,7 +3272,7 @@
         },
         {
           "token": "can_break_block",
-          "category": "unresolved_action_context"
+          "category": "declared_normal_alternative"
         }
       ],
       "installed_targets": []
@@ -3294,7 +3295,7 @@
         },
         {
           "token": "can_break_block",
-          "category": "unresolved_action_context"
+          "category": "declared_normal_alternative"
         }
       ],
       "installed_targets": []
@@ -4302,7 +4303,7 @@
         },
         {
           "token": "can_break_block",
-          "category": "unresolved_action_context"
+          "category": "declared_normal_alternative"
         }
       ],
       "installed_targets": []
@@ -4348,7 +4349,7 @@
         },
         {
           "token": "can_break_block",
-          "category": "unresolved_action_context"
+          "category": "declared_normal_alternative"
         }
       ],
       "installed_targets": []
@@ -5175,6 +5176,7 @@
   "scope": "Normalized AP requirement surfaces; exact Boolean alternatives are preserved.",
   "limitations": [
     "An installed target is structural coverage, not proof that every source policy is supported.",
+    "Declared Normal alternatives are existing Boolean rules, not newly verified physical routes.",
     "Unresolved action tokens do not prove an ability is required or a Normal route impossible.",
     "No global ability source reachability, room-wide acquisition or three-room carry rule is inferred."
   ]

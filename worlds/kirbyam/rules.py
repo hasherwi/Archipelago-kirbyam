@@ -195,6 +195,26 @@ _ROOM_ABILITY_GATE_RULES = {
 }
 
 
+def normal_movement_satisfies_requirement(requirement) -> bool:
+    """Recognize existing Boolean Normal alternatives without invoking ability gates.
+
+    This proves only the authored compact requirement, not physical geometry,
+    equipment carry, or a separately installed traversal target.
+    """
+    if requirement is None:
+        return True
+    if isinstance(requirement, str):
+        return requirement in _NORMAL_MOVEMENT_REQUIREMENTS
+    if isinstance(requirement, dict) and len(requirement) == 1:
+        operator, operands = next(iter(requirement.items()))
+        if isinstance(operands, list):
+            if operator == "all":
+                return all(normal_movement_satisfies_requirement(item) for item in operands)
+            if operator == "any":
+                return any(normal_movement_satisfies_requirement(item) for item in operands)
+    return False
+
+
 def evaluate_room_logic_requirement(requirement, state: CollectionState, player: int) -> bool:
     """Evaluate the compact condition values used by room exits and locations.
 
@@ -223,7 +243,10 @@ def evaluate_room_logic_requirement(requirement, state: CollectionState, player:
             if operator == "all":
                 return all(evaluate_room_logic_requirement(item, state, player) for item in operands)
             if operator == "any":
-                return any(evaluate_room_logic_requirement(item, state, player) for item in operands)
+                # A declared Normal alternative must not consult an unrelated
+                # pending equipment branch just because it appears first.
+                return (normal_movement_satisfies_requirement(requirement)
+                        or any(evaluate_room_logic_requirement(item, state, player) for item in operands))
     raise TypeError(f"Invalid KirbyAM room logic requirement: {requirement!r}")
 
 

@@ -9,7 +9,8 @@ with 398 action/movement tokens plus eight lever-item tokens:
 | Normal movement | 218 | Fly, swim and climb do not require a Copy Ability |
 | Installed traversal witness | 29 | Exact surface has an existing traversal target |
 | Policy-scoped witness | 2 | Mustard map tokens whose target still has unsupported-policy fallback |
-| Unresolved action context | 149 | 131 block and 18 floating-block tokens lack an exact installed target |
+| Declared Normal alternative | 5 | Existing OR expressions already permit swimming or climbing |
+| Unresolved action context | 144 | 126 block and 18 floating-block tokens lack an exact installed target or unconditional Normal alternative |
 
 Normal movement now has an explicit dispatch independent of the pending ability
 fallback. This does not certify arbitrary geometry or allow equipped abilities
@@ -64,4 +65,14 @@ western Bomb Block/Gordo approach. See `mirra811-normal-witness.md`.
 
 The Normal590→534→310 prefix is now bound separately to Rainbow Room34’s Mustard chest-room entrance. All 71 retained Sir Kibble fixture prefixes preserve Normal and initial HP before Copy Ability acquisition. The prefix still inhales and consumes the original Twister and Waddle Dee payloads; both finite uses are required by its graph. This removes one directed block fallback; the later Mustard map source-policy fallback remains. See `normal534-mustard-entry.md`.
 
-The second directed prefix now binds Rainbow Room34→Mustard Room15/native533, with the same two original finite payloads and a distinct verified upper approach. Four fresh one-HP positives and two failed inhale-omission controls support that entrance only. Both directed entrance replacements together leave149 unresolved action tokens; neither changes the separate Room15→Room16 or map-chest rules.
+The second directed prefix now binds Rainbow Room34→Mustard Room15/native533, with the same two original finite payloads and a distinct verified upper approach. Four fresh one-HP positives and two failed inhale-omission controls support that entrance only. Both directed entrance replacements together initially left 149 unresolved action tokens; neither changes the separate Room15→Room16 or map-chest rules.
+
+Five of those remaining block tokens are now classified as declared Normal
+alternatives. Their existing `any` expressions already permit swimming or
+climbing. Evaluation recognizes that alternative before consulting a pending
+ability branch, independent of branch order. Nested item requirements remain
+required, and separately installed traversal targets are not bypassed. The
+original expressions and physical witness counts are unchanged. This is Boolean
+rule simplification, not new native route evidence; 144 action tokens remain
+unresolved. The audit lists all five exact directed surfaces and retains their
+original expressions.
