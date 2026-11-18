@@ -20,9 +20,11 @@ phase transition is admitted by this change; a graph must evidence its explicit
 expiry edge. Separate generated phases and outputs retain separate identities.
 
 All 37 object-spawner prototypes now record decoded counter-bank and threshold,
-delay, startup timer, capacity and free-global-slot predicates from the pinned
-`asm/object_spawner.s`. Their actual counter state and physical acquisition paths
-remain unresolved. All 37 have capacity one and no destroyed-slot reclamation;
+delay, startup timer and capacity predicates from the pinned
+`asm/object_spawner.s`, plus its 32-slot global search bound. The search falls
+through after exhaustion; safe exhaustion behavior is not certified. Actual
+counter state and physical acquisition paths remain unresolved. All 37 have
+capacity one and no destroyed-slot reclamation;
 none supplies an unlimited retry guarantee. These native predicates are data,
 not automatically satisfied AP requirements.
 

@@ -131425,8 +131425,9 @@
         "delay_counter_at_least": 0,
         "startup_counter_initial": 70,
         "startup_counter_previous_signed_value_above": 64,
-        "free_global_object_slot_required": true,
-        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+        "global_slot_search_limit": 32,
+        "exhausted_slot_behavior": "not_certified",
+        "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified."
       },
       "lifetime": {
         "identity": "room:121/template:0x088D2898/spawner-output",
@@ -131471,8 +131472,9 @@
         "delay_counter_at_least": 0,
         "startup_counter_initial": 70,
         "startup_counter_previous_signed_value_above": 64,
-        "free_global_object_slot_required": true,
-        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+        "global_slot_search_limit": 32,
+        "exhausted_slot_behavior": "not_certified",
+        "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified."
       },
       "lifetime": {
         "identity": "room:121/template:0x088D28BC/spawner-output",
@@ -131517,8 +131519,9 @@
         "delay_counter_at_least": 0,
         "startup_counter_initial": 70,
         "startup_counter_previous_signed_value_above": 64,
-        "free_global_object_slot_required": true,
-        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+        "global_slot_search_limit": 32,
+        "exhausted_slot_behavior": "not_certified",
+        "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified."
       },
       "lifetime": {
         "identity": "room:121/template:0x088D28E0/spawner-output",
@@ -131563,8 +131566,9 @@
         "delay_counter_at_least": 0,
         "startup_counter_initial": 70,
         "startup_counter_previous_signed_value_above": 64,
-        "free_global_object_slot_required": true,
-        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+        "global_slot_search_limit": 32,
+        "exhausted_slot_behavior": "not_certified",
+        "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified."
       },
       "lifetime": {
         "identity": "room:121/template:0x088D2928/spawner-output",
@@ -131609,8 +131613,9 @@
         "delay_counter_at_least": 90,
         "startup_counter_initial": 70,
         "startup_counter_previous_signed_value_above": 64,
-        "free_global_object_slot_required": true,
-        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+        "global_slot_search_limit": 32,
+        "exhausted_slot_behavior": "not_certified",
+        "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified."
       },
       "lifetime": {
         "identity": "room:139/template:0x088BA06C/spawner-output",
@@ -131655,8 +131660,9 @@
         "delay_counter_at_least": 60,
         "startup_counter_initial": 70,
         "startup_counter_previous_signed_value_above": 64,
-        "free_global_object_slot_required": true,
-        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+        "global_slot_search_limit": 32,
+        "exhausted_slot_behavior": "not_certified",
+        "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified."
       },
       "lifetime": {
         "identity": "room:139/template:0x088BA1B0/spawner-output",
@@ -131701,8 +131707,9 @@
         "delay_counter_at_least": 120,
         "startup_counter_initial": 70,
         "startup_counter_previous_signed_value_above": 64,
-        "free_global_object_slot_required": true,
-        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+        "global_slot_search_limit": 32,
+        "exhausted_slot_behavior": "not_certified",
+        "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified."
       },
       "lifetime": {
         "identity": "room:139/template:0x088BA1D4/spawner-output",
@@ -131747,8 +131754,9 @@
         "delay_counter_at_least": 0,
         "startup_counter_initial": 70,
         "startup_counter_previous_signed_value_above": 64,
-        "free_global_object_slot_required": true,
-        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+        "global_slot_search_limit": 32,
+        "exhausted_slot_behavior": "not_certified",
+        "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified."
       },
       "lifetime": {
         "identity": "room:148/template:0x088BC084/spawner-output",
@@ -131793,8 +131801,9 @@
         "delay_counter_at_least": 0,
         "startup_counter_initial": 70,
         "startup_counter_previous_signed_value_above": 64,
-        "free_global_object_slot_required": true,
-        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+        "global_slot_search_limit": 32,
+        "exhausted_slot_behavior": "not_certified",
+        "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified."
       },
       "lifetime": {
         "identity": "room:148/template:0x088BC0A8/spawner-output",
@@ -131839,8 +131848,9 @@
         "delay_counter_at_least": 0,
         "startup_counter_initial": 70,
         "startup_counter_previous_signed_value_above": 64,
-        "free_global_object_slot_required": true,
-        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+        "global_slot_search_limit": 32,
+        "exhausted_slot_behavior": "not_certified",
+        "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified."
       },
       "lifetime": {
         "identity": "room:148/template:0x088BC0CC/spawner-output",
@@ -131885,8 +131895,9 @@
         "delay_counter_at_least": 0,
         "startup_counter_initial": 70,
         "startup_counter_previous_signed_value_above": 64,
-        "free_global_object_slot_required": true,
-        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+        "global_slot_search_limit": 32,
+        "exhausted_slot_behavior": "not_certified",
+        "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified."
       },
       "lifetime": {
         "identity": "room:148/template:0x088BC0F0/spawner-output",
@@ -131931,8 +131942,9 @@
         "delay_counter_at_least": 0,
         "startup_counter_initial": 70,
         "startup_counter_previous_signed_value_above": 64,
-        "free_global_object_slot_required": true,
-        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+        "global_slot_search_limit": 32,
+        "exhausted_slot_behavior": "not_certified",
+        "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified."
       },
       "lifetime": {
         "identity": "room:148/template:0x088BC15C/spawner-output",
@@ -131977,8 +131989,9 @@
         "delay_counter_at_least": 0,
         "startup_counter_initial": 70,
         "startup_counter_previous_signed_value_above": 64,
-        "free_global_object_slot_required": true,
-        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+        "global_slot_search_limit": 32,
+        "exhausted_slot_behavior": "not_certified",
+        "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified."
       },
       "lifetime": {
         "identity": "room:148/template:0x088BC180/spawner-output",
@@ -132023,8 +132036,9 @@
         "delay_counter_at_least": 0,
         "startup_counter_initial": 70,
         "startup_counter_previous_signed_value_above": 64,
-        "free_global_object_slot_required": true,
-        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+        "global_slot_search_limit": 32,
+        "exhausted_slot_behavior": "not_certified",
+        "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified."
       },
       "lifetime": {
         "identity": "room:149/template:0x088BC218/spawner-output",
@@ -132069,8 +132083,9 @@
         "delay_counter_at_least": 0,
         "startup_counter_initial": 70,
         "startup_counter_previous_signed_value_above": 64,
-        "free_global_object_slot_required": true,
-        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+        "global_slot_search_limit": 32,
+        "exhausted_slot_behavior": "not_certified",
+        "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified."
       },
       "lifetime": {
         "identity": "room:202/template:0x088BE574/spawner-output",
@@ -132115,8 +132130,9 @@
         "delay_counter_at_least": 0,
         "startup_counter_initial": 70,
         "startup_counter_previous_signed_value_above": 64,
-        "free_global_object_slot_required": true,
-        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+        "global_slot_search_limit": 32,
+        "exhausted_slot_behavior": "not_certified",
+        "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified."
       },
       "lifetime": {
         "identity": "room:202/template:0x088BE598/spawner-output",
@@ -132161,8 +132177,9 @@
         "delay_counter_at_least": 0,
         "startup_counter_initial": 70,
         "startup_counter_previous_signed_value_above": 64,
-        "free_global_object_slot_required": true,
-        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+        "global_slot_search_limit": 32,
+        "exhausted_slot_behavior": "not_certified",
+        "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified."
       },
       "lifetime": {
         "identity": "room:414/template:0x088C6F74/spawner-output",
@@ -132207,8 +132224,9 @@
         "delay_counter_at_least": 0,
         "startup_counter_initial": 70,
         "startup_counter_previous_signed_value_above": 64,
-        "free_global_object_slot_required": true,
-        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+        "global_slot_search_limit": 32,
+        "exhausted_slot_behavior": "not_certified",
+        "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified."
       },
       "lifetime": {
         "identity": "room:414/template:0x088C6F98/spawner-output",
@@ -132253,8 +132271,9 @@
         "delay_counter_at_least": 60,
         "startup_counter_initial": 70,
         "startup_counter_previous_signed_value_above": 64,
-        "free_global_object_slot_required": true,
-        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+        "global_slot_search_limit": 32,
+        "exhausted_slot_behavior": "not_certified",
+        "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified."
       },
       "lifetime": {
         "identity": "room:526/template:0x088D1FF0/spawner-output",
@@ -132299,8 +132318,9 @@
         "delay_counter_at_least": 50,
         "startup_counter_initial": 70,
         "startup_counter_previous_signed_value_above": 64,
-        "free_global_object_slot_required": true,
-        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+        "global_slot_search_limit": 32,
+        "exhausted_slot_behavior": "not_certified",
+        "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified."
       },
       "lifetime": {
         "identity": "room:526/template:0x088D2014/spawner-output",
@@ -132345,8 +132365,9 @@
         "delay_counter_at_least": 40,
         "startup_counter_initial": 70,
         "startup_counter_previous_signed_value_above": 64,
-        "free_global_object_slot_required": true,
-        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+        "global_slot_search_limit": 32,
+        "exhausted_slot_behavior": "not_certified",
+        "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified."
       },
       "lifetime": {
         "identity": "room:526/template:0x088D2038/spawner-output",
@@ -132391,8 +132412,9 @@
         "delay_counter_at_least": 30,
         "startup_counter_initial": 70,
         "startup_counter_previous_signed_value_above": 64,
-        "free_global_object_slot_required": true,
-        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+        "global_slot_search_limit": 32,
+        "exhausted_slot_behavior": "not_certified",
+        "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified."
       },
       "lifetime": {
         "identity": "room:526/template:0x088D205C/spawner-output",
@@ -132437,8 +132459,9 @@
         "delay_counter_at_least": 30,
         "startup_counter_initial": 70,
         "startup_counter_previous_signed_value_above": 64,
-        "free_global_object_slot_required": true,
-        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+        "global_slot_search_limit": 32,
+        "exhausted_slot_behavior": "not_certified",
+        "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified."
       },
       "lifetime": {
         "identity": "room:712/template:0x088BD660/spawner-output",
@@ -132483,8 +132506,9 @@
         "delay_counter_at_least": 50,
         "startup_counter_initial": 70,
         "startup_counter_previous_signed_value_above": 64,
-        "free_global_object_slot_required": true,
-        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+        "global_slot_search_limit": 32,
+        "exhausted_slot_behavior": "not_certified",
+        "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified."
       },
       "lifetime": {
         "identity": "room:712/template:0x088BD684/spawner-output",
@@ -132529,8 +132553,9 @@
         "delay_counter_at_least": 40,
         "startup_counter_initial": 70,
         "startup_counter_previous_signed_value_above": 64,
-        "free_global_object_slot_required": true,
-        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+        "global_slot_search_limit": 32,
+        "exhausted_slot_behavior": "not_certified",
+        "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified."
       },
       "lifetime": {
         "identity": "room:712/template:0x088BD6A8/spawner-output",
@@ -132575,8 +132600,9 @@
         "delay_counter_at_least": 0,
         "startup_counter_initial": 70,
         "startup_counter_previous_signed_value_above": 64,
-        "free_global_object_slot_required": true,
-        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+        "global_slot_search_limit": 32,
+        "exhausted_slot_behavior": "not_certified",
+        "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified."
       },
       "lifetime": {
         "identity": "room:823/template:0x088CCF68/spawner-output",
@@ -132621,8 +132647,9 @@
         "delay_counter_at_least": 0,
         "startup_counter_initial": 70,
         "startup_counter_previous_signed_value_above": 64,
-        "free_global_object_slot_required": true,
-        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+        "global_slot_search_limit": 32,
+        "exhausted_slot_behavior": "not_certified",
+        "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified."
       },
       "lifetime": {
         "identity": "room:823/template:0x088CCFB0/spawner-output",
@@ -132667,8 +132694,9 @@
         "delay_counter_at_least": 0,
         "startup_counter_initial": 70,
         "startup_counter_previous_signed_value_above": 64,
-        "free_global_object_slot_required": true,
-        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+        "global_slot_search_limit": 32,
+        "exhausted_slot_behavior": "not_certified",
+        "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified."
       },
       "lifetime": {
         "identity": "room:823/template:0x088CD088/spawner-output",
@@ -132713,8 +132741,9 @@
         "delay_counter_at_least": 0,
         "startup_counter_initial": 70,
         "startup_counter_previous_signed_value_above": 64,
-        "free_global_object_slot_required": true,
-        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+        "global_slot_search_limit": 32,
+        "exhausted_slot_behavior": "not_certified",
+        "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified."
       },
       "lifetime": {
         "identity": "room:823/template:0x088CD0AC/spawner-output",
@@ -132759,8 +132788,9 @@
         "delay_counter_at_least": 0,
         "startup_counter_initial": 70,
         "startup_counter_previous_signed_value_above": 64,
-        "free_global_object_slot_required": true,
-        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+        "global_slot_search_limit": 32,
+        "exhausted_slot_behavior": "not_certified",
+        "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified."
       },
       "lifetime": {
         "identity": "room:823/template:0x088CD0D0/spawner-output",
@@ -132805,8 +132835,9 @@
         "delay_counter_at_least": 0,
         "startup_counter_initial": 70,
         "startup_counter_previous_signed_value_above": 64,
-        "free_global_object_slot_required": true,
-        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+        "global_slot_search_limit": 32,
+        "exhausted_slot_behavior": "not_certified",
+        "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified."
       },
       "lifetime": {
         "identity": "room:823/template:0x088CD0F4/spawner-output",
@@ -132851,8 +132882,9 @@
         "delay_counter_at_least": 24,
         "startup_counter_initial": 0,
         "startup_counter_previous_signed_value_above": 64,
-        "free_global_object_slot_required": true,
-        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+        "global_slot_search_limit": 32,
+        "exhausted_slot_behavior": "not_certified",
+        "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified."
       },
       "lifetime": {
         "identity": "room:955/template:0x088D5CF4/spawner-output",
@@ -132897,8 +132929,9 @@
         "delay_counter_at_least": 24,
         "startup_counter_initial": 0,
         "startup_counter_previous_signed_value_above": 64,
-        "free_global_object_slot_required": true,
-        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+        "global_slot_search_limit": 32,
+        "exhausted_slot_behavior": "not_certified",
+        "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified."
       },
       "lifetime": {
         "identity": "room:955/template:0x088D5D18/spawner-output",
@@ -132943,8 +132976,9 @@
         "delay_counter_at_least": 24,
         "startup_counter_initial": 0,
         "startup_counter_previous_signed_value_above": 64,
-        "free_global_object_slot_required": true,
-        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+        "global_slot_search_limit": 32,
+        "exhausted_slot_behavior": "not_certified",
+        "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified."
       },
       "lifetime": {
         "identity": "room:956/template:0x088D5D84/spawner-output",
@@ -132989,8 +133023,9 @@
         "delay_counter_at_least": 24,
         "startup_counter_initial": 0,
         "startup_counter_previous_signed_value_above": 64,
-        "free_global_object_slot_required": true,
-        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+        "global_slot_search_limit": 32,
+        "exhausted_slot_behavior": "not_certified",
+        "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified."
       },
       "lifetime": {
         "identity": "room:956/template:0x088D5DA8/spawner-output",
@@ -133035,8 +133070,9 @@
         "delay_counter_at_least": 14,
         "startup_counter_initial": 0,
         "startup_counter_previous_signed_value_above": 64,
-        "free_global_object_slot_required": true,
-        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+        "global_slot_search_limit": 32,
+        "exhausted_slot_behavior": "not_certified",
+        "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified."
       },
       "lifetime": {
         "identity": "room:957/template:0x088D5E14/spawner-output",
@@ -133081,8 +133117,9 @@
         "delay_counter_at_least": 24,
         "startup_counter_initial": 0,
         "startup_counter_previous_signed_value_above": 64,
-        "free_global_object_slot_required": true,
-        "reason": "Decoded native predicates do not prove the room counters, free slot or acquisition path."
+        "global_slot_search_limit": 32,
+        "exhausted_slot_behavior": "not_certified",
+        "reason": "Decoded predicates do not prove room counters or acquisition; global slot exhaustion is not certified."
       },
       "lifetime": {
         "identity": "room:957/template:0x088D5E38/spawner-output",

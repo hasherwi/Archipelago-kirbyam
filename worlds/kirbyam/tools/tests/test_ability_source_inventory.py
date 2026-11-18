@@ -61,7 +61,8 @@ class InventoryDecoderTests(unittest.TestCase):
                           conditions['delay_counter_at_least'], conditions['startup_counter_initial']),
                          (1, 2, 90, 0))
         self.assertEqual(conditions['spawned_count_below'], 3)
-        self.assertTrue(conditions['free_global_object_slot_required'])
+        self.assertEqual(conditions['global_slot_search_limit'], 32)
+        self.assertEqual(conditions['exhausted_slot_behavior'], 'not_certified')
         self.assertFalse(child['lifetime']['child_has_native_parent_attachment'])
         data[0x22] = 0
         self.assertTrue(extract.spawner_output(data, parent)['reclaims_destroyed_slots'])
