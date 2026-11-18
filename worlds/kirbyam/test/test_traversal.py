@@ -295,3 +295,35 @@ def test_compiler_requires_renewable_evidence() -> None:
     payload["sources"][0]["renewable"] = True
     with pytest.raises(ValueError, match="repeatability"):
         compile_traversal_graph(payload)
+
+
+@pytest.mark.parametrize("renewable", [False, True])
+def test_equipment_loss_requires_a_live_reacquisition_source(renewable):
+    source = Placement("pre", "ROCKY", identity="rock", renewable=renewable, lifetime="encounter")
+    routes = [Route("pre", "post", loses_equipment=True),
+              Route("post", "other", required_equipment=frozenset({"Stone"}))]
+    assert not run(routes, [source], gating=False).reaches("other")
+    at_destination = Placement("post", "ROCKY", identity="next-rock", renewable=renewable,
+                               lifetime="encounter")
+    assert run(routes, [source, at_destination], gating=False).reaches("other")
+    expired = [Route("pre", "post", loses_equipment=True,
+                     ends_lifetimes=frozenset({"encounter"})), routes[1]]
+    assert not run(expired, [source, at_destination], gating=False).reaches("other")
+
+
+@pytest.mark.parametrize("revive", [False, True])
+def test_room_reset_does_not_implicitly_revive_encounter(revive):
+    source = Placement("post", "ROCKY", identity="rock", renewable=True, lifetime="encounter")
+    routes = [Route("pre", "post", room_transition=True, resets_room_instance=True,
+                    revives_lifetimes=frozenset({"encounter"}) if revive else frozenset()),
+              Route("post", "other", required_equipment=frozenset({"Stone"}))]
+    result = run(routes, [source], starts=[Position("pre", expired=frozenset({"encounter"}))], gating=False)
+    assert result.reaches("other") == revive
+
+
+def test_lifetime_effects_reject_unknown_or_unevidenced_reset():
+    with pytest.raises(ValueError, match="Invalid source lifetime"):
+        run([Route("pre", "post", ends_lifetimes=frozenset({"unknown"}))])
+    with pytest.raises(ValueError, match="explicit room-instance reset"):
+        run([Route("pre", "post", revives_lifetimes=frozenset({"encounter"}))],
+            [Placement("pre", "ROCKY", lifetime="encounter")])

@@ -32,7 +32,10 @@ def test_native_census_has_explicit_rooms_and_unique_placements():
     assert len(references) == len(set(references)) == 3476
     generated = {row['id'] for row in inventory['generated_statue_slots']}
     assert len(generated) == 2
+    generated |= {row['id'] for row in inventory['spawner_outputs'] + inventory['encounter_sources']}
     assert set(references) | generated == set(placements)
+    assert {key for room in inventory['rooms'] for key in room['encounter_sources']} == {
+        row['id'] for row in inventory['encounter_sources']}
     assert any(not room['placements'] for room in inventory['rooms'])
     assert any(row['native_grant'] == 'Normal' and row['source_type'] == 'enemy'
                for row in placements.values())
@@ -184,8 +187,8 @@ def test_spawner_prototypes_are_censused_without_becoming_acquisition_witnesses(
         assert row['configured_child_capacity'] == 1
         assert not row['reclaims_destroyed_slots']
         assert row['status'] == 'unresolved'
-        assert row['id'] not in source_inventory()
-        with pytest.raises(ValueError, match='Unknown physical'):
+        assert row['id'] in source_inventory()
+        with pytest.raises(ValueError, match='generation_evidence|Unresolved physical ability grant'):
             resolve_inventory_source({'inventory_id': row['id']}, row['native_room'], advanced=True)
 
 
@@ -196,3 +199,40 @@ def test_generated_boss_phases_retain_candidate_roots_without_becoming_sources()
         assert calls
         assert all(call['candidate_root_encounters'] and call['controller_parent_calls'] for call in calls)
         assert all(call['logic'] == 'advanced' and call['status'] == 'unresolved' for call in calls)
+
+
+@pytest.mark.parametrize('kind', ['spawner_outputs', 'encounter_sources'])
+def test_generated_candidates_require_explicit_generation_and_lifetime_witness(kind):
+    inventory = json.loads((ROOT / 'data/ability_source_inventory.json').read_text())
+    record = next(r for r in inventory[kind] if r['source_key'] is not None)
+    source = {'inventory_id': record['id'], 'acquisition_evidence': 'fixture'}
+    for field in ('generation_evidence', 'lifetime_evidence'):
+        with pytest.raises(ValueError, match=field):
+            resolve_inventory_source(source, record['native_room'], advanced=True)
+        source[field] = 'reviewed fixture'
+    resolved = resolve_inventory_source(source, record['native_room'], advanced=True)
+    assert resolved['lifetime'] == record['parent_placement']
+    if record['logic'] == 'advanced':
+        with pytest.raises(ValueError, match='Advanced Logic'):
+            resolve_inventory_source(source, record['native_room'])
+    with pytest.raises(ValueError, match='lifetime mismatch'):
+        resolve_inventory_source({**source, 'lifetime': 'another encounter'},
+                                 record['native_room'], advanced=True)
+
+
+@pytest.mark.parametrize('effect,evidence,value', [
+    ('loses_equipment', 'loss_evidence', True),
+    ('ends_lifetimes', 'lifetime_evidence', ['encounter']),
+    ('revives_lifetimes', 'revival_evidence', ['encounter']),
+])
+def test_serialized_lifetime_effect_requires_evidence(effect, evidence, value):
+    graph = payload()
+    graph['sources'][0]['lifetime'] = 'encounter'
+    graph['routes'][0][effect] = value
+    with pytest.raises(ValueError, match=evidence):
+        compile_room_graph(graph, {})
+    graph['routes'][0][evidence] = 'fixture witness'
+    if effect == 'revives_lifetimes':
+        graph['routes'][0].update(room_instance='reset', room_transition=True, reset_evidence='fixture reset')
+    compiled = compile_room_graph(graph, {})
+    assert getattr(compiled.routes[0], effect) == (value if isinstance(value, bool) else frozenset(value))

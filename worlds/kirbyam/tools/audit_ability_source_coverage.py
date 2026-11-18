@@ -39,7 +39,8 @@ def audit(inventory: dict, rooms: dict) -> dict:
     walk(rooms, 'rooms')
     references.extend({'witness_identity': key, 'inventory_id': value}
                       for key, value in inventory['reviewed_bindings'].items())
-    known = {p['id'] for p in inventory['placements'] + inventory['generated_statue_slots']}
+    known = {p['id'] for p in inventory['placements'] + inventory['generated_statue_slots']
+             + inventory.get('spawner_outputs', []) + inventory.get('encounter_sources', [])}
     referenced = {row['inventory_id'] for row in references}
     bound = known & referenced
     relevant = [p for p in inventory['placements'] if p['source_type'] != 'other_object']
@@ -59,6 +60,7 @@ def audit(inventory: dict, rooms: dict) -> dict:
         'known_dynamic_grant_types': len(inventory['dynamic_grant_types']),
         'generated_statue_slots': len(inventory['generated_statue_slots']),
         'object_spawner_outputs': len(inventory['spawner_outputs']),
+        'encounter_source_candidates': len(inventory.get('encounter_sources', [])),
         'compact_requirements_requiring_target_context_review': compact_requirements,
         'policy_scoped_targets': scoped_targets,
         'blockers': [

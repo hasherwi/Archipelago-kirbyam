@@ -55,8 +55,22 @@ position, subtype, type, configured capacity and destroyed-slot reclamation
 flag come from the controller template and the [pinned native creation code](https://github.com/jiangzhengwenjz/katam/blob/7d969fbce14fdc838d2c1ea01389717fb96c3189/asm/object_spawner.s#L364-L455).
 All native templates have capacity one and disable slot reclamation. This does
 not prove acquisition or repeatability across room instances. These unresolved
-prototypes are excluded from traversal references; their miniboss descendants
-are included in the Advanced-only encounter candidate census.
+prototypes join the same physical registry as static placements. Their miniboss
+descendants are included in the Advanced-only encounter candidate census.
+
+The common registry also indexes 731 root/controller/call/output combinations,
+with explicit per-room references. These preserve candidate branch sets and
+unresolved access rather than manufacturing a guaranteed output. A generated
+reference requires generation, lifetime and acquisition evidence. Its lifetime
+identity is pinned to its parent placement. Encounter-generated ordinary enemies
+are Advanced-only too; their ordinary source type cannot bypass this restriction.
+
+The existing traversal state now tracks expired source lifetimes alongside one
+equipped ability and consumed objects. Evidenced routes can lose equipment or
+end an encounter lifetime. Loss requires actual reacquisition from a still-live
+source. A room reset clears finite uses as before but does not revive an expired
+encounter; revival needs an explicit reset and its own evidence. These fields
+extend the existing solver and preserve previous routes when absent.
 
 ## Reproduction
 
@@ -88,3 +102,13 @@ legacy permissive gates with accepted source routes or established Normal
 alternatives. `_allow_pending_ability_gate` and unsupported-policy fallback
 behavior are still present. The draft neither invents those witnesses nor
 reports unreviewed routes as physically impossible.
+
+
+## Deferred route evidence
+
+Per the requested broad mechanical scope, individual ambiguous routes are tracked
+outside this PR: [Mustard local Cutter route #1117](https://github.com/hasherwi/Archipelago-kirbyam/issues/1117),
+[generated activation/lifetimes #1118](https://github.com/hasherwi/Archipelago-kirbyam/issues/1118),
+and [remaining legacy fallbacks #1119](https://github.com/hasherwi/Archipelago-kirbyam/issues/1119).
+These follow-ups are not completed by catalog coverage. The exact requested
+changelog wording must not be used as evidence that every legacy gate is fixed.

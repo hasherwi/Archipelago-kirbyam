@@ -293,6 +293,9 @@ class Route:
     uses_object: str | None = None
     # Physical carry/ladder state, independent of attack-provider substitution.
     required_equipment: frozenset[str] | None = None
+    loses_equipment: bool = False
+    ends_lifetimes: frozenset[str] = frozenset()
+    revives_lifetimes: frozenset[str] = frozenset()
 
 
 @dataclass(frozen=True)
@@ -310,6 +313,7 @@ class Placement:
     retry_evidence: str | None = None
     identity: str | None = None
     renewable: bool = False
+    lifetime: str | None = None
 
 
 @dataclass(frozen=True)
@@ -318,6 +322,7 @@ class Position:
     equipped: str | frozenset[str] = "Normal"
     opened: frozenset[str] = frozenset()
     consumed: frozenset[str] = frozenset()
+    expired: frozenset[str] = frozenset()
 
     @property
     def equipment_outcomes(self) -> frozenset[str]:
@@ -401,6 +406,18 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
     placement_list = list(placements)
     route_list = list(routes)
     start_list = list(starts)
+    lifetimes = frozenset(source.lifetime for source in placement_list if source.lifetime is not None)
+    if any(not isinstance(key, str) or not key.strip() for key in lifetimes):
+        raise ValueError('Source lifetime must be a nonempty identity')
+    for route in route_list:
+        if (not isinstance(route.loses_equipment, bool)
+                or not isinstance(route.ends_lifetimes, frozenset)
+                or not isinstance(route.revives_lifetimes, frozenset)
+                or not (route.ends_lifetimes | route.revives_lifetimes) <= lifetimes
+                or route.ends_lifetimes & route.revives_lifetimes):
+            raise ValueError('Invalid source lifetime or equipment-loss effect')
+        if route.revives_lifetimes and not route.resets_room_instance:
+            raise ValueError('Source lifetime revival requires an explicit room-instance reset')
     _validate_central_master_witness(node_list, route_list, placement_list, start_list)
     objects: dict[str, list[Placement]] = defaultdict(list)
     for source in placement_list:
@@ -523,7 +540,7 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
     visited: set[Position] = set()
     assumptions: set[str] = set()
     grants: dict[str, Grant] = {}
-    expanded_sources: set[tuple[str, frozenset[str], frozenset[str]]] = set()
+    expanded_sources: set[tuple[str, frozenset[str], frozenset[str], frozenset[str]]] = set()
 
     def permitted(ability: str) -> bool:
         return ability_permission(ability, owned, gating)
@@ -541,21 +558,25 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
             continue
         if position.node not in node_by_key:
             raise ValueError(f"Unknown starting compartment: {position.node}")
+        if not position.expired <= lifetimes:
+            raise ValueError('Unknown expired source lifetime')
         visited.add(position)
         # Dropping is possible, but a dropped star is NOT a free initial source.
         if position.equipped != "Normal":
-            queue.append(Position(position.node, "Normal", position.opened, position.consumed))
+            queue.append(Position(position.node, "Normal", position.opened, position.consumed, position.expired))
         # Acquiring a source replaces equipment; its successors depend only on
         # this physical phase and the fixed policy/permissions, not what is held.
         # Keep both phase sets: finite source use and opened barriers must never
         # be merged. Route, drop and recovery expansion still uses every Position.
-        source_phase = (position.node, position.opened, position.consumed)
+        source_phase = (position.node, position.opened, position.consumed, position.expired)
         if source_phase not in expanded_sources:
             expanded_sources.add(source_phase)
             for source in sources[position.node]:
                 if source.source_key == CENTRAL_MASTER_SOURCE and position.equipped != "Normal":
                     continue  # The admitted Normal prefix makes phase deduplication safe.
                 if not source.requirements <= owned:
+                    continue
+                if source.lifetime in position.expired:
                     continue
                 identity = source.identity or f"{source.node}:{source.source_key}"
                 if identity in position.consumed:
@@ -568,11 +589,11 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
                     abilities = grant.abilities
                     assumptions.add(source.retry_evidence)
                 for granted_ability in abilities:
-                    queue.append(Position(position.node, granted_ability, position.opened, consumed))
+                    queue.append(Position(position.node, granted_ability, position.opened, consumed, position.expired))
                 if not grant.can_fail and grant.abilities and not abilities:
                     # Player receives one of these, not all of them. Retain the
                     # uncertainty: a subsequent edge must work for EVERY outcome.
-                    queue.append(Position(position.node, grant.abilities, position.opened, consumed))
+                    queue.append(Position(position.node, grant.abilities, position.opened, consumed, position.expired))
         for route in outgoing[position.node]:
             if not route.items <= owned:
                 continue
@@ -597,6 +618,7 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
                     continue
             if not already_open and route.uses_object is not None:
                 if (route.uses_object in position.consumed
+                        or objects[route.uses_object][0].lifetime in position.expired
                         or not objects[route.uses_object][0].requirements <= owned):
                     continue
             if route.recover_dropped_ability:
@@ -630,7 +652,12 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
                     ability = "Normal"
                 elif isinstance(ability, frozenset) and "Mini" in ability:
                     ability = (ability - {"Mini"}) | {"Normal"}
-            queue.append(Position(route.target, ability, opened, consumed))
+            if route.loses_equipment:
+                ability = "Normal"
+            # Clearing finite room-instance uses never revives an encounter by
+            # itself. Revival is a separately evidenced reset effect.
+            expired = (position.expired | route.ends_lifetimes) - route.revives_lifetimes
+            queue.append(Position(route.target, ability, opened, consumed, expired))
     return TraversalResult(frozenset(visited), frozenset(assumptions))
 
 
@@ -725,6 +752,8 @@ def _compile_route(row: Mapping[str, Any], area_keys: bool) -> Route:
         "allowed_abilities", "recover_dropped_ability", "room_transition",
         "room_instance", "reset_evidence", "water_state", "uses_object",
         "frozen_enemy_evidence", "required_equipment", "heave_ho_evidence", "metal_evidence", "throw_evidence",
+        "loses_equipment", "loss_evidence", "ends_lifetimes", "lifetime_evidence",
+        "revives_lifetimes", "revival_evidence",
     }:
         raise ValueError("Unknown traversal route field or effect")
     if not row.get("evidence"):
@@ -761,6 +790,17 @@ def _compile_route(row: Mapping[str, Any], area_keys: bool) -> Route:
         not allowed or not set(allowed) <= providers
     ):
         raise ValueError("Allowed abilities must narrow the route capability providers")
+    for field, evidence in (("loses_equipment", "loss_evidence"),
+                            ("ends_lifetimes", "lifetime_evidence"),
+                            ("revives_lifetimes", "revival_evidence")):
+        value = row.get(field, False if field == 'loses_equipment' else [])
+        if field == 'loses_equipment':
+            if not isinstance(value, bool):
+                raise ValueError('loses_equipment must be a boolean')
+        elif not isinstance(value, list) or any(not isinstance(key, str) or not key.strip() for key in value):
+            raise ValueError(f'{field} must contain lifetime identities')
+        if value and (not isinstance(row.get(evidence), str) or not row[evidence].strip()):
+            raise ValueError(f'{field} requires {evidence}')
     return Route(
         row["from"], row["to"], row.get("capability"), row.get("opens"),
         frozenset(row.get("items", ())) | frozenset(row.get("area_key_items", ()) if area_keys else ()),
@@ -771,6 +811,8 @@ def _compile_route(row: Mapping[str, Any], area_keys: bool) -> Route:
         row.get("room_instance") == "preserve",
         row.get("water_state", "dry"), row.get("uses_object"),
         None if equipment is None else frozenset(equipment),
+        row.get('loses_equipment', False), frozenset(row.get('ends_lifetimes', ())),
+        frozenset(row.get('revives_lifetimes', ())),
     )
 
 
@@ -792,6 +834,7 @@ def _compile_placement(row: Mapping[str, Any]) -> Placement:
         row["node"], row["source_key"], frozenset(row.get("items", ())),
         retry_evidence=row.get("retry_evidence"),
         identity=row.get("id"), renewable=bool(row.get("renewable", False)),
+        lifetime=row.get('lifetime'),
     )
 
 

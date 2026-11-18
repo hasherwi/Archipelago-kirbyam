@@ -21,7 +21,8 @@ def _inventory_payload() -> dict[str, Any]:
 @lru_cache(maxsize=1)
 def source_inventory() -> Mapping[str, Mapping[str, Any]]:
     payload = _inventory_payload()
-    records = payload['placements'] + payload['generated_statue_slots']
+    records = (payload['placements'] + payload['generated_statue_slots']
+               + payload.get('spawner_outputs', []) + payload.get('encounter_sources', []))
     result = {row['id']: row for row in records}
     if len(result) != len(records):
         raise ValueError('Duplicate physical ability placement identity')
@@ -64,5 +65,15 @@ def resolve_inventory_source(source: Mapping[str, Any], native_room: int,
         raise ValueError(f'Physical ability placement grant mismatch: {identity}')
     if record['logic'] == 'advanced' and not advanced:
         raise ValueError(f'Encounter source requires Advanced Logic: {identity}')
+    if 'parent_placement' in record:
+        # Native candidates are not automatically available. A reviewed graph
+        # must put activation/branch conditions on its path to this compartment.
+        for field in ('generation_evidence', 'lifetime_evidence'):
+            if not isinstance(result.get(field), str) or not result[field].strip():
+                raise ValueError(f'Generated source requires {field}: {identity}')
+        lifetime = record['parent_placement']
+        if result.get('lifetime', lifetime) != lifetime:
+            raise ValueError(f'Generated source lifetime mismatch: {identity}')
+        result['lifetime'] = lifetime
     result['source_key'] = key
     return result

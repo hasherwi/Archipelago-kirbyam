@@ -151,6 +151,35 @@ def possible_types(filename: str, expression: str, file_hash: str,
     return []
 
 
+def generated_encounter_sources(calls, controllers):
+    """Index candidate outputs by physical encounter; never certify a branch."""
+    parents = {row['id']: row for row in controllers}
+    result = []
+    for call in calls:
+        for parent_id in call.get('candidate_root_encounters', []):
+            parent = parents[parent_id]
+            for output in call.get('possible_outputs', []):
+                result.append({
+                    'id': (f"{parent_id}/encounter:{call['controller_type']}/"
+                           f"{call['evidence']}/type:{output['type_id']}"),
+                    'native_room': parent['native_room'], 'source_type': 'encounter_spawn',
+                    'logic': 'advanced', 'parent_placement': parent_id,
+                    'source_key': output['source_key'], 'native_grant': output['native_grant'],
+                    'native_grant_id': output['native_grant_id'], 'type_id': output['type_id'],
+                    'native_name': output['native_name'], 'position_pixels': None,
+                    'generation': {'controller_type': call['controller_type'],
+                                   'callsite': call['evidence'],
+                                   'candidate_types': [o['type_id'] for o in call['possible_outputs']],
+                                   'status': 'unresolved'},
+                    'access': {'status': 'unresolved', 'reason':
+                               'Requires branch/activation, acquisition and encounter-lifetime evidence.'},
+                    'repeatability': 'unresolved',
+                })
+    if len({row['id'] for row in result}) != len(result):
+        raise ValueError('Duplicate generated encounter source identity')
+    return result
+
+
 def iter_traversals(value):
     """Include logical subregions as well as top-level native rooms."""
     if isinstance(value, dict):
@@ -313,10 +342,13 @@ def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dic
         call['controller_parent_calls'] = sorted({
             f"{parent['controller_type']}:{parent['evidence']}" for parent in calls
             if any(output['type_id'] == call['controller_type'] for output in parent.get('possible_outputs', []))})
+    encounter_sources = generated_encounter_sources(calls, controllers)
     for room in native_rooms:
         room['encounter_controllers'] = [p['id'] for p in controllers
             if p['native_room'] == room['native_room'] and p['spawn_table'] == 1
             and p['type_id'] in ENCOUNTERS]
+        room['encounter_sources'] = [p['id'] for p in encounter_sources
+                                     if p['native_room'] == room['native_room']]
     generated_statues = []
     for parent in placements:
         if parent['source_type'] != 'random_statue':
@@ -374,6 +406,7 @@ def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dic
             'rooms': native_rooms, 'placements': placements, 'encounter_calls': calls,
             'reviewed_bindings': dict(sorted(bindings.items())),
             'generated_statue_slots': generated_statues, 'spawner_outputs': spawner_outputs,
+            'encounter_sources': encounter_sources,
             'dynamic_grant_types': [{'source_key': key, 'native_grant': spec['default_ability'],
                                     'logic': 'advanced', 'access': 'unresolved'}
                                    for key, spec in enemies.items() if spec['kind'] == 'boss_spawned']}
