@@ -710,10 +710,16 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
                     # Retain its use until this particular lifetime has an
                     # explicit revival contract, even if it was never marked
                     # expired (e.g. swallowed before the controller died).
+                    # Only the destination room resets. Remote or unresolved
+                    # identities retain consumption; resetting elsewhere cannot
+                    # manufacture another finite acquisition on a return trip.
                     consumed = frozenset(
                         identity for identity in consumed
-                        if identity in objects and objects[identity][0].lifetime is not None
-                        and objects[identity][0].lifetime not in route.revives_lifetimes
+                        if identity not in objects
+                        or any(node_by_key[source.node].room != node_by_key[route.target].room
+                               for source in objects[identity])
+                        or (objects[identity][0].lifetime is not None
+                            and objects[identity][0].lifetime not in route.revives_lifetimes)
                     )
                     active = frozenset()
                 if ability == "Mini":

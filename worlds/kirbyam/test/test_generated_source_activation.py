@@ -359,3 +359,34 @@ def test_native_live_statue_retry_keeps_native_objects_fixed():
         assert {s['ability'] for s in contacts} == ({2, 7} if case['statue_runtime_mask'] else {2})
         assert not case['restored_state']
         assert all(w['frame'] == 1085 and not w['guard_failed'] for w in case['runtime_writes'])
+
+
+@pytest.mark.parametrize('gating', [False, True])
+@pytest.mark.parametrize('reset_source_room', [False, True])
+def test_reset_of_another_room_cannot_recreate_spent_ordinary_source(gating, reset_source_room):
+    from ..traversal import Node, reachable_positions
+    from .test_traversal import policy
+    nodes = [Node('start', 1), Node('reset', 1), Node('remote', 2), Node('goal', 2)]
+    routes = [Route('start', 'reset', room_transition=True, resets_room_instance=True),
+              Route('reset', 'remote', resets_room_instance=reset_source_room),
+              Route('remote', 'goal', required_equipment=frozenset({'Stone'}))]
+    source = Placement('remote', 'ROCKY', identity='spent-remote-rock')
+    initial = Position('start', consumed=frozenset({'spent-remote-rock'}))
+    result = reachable_positions(nodes, routes, [source], [initial], policy(),
+                                 owned=frozenset({'Stone Ability'}), gating=gating)
+    assert result.reaches('goal') is reset_source_room
+
+
+def test_room_reset_preserves_unknown_consumption_identity():
+    start = Position('pre', consumed=frozenset({'unresolved-object'}))
+    result = run([Route('pre', 'post', room_transition=True, resets_room_instance=True)], starts=[start])
+    assert all('unresolved-object' in p.consumed for p in result.positions)
+
+
+def test_reset_cannot_choose_a_convenient_room_for_an_aliased_identity():
+    sources = [Placement('post', 'ROCKY', identity='ambiguous-room'),
+               Placement('other', 'ROCKY', identity='ambiguous-room')]
+    initial = Position('pre', consumed=frozenset({'ambiguous-room'}))
+    route = Route('pre', 'post', room_transition=True, resets_room_instance=True)
+    result = run([route, NEEDS_STONE], sources, starts=[initial], gating=False)
+    assert not result.reaches('other')

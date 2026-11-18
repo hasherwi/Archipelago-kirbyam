@@ -286,7 +286,7 @@ def test_transition_does_not_renew_sources_without_reset_evidence() -> None:
         (Route("pre", "post", room_transition=True), set(), {"physical_rocky"}),
         (Route("pre", "post", room_transition=True, resets_room_instance=True), set(), set()),
     ]:
-        result = run([route], starts=[initial])
+        result = run([route], [Placement("post", "ROCKY", identity="physical_rocky")], starts=[initial])
         assert Position("post", "Normal", frozenset(opened), frozenset(consumed)) in result.positions
 
 

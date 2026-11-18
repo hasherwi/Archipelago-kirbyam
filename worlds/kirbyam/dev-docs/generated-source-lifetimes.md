@@ -281,3 +281,15 @@ this differs from attached-projectile parent expiry. The exception does not
 prove safe swallowing or survival across a phase. Neither entry into the sweep,
 contact, cleanup timing, phase transitions nor repeatability is admitted as a
 world route by this metadata.
+
+## Room-local reset scope
+
+A certified room reset now clears ordinary-source consumption only for physical
+identities whose recorded compartments all belong to the destination native
+room. Previously it cleared every ordinary consumption identity in the graph,
+allowing a reset elsewhere followed by return travel to recreate a spent source
+without evidence that its own room reset. Remote, unknown and cross-room aliased
+identities retain consumption. Generated identities additionally retain the
+explicit revival requirement. Acquired equipment is unchanged by this correction.
+Positive and negative graph tests cover both gating modes, reset of the actual
+source room, reset elsewhere, and unresolved identities.
