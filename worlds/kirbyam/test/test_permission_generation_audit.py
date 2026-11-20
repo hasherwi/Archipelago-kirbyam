@@ -20,7 +20,7 @@ import pytest
 
 from .. import KirbyAmWorld, check_accessibility
 from ..check_accessibility import KirbyAmCheckAccessibilityError
-from ..peg_traversal import validate_peg_assignment
+from ..peg_traversal import KirbyAmRoom16SourceError, validate_peg_assignment
 from ..enemy_ability_data import ABILITY_NAME_TO_ID, GATEABLE_ENEMY_COPY_ABILITIES, starting_copy_abilities
 from .support.check_accessibility import LocalCheckAudit, audit_local_checks
 from .test_cutter_progression import _generate, _gate_words
@@ -136,17 +136,15 @@ def test_generated_all_check_smoke_matrix(
         multiworld, decoded, archive = _generate(
             monkeypatch, tmp_path, 105100 + profile, [options],
         )
+    except KirbyAmRoom16SourceError as error:
+        assert (profile, mode) in ROOM16_SOURCE_REFUSALS
+        assert rooms == 1 and not audited_worlds
+        assert "Room 4-16" in str(error)
+        assert not tuple((tmp_path / "output").glob("*.zip"))
+        record_property("generation_outcome", "rejected_unqualified_room16_before_fill")
+        record_property("generation_error", str(error))
+        return
     except KirbyAmCheckAccessibilityError as error:
-        if (profile, mode) in ROOM16_SOURCE_REFUSALS:
-            assert rooms == 1 and audited_worlds
-            audit = audit_local_checks(audited_worlds[-1], 1)
-            assert audit.unfilled == ()
-            assert audit.inventory_unreachable == ('Room 4-16',)
-            assert "unavailable even with all inventory=['Room 4-16']" in str(error)
-            assert not tuple((tmp_path / "output").glob("*.zip"))
-            record_property("generation_outcome", "rejected_unqualified_room16")
-            record_property("generation_error", str(error))
-            return
         # Minimal fill may strand optional progression. Reject before output,
         # not by changing the option or silently treating the selected goal as all checks.
         assert accessibility == "minimal"

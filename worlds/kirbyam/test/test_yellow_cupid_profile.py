@@ -12,6 +12,14 @@ from .. import KirbyAmWorld, yellow_cupid as y
 from ..data import data
 from ..rom import KirbyAmProcedurePatch, write_tokens
 from ..traversal import SourcePolicy
+from .support.source_policy import keep_historical_room16_assignment
+
+
+@pytest.fixture(autouse=True)
+def preserve_exact_yellow_profile(monkeypatch):
+    # This module tests the exact historical source policy, not
+    # production generation's selection of compatible Room16 assignments.
+    keep_historical_room16_assignment(monkeypatch)
 
 
 def make_world(**options):

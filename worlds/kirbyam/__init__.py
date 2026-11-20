@@ -529,6 +529,8 @@ class KirbyAmWorld(World):
                     no_ability_weight=no_ability_weight,
                 ), randomize_statues, require_all_witnesses=True,
                 advanced=self.options.advanced_logic.value == 1,
+                require_room16=bool(self.options.room_sanity.value),
+                room16_for_completion=self.options.goal.value == Goal.option_full_completion,
             )
             validate_phone_profile(self)
             validate_mini_sources(self._enemy_copy_ability_policy, randomize_statues)

@@ -196,6 +196,9 @@ def test_720_cycle_cannot_supply_its_own_independent_entry():
 @pytest.mark.parametrize('mode,applies', [(1, True), (0, False)])
 def test_actual_full_generation_seed8_at_one_hp(
         tmp_path, monkeypatch, gating, area_keys, statues, room_sanity, mode, applies):
+    from .support.source_policy import keep_historical_room16_assignment
+
+    keep_historical_room16_assignment(monkeypatch)
     import Main
     from .. import build_enemy_copy_ability_policy, check_accessibility
     from .support.check_accessibility import audit_local_checks

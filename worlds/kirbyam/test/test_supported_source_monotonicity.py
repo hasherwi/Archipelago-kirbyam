@@ -168,7 +168,7 @@ def test_supported_installed_rule_cannot_cache_a_transient_source_or_bootstrap_a
     # Actual generated policy and actual native205/209/210 graph, in a bounded
     # topology fixture. No custom whitelist, copied equipment or synthetic source.
     with patch.object(rules, 'install_extra_traversal_rules'):
-        world = make_world(2, True, area_keys=False, room_sanity=True,
+        world = make_world(2, True, area_keys=False, room_sanity=False,
                            ability_randomization_no_ability_weight=0)
     row = next(row for row in _room_catalog()[0] if row['id'] == TARGET)
     with patch.object(rules, 'extra_traversal_targets', return_value=(row,)):

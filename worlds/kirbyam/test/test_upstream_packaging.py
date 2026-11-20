@@ -68,47 +68,17 @@ def test_built_apworld_generates_single_and_multi_player_archives(tmp_path):
     result = subprocess.run(
         [sys.executable, '-c', bootstrap, str(world_root / 'tools/verify_packaged_generation.py'),
          '--apworld', str(installed), '--output', str(tmp_path / 'results'),
-         '--limit', '4', '--seeds', '935', '202610120972'],
+         '--limit', '5', '--seeds', '935', '202610120972'],
         cwd=runtime, env=env, stdin=subprocess.DEVNULL,
         stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, timeout=180,
     )
     assert result.returncode == 0, result.stdout[-8000:]
     summary = json.loads((tmp_path / 'results/summary.json').read_text())
-    # The first four cases use native sources. Heterogeneous second players
-    # still exercise RoomSanity; the verifier checks their actual room IDs.
-    assert summary['archives'] == 8
-    assert summary['slots'] == 12
-    assert summary['option_values']['ability_randomization_mode'] == ['0']
-    # The first randomized-source multiworld from the historical matrix is
-    # intentionally rejected under #1099. Exercise the installed guard without
-    # teaching the verification tool to forgive arbitrary generation failures.
-    rejection_output = tmp_path / 'rejection'
-    result = subprocess.run(
-        [sys.executable, '-c', bootstrap, str(world_root / 'tools/verify_packaged_generation.py'),
-         '--apworld', str(installed), '--output', str(rejection_output),
-         '--limit', '5', '--seeds', '935', '202610120972'],
-        cwd=runtime, env=env, stdin=subprocess.DEVNULL,
-        stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, timeout=180,
-    )
-    assert result.returncode == 1, result.stdout[-8000:]
-    assert 'FAIL case=4 seed=202610120972 players=2;' in result.stdout
-    assert result.stdout.count('Traceback (most recent call last):') == 1
-    assert 'During handling of the above exception' not in result.stdout
-    assert 'ExceptionGroup' not in result.stdout
-    assert 'worlds.kirbyam.check_accessibility.KirbyAmCheckAccessibilityError:' in result.stdout
-    assert 'kirbyam.apworld/kirbyam/check_accessibility.py' in result.stdout.replace('\\', '/')
-    diagnostic = ("Player 2 (Probe2): unfilled=[]; unavailable even with all inventory=['Room 4-16']; "
-                  "unreachable from placed progression=[]")
-    assert result.stdout.rstrip().endswith(diagnostic), result.stdout[-8000:]
-    assert result.stdout.count('unavailable even with all inventory=') == 1
-    assert not tuple(rejection_output.rglob('*.zip'))
-    assert not (rejection_output / 'summary.json').exists()
-    retained, = rejection_output.glob('case-*')
-    import yaml
-    players = [yaml.safe_load((retained / 'players' / f'{player}.yaml').read_text())
-               ['Kirby & The Amazing Mirror'] for player in (1, 2)]
-    assert [player['room_sanity'] for player in players] == [0, 1]
-    assert all(player['ability_randomization_mode'] == 1 for player in players)
+    # The first randomized-source case now also succeeds for the RoomSanity
+    # player. The verifier checks room IDs for every slot in each archive.
+    assert summary['archives'] == 10
+    assert summary['slots'] == 15
+    assert summary['option_values']['ability_randomization_mode'] == ['0', '1']
     # Real YAML generation, not a manually injected precollection or slot flag.
     result = subprocess.run(
         [sys.executable, '-c', bootstrap, str(world_root / 'tools/verify_packaged_generation.py'),

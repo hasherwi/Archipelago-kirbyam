@@ -556,3 +556,128 @@ def test_room16_classifier_direct_script_import_path(tmp_path: Path) -> None:
                                cwd=tmp_path, capture_output=True, text=True, timeout=60,
                                env={**os.environ, "AP_TEST_WORLDS": "kirbyam"})
     assert completed.returncode == 0, completed.stdout + completed.stderr
+
+
+@pytest.mark.parametrize("profile", ["live", "all_normal", "completion_live", "completion_all_normal"])
+@pytest.mark.parametrize("mutation", ["none", "autoworld_note", "other_note", "disabled", "wrong_mode", "wrong_weight",
+                                      "wrong_type", "wrong_stack", "budget", "missing_yaml", "duplicate_options", "other_goal"])
+def test_early_room16_rejection_requires_exact_profile_and_terminal_error(
+    tmp_path: Path, profile: str, mutation: str,
+) -> None:
+    from ..options import Goal
+    from ..peg_traversal import (
+        ROOM16_LIVE_REJECTION, ROOM16_WEIGHT_REJECTION,
+        ROOM16_COMPLETION_LIVE_REJECTION, ROOM16_COMPLETION_WEIGHT_REJECTION,
+    )
+
+    launcher = load_launcher()
+    live = profile.endswith("live")
+    completion = profile.startswith("completion")
+    messages = ([ROOM16_COMPLETION_WEIGHT_REJECTION, ROOM16_COMPLETION_LIVE_REJECTION] if completion
+                else [ROOM16_WEIGHT_REJECTION, ROOM16_LIVE_REJECTION])
+    message = messages[live]
+    options = {"game": "Kirby & The Amazing Mirror", "accessibility": 2,
+               "room_sanity": int(not completion), "advanced_logic": 0,
+               "goal": Goal.option_full_completion if completion else Goal.option_dark_mind,
+               "ability_randomization_mode": 2 if live else 1,
+               "ability_randomization_no_ability_weight": 55 if live else 100}
+    last_frame = "validate_peg_assignment"
+    error_type = "worlds.kirbyam.peg_traversal.KirbyAmRoom16SourceError"
+    if mutation == "disabled":
+        options["room_sanity"] = 0
+        options["goal"] = Goal.option_dark_mind
+    elif mutation == "other_goal":
+        options["room_sanity"] = 1
+        options["goal"] = Goal.option_dark_mind
+    elif mutation == "wrong_mode":
+        options["ability_randomization_mode"] = 0
+    elif mutation == "wrong_weight":
+        options["ability_randomization_no_ability_weight"] = -1 if live else 99
+    elif mutation == "wrong_type":
+        error_type = "ValueError"
+    elif mutation == "wrong_stack":
+        last_frame = "validate_all_checks"
+    elif mutation == "budget":
+        message = "KirbyAM RoomSanity requires Mustard Mountain Room 4-16, but the assignment budget expired."
+    rolled = "P1 Rolled options (1-0/Kirby & The Amazing Mirror): " + json.dumps(options) + "\n"
+    log = ('Generating for 1 player, 123 Seed 456 with plando: items, connections\n'
+           + rolled * (2 if mutation == "duplicate_options" else 1)
+           + 'Traceback (most recent call last):\n  File "world.py", line 1, in generate_early\n'
+           + f'  File "peg_traversal.py", line 2, in {last_frame}\n'
+           + error_type + ": " + message + "\n")
+    if mutation in ("autoworld_note", "other_note"):
+        player = 1 if mutation == "autoworld_note" else 2
+        log += ("Exception in <bound method KirbyAmWorld.generate_early of "
+                "<worlds.kirbyam.KirbyAmWorld object at 0xabcdef>> "
+                f"for player {player}, named 1-0.\n")
+    case = tmp_path / "error/kirbyam/1"
+    case.mkdir(parents=True)
+    (case / "1.log").write_text(log)
+    if mutation != "missing_yaml":
+        (case / "1-0.yaml").write_text("game: Kirby & The Amazing Mirror\n")
+    report = {"stats": {"total": 4, "success": 3, "failure": 1, "timeout": 0, "ignored": 0},
+              "errors": {"kirbyam": {message: [1]}}}
+    classified = launcher.classify_minimal_rejections(report, tmp_path, minimal=False, room16=True)
+    accepted = mutation in ("none", "autoworld_note") or (mutation == "other_goal" and not completion)
+    assert len(classified["unsafe_rejected"]) == accepted
+    if accepted:
+        assert classified["unsafe_rejected"][0]["rejection_kind"] == (
+            "room16_live_random_unsupported" if live else "room16_shuffled_no_ability"
+        )
+        assert classified["unsafe_rejected"][0]["stranded_checks"] == []
+        assert report["stats"]["failure"] == 1
+        opted_out = launcher.classify_minimal_rejections(report, tmp_path, room16=False)
+        assert opted_out["unclassified"] and not opted_out["unsafe_rejected"]
+
+
+@pytest.mark.parametrize("mutation", [
+    "none", "missing_stage_marker", "wrong_player", "different_exception",
+    "different_frame", "third_trace", "explicit_chain", "mixed_terminal",
+])
+def test_duplicate_early_room16_trace_must_be_identical_staged_relogging(
+    tmp_path: Path, mutation: str,
+) -> None:
+    """Match the double traceback actually emitted by Actions run 44661585788."""
+    from ..peg_traversal import ROOM16_LIVE_REJECTION as message
+
+    launcher = load_launcher()
+    options = {"game": "Kirby & The Amazing Mirror", "accessibility": 0, "advanced_logic": 1,
+               "room_sanity": 1, "ability_randomization_mode": 2, "ability_randomization_no_ability_weight": 32}
+    header = "Traceback (most recent call last):\n"
+    marker = ("[P1] Generation stage 'generate_early' failed after 0.00s: "
+              f"KirbyAmRoom16SourceError: {message}\n")
+    last = ('  File "/repo/worlds/kirbyam/__init__.py", line 524, in generate_early\n'
+            '  File "/repo/worlds/kirbyam/peg_traversal.py", line 104, in validate_peg_assignment\n')
+    exc = "worlds.kirbyam.peg_traversal.KirbyAmRoom16SourceError: " + message + "\n"
+    stage = ('  File "/repo/worlds/kirbyam/generation_logging.py", line 62, in generation_stage\n'
+             '    yield stage_logger\n' + last + exc)
+    terminal = ('  File "/repo/Main.py", line 76, in main\n'
+                '  File "/repo/worlds/AutoWorld.py", line 193, in call_single\n'
+                + last + exc + "Exception in <bound method KirbyAmWorld.generate_early of "
+                "<worlds.kirbyam.KirbyAmWorld object at 0xabcdef>> for player 1, named 10-0.\n")
+    if mutation == "missing_stage_marker":
+        marker = ""
+    elif mutation == "wrong_player":
+        marker = marker.replace("[P1]", "[P2]")
+    elif mutation == "different_exception":
+        stage = stage.replace(exc, "RuntimeError: different failure\n")
+    elif mutation == "different_frame":
+        stage = stage.replace("line 104", "line 105")
+    elif mutation == "third_trace":
+        stage += header + stage
+    elif mutation == "explicit_chain":
+        stage += "\nThe above exception was the direct cause of the following exception:\n\n"
+    elif mutation == "mixed_terminal":
+        terminal = "Exception: different failure\n" + terminal
+    log = ("Generating for 1 player, 27396741778576445969 Seed 344859219 with plando: items, connections\n"
+           "P1 Rolled options (10-0/Kirby & The Amazing Mirror): " + json.dumps(options) + "\n"
+           + marker + header + stage + header + terminal)
+    case = tmp_path / "error/kirbyam/10"
+    case.mkdir(parents=True)
+    (case / "10.log").write_text(log)
+    (case / "10-0.yaml").write_text("game: Kirby & The Amazing Mirror\n")
+    report = {"stats": {"total": 4, "success": 3, "failure": 1, "timeout": 0, "ignored": 0},
+              "errors": {"kirbyam": {message: [10]}}}
+    classified = launcher.classify_minimal_rejections(report, tmp_path, room16=True)
+    assert bool(classified["unsafe_rejected"]) is (mutation == "none")
+    assert bool(classified["unclassified"]) is (mutation != "none")

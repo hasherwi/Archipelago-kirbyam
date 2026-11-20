@@ -243,6 +243,9 @@ def test_full_seed5_fill_uses_actual_policy_and_progression(tmp_path, monkeypatc
 ])
 def test_full_seed5_start_inventory_is_reconciled_after_regions(
         tmp_path, monkeypatch, gating, minor_chests, count):
+    from .support.source_policy import keep_historical_room16_assignment
+
+    keep_historical_room16_assignment(monkeypatch)
     import Main
     from .. import check_accessibility
     from .support.check_accessibility import audit_local_checks

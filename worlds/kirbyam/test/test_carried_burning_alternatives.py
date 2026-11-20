@@ -214,9 +214,13 @@ def test_actual_ap_destination_cannot_bootstrap_its_own_source_path(
 ) -> None:
     from BaseClasses import CollectionState, ItemClassification
     from ..data import data
+    from .support.source_policy import keep_historical_room16_assignment
     from .test_mini_traversal import make_world
 
     simulate_burning_gating(monkeypatch)
+    # This synthetic graph replaces all world exits below and needs RoomSanity
+    # only to instantiate the destination check, not to generate a playable seed.
+    keep_historical_room16_assignment(monkeypatch)
     world = make_world(2, 1, room_sanity=1, ability_randomization_statues=0,
                        ability_randomization_no_ability_weight=100)  # type: ignore[no-untyped-call]
     mw = world.multiworld

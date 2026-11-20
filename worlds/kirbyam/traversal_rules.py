@@ -153,6 +153,15 @@ def mustard_ice_is_progression(world: Any) -> bool:
     return SourcePolicy(raw).grant("FOLEY", lambda _: True).guaranteed == frozenset({"Ice"})
 
 
+def static_room16_witness(policy: SourcePolicy, *, advanced: bool = False) -> bool:
+    """Check source feasibility for the RoomSanity visit, not world reachability."""
+    row = next(row for row in room_traversal_targets("switch") if row["id"] == "switch_533_room16")
+    return target_applies(row, policy) and any(
+        graph_succeeds(graph, policy, graph_items(graph), False, retries=False)
+        for graph in target_graphs(row, False, advanced=advanced)
+    )
+
+
 def static_extra_witness(policy: SourcePolicy, *, advanced: bool = False) -> bool:
     """Check the same assignment as the ROM, without assuming source access.
 
