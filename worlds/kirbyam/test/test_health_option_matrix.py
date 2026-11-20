@@ -77,6 +77,9 @@ def test_health_pool_all_percentages_and_modifiers(minimum, maximum, shards, no_
 @pytest.mark.parametrize("scenario", range(12))
 def test_health_cross_option_archive_generation(monkeypatch, tmp_path, minimum, maximum, scenario):
     """Cross every health range with 12 mixed scenarios, not a Cartesian proof."""
+    from .support.source_policy import keep_historical_room16_assignment
+
+    keep_historical_room16_assignment(monkeypatch)
     from .support.integration_generation import generate_archive_from_fixture, load_multidata_from_archive
 
     ability_mode = (scenario // 4) % 3

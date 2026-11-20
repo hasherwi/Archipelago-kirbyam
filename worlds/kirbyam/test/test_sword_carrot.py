@@ -260,6 +260,9 @@ def test_start_inventory_is_already_owned_before_regions_without_promotion(monke
     (1, 0, 100, 0, 0), (1, 1, 500, 1, 1), (1, 0, 250, 0, 3), (0, 0, 100, 1, 1)])
 def test_normal_full_pool_seed4_fill_start_inventory_and_accessibility(
         tmp_path, monkeypatch, gating, area_keys, health, room_sanity, count):
+    from .support.source_policy import keep_historical_room16_assignment
+
+    keep_historical_room16_assignment(monkeypatch)
     import Main
     from .support.integration_generation import generate_archive_from_fixture, load_multidata_from_archive
     from .. import check_accessibility

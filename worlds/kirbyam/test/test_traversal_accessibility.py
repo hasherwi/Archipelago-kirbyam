@@ -227,7 +227,15 @@ def test_room_970_requires_independent_access_in_every_accessibility(accessibili
 def replay_fuzz_case(
     monkeypatch: pytest.MonkeyPatch, tmp_path: Path, case: int, *, companion: str | int | None = None,
 ) -> MultiWorld:
-    """Use the unmodified artifact and the pinned fuzzer's normal generation entrypoints."""
+    """Replay historical artifacts before #1124's new source preflight."""
+    from .. import validate_peg_assignment
+    import worlds.kirbyam as kirby
+
+    def historic_assignment(*args: Any, **kwargs: Any) -> dict[str, Any]:
+        kwargs["require_room16"] = False
+        return validate_peg_assignment(*args, **kwargs)
+
+    monkeypatch.setattr(kirby, "validate_peg_assignment", historic_assignment)
     import Generate
     import Main
     import settings
@@ -351,7 +359,7 @@ def use_historical_room16_fallback(monkeypatch: pytest.MonkeyPatch) -> None:
 
 
 @pytest.mark.parametrize('case,companion,affected_player', [(95, None, 1), (69, 95, 2), (1, None, 1)])
-def test_current_fuzz_replays_reject_unqualified_room16(
+def test_historical_fuzz_replays_reject_unqualified_room16_in_final_guard(
     monkeypatch: pytest.MonkeyPatch, tmp_path: Path, case: int, companion: int | None, affected_player: int,
 ) -> None:
     from .support.check_accessibility import audit_local_checks

@@ -97,7 +97,7 @@ def test_normal_race_witnesses_are_not_wheel_gated() -> None:
 def test_wheel_and_mini_archive_accessibility(
         tmp_path: Path, monkeypatch, mode: int, statues: bool, gating: bool, room_sanity: int) -> None:
     from .. import check_accessibility
-    from .support.check_accessibility import audit_local_checks
+    from ..peg_traversal import KirbyAmRoom16SourceError
     validated, validate = [], check_accessibility.validate_all_checks
 
     def capture_validation(multiworld, players):
@@ -115,27 +115,18 @@ def test_wheel_and_mini_archive_accessibility(
     )
     seed = 1041 + mode * 4 + statues * 2 + gating
     if room_sanity and mode in (1, 2):
-        # Weight100 cannot provide a guaranteed Foley ability. The ordinary
-        # Wheel/Mini fill remains covered without RoomSanity, below.
-        with pytest.raises(check_accessibility.KirbyAmCheckAccessibilityError,
-                           match=r"unavailable even with all inventory=\['Room 4-16'\]"):
+        # The finite Foley requirement is detected before fill. Keep
+        # the Wheel/Mini archive contract covered without RoomSanity.
+        reason = "100% no-ability weight" if mode == 1 else "Completely Random"
+        with pytest.raises(KirbyAmRoom16SourceError, match=f"Room 4-16, but .*{reason}"):
             generate_archive_from_fixture(player, tmp_path / "output", seed=seed)
-        multiworld, = validated
-        audit = audit_local_checks(multiworld, 1)
-        assert audit.unfilled == ()
-        assert audit.inventory_unreachable == ('Room 4-16',)
-        assert audit.progression_unreachable == ('Room 4-16',)
-        assert not tuple((tmp_path / "output").glob('*.zip'))
-        raw = multiworld.worlds[1]._enemy_copy_ability_policy
-        assert raw['ability_randomization_no_ability_weight'] == 100
-        assert not SourcePolicy(raw).grant('FOLEY', lambda _: True).guaranteed
-        starts = [item.code for item in multiworld.precollected_items[1]]
-        pool = {loc.item.code for loc in multiworld.get_locations(1) if loc.item is not None}
-    else:
-        archive = generate_archive_from_fixture(player, tmp_path / "output", seed=seed)
-        decoded = load_multidata_from_archive(archive)
-        starts = decoded["precollected_items"][1]
-        pool = {entry[0] for entry in decoded["locations"][1].values()}
+        assert not validated
+        assert not tuple((tmp_path / "output").glob("*.zip"))
+        return
+    archive = generate_archive_from_fixture(player, tmp_path / "output", seed=seed)
+    decoded = load_multidata_from_archive(archive)
+    starts = decoded["precollected_items"][1]
+    pool = {entry[0] for entry in decoded["locations"][1].values()}
     assert 3860107 in starts  # Beam is the sole automatic ability.
     assert 3860103 not in starts and 3860108 not in starts
     assert 3860104 not in starts and 3860123 not in starts

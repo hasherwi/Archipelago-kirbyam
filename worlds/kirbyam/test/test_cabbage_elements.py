@@ -150,6 +150,9 @@ def natural_policy(ability):
     (1, True, 0), (1, True, 1), (1, True, 3), (0, True, 1), (1, False, 3),
 ])
 def test_natural_full_pool_fill_and_main_start_order(tmp_path, monkeypatch, ability, gating, minor_chests, count):
+    from .support.source_policy import keep_historical_room16_assignment
+
+    keep_historical_room16_assignment(monkeypatch)
     import Main
     from .. import check_accessibility
     from .support.check_accessibility import audit_local_checks
@@ -238,6 +241,9 @@ def test_natural_full_pool_fill_and_main_start_order(tmp_path, monkeypatch, abil
 @pytest.mark.parametrize('mode,gating,area_keys', [(1, 1, 0), (1, 0, 1), (2, 1, 1)])
 @pytest.mark.parametrize('room_sanity', [0, 1])
 def test_singleton_generated_policy_with_optional_sources_off(tmp_path, monkeypatch, ability, mode, gating, area_keys, room_sanity):
+    from .support.source_policy import keep_historical_room16_assignment
+
+    keep_historical_room16_assignment(monkeypatch)
     import Main
     from ..ability_randomization import build_enemy_copy_ability_policy
     from .. import check_accessibility

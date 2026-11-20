@@ -36,12 +36,16 @@ witnesses retain their existing entry, equipment, permission and crossing checks
 This is an optional progression route, not an unconditional generation constraint:
 the existing Room15 → Room17 → Room18 route bypasses Room16. Room16 itself contains
 only its optional RoomSanity check; the bypass does **not** grant access to it.
-Accordingly the early source-feasibility filter does not resample all worlds just
-to open this exit. Final all-check validation rejects an inaccessible enabled RoomSanity check even
-under minimal accessibility. With RoomSanity off, this route may remain closed
-without stranding a check. No claim is made that unreviewed
-physical alternatives are impossible, nor that the original screenshot's unknown
-seed/version has been reproduced.
+With RoomSanity enabled, issue #1124 adds the Room16 visit to the early source
+feasibility filter in both Full and Minimal accessibility. Shuffled mode searches
+the same bounded deterministic policy stream; a candidate must pass this witness
+and the existing source checks together. The accepted mapping is shared by logic
+and ROM patching. Off retains vanilla Foley Bomb. Completely Random cannot
+guarantee an eligible finite Foley grant, so this combination reports an early
+error. Shuffled with 100% no-ability weight also reports an early error. With
+RoomSanity off, the source filter still does not resample to qualify this optional
+exit. Final validation continues to check every enabled check, including actual
+entry and progression. This is not proof that unreviewed routes are impossible.
 
 The applicability check uses the unfiltered source policy. It must not infer a
 guaranteed finite grant from the currently owned subset of ability permissions:

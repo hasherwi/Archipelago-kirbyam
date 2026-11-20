@@ -234,6 +234,9 @@ def test_collection_state_cannot_bootstrap544_from_new_connection(independent):
 @pytest.mark.parametrize('mode,gating,area_keys,disabled', [(0, 1, 0, False), (1, 1, 1, False), (2, 0, 1, True)])
 def test_full_generation_accessibility_with_optional_supported_or_unsupported_source(
         tmp_path, monkeypatch, mode, gating, area_keys, disabled):
+    from .support.source_policy import keep_historical_room16_assignment
+
+    keep_historical_room16_assignment(monkeypatch)
     import Main
     from .support.integration_generation import generate_archive_from_fixture, load_multidata_from_archive
     from .. import check_accessibility

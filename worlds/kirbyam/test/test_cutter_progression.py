@@ -151,6 +151,9 @@ def test_generated_seed_matrix(
     gating: bool,
     accessibility: str,
 ) -> None:
+    from .support.source_policy import keep_historical_room16_assignment
+
+    keep_historical_room16_assignment(monkeypatch)
     variant = SEEDS.index(seed)
     options = {
         "ability_randomization_mode": mode, "ability_gating": gating, "accessibility": accessibility,

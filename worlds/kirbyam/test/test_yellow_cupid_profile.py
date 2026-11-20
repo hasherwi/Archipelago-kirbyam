@@ -149,6 +149,9 @@ def test_disabled_minor_chests_and_unrelated_targets_do_not_gain_rules(monkeypat
 @pytest.mark.parametrize("room_sanity", [0, 1])
 @pytest.mark.parametrize("ability_gating", [0, 1])
 def test_real_generation_keeps_yellow_source_guard_and_room16_refusal(monkeypatch, tmp_path, room_sanity, ability_gating):
+    from .support.source_policy import keep_historical_room16_assignment
+
+    keep_historical_room16_assignment(monkeypatch)
     from .. import check_accessibility
     from .support.integration_generation import generate_archive_from_fixture, load_multidata_from_archive
 

@@ -171,16 +171,31 @@ def _minimal_rejection_evidence(message: str, log: str) -> dict[str, Any]:
     return {**context, "stranded_checks": checks}
 
 
-def _rejection_context(message: str, log: str) -> dict[str, Any]:
+def _rejection_context(
+    message: str, log: str, *, error_type: str = CHECK_ERROR_TYPE,
+    frames: tuple[str, ...] = ("stage_pre_output", "validate_all_checks"),
+    early_room16: bool = False,
+) -> dict[str, Any]:
     """Validate the shared terminal exception and actual generation envelope."""
     mixed_markers = ("ExceptionGroup", "During handling of the above exception",
                      "The above exception was the direct cause")
     if log.count("Traceback (most recent call last):") != 1 or any(marker in log for marker in mixed_markers):
         raise ValueError("missing, mixed, or chained exception traceback")
-    if not log.rstrip().endswith(CHECK_ERROR_TYPE + ": " + message):
+    terminal = log.rstrip()
+    if early_room16:
+        # AutoWorld.call_single attaches exactly one player/method note on Python 3.11+.
+        terminal = re.sub(
+            r"\nException in <bound method KirbyAmWorld\.generate_early of "
+            r"<worlds\.kirbyam\.KirbyAmWorld object at 0x[0-9A-Fa-f]+>> "
+            r"for player 1, named [^\n]+\.\Z",
+            "", terminal, count=1,
+        )
+    if not terminal.endswith(error_type + ": " + message):
         raise ValueError("terminal exception does not match report and guard type")
-    if "in stage_pre_output" not in log or "in validate_all_checks" not in log:
-        raise ValueError("missing final all-check validation stack")
+    trace = log.split("Traceback (most recent call last):", 1)[1]
+    trace_frames = re.findall(r'^  File "[^\n]+", line \d+, in (\w+)$', trace, re.MULTILINE)
+    if tuple(trace_frames[-len(frames):]) != frames:
+        raise ValueError("missing expected validation stack")
     rolled = re.findall(r"^P(\d+) Rolled options \([^\n]+\): (.+)$", log, re.MULTILINE)
     if len(rolled) != 1 or rolled[0][0] != "1":
         raise ValueError("not a single-player rolled-options record")
@@ -292,6 +307,37 @@ def _room16_rejection_evidence(message: str, log: str) -> dict[str, Any]:
             "source_policy_sha256": hashlib.sha256(json.dumps(raw, sort_keys=True).encode()).hexdigest()}
 
 
+def _early_room16_rejection_evidence(message: str, log: str) -> dict[str, Any]:
+    """Classify only the two deterministic unsupported RoomSanity profiles."""
+    if str(REPO_ROOT) not in sys.path:
+        sys.path.insert(0, str(REPO_ROOT))
+    from worlds.kirbyam.peg_traversal import ROOM16_LIVE_REJECTION, ROOM16_WEIGHT_REJECTION
+
+    if message not in (ROOM16_LIVE_REJECTION, ROOM16_WEIGHT_REJECTION):
+        raise ValueError("not an exact unsupported Room16 configuration")
+    context = _rejection_context(
+        message, log,
+        error_type="worlds.kirbyam.peg_traversal.KirbyAmRoom16SourceError",
+        frames=("generate_early", "validate_peg_assignment"), early_room16=True,
+    )
+    options = context["rolled_options"]
+    sanity = options.get("room_sanity")
+    mode = options.get("ability_randomization_mode")
+    weight = options.get("ability_randomization_no_ability_weight")
+    advanced = options.get("advanced_logic")
+    if (type(sanity) is not int or sanity != 1 or type(mode) is not int
+            or type(advanced) is not int or advanced not in (0, 1)
+            or type(weight) is not int or not 0 <= weight <= 100):
+        raise ValueError("invalid rolled Room16 options")
+    if message == ROOM16_LIVE_REJECTION and mode == 2:
+        reason = "room16_live_random_unsupported"
+    elif message == ROOM16_WEIGHT_REJECTION and mode == 1 and weight == 100:
+        reason = "room16_shuffled_no_ability"
+    else:
+        raise ValueError("rolled options do not match early Room16 rejection")
+    return {**context, "stranded_checks": [], "rejection_kind": reason}
+
+
 def classify_minimal_rejections(report: dict[str, Any], output_dir: Path, *,
                                 minimal: bool = True, room16: bool = False) -> dict[str, Any]:
     """Keep raw failures unchanged and add an auditable, narrowly scoped outcome."""
@@ -315,6 +361,8 @@ def classify_minimal_rejections(report: dict[str, Any], output_dir: Path, *,
             log = log_path.read_text(encoding="utf-8-sig")
             if room16 and "unavailable even with all inventory=['Room 4-16']" in message:
                 evidence = _room16_rejection_evidence(message, log)
+            elif room16 and message.startswith("KirbyAM RoomSanity requires Mustard Mountain Room 4-16,"):
+                evidence = _early_room16_rejection_evidence(message, log)
             elif minimal:
                 evidence = _minimal_rejection_evidence(message, log)
             else:

@@ -60,58 +60,89 @@ def _assignment_has_witness(row: dict[str, Any], policy: SourcePolicy) -> bool:
     return False
 
 
+class KirbyAmRoom16SourceError(ValueError):
+    """Generation cannot certify equipment for the enabled Room16 visit."""
+
+
+ROOM16_LIVE_REJECTION = (
+    "KirbyAM RoomSanity requires Mustard Mountain Room 4-16, but Completely Random "
+    "cannot guarantee equipment from the finite local source for any reviewed route. "
+    "Use Shuffled or Off, or disable RoomSanity."
+)
+ROOM16_WEIGHT_REJECTION = (
+    "KirbyAM RoomSanity requires Mustard Mountain Room 4-16, but Shuffled with "
+    "100% no-ability weight provides no equipment from the finite local source. "
+    "Lower the no-ability weight, use Off, or disable RoomSanity."
+)
+
+
 def validate_peg_assignment(
     initial: dict[str, Any], factory: Callable[[], dict[str, Any]], include_statues: bool,
     max_attempts: int = 8192, *, require_all_witnesses: bool = True, advanced: bool = False,
+    require_room16: bool = False,
 ) -> dict[str, Any]:
     """Select a valid deterministic assignment; do not rewrite individual grants.
 
     The bounded default allows rare joint Wheelie/peg-source assignments with fixed
     statues. It never forces individual grants. Rejection does not prove that no
     remote-carried solution exists. Live random statues use explicit retry semantics.
-    Minimal accessibility keeps the original assignment and leaves closed routes
-    to normal fill and the goal-accessibility check instead of demanding every check.
+    RoomSanity makes the otherwise optional Room16 witness mandatory, even
+    under minimal accessibility. All selected witnesses must share one policy.
     """
     if not isinstance(require_all_witnesses, bool):
         raise TypeError("require_all_witnesses must be a boolean")
     if max_attempts < 1:
         raise ValueError("assignment search budget must be positive")
-    if not require_all_witnesses or not peg_logic_enabled(initial):
+    validate_static = require_all_witnesses and peg_logic_enabled(initial)
+    if not validate_static and not require_room16:
         return initial
     from .wheel_traversal import static_wheel_witness
-    from .traversal_rules import static_extra_witness
+    from .traversal_rules import static_extra_witness, static_room16_witness
+
+    if require_room16 and not peg_logic_enabled(initial):
+        if not static_room16_witness(SourcePolicy(initial, include_statues), advanced=advanced):
+            raise KirbyAmRoom16SourceError(ROOM16_LIVE_REJECTION)
+        return initial
+
+    if (require_room16 and initial.get("mode") == 1
+            and initial.get("ability_randomization_no_ability_weight") == 100
+            and not static_room16_witness(SourcePolicy(initial, include_statues), advanced=advanced)):
+        raise KirbyAmRoom16SourceError(ROOM16_WEIGHT_REJECTION)
 
     candidate = initial
     wheel_valid_candidate = None
     peg_valid_candidate = None
+    extra_valid = False
     for attempt in range(max_attempts):
         policy = SourcePolicy(candidate, include_statues)
-        wheel_valid = static_wheel_witness(policy)
+        wheel_valid = not validate_static or static_wheel_witness(policy)
         if wheel_valid and wheel_valid_candidate is None:
             wheel_valid_candidate = candidate
-        if wheel_valid and all(_assignment_has_witness(row, policy) for row in PEG_ROUTES):
+        if wheel_valid and (not validate_static or all(_assignment_has_witness(row, policy) for row in PEG_ROUTES)):
             peg_valid_candidate = candidate
-            if static_extra_witness(policy, advanced=advanced):
-                return candidate
+            if not validate_static or static_extra_witness(policy, advanced=advanced):
+                extra_valid = True
+                if not require_room16 or static_room16_witness(policy, advanced=advanced):
+                    return candidate
         if policy.mode != 1:
             break
         if attempt + 1 < max_attempts:
             candidate = factory()
-    if wheel_valid_candidate is None:
-        raise ValueError(
-            f"Reviewed Wheel-source search budget exhausted after {attempt + 1} attempts "
-            f"(mode={initial.get('mode')}, initial seed={initial.get('seed')}). "
-            "This does not prove the configuration or unreviewed alternatives impossible; try another seed."
+    raise _assignment_search_failure(initial, attempt + 1, wheel_valid_candidate is not None,
+                                     peg_valid_candidate is not None, extra_valid)
+
+
+def _assignment_search_failure(initial: dict[str, Any], attempts: int, wheel_valid: bool,
+                               peg_valid: bool, extra_valid: bool) -> ValueError:
+    context = f"after {attempts} attempts (mode={initial.get('mode')}, initial seed={initial.get('seed')}). "
+    if extra_valid:
+        return KirbyAmRoom16SourceError(
+            "KirbyAM RoomSanity requires Mustard Mountain Room 4-16, but no reviewed source "
+            f"witness met all assignment constraints {context}Try another seed or use Ability Randomization Off."
         )
-    if peg_valid_candidate is not None:
-        raise ValueError(
-            f"Reviewed fuse/rope/block-source search budget exhausted after {attempt + 1} attempts "
-            f"(mode={initial.get('mode')}, initial seed={initial.get('seed')}). "
-            "This does not prove the configuration or unreviewed alternatives impossible; try another seed."
-        )
-    raise ValueError(
-        f"Reviewed peg-source search budget exhausted after {attempt + 1} attempts "
-        f"(mode={initial.get('mode')}, initial seed={initial.get('seed')}). "
+    feature = "Wheel" if not wheel_valid else "fuse/rope/block" if peg_valid else "peg"
+    return ValueError(
+        f"Reviewed {feature}-source search budget exhausted {context}"
         "This does not prove the configuration or unreviewed alternatives impossible; try another seed."
     )
 
