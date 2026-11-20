@@ -28,9 +28,10 @@ def test_native_chest_identity_and_compartment():
     assert PREFIX + 'LOWER_MID' not in rooms[PREFIX + 'UPPER']['exits']
 
 
-@pytest.mark.parametrize('room_sanity', [0, 1])
-@pytest.mark.parametrize('ability_gating', [0, 1])
-@pytest.mark.parametrize('ability_randomization_mode', [0, 1, 2])
+# Completely Random is covered with RoomSanity off; the Room16 suite
+# separately asserts that enabling both is rejected before fill.
+@pytest.mark.parametrize("room_sanity,ability_randomization_mode", [(0, 0), (1, 0), (0, 1), (1, 1), (0, 2)])
+@pytest.mark.parametrize("ability_gating", [0, 1])
 def test_upper_entry_hub_receipts_and_alternate_routes(room_sanity, ability_gating, ability_randomization_mode):
     mw = setup_multiworld(KirbyAmWorld, seed=1032, options={
         'room_sanity': room_sanity, 'ability_gating': ability_gating,

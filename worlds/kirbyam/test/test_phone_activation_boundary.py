@@ -51,14 +51,15 @@ def _assert_phone_enabled(
 
 @pytest.mark.parametrize("ability_gating", [0, 1])
 @pytest.mark.parametrize("area_keys", [0, 1])
-@pytest.mark.parametrize("room_sanity", [0, 1])
-@pytest.mark.parametrize("ability_randomization_mode", [
-    AbilityRandomizationMode.option_off,
-    AbilityRandomizationMode.option_shuffled,
-    AbilityRandomizationMode.option_completely_random,
-], ids=["off", "shuffled", "completely_random"])
+@pytest.mark.parametrize("ability_randomization_mode,room_sanity", [
+    pytest.param(AbilityRandomizationMode.option_off, 0, id="off-no-rooms"),
+    pytest.param(AbilityRandomizationMode.option_off, 1, id="off-rooms"),
+    pytest.param(AbilityRandomizationMode.option_shuffled, 0, id="shuffled-no-rooms"),
+    pytest.param(AbilityRandomizationMode.option_shuffled, 1, id="shuffled-rooms"),
+    pytest.param(AbilityRandomizationMode.option_completely_random, 0, id="completely-random-no-rooms"),
+])
 @pytest.mark.parametrize("ability_randomization_statues", [0, 1])
-def test_all_profiles_generate_phone(
+def test_all_supported_profiles_generate_phone(
         ability_gating: int, area_keys: int, room_sanity: int,
         ability_randomization_mode: int, ability_randomization_statues: int,
         synthetic_post_base: bytes) -> None:

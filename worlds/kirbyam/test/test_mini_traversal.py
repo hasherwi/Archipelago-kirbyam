@@ -90,10 +90,9 @@ def test_full_generation_accessibility_and_slot_contract(tmp_path: Path, mode: i
     assert (3860123 in [item[0] for item in decoded["locations"][1].values()]) == bool(gating)
 
 
-@pytest.mark.parametrize("mode", [0, 1, 2])
+@pytest.mark.parametrize("mode,room_sanity", [(0, False), (0, True), (1, False), (1, True), (2, False)])
 @pytest.mark.parametrize("gating", [False, True])
 @pytest.mark.parametrize("right_entry", [False, True])
-@pytest.mark.parametrize("room_sanity", [False, True])
 def test_mustard_5_arrivals_preserve_normal_chest_alternative(
     mode: int,
     gating: bool,

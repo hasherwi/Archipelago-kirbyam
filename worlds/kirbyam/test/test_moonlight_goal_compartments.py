@@ -196,9 +196,10 @@ def test_other_moonlight_checks_and_exits_are_unchanged() -> None:
     }
 
 
-@pytest.mark.parametrize("room_sanity", [0, 1])
+# Completely Random is covered with RoomSanity off; the Room16 suite
+# separately asserts that enabling both is rejected before fill.
+@pytest.mark.parametrize("room_sanity,ability_randomization_mode", [(0, 0), (1, 0), (0, 1), (1, 1), (0, 2)])
 @pytest.mark.parametrize("ability_gating", [0, 1])
-@pytest.mark.parametrize("ability_randomization_mode", [0, 1, 2])
 def test_built_regions_and_slot_data_keep_correct_compartments(
     room_sanity: int, ability_gating: int, ability_randomization_mode: int,
 ) -> None:
