@@ -75,24 +75,36 @@ ROOM16_WEIGHT_REJECTION = (
     "Lower the no-ability weight, use Off, or disable RoomSanity."
 )
 
+ROOM16_COMPLETION_LIVE_REJECTION = (
+    "KirbyAM 100% Game Completion requires visiting Mustard Mountain Room 4-16, even with RoomSanity off, "
+    "but Completely Random cannot guarantee equipment from the finite local source for any reviewed route. "
+    "Use Shuffled or Off, or select a different goal and keep RoomSanity off."
+)
+ROOM16_COMPLETION_WEIGHT_REJECTION = (
+    "KirbyAM 100% Game Completion requires visiting Mustard Mountain Room 4-16, even with RoomSanity off, "
+    "but Shuffled with 100% no-ability weight provides no equipment from the finite local source. "
+    "Lower the no-ability weight, use Off, or select a different goal and keep RoomSanity off."
+)
+
 
 def validate_peg_assignment(
     initial: dict[str, Any], factory: Callable[[], dict[str, Any]], include_statues: bool,
     max_attempts: int = 8192, *, require_all_witnesses: bool = True, advanced: bool = False,
-    require_room16: bool = False,
+    require_room16: bool = False, room16_for_completion: bool = False,
 ) -> dict[str, Any]:
     """Select a valid deterministic assignment; do not rewrite individual grants.
 
     The bounded default allows rare joint Wheelie/peg-source assignments with fixed
     statues. It never forces individual grants. Rejection does not prove that no
     remote-carried solution exists. Live random statues use explicit retry semantics.
-    RoomSanity makes the otherwise optional Room16 witness mandatory, even
-    under minimal accessibility. All selected witnesses must share one policy.
+    RoomSanity and 100% Game Completion independently require the Room16
+    witness, even under minimal accessibility. All witnesses share one policy.
     """
     if not isinstance(require_all_witnesses, bool):
         raise TypeError("require_all_witnesses must be a boolean")
     if max_attempts < 1:
         raise ValueError("assignment search budget must be positive")
+    require_room16 = require_room16 or room16_for_completion
     validate_static = require_all_witnesses and peg_logic_enabled(initial)
     if not validate_static and not require_room16:
         return initial
@@ -101,13 +113,17 @@ def validate_peg_assignment(
 
     if require_room16 and not peg_logic_enabled(initial):
         if not static_room16_witness(SourcePolicy(initial, include_statues), advanced=advanced):
-            raise KirbyAmRoom16SourceError(ROOM16_LIVE_REJECTION)
+            raise KirbyAmRoom16SourceError(
+                ROOM16_COMPLETION_LIVE_REJECTION if room16_for_completion else ROOM16_LIVE_REJECTION
+            )
         return initial
 
     if (require_room16 and initial.get("mode") == 1
             and initial.get("ability_randomization_no_ability_weight") == 100
             and not static_room16_witness(SourcePolicy(initial, include_statues), advanced=advanced)):
-        raise KirbyAmRoom16SourceError(ROOM16_WEIGHT_REJECTION)
+        raise KirbyAmRoom16SourceError(
+            ROOM16_COMPLETION_WEIGHT_REJECTION if room16_for_completion else ROOM16_WEIGHT_REJECTION
+        )
 
     candidate = initial
     wheel_valid_candidate = None
@@ -129,15 +145,16 @@ def validate_peg_assignment(
         if attempt + 1 < max_attempts:
             candidate = factory()
     raise _assignment_search_failure(initial, attempt + 1, wheel_valid_candidate is not None,
-                                     peg_valid_candidate is not None, extra_valid)
+                                     peg_valid_candidate is not None, extra_valid, room16_for_completion)
 
 
 def _assignment_search_failure(initial: dict[str, Any], attempts: int, wheel_valid: bool,
-                               peg_valid: bool, extra_valid: bool) -> ValueError:
+                               peg_valid: bool, extra_valid: bool, room16_for_completion: bool = False) -> ValueError:
     context = f"after {attempts} attempts (mode={initial.get('mode')}, initial seed={initial.get('seed')}). "
     if extra_valid:
+        feature = "100% Game Completion" if room16_for_completion else "RoomSanity"
         return KirbyAmRoom16SourceError(
-            "KirbyAM RoomSanity requires Mustard Mountain Room 4-16, but no reviewed source "
+            f"KirbyAM {feature} requires Mustard Mountain Room 4-16, but no reviewed source "
             f"witness met all assignment constraints {context}Try another seed or use Ability Randomization Off."
         )
     feature = "Wheel" if not wheel_valid else "fuse/rope/block" if peg_valid else "peg"

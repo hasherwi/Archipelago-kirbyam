@@ -13,7 +13,7 @@ def keep_historical_room16_assignment(monkeypatch: pytest.MonkeyPatch) -> None:
     validate = kirby.validate_peg_assignment
 
     def validate_historical(*args: Any, **kwargs: Any) -> dict[str, Any]:
-        kwargs["require_room16"] = False
+        kwargs.update(require_room16=False, room16_for_completion=False)
         return validate(*args, **kwargs)
 
     monkeypatch.setattr(kirby, "validate_peg_assignment", validate_historical)

@@ -232,7 +232,7 @@ def replay_fuzz_case(
     import worlds.kirbyam as kirby
 
     def historic_assignment(*args: Any, **kwargs: Any) -> dict[str, Any]:
-        kwargs["require_room16"] = False
+        kwargs.update(require_room16=False, room16_for_completion=False)
         return validate_peg_assignment(*args, **kwargs)
 
     monkeypatch.setattr(kirby, "validate_peg_assignment", historic_assignment)

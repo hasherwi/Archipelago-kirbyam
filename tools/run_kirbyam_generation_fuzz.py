@@ -342,12 +342,18 @@ def _room16_rejection_evidence(message: str, log: str) -> dict[str, Any]:
 
 
 def _early_room16_rejection_evidence(message: str, log: str) -> dict[str, Any]:
-    """Classify only the two deterministic unsupported RoomSanity profiles."""
+    """Classify only exact unsupported profiles requiring Room16."""
     if str(REPO_ROOT) not in sys.path:
         sys.path.insert(0, str(REPO_ROOT))
-    from worlds.kirbyam.peg_traversal import ROOM16_LIVE_REJECTION, ROOM16_WEIGHT_REJECTION
+    from worlds.kirbyam.options import Goal
+    from worlds.kirbyam.peg_traversal import (
+        ROOM16_LIVE_REJECTION, ROOM16_WEIGHT_REJECTION,
+        ROOM16_COMPLETION_LIVE_REJECTION, ROOM16_COMPLETION_WEIGHT_REJECTION,
+    )
 
-    if message not in (ROOM16_LIVE_REJECTION, ROOM16_WEIGHT_REJECTION):
+    room_sanity_messages = (ROOM16_LIVE_REJECTION, ROOM16_WEIGHT_REJECTION)
+    completion_messages = (ROOM16_COMPLETION_LIVE_REJECTION, ROOM16_COMPLETION_WEIGHT_REJECTION)
+    if message not in (*room_sanity_messages, *completion_messages):
         raise ValueError("not an exact unsupported Room16 configuration")
     context = _rejection_context(
         message, log,
@@ -359,13 +365,19 @@ def _early_room16_rejection_evidence(message: str, log: str) -> dict[str, Any]:
     mode = options.get("ability_randomization_mode")
     weight = options.get("ability_randomization_no_ability_weight")
     advanced = options.get("advanced_logic")
-    if (type(sanity) is not int or sanity != 1 or type(mode) is not int
+    goal = options.get("goal")
+    if (type(sanity) is not int or sanity not in (0, 1) or type(mode) is not int
             or type(advanced) is not int or advanced not in (0, 1)
             or type(weight) is not int or not 0 <= weight <= 100):
         raise ValueError("invalid rolled Room16 options")
-    if message == ROOM16_LIVE_REJECTION and mode == 2:
+    if message in completion_messages:
+        if type(goal) is not int or goal != Goal.option_full_completion:
+            raise ValueError("rolled goal does not require completing Room16")
+    elif sanity != 1:
+        raise ValueError("rolled RoomSanity does not require Room16")
+    if message in (ROOM16_LIVE_REJECTION, ROOM16_COMPLETION_LIVE_REJECTION) and mode == 2:
         reason = "room16_live_random_unsupported"
-    elif message == ROOM16_WEIGHT_REJECTION and mode == 1 and weight == 100:
+    elif message in (ROOM16_WEIGHT_REJECTION, ROOM16_COMPLETION_WEIGHT_REJECTION) and mode == 1 and weight == 100:
         reason = "room16_shuffled_no_ability"
     else:
         raise ValueError("rolled options do not match early Room16 rejection")
@@ -395,7 +407,10 @@ def classify_minimal_rejections(report: dict[str, Any], output_dir: Path, *,
             log = log_path.read_text(encoding="utf-8-sig")
             if room16 and "unavailable even with all inventory=['Room 4-16']" in message:
                 evidence = _room16_rejection_evidence(message, log)
-            elif room16 and message.startswith("KirbyAM RoomSanity requires Mustard Mountain Room 4-16,"):
+            elif room16 and message.startswith((
+                    "KirbyAM RoomSanity requires Mustard Mountain Room 4-16,",
+                    "KirbyAM 100% Game Completion requires visiting Mustard Mountain Room 4-16,",
+            )):
                 evidence = _early_room16_rejection_evidence(message, log)
             elif minimal:
                 evidence = _minimal_rejection_evidence(message, log)

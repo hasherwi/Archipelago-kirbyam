@@ -558,25 +558,37 @@ def test_room16_classifier_direct_script_import_path(tmp_path: Path) -> None:
     assert completed.returncode == 0, completed.stdout + completed.stderr
 
 
-@pytest.mark.parametrize("profile", ["live", "all_normal"])
+@pytest.mark.parametrize("profile", ["live", "all_normal", "completion_live", "completion_all_normal"])
 @pytest.mark.parametrize("mutation", ["none", "autoworld_note", "other_note", "disabled", "wrong_mode", "wrong_weight",
-                                      "wrong_type", "wrong_stack", "budget", "missing_yaml", "duplicate_options"])
+                                      "wrong_type", "wrong_stack", "budget", "missing_yaml", "duplicate_options", "other_goal"])
 def test_early_room16_rejection_requires_exact_profile_and_terminal_error(
     tmp_path: Path, profile: str, mutation: str,
 ) -> None:
-    from ..peg_traversal import ROOM16_LIVE_REJECTION, ROOM16_WEIGHT_REJECTION
+    from ..options import Goal
+    from ..peg_traversal import (
+        ROOM16_LIVE_REJECTION, ROOM16_WEIGHT_REJECTION,
+        ROOM16_COMPLETION_LIVE_REJECTION, ROOM16_COMPLETION_WEIGHT_REJECTION,
+    )
 
     launcher = load_launcher()
-    live = profile == "live"
-    message = ROOM16_LIVE_REJECTION if live else ROOM16_WEIGHT_REJECTION
+    live = profile.endswith("live")
+    completion = profile.startswith("completion")
+    messages = ([ROOM16_COMPLETION_WEIGHT_REJECTION, ROOM16_COMPLETION_LIVE_REJECTION] if completion
+                else [ROOM16_WEIGHT_REJECTION, ROOM16_LIVE_REJECTION])
+    message = messages[live]
     options = {"game": "Kirby & The Amazing Mirror", "accessibility": 2,
-               "room_sanity": 1, "advanced_logic": 0,
+               "room_sanity": int(not completion), "advanced_logic": 0,
+               "goal": Goal.option_full_completion if completion else Goal.option_dark_mind,
                "ability_randomization_mode": 2 if live else 1,
                "ability_randomization_no_ability_weight": 55 if live else 100}
     last_frame = "validate_peg_assignment"
     error_type = "worlds.kirbyam.peg_traversal.KirbyAmRoom16SourceError"
     if mutation == "disabled":
         options["room_sanity"] = 0
+        options["goal"] = Goal.option_dark_mind
+    elif mutation == "other_goal":
+        options["room_sanity"] = 1
+        options["goal"] = Goal.option_dark_mind
     elif mutation == "wrong_mode":
         options["ability_randomization_mode"] = 0
     elif mutation == "wrong_weight":
@@ -606,7 +618,7 @@ def test_early_room16_rejection_requires_exact_profile_and_terminal_error(
     report = {"stats": {"total": 4, "success": 3, "failure": 1, "timeout": 0, "ignored": 0},
               "errors": {"kirbyam": {message: [1]}}}
     classified = launcher.classify_minimal_rejections(report, tmp_path, minimal=False, room16=True)
-    accepted = mutation in ("none", "autoworld_note")
+    accepted = mutation in ("none", "autoworld_note") or (mutation == "other_goal" and not completion)
     assert len(classified["unsafe_rejected"]) == accepted
     if accepted:
         assert classified["unsafe_rejected"][0]["rejection_kind"] == (
