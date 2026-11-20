@@ -171,6 +171,35 @@ def _minimal_rejection_evidence(message: str, log: str) -> dict[str, Any]:
     return {**context, "stranded_checks": checks}
 
 
+TRACEBACK_HEADER = "Traceback (most recent call last):"
+TRACEBACK_FRAME = re.compile(r'^  File "([^\n]+)", line (\d+), in (\w+)$', re.MULTILINE)
+TRACEBACK_EXCEPTION = re.compile(r"^[\w.]+:.*$", re.MULTILINE)
+
+
+def _is_relogged_early_room16_exception(parts: list[str], error_type: str, message: str) -> bool:
+    """Require generation_stage to log precisely the same exception again."""
+    preamble, stage_trace, terminal_trace = parts
+    exception_line = error_type + ": " + message
+    stage_marker = (
+        r"\[P1\] Generation stage 'generate_early' failed after \d+\.\d{2}s: "
+        + re.escape(error_type.rsplit(".", 1)[1] + ": " + message)
+    )
+    if not re.fullmatch(stage_marker, preamble.rstrip().splitlines()[-1] if preamble.strip() else ""):
+        return False
+    if not stage_trace.rstrip().endswith("\n" + exception_line):
+        return False
+    if any(TRACEBACK_EXCEPTION.findall(trace) != [exception_line] for trace in (stage_trace, terminal_trace)):
+        return False
+    stage_frames = TRACEBACK_FRAME.findall(stage_trace)
+    terminal_frames = TRACEBACK_FRAME.findall(terminal_trace)
+    if tuple(frame[2] for frame in stage_frames) != ("generation_stage", "generate_early", "validate_peg_assignment"):
+        return False
+    if tuple(frame[0].replace("\\", "/").rsplit("/", 1)[-1] for frame in stage_frames) != (
+            "generation_logging.py", "__init__.py", "peg_traversal.py"):
+        return False
+    return stage_frames[1:] == terminal_frames[-2:]
+
+
 def _rejection_context(
     message: str, log: str, *, error_type: str = CHECK_ERROR_TYPE,
     frames: tuple[str, ...] = ("stage_pre_output", "validate_all_checks"),
@@ -179,7 +208,13 @@ def _rejection_context(
     """Validate the shared terminal exception and actual generation envelope."""
     mixed_markers = ("ExceptionGroup", "During handling of the above exception",
                      "The above exception was the direct cause")
-    if log.count("Traceback (most recent call last):") != 1 or any(marker in log for marker in mixed_markers):
+    parts = log.split(TRACEBACK_HEADER)
+    has_single_trace = len(parts) == 2
+    same_early_exception_logged_twice = (
+        early_room16 and len(parts) == 3 and _is_relogged_early_room16_exception(parts, error_type, message)
+    )
+    if (not has_single_trace and not same_early_exception_logged_twice
+            or any(marker in log for marker in mixed_markers)):
         raise ValueError("missing, mixed, or chained exception traceback")
     terminal = log.rstrip()
     if early_room16:
@@ -192,8 +227,7 @@ def _rejection_context(
         )
     if not terminal.endswith(error_type + ": " + message):
         raise ValueError("terminal exception does not match report and guard type")
-    trace = log.split("Traceback (most recent call last):", 1)[1]
-    trace_frames = re.findall(r'^  File "[^\n]+", line \d+, in (\w+)$', trace, re.MULTILINE)
+    trace_frames = [frame[2] for frame in TRACEBACK_FRAME.findall(parts[-1])]
     if tuple(trace_frames[-len(frames):]) != frames:
         raise ValueError("missing expected validation stack")
     rolled = re.findall(r"^P(\d+) Rolled options \([^\n]+\): (.+)$", log, re.MULTILINE)
