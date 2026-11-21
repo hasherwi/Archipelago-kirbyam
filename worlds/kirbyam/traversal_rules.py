@@ -155,6 +155,9 @@ def mustard_ice_is_progression(world: Any) -> bool:
 
 def static_room16_witness(policy: SourcePolicy, *, advanced: bool = False) -> bool:
     """Check source feasibility for the RoomSanity visit, not world reachability."""
+    from . import room16_timer
+    if room16_timer.enabled(policy):
+        return graph_succeeds(room16_timer.graph(), policy, frozenset(), False, retries=False)
     row = next(row for row in room_traversal_targets("switch") if row["id"] == "switch_533_room16")
     return target_applies(row, policy) and any(
         graph_succeeds(graph, policy, graph_items(graph), False, retries=False)
@@ -179,7 +182,7 @@ def static_extra_witness(policy: SourcePolicy, *, advanced: bool = False) -> boo
 
 def install_extra_traversal_rules(world: Any) -> None:
     from worlds.generic.Rules import add_rule
-    from . import yellow_cupid
+    from . import yellow_cupid, room16_timer
 
     yellow_cupid.validate_profile(world, install=True)
     raw = getattr(world, "_enemy_copy_ability_policy", None)
@@ -203,7 +206,7 @@ def install_extra_traversal_rules(world: Any) -> None:
     policy = SourcePolicy(raw, bool(world.options.ability_randomization_statues.value))
     gating = world._ability_gating_enabled()
     for row in extra_traversal_targets():
-        profile_graphs = yellow_cupid.target_graphs(world, row)
+        profile_graphs = yellow_cupid.target_graphs(world, row) + room16_timer.target_graphs(row, policy)
         applies = target_applies(row, policy)
         if not applies and not profile_graphs:
             if row.get("fail_closed"):

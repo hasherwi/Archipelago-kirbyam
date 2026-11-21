@@ -227,7 +227,7 @@ def test_current_counts_and_historical_404_record_are_distinct() -> None:
     status = build_status()
     coverage = build_coverage()
     assert status['completion'] == 'partial' and not status['declaration_errors']
-    assert status['counts']['witnesses'] == 158 and h['witnesses'] == 145
+    assert status['counts']['witnesses'] == 159 and h['witnesses'] == 145
     assert len(coverage['installed_targets']) == 65 and h['targets'] == 57
     from .support.green138_history import before_green138
     from .support.advanced_crash_history import before_advanced_crash

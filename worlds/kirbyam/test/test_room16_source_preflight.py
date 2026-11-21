@@ -77,21 +77,32 @@ def test_only_admitted_profiles_are_eligible(advanced, ability, eligible):
 
 
 @pytest.mark.parametrize("accessibility", ["full", "minimal"])
-def test_live_early_error_under_roomsanity_for_other_goal(accessibility):
-    with pytest.raises(KirbyAmRoom16SourceError, match="Room 4-16, but Completely Random"):
-        make_world(2, False, room_sanity=1, accessibility=accessibility)
-    assert make_world(2, False, room_sanity=0, accessibility=accessibility).options.room_sanity.value == 0
-
-
-@pytest.mark.parametrize("accessibility", ["full", "minimal"])
 @pytest.mark.parametrize("room_sanity", [0, 1])
-@pytest.mark.parametrize("mode,weight,reason", [(2, 55, "Completely Random"), (1, 100, "100% no-ability weight")])
-def test_full_completion_errors_independently_of_roomsanity(accessibility, room_sanity, mode, weight, reason):
-    with pytest.raises(KirbyAmRoom16SourceError, match="100% Game Completion requires visiting.*" + reason) as exc:
-        make_world(mode, False, goal="full_completion", room_sanity=room_sanity, accessibility=accessibility,
-                   ability_randomization_no_ability_weight=weight)
-    assert "even with RoomSanity off" in str(exc.value)
-    assert "select a different goal and keep RoomSanity off" in str(exc.value)
+@pytest.mark.parametrize("goal", ["dark_mind", "full_completion"])
+@pytest.mark.parametrize("gating", [0, 1])
+def test_live_timer_patch_preserves_full_completion(accessibility, room_sanity, goal, gating):
+    from ..room16_timer import POLICY_KEY, TIMER_FRAMES, timer_bytes
+    world = make_world(2, gating, goal=goal, room_sanity=room_sanity, accessibility=accessibility)
+    raw = world._enemy_copy_ability_policy
+    assert raw[POLICY_KEY] == TIMER_FRAMES
+    assert timer_bytes(raw) == TIMER_FRAMES.to_bytes(2, "little")
+    assert not SourcePolicy(raw).grant("FOLEY", lambda _: True).guaranteed
+    assert static_room16_witness(SourcePolicy(raw))
+    world.create_items()
+    state = world.multiworld.get_all_state()
+    assert state.can_reach_region("REGION_MUSTARD_MOUNTAIN/ROOM_4_16", 1)
+    if room_sanity:
+        assert world.multiworld.get_location("Room 4-16", 1).can_reach(state)
+    if goal == "full_completion":
+        assert world.multiworld.get_location("100% Game Completion", 1).can_reach(state)
+    assert world.fill_slot_data()["enemy_copy_ability_policy"] == raw
+
+
+@pytest.mark.parametrize("room_sanity", [0, 1])
+def test_full_completion_still_rejects_unqualified_shuffled(room_sanity):
+    with pytest.raises(KirbyAmRoom16SourceError, match="100% no-ability weight"):
+        make_world(1, False, goal="full_completion", room_sanity=room_sanity,
+                   ability_randomization_no_ability_weight=100)
 
 
 def test_native_foley_unchanged_and_shuffled_search_is_bounded():

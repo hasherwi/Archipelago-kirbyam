@@ -39,7 +39,7 @@ HISTORICAL_PROCEDURE = [
 @pytest.fixture(scope="module")
 def synthetic_post_base() -> bytes:
     """Enough synthetic bytes for all real procedure steps and their guards."""
-    buffer = bytearray(ENEMY_SOURCE_CONFIG_ROM_OFFSET + 36)
+    buffer = bytearray(max(ENEMY_SOURCE_CONFIG_ROM_OFFSET + 36, 0x008C270A))
     buffer[PHONE_CONFIG_OFFSET:PHONE_CONFIG_OFFSET + 12] = DISABLED_PHONE_CONFIG
     buffer[AREA_KEYS_CONFIG_ROM_OFFSET:AREA_KEYS_CONFIG_ROM_OFFSET + 4] = AREA_KEYS_CONFIG_ON.to_bytes(4, "little")
     buffer[ENEMY_SOURCE_CONFIG_ROM_OFFSET:ENEMY_SOURCE_CONFIG_ROM_OFFSET + 4] = (
@@ -115,7 +115,8 @@ def test_phone_validator_rejects_missing_or_truncated_buffers(length: int, synth
 
 def test_phone_guard_procedure_order_is_serialized(tmp_path: Path, synthetic_bsdiffs: dict[str, bytes]) -> None:
     expected = [HISTORICAL_PROCEDURE[0], ("validate_production_phone_disabled", []),
-                *HISTORICAL_PROCEDURE[1:], ("validate_phone_seed_config", [])]
+                *HISTORICAL_PROCEDURE[1:3], ("validate_room16_timer_base", []),
+                *HISTORICAL_PROCEDURE[3:], ("validate_phone_seed_config", [])]
     assert KirbyAmProcedurePatch.procedure == expected
     archive = _write_archive(_synthetic_patch(synthetic_bsdiffs["disabled"]), tmp_path)
     with ZipFile(archive) as opened:

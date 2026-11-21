@@ -98,7 +98,6 @@ def test_installed_wheel_rule_requires_its_independent_source_region_and_permiss
 def test_live_fixed_statue_local_retry_archive(
         tmp_path: Path, monkeypatch, weight: int, gating: bool, area_keys: bool, room_sanity: int) -> None:
     from .. import check_accessibility
-    from ..peg_traversal import KirbyAmRoom16SourceError
     validated, validate = [], check_accessibility.validate_all_checks
 
     def capture_validation(multiworld, players):
@@ -115,15 +114,10 @@ def test_live_fixed_statue_local_retry_archive(
         f'  room_sanity: {room_sanity}\n', encoding='utf-8',
     )
     seed = 8100 + weight + int(gating) * 2 + int(area_keys)
-    if room_sanity:
-        # Local renewable retries never guarantee a finite Foley grant.
-        with pytest.raises(KirbyAmRoom16SourceError, match="Room 4-16, but Completely Random"):
-            generate_archive_from_fixture(player, tmp_path / 'output', seed=seed)
-        assert not validated
-        assert not tuple((tmp_path / 'output').glob('*.zip'))
-        return
     archive = generate_archive_from_fixture(player, tmp_path / 'output', seed=seed)
     decoded = load_multidata_from_archive(archive)
+    assert validated  # Final accessibility is retained with the explicit timer patch.
+    assert decoded['slot_data'][1]['enemy_copy_ability_policy']['room16_switch_timer_frames'] == 600
     assert decoded['locations'][1]
     starts = decoded['precollected_items'][1]
     stone_count = sum(item[0] == 3860108 and item[1] == 1

@@ -2,22 +2,22 @@
   "schema": 2,
   "scope": "Current supported public generation, not custom narrowed policy safety or native gameplay. All compiled targets including logical subregions, both area-key modes. The always-on Phone 146 ownership rule and its separately profile-qualified witness are described in phone-progression-admission.md; neither is a compiled attack-provider graph, and the implementation is pinned here.",
   "source_sha256": {
-    "worlds/kirbyam/__init__.py": "09d094ff8d5f11893984204a77828d33ed13f7ccc615fcae4895cb4e59ba351f",
+    "worlds/kirbyam/__init__.py": "572c12f25f85f8fb98d7fa89823ef3f26338f5e96a559040585aebe99815cbfa",
     "worlds/kirbyam/ability_randomization.py": "0ede749f3cfe63dde9747c9f31184731b21c2b0d173501f8e94e090861979aaf",
     "worlds/kirbyam/enemy_ability_data.py": "53a3b016462f875e43a036de2739b8315b87962f68aeda9e0eb74725eaa36e2a",
     "worlds/kirbyam/enemy_ability_runtime_patch.py": "22d2ea7c858c23f57112e0af40320fa94c68038ce2bad185655c2d9a436d6f55",
     "worlds/kirbyam/data/abilities.json": "d180e496d17544579aefca6714716f27e7d0c8fdbfcc40196a72ef441a5c5f22",
-    "worlds/kirbyam/traversal.py": "fd6465d5c9371f2d98d20adbaabddeb8c823666ec7b41a75cc4fce16d057dab9",
+    "worlds/kirbyam/traversal.py": "f6f497ac77a79941fecbb666622bcf7d72613ab65ea120031a1dd230164e7f3f",
     "worlds/kirbyam/traversal_data.py": "c876bfc98d0ca9432cad5b526a8a813492bd0333b5fca9fc6a627cac67365e12",
     "worlds/kirbyam/master_source.py": "ff8d987ae8913391865c2c8c28dd4efe01d83546eefdb4d965032b944dd11e2e",
-    "worlds/kirbyam/data/regions/rooms.json": "31c30aef2a08531f981ed9d3fb5e167bff8330fe371f2d84ee3d0d470b90d44c",
+    "worlds/kirbyam/data/regions/rooms.json": "ab26c58ee66278e8697301dae9579aec196127b57f0c14230e8b2c0ce5f04aed",
     "worlds/kirbyam/phone_traversal.py": "bdafd7ff6de2583b8ed87da0668d41f1107660488812ca923caf330f366dc879",
     "worlds/kirbyam/rules.py": "7afff4b83e12775debcdd9896ca07683d52d7db332cd057de6c621b7e110f5e2",
     "worlds/kirbyam/ability_source_inventory.py": "333a5ffcaf2d7896f62a13f627ce0f956b20fcb3655359744b5a0af378b5ee55",
     "worlds/kirbyam/data/ability_source_inventory.json": "8d85df5c6ff423f9799e4dc751bbd3849e184b97253d4be3efd8b4419d57cc2b"
   },
-  "witnesses": 158,
-  "variants": 316,
+  "witnesses": 159,
+  "variants": 318,
   "valid_pool": [
     "Beam",
     "Bomb",
@@ -231,6 +231,9 @@
     ],
     "switch_825_ufo_top_charge": [
       "UFO"
+    ],
+    "switch_825_fire_breath": [
+      "Fire"
     ],
     "wheel_race": [
       "Wheel"
@@ -943,6 +946,14 @@
       {
         "source_key": "MR_FROSTY_ICE_CUBE",
         "identity": "room:825/template:0x088CD3F0/choice:mr_frosty_cube_size",
+        "renewable": false,
+        "documented_retry": false
+      }
+    ],
+    "HOT_HEAD@0x088CD3A8": [
+      {
+        "source_key": "HOT_HEAD",
+        "identity": "0x088CD3A8",
         "renewable": false,
         "documented_retry": false
       }
@@ -16101,6 +16112,124 @@
           "to": "bomb_517_statues:chest",
           "required_equipment": [
             "UFO"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "frozen_825_sound_effects",
+      "witness": "fire_entry",
+      "area_keys": false,
+      "source_ids": [
+        "HOT_HEAD@0x088CD3A8"
+      ],
+      "capability_routes": [
+        {
+          "from": "frozen_825_sound_effects:fire_launch",
+          "to": "frozen_825_sound_effects:fire_chest",
+          "capability": "switch_825_fire_breath",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Fire"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": null,
+      "graph_source_condition": [
+        "HOT_HEAD",
+        "Fire"
+      ],
+      "equipment_routes": [
+        {
+          "from": "frozen_825_sound_effects:fire_entry831",
+          "to": "frozen_825_sound_effects:fire_door831",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "frozen_825_sound_effects:fire_door831",
+          "to": "frozen_825_sound_effects:fire_arrival",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "frozen_825_sound_effects:fire_arrival",
+          "to": "frozen_825_sound_effects:fire_hot_head",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "frozen_825_sound_effects:fire_hot_head",
+          "to": "frozen_825_sound_effects:fire_launch",
+          "required_equipment": [
+            "Fire"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "frozen_825_sound_effects",
+      "witness": "fire_entry",
+      "area_keys": true,
+      "source_ids": [
+        "HOT_HEAD@0x088CD3A8"
+      ],
+      "capability_routes": [
+        {
+          "from": "frozen_825_sound_effects:fire_launch",
+          "to": "frozen_825_sound_effects:fire_chest",
+          "capability": "switch_825_fire_breath",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Fire"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": null,
+      "graph_source_condition": [
+        "HOT_HEAD",
+        "Fire"
+      ],
+      "equipment_routes": [
+        {
+          "from": "frozen_825_sound_effects:fire_entry831",
+          "to": "frozen_825_sound_effects:fire_door831",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "frozen_825_sound_effects:fire_door831",
+          "to": "frozen_825_sound_effects:fire_arrival",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "frozen_825_sound_effects:fire_arrival",
+          "to": "frozen_825_sound_effects:fire_hot_head",
+          "required_equipment": [
+            "Normal"
+          ]
+        },
+        {
+          "from": "frozen_825_sound_effects:fire_hot_head",
+          "to": "frozen_825_sound_effects:fire_launch",
+          "required_equipment": [
+            "Fire"
           ]
         }
       ]

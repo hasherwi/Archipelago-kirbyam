@@ -114,10 +114,9 @@ def test_wheel_and_mini_archive_accessibility(
         f"  room_sanity: {room_sanity}\n", encoding="utf-8",
     )
     seed = 1041 + mode * 4 + statues * 2 + gating
-    if room_sanity and mode in (1, 2):
-        # The finite Foley requirement is detected before fill. Keep
-        # the Wheel/Mini archive contract covered without RoomSanity.
-        reason = "100% no-ability weight" if mode == 1 else "Completely Random"
+    if room_sanity and mode == 1:
+        # Shuffled with 100% no-ability weight retains the finite-source refusal.
+        reason = "100% no-ability weight"
         with pytest.raises(KirbyAmRoom16SourceError, match=f"Room 4-16, but .*{reason}"):
             generate_archive_from_fixture(player, tmp_path / "output", seed=seed)
         assert not validated

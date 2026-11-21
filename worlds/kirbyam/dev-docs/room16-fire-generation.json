@@ -1,0 +1,278 @@
+{
+  "schema_version": 1,
+  "description": "16 full-accessibility generation archives; seed1126, Standard Logic, Area Keys off. Final generation validation remained enabled. Token and serialized policy checked in every archive.",
+  "profiles": [
+    {
+      "profile": "m0-r0-dark_mind-g0",
+      "options": {
+        "ability_randomization_mode": 0,
+        "room_sanity": 0,
+        "goal": "dark_mind",
+        "ability_gating": 0,
+        "area_keys": 0,
+        "advanced_logic": 0,
+        "accessibility": "full"
+      },
+      "status": "passed",
+      "archive": "AP_19629339246516583624.zip",
+      "archive_sha256": "1300a0b27243877d81f6261c70cd268b86431915bb9d5804a5d3d8cfb481414f",
+      "verified_timer_token": 0,
+      "verified_slot_policy": true
+    },
+    {
+      "profile": "m0-r0-full_completion-g0",
+      "options": {
+        "ability_randomization_mode": 0,
+        "room_sanity": 0,
+        "goal": "full_completion",
+        "ability_gating": 0,
+        "area_keys": 0,
+        "advanced_logic": 0,
+        "accessibility": "full"
+      },
+      "status": "passed",
+      "archive": "AP_19629339246516583624.zip",
+      "archive_sha256": "3e77644b7572a860ecb1a38f529bdbaf0635908de857af918c829e1e9f1ab16c",
+      "verified_timer_token": 0,
+      "verified_slot_policy": true
+    },
+    {
+      "profile": "m0-r1-dark_mind-g0",
+      "options": {
+        "ability_randomization_mode": 0,
+        "room_sanity": 1,
+        "goal": "dark_mind",
+        "ability_gating": 0,
+        "area_keys": 0,
+        "advanced_logic": 0,
+        "accessibility": "full"
+      },
+      "status": "passed",
+      "archive": "AP_19629339246516583624.zip",
+      "archive_sha256": "c7301949ca7f36aae0873b7389c0026d96155211e039d0d79a5165436e27815b",
+      "verified_timer_token": 0,
+      "verified_slot_policy": true
+    },
+    {
+      "profile": "m0-r1-full_completion-g0",
+      "options": {
+        "ability_randomization_mode": 0,
+        "room_sanity": 1,
+        "goal": "full_completion",
+        "ability_gating": 0,
+        "area_keys": 0,
+        "advanced_logic": 0,
+        "accessibility": "full"
+      },
+      "status": "passed",
+      "archive": "AP_19629339246516583624.zip",
+      "archive_sha256": "b82be839bba6cce24b63b47182412a365c67b326814e6619d36d92fbe961c838",
+      "verified_timer_token": 0,
+      "verified_slot_policy": true
+    },
+    {
+      "profile": "m1-r0-dark_mind-g0",
+      "options": {
+        "ability_randomization_mode": 1,
+        "room_sanity": 0,
+        "goal": "dark_mind",
+        "ability_gating": 0,
+        "area_keys": 0,
+        "advanced_logic": 0,
+        "accessibility": "full"
+      },
+      "status": "passed",
+      "archive": "AP_19629339246516583624.zip",
+      "archive_sha256": "048ae79853af9b01389f54d013329c2abeee19fb0213af2e5324146092062a10",
+      "verified_timer_token": 0,
+      "verified_slot_policy": true
+    },
+    {
+      "profile": "m1-r0-full_completion-g0",
+      "options": {
+        "ability_randomization_mode": 1,
+        "room_sanity": 0,
+        "goal": "full_completion",
+        "ability_gating": 0,
+        "area_keys": 0,
+        "advanced_logic": 0,
+        "accessibility": "full"
+      },
+      "status": "passed",
+      "archive": "AP_19629339246516583624.zip",
+      "archive_sha256": "6545a8947099502d354e4dd434a99e2432843edd6147f225314186bf2efe84cf",
+      "verified_timer_token": 0,
+      "verified_slot_policy": true
+    },
+    {
+      "profile": "m1-r1-dark_mind-g0",
+      "options": {
+        "ability_randomization_mode": 1,
+        "room_sanity": 1,
+        "goal": "dark_mind",
+        "ability_gating": 0,
+        "area_keys": 0,
+        "advanced_logic": 0,
+        "accessibility": "full"
+      },
+      "status": "passed",
+      "archive": "AP_19629339246516583624.zip",
+      "archive_sha256": "c7afecc423d8cbde1a2b8e4633afdccc47eee864c321c4bb2c10e66790265b75",
+      "verified_timer_token": 0,
+      "verified_slot_policy": true
+    },
+    {
+      "profile": "m1-r1-full_completion-g0",
+      "options": {
+        "ability_randomization_mode": 1,
+        "room_sanity": 1,
+        "goal": "full_completion",
+        "ability_gating": 0,
+        "area_keys": 0,
+        "advanced_logic": 0,
+        "accessibility": "full"
+      },
+      "status": "passed",
+      "archive": "AP_19629339246516583624.zip",
+      "archive_sha256": "0a3862e685515c9ad494e9b72b79e65d1c175e35c28770a8592e51b04aa3a198",
+      "verified_timer_token": 0,
+      "verified_slot_policy": true
+    },
+    {
+      "profile": "m2-r0-dark_mind-g0",
+      "options": {
+        "ability_randomization_mode": 2,
+        "room_sanity": 0,
+        "goal": "dark_mind",
+        "ability_gating": 0,
+        "area_keys": 0,
+        "advanced_logic": 0,
+        "accessibility": "full"
+      },
+      "status": "passed",
+      "archive": "AP_19629339246516583624.zip",
+      "archive_sha256": "e296ddbae44942947adc80b1cd2f48883c61d56552c1463d075a3787a693ebaa",
+      "verified_timer_token": 600,
+      "verified_slot_policy": true
+    },
+    {
+      "profile": "m2-r0-dark_mind-g1",
+      "options": {
+        "ability_randomization_mode": 2,
+        "room_sanity": 0,
+        "goal": "dark_mind",
+        "ability_gating": 1,
+        "area_keys": 0,
+        "advanced_logic": 0,
+        "accessibility": "full"
+      },
+      "status": "passed",
+      "archive": "AP_19629339246516583624.zip",
+      "archive_sha256": "f40e396758b519b4f9afc5ef602db1766bafcd9b18dad2093e8c10e39c132ffa",
+      "verified_timer_token": 600,
+      "verified_slot_policy": true
+    },
+    {
+      "profile": "m2-r0-full_completion-g0",
+      "options": {
+        "ability_randomization_mode": 2,
+        "room_sanity": 0,
+        "goal": "full_completion",
+        "ability_gating": 0,
+        "area_keys": 0,
+        "advanced_logic": 0,
+        "accessibility": "full"
+      },
+      "status": "passed",
+      "archive": "AP_19629339246516583624.zip",
+      "archive_sha256": "4a371e1a951cb51fb95d1af96f6eab440f1ec1aa3ee0d5a668f5ed36025c9bd5",
+      "verified_timer_token": 600,
+      "verified_slot_policy": true
+    },
+    {
+      "profile": "m2-r0-full_completion-g1",
+      "options": {
+        "ability_randomization_mode": 2,
+        "room_sanity": 0,
+        "goal": "full_completion",
+        "ability_gating": 1,
+        "area_keys": 0,
+        "advanced_logic": 0,
+        "accessibility": "full"
+      },
+      "status": "passed",
+      "archive": "AP_19629339246516583624.zip",
+      "archive_sha256": "1f7c596a0713430b37d0a45180bbcb17cc4420f76a157f99303fdfc5c5ad1e3d",
+      "verified_timer_token": 600,
+      "verified_slot_policy": true
+    },
+    {
+      "profile": "m2-r1-dark_mind-g0",
+      "options": {
+        "ability_randomization_mode": 2,
+        "room_sanity": 1,
+        "goal": "dark_mind",
+        "ability_gating": 0,
+        "area_keys": 0,
+        "advanced_logic": 0,
+        "accessibility": "full"
+      },
+      "status": "passed",
+      "archive": "AP_19629339246516583624.zip",
+      "archive_sha256": "796b0207ae074c6a84236370424cbcd771931df85f97306590fd24ea2ef3181e",
+      "verified_timer_token": 600,
+      "verified_slot_policy": true
+    },
+    {
+      "profile": "m2-r1-dark_mind-g1",
+      "options": {
+        "ability_randomization_mode": 2,
+        "room_sanity": 1,
+        "goal": "dark_mind",
+        "ability_gating": 1,
+        "area_keys": 0,
+        "advanced_logic": 0,
+        "accessibility": "full"
+      },
+      "status": "passed",
+      "archive": "AP_19629339246516583624.zip",
+      "archive_sha256": "1cd805ab0ad9d7ecd31cddb54ad0a6c72b90f9def1afb6ad46fe0ad60825f5d8",
+      "verified_timer_token": 600,
+      "verified_slot_policy": true
+    },
+    {
+      "profile": "m2-r1-full_completion-g0",
+      "options": {
+        "ability_randomization_mode": 2,
+        "room_sanity": 1,
+        "goal": "full_completion",
+        "ability_gating": 0,
+        "area_keys": 0,
+        "advanced_logic": 0,
+        "accessibility": "full"
+      },
+      "status": "passed",
+      "archive": "AP_19629339246516583624.zip",
+      "archive_sha256": "96fb742e4c87aa7c0d6ef7809a10c902a057cb9c2959eaa1be3efb0bdad9e3d7",
+      "verified_timer_token": 600,
+      "verified_slot_policy": true
+    },
+    {
+      "profile": "m2-r1-full_completion-g1",
+      "options": {
+        "ability_randomization_mode": 2,
+        "room_sanity": 1,
+        "goal": "full_completion",
+        "ability_gating": 1,
+        "area_keys": 0,
+        "advanced_logic": 0,
+        "accessibility": "full"
+      },
+      "status": "passed",
+      "archive": "AP_19629339246516583624.zip",
+      "archive_sha256": "7440acdf05c72ab53ae230e7ea87f6f597654a3170d093ff8f808b210922cb40",
+      "verified_timer_token": 600,
+      "verified_slot_policy": true
+    }
+  ]
+}

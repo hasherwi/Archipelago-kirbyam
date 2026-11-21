@@ -106,7 +106,7 @@ def test_entry_requires_independent_known831_arrival():
 
 def test_same_location_or_graph_and_ice_classification_unchanged():
     r = row()
-    assert set(r['graphs']) == {'local', 'ufo_entry', 'central_statues', 'peppermint290_statues', 'generated_ice'}
+    assert set(r['graphs']) == {'local', 'ufo_entry', 'central_statues', 'peppermint290_statues', 'generated_ice', 'fire_entry'}
     assert r['location'] == 'MINOR_CHEST_MUSIC_NOTE_10'
     assert r['region'] == 'REGION_OLIVE_OCEAN/ROOM_6_GOAL_2'
     world = SimpleNamespace(
