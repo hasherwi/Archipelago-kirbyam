@@ -58,7 +58,7 @@ def test_cutter_source_requires_permission_and_permission_requires_source(gating
 
 
 def _generate(monkeypatch: pytest.MonkeyPatch, tmp_path: Path, seed: int,
-              options: list[dict[str, Any]], *, generator=None) -> tuple[MultiWorld, dict[str, Any], Path]:
+              options: list[dict[str, Any]]) -> tuple[MultiWorld, dict[str, Any], Path]:
     import Generate
     import Main
     import Utils
@@ -91,7 +91,7 @@ def _generate(monkeypatch: pytest.MonkeyPatch, tmp_path: Path, seed: int,
     )
     generated, actual_seed = Generate.main(args)
     assert actual_seed == seed
-    multiworld = (generator or Main.main)(generated, actual_seed)
+    multiworld = Main.main(generated, actual_seed)
     assert multiworld.can_beat_game() and multiworld.fulfills_accessibility()
     archive, = output.glob("*.zip")
     return multiworld, load_multidata_from_archive(archive), archive
