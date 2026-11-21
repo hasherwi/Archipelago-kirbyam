@@ -100,7 +100,7 @@ class TestRangedCompletionContract(unittest.TestCase):
         rows = {row["id"]: row for row in REPORT["targets"]}
         self.assertEqual(len(rows["bomb_517_chocolate"]["witnesses"]), 11)
         sound = rows["frozen_825_sound_effects"]
-        self.assertEqual(len(sound["witnesses"]), 5)
+        self.assertEqual(len(sound["witnesses"]), 6)
         self.assertEqual(sound["target_source_conditions"], [])
         self.assertEqual(sound["public_fallback_profiles"], [])
         self.assertEqual(rows["bomb_538_beam_left_exit"]["public_fallback_profiles"], [])
