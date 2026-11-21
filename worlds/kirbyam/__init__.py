@@ -530,6 +530,11 @@ class KirbyAmWorld(World):
                     include_minny=False, include_passive_enemies=randomize_non_ability,
                     no_ability_weight=no_ability_weight,
                 ), randomize_statues, require_all_witnesses=True,
+                # Room16 adds a rare joint source constraint. Keep the existing
+                # deterministic policy stream, with a bounded larger search.
+                max_attempts=16384 if mode == 1 and (
+                    self.options.room_sanity.value or self.options.goal.value == Goal.option_full_completion
+                ) else 8192,
                 advanced=self.options.advanced_logic.value == 1,
                 require_room16=bool(self.options.room_sanity.value),
                 room16_for_completion=self.options.goal.value == Goal.option_full_completion,

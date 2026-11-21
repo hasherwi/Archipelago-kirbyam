@@ -115,7 +115,9 @@ def test_generated_all_check_smoke_matrix(
 
     def timed_source_selection(initial: dict[str, Any], factory: Callable[[], dict[str, Any]],
                                include_statues: bool, **kwargs: Any) -> dict[str, Any]:
-        assert "max_attempts" not in kwargs and kwargs.get("require_all_witnesses") is True
+        assert kwargs.get("require_all_witnesses") is True
+        assert kwargs["max_attempts"] == (16384 if mode == 1 and (
+            kwargs.get("require_room16") or kwargs.get("room16_for_completion")) else 8192)
         attempts = 1
         start = perf_counter()
 
