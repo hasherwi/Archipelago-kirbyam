@@ -29,8 +29,8 @@ def test_one_installed_goal2_rule_ors_all_four_independent_sources(
 ) -> None:
     row, = [r for r in room_traversal_targets('block') if r['id'] == TARGET]
     assert 'requires_guaranteed_source' not in row
-    assert len(row['graphs']) == 5
-    assert row['advanced_graphs'] == ['generated_ice']
+    assert len(row['graphs']) == 6
+    assert row['advanced_graphs'] == ['generated_ice', 'fire_entry']
     monkeypatch.setattr(rules, 'extra_traversal_targets', lambda: (row,))
     resolver = policy(1, pool=[grant])
     target = SimpleNamespace(access_rule=lambda state: state.base_rule)

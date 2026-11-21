@@ -200,7 +200,8 @@ def test_generate_early_preserves_already_feasible_policy_under_minimal(
         mode, True, accessibility="minimal", ability_randomization_statues=False,
         ability_randomization_no_ability_weight=100,
     )
-    assert drawn == [world._enemy_copy_ability_policy]
+    from ..room16_timer import configure_policy
+    assert [configure_policy(candidate) for candidate in drawn] == [world._enemy_copy_ability_policy]
     if mode:
         state = world.multiworld.get_all_state(False)
         for name in world.item_name_to_id:
@@ -226,8 +227,12 @@ def test_room_970_requires_independent_access_in_every_accessibility(accessibili
 
 def replay_fuzz_case(
     monkeypatch: pytest.MonkeyPatch, tmp_path: Path, case: int, *, companion: str | int | None = None,
+    native_room16_timing: bool = True,
 ) -> MultiWorld:
-    """Replay historical artifacts before #1124's new source preflight."""
+    """Replay historical artifacts, retaining native timing unless explicitly testing the new patch."""
+    if native_room16_timing:
+        from .. import room16_timer
+        monkeypatch.setattr(room16_timer, "configure_policy", lambda raw: raw)
     from .. import validate_peg_assignment
     import worlds.kirbyam as kirby
 

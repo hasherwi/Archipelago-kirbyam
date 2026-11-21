@@ -65,9 +65,9 @@ def test_physical_lifetime_and_finite_resources_remain_required(mutation):
 
 def test_standard_excludes_the_generated_graph():
     row = next(r for r in room_traversal_targets('block') if r['id'] == TARGET)
-    assert row['advanced_graphs'] == [WITNESS]
+    assert row['advanced_graphs'] == [WITNESS, 'fire_entry']
     assert len(target_graphs(row, False)) == 4
-    assert len(target_graphs(row, False, advanced=True)) == 5
+    assert len(target_graphs(row, False, advanced=True)) == 6
     assert all(not any(p.lifetime == LIFE for p in g.placements) for g in target_graphs(row, False))
 
 

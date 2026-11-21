@@ -40,16 +40,14 @@ def test_audit_runs_once_after_balance_and_every_finalizer(
     monkeypatch.setattr(KirbyAmWorld, "finalize_multiworld", finalize)
     monkeypatch.setattr(check_accessibility, "validate_all_checks", validate)
     if skip_output:
-        # This exact historical fuzzer seed now rejects its unqualified Room16.
-        # The skip-output path must still call the final audit exactly once.
-        with pytest.raises(check_accessibility.KirbyAmCheckAccessibilityError,
-                           match=r"unavailable even with all inventory=\['Room 4-16'\]"):
-            replay_fuzz_case(monkeypatch, tmp_path, 95, companion="default")
+        # The explicit timer patch makes this Completely Random seed feasible;
+        # skip-output must still audit both players exactly once after balancing.
+        replay_fuzz_case(monkeypatch, tmp_path, 95, companion="default", native_room16_timing=False)
         from .support.check_accessibility import audit_local_checks
         first = audit_local_checks(audited[0], 1)
         second = audit_local_checks(audited[0], 2)
         assert first.unfilled == second.unfilled == ()
-        assert first.inventory_unreachable == ('Room 4-16',)
+        assert first.inventory_unreachable == first.progression_unreachable == ()
         assert second.inventory_unreachable == ()
         assert not tuple((tmp_path / "output").glob("*.zip"))
     else:

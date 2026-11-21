@@ -131,27 +131,34 @@ def validate_peg_assignment(
     extra_valid = False
     for attempt in range(max_attempts):
         policy = SourcePolicy(candidate, include_statues)
-        wheel_valid = not validate_static or static_wheel_witness(policy)
+        # This independent prerequisite rejects most Room16-ineligible policies
+        # before the costly catalog evaluation. It consumes no RNG and preserves
+        # the first jointly valid assignment from the original candidate stream.
+        room16_valid = not require_room16 or static_room16_witness(policy, advanced=advanced)
+        wheel_valid = room16_valid and (not validate_static or static_wheel_witness(policy))
         if wheel_valid and wheel_valid_candidate is None:
             wheel_valid_candidate = candidate
         if wheel_valid and (not validate_static or all(_assignment_has_witness(row, policy) for row in PEG_ROUTES)):
             peg_valid_candidate = candidate
             if not validate_static or static_extra_witness(policy, advanced=advanced):
                 extra_valid = True
-                if not require_room16 or static_room16_witness(policy, advanced=advanced):
-                    return candidate
+                return candidate
         if policy.mode != 1:
             break
         if attempt + 1 < max_attempts:
             candidate = factory()
     raise _assignment_search_failure(initial, attempt + 1, wheel_valid_candidate is not None,
-                                     peg_valid_candidate is not None, extra_valid, room16_for_completion)
+                                     peg_valid_candidate is not None, extra_valid, room16_for_completion,
+                                     room16_required=require_room16)
 
 
 def _assignment_search_failure(initial: dict[str, Any], attempts: int, wheel_valid: bool,
-                               peg_valid: bool, extra_valid: bool, room16_for_completion: bool = False) -> ValueError:
+                               peg_valid: bool, extra_valid: bool, room16_for_completion: bool = False,
+                               *, room16_required: bool = False) -> ValueError:
     context = f"after {attempts} attempts (mode={initial.get('mode')}, initial seed={initial.get('seed')}). "
-    if extra_valid:
+    if extra_valid or room16_required:
+        # With the cheap Room16 filter first, skipped policies need not have
+        # their other graphs evaluated. Report joint exhaustion, not impossibility.
         feature = "100% Game Completion" if room16_for_completion else "RoomSanity"
         return KirbyAmRoom16SourceError(
             f"KirbyAM {feature} requires Mustard Mountain Room 4-16, but no reviewed source "

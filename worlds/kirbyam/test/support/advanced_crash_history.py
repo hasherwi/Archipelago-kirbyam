@@ -2,7 +2,8 @@
 
 Historical physical evidence remains byte-for-byte pinned. This projection
 does not hide changes to historical graphs, sources or ownership. The exact
-new Ice graph is hash-checked and removed only when comparing older witnesses. The exact issue #1099
+new Ice and Fire graphs are hash-checked; later projections remove them only
+when comparing older witnesses. The exact issue #1099
 fail-closed metadata is projected separately from the historical native evidence.
 """
 from copy import deepcopy
@@ -27,7 +28,8 @@ def before_advanced_crash(target: dict[str, Any]) -> dict[str, Any]:
     if result['id'] in MARKERS:
         assert result.pop('advanced_graphs') == MARKERS[result['id']]
     elif result['id'] == 'frozen_825_sound_effects' and 'generated_ice' in result['graphs']:
-        assert result['advanced_graphs'] == ['generated_ice']
+        from .fire825_history import before_fire_target
+        before_fire_target(result)  # Validate the exact later Fire addition without projecting it twice.
         assert hashlib.sha256(json.dumps(result['graphs']['generated_ice'], sort_keys=True, separators=(',', ':')).encode()).hexdigest() == '951c005dbcb4b76d6718ad4ce4d8847a20758ec485f3245f1e01ab0ccae29058'
     else:
         assert 'advanced_graphs' not in result

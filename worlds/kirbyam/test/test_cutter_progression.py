@@ -97,7 +97,8 @@ def _generate(monkeypatch: pytest.MonkeyPatch, tmp_path: Path, seed: int,
     return multiworld, load_multidata_from_archive(archive), archive
 
 
-def _gate_words(archive: Path) -> dict[int, int]:
+def _gate_words(archive: Path, target_address: int = ABILITY_GATE_MASK_INITIAL_ROM_OFFSET,
+                target_size: int = 4) -> dict[int, int]:
     words = {}
     with zipfile.ZipFile(archive) as outer:
         for name in outer.namelist():
@@ -114,8 +115,9 @@ def _gate_words(archive: Path) -> dict[int, int]:
                     size = int.from_bytes(data[offset + 5:offset + 9], "little")
                     payload = data[offset + 9:offset + 9 + size]
                     offset += 9 + size
-                    if address == ABILITY_GATE_MASK_INITIAL_ROM_OFFSET:
-                        assert token == 0 and size == 4
+                    if address == target_address:
+                        assert token == 0 and size == target_size
+                        assert manifest["player"] not in words
                         words[manifest["player"]] = int.from_bytes(payload, "little")
     return words
 

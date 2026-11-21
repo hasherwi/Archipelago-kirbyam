@@ -123,7 +123,9 @@ class AbilityRandomizationMode(Choice):
     - Shuffled: Enemy types are remapped deterministically so all enemies of the
         same type grant the same ability.
     - Completely Random: Eligible enemy ability grants are remapped independently
-        (deterministic per grant event).
+        (deterministic per grant event). Newly generated seeds give the Mustard
+        Mountain Room 4-16 switch a 10-second release delay, allowing Normal Kirby
+        to cross without relying on a random ability grant.
     """
     display_name = "Ability Randomization Mode"
     default = 0

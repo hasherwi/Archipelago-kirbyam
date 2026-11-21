@@ -10,6 +10,10 @@ def keep_historical_room16_assignment(monkeypatch: pytest.MonkeyPatch) -> None:
     """Replay pre-#1124 policies while leaving traversal, fill, and the final audit intact."""
     import worlds.kirbyam as kirby
 
+    from ... import room16_timer
+
+    # Historical fixtures predate the explicit native-room timer patch.
+    monkeypatch.setattr(room16_timer, "configure_policy", lambda raw: raw)
     validate = kirby.validate_peg_assignment
 
     def validate_historical(*args: Any, **kwargs: Any) -> dict[str, Any]:

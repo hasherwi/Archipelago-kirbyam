@@ -36,8 +36,8 @@ def test_native_candidate_alone_does_not_publish_world_access():
     assert source['native_contract']['attack_entry_guaranteed'] is False
     assert source['access']['status'] == 'unresolved'
     row = next(r for r in room_traversal_targets('block') if r['id'] == 'frozen_825_sound_effects')
-    assert row['advanced_graphs'] == ['generated_ice']
-    assert set(row['graphs']) == {'local', 'central_statues', 'peppermint290_statues', 'ufo_entry', 'generated_ice'}
+    assert row['advanced_graphs'] == ['generated_ice', 'fire_entry']
+    assert set(row['graphs']) == {'local', 'central_statues', 'peppermint290_statues', 'ufo_entry', 'generated_ice', 'fire_entry'}
 
 
 def test_large_cube_controls_match_runtime_permission_and_preserve_ammunition():

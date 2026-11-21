@@ -97,6 +97,7 @@ CAPABILITY_ABILITIES: Mapping[str, frozenset[str]] = {
     "switch_310_cutter_five_roof_returns": frozenset({"Cutter"}),
     "switch_310_kibble_cutter_roof_returns": frozenset({"Cutter"}),
     "switch_825_ufo_top_charge": frozenset({"UFO"}),
+    "switch_825_fire_breath": frozenset({"Fire"}),
     # Only attach to a route whose timing has actually been established.
     "wheel_race": frozenset({"Wheel"}),
 }
@@ -146,6 +147,7 @@ ROOM_SCOPED_CAPABILITIES: Mapping[str, int] = {
     "switch_310_cutter_five_roof_returns": 310,
     "switch_310_kibble_cutter_roof_returns": 310,
     "switch_825_ufo_top_charge": 825,
+    "switch_825_fire_breath": 825,
 }
 
 ROOM_SCOPED_ATTACK_WATER_STATES: Mapping[str, str] = {
@@ -628,7 +630,7 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
         # crosses a closing gate; its embedded arrow does not keep the slot high.
         # Cutter310 setup cycles the gate and crosses after its final return.
         if (route.capability in {"fuse", "switch_533_crash_viewport", "switch_310_crash_viewport",
-                                 "switch_825_ufo_top_charge", "switch_310_cupid_up_left_q0",
+                                 "switch_825_ufo_top_charge", "switch_825_fire_breath", "switch_310_cupid_up_left_q0",
                                  "switch_533_magic_meta_knight", "switch_310_cutter_five_roof_returns",
                                  "switch_310_kibble_cutter_roof_returns"}
                 and route.opens is not None):
@@ -941,7 +943,7 @@ def _compile_route(row: Mapping[str, Any], area_keys: bool) -> Route:
     allowed = row.get("allowed_abilities")
     capability = row.get("capability")
     if (capability in {"fuse", "switch_533_crash_viewport", "switch_310_crash_viewport",
-                       "switch_825_ufo_top_charge", "switch_310_cupid_up_left_q0",
+                       "switch_825_ufo_top_charge", "switch_825_fire_breath", "switch_310_cupid_up_left_q0",
                        "switch_533_magic_meta_knight", "switch_310_cutter_five_roof_returns",
                        "switch_310_kibble_cutter_roof_returns"}
             and row.get("opens") is not None):

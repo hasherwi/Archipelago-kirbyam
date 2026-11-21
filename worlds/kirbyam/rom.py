@@ -111,6 +111,13 @@ class KirbyAmPatchExtension(APPatchExtension):
         return rom
 
     @staticmethod
+    def validate_room16_timer_base(caller: APProcedurePatch, rom: bytes) -> bytes:
+        from .room16_timer import ROM_OFFSET
+        if rom[ROM_OFFSET:ROM_OFFSET + 2] != bytes(2):
+            raise ValueError("Room16 native switch timer differs from the expected base")
+        return rom
+
+    @staticmethod
     def validate_enemy_source_base(caller: APProcedurePatch, rom: bytes) -> bytes:
         """Require the native source-policy ABI before applying seed tokens."""
         offset = ENEMY_SOURCE_CONFIG_ROM_OFFSET
@@ -161,6 +168,7 @@ class KirbyAmProcedurePatch(APProcedurePatch, APTokenMixin):
         ("validate_production_phone_disabled", []),
         ("validate_area_keys_base", []),
         ("validate_enemy_source_base", []),
+        ("validate_room16_timer_base", []),
         ("apply_enemy_health_scaling", [ENEMY_HEALTH_MULTIPLIER_FILE]),
         ("apply_tokens", ["token_data.bin"]),
         ("finalize_health_header", []),
@@ -234,6 +242,10 @@ def write_tokens(world: "KirbyAmWorld", patch: KirbyAmProcedurePatch) -> None:
             "enemy_copy_ability_policy must be initialized before writing enemy "
             "copy-ability runtime patch tokens when ability randomization is enabled"
         )
+
+    from .room16_timer import ROM_OFFSET as ROOM16_TIMER_OFFSET, timer_bytes
+    patch.write_token(APTokenTypes.WRITE, ROOM16_TIMER_OFFSET,
+                      timer_bytes(policy if isinstance(policy, dict) else {"mode": 0}))
 
     patch.write_token(
         APTokenTypes.WRITE, ENEMY_SOURCE_CONFIG_ROM_OFFSET,
