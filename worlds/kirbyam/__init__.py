@@ -67,6 +67,16 @@ def launch_mgba_client(*args: str) -> None:
     launch_component(main, name="KirbyAMmGBAClient", args=args)
 
 
+def launch_retry_generator(*args: str) -> None:
+    from .generation_retry import main
+    launch_component(main, name="KirbyAMGenerator", args=args)
+
+
+components.append(Component("KirbyAM Generator (placement retries)", func=launch_retry_generator,
+                            component_type=Type.TOOL, cli=True,
+                            description="Single-player KirbyAM generation with up to eight audited placement attempts."))
+
+
 # Opt-in component: do not take over .apkirbyam's existing BizHawk association.
 components.append(Component("KirbyAM mGBA Client", func=launch_mgba_client,
                             component_type=Type.CLIENT,

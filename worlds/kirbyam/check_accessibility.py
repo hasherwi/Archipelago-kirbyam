@@ -14,6 +14,8 @@ from Fill import FillError
 class KirbyAmCheckAccessibilityError(FillError):
     """The selected goal may be beatable, but some Kirby checks are stranded."""
 
+    retryable_placement: bool = False
+
 
 def _room16_source_rejection_evidence(
     multiworld: MultiWorld, player: int, unfilled: list[str],
@@ -85,11 +87,13 @@ def validate_all_checks(multiworld: MultiWorld, players: Iterable[int]) -> None:
     # it grants permissions from locations that the player may be unable to reach.
     inventory = multiworld.get_all_state()
     messages = []
+    retryable_placement = True
     for player, locations in sorted(stranded.items()):
         unfilled = sorted(location.name for location in locations if location.item is None)
         infeasible = sorted(location.name for location in locations if not location.can_reach(inventory))
         fill_locked = sorted(location.name for location in locations
                              if location.item is not None and location.can_reach(inventory))
+        retryable_placement &= not unfilled and not infeasible and bool(fill_locked)
         evidence = _room16_source_rejection_evidence(multiworld, player, unfilled, infeasible, fill_locked)
         if evidence is not None:
             logging.info("KirbyAM Room16 rejection evidence: %s",
@@ -97,9 +101,12 @@ def validate_all_checks(multiworld: MultiWorld, players: Iterable[int]) -> None:
         messages.append(f"Player {player} ({multiworld.get_player_name(player)}): "
                         f"unfilled={unfilled}; unavailable even with all inventory={infeasible}; "
                         f"unreachable from placed progression={fill_locked}")
-    raise KirbyAmCheckAccessibilityError(
+    error = KirbyAmCheckAccessibilityError(
         "KirbyAM all-check validation failed. Every enabled Kirby check must be reachable, "
         "including with minimal accessibility. Generation stopped before the normal output/archive stage. "
         "Try full accessibility or another seed; source/route restrictions may still require review.\n"
         + "\n".join(messages)
     )
+
+    error.retryable_placement = retryable_placement
+    raise error

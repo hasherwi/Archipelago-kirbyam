@@ -34,6 +34,12 @@ clear it.
 8. A patched `.gba` file will be created in the same place as the patch file.
 9. On your first time opening a patch with BizHawk Client, you will also be asked to locate `EmuHawk.exe` in your BizHawk install.
 
+For a single-player, non-race KirbyAM seed, you can instead select **KirbyAM Generator (placement retries)**.
+It keeps your settings and original first seed, then tries up to eight deterministic generations if item placement
+locks an otherwise reachable check. Only an audited successful archive is published; its
+`kirbyam-generation-attempts.json` records the attempt seeds and failure reasons. Invalid settings or unavailable
+routes stop immediately. Use ordinary **Generate** for multiworld, race, CSV or spoiler-only generation.
+
 If you're playing a single-player seed and you don't care about autotracking or hints, you can stop here, close the
 client, and load the patched ROM in any emulator. However, for multiworlds and other Archipelago features, continue
 below using your selected emulator and its connector.

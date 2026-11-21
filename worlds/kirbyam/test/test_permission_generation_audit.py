@@ -47,8 +47,9 @@ REQUIRED_MINIMAL_ARCHIVES = frozenset(
 # Preserve mandatory accepted-minimal coverage for every mode/gating pair.
 assert {(mode, gating) for _, mode, gating in REQUIRED_MINIMAL_ARCHIVES} == {
     (mode, gating) for mode in range(3) for gating in range(2)}
-# Exact RoomSanity source refusals introduced by #1099.
-ROOM16_SOURCE_REFUSALS = frozenset({(1, 2), (2, 1), (2, 2)})
+# Shuffled retains native timing; new Completely Random slots carry the
+# independently verified Normal timer route, including the 100% no-ability pool.
+ROOM16_SOURCE_REFUSALS = frozenset({(2, 1)})
 
 
 def assert_generation_contract(
@@ -56,6 +57,11 @@ def assert_generation_contract(
 ) -> tuple[LocalCheckAudit, float]:
     world = cast(KirbyAmWorld, multiworld.worlds[player])
     gating = bool(world.options.ability_gating.value)
+    from ..room16_timer import POLICY_KEY, ROM_OFFSET, TIMER_FRAMES
+    source_policy = decoded["slot_data"][player]["enemy_copy_ability_policy"]
+    expected_timer = TIMER_FRAMES if world.options.ability_randomization_mode.value == 2 else 0
+    assert source_policy.get(POLICY_KEY, 0) == expected_timer
+    assert _gate_words(archive, ROM_OFFSET, 2)[player] == expected_timer
     automatic = {world.item_name_to_id[f"{name} Ability"]
                  for name in starting_copy_abilities(world.options.ability_randomization_mode.value)}
     gateable = {world.item_name_to_id[f"{name} Ability"] for name in GATEABLE_ENEMY_COPY_ABILITIES}
