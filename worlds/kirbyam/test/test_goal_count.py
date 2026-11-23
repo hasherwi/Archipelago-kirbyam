@@ -79,7 +79,26 @@ def test_goal_command_displays_count(count: int) -> None:
     noun = "boss" if count == 1 else "bosses"
     assert _run_goal_command({"goal": 4, "required_area_bosses": count,
                               "goal_hidden_area_boss_key": "BOSS_DEFEAT_1"}) == [
-        f"Goal: Defeat any {count} distinct area {noun}.",
+        f"Goal: Defeat any {count} distinct area {noun}. Bosses defeated: 0/{count}.",
+    ]
+
+
+def test_goal_command_displays_live_distinct_acknowledged_progress() -> None:
+    slot_data = {"goal": 4, "required_area_bosses": 3}
+    # Dark Mind, the goal check itself, and an item are not area-boss defeats.
+    checked = {3960008, 3960012, 3860001, BOSS_IDS[2]}
+    # Master Hand + Crazy Hand contribute a single area-boss check.
+    assert _run_goal_command(slot_data, checked_locations=checked) == [
+        "Goal: Defeat any 3 distinct area bosses. Bosses defeated: 1/3.",
+    ]
+    checked.add(BOSS_IDS[2])  # A repeat defeat acknowledges the same ID.
+    checked.add(BOSS_IDS[0])
+    assert _run_goal_command(slot_data, checked_locations=checked) == [
+        "Goal: Defeat any 3 distinct area bosses. Bosses defeated: 2/3.",
+    ]
+    # A new command processor sees exactly the server's saved checks after reconnect.
+    assert _run_goal_command(slot_data, checked_locations=set(BOSS_IDS[:4])) == [
+        "Goal: Defeat any 3 distinct area bosses. Bosses defeated: 4/3.",
     ]
 
 

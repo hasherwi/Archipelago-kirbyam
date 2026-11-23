@@ -6,7 +6,7 @@
   "files": {
     "client.py": {
       "main_sha256": "280e0f77f04a41ce17322dd286dd584dc2e86c376bb566d8536557dc1f972e0b",
-      "integrated_sha256": "06bf653c6ab21240d23fe09af81bea8302ca528f25ca264dc83af731262f9489",
+      "integrated_sha256": "6c571c2a81038246d569d55c2dbc158da4035c1826447a7b79a9e33270717839",
       "reverse_slices": [
         {
           "start": 12,
@@ -37,8 +37,23 @@
           "main": []
         },
         {
-          "start": 309,
-          "stop": 313,
+          "start": 258,
+          "stop": 266,
+          "current": [
+            "def _acknowledged_area_boss_count(ctx: KirbyAmBizHawkClientContext) -> int:\n",
+            "    \"\"\"Count distinct canonical area defeats acknowledged for this slot, not items or raw bits.\"\"\"\n",
+            "    checked_locations = getattr(ctx, \"checked_locations\", None)\n",
+            "    if not isinstance(checked_locations, set):\n",
+            "        return 0\n",
+            "    return sum(data.locations[key].location_id in checked_locations for key in _GOAL_BOSS_NAMES)\n",
+            "\n",
+            "\n"
+          ],
+          "main": []
+        },
+        {
+          "start": 317,
+          "stop": 321,
           "current": [
             "        elif goal == Goal.option_full_completion:\n",
             "            description = (\"100% Game Completion: explore all 272 native rooms, open every chest, \"\n",
@@ -48,16 +63,27 @@
           "main": []
         },
         {
-          "start": 522,
-          "stop": 523,
+          "start": 337,
+          "stop": 339,
+          "current": [
+            "            defeated = _acknowledged_area_boss_count(self.ctx)\n",
+            "            description = f\"Defeat any {count} distinct area {noun}. Bosses defeated: {defeated}/{count}.\"\n"
+          ],
+          "main": [
+            "            description = f\"Defeat any {count} distinct area {noun}.\"\n"
+          ]
+        },
+        {
+          "start": 531,
+          "stop": 532,
           "current": [
             "        self._full_completion_reported_scope = None\n"
           ],
           "main": []
         },
         {
-          "start": 552,
-          "stop": 554,
+          "start": 561,
+          "stop": 563,
           "current": [
             "                elif loc.name == \"GOAL_100_PERCENT\":\n",
             "                    self._goal_location_ids_by_option[Goal.option_full_completion] = loc.location_id\n"
@@ -65,8 +91,8 @@
           "main": []
         },
         {
-          "start": 2044,
-          "stop": 2045,
+          "start": 2053,
+          "stop": 2054,
           "current": [
             "    async def _health_protocol_ready(self, ctx: Any, *, require_identity: bool = True) -> bool:\n"
           ],
@@ -75,8 +101,8 @@
           ]
         },
         {
-          "start": 2078,
-          "stop": 2104,
+          "start": 2087,
+          "stop": 2113,
           "current": [
             "            if goal_slot_version(slot):\n",
             "                marker = (await bizhawk.read(ctx.bizhawk_ctx, [(GOAL_MARKER_OFFSET, 8, \"ROM\")]))[0]\n",
@@ -108,24 +134,24 @@
           "main": []
         },
         {
-          "start": 2308,
-          "stop": 2309,
+          "start": 2317,
+          "stop": 2318,
           "current": [
             "            await sync_phone_ownership(ctx, self._hub_connection_item_history_ready)\n"
           ],
           "main": []
         },
         {
-          "start": 2339,
-          "stop": 2340,
+          "start": 2348,
+          "stop": 2349,
           "current": [
             "            await poll_goal_games(ctx)\n"
           ],
           "main": []
         },
         {
-          "start": 3140,
-          "stop": 3142,
+          "start": 3149,
+          "stop": 3151,
           "current": [
             "    async def _post_clear_player_task_active(self, ctx: KirbyAmBizHawkClientContext, expected_hp: int,\n",
             "                                             *, evidence_guards: list | None = None) -> bool:\n"
@@ -135,8 +161,8 @@
           ]
         },
         {
-          "start": 3181,
-          "stop": 3182,
+          "start": 3190,
+          "stop": 3191,
           "current": [
             "        final_reads = [\n"
           ],
@@ -145,8 +171,8 @@
           ]
         },
         {
-          "start": 3185,
-          "stop": 3195,
+          "start": 3194,
+          "stop": 3204,
           "current": [
             "        ]\n",
             "        final = await bizhawk.read(ctx.bizhawk_ctx, final_reads)\n",
@@ -168,8 +194,8 @@
           ]
         },
         {
-          "start": 4092,
-          "stop": 4093,
+          "start": 4101,
+          "stop": 4102,
           "current": [
             "        use received wall items. New patches save physical pulls independently.\n"
           ],
@@ -178,8 +204,8 @@
           ]
         },
         {
-          "start": 4115,
-          "stop": 4145,
+          "start": 4124,
+          "stop": 4154,
           "current": [
             "        save_version = ctx.slot_data.get(\"physical_check_save_version\")\n",
             "        if save_version is not None:\n",
@@ -215,8 +241,8 @@
           "main": []
         },
         {
-          "start": 4967,
-          "stop": 4970,
+          "start": 4976,
+          "stop": 4979,
           "current": [
             "            # Hub teleport, Candy and Battery deliberately leave the mailbox pending\n",
             "            # through scripts, room transitions or a full/invalid battery epoch.\n",
@@ -228,8 +254,8 @@
           ]
         },
         {
-          "start": 4974,
-          "stop": 4975,
+          "start": 4983,
+          "stop": 4984,
           "current": [
             "                    and getattr(ctx.items_received[pending_index], \"item\", None) in (3860300, CANDY_ITEM_ID, 3860027)):\n"
           ],
@@ -238,8 +264,23 @@
           ]
         },
         {
-          "start": 5271,
-          "stop": 5351,
+          "start": 5252,
+          "stop": 5254,
+          "current": [
+            "        \"\"\"Return whether the server has acknowledged enough distinct area defeats.\"\"\"\n",
+            "        return _acknowledged_area_boss_count(ctx) >= required_bosses\n"
+          ],
+          "main": [
+            "        \"\"\"Count distinct canonical area defeats acknowledged for this slot, not items or raw bits.\"\"\"\n",
+            "        checked_locations = getattr(ctx, \"checked_locations\", None)\n",
+            "        if not isinstance(checked_locations, set):\n",
+            "            return False\n",
+            "        return sum(data.locations[key].location_id in checked_locations for key in _GOAL_BOSS_NAMES) >= required_bosses\n"
+          ]
+        },
+        {
+          "start": 5277,
+          "stop": 5357,
           "current": [
             "    async def _maybe_report_full_completion(self, ctx) -> None:\n",
             "        \"\"\"Recompute this goal from one authenticated native-save snapshot.\n",
@@ -325,8 +366,8 @@
           "main": []
         },
         {
-          "start": 5365,
-          "stop": 5370,
+          "start": 5371,
+          "stop": 5376,
           "current": [
             "        slot_data = getattr(ctx, \"slot_data\", None)\n",
             "        if isinstance(slot_data, dict) and type(slot_data.get(\"goal\")) is int and slot_data[\"goal\"] == Goal.option_full_completion:\n",
