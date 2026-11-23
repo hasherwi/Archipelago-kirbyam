@@ -256,6 +256,14 @@ def _required_area_boss_count(slot_data: dict) -> int | None:
     return count if type(count) is int and 1 <= count <= 8 else None
 
 
+def _acknowledged_area_boss_count(ctx: KirbyAmBizHawkClientContext) -> int:
+    """Count distinct canonical area defeats acknowledged for this slot, not items or raw bits."""
+    checked_locations = getattr(ctx, "checked_locations", None)
+    if not isinstance(checked_locations, set):
+        return 0
+    return sum(data.locations[key].location_id in checked_locations for key in _GOAL_BOSS_NAMES)
+
+
 def _build_kirbyam_command_processor(base_command_processor: type) -> type:
     _base_cls = base_command_processor
     _base_toggle_text = getattr(
@@ -327,7 +335,8 @@ def _build_kirbyam_command_processor(base_command_processor: type) -> type:
                 self.output("Goal unavailable: required_area_bosses must be an integer from 1 to 8 in slot data.")
                 return False
             noun = "boss" if count == 1 else "bosses"
-            description = f"Defeat any {count} distinct area {noun}."
+            defeated = _acknowledged_area_boss_count(self.ctx)
+            description = f"Defeat any {count} distinct area {noun}. Bosses defeated: {defeated}/{count}."
         elif goal == _LEGACY_GOAL_DEFEAT_RANDOM_HIDDEN_AREA_BOSS:
             description = "Defeat the randomly selected hidden area boss (target hidden)."
         else:
@@ -5241,11 +5250,8 @@ class KirbyAmClient(BizHawkClient):
         return any(location_id in checked_locations for location_id in self._boss_location_ids_all)
 
     def _area_boss_count_goal_signal_active(self, ctx, required_bosses: int) -> bool:
-        """Count distinct canonical area defeats acknowledged for this slot, not items or raw bits."""
-        checked_locations = getattr(ctx, "checked_locations", None)
-        if not isinstance(checked_locations, set):
-            return False
-        return sum(data.locations[key].location_id in checked_locations for key in _GOAL_BOSS_NAMES) >= required_bosses
+        """Return whether the server has acknowledged enough distinct area defeats."""
+        return _acknowledged_area_boss_count(ctx) >= required_bosses
 
     def _hidden_area_boss_goal_signal_active(self, ctx: KirbyAmBizHawkClientContext, hidden_goal_key: str) -> bool:
         """Return whether the selected hidden area boss has been acknowledged by the server."""

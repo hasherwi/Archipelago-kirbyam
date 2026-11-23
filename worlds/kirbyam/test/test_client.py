@@ -60,13 +60,15 @@ _GOAL_TARGET_CASES = [
 ]
 
 
-def _run_goal_command(slot_data: Any, game: str | None = KirbyAmClient.game, expected: bool = True) -> list[str]:
+def _run_goal_command(slot_data: Any, game: str | None = KirbyAmClient.game, expected: bool = True, *,
+                      checked_locations: set[int] | None = None) -> list[str]:
     from copy import deepcopy
     from types import SimpleNamespace
 
     # A minimal context deliberately has no transport or game-state methods.
     ctx = SimpleNamespace(game=game, slot_data=slot_data, finished_game=False,
-                          checked_locations=set(), items_received=[])
+                          checked_locations=set() if checked_locations is None else checked_locations,
+                          items_received=[])
     before = deepcopy(vars(ctx))
     processor = _build_kirbyam_command_processor(BizHawkClientCommandProcessor)(ctx)
     with patch.object(processor, "output") as output:
