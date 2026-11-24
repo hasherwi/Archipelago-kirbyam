@@ -1,6 +1,6 @@
 # Kirby color palettes
 
-Browse **65 starting colors**: 14 from the original game and 51 additional KirbyAM colors. Each preview shows the same normal Kirby pose alongside its swatches, so you can compare colors directly. Copy abilities and effects can look different in-game.
+Browse **65 starting colors**: 14 from the original game and 51 custom KirbyAM colors. Each preview shows the same normal Kirby pose alongside its swatches, so you can compare colors directly. Copy abilities and effects can look different in-game.
 
 ## Choose your color
 
@@ -17,16 +17,8 @@ Kirby & The Amazing Mirror:
 
 ![Kirby sprites and swatches for the 14 original palettes, with Pink first, then Carbon through Yellow. The YAML keys are listed below.](color-palettes-native.png)
 
-## Additional KirbyAM colors
-
-### Curated palettes
-
-![Kirby sprites and swatches for the 13 curated palettes, from Candy Corn to White. The YAML keys are listed below.](color-palettes-curated.png)
-
 <details>
-<summary>Original and curated color names and YAML values</summary>
-
-**Original colors**
+<summary>Original color names and YAML values</summary>
 
 | Color | YAML value |
 | --- | --- |
@@ -45,47 +37,36 @@ Kirby & The Amazing Mirror:
 | Snow | `snow` |
 | Yellow | `yellow` |
 
-**Curated palettes**
-
-| Color | YAML value |
-| --- | --- |
-| Candy Corn | `candy_corn` |
-| Citrus | `citrus` |
-| Cotton Candy | `cotton_candy` |
-| Ivory | `ivory` |
-| Lavender | `lavender` |
-| Mint Chip | `mint_chip` |
-| Negative | `negative` |
-| Pineapple | `pineapple` |
-| Pumpkin | `pumpkin` |
-| Rainbow | `rainbow` |
-| Royal | `royal` |
-| Shadow | `shadow` |
-| White | `white` |
-
 </details>
 
-### Reference-sheet palettes
+## Custom Palettes
 
-![Kirby sprite previews and swatches for 19 reference-sheet palettes, Advance Ice through Meconopsis / Blue Poppy. The names are listed below.](color-palettes-reference-sheet-1.png)
+![Kirby sprite previews and swatches for 18 custom palettes, Advance Ice through Lemon.](color-palettes-custom-1.png)
 
-![Kirby sprite previews and swatches for the remaining 19 reference-sheet palettes, Mogeko through Waddle Dee. The names are listed below.](color-palettes-reference-sheet-2.png)
+![Kirby sprite previews and swatches for 18 custom palettes, Link through Royal.](color-palettes-custom-2.png)
+
+![Kirby sprite previews and swatches for 15 custom palettes, Shadow through White.](color-palettes-custom-3.png)
 
 <details>
-<summary>All 38 reference-sheet color names</summary>
+<summary>All 51 custom color names</summary>
 
 - Advance Ice
 - Advance Stone
 - Beautiful Sunset
 - Bright
 - Calie
+- Candy Corn
 - Carrot Cake
+- Citrus
+- Cotton Candy
 - Daisy
 - Dedede
 - Edgey
 - Galacta Knight
+- Ivory
 - KDL3 Pink
 - Lalala
+- Lavender
 - Lemon
 - Link
 - Lololo
@@ -93,12 +74,19 @@ Kirby & The Amazing Mirror:
 - Marina
 - Marx
 - Meconopsis / Blue Poppy
+- Mint Chip
 - Mogeko
 - Morpho Knight
+- Negative
 - Pearl
+- Pineapple
+- Pumpkin
 - Purple
+- Rainbow
 - Ramia’s Scale & Star Stone
 - Rose
+- Royal
+- Shadow
 - Snow Cone
 - Spicy
 - Strawberry Peach
@@ -112,9 +100,10 @@ Kirby & The Amazing Mirror:
 - Ultra Plasma
 - Ultra Stone
 - Waddle Dee
+- White
 
 </details>
 
 ## Preview sources
 
-The original sprite previews and the swatches for the reference-sheet palettes come from the reference images in [GitHub issue #1035](https://github.com/hasherwi/Archipelago-kirbyam/issues/1035). The main sheet is credited to Drschnaps; the issue credits the palettes from Daisy through Blue Poppy to SapphireGemNetwork. The curated previews apply normal-gameplay RGB555 values from the [color registry](../data/colors.json) to that same sprite’s indexed pixels. The reference-sheet previews illustrate the normal pose only; they do not show other forms or effects. Kirby sprite artwork © Nintendo / HAL Laboratory.
+The original sprite previews and the swatches for the reference-sheet palettes come from the reference images in [GitHub issue #1035](https://github.com/hasherwi/Archipelago-kirbyam/issues/1035). The main sheet is credited to Drschnaps; the issue credits the palettes from Daisy through Blue Poppy to SapphireGemNetwork. For some custom colors, previews apply normal-gameplay RGB555 values from the [color registry](../data/colors.json) to that same sprite’s indexed pixels. Previews based on the reference sheets illustrate the normal pose only; they do not show other forms or effects. Kirby sprite artwork © Nintendo / HAL Laboratory.
