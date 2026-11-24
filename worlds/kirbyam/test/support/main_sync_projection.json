@@ -631,6 +631,84 @@
               ]
             }
           ]
+        },
+        {
+          "integrated_sha256": "f6f3cb462cd3b89e7e95719523a9d8fbab6887eb8eaffafe12d87a856e80f93c",
+          "reverse_slices": [
+            {
+              "start": 512,
+              "stop": 513,
+              "current": [
+                "        self._progress_receipt_fence: list[tuple[int, bytes, str]] = []\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 5014,
+              "stop": 5035,
+              "current": [
+                "                clear = [(flag_addr, bytes(4), \"System Bus\")]\n",
+                "                pending_item = (getattr(ctx.items_received[pending_index], \"item\", None)\n",
+                "                                if pending_index is not None and 0 <= pending_index < len(ctx.items_received)\n",
+                "                                else None)\n",
+                "                pending_progress = (bool(self._progress_receipt_fence)\n",
+                "                                    or isinstance(pending_item, int) and (\n",
+                "                                        pending_item in _AREA_KEY_ITEM_ID_TO_AREA_ID\n",
+                "                                        or pending_item in _HUB_CONNECTION_ITEM_ID_TO_DOOR_INDEX))\n",
+                "                if pending_progress:\n",
+                "                    # The native save can finish between our read and this clear.\n",
+                "                    # A lost guard is not a lost receipt: leave the offer pending\n",
+                "                    # so the next poll can account for the actual ACK or reset.\n",
+                "                    if (flag != 1 or counter_addr is None or rom_received_count is None\n",
+                "                            or rom_received_count != self._receipt_offer_count):\n",
+                "                        return\n",
+                "                    if not await bizhawk.guarded_write(ctx.bizhawk_ctx, clear, [\n",
+                "                        (flag_addr, flag.to_bytes(4, \"little\"), \"System Bus\"),\n",
+                "                        (counter_addr, rom_received_count.to_bytes(4, \"little\"), \"System Bus\"),\n",
+                "                        *self._progress_receipt_fence,\n",
+                "                    ]):\n",
+                "                        return\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 5077,
+              "stop": 5079,
+              "current": [
+                "                if not pending_progress:\n",
+                "                    await bizhawk.write(ctx.bizhawk_ctx, clear)\n"
+              ],
+              "main": [
+                "                await bizhawk.write(ctx.bizhawk_ctx, [\n",
+                "                    (flag_addr, (0).to_bytes(4, \"little\"), \"System Bus\"),\n",
+                "                ])\n"
+              ]
+            },
+            {
+              "start": 5226,
+              "stop": 5227,
+              "current": [
+                "            progress_fence: list[tuple[int, bytes, str]] = []\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 5254,
+              "stop": 5255,
+              "current": [
+                "                    progress_fence = guards[1:] + offer[:2]\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 5273,
+              "stop": 5274,
+              "current": [
+                "            self._progress_receipt_fence = progress_fence\n"
+              ],
+              "main": []
+            }
+          ]
         }
       ]
     },

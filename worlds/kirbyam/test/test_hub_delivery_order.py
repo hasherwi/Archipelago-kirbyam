@@ -1,14 +1,17 @@
 """Late Hub receipts must install ownership before native item effects."""
 import base64
 import json
+from pathlib import Path
 from typing import Any, Callable
-from unittest.mock import Mock, patch
+from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
 
+from NetUtils import NetworkItem
 from worlds._bizhawk import RequestFailedError
-from ..client import KirbyAmClient
+from ..client import COPY_ROOM_CONTEXT_ADDRESS, KirbyAmClient, _MAILBOX_ACK_TIMEOUT_FRAMES
 from ..data import data
+from ..receipts import ReceiptJournal, receipt_key
 
 
 class Bridge:
@@ -217,3 +220,77 @@ async def test_recovery_installs_complete_ownership_before_retry(mock_bizhawk_co
         await client._deliver_items(ctx)
     assert bridge.offers == [(3860409, 0x220)]
     assert client._delivery_pending is True
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("item_id", [3860041, 3860402], ids=["area-key", "hub-connection"])
+@pytest.mark.parametrize("event", ["ack", "timeout", "reset", "file-change"])
+async def test_durable_progress_timeout_preserves_exactly_one_ack(
+    mock_bizhawk_context: Any, tmp_path: Path, item_id: int, event: str,
+) -> None:
+    ctx = mock_bizhawk_context
+    ctx.slot_data["copy_ability_room_protocol_version"] = 2
+    ctx.items_received = [NetworkItem(item_id, 3960209, 1, 1)]
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._health_rom_auth = b"test scoped auth"
+    client.on_package(ctx, "ReceivedItems", {"index": 0})
+    bridge = Bridge()
+    ctx.bizhawk_ctx._send_message.side_effect = bridge.send
+    bridge.ram[0xF00000] = client._health_rom_auth
+    native_file = (1).to_bytes(4, "little") + bytes(8)
+    bridge.ram[COPY_ROOM_CONTEXT_ADDRESS] = native_file
+    flag = bridge.addresses["incoming_item_flag"]
+    counter = bridge.addresses["debug_item_counter"]
+    frame = bridge.addresses["frame_counter"]
+    bridge.ram[counter] = bytes(4)
+    bridge.ram[frame] = (1).to_bytes(4, "little")
+    client._receipt_journal = journal = ReceiptJournal(str(tmp_path / "receipts.sqlite3"), "test")
+    client._receipt_scope = "test"
+    key = receipt_key(ctx.items_received, 0)
+
+    def native_ack() -> None:
+        assert bridge.value("incoming_item_flag") == 1
+        bridge.ram[flag] = bytes(4)
+        bridge.ram[counter] = (bridge.value("debug_item_counter") + 1).to_bytes(4, "little")
+
+    def native_reset() -> None:
+        bridge.ram[flag] = bytes(4)
+
+    def file_change() -> None:
+        # A busy mailbox whose flag and counter still match is not enough if
+        # the native file context has changed since the actual offer.
+        bridge.ram[COPY_ROOM_CONTEXT_ADDRESS] = (2).to_bytes(4, "little") + bytes(8)
+
+    try:
+        with (
+            patch.object(client, "_prepare_receipts", return_value=True),
+            patch.object(client, "_emit_receive_notification", new_callable=AsyncMock),
+        ):
+            await client._deliver_items(ctx)
+            assert len(bridge.offers) == 1 and client._delivery_pending
+            bridge.before_guard = {"ack": native_ack, "reset": native_reset,
+                                   "file-change": file_change}.get(event)
+            bridge.ram[frame] = (1 + _MAILBOX_ACK_TIMEOUT_FRAMES).to_bytes(4, "little")
+            await client._deliver_items(ctx)
+            assert client._delivery_pending == (event != "timeout")
+            assert client._delivery_timeout_total == (event == "timeout")
+            assert not journal.acknowledged(key)
+            if event == "file-change":
+                assert bridge.value("incoming_item_flag") == 1
+                native_reset()
+            if event in {"reset", "file-change"}:
+                await client._deliver_items(ctx)  # A reset (flag without count) is not an ACK.
+                assert client._delivered_item_index == 0 and not journal.acknowledged(key)
+            if event != "ack":
+                client._delivery_retry_not_before = 0
+                await client._deliver_items(ctx)
+                assert len(bridge.offers) == 2
+                native_ack()
+            await client._deliver_items(ctx)
+            assert len(bridge.offers) == (1 if event == "ack" else 2)
+            assert client._delivered_item_index == 1 and journal.acknowledged(key)
+            assert bridge.value("debug_item_counter") == 1
+            assert not client._delivery_counter_ahead_fallback_active
+    finally:
+        journal.close()

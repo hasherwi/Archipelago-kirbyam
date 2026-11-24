@@ -510,6 +510,7 @@ class KirbyAmClient(BizHawkClient):
         self._delivery_pending_time: float | None = None  # Monotonic time recorded when mailbox write issued
         self._delivery_pending_item_index: int | None = None
         self._receipt_offer_count: int | None = None
+        self._progress_receipt_fence: list[tuple[int, bytes, str]] = []
         self._delivery_timeout_streak: int = 0
         self._delivery_retry_not_before: float = 0.0
         self._delivery_payload_stall_warned: bool = False
@@ -5011,6 +5012,27 @@ class KirbyAmClient(BizHawkClient):
                 return
 
             if timeout_triggered:
+                clear = [(flag_addr, bytes(4), "System Bus")]
+                pending_item = (getattr(ctx.items_received[pending_index], "item", None)
+                                if pending_index is not None and 0 <= pending_index < len(ctx.items_received)
+                                else None)
+                pending_progress = (bool(self._progress_receipt_fence)
+                                    or isinstance(pending_item, int) and (
+                                        pending_item in _AREA_KEY_ITEM_ID_TO_AREA_ID
+                                        or pending_item in _HUB_CONNECTION_ITEM_ID_TO_DOOR_INDEX))
+                if pending_progress:
+                    # The native save can finish between our read and this clear.
+                    # A lost guard is not a lost receipt: leave the offer pending
+                    # so the next poll can account for the actual ACK or reset.
+                    if (flag != 1 or counter_addr is None or rom_received_count is None
+                            or rom_received_count != self._receipt_offer_count):
+                        return
+                    if not await bizhawk.guarded_write(ctx.bizhawk_ctx, clear, [
+                        (flag_addr, flag.to_bytes(4, "little"), "System Bus"),
+                        (counter_addr, rom_received_count.to_bytes(4, "little"), "System Bus"),
+                        *self._progress_receipt_fence,
+                    ]):
+                        return
                 self._delivery_timeout_streak += 1
                 self._delivery_timeout_total += 1
                 self._delivery_timeout_last_reason = timeout_reason
@@ -5053,9 +5075,8 @@ class KirbyAmClient(BizHawkClient):
                             "KirbyAM: Repeated mailbox ACK timeouts with frame_counter stuck at 0; payload hook may be inactive in the loaded ROM patch"
                         )
                     self._delivery_payload_stall_warned = True
-                await bizhawk.write(ctx.bizhawk_ctx, [
-                    (flag_addr, (0).to_bytes(4, "little"), "System Bus"),
-                ])
+                if not pending_progress:
+                    await bizhawk.write(ctx.bizhawk_ctx, clear)
                 self._delivery_pending = False
                 self._delivery_pending_frame = None
                 self._delivery_pending_time = None
@@ -5203,6 +5224,7 @@ class KirbyAmClient(BizHawkClient):
             durable_progress = (self._receipt_journal is not None and native_auth is not None
                                 and copy_room_slot_version(getattr(ctx, "slot_data", {}))
                                 and (hub_door is not None or item_id in _AREA_KEY_ITEM_ID_TO_AREA_ID))
+            progress_fence: list[tuple[int, bytes, str]] = []
             if hub_door is not None or durable_progress:
                 delivery_index = self._delivered_item_index
 
@@ -5230,6 +5252,7 @@ class KirbyAmClient(BizHawkClient):
                         return
                     guards += [(COPY_ROOM_CONTEXT_ADDRESS, bytes(native_file), "System Bus"),
                                (auth_addr, bytes(auth), "ROM")]
+                    progress_fence = guards[1:] + offer[:2]
                 if hub_door is not None:
                     # Publish the current confirmed history as a prerequisite
                     # to the receipt, but not as native ownership authority.
@@ -5248,6 +5271,7 @@ class KirbyAmClient(BizHawkClient):
                 return  # An outstanding transient reservation remains explicitly unresolved.
             self._receipt_active = pending_receipt
             self._receipt_offer_count = rom_received_count
+            self._progress_receipt_fence = progress_fence
             self._delivery_pending = True
             self._delivery_pending_frame = current_frame
             self._delivery_pending_time = time.monotonic()  # Record monotonic time for timeout fallback
