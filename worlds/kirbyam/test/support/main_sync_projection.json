@@ -667,6 +667,119 @@
               "main": []
             }
           ]
+        },
+        {
+          "integrated_sha256": "15e57f117e6cdf5cd2237296de904e4356d6497383d99a415621849ce5706c26",
+          "reverse_slices": [
+            {
+              "start": 2149,
+              "stop": 2152,
+              "current": [
+                "                from .completion import FULL_COMPLETION_MARKER_OFFSET, physical_check_save_marker\n",
+                "                expected = physical_check_save_marker(physical_version)\n",
+                "                if expected is None:\n"
+              ],
+              "main": [
+                "                from .completion import FULL_COMPLETION_MARKER, FULL_COMPLETION_MARKER_OFFSET\n",
+                "                if type(physical_version) is not int or physical_version != 1:\n"
+              ]
+            },
+            {
+              "start": 2153,
+              "stop": 2154,
+              "current": [
+                "                marker = (await bizhawk.read(ctx.bizhawk_ctx, [(FULL_COMPLETION_MARKER_OFFSET, len(expected), \"ROM\")]))[0]\n"
+              ],
+              "main": [
+                "                marker = (await bizhawk.read(ctx.bizhawk_ctx, [(FULL_COMPLETION_MARKER_OFFSET, 8, \"ROM\")]))[0]\n"
+              ]
+            },
+            {
+              "start": 2156,
+              "stop": 2157,
+              "current": [
+                "                if bytes(marker) != expected:\n"
+              ],
+              "main": [
+                "                if bytes(marker) != FULL_COMPLETION_MARKER:\n"
+              ]
+            },
+            {
+              "start": 4179,
+              "stop": 4179,
+              "current": [],
+              "main": [
+                "            if type(save_version) is not int or save_version != 1:\n",
+                "                return\n"
+              ]
+            },
+            {
+              "start": 4180,
+              "stop": 4182,
+              "current": [
+                "                FULL_COMPLETION_MARKER_OFFSET, PHYSICAL_SAVE_ADDRESS, SAVE_ID_ADDRESS,\n",
+                "                merge_acknowledged_levers, physical_check_save_marker,\n"
+              ],
+              "main": [
+                "                FULL_COMPLETION_MARKER, FULL_COMPLETION_MARKER_OFFSET, PHYSICAL_SAVE_ADDRESS,\n",
+                "                SAVE_ID_ADDRESS, merge_acknowledged_levers,\n"
+              ]
+            },
+            {
+              "start": 4183,
+              "stop": 4186,
+              "current": [
+                "            marker = physical_check_save_marker(save_version)\n",
+                "            if marker is None:\n",
+                "                return\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 4190,
+              "stop": 4191,
+              "current": [
+                "                      (FULL_COMPLETION_MARKER_OFFSET, marker, \"ROM\"),\n"
+              ],
+              "main": [
+                "                      (FULL_COMPLETION_MARKER_OFFSET, FULL_COMPLETION_MARKER, \"ROM\"),\n"
+              ]
+            },
+            {
+              "start": 5346,
+              "stop": 5349,
+              "current": [
+                "            FULL_COMPLETION_MARKER_OFFSET, FULL_COMPLETION_VERSION, NATIVE_READS, PHYSICAL_IDS,\n",
+                "            PHYSICAL_SAVE_ADDRESS, PHYSICAL_SAVE_MASK, native_progress, ownership_complete,\n",
+                "            physical_check_save_marker, saved_physical_mask,\n"
+              ],
+              "main": [
+                "            FULL_COMPLETION_MARKER, FULL_COMPLETION_MARKER_OFFSET, FULL_COMPLETION_VERSION,\n",
+                "            NATIVE_READS, PHYSICAL_IDS, PHYSICAL_SAVE_ADDRESS, PHYSICAL_SAVE_MASK,\n",
+                "            native_progress, ownership_complete, saved_physical_mask,\n"
+              ]
+            },
+            {
+              "start": 5356,
+              "stop": 5359,
+              "current": [
+                "            return\n",
+                "        marker = physical_check_save_marker(slot_data.get(\"physical_check_save_version\"))\n",
+                "        if marker is None:\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 5386,
+              "stop": 5387,
+              "current": [
+                "                  (FULL_COMPLETION_MARKER_OFFSET, marker, \"ROM\"),\n"
+              ],
+              "main": [
+                "                  (FULL_COMPLETION_MARKER_OFFSET, FULL_COMPLETION_MARKER, \"ROM\"),\n"
+              ]
+            }
+          ]
         }
       ]
     },

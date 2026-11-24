@@ -89,15 +89,18 @@ def test_palette_projection_rejects_marker_guard_mutation() -> None:
 def test_reviewed_successors_preserve_prior_layers_and_original_pin() -> None:
     raw = (ROOT / 'client.py').read_bytes().replace(b'\r\n', b'\n')
     entry = history.record()['files']['client.py']
-    palette, receipts = entry['reviewed_successors']
+    palette, receipts, reviewed_guards = entry['reviewed_successors']
 
-    after_receipt_reversal = ''.join(history._reverse(raw.decode('utf-8').splitlines(keepends=True),
+    after_guard_reversal = ''.join(history._reverse(raw.decode('utf-8').splitlines(keepends=True),
+                                                     reviewed_guards)).encode('utf-8')
+    assert history._sha(after_guard_reversal) == receipts['integrated_sha256']
+    after_receipt_reversal = ''.join(history._reverse(after_guard_reversal.decode('utf-8').splitlines(keepends=True),
                                                        receipts)).encode('utf-8')
     assert history._sha(after_receipt_reversal) == palette['integrated_sha256']
     original = ''.join(history._reverse(after_receipt_reversal.decode('utf-8').splitlines(keepends=True),
                                         palette)).encode('utf-8')
     assert history._sha(original) == entry['integrated_sha256']
-    for unlayered in (after_receipt_reversal, original):
+    for unlayered in (after_guard_reversal, after_receipt_reversal, original):
         with pytest.raises(AssertionError, match='Unreviewed successor source change'):
             history.main_text('client.py', unlayered)
 
@@ -105,7 +108,8 @@ def test_reviewed_successors_preserve_prior_layers_and_original_pin() -> None:
 @pytest.mark.parametrize(('layer', 'rejection'), [
     (0, 'Unreviewed integrated source change'),
     (1, 'Unreviewed successor source change'),
-], ids=['palette', 'receipt'])
+    (2, 'Unreviewed successor source change'),
+], ids=['palette', 'receipt', 'physical-save-and-receipt-guards'])
 def test_a_reverse_layer_cannot_silently_modify_predecessor(
     monkeypatch: pytest.MonkeyPatch, layer: int, rejection: str,
 ) -> None:
