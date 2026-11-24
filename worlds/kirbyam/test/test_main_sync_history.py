@@ -75,3 +75,30 @@ def test_composed_lever_projection_rejects_mutations(mutation: str) -> None:
         rows[index], rows[index + 1] = rows[index + 1], rows[index]
     with pytest.raises(AssertionError):
         history.main_surfaces(rows)
+
+
+def test_palette_projection_rejects_marker_guard_mutation() -> None:
+    raw = (ROOT / 'client.py').read_bytes()
+    guard = b'self._curated_color_rom_confirmed = bytes(marker) == expected'
+    assert raw.count(guard) == 1
+    changed = raw.replace(guard, b'self._curated_color_rom_confirmed = True')
+    with pytest.raises(AssertionError, match='Unreviewed successor source change'):
+        history.main_text('client.py', changed)
+
+
+def test_palette_reverse_layer_cannot_move_the_original_integration_pin(monkeypatch: pytest.MonkeyPatch) -> None:
+    raw = (ROOT / 'client.py').read_bytes()
+    record = history.record()
+    entry = record['files']['client.py']
+    successor = entry['reviewed_successors'][-1]
+
+    previous = ''.join(history._reverse(raw.decode('utf-8').replace('\r\n', '\n').splitlines(keepends=True),
+                                        successor)).encode('utf-8')
+    assert history._sha(previous) == entry['integrated_sha256']
+    with pytest.raises(AssertionError, match='Unreviewed successor source change'):
+        history.main_text('client.py', previous)
+
+    successor['reverse_slices'][0]['main'] = ['# unreviewed predecessor replacement\n']
+    monkeypatch.setattr(history, 'record', lambda: record)
+    with pytest.raises(AssertionError, match='Unreviewed integrated source change'):
+        history.main_text('client.py', raw)
