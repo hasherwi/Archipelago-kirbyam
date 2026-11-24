@@ -15,6 +15,13 @@ struct ApChestTileUpload {
 #define AP_CHEST_ART_SIZE 128u
 #define AP_REWARD_EFFECT_SIZE 0x4Cu
 
+/* The native 64-entry ring uses equal head/tail to mean empty, so the last
+ * slot is reserved. Animation commands append unconditionally; check here
+ * before starting any optional animation or injecting an additional upload. */
+static inline uint8_t ap_reward_tile_queue_available(uint8_t head, uint8_t tail) {
+    return head < 64u && tail < 64u && ((head + 1u) & 63u) != tail;
+}
+
 static inline uint8_t ap_reward_vram_address_is_valid(uint32_t address) {
     return address >= 0x06014000u && address <= 0x06018000u - AP_CHEST_ART_SIZE;
 }

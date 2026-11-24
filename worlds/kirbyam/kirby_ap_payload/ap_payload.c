@@ -421,7 +421,7 @@ static inline uint16_t ap_reward_local_room(void);
 static AP_REWARD_FX uint8_t ap_can_show_animated_shard(void) {
     const volatile uint32_t *header = (const volatile uint32_t*)AP_SHARD_AWARD_ROM;
     return header[0] == AP_SHARD_AWARD_MAGIC_FIRST && header[1] == AP_SHARD_AWARD_MAGIC_LAST
-        && ap_shard_award_queue_available(*AP_REWARD_UPLOAD_HEAD, AP_REWARD_UPLOAD_TAIL)
+        && ap_reward_tile_queue_available(*AP_REWARD_UPLOAD_HEAD, AP_REWARD_UPLOAD_TAIL)
         && ap_reward_native_vram_can_fit_tiles((const volatile uint16_t*)0x030064B0u,
             *(const volatile uint16_t*)0x03002488u, *(const volatile uint32_t*)0x03002540u,
             AP_SHARD_AWARD_VRAM_TILES);
@@ -441,7 +441,8 @@ void ap_chest_reward_art(void *chest, int16_t x, int16_t y, uint16_t item) {
     /* Physical lever pulls use this same native open call. Wall receipts
      * and restored pulls only change the wall or callback; neither enters it. */
     (void)item;  /* Native visual parameter, not the real parent reward. */
-    if (!ap_reward_native_vram_available()) {
+    if (!ap_reward_tile_queue_available(*tile_head, AP_REWARD_UPLOAD_TAIL)
+        || !ap_reward_native_vram_available()) {
         native_popup(chest, x, y, 0x63u);
         return;
     }
@@ -803,7 +804,8 @@ AP_REWARD_FX uint8_t ap_show_room_reward_gem(uint16_t room, int32_t x, int32_t y
     typedef void (*SpriteInitFn)(void *, void *, uint32_t, uint16_t, uint8_t, uint16_t);
     volatile uint8_t *head = (volatile uint8_t*)0x030039A4u;
     volatile struct ApChestTileUpload *ring = (volatile struct ApChestTileUpload*)0x03002EC0u;
-    if (room != ap_reward_local_room()) return 0u;
+    if (room != ap_reward_local_room()
+        || !ap_reward_tile_queue_available(*head, AP_REWARD_UPLOAD_TAIL)) return 0u;
     uint8_t animated = art == AP_REWARD_MIRROR_SHARD && ap_can_show_animated_shard();
     if (!animated && !ap_reward_native_vram_available()) return 0u;
     void *task = ((TaskCreateFn)0x08152B01u)(ap_reward_gem_frame, AP_REWARD_EFFECT_SIZE, 0x3500u, 0u,

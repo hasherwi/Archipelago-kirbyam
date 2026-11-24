@@ -16,6 +16,7 @@ static uint32_t ap_reward_tiles_for_art(uint8_t art) {
     return art == AP_REWARD_TRAP ? TRAP : ART;
 }
 static volatile uint8_t head;
+#define AP_REWARD_UPLOAD_TAIL 62u
 static volatile struct ApChestTileUpload ring[64];
 static uint8_t commands;
 static uint8_t enough_vram = 1u;

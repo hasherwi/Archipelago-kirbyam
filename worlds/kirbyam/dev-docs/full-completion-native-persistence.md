@@ -1,15 +1,19 @@
 # Physical lever persistence for full completion
 
-The full-completion payload carries `APFULL01` (eight bytes, no terminator) at ROM
+The current physical-check payload carries `APFULL02` (eight bytes, no terminator) at ROM
 file offset `0x1000018`. Clients must validate this marker before relying on the
 new native physical-check record or restoring lever acknowledgements into it.
+Updated clients also accept the older `APFULL01` marker when paired with a version-1 slot.
 The existing color and Hub markers remain at their original offsets.
 
 The five native world-state words at `0x02028C7C` keep the existing allocation:
 words 27–30 contain the complete 16-byte ROM authentication token and word 31
-contains a tagged physical-check mask. The new tag is `0x48400000`, with bits
+contains a tagged physical-check mask. The physical-only tag is `0x48400000`, with bits
 0–14 holding the existing physical Hub switches and bits 15–18 holding the four
-physical lever pulls. All bits above bit 18 must match the tag. An old
+physical lever pulls. For a physical-only record, bits above bit 18 must match its tag.
+After first recording boss reward presentation, the newer `0x50000000` tag
+uses bits 19–26 only to suppress repeated boss-item art. Physical reads mask
+off all eight bits; lever recovery preserves them. An old
 `0x48530000 | hub_mask` record remains readable, supplies no lever evidence, and
 migrates on the first newly recorded physical check. Foreign-auth and unknown
 records supply no physical checks. This changes neither the native save section

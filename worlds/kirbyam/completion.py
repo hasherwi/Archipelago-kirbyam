@@ -12,7 +12,9 @@ from .data import data, load_json_data
 
 FULL_COMPLETION_VERSION = 1
 FULL_COMPLETION_MARKER_OFFSET = 0x1000018
-FULL_COMPLETION_MARKER = b"APFULL01"
+PHYSICAL_CHECK_SAVE_VERSION = 2
+LEGACY_PHYSICAL_CHECK_SAVE_MARKER = b"APFULL01"
+FULL_COMPLETION_MARKER = b"APFULL02"
 PHYSICAL_SAVE_ADDRESS = 0x02028C7C
 PHYSICAL_SAVE_TAG = 0x48400000
 PHYSICAL_SAVE_MASK = 0x7FFFF
@@ -31,6 +33,15 @@ READ_KEYS = ("chest_flags", "shards", "room_visits", "world_switches", "save_id"
 NATIVE_READS = tuple((int(MANIFEST["native_addresses"][key]["address"], 16),
                       MANIFEST["native_addresses"][key]["width"], "System Bus") for key in READ_KEYS)
 SAVE_ID_ADDRESS = int(MANIFEST["native_addresses"]["save_id"]["address"], 16)
+
+
+def physical_check_save_marker(version: object) -> bytes | None:
+    """Negotiated ROM marker for shared native save reads and writes."""
+    if type(version) is not int:
+        return None
+    if version == 1:
+        return LEGACY_PHYSICAL_CHECK_SAVE_MARKER
+    return FULL_COMPLETION_MARKER if version == PHYSICAL_CHECK_SAVE_VERSION else None
 
 
 def _saved_physical_bits(raw: bytes, auth: bytes) -> int | None:

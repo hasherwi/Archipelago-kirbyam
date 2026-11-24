@@ -232,3 +232,37 @@ int main(void) {
     subprocess.run([cc, "-std=c11", "-Wall", "-Wextra", "-Werror", "-I", str(PAYLOAD),
                     str(source), "-o", str(exe)], check=True)
     subprocess.run([str(exe)], check=True)
+
+
+def test_saturated_dma_ring_preserves_native_chest_timer_and_drops_optional_effect(tmp_path: Path) -> None:
+    cc = shutil.which("cc")
+    if not cc:
+        pytest.skip("requires a native C compiler")
+    code = (PAYLOAD / "ap_payload.c").read_text()
+
+    def project(signature: str, replacements: tuple[tuple[str, str], ...]) -> str:
+        begin = code.index(signature)
+        end = code.index("\n}", begin) + 2
+        entry = code[begin:end]
+        for native, host in replacements:
+            assert entry.count(native) == 1
+            entry = entry.replace(native, host)
+        return entry
+
+    chest = project("void ap_chest_reward_art(", (
+        ("(ChestPopupFn)0x0800B415u", "native_chest"),
+        ("(volatile uint8_t *)0x030039A4u", "&dma_head"),
+        ("(volatile struct ApChestTileUpload *)0x03002EC0u", "dma_ring"),
+    ))
+    overlay = project("uint8_t ap_show_room_reward_gem(", (
+        ("(volatile uint8_t*)0x030039A4u", "&dma_head"),
+        ("(volatile struct ApChestTileUpload*)0x03002EC0u", "dma_ring"),
+        ("((TaskCreateFn)0x08152B01u)", "((TaskCreateFn)create_task)"),
+    ))
+    harness = (WORLD / "test" / "native" / "reward_dma_pressure_host.c").read_text()
+    source = tmp_path / "dma_pressure.c"
+    source.write_text(harness.replace("/* CHEST */", chest).replace("/* OVERLAY */", overlay))
+    exe = tmp_path / ("test-dma-pressure.exe" if os.name == "nt" else "test-dma-pressure")
+    subprocess.run([cc, "-std=c11", "-Wall", "-Wextra", "-Werror", "-I", str(PAYLOAD),
+                    str(source), "-o", str(exe)], check=True)
+    subprocess.run([str(exe)], check=True)

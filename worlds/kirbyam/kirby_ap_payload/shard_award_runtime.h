@@ -16,10 +16,6 @@ static inline uint8_t ap_shard_award_vram_valid(uint32_t destination) {
     return destination >= 0x06014000u && destination <= 0x06018000u - AP_SHARD_AWARD_ART_SIZE;
 }
 
-static inline uint8_t ap_shard_award_queue_available(uint8_t head, uint8_t tail) {
-    return head < 64u && tail < 64u && (uint8_t)((head + 1u) & 63u) != tail;
-}
-
 static inline uint8_t ap_shard_award_source_valid(uint32_t source) {
     return source >= AP_SHARD_AWARD_FIRST
         && source < AP_SHARD_AWARD_FIRST + AP_SHARD_AWARD_TICKS * AP_SHARD_AWARD_ART_SIZE
@@ -50,7 +46,7 @@ static inline uint8_t ap_shard_award_queue_frame(
     uint32_t destination, uint8_t tick
 ) {
     uint8_t index = *head;
-    if (!ap_shard_award_queue_available(index, tail)
+    if (!ap_reward_tile_queue_available(index, tail)
         || !ap_shard_award_vram_valid(destination) || tick >= AP_SHARD_AWARD_TICKS) return 0u;
     volatile struct ApChestTileUpload *upload = &ring[index];
     upload->source = AP_SHARD_AWARD_FIRST + (uint32_t)tick * AP_SHARD_AWARD_ART_SIZE;

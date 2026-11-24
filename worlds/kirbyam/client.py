@@ -2147,13 +2147,14 @@ class KirbyAmClient(BizHawkClient):
                 raise ValueError("Phone item received without a compatible slot")
             physical_version = slot.get("physical_check_save_version")
             if physical_version is not None or slot.get("goal") == Goal.option_full_completion:
-                from .completion import FULL_COMPLETION_MARKER, FULL_COMPLETION_MARKER_OFFSET
-                if type(physical_version) is not int or physical_version != 1:
+                from .completion import FULL_COMPLETION_MARKER_OFFSET, physical_check_save_marker
+                expected = physical_check_save_marker(physical_version)
+                if expected is None:
                     raise ValueError("unsupported physical check save protocol")
-                marker = (await bizhawk.read(ctx.bizhawk_ctx, [(FULL_COMPLETION_MARKER_OFFSET, 8, "ROM")]))[0]
+                marker = (await bizhawk.read(ctx.bizhawk_ctx, [(FULL_COMPLETION_MARKER_OFFSET, len(expected), "ROM")]))[0]
                 if session_expired():
                     return False
-                if bytes(marker) != FULL_COMPLETION_MARKER:
+                if bytes(marker) != expected:
                     raise ValueError("physical check persistence requires a regenerated ROM patch")
             copy_room_version = copy_room_slot_version(slot)
             if copy_room_version:
@@ -4176,17 +4177,18 @@ class KirbyAmClient(BizHawkClient):
         connector, server = ctx.bizhawk_ctx, ctx.server
         save_version = ctx.slot_data.get("physical_check_save_version")
         if save_version is not None:
-            if type(save_version) is not int or save_version != 1:
-                return
             from .completion import (
-                FULL_COMPLETION_MARKER, FULL_COMPLETION_MARKER_OFFSET, PHYSICAL_SAVE_ADDRESS,
-                SAVE_ID_ADDRESS, merge_acknowledged_levers,
+                FULL_COMPLETION_MARKER_OFFSET, PHYSICAL_SAVE_ADDRESS, SAVE_ID_ADDRESS,
+                merge_acknowledged_levers, physical_check_save_marker,
             )
+            marker = physical_check_save_marker(save_version)
+            if marker is None:
+                return
             socket = server.socket
             slot_data = ctx.slot_data
             auth_addr = _normalize_gba_rom_address(data.rom_addresses["gArchipelagoInfo"])
             guards = [(auth_addr, auth, "ROM"),
-                      (FULL_COMPLETION_MARKER_OFFSET, FULL_COMPLETION_MARKER, "ROM"),
+                      (FULL_COMPLETION_MARKER_OFFSET, marker, "ROM"),
                       (cookie_addr, (0x4B41504D).to_bytes(4, "little"), "System Bus")]
             reads = [(PHYSICAL_SAVE_ADDRESS, 20, "System Bus"), (SAVE_ID_ADDRESS, 2, "System Bus")]
             saved = await bizhawk.guarded_read(connector, reads, guards)
@@ -5342,9 +5344,9 @@ class KirbyAmClient(BizHawkClient):
         """
         import base64
         from .completion import (
-            FULL_COMPLETION_MARKER, FULL_COMPLETION_MARKER_OFFSET, FULL_COMPLETION_VERSION,
-            NATIVE_READS, PHYSICAL_IDS, PHYSICAL_SAVE_ADDRESS, PHYSICAL_SAVE_MASK,
-            native_progress, ownership_complete, saved_physical_mask,
+            FULL_COMPLETION_MARKER_OFFSET, FULL_COMPLETION_VERSION, NATIVE_READS, PHYSICAL_IDS,
+            PHYSICAL_SAVE_ADDRESS, PHYSICAL_SAVE_MASK, native_progress, ownership_complete,
+            physical_check_save_marker, saved_physical_mask,
         )
         from NetUtils import ClientStatus
 
@@ -5352,6 +5354,9 @@ class KirbyAmClient(BizHawkClient):
         version = slot_data.get("full_completion_version") if isinstance(slot_data, dict) else None
         if (type(version) is not int or version != FULL_COMPLETION_VERSION
                 or not self._server_session_ready(ctx) or not self._hub_connection_item_history_ready(ctx)):
+            return
+        marker = physical_check_save_marker(slot_data.get("physical_check_save_version"))
+        if marker is None:
             return
         auth = self._health_rom_auth
         if not isinstance(auth, bytes) or len(auth) != 16 or base64.b64encode(auth).decode() != ctx.auth:
@@ -5379,7 +5384,7 @@ class KirbyAmClient(BizHawkClient):
         if cookie_addr is None:
             return
         guards = [(auth_addr, auth, "ROM"),
-                  (FULL_COMPLETION_MARKER_OFFSET, FULL_COMPLETION_MARKER, "ROM"),
+                  (FULL_COMPLETION_MARKER_OFFSET, marker, "ROM"),
                   (cookie_addr, (0x4B41504D).to_bytes(4, "little"), "System Bus")]
         hp_addr = self._native_addr(_KIRBY_HP_ADDR_KEY)
         if hp_addr is None:

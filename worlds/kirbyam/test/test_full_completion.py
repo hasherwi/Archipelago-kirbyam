@@ -12,8 +12,9 @@ from NetUtils import ClientStatus
 from ..client import KirbyAmClient
 from ..completion import (
     CompletionProgress, FULL_COMPLETION_MARKER, FULL_COMPLETION_MARKER_OFFSET, PHYSICAL_IDS,
-    PHYSICAL_SAVE_MASK, PHYSICAL_SAVE_TAG, REQUIRED_ITEM_IDS, ROOM_INDICES,
-    merge_acknowledged_levers, native_progress, ownership_complete, saved_physical_mask,
+    LEGACY_PHYSICAL_CHECK_SAVE_MARKER, PHYSICAL_CHECK_SAVE_VERSION, PHYSICAL_SAVE_MASK,
+    PHYSICAL_SAVE_TAG, REQUIRED_ITEM_IDS, ROOM_INDICES, merge_acknowledged_levers,
+    native_progress, ownership_complete, physical_check_save_marker, saved_physical_mask,
 )
 from ..vitality import VITALITY_ITEM_IDS
 from .test_client import _run_goal_command
@@ -128,10 +129,10 @@ def test_cosmetic_boss_bits_survive_ack_recovery_without_proving_checks() -> Non
     assert fresh == bytes(16) + (0x48400000 | (2 << 15)).to_bytes(4, "little")
 
 
-def setup_client(ctx: Any) -> Any:
+def setup_client(ctx: Any, physical_version: int = 1) -> Any:
     client: Any = KirbyAmClient()
     client.initialize_client()
-    ctx.slot_data = {'goal': 5, 'full_completion_version': 1, 'physical_check_save_version': 1}
+    ctx.slot_data = {'goal': 5, 'full_completion_version': 1, 'physical_check_save_version': physical_version}
     ctx.auth = base64.b64encode(AUTH).decode()
     ctx.checked_locations = set(PHYSICAL_IDS)
     ctx.server_locations = set(PHYSICAL_IDS)
@@ -157,7 +158,7 @@ async def test_goal_complete_after_ack_dedup_and_reconnect(mock_bizhawk_context:
         await client._maybe_report_goal(ctx)
         await client._maybe_report_goal(ctx)
         ctx.send_msgs.assert_awaited_once_with([{'cmd': 'StatusUpdate', 'status': ClientStatus.CLIENT_GOAL}])
-        assert read.call_args_list[0].args[2][1] == (FULL_COMPLETION_MARKER_OFFSET, FULL_COMPLETION_MARKER, 'ROM')
+        assert read.call_args_list[0].args[2][1] == (FULL_COMPLETION_MARKER_OFFSET, LEGACY_PHYSICAL_CHECK_SAVE_MARKER, 'ROM')
         # New connection can finish without replaying the final boss.
         ctx.send_msgs.reset_mock()
         client = setup_client(ctx)
@@ -248,20 +249,21 @@ def test_goal_description() -> None:
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize('race', [None, 'owner', 'task', 'credits'])
+@pytest.mark.parametrize('physical_version', [1, PHYSICAL_CHECK_SAVE_VERSION])
 async def test_real_player_evidence_reaches_final_guard(
-    completed_save: Any, mock_bizhawk_context: Any, race: str | None,
+    completed_save: Any, mock_bizhawk_context: Any, race: str | None, physical_version: int,
 ) -> None:
     from ..completion import NATIVE_READS, PHYSICAL_SAVE_ADDRESS
     _unused, _ctx, memory, hp, owner, task, _header = completed_save
     ctx = mock_bizhawk_context
-    client = setup_client(ctx)
+    client = setup_client(ctx, physical_version)
     del client._post_clear_player_task_active  # Exercise shipping helper, not the ordinary mock.
     for (address, _size, _domain), value in zip(NATIVE_READS, complete_native()):
         memory[address] = value
     memory[hp] = bytes([6])
     memory[PHYSICAL_SAVE_ADDRESS] = record()
     memory[0xF00000] = AUTH
-    memory[FULL_COMPLETION_MARKER_OFFSET] = FULL_COMPLETION_MARKER
+    memory[FULL_COMPLETION_MARKER_OFFSET] = physical_check_save_marker(physical_version)
     memory[0x0203B040] = (0x4B41504D).to_bytes(4, 'little')
     final_guards = []
 
@@ -314,7 +316,99 @@ async def test_acknowledged_lever_restore_uses_guarded_native_record(
         assert (SAVE_ID_ADDRESS, save, 'System Bus') in guards
         assert (PHYSICAL_SAVE_ADDRESS, previous, 'System Bus') in guards
         assert (0xF00000, AUTH, 'ROM') in guards
-        assert (FULL_COMPLETION_MARKER_OFFSET, FULL_COMPLETION_MARKER, 'ROM') in guards
+        assert (FULL_COMPLETION_MARKER_OFFSET, LEGACY_PHYSICAL_CHECK_SAVE_MARKER, 'ROM') in guards
+
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize('version,rom_version,allowed', [
+    (1, 1, True), (2, 2, True), (1, 2, False), (2, 1, False), (True, 1, False),
+    (3, 2, False), (None, 2, False),
+])
+async def test_physical_save_protocol_matches_before_watcher_writes(
+    mock_bizhawk_context: Any, version: Any, rom_version: int, allowed: bool,
+) -> None:
+    from .test_vitality_protocol import _identity
+
+    ctx = mock_bizhawk_context
+    client = setup_client(ctx, version)
+    memory = _identity(client, ctx)
+    ctx.items_received = []  # Test the physical boundary without unrelated Hub setup.
+    memory[FULL_COMPLETION_MARKER_OFFSET, 'ROM'] = physical_check_save_marker(rom_version)
+
+    async def read(_ctx: Any, requests: Any) -> list[bytes]:
+        return [memory[address, domain] for address, _size, domain in requests]
+
+    with patch('worlds.kirbyam.client.bizhawk.read', side_effect=read), \
+         patch.object(client, '_sync_death_link_setting', new_callable=AsyncMock) as death, \
+         patch('worlds.kirbyam.client.bizhawk.write', new_callable=AsyncMock) as write, \
+         patch('worlds.kirbyam.client.bizhawk.guarded_write', new_callable=AsyncMock) as guarded:
+        assert await client._health_protocol_ready(ctx) == allowed
+        if not allowed:
+            await client.game_watcher(ctx)
+            death.assert_not_awaited()
+            write.assert_not_awaited()
+            guarded.assert_not_awaited()
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize('old_session,swap_before_write', [
+    (False, False), (True, False), (True, True), (False, True),
+])
+async def test_same_auth_rom_swap_cannot_overwrite_shared_physical_save(
+    mock_bizhawk_context: Any, old_session: bool, swap_before_write: bool,
+) -> None:
+    from ..completion import PHYSICAL_SAVE_ADDRESS, SAVE_ID_ADDRESS
+
+    # A legacy slot (or legacy client) can pass its earlier read. The new
+    # ROM's changed marker must still reject that in-flight legacy guarded
+    # write, even with the same connector, authenticated seed and save bytes.
+    ctx = mock_bizhawk_context
+    client = setup_client(ctx, 1 if old_session else PHYSICAL_CHECK_SAVE_VERSION)
+    version = 1 if old_session and swap_before_write else PHYSICAL_CHECK_SAVE_VERSION
+    if not old_session and swap_before_write:
+        next_marker = LEGACY_PHYSICAL_CHECK_SAVE_MARKER
+    elif swap_before_write:
+        next_marker = FULL_COMPLETION_MARKER
+    else:
+        next_marker = None
+    previous = AUTH + (0x50000000 | (1 << 19) | 0x1234).to_bytes(4, 'little')
+    memory = {
+        (PHYSICAL_SAVE_ADDRESS, "System Bus"): previous,
+        (SAVE_ID_ADDRESS, "System Bus"): bytes(2),
+        (0xF00000, "ROM"): AUTH,
+        (0x0203B040, "System Bus"): (0x4B41504D).to_bytes(4, 'little'),
+        (FULL_COMPLETION_MARKER_OFFSET, "ROM"): physical_check_save_marker(version),
+    }
+    assert physical_check_save_marker(1) == b"APFULL01"  # exact shipped legacy guard
+    assert physical_check_save_marker(PHYSICAL_CHECK_SAVE_VERSION) == b"APFULL02"
+    marker_key = (FULL_COMPLETION_MARKER_OFFSET, "ROM")
+
+    def matched(guards: Any) -> bool:
+        return all(memory[address, domain] == expected for address, expected, domain in guards)
+
+    async def read(_ctx: Any, requests: Any, guards: Any) -> list[bytes] | None:
+        if not matched(guards):
+            return None
+        values = [memory[address, domain] for address, _size, domain in requests]
+        if next_marker is not None:
+            memory[marker_key] = next_marker
+        return values
+
+    async def write(_ctx: Any, updates: Any, guards: Any) -> bool:
+        if not matched(guards):
+            return False
+        for addr, value, domain in updates:
+            memory[addr, domain] = value
+        return True
+
+    with patch('worlds.kirbyam.client.bizhawk.guarded_read', side_effect=read), \
+         patch('worlds.kirbyam.client.bizhawk.guarded_write', side_effect=write) as write_call:
+        await client._reconcile_lever_activations(ctx)
+    assert write_call.await_count == (0 if old_session and not swap_before_write else 1)
+    post = previous if old_session or swap_before_write else merge_acknowledged_levers(previous, AUTH, 15)
+    assert memory[PHYSICAL_SAVE_ADDRESS, "System Bus"] == post
+    assert saved_physical_mask(post, AUTH) == (0x1234 if post == previous else 0x79234)
 
 
 def test_packaged_full_completion_and_goal_markers_do_not_overlap():
