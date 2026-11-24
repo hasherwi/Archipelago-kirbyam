@@ -1,4 +1,4 @@
-# Shared chest, lever, Big Switch, and Goal Game reward art
+# Shared location reward art
 
 Every treasure chest uses the supplied six-gem reward art on opening. The
 closed chest, rising popup motion, sounds, duration, original reward logic, and
@@ -6,8 +6,8 @@ check IDs are unchanged. A physical lever pull shows the same art because it
 uses the same native popup path. Receiving Lever Wall, restoring a lever, or
 re-entering its room does not show the art. The same gem also appears on the
 first physical press of an Archipelago Big Switch and the first completion
-of each Goal Game check, even with no native prize. Other reward surfaces
-are unchanged.
+of each Goal Game check, even with no native prize, and on first area visits.
+Other reward surfaces are unchanged.
 
 | Original | Same frame with this patch |
 | --- | --- |
@@ -63,6 +63,21 @@ returned to Central Circle at frame 2639. Read-only native callback counting
 confirmed unchanged prize counts (0 and 1) and landing counts (62 each). The
 candidate queued the gem exactly once on the new check in each route.
 
+## First area visit replay
+
+| First visit control | Same frame with first-visit art |
+| --- | --- |
+| ![Central Circle without the gem](first_area_reward_art_before.png) | ![Six-gem popup on the first Rainbow Route visit](first_area_reward_art_in_game.png) |
+
+Both native mGBA runs start from blank SRAM and the same controller replay,
+without a loaded save state or runtime writes. The first Rainbow Route visit
+is recorded upon entering Central Circle (room 801) at frame 21307. The effect
+waits for the room to become visible and queues at frame 21439, with 32 visible
+frames. All 200 changed pixels in the illustrated frame fall inside the gem.
+Both runs match the native visit events and progress to Room 1-01; entering
+that second room does not display another first-area gem. Transient VBlank
+phase differences during the scripted transition settle before the gem draws.
+
 ## ROM contract
 
 The sole call from the chest-open handler to ChestItemPopup at ROM offset
@@ -94,3 +109,11 @@ completion step, and now reports whether the authenticated save record changed.
 Only that fresh-check result shows the gem. Its position stays inside the
 current cabinet view even when Kirby has moved above the camera for the native
 return sequence. A completed cabinet remains playable without another AP gem.
+
+The native visit writer stays authoritative. The hook reads the same
+catalog-derived area identity and native high visit bit used by the client,
+and does not write an extra check or grant. Any newly set area visit queues
+only a transient visual tied to the active native save and destination. The
+effect waits until the local room, native player state, and native palette
+state allow it to draw. File changes, room changes, and timeouts clear pending
+visuals. Areas already established by any mapped room do not replay.

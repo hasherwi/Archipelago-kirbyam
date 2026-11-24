@@ -20,6 +20,7 @@ AP_COPY_EXT void ap_goal_poll(void);
 #include "chest_reward_art_runtime.h"
 #include "chest_reward_art.h"
 #include "reward_art.h"
+#include "visit_reward_art_runtime.h"
 
 __attribute__((used, section(".apcueinfo")))
 const uint8_t gApReceiptCueInfo[8] = {'A','P','C','U','E','0','1',0};
@@ -453,6 +454,72 @@ static uint8_t ap_unlock_hub_door(uint8_t world_props_unlock_index) {
     /* The world-props unlock entry is the native state consumed by the map. */
     *world_props_entry = 1u;
     return 1u;
+}
+
+/* Native visits are still recorded and saved by the original transition.
+ * Pending visuals are transient and tied to the authenticated save epoch. */
+#define AP_VISIT_PENDING_ADDRESS (AP_BASE + 0x1C0u)
+struct ApVisitPending { uint32_t epoch, start; uint16_t room; };
+#define AP_VISIT_PENDING ((volatile struct ApVisitPending*)AP_VISIT_PENDING_ADDRESS)
+_Static_assert(AP_CUE_MAILBOX_ADDRESS + 0x10u <= AP_VISIT_PENDING_ADDRESS,
+               "Visit effect overlaps receipt cue mailbox");
+_Static_assert(AP_VISIT_PENDING_ADDRESS + sizeof(struct ApVisitPending) <= AP_BASE + 0x200u,
+               "Visit effect exceeds reserved mailbox block");
+
+#define AP_NATIVE_VISITS ((const volatile uint16_t*)0x02028CA0u)
+#include "generated_visit_reward_art_rooms.inc"
+
+AP_REWARD_FX __attribute__((used)) void ap_record_room_visit_for_reward_art(uint16_t room, void *kirby) {
+    uint32_t epoch = 0u;
+    uint16_t index = AP_VISIT_ENTRY_COUNT; /* Invalid unless native room table matches. */
+    if (kirby == (void*)KIRBY_STRUCTS_ADDR && room < 0x9998u / 40u) {
+        index = *(const volatile uint16_t*)(0x089331ACu + (uint32_t)room * 40u + 36u);
+        if (ap_visit_is_first_area(AP_NATIVE_VISITS, ap_visit_areas, index)) {
+            epoch = ap_copy_room_epoch();
+        }
+    }
+    ((void (*)(uint16_t))0x08002A81u)(room);
+    if (epoch != 0u && (AP_NATIVE_VISITS[index] & AP_VISIT_NATIVE_BIT) != 0u) {
+        AP_VISIT_PENDING->start = AP_FRAME_COUNTER;
+        AP_VISIT_PENDING->room = room;
+        AP_VISIT_PENDING->epoch = epoch;
+    }
+}
+
+/* The native palette manager can keep a room white even when hardware blend
+ * shadows are zero. Inspect only its currently queued, bank-F effects. */
+static inline uint8_t ap_visit_palette_ready(void) {
+    const uintptr_t manager = 0x02022930u;
+    for (uint32_t i = 0u; i < 8u; ++i) {
+        uintptr_t effect = *(const volatile uint32_t*)(manager + 0x80u + i * 4u);
+        if (effect < manager || effect >= manager + 0x80u || ((effect - manager) & 15u) != 0u) {
+            continue;
+        }
+        uint8_t type = *(const volatile uint8_t*)effect;
+        if ((*(const volatile uint16_t*)(effect + 4u) & 0x8000u)
+            && (*(const volatile uint16_t*)(effect + 8u) & 2u)
+            && (type == 4u || (type == 1u && *(const volatile int8_t*)(effect + 1u) > 0))) {
+            return 0u;
+        }
+    }
+    return 1u;
+}
+
+static __attribute__((noinline, long_call, section(".aprewardfx"))) void ap_visit_reward_art_poll(void) {
+    uint32_t epoch = AP_VISIT_PENDING->epoch;
+    if (epoch == 0u) return;
+    uint16_t room = AP_VISIT_PENDING->room;
+    if (epoch != ap_copy_room_epoch()
+        || *(volatile uint16_t*)(KIRBY_STRUCTS_ADDR + KIRBY_STRUCT_ROOM_OFFSET) != room
+        || AP_FRAME_COUNTER - AP_VISIT_PENDING->start > AP_VISIT_MAX_VISUAL_WAIT) {
+        AP_VISIT_PENDING->epoch = 0u;
+        return;
+    }
+    if (!ap_visit_scene_ready(*(volatile uint32_t*)(KIRBY_STRUCTS_ADDR + 8u),
+            *(volatile uint32_t*)0x03002440u, *(volatile uint16_t*)0x030024E8u,
+            *(volatile uint16_t*)0x030024ECu) || !ap_visit_palette_ready()) return;
+    AP_VISIT_PENDING->epoch = 0u;
+    ap_show_player_reward_gem(room);
 }
 
 /* Parentless visual for AP checks that are not Chest objects. The native
@@ -1830,6 +1897,7 @@ __attribute__((used)) void ap_on_start_single_player_game(
     KIRBY_PLAYER_COLOR_TABLE[KIRBY_STARTING_COLOR_PLAYER] = (uint8_t)desired_color;
     AP_STARTING_KIRBY_COLOR_APPLIED = AP_COLOR_STARTUP;
 
+    AP_VISIT_PENDING->epoch = 0u;
     KIRBY_START_GAME_FN(mode, arg1, rooms, positions, flags);
     AP_STARTING_KIRBY_COLOR_APPLIED = 0u;
 }
@@ -2406,6 +2474,7 @@ AP_COPY_EXT void ap_poll_mailbox_c(void) {
         AP_BOSS_DEFEAT_FLAGS = 0u;
         AP_BOSS_TEMP_SHARD_BITFIELD = 0u;
         AP_CUE_REQUEST = AP_CUE_RESULT = AP_CUE_READY = AP_CUE_ACTIVE = 0u;
+        AP_VISIT_PENDING->epoch = 0u;
         AP_DELIVERED_VITALITY_ITEM_BITS = 0u;
         AP_HUB_CONNECTION_ITEM_MASK = AP_HUB_CONNECTION_ITEM_MASK_UNINITIALIZED;
         AP_HUB_SWITCH_INIT_STATE = 0u;
@@ -2444,6 +2513,8 @@ AP_COPY_EXT void ap_poll_mailbox_c(void) {
         }
         AP_MAILBOX_INIT_COOKIE = AP_MAILBOX_INIT_COOKIE_VALUE;
     }
+
+    ap_visit_reward_art_poll();
 
     // Rebuild AP-owned native connection state from the client's complete item history.
     // Restore only seed-bound physical checks, never infer them from item doors.

@@ -244,3 +244,16 @@ ap_big_switch_reward_art_entry:
 .balign 4
 1:  .word ap_big_switch_reward_art
 .size ap_big_switch_reward_art_entry, .-ap_big_switch_reward_art_entry
+
+.section .text.ap_transition_entries,"ax",%progbits
+.balign 4
+.global ap_room_visit_reward_art_entry
+.type ap_room_visit_reward_art_entry, %function
+.thumb_func
+ap_room_visit_reward_art_entry:
+    adds r1, r5, #0  @ Kirby*; native room ID is still in r0.
+    ldr r3, 1f
+    bx r3
+.balign 4
+1:  .word ap_record_room_visit_for_reward_art
+.size ap_room_visit_reward_art_entry, .-ap_room_visit_reward_art_entry

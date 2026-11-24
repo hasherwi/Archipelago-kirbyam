@@ -41,6 +41,7 @@ SECTIONS
     KEEP(*(.aphubboards))
     KEEP(*(.apchestart))
     KEEP(*(.aprewardfx))
+    KEEP(*(.apvisitdata))
     ap_extension_code_end = .;
     . = 0xFFC8;
     KEEP(*(.apphoneinfo))
