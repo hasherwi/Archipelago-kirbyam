@@ -15,7 +15,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Play distinct in-game cues when new Archipelago items are received (PR #1136).
 
 ### Improvements
-- Show the same six-gem reward sprite whenever a chest opens.
+- Show the same six-gem reward sprite whenever a chest opens or a lever is pulled.
 - Show boss defeat progress in `/goal` when using the boss-count goal (PR #1133).
 
 ### Known Limitations

@@ -341,12 +341,9 @@ void ap_chest_reward_art(void *chest, int16_t x, int16_t y, uint16_t item) {
     volatile struct ApChestTileUpload *tile_ring = (volatile struct ApChestTileUpload *)0x03002EC0u;
     uint8_t before;
 
-    /* These physical levers reuse Chest tasks but are not treasure chests. */
-    if (ap_lever_bit_for_obj((uint32_t)(uintptr_t)chest)) {
-        native_popup(chest, x, y, item);
-        return;
-    }
-
+    /* Physical lever pulls use this same native open call. Wall receipts
+     * and restored pulls only change the wall or callback; neither enters it. */
+    (void)item;  /* Native visual parameter, not the real parent reward. */
     before = *tile_head;
     native_popup(chest, x, y, 0u);
     /* Change only this popup's single queued VRAM upload. All palettes,

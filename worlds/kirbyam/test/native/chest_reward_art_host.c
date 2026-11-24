@@ -6,14 +6,9 @@
 #define ART 0x09001000u
 static volatile uint8_t head;
 static volatile struct ApChestTileUpload ring[64];
-static uint8_t lever, commands;
+static uint8_t commands;
 static uint16_t parent_reward, visual_reward, transferred_size;
 static uint32_t source;
-
-static uint32_t ap_lever_bit_for_obj(uint32_t chest) {
-    assert(chest == 0x02000000u);
-    return lever;
-}
 
 static void native_popup_host(void *chest, int16_t x, int16_t y, uint16_t visual) {
     assert(chest == (void *)0x02000000u);
@@ -46,12 +41,13 @@ int main(void) {
         assert(ring[63].source == ART && ring[62].source == AP_CHEST_NATIVE_TILES);
         assert(ring[63].destination == 0x06015400u && ring[63].size == AP_CHEST_ART_SIZE);
     }
-    /* The distinct physical lever check still has its original no-item visual. */
-    lever = 1;
+    /* Real lever pulls enter the constructor with 0x63 as well. The same
+     * visual bytes apply without changing the actual lever reward value. */
+    parent_reward = 0x63;
     head = 9;
-    ap_chest_reward_art((void *)0x02000000u, -8, 46, 0x63);
-    assert(visual_reward == 0x63 && ring[9].source == AP_CHEST_NATIVE_TILES);
-    lever = 0;
+    ap_chest_reward_art((void *)0x02000000u, -8, 46, parent_reward);
+    assert(visual_reward == 0 && parent_reward == 0x63 && ring[9].source == ART);
+    ring[9].source = AP_CHEST_NATIVE_TILES;
     /* Fail closed on unexpected queue shape, source and size. */
     for (uint8_t n = 0; n <= 2; n += 2) {
         head = 9;

@@ -1,10 +1,10 @@
-# Generic chest reward art
+# Generic chest and lever reward art
 
 Every treasure chest uses the supplied six-gem reward art on opening. The
 closed chest, rising popup motion, sounds, duration, original reward logic, and
-check IDs are unchanged. Physical levers are not treasure chests even though
-they reuse the native Chest task. The assets, vanilla boss sequences, and other
-reward surfaces are not changed by this hook.
+check IDs are unchanged. A physical lever pull shows the same art because it
+uses the same native popup path. Receiving Lever Wall, restoring a lever, or
+re-entering its room does not show the art. Other reward surfaces are unchanged.
 
 | Original | Same frame with this patch |
 | --- | --- |
@@ -14,6 +14,20 @@ Both panels are native mGBA frames from a cold Tutorial World Map Chest replay
 (room 805, frame 18405), with identical input and no gameplay-RAM edits. Exactly
 206 rendered pixels differ, all inside the 16×16 sprite at (104, 57).
 The compared runs recorded the same chest flags and reached Central Circle.
+
+## Physical lever replay
+
+| Chest-only control | Same frame with lever art |
+| --- | --- |
+| ![Lever without a reward sprite](lever_reward_art_before.png) | ![Six-gem popup after a physical lever pull](lever_reward_art_in_game.png) |
+
+These are native mGBA frames from Moonlight Mansion Room 2-11 (internal room
+743), 12 frames after the physical lever pull at frame 40902. Both input-only
+runs started from blank SRAM and matched all 115 replay checkpoints through
+frame 41104, with no gameplay RAM edits or save-state loads. All changed pixels
+in the comparison are inside the 16×16 sprite at (115, 41). Only the candidate
+queued the gem on the pull. Both runs recorded the same physical activation
+flags, and neither granted Lever Wall ownership.
 
 ## ROM contract
 
