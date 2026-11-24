@@ -1,6 +1,6 @@
 # Kirby color palettes
 
-See the colors you can use now and the palettes under consideration for a future release. The available palettes show the same normal Kirby sprite with different colors. Proposed palettes are shown as swatches only. These are previews, not gameplay screenshots; abilities and effects can change how some colors appear in-game.
+See the colors you can use now and the palettes under consideration for a future release. Each entry shows the same normal Kirby sprite alongside its swatches. These are previews, not gameplay screenshots; abilities and effects can change how some colors appear in-game.
 
 ## Available now
 
@@ -58,11 +58,11 @@ Kirby & The Amazing Mirror:
 
 ## Proposed colors
 
-These **42 reference palettes** are not in the game and cannot be selected in YAML. Names and colors may change before implementation.
+These **42 reference palettes** are not in the game and cannot be selected in YAML. The sprite mockups show how the reference swatches look on normal Kirby; they have not been implemented or checked in gameplay. Names and colors may change.
 
-![Swatches for the first 21 proposals, Rose through Samus. The names are listed below.](color-palettes-proposals-1.svg)
+![Kirby mockups and swatches for the first 21 proposals, Rose through Samus. The names are listed below.](color-palettes-proposals-1.png)
 
-![Swatches for the remaining 21 proposals, Marx through Invincible. The names are listed below.](color-palettes-proposals-2.svg)
+![Kirby mockups and swatches for the remaining 21 proposals, Marx through Invincible. The names are listed below.](color-palettes-proposals-2.png)
 
 <details>
 <summary>All 42 proposed color names</summary>
@@ -114,4 +114,4 @@ These **42 reference palettes** are not in the game and cannot be selected in YA
 
 ## Preview sources
 
-The original sprite previews and proposed swatches come from the reference images in [GitHub issue #1035](https://github.com/hasherwi/Archipelago-kirbyam/issues/1035). The main sheet is credited to Drschnaps; the issue credits the palettes from Daisy through Blue Poppy to SapphireGemNetwork. The additional available colors apply the exact normal-gameplay RGB555 values from the [current color registry](../data/colors.json) to that same sprite’s indexed pixels. Kirby sprite artwork © Nintendo / HAL Laboratory.
+The original sprite previews and the swatches used for the proposed sprites come from the reference images in [GitHub issue #1035](https://github.com/hasherwi/Archipelago-kirbyam/issues/1035). The main sheet is credited to Drschnaps; the issue credits the palettes from Daisy through Blue Poppy to SapphireGemNetwork. The additional available colors apply the exact normal-gameplay RGB555 values from the [current color registry](../data/colors.json) to that same sprite’s indexed pixels. The proposal mockups use only the reference colors for the visible slots of that pose; they do not specify colors for other forms or effects. Kirby sprite artwork © Nintendo / HAL Laboratory.
