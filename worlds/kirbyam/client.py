@@ -20,7 +20,7 @@ from .area_keys import AREA_KEY_AREA_ID_BY_LABEL, AREA_NAME_BY_ID
 from .candy import CANDY_ITEM_ID, candy_delivery_ready
 from .narcolepsy import NARCOLEPSY_ITEM_ID, NARCOLEPSY_ROM_MARKER, NARCOLEPSY_ROM_MARKER_OFFSET
 from .random_teleport import (
-    RANDOM_TELEPORT_CONNECTION_BITS, RANDOM_TELEPORT_ITEM_ID, RANDOM_TELEPORT_NONCE_ADDR,
+    RANDOM_TELEPORT_CONNECTION_BITS, RANDOM_TELEPORT_EPOCH_ADDR, RANDOM_TELEPORT_ITEM_ID, RANDOM_TELEPORT_NONCE_ADDR,
     RANDOM_TELEPORT_ROM_MARKER, RANDOM_TELEPORT_ROM_MARKER_OFFSET, teleport_nonce,
 )
 from .receipts import ReceiptJournal, TRANSIENT_ITEM_IDS, receipt_key, scope_key
@@ -30,8 +30,8 @@ from .phone_protocol import (
     PHONE_ITEM_ID, PHONE_CONFIG_BUS_ADDRESS, sync_phone_ownership, validate_phone_pairing,
 )
 from .copy_room_protocol import (
-    COPY_ROOM_ITEM_ID, COPY_ROOM_MARKER, COPY_ROOM_MARKER_OFFSET,
-    copy_room_slot_version, sync_copy_room_ownership,
+    COPY_ROOM_CONTEXT_ADDRESS, COPY_ROOM_ITEM_ID, COPY_ROOM_MARKER, COPY_ROOM_MARKER_OFFSET,
+    copy_room_slot_version, decode_copy_room_snapshot, sync_copy_room_ownership,
 )
 from .goal_game_protocol import GOAL_MARKER, GOAL_MARKER_OFFSET, goal_slot_version, poll_goal_games
 from .hub_protocol import HUB_MARKER, HUB_MARKER_OFFSET, hub_slot_version
@@ -5234,6 +5234,14 @@ class KirbyAmClient(BizHawkClient):
                     if (mask is None or not special_offer_current()
                             or not self._hub_connection_item_history_ready(ctx)):
                         return
+                    raw_file, file_fence = await bizhawk.read(ctx.bizhawk_ctx, [
+                        (COPY_ROOM_CONTEXT_ADDRESS, 36, "System Bus"),
+                        (COPY_ROOM_CONTEXT_ADDRESS, 12, "System Bus"),
+                    ])
+                    native_file = decode_copy_room_snapshot(bytes(raw_file), bytes(file_fence))
+                    if (native_file is None or not special_offer_current()
+                            or not self._hub_connection_item_history_ready(ctx)):
+                        return
                     prefix_mask = 0
                     for received in ctx.items_received[:delivery_index]:
                         fields = self._extract_delivery_item_fields(received)
@@ -5244,8 +5252,12 @@ class KirbyAmClient(BizHawkClient):
                     except ValueError as exc:
                         self._receipt_failure(f"could not identify Random Teleport receipt ({exc})")
                         return
-                    teleport_request = (RANDOM_TELEPORT_NONCE_ADDR, (nonce | prefix_mask).to_bytes(4, "little"), "System Bus")
+                    teleport_request = [
+                        (RANDOM_TELEPORT_NONCE_ADDR, (nonce | prefix_mask).to_bytes(4, "little"), "System Bus"),
+                        (RANDOM_TELEPORT_EPOCH_ADDR, native_file.epoch.to_bytes(4, "little"), "System Bus"),
+                    ]
                     teleport_guards = [
+                        (COPY_ROOM_CONTEXT_ADDRESS, bytes(file_fence), "System Bus"),
                         (_normalize_gba_rom_address(auth_addr), auth, "ROM"),
                         (mask_addr, mask.to_bytes(4, "little"), "System Bus"),
                         (flag_addr, bytes(4), "System Bus"),
@@ -5303,7 +5315,7 @@ class KirbyAmClient(BizHawkClient):
                 if not hub_offer_current():
                     return  # An in-flight offer may have committed; reconcile by readback.
             elif teleport_guards is not None and teleport_request is not None:
-                if not await bizhawk.guarded_write(ctx.bizhawk_ctx, [teleport_request, *offer], teleport_guards):
+                if not await bizhawk.guarded_write(ctx.bizhawk_ctx, [*teleport_request, *offer], teleport_guards):
                     # False means a guard rejected the complete write, not a
                     # successful or ambiguous offer. Transport exceptions keep
                     # the durable reservation untouched for explicit recovery.

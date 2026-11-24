@@ -753,6 +753,79 @@
               "main": []
             }
           ]
+        },
+        {
+          "integrated_sha256": "4da02e8840fabb23dc0377eafe2ea63c6a385d62dbb60ba89cf0a4a4b98b10a5",
+          "reverse_slices": [
+            {
+              "start": 22,
+              "stop": 23,
+              "current": [
+                "    RANDOM_TELEPORT_CONNECTION_BITS, RANDOM_TELEPORT_EPOCH_ADDR, RANDOM_TELEPORT_ITEM_ID, RANDOM_TELEPORT_NONCE_ADDR,\n"
+              ],
+              "main": [
+                "    RANDOM_TELEPORT_CONNECTION_BITS, RANDOM_TELEPORT_ITEM_ID, RANDOM_TELEPORT_NONCE_ADDR,\n"
+              ]
+            },
+            {
+              "start": 32,
+              "stop": 34,
+              "current": [
+                "    COPY_ROOM_CONTEXT_ADDRESS, COPY_ROOM_ITEM_ID, COPY_ROOM_MARKER, COPY_ROOM_MARKER_OFFSET,\n",
+                "    copy_room_slot_version, decode_copy_room_snapshot, sync_copy_room_ownership,\n"
+              ],
+              "main": [
+                "    COPY_ROOM_ITEM_ID, COPY_ROOM_MARKER, COPY_ROOM_MARKER_OFFSET,\n",
+                "    copy_room_slot_version, sync_copy_room_ownership,\n"
+              ]
+            },
+            {
+              "start": 5236,
+              "stop": 5244,
+              "current": [
+                "                    raw_file, file_fence = await bizhawk.read(ctx.bizhawk_ctx, [\n",
+                "                        (COPY_ROOM_CONTEXT_ADDRESS, 36, \"System Bus\"),\n",
+                "                        (COPY_ROOM_CONTEXT_ADDRESS, 12, \"System Bus\"),\n",
+                "                    ])\n",
+                "                    native_file = decode_copy_room_snapshot(bytes(raw_file), bytes(file_fence))\n",
+                "                    if (native_file is None or not special_offer_current()\n",
+                "                            or not self._hub_connection_item_history_ready(ctx)):\n",
+                "                        return\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 5254,
+              "stop": 5258,
+              "current": [
+                "                    teleport_request = [\n",
+                "                        (RANDOM_TELEPORT_NONCE_ADDR, (nonce | prefix_mask).to_bytes(4, \"little\"), \"System Bus\"),\n",
+                "                        (RANDOM_TELEPORT_EPOCH_ADDR, native_file.epoch.to_bytes(4, \"little\"), \"System Bus\"),\n",
+                "                    ]\n"
+              ],
+              "main": [
+                "                    teleport_request = (RANDOM_TELEPORT_NONCE_ADDR, (nonce | prefix_mask).to_bytes(4, \"little\"), \"System Bus\")\n"
+              ]
+            },
+            {
+              "start": 5259,
+              "stop": 5260,
+              "current": [
+                "                        (COPY_ROOM_CONTEXT_ADDRESS, bytes(file_fence), \"System Bus\"),\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 5317,
+              "stop": 5318,
+              "current": [
+                "                if not await bizhawk.guarded_write(ctx.bizhawk_ctx, [*teleport_request, *offer], teleport_guards):\n"
+              ],
+              "main": [
+                "                if not await bizhawk.guarded_write(ctx.bizhawk_ctx, [teleport_request, *offer], teleport_guards):\n"
+              ]
+            }
+          ]
         }
       ]
     },

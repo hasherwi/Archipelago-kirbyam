@@ -2080,10 +2080,11 @@ static HUB_EXT uint8_t ap_trap_narcolepsy(void) {
 }
 
 __attribute__((used, section(".aprandomteleportinfo")))
-const uint8_t gApRandomTeleportInfo[4] = {'A', 'P', 'R', '1'};
+const uint8_t gApRandomTeleportInfo[4] = {'A', 'P', 'R', '2'};
 
 #define AP_RANDOM_TELEPORT_ITEM (KIRBY_ITEM_ID_BASE_OFFSET + 302u)
 #define AP_RANDOM_TELEPORT_NONCE (*(volatile uint32_t *)(AP_BASE + 0x1C0u))
+#define AP_RANDOM_TELEPORT_EPOCH (*(volatile uint32_t *)(AP_BASE + 0x1C4u))
 
 struct ApTeleportLanding {
     uint16_t room;
@@ -2108,6 +2109,14 @@ static HUB_EXT uint8_t ap_trap_random_teleport(void) {
     uint16_t source;
     uint8_t ability, area, count = 0u, eligible[3];
     const struct ApTeleportLanding *target;
+    uint32_t epoch = ap_copy_room_epoch();
+    if (!epoch || AP_RANDOM_TELEPORT_EPOCH != epoch) {
+        /* Adventure file load/restart invalidates this offer. Do not turn a
+         * file boundary into an ACK: the client retains its durable evidence. */
+        AP_RANDOM_TELEPORT_NONCE = AP_RANDOM_TELEPORT_EPOCH = 0u;
+        AP_IN_FLAG = 0u;
+        return 0u;
+    }
     if (owned == AP_HUB_CONNECTION_ITEM_MASK_UNINITIALIZED || !nonce
             || !ap_receipt_cue_gameplay_ready()) return 0u;
     source = KIRBY_CURRENT_ROOM;
@@ -2415,7 +2424,7 @@ AP_COPY_EXT void ap_poll_mailbox_c(void) {
         AP_BOSS_DEFEAT_FLAGS = 0u;
         AP_BOSS_TEMP_SHARD_BITFIELD = 0u;
         AP_CUE_REQUEST = AP_CUE_RESULT = AP_CUE_READY = AP_CUE_ACTIVE = 0u;
-        AP_RANDOM_TELEPORT_NONCE = 0u;
+        AP_RANDOM_TELEPORT_NONCE = AP_RANDOM_TELEPORT_EPOCH = 0u;
         AP_DELIVERED_VITALITY_ITEM_BITS = 0u;
         AP_HUB_CONNECTION_ITEM_MASK = AP_HUB_CONNECTION_ITEM_MASK_UNINITIALIZED;
         AP_HUB_SWITCH_INIT_STATE = 0u;
@@ -2526,7 +2535,9 @@ AP_COPY_EXT void ap_poll_mailbox_c(void) {
     // If the item was unrecognized (item_was_processed==0), the flag is NOT cleared,
     // allowing the client to detect a protocol mismatch and retry/stall appropriately.
     if (item_was_processed) {
-        if (item == AP_RANDOM_TELEPORT_ITEM) AP_RANDOM_TELEPORT_NONCE = 0u;
+        if (item == AP_RANDOM_TELEPORT_ITEM) {
+            AP_RANDOM_TELEPORT_NONCE = AP_RANDOM_TELEPORT_EPOCH = 0u;
+        }
         AP_ITEM_RCVD_COUNTER++;
         AP_IN_FLAG = 0u;
     }

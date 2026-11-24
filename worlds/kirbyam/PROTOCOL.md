@@ -912,13 +912,17 @@ HUD refresh uses the native color-specific HUD table and BG+backup loader, then 
 
 ### Random Teleport (item 3860302)
 
-The client checks `APR1` at ROM offset `0x0100FFC4`. It offers the item and
-request word at `0x0203B1C0` in a guarded write bound to the ROM identity,
-authenticated Hub mask, and empty mailbox. Request bits 29–31 authorize
+The client checks `APR2` at ROM offset `0x0100FFC4`. It offers the item,
+request word at `0x0203B1C0`, and native Adventure epoch at `0x0203B1C4` in
+a guarded write bound to the loaded file/epoch, ROM identity, authenticated Hub
+mask, and empty mailbox. The same live native save context used for Copy
+Room must still be valid when the ROM takes the request. A file load or
+restart invalidates the offer without advancing the ACK counter; an
+unresolved journal entry uses the existing explicit receipt recovery. Request bits 29–31 authorize
 East/South/West connections from the already-delivered ReceivedItems prefix;
 bits 0–28 carry a nonzero lottery word derived from the durable receipt identity.
 An old ROM, missing ownership history or failed guard never offers the trap.
-The ROM clears the request on mailbox initialization or completed consumption.
+The ROM clears the request on mailbox initialization, epoch invalidation, or completed consumption.
 
 The only remote destinations are the reciprocal Rainbow Route Hub mirrors:
 East 190 (9,3), South 194 (9,3), West 192 (13,3). The live Hub mask and native

@@ -7,8 +7,9 @@ from BaseClasses import CollectionState
 from NetUtils import NetworkItem
 from test.general import setup_multiworld
 from .. import KirbyAmWorld
+from ..copy_room_protocol import COPY_ROOM_CONTEXT_ADDRESS
 from ..random_teleport import (
-    RANDOM_TELEPORT_ITEM_ID, RANDOM_TELEPORT_NONCE_ADDR, RANDOM_TELEPORT_ROM_MARKER_OFFSET,
+    RANDOM_TELEPORT_EPOCH_ADDR, RANDOM_TELEPORT_ITEM_ID, RANDOM_TELEPORT_NONCE_ADDR, RANDOM_TELEPORT_ROM_MARKER_OFFSET,
     teleport_nonce,
 )
 from ..receipts import receipt_key
@@ -50,6 +51,7 @@ async def test_only_earlier_hub_receipts_admit_candidates(receipt_env):
     request = int.from_bytes(box.memory[RANDOM_TELEPORT_NONCE_ADDR], "little")
     assert request >> 29 == 1
     assert request & 0x1FFFFFFF == teleport_nonce(client._receipt_scope, receipt_key(ctx.items_received, 1))
+    assert int.from_bytes(box.memory[RANDOM_TELEPORT_EPOCH_ADDR], "little") == 1
     assert box.offers == [RANDOM_TELEPORT_ITEM_ID]
 
 
@@ -95,3 +97,34 @@ int main(void) {
     subprocess.run([cc, "-std=c99", "-Wall", "-Werror", "-I", str(payload), str(source),
                     "-o", str(executable)], check=True)
     subprocess.run([str(executable)], check=True)
+
+
+@pytest.mark.asyncio
+async def test_inactive_file_does_not_arm_teleport_and_native_cancellation_is_unacked(receipt_env):
+    ctx = receipt_env
+    ctx.items_received = [
+        NetworkItem(RANDOM_TELEPORT_ITEM_ID, 3960567, 1, 4),
+        NetworkItem(3860003, 3960568, 1, 1),
+    ]
+    client = make_client(ctx)
+    box = Mailbox(client)
+    active = box.memory[COPY_ROOM_CONTEXT_ADDRESS]
+    box.memory[COPY_ROOM_CONTEXT_ADDRESS] = bytes(36)
+    await tick(client, ctx, box, AsyncMock())
+    assert not box.offers and not client._receipt_journal.pending()
+
+    box.memory[COPY_ROOM_CONTEXT_ADDRESS] = active
+    await tick(client, ctx, box, AsyncMock())
+    key = receipt_key(ctx.items_received, 0)
+    assert client._receipt_journal.pending() == [key]
+
+    # Native lifecycle invalidation clears the offer without moving the
+    # physical counter. Do not ACK it or advance the progression cursor.
+    box.memory[client._transport_addr("incoming_item_flag")] = bytes(4)
+    box.memory[RANDOM_TELEPORT_NONCE_ADDR] = bytes(4)
+    box.memory[RANDOM_TELEPORT_EPOCH_ADDR] = bytes(4)
+    await tick(client, ctx, box, AsyncMock())
+    assert client._receipt_journal.pending() == [key]
+    assert client._receipt_blocked and not client._delivery_pending
+    assert not client._receipt_journal.acknowledged(key)
+    assert box.offers == [RANDOM_TELEPORT_ITEM_ID]
