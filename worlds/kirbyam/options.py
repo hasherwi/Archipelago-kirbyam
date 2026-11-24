@@ -368,8 +368,8 @@ def _build_starting_kirby_color_option() -> type[Choice]:
     Supported color names:
       %s
 
-    Shadow, Ivory, Citrus, White and Lavender are appearance choices, without
-    new collectible spray paints. Native Chalk keeps its original appearance.
+    Custom palettes are appearance choices without new collectible spray paints.
+    All original spray-paint appearances, including Chalk, are unchanged.
 
     Set the entire option to `random` to let Archipelago choose one supported
     color during option parsing. In a YAML, the shorthand is:
