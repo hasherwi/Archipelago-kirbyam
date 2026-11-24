@@ -5,6 +5,8 @@
 #define AP_VISIT_ENTRY_COUNT 288u
 #define AP_VISIT_NATIVE_BIT 0x8000u
 #define AP_VISIT_MAX_VISUAL_WAIT 300u
+#define AP_VISIT_CORE_ONLY 0x30525041u /* APR0 */
+#define AP_VISIT_ALL_ROOMS 0x31525041u /* APR1 */
 
 static inline uint8_t ap_visit_is_first_area(
     const volatile uint16_t *visits, const uint8_t *areas, uint16_t index
@@ -16,6 +18,18 @@ static inline uint8_t ap_visit_is_first_area(
         if (areas[i] == area && (visits[i] & AP_VISIT_NATIVE_BIT) != 0u) return 0u;
     }
     return 1u;
+}
+
+/* Coalesce a shared physical entry, not the independently reported AP checks.
+ * An unknown config must not display ordinary RoomSanity locations. */
+static inline uint8_t ap_visit_should_show_reward(
+    const volatile uint16_t *visits, const uint8_t *areas, const uint8_t *room_kinds,
+    uint16_t index, uint32_t config
+) {
+    if (index >= AP_VISIT_ENTRY_COUNT || (visits[index] & AP_VISIT_NATIVE_BIT) != 0u) return 0u;
+    uint8_t room_kind = room_kinds[index];
+    return room_kind == 2u || (room_kind == 1u && config == AP_VISIT_ALL_ROOMS)
+        || ap_visit_is_first_area(visits, areas, index);
 }
 
 /* Wait for native transition flags, not for a guessed fade delay. */

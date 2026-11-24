@@ -19,6 +19,7 @@ from ..phone_protocol import PHONE_CONFIG_OFFSET, PHONE_ENABLED_CONFIG, PHONE_MA
 from ..rom import (
     AREA_KEYS_CONFIG_ON, AREA_KEYS_CONFIG_ROM_OFFSET, ENEMY_HEALTH_MULTIPLIER_FILE,
     HEALTH_INITIAL_ROM_OFFSET, KirbyAmPatchExtension, KirbyAmProcedurePatch,
+    ROOM_VISIT_ART_CONFIG_ROM_OFFSET, ROOM_VISIT_ART_CORE_ONLY,
 )
 from ..vitality import HEALTH_CONFIG_MAGIC, HEALTH_ROM_TITLE
 
@@ -41,6 +42,7 @@ def synthetic_post_base() -> bytes:
     """Enough synthetic bytes for all real procedure steps and their guards."""
     buffer = bytearray(max(ENEMY_SOURCE_CONFIG_ROM_OFFSET + 36, 0x008C270A))
     buffer[PHONE_CONFIG_OFFSET:PHONE_CONFIG_OFFSET + 12] = DISABLED_PHONE_CONFIG
+    buffer[ROOM_VISIT_ART_CONFIG_ROM_OFFSET:ROOM_VISIT_ART_CONFIG_ROM_OFFSET + 4] = ROOM_VISIT_ART_CORE_ONLY
     buffer[AREA_KEYS_CONFIG_ROM_OFFSET:AREA_KEYS_CONFIG_ROM_OFFSET + 4] = AREA_KEYS_CONFIG_ON.to_bytes(4, "little")
     buffer[ENEMY_SOURCE_CONFIG_ROM_OFFSET:ENEMY_SOURCE_CONFIG_ROM_OFFSET + 4] = (
         ENEMY_SOURCE_CONFIG_LEGACY.to_bytes(4, "little"))
@@ -80,6 +82,19 @@ def _synthetic_patch(base_diff: bytes) -> KirbyAmProcedurePatch:
     return patch
 
 
+def test_room_visit_art_base_guard_rejects_stale_or_seed_written_config(
+        synthetic_post_base: bytes) -> None:
+    offset = ROOM_VISIT_ART_CONFIG_ROM_OFFSET
+    assert KirbyAmPatchExtension.validate_room_visit_art_base(None, synthetic_post_base) is synthetic_post_base
+    assert (KirbyAmProcedurePatch.procedure.index(("validate_room_visit_art_base", []))
+            < KirbyAmProcedurePatch.procedure.index(("apply_tokens", ["token_data.bin"])))
+    for version in (b"\0" * 4, b"APR1", b"APR9"):
+        bad = bytearray(synthetic_post_base)
+        bad[offset:offset + 4] = version
+        with pytest.raises(ValueError, match="RoomSanity reward sprite config missing"):
+            KirbyAmPatchExtension.validate_room_visit_art_base(None, bytes(bad))
+
+
 def _write_archive(patch: KirbyAmProcedurePatch, tmp_path: Path) -> Path:
     patch.write_file("token_data.bin", patch.get_token_binary())
     archive = tmp_path / "synthetic.apkirbyam"
@@ -116,6 +131,7 @@ def test_phone_validator_rejects_missing_or_truncated_buffers(length: int, synth
 def test_phone_guard_procedure_order_is_serialized(tmp_path: Path, synthetic_bsdiffs: dict[str, bytes]) -> None:
     expected = [HISTORICAL_PROCEDURE[0], ("validate_production_phone_disabled", []),
                 *HISTORICAL_PROCEDURE[1:3], ("validate_room16_timer_base", []),
+                ("validate_room_visit_art_base", []),
                 *HISTORICAL_PROCEDURE[3:], ("validate_phone_seed_config", [])]
     assert KirbyAmProcedurePatch.procedure == expected
     archive = _write_archive(_synthetic_patch(synthetic_bsdiffs["disabled"]), tmp_path)

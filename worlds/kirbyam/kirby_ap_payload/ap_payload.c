@@ -470,12 +470,16 @@ _Static_assert(AP_VISIT_PENDING_ADDRESS + sizeof(struct ApVisitPending) <= AP_BA
 #define AP_NATIVE_VISITS ((const volatile uint16_t*)0x02028CA0u)
 #include "generated_visit_reward_art_rooms.inc"
 
+__attribute__((used, section(".aproomvisitconfig")))
+volatile const uint32_t gApVisitRoomArtConfig = AP_VISIT_CORE_ONLY;
+
 AP_REWARD_FX __attribute__((used)) void ap_record_room_visit_for_reward_art(uint16_t room, void *kirby) {
     uint32_t epoch = 0u;
     uint16_t index = AP_VISIT_ENTRY_COUNT; /* Invalid unless native room table matches. */
     if (kirby == (void*)KIRBY_STRUCTS_ADDR && room < 0x9998u / 40u) {
         index = *(const volatile uint16_t*)(0x089331ACu + (uint32_t)room * 40u + 36u);
-        if (ap_visit_is_first_area(AP_NATIVE_VISITS, ap_visit_areas, index)) {
+        if (ap_visit_should_show_reward(AP_NATIVE_VISITS, ap_visit_areas,
+                ap_visit_room_kinds, index, gApVisitRoomArtConfig)) {
             epoch = ap_copy_room_epoch();
         }
     }

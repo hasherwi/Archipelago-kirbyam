@@ -9,6 +9,7 @@ first physical press of an Archipelago Big Switch and the first completion
 of each Goal Game check (even with no native prize), on first area visits,
 and replaces the collectible Mirror Shard art dropped by an area boss. A
 defeat with the shard already owned still shows its native Maxim Tomato.
+Fresh RoomSanity checks and always-on core landmarks also use the gem.
 
 | Original | Same frame with this patch |
 | --- | --- |
@@ -93,6 +94,26 @@ samples. The unowned playthrough completes pickup and native return to Central
 Circle. The already-owned [Maxim Tomato branch](boss_shard_already_owned_in_game.png)
 is pixel-identical with and without substitution, and has no gem upload.
 
+## RoomSanity and core landmark replays
+
+| Native visit | Control | With gem |
+| --- | --- | --- |
+| Rainbow Route Room 1-01 | ![Ordinary room with RoomSanity off](roomsanity_room_reward_art_off.png) | ![Ordinary room with RoomSanity on](roomsanity_room_reward_art_on.png) |
+| Moonlight Mansion Hub (core, RoomSanity off) | ![Same hub before the new art](roomsanity_core_reward_art_before.png) | ![Core landmark gem with RoomSanity off](roomsanity_core_reward_art_in_game.png) |
+
+Ordinary Room 1-01 (native room 101, visit 21) is newly visited after Rainbow
+Route's first-area check. The On and Off lanes match all 662 sampled gameplay
+states including their native room visit bits. On gives one gem at Room 1-01
+and Off gives none. Earlier entry to Central Circle earns an area check and,
+with RoomSanity On, a room check, but displays only one gem for that arrival.
+
+The Moonlight Mansion core hub (native room 790, visit 80) still gives a gem
+with RoomSanity Off. All 762 game samples match the control. The area has
+already been visited in another room before the landmark triggers, and a
+later re-entry does not show a second gem. Each illustrated pair differs by
+exactly 200 pixels, all inside the 16×16 art. These are actual mGBA controller
+replays; the core fixture uses a ROM startup position, not a live RAM edit.
+
 ## ROM contract
 
 The sole call from the chest-open handler to ChestItemPopup at ROM offset
@@ -141,3 +162,9 @@ lengths; only its matching tile sources and rendered image are substituted.
 The Dimension Mirror, separate cutscene art, and menus/credits are not changed.
 No cosmetic state is created or used. A record from the earlier draft remains
 readable and its obsolete cosmetic bits are preserved by check recovery.
+
+RoomSanity uses the same native visits and waits for the same visible-room
+gate. A dedicated versioned seed config selects all 263 catalogued RoomSanity
+locations or only the eight core landmarks; it works offline. Coalescing
+first area and room art never coalesces or edits their AP location checks.
+Historical patch archives retain their original procedure and behavior.

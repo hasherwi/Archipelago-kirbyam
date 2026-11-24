@@ -16,17 +16,29 @@ PAYLOAD = WORLD / "kirby_ap_payload"
 
 def test_generated_area_table_matches_client_eligibility() -> None:
     from ..client import KirbyAmClient
+    from ..data import LocationCategory, data
 
     generator = WORLD / "tools" / "generate_visit_reward_art_rooms.py"
     subprocess.run([sys.executable, str(generator), "--check"], check=True)
     table = (PAYLOAD / "generated_visit_reward_art_rooms.inc").read_text()
-    actual = list(map(int, re.findall(r"\b(\d+)u\b", table)))
+    def values(name: str) -> list[int]:
+        body = re.search(rf'{name}\[.*?= \{{(.*?)\}};', table, flags=re.S)
+        assert body
+        return list(map(int, re.findall(r"\b(\d+)u\b", body[1])))
+
+    actual = values("ap_visit_areas")
     expected = KirbyAmClient._build_room_metadata_maps()[2]
     assert len(actual) == 288
     assert {i: area for i, area in enumerate(actual) if area} == {
         i: area for i, area in expected.items() if 0 <= i < len(actual)
     }
     assert set(actual) == set(range(10))
+    kinds = values("ap_visit_room_kinds")
+    assert len(kinds) == len(actual)
+    assert {i: kind for i, kind in enumerate(kinds) if kind} == {
+        loc.bit_index: 2 if "CoreLandmark" in loc.tags else 1
+        for loc in data.locations.values() if loc.category == LocationCategory.ROOM_SANITY
+    }
 
 
 def test_exact_native_visit_callsite_guard() -> None:
@@ -65,6 +77,18 @@ int main(void) {
     assert(!ap_visit_is_first_area(visits, ap_visit_areas, 21u));
     assert(ap_visit_areas[77] == 2u);
     assert(ap_visit_is_first_area(visits, ap_visit_areas, 77u));
+    assert(ap_visit_room_kinds[21] == 1u && ap_visit_room_kinds[80] == 2u);
+    assert(!ap_visit_should_show_reward(visits, ap_visit_areas, ap_visit_room_kinds, 21u, AP_VISIT_CORE_ONLY));
+    assert(!ap_visit_should_show_reward(visits, ap_visit_areas, ap_visit_room_kinds, 21u, 0u));
+    assert(ap_visit_should_show_reward(visits, ap_visit_areas, ap_visit_room_kinds, 21u, AP_VISIT_ALL_ROOMS));
+    visits[21] = 0x8000u;
+    assert(!ap_visit_should_show_reward(visits, ap_visit_areas, ap_visit_room_kinds, 21u, AP_VISIT_ALL_ROOMS));
+    visits[77] = 0x8000u;
+    assert(!ap_visit_is_first_area(visits, ap_visit_areas, 80u));
+    assert(ap_visit_should_show_reward(visits, ap_visit_areas, ap_visit_room_kinds, 80u, AP_VISIT_CORE_ONLY));
+    assert(ap_visit_should_show_reward(visits, ap_visit_areas, ap_visit_room_kinds, 80u, AP_VISIT_ALL_ROOMS));
+    visits[80] = 0x8000u;
+    assert(!ap_visit_should_show_reward(visits, ap_visit_areas, ap_visit_room_kinds, 80u, AP_VISIT_CORE_ONLY));
     assert(!ap_visit_scene_ready(0xB00u, 0u, 0u, 0u));
     assert(!ap_visit_scene_ready(0u, 0xC00u, 0u, 0u));
     assert(!ap_visit_scene_ready(0u, 0u, 0x80u, 9u));
