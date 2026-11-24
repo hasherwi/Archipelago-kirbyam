@@ -11,7 +11,7 @@ Kirby & The Amazing Mirror:
   starting_kirby_color: cotton_candy
 ```
 
-**Pink** is the in-game default. Use `random` to pick a color when the seed is generated, or `random_color_per_room` to change color between rooms with the connected BizHawk client. These are modes, not separate palettes.
+**Pink** is the in-game default. Use `random` to pick a color when the seed is generated, or `random_color_per_room` to change color between rooms while connected through the KirbyAM client for BizHawk or mGBA. Without a connected client, the patched ROM applies only the initial color. These are modes, not separate palettes.
 
 ### Original colors
 
@@ -65,17 +65,16 @@ Kirby & The Amazing Mirror:
 
 ## Proposed colors
 
-These **41 reference palettes** are not in the game and cannot be selected in YAML. The sprite mockups show how the reference swatches look on normal Kirby; they have not been implemented or checked in gameplay. Names and colors may change.
+These **39 reference palettes** are not in the game and cannot be selected in YAML. The sprite mockups show how the reference swatches look on normal Kirby; they have not been implemented or checked in gameplay. Names and colors may change.
 
-![Kirby mockups and swatches for the first 21 proposals, Advance Ice through Meconopsis / Blue Poppy. The names are listed below.](color-palettes-proposals-1.png)
+![Kirby mockups and swatches for the first 19 proposals, Advance Ice through Meconopsis / Blue Poppy. The names are listed below.](color-palettes-proposals-1.png)
 
 ![Kirby mockups and swatches for the remaining 20 proposals, Mogeko through Waddle Dee. The names are listed below.](color-palettes-proposals-2.png)
 
 <details>
-<summary>All 41 proposed color names</summary>
+<summary>All 39 proposed color names</summary>
 
 - Advance Ice
-- Advance Meta Knight
 - Advance Stone
 - Beautiful Sunset
 - Bright
@@ -85,7 +84,6 @@ These **41 reference palettes** are not in the game and cannot be selected in YA
 - Dedede
 - Edgey
 - Galacta Knight
-- Halloween
 - KDL3 Pink
 - Lalala
 - Lemon

@@ -76,7 +76,7 @@ Use exact item/location names from this world (or the item groups listed above) 
     - Candy Constellation's Master Hand + Crazy Hand fight is treated as one pooled boss target (`BOSS_DEFEAT_3`).
   - `defeat_area_boss`: Defeat the area boss selected by `configured_area_boss`. The default is Master Hand + Crazy Hand (`BOSS_DEFEAT_3`). Set `configured_area_boss` to `random` to have Archipelago choose one of the eight area bosses during option parsing. The old name `defeat_configured_area_boss` remains accepted as a compatibility alias. Replace the removed `defeat_random_hidden_area_boss` with `goal: defeat_area_boss` plus `configured_area_boss: random`.
 
-See the [Kirby color palette gallery](https://github.com/hasherwi/Archipelago-kirbyam/blob/main/worlds/kirbyam/docs/color-palettes.md) for all selectable colors and proposed additions.
+See the [Kirby color palette gallery](https://github.com/hasherwi/Archipelago-kirbyam/blob/main/worlds/kirbyam/docs/color-palettes.md) for all selectable colors and proposed additions. The `random_color_per_room` mode changes colors between rooms with a connected KirbyAM client on either BizHawk or mGBA. Without a connected client, the patched ROM applies only the initial color.
 
 ### Using Archipelago's built-in `random` choice
 

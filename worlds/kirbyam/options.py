@@ -375,9 +375,11 @@ def _build_starting_kirby_color_option() -> type[Choice]:
     `starting_kirby_color` weight mapping with that one line.
 
     Set to `random_color_per_room` to choose an initial color at generation,
-    then change to a different supported color whenever the connected BizHawk
-    client observes Kirby enter a different room. This mode takes priority over
-    a treasure-room paint choice; it does not erase the saved choice.
+    then change to a different supported color whenever a connected KirbyAM
+    client on BizHawk or mGBA observes Kirby enter a different room. Without a
+    connected client, the patched ROM applies only the initial color. This
+    mode takes priority over a treasure-room paint choice; it does not erase
+    the saved choice.
     """
         % kirby_color_names_for_docs()
     )
