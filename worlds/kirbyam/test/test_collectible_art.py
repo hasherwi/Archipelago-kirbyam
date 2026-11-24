@@ -24,9 +24,9 @@ def test_reserved_table_and_runtime_art_ids(art, rom):
     writes = patch_rom.build_collectible_art_extension(rom, bytes(65536))
     assert set(writes) == {0x1007000, 0x100D000}
     table = writes[0x100D000]
-    assert table[:8] == b"APART03\0"
-    assert 0x100D000 + len(table) == 0x100E208
-    for art_id in range(9, 45):
+    assert table[:8] == b"APART04\0"
+    assert 0x100D000 + len(table) == 0x100E388
+    for art_id in range(9, 48):
         offset = 8 + (art_id - 9) * 128
         assert bool(any(table[offset:offset + 128])) == (art_id not in (18, 19))
 
@@ -56,11 +56,11 @@ def test_rejects_bad_native_abi_or_occupied_slot(art, rom):
         with pytest.raises(ValueError, match="Unexpected native collectible"):
             build(bad, bytes(65536))
     occupied = bytearray(65536)
-    occupied[0xE207] = 1
+    occupied[0xE387] = 1
     with pytest.raises(ValueError, match="reserved extension slot"):
         build(rom, occupied)
     with pytest.raises(ValueError, match="reserved extension slot"):
-        build(rom, bytes(0xE207))
+        build(rom, bytes(0xE387))
 
 
 def test_shard_composite_piece_packing(art):
@@ -96,4 +96,34 @@ def test_shard_animation_exact_ticks_and_reserved_slot(art, rom):
         bad = bytearray(rom)
         bad[addr] ^= 1
         with pytest.raises(ValueError, match="Unexpected native"):
+            build(bad, bytes(65536))
+
+
+def test_access_art_uses_fixed_pink_palette_and_stock_object_geometry(art, rom):
+    build = art["build_collectible_art_table"]
+    table = build(rom, bytes(65536))
+    # The added IDs follow the original static shard tile without any overlap.
+    icons = [table[8 + (i - 9) * 128:8 + (i - 8) * 128] for i in range(45, 48)]
+    assert icons == list(art["_access_art"](rom))
+    assert len(set(icons)) == 3
+
+    def pixel(tiles, x, y):
+        b = tiles[32 * (y // 8 * 2 + x // 8) + 4 * (y % 8) + x % 8 // 2]
+        return b >> (4 * (x % 2)) & 15
+
+    # Phone occupies its native 8×16 box, horizontally centered, and uses
+    # sHudPalettes[0] rather than the neighboring alternate character palette.
+    source = art["_piece"](rom, art["PHONE_TILES"], 8, 16)
+    pal = art["struct"].unpack_from("<16H", rom, art["PHONE_PINK_PALETTE"])
+    colors = art["_remap"](pal)
+    assert all(pixel(icons[0], x, y) == (colors[source[y][x - 4]] if 4 <= x < 12 else 0)
+               for y in range(16) for x in range(16))
+    altered_neighboring_palette = bytearray(rom)
+    altered_neighboring_palette[art["PHONE_PINK_PALETTE"] + 32] ^= 1
+    assert build(altered_neighboring_palette, bytes(65536)) == table
+    for native_offset in (art["PHONE_TILES"], art["PHONE_PINK_PALETTE"], art["LEVER_TILES"],
+                          art["SWITCH_TILES"], 0x423934, 0x4A8010):
+        bad = bytearray(rom)
+        bad[native_offset] ^= 1
+        with pytest.raises(ValueError, match="Unexpected native Phone/Switch/Lever"):
             build(bad, bytes(65536))

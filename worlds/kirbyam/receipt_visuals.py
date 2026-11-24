@@ -7,7 +7,7 @@ import worlds._bizhawk as bizhawk
 from .reward_art_types import KIRBY_NATIVE_ART_BY_ITEM_CODE, RewardArt
 
 VISUAL_ROM_OFFSET = 0x1000028
-VISUAL_ROM_MARKER = b"APVIS03\0"
+VISUAL_ROM_MARKER = b"APVIS04\0"
 VISUAL_MAILBOX = 0x0203B1E0
 VISUAL_GEM = RewardArt.GEM + 1
 VISUAL_TRAP = RewardArt.TRAP + 1

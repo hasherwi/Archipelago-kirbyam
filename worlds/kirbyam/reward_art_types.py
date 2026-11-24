@@ -52,6 +52,9 @@ class RewardArt(IntEnum):
     SHEET_09 = 42
     SHEET_10 = 43
     SHARD = 44
+    PHONE = 45
+    HUB_SWITCH = 46
+    LEVER_WALL = 47
 
 
 KIRBY_CONSUMABLE_ART_BY_ITEM_CODE = {
@@ -81,6 +84,9 @@ KIRBY_NATIVE_ART_BY_ITEM_CODE = {
     **{3860200 + index: RewardArt(RewardArt.PAINT_01 + index) for index in range(14)},
     **{3860214 + index: RewardArt(RewardArt.SHEET_01 + index) for index in range(10)},
     **dict.fromkeys(range(3860002, 3860010), RewardArt.SHARD),
+    3860501: RewardArt.PHONE,
+    **dict.fromkeys(range(3860401, 3860416), RewardArt.HUB_SWITCH),
+    **dict.fromkeys(range(3860037, 3860041), RewardArt.LEVER_WALL),
 }
 
 

@@ -6,10 +6,10 @@ import hashlib
 import struct
 
 OFFSET = 0x100D000
-MARKER = b"APART03\0"
+MARKER = b"APART04\0"
 ART_SIZE = 128
 FIRST_ART = 9
-LAST_ART = 44
+LAST_ART = 47
 TABLE_SIZE = len(MARKER) + (LAST_ART - FIRST_ART + 1) * ART_SIZE
 
 PALETTE_BASE = 0x4BB0EC
@@ -123,6 +123,7 @@ def build_collectible_art_table(rom: bytes | bytearray, extension: bytes) -> byt
             or any(extension[start:start + TABLE_SIZE])):
         raise ValueError("Missing empty collectible reward-art reserved extension slot")
     _validate_sources(rom)
+    _validate_access_art_sources(rom)
     table = bytearray(TABLE_SIZE)
     table[:len(MARKER)] = MARKER
 
@@ -141,6 +142,8 @@ def build_collectible_art_table(rom: bytes | bytearray, extension: bytes) -> byt
             colors = _remap(_palette(rom, palette))
             put(first + i, bytes(colors[n & 15] | colors[n >> 4] << 4 for n in src))
     put(44, _shard_icon(rom))
+    for art, tiles in zip(range(45, 48), _access_art(rom), strict=True):
+        put(art, tiles)
     return bytes(table)
 
 
@@ -280,3 +283,96 @@ def build_shard_animation(rom: bytes | bytearray, extension: bytes) -> bytes:
             output.extend(_pack_32(grid))
             tick += 1
     return bytes(output)
+
+
+# The actual Pink Kirby HUD handset, raised Switch, and unpulled Lever.
+PHONE_TILES = 0x2ECD00  # gUnk_082EC7A0 + (0x1B0 - 0x185) * 32
+PHONE_PINK_PALETTE = 0x34BB20  # sHudPalettes[0], never the receiving player's palette
+SWITCH_TILES = 0x62CFAC
+SWITCH_PALETTE = PALETTE_BASE + 235 * 32
+LEVER_TILES = 0x6201EC
+LEVER_PALETTE = PALETTE_BASE + 159 * 32
+ACCESS_ART_HASHES = {
+    (PHONE_TILES, 64): "8c01f992e79d5187c2739de8f144bca02783f873573dd8eb9dfb1a2dbae61957",
+    (PHONE_PINK_PALETTE, 32): "788408cc93930da91747f3a08879a9203a864ee0d50dab5df3c6cb298c8dbbe0",
+    (SWITCH_TILES, 768): "c742776a996cc3000aa6c87d8ecd28ccd9e722087a7ac6cdd1c793316c154323",
+    (SWITCH_PALETTE, 32): "ebe01e8ad3bd345ad6df704ce4052135a80118b9edbeb8109e148647960e7a47",
+    (LEVER_TILES, 512): "df700d9cc5942911f0be01034a024a94d193b7d97ca6447c0c767a83dd4d9b95",
+    (LEVER_PALETTE, 32): "bd84dbaddcea92197b3164da1d4d9bf7a54c172951314717be5171fa1ae12247",
+}
+ACCESS_ART_METADATA = {
+    0x423934: struct.pack("<9i", -2, 235, 16, -1, 46867, 24, 1, 0, -4),
+    0x46DCD8: struct.pack("<4H2h", 0, 2, 48, 32, 24, 30),
+    0x4A8898: struct.pack("<6H", 0, 0x8000, 0, 0x8000, 0x8020, 16),
+    0x422128: struct.pack("<9i", -2, 159, 16, -1, 45221, 16, 1, 7, -4),
+    0x46D57C: struct.pack("<4H2h", 7, 1, 32, 32, 8, 15),
+    0x4A8010: struct.pack("<3H", 0, 0x8000, 0),
+}
+
+
+def synthetic_access_assets() -> dict[int, bytes]:
+    scratch = {
+        offset: hashlib.shake_256(f"KirbyAM synthetic access sprite {offset:x}".encode()).digest(size)
+        for offset, size in ACCESS_ART_HASHES
+    }
+    scratch[LEVER_PALETTE] = struct.pack("<16H", *BANK_F)
+    return {**scratch, **ACCESS_ART_METADATA}
+
+
+def _validate_access_art_sources(rom: bytes | bytearray) -> None:
+    for offset, expected in ACCESS_ART_METADATA.items():
+        if rom[offset:offset + len(expected)] != expected:
+            raise ValueError(f"Unexpected native Phone/Switch/Lever animation/OAM at {offset:#x}")
+    if not all(rom[offset:offset + len(expected)] == expected
+               for offset, expected in synthetic_access_assets().items()):
+        for (offset, size), expected_hash in ACCESS_ART_HASHES.items():
+            if hashlib.sha256(rom[offset:offset + size]).hexdigest() != expected_hash:
+                raise ValueError(f"Unexpected native Phone/Switch/Lever tiles or palette at {offset:#x}")
+    if struct.unpack_from("<16H", rom, LEVER_PALETTE)[1:] != BANK_F[1:]:
+        raise ValueError("Unexpected native Lever palette")
+
+
+def _piece(rom: bytes | bytearray, offset: int, width: int, height: int) -> list[list[int]]:
+    return [
+        [rom[offset + 32 * (y // 8 * (width // 8) + x // 8) + 4 * (y % 8) + x % 8 // 2]
+         >> (4 * (x & 1)) & 15 for x in range(width)]
+        for y in range(height)
+    ]
+
+
+def _fit_access_art(image: list[list[int]], colors: tuple[int, ...],
+                    *, preserve_native_box: bool = False) -> bytes:
+    dest = [0] * 256
+    if preserve_native_box:
+        left, top, right, bottom = 0, 0, len(image[0]), len(image)
+    else:
+        opaque = [(x, y) for y, row in enumerate(image) for x, value in enumerate(row) if value]
+        if not opaque:
+            raise ValueError("Native access sprite is blank")
+        left = min(x for x, _ in opaque)
+        top = min(y for _, y in opaque)
+        right = 1 + max(x for x, _ in opaque)
+        bottom = 1 + max(y for _, y in opaque)
+    src_w, src_h = right - left, bottom - top
+    scale_denominator = max(src_w, src_h, 16)
+    width = max(1, (src_w * 16 + scale_denominator // 2) // scale_denominator)
+    height = max(1, (src_h * 16 + scale_denominator // 2) // scale_denominator)
+    for dy in range(height):
+        sy = top + (2 * dy + 1) * src_h // (2 * height)
+        for dx in range(width):
+            sx = left + (2 * dx + 1) * src_w // (2 * width)
+            dest[((16 - height) // 2 + dy) * 16 + (16 - width) // 2 + dx] = colors[image[sy][sx]]
+    return _to_tiles(dest)
+
+
+def _access_art(rom: bytes | bytearray) -> tuple[bytes, ...]:
+    phone = _piece(rom, PHONE_TILES, 8, 16)
+    first, last = (_piece(rom, SWITCH_TILES, 32, 32), _piece(rom, SWITCH_TILES + 512, 16, 32))
+    switch = [a + b for a, b in zip(first, last, strict=True)]
+    lever = _piece(rom, LEVER_TILES, 32, 32)
+    return (
+        _fit_access_art(phone, _remap(struct.unpack_from("<16H", rom, PHONE_PINK_PALETTE)),
+                        preserve_native_box=True),
+        _fit_access_art(switch, _remap(struct.unpack_from("<16H", rom, SWITCH_PALETTE))),
+        _fit_access_art(lever, tuple(range(16))),
+    )

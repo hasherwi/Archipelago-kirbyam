@@ -279,3 +279,15 @@ slot and only enqueues changed frames. Without a safe 32×32 slot, small
 popups can use the static shard, or omit the cosmetic art under pressure.
 For a chest, the original native timer still controls the reward. On scene
 exit the visual abandons only its own pending graphics transfers.
+
+### Phone and access item awards
+
+A local Phone-a-Friend, Hub Connection, or Lever Wall check reward, and
+a first confirmed live remote receipt of one of these items, also use
+their own art. The handset uses Pink Kirby's stock HUD tiles and palette
+as a fixed source even when the player chose another color. Hub Connection
+uses the raised red Big Switch; Lever Wall uses the upright gold-and-red
+native lever. The two larger objects are scaled to the existing 16×16
+popup and all three use existing bank F. A reward visual never operates
+the phone, a switch, or a lever; those mechanics are unchanged. Outgoing
+non-trap items still use the generic gem.

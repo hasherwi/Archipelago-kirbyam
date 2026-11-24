@@ -82,6 +82,19 @@ def test_known_kirby_item_uses_its_distinct_code_on_live_remote_receipt(code, ar
     assert visual_for_remote_receipt(NetworkItem(code, 7, 1, 0), 1) == 0
 
 
+def test_access_receipt_art_codes_keep_preexisting_shard_and_wire_reserved():
+    assert VISUAL_ROM_MARKER == b"APVIS04\0"
+    assert RewardArt.SHARD + 1 == 45
+    assert RewardArt.PHONE + 1 == 46
+    assert RewardArt.HUB_SWITCH + 1 == 47
+    assert RewardArt.LEVER_WALL + 1 == 48
+    assert visual_for_remote_receipt(NetworkItem(3860501, 7, 2, 1), 1) == 46
+    for code in range(3860401, 3860416):
+        assert visual_for_remote_receipt(NetworkItem(code, 7, 2, 1), 1) == 47
+    for code in range(3860037, 3860041):
+        assert visual_for_remote_receipt(NetworkItem(code, 7, 2, 1), 1) == 48
+
+
 @pytest.mark.asyncio
 async def test_native_mailbox_accept_reject_ambiguous_reset_busy_and_distinct_art():
     q = ReceiptVisuals()
@@ -124,7 +137,7 @@ async def test_native_mailbox_accept_reject_ambiguous_reset_busy_and_distinct_ar
 async def test_high_collectible_opcode_and_frame_wrap_keep_the_reject_bit_free():
     q = ReceiptVisuals()
     opcode = max(RewardArt) + 1
-    assert opcode == VISUAL_MAX_OPCODE == 45
+    assert opcode == VISUAL_MAX_OPCODE == 48
     q.pending.append(opcode)
     q.supported = True
     read = AsyncMock(return_value=[pack("<IIII", 0, 0, 1, 0),
@@ -139,7 +152,7 @@ async def test_high_collectible_opcode_and_frame_wrap_keep_the_reject_bit_free()
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize("marker", [bytes(8), b"APVIS01\0", b"APVIS02\0"])
+@pytest.mark.parametrize("marker", [bytes(8), b"APVIS01\0", b"APVIS02\0", b"APVIS03\0"])
 async def test_marker_is_optional_and_same_socket_history_replacement_fences_async_pump(marker):
     q = ReceiptVisuals()
     q.pending.append(VISUAL_GEM)

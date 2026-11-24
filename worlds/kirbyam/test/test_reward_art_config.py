@@ -145,6 +145,13 @@ def test_python_tokens_match_native_lookup_abi(tmp_path: Path) -> None:
         _location("LEVER_MOONLIGHT_MANSION_2_11", KirbyAmItem("Max Tomato", ItemClassification.filler, 3860028, 1)),
         _location("GOAL_GAME_1_GOAL_2", KirbyAmItem("1 Up", ItemClassification.filler, 3860001, 1)),
         _location("BOSS_DEFEAT_1", KirbyAmItem("Music Sheet #10", ItemClassification.useful, 3860223, 1)),
+        _location("BOSS_DEFEAT_2", KirbyAmItem("Phone a Friend", ItemClassification.progression, 3860501, 1)),
+        _location("BOSS_DEFEAT_3", KirbyAmItem(
+            "Moonlight Mansion - Hub Connection", ItemClassification.progression, 3860402, 1,
+        )),
+        _location("BOSS_DEFEAT_4", KirbyAmItem(
+            "Moonlight Mansion 2-11 - Lever Wall", ItemClassification.progression, 3860037, 1,
+        )),
     ))
     (tmp_path / "abi.bin").write_bytes(token)
     source = tmp_path / "native.c"
@@ -158,21 +165,24 @@ int main(void) {
     FILE *f = fopen("abi.bin", "rb");
     assert(f && fread(&config, 1, sizeof(config), f) == sizeof(config));
     fclose(f);
-    assert(config.marker == AP_REWARD_ART_MAGIC && config.count == 5u);
+    assert(config.marker == AP_REWARD_ART_MAGIC && config.count == 8u);
     assert(ap_reward_art_from_config(&config, AP_REWARD_KEY(AP_REWARD_MAP_CHEST, 0)) == AP_REWARD_TRAP);
     assert(ap_reward_art_from_config(&config, AP_REWARD_KEY(AP_REWARD_SWITCH, 1)) == AP_REWARD_TRAP);
     assert(ap_reward_art_from_config(&config, AP_REWARD_KEY(AP_REWARD_MAP_CHEST, 1)) == AP_REWARD_GEM);
     assert(ap_reward_art_from_config(&config, AP_REWARD_KEY(AP_REWARD_GOAL, 1)) == 2u);
     assert(ap_reward_art_from_config(&config, AP_REWARD_KEY(AP_REWARD_LEVER, 0)) == 6u);
     assert(ap_reward_art_from_config(&config, AP_REWARD_KEY(AP_REWARD_BOSS, 0)) == 43u);
+    assert(ap_reward_art_from_config(&config, AP_REWARD_KEY(AP_REWARD_BOSS, 1)) == 45u);
+    assert(ap_reward_art_from_config(&config, AP_REWARD_KEY(AP_REWARD_BOSS, 2)) == 46u);
+    assert(ap_reward_art_from_config(&config, AP_REWARD_KEY(AP_REWARD_BOSS, 3)) == 47u);
     assert(ap_reward_art_from_config(&config, 0u) == AP_REWARD_GEM);
     config.count = AP_REWARD_ART_CAPACITY + 1u;
     assert(ap_reward_art_from_config(&config, AP_REWARD_KEY(AP_REWARD_MAP_CHEST, 0)) == AP_REWARD_GEM);
-    config.count = 5u;
+    config.count = 8u;
     config.marker = 0x32565241u; /* Older packed ARV2 data is not interpreted as ARV3. */
     assert(ap_reward_art_from_config(&config, AP_REWARD_KEY(AP_REWARD_MAP_CHEST, 0)) == AP_REWARD_GEM);
     config.marker = AP_REWARD_ART_MAGIC;
-    config.variants[3] = 0xFFu;
+    config.variants[6] = 0xFFu;
     assert(ap_reward_art_from_config(&config, AP_REWARD_KEY(AP_REWARD_MAP_CHEST, 0)) == AP_REWARD_GEM);
     return 0;
 }
@@ -287,7 +297,11 @@ def test_unknown_local_kirby_item_and_unsupported_item_keep_generic() -> None:
     area_key = _location("BOSS_DEFEAT_2", KirbyAmItem(
         "Moonlight Mansion - Area Key", ItemClassification.progression, 3860041, 1,
     ))
-    assert not _variants(build_reward_art_config((unknown, area_key)))
+    ability = _location("BOSS_DEFEAT_3", KirbyAmItem("Fire Ability", ItemClassification.progression, 3860101, 1))
+    copy_room = _location("BOSS_DEFEAT_4", KirbyAmItem(
+        "Copy Ability Room Access", ItemClassification.progression, 3860500, 1,
+    ))
+    assert not _variants(build_reward_art_config((unknown, area_key, ability, copy_room)))
 
 
 def test_consumable_art_registry_matches_the_seven_native_items() -> None:
@@ -306,7 +320,7 @@ def test_native_art_registry_matches_the_curated_areas_and_complete_item_familie
     native = KIRBY_NATIVE_ART_BY_ITEM_CODE
     areas = ("Rainbow Route", "Moonlight Mansion", "Cabbage Cavern", "Mustard Mountain",
              "Carrot Castle", "Olive Ocean", "Peppermint Palace", "Radish Ruins", "Candy Constellation")
-    assert len(native) == 58
+    assert len(native) == 78
     for area_index, label in enumerate(areas, 9):
         (code,) = (code for code, art in native.items() if art == area_index)
         assert data.items[code].label == f"{label} - Map"
@@ -321,9 +335,12 @@ def test_native_art_registry_matches_the_curated_areas_and_complete_item_familie
     }
     assert {code for code, art in native.items() if art == RewardArt.SHARD} == set(range(3860002, 3860010))
     assert native[3860025] == RewardArt.SOUND_PLAYER
+    assert {code for code, art in native.items() if art == RewardArt.PHONE} == {3860501}
+    assert {code for code, art in native.items() if art == RewardArt.HUB_SWITCH} == set(range(3860401, 3860416))
+    assert {code for code, art in native.items() if art == RewardArt.LEVER_WALL} == set(range(3860037, 3860041))
 
 
-def test_generated_seed_preserves_variant_identity_across_treasure_families(tmp_path: Path) -> None:
+def test_generated_seed_preserves_variant_identity_across_treasure_and_access_families(tmp_path: Path) -> None:
     from io import BytesIO
     from zipfile import ZipFile
 
@@ -338,6 +355,9 @@ def test_generated_seed_preserves_variant_identity_across_treasure_families(tmp_
         ("ROOM_SANITY_1_CENTRAL_CIRCLE", 3860213, RewardArt.PAINT_14),
         ("BOSS_DEFEAT_1", 3860223, RewardArt.SHEET_10),
         ("AREA_VISIT_1_RAINBOW_ROUTE", 3860002, RewardArt.SHARD),
+        ("ROOM_SANITY_1_01", 3860037, RewardArt.LEVER_WALL),
+        ("ROOM_SANITY_1_02", 3860415, RewardArt.HUB_SWITCH),
+        ("ROOM_SANITY_1_04", 3860501, RewardArt.PHONE),
     )
     players = tmp_path / "players"
     players.mkdir()
