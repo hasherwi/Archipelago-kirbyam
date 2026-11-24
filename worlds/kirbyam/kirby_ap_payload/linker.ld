@@ -39,9 +39,11 @@ SECTIONS
   /* Append beyond the clean 16 MiB ROM; never allocate presumed internal padding. */
   .apcolors 0x09000000 : { KEEP(*(.apcolorinfo)) KEEP(*(.aphubinfo)) KEEP(*(.apgoalinfo)) KEEP(*(.apfullinfo)) KEEP(*(.apcueinfo)) color_payload.o(.text* .rodata*) *(.aphub)
     KEEP(*(.aphubboards))
+    KEEP(*(.aphubteleportdata))
     ap_extension_code_end = .;
     . = 0xFFC0;
     KEEP(*(.apnarcolepsyinfo))
+    KEEP(*(.aprandomteleportinfo))
     . = 0xFFC8;
     KEEP(*(.apphoneinfo))
     . = 0xFFD4;
@@ -60,6 +62,7 @@ ASSERT(SIZEOF(.data) == 0 && SIZEOF(.bss) == 0, "KirbyAM ROM payload must not co
 
 ASSERT(ap_extension_code_end <= 0x0900FFC0, "Fixed AP markers overlap extension code")
 ASSERT(gApNarcolepsyInfo == 0x0900FFC0, "Narcolepsy marker address changed")
+ASSERT(gApRandomTeleportInfo == 0x0900FFC4, "Random Teleport marker address changed")
 ASSERT(gApEnemySourceConfig == 0x0900FFDC, "Enemy source config address changed")
 
 ASSERT(ap_full_completion_marker == 0x09000018, "Full completion marker address changed")

@@ -11,7 +11,8 @@ from test.general import setup_multiworld
 from .. import KirbyAmWorld
 from ..data import data
 from ..options import ExcludeTrapTypes, RandomizeShards
-from ..narcolepsy import NARCOLEPSY_ITEM_NAME, TRAP_CATALOG_VERSION
+from ..narcolepsy import NARCOLEPSY_ITEM_NAME, NARCOLEPSY_TRAP_CATALOG_VERSION
+from ..random_teleport import RANDOM_TELEPORT_ITEM_NAME, TRAP_CATALOG_VERSION
 from ..tracker import validate_tracker_data
 from .test_item_pool import _build_world_for_create_items
 from .test_universal_tracker import reconstruct
@@ -61,7 +62,7 @@ def test_empty_eligible_pool_falls_back_to_identical_ordinary_filler(automatic):
 
 def test_automatic_exclusions_combine_with_user_and_overall_options():
     assert generated(exclusions=["Bomb Trap"], automatic=True)[1].keys() == {
-        "Battery Drain Trap", "Hub Teleport Trap", "Narcolepsy",
+        "Battery Drain Trap", "Hub Teleport Trap", "Narcolepsy", "Random Teleport Trap",
     }
     assert not generated(enabled=0, exclusions=["Bomb Trap"])[1]
     assert not generated(percentage=0, exclusions=["Bomb Trap"])[1]
@@ -126,11 +127,23 @@ def test_earlier_tracker_slot_replays_old_catalog_and_rejects_unknown_version():
     del slot["tracker"]["trap_catalog_version"]
     legacy = reconstruct(slot)
     assert "trap_catalog_version" not in legacy.worlds[1].fill_slot_data()["tracker"]
-    assert {item.name for item in legacy.itempool if item.trap} == TRAPS - {NARCOLEPSY_ITEM_NAME, "Bomb Trap"}
+    assert {item.name for item in legacy.itempool if item.trap} == TRAPS - {NARCOLEPSY_ITEM_NAME, RANDOM_TELEPORT_ITEM_NAME, "Bomb Trap"}
     slot["tracker"]["options"]["exclude_trap_types"] = [NARCOLEPSY_ITEM_NAME]
     with pytest.raises(ValueError, match="without its trap catalog version"):
         validate_tracker_data(slot)
-    for invalid in (False, True, 0, 2, "1", None):
+    for invalid in (False, True, 0, 3, "1", None):
         slot["tracker"]["trap_catalog_version"] = invalid
         with pytest.raises(ValueError, match="Unsupported Kirby tracker trap catalog"):
             validate_tracker_data(slot)
+
+
+def test_random_teleport_is_excludable_and_prior_catalog_stays_versioned():
+    options = {"enable_traps": 1, "trap_fill_percentage": 100,
+               "exclude_trap_types": sorted(TRAPS - {RANDOM_TELEPORT_ITEM_NAME})}
+    assert generated(exclusions=options["exclude_trap_types"])[1].keys() == {RANDOM_TELEPORT_ITEM_NAME}
+    assert not generated(enabled=0, exclusions=options["exclude_trap_types"])[1]
+    assert RANDOM_TELEPORT_ITEM_NAME not in generated(exclusions=[RANDOM_TELEPORT_ITEM_NAME])[1]
+    slot = setup_multiworld(KirbyAmWorld, seed=696, options=options).worlds[1].fill_slot_data()
+    assert {item.name for item in reconstruct(slot).itempool if item.trap} == {RANDOM_TELEPORT_ITEM_NAME}
+    slot["tracker"]["trap_catalog_version"] = NARCOLEPSY_TRAP_CATALOG_VERSION
+    assert not any(item.trap for item in reconstruct(slot).itempool)

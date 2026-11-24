@@ -5,7 +5,8 @@ from typing import TYPE_CHECKING, Any, Iterable
 
 from BaseClasses import Item
 from .options import ExcludeTrapTypes, KirbyAmOptions
-from .narcolepsy import NARCOLEPSY_ITEM_NAME, TRAP_CATALOG_VERSION
+from .narcolepsy import NARCOLEPSY_ITEM_NAME, NARCOLEPSY_TRAP_CATALOG_VERSION
+from .random_teleport import RANDOM_TELEPORT_ITEM_NAME, TRAP_CATALOG_VERSION
 
 TRACKER_OPTIONS = (*KirbyAmOptions.__annotations__, "accessibility", "exclude_locations")
 
@@ -26,9 +27,9 @@ def validate_tracker_data(slot_data: dict[str, Any]) -> dict[str, Any]:
     options = tracker.get("options")
     if not isinstance(options, dict) or not required.issubset(options):
         raise ValueError("Incomplete Kirby tracker options; refusing to reroll the seed.")
+    version = tracker.get("trap_catalog_version", 0)
     if "trap_catalog_version" in tracker:
-        version = tracker["trap_catalog_version"]
-        if type(version) is not int or version != TRAP_CATALOG_VERSION:
+        if type(version) is not int or version not in (NARCOLEPSY_TRAP_CATALOG_VERSION, TRAP_CATALOG_VERSION):
             raise ValueError("Unsupported Kirby tracker trap catalog; use the matching APWorld.")
         if "exclude_trap_types" not in options:
             raise ValueError("Missing Kirby tracker exclude_trap_types for this trap catalog.")
@@ -38,7 +39,9 @@ def validate_tracker_data(slot_data: dict[str, Any]) -> dict[str, Any]:
             not isinstance(name, str) or name not in ExcludeTrapTypes.valid_keys for name in exclusions
         ):
             raise ValueError("Invalid Kirby tracker exclude_trap_types; expected a list of known trap names.")
-        if "trap_catalog_version" not in tracker and NARCOLEPSY_ITEM_NAME in exclusions:
+        if version < TRAP_CATALOG_VERSION and RANDOM_TELEPORT_ITEM_NAME in exclusions:
+            raise ValueError("Kirby tracker lists Random Teleport Trap without its trap catalog version.")
+        if version < NARCOLEPSY_TRAP_CATALOG_VERSION and NARCOLEPSY_ITEM_NAME in exclusions:
             raise ValueError("Kirby tracker lists Narcolepsy without its trap catalog version.")
     for key in ("enemy_copy_ability_policy", "goal_configured_area_boss_key",
                 "starting_kirby_color", "starting_kirby_color_name"):
@@ -58,8 +61,8 @@ def export_tracker_data(world: "KirbyAmWorld", items: Iterable[Item]) -> dict[st
         options[name] = sorted(value) if isinstance(value, (set, frozenset)) else deepcopy(value)
     return {
         "version": 1,
-        **({} if getattr(world, "_tracker_legacy_trap_catalog", False)
-           else {"trap_catalog_version": TRAP_CATALOG_VERSION}),
+        **({"trap_catalog_version": version} if
+           (version := getattr(world, "_tracker_trap_catalog_version", TRAP_CATALOG_VERSION)) else {}),
         "options": options,
         "precollected_items": dict(Counter(item.name for item in items)),
     }
@@ -67,7 +70,7 @@ def export_tracker_data(world: "KirbyAmWorld", items: Iterable[Item]) -> dict[st
 
 def restore_tracker_data(world: "KirbyAmWorld", slot_data: dict[str, Any]) -> None:
     tracker = validate_tracker_data(slot_data)
-    world._tracker_legacy_trap_catalog = "trap_catalog_version" not in tracker
+    world._tracker_trap_catalog_version = tracker.get("trap_catalog_version", 0)
     for name, option_type in KirbyAmOptions.type_hints.items():
         if name in TRACKER_OPTIONS:
             # Values were already rolled by generation. Do not call from_any,

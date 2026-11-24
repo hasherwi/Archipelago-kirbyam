@@ -6,6 +6,7 @@ import pytest
 
 from ..data import data, load_json_data
 from ..narcolepsy import NARCOLEPSY_ITEM_ID
+from ..random_teleport import RANDOM_TELEPORT_ITEM_ID
 from ..tools.check_item_ids import resolve_catalog, validate_catalogs
 
 INVENTORY = json.loads((Path(__file__).resolve().parents[1] / 'data/item_id_reservations.json').read_text())
@@ -19,13 +20,14 @@ def test_resolver_matches_runtime_and_preserves_baseline_ids() -> None:
     validate_catalogs({'main': INVENTORY['baseline_catalog'], 'current': current}, INVENTORY['reserved_items'])
     assert current['TRAP_HUB_TELEPORT'] == 3860300
     assert current['TRAP_NARCOLEPSY'] == NARCOLEPSY_ITEM_ID
+    assert current['TRAP_RANDOM_TELEPORT'] == RANDOM_TELEPORT_ITEM_ID
 
 
 def test_new_reservation_is_unused_in_every_inventoried_open_pr() -> None:
     assert len(INVENTORY['open_pr_snapshots']) == 16
     for snapshot in INVENTORY['open_pr_snapshots']:
         historical = INVENTORY['baseline_catalog'] | snapshot['changes']
-        assert {3860300, NARCOLEPSY_ITEM_ID}.isdisjoint(historical.values())
+        assert {3860300, NARCOLEPSY_ITEM_ID, RANDOM_TELEPORT_ITEM_ID}.isdisjoint(historical.values())
         assert len(snapshot['head']) == 40 and len(snapshot['items_blob']) == 40
 
 

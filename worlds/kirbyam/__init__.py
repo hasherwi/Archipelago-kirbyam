@@ -415,8 +415,14 @@ class KirbyAmWorld(World):
 
         option = getattr(getattr(self, "options", None), "exclude_trap_types", None)
         excluded_traps: set[str] = set(getattr(option, "value", ()))
-        if getattr(self, "_tracker_legacy_trap_catalog", False):
+        from .narcolepsy import NARCOLEPSY_TRAP_CATALOG_VERSION
+        from .random_teleport import TRAP_CATALOG_VERSION
+
+        catalog_version = getattr(self, "_tracker_trap_catalog_version", TRAP_CATALOG_VERSION)
+        if catalog_version < NARCOLEPSY_TRAP_CATALOG_VERSION:
             excluded_traps.add(_label_for_item_key("TRAP_NARCOLEPSY"))
+        if catalog_version < TRAP_CATALOG_VERSION:
+            excluded_traps.add(_label_for_item_key("TRAP_RANDOM_TELEPORT"))
         if self._no_extra_lives_enabled():
             excluded_traps.update(
                 {

@@ -2078,6 +2078,72 @@ static HUB_EXT uint8_t ap_trap_narcolepsy(void) {
     return 1u;
 }
 
+__attribute__((used, section(".aprandomteleportinfo")))
+const uint8_t gApRandomTeleportInfo[4] = {'A', 'P', 'R', '1'};
+
+#define AP_RANDOM_TELEPORT_ITEM (KIRBY_ITEM_ID_BASE_OFFSET + 302u)
+#define AP_RANDOM_TELEPORT_NONCE (*(volatile uint32_t *)(AP_BASE + 0x1C0u))
+
+struct ApTeleportLanding {
+    uint16_t room;
+    uint8_t x, y, connection;
+};
+
+/* Exact reciprocal Rainbow Route native mirrors. Each remote route is a
+ * Central Circle edge and has a return under the same owned connection.
+ * Never use physical visit bits, ability reachability guesses or all-items logic. */
+__attribute__((section(".aphubteleportdata")))
+static const struct ApTeleportLanding AP_TELEPORT_LANDINGS[] = {
+    {190u, 9u, 3u, 1u},  /* East */
+    {194u, 9u, 3u, 3u},  /* South */
+    {192u, 13u, 3u, 5u}, /* West */
+    {801u, 24u, 12u, 0u}, /* Central Circle, stock return from East */
+};
+
+static HUB_EXT uint8_t ap_trap_random_teleport(void) {
+    uint32_t kirby = KIRBY_STRUCTS_ADDR, owned = AP_HUB_CONNECTION_ITEM_MASK;
+    uint32_t request = AP_RANDOM_TELEPORT_NONCE;
+    uint32_t nonce = request & 0x1FFFFFFFu;
+    uint16_t source;
+    uint8_t ability, count = 0u, eligible[3];
+    const struct ApTeleportLanding *target;
+    if (owned == AP_HUB_CONNECTION_ITEM_MASK_UNINITIALIZED || !nonce
+            || !ap_receipt_cue_gameplay_ready()) return 0u;
+    source = KIRBY_CURRENT_ROOM;
+    ability = *(volatile uint8_t *)(kirby + KIRBY_STRUCT_ABILITY_OFFSET);
+    /* The stock L retreat availability flag rules out special/boss rooms.
+     * Do not interrupt ability-specific bodies/scripts or strand their egress. */
+    if (ap_native_area_for_room(source) >= 9u
+            || !(*(volatile const uint16_t *)(0x089331ACu + 40u * source + 0x12u) & 0x40u)
+            || ability == KIRBY_ABILITY_SLEEP || ability == KIRBY_ABILITY_MINI
+            || ability == KIRBY_ABILITY_MASTER || ability == KIRBY_ABILITY_UFO) return 1u;
+    if (*(volatile uint32_t *)(kirby + 0x78u) != KIRBY_NATIVE_GROUNDED_IDLE
+            || !(*(volatile uint8_t *)(kirby + KIRBY_STRUCT_TRANSITION_KIND_OFFSET) & 4u)
+            || (*(volatile uint32_t *)(kirby + KIRBY_STRUCT_COLLISION_OFFSET) & 0x6402u)
+            || (*(volatile uint32_t *)(kirby + 8u) & 0x03800B80u)
+            || *(volatile uint8_t *)(kirby + KIRBY_TRANSITIONING_ABILITY_OFFSET)
+            || HUB_HELD_KEYS != 0u) return 0u;
+
+    /* Prefer destinations that differ from the ordinary Hub Teleport Trap. */
+    for (uint8_t i = 0u; i < 3u; ++i) {
+        const struct ApTeleportLanding *landing = &AP_TELEPORT_LANDINGS[i];
+        if (landing->room != source && (request & (1u << (29u + i)))
+                && (owned & (1u << landing->connection))
+                && ap_transition_allowed(source, landing->room)) {
+            const volatile uint32_t *native = ap_get_hub_unlock_entry(ap_hub_props[landing->connection]);
+            if (native != 0 && *native == 1u) eligible[count++] = i;
+        }
+    }
+    if (count) {
+        /* A stable per-receipt pseudorandom ordinal among eligible rooms. */
+        target = &AP_TELEPORT_LANDINGS[eligible[(nonce - 1u) % count]];
+    } else {
+        if (source == 801u) return 1u; /* No distinct logically safe destination. */
+        target = &AP_TELEPORT_LANDINGS[3];
+    }
+    return ap_on_explicit_room_transition((void *)kirby, target->room, target->x, target->y);
+}
+
 static HUB_EXT void ap_receipt_cue_poll(void) {
     uint32_t ready = 0u, request, active;
     if (AP_MAILBOX_INIT_COOKIE != AP_MAILBOX_INIT_COOKIE_VALUE) return;
@@ -2149,6 +2215,7 @@ static uint8_t ap_apply_item(uint32_t ap_item_id) {
     if (ap_item_id == AP_PHONE_ITEM) return (uint8_t)ap_phone_owned();
     if (ap_item_id == AP_COPY_ROOM_ITEM) return (uint8_t)ap_copy_room_owned();
     if (ap_item_id == AP_NARCOLEPSY_ITEM) return ap_trap_narcolepsy();
+    if (ap_item_id == AP_RANDOM_TELEPORT_ITEM) return ap_trap_random_teleport();
     // 1_UP = BASE+1
     if (ap_item_id == (KIRBY_ITEM_ID_BASE_OFFSET + 1u)) {
         ap_grant_lives(1u);
@@ -2345,6 +2412,7 @@ AP_COPY_EXT void ap_poll_mailbox_c(void) {
         AP_BOSS_DEFEAT_FLAGS = 0u;
         AP_BOSS_TEMP_SHARD_BITFIELD = 0u;
         AP_CUE_REQUEST = AP_CUE_RESULT = AP_CUE_READY = AP_CUE_ACTIVE = 0u;
+        AP_RANDOM_TELEPORT_NONCE = 0u;
         AP_DELIVERED_VITALITY_ITEM_BITS = 0u;
         AP_HUB_CONNECTION_ITEM_MASK = AP_HUB_CONNECTION_ITEM_MASK_UNINITIALIZED;
         AP_HUB_SWITCH_INIT_STATE = 0u;
@@ -2455,6 +2523,7 @@ AP_COPY_EXT void ap_poll_mailbox_c(void) {
     // If the item was unrecognized (item_was_processed==0), the flag is NOT cleared,
     // allowing the client to detect a protocol mismatch and retry/stall appropriately.
     if (item_was_processed) {
+        if (item == AP_RANDOM_TELEPORT_ITEM) AP_RANDOM_TELEPORT_NONCE = 0u;
         AP_ITEM_RCVD_COUNTER++;
         AP_IN_FLAG = 0u;
     }

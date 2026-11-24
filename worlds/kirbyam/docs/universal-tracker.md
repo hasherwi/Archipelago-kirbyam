@@ -44,9 +44,9 @@ room telemetry, to calculate reachability.
 
 ## Older slots
 
-Within schema 1, `trap_catalog_version: 1` includes Narcolepsy. If the seed
-predates this field, reconstruction keeps the original trap pool. Unknown
-trap catalog versions are rejected rather than rerolled.
+Within schema 1, `trap_catalog_version: 1` adds Narcolepsy, and version 2
+also adds Random Teleport Trap. Seeds without this field keep the original
+trap pool. Unknown trap catalog versions are rejected rather than rerolled.
 
 Older slots lack the complete effective starting inventory and unambiguous
 original option payload. This implementation rejects them with an actionable

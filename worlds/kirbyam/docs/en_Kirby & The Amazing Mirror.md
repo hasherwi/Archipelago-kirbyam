@@ -93,7 +93,7 @@ exclude_trap_types:
 ```
 
 Valid names are Health Down Trap, Life Down Trap, Bomb Trap, Battery Drain Trap,
-Life Wipeout Trap, Hub Teleport Trap, and Narcolepsy. Omit the list or set it to `[]` to keep
+Life Wipeout Trap, Hub Teleport Trap, Narcolepsy, and Random Teleport Trap. Omit the list or set it to `[]` to keep
 all otherwise eligible types. No Extra Lives still excludes Life Down and Life
 Wipeout, and minimum health of 1 still excludes Health Down. If nothing remains,
 the generator uses ordinary filler without re-enabling any excluded type.
@@ -104,6 +104,12 @@ Narcolepsy replaces Kirby's equipped ability with Sleep even if Sleep is locked.
 The previous ability is lost without dropping a star, and the trap never unlocks
 Sleep. It waits for a safe moment to act; another Narcolepsy received while
 Kirby is asleep does not restart the nap.
+
+Random Teleport uses reviewed Rainbow Route hub rooms for connections you
+currently own. If no different connected hub is available, it can return you
+to Central Circle; if you are already there, it does nothing. It waits for safe
+grounded gameplay and does not send Kirby into locked areas or boss rooms.
+In a restricted room or ability state, it can be consumed without moving Kirby.
 
 ### Using Archipelago's built-in `random` choice
 

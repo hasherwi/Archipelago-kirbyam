@@ -13,8 +13,10 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ### New Features
 - Add 38 Kirby starting color palettes and a [visual gallery of all 65 colors](docs/color-palettes.md) (PR #1135).
 - Play distinct in-game cues when new Archipelago items are received (PR #1136).
-- Choose which trap types to exclude from randomized item pools (Issue #1040).
-- Add Narcolepsy, a trap that temporarily puts Kirby to Sleep and replaces their held copy ability (Issue #1113).
+- Traps:
+  - Choose which trap types to exclude from randomized item pools (Issue #1040).
+  - Narcolepsy replaces Kirby's held copy ability with Sleep (Issue #1113).
+  - Random Teleport moves Kirby to a safe room already in logic (Issue #696).
 
 ### Improvements
 - Show boss defeat progress in `/goal` when using the boss-count goal (PR #1133).

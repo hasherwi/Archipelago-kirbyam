@@ -25,6 +25,8 @@ def make_client(ctx, auth=b'1234567890abcdef'):
     client.initialize_client()
     client._health_rom_auth = auth
     client._vitality_history_session = client._authenticated_session_key(ctx)
+    client._hub_connection_received_items_ready = True
+    client._hub_connection_received_items_socket = ctx.server.socket
     ctx.client_handler = client
     return client
 
@@ -32,6 +34,7 @@ def make_client(ctx, auth=b'1234567890abcdef'):
 async def tick(client, ctx, box, display, *, allow_new_writes=True):
     with patch('worlds.kirbyam.client.bizhawk.read', side_effect=box.read), \
          patch('worlds.kirbyam.client.bizhawk.write', side_effect=box.write), \
+         patch('worlds.kirbyam.client.bizhawk.guarded_write', side_effect=box.guarded_write), \
          patch('worlds.kirbyam.client.bizhawk.display_message', display):
         await client._deliver_items(ctx, allow_new_writes=allow_new_writes)
 

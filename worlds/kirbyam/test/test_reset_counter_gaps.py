@@ -4,7 +4,9 @@ from unittest.mock import AsyncMock, patch
 import pytest
 from NetUtils import NetworkItem
 
-from ..client import KirbyAmClient
+from ..client import KirbyAmClient, _normalize_gba_rom_address
+from ..data import data
+from ..random_teleport import RANDOM_TELEPORT_ROM_MARKER, RANDOM_TELEPORT_ROM_MARKER_OFFSET
 from ..narcolepsy import NARCOLEPSY_ROM_MARKER, NARCOLEPSY_ROM_MARKER_OFFSET
 
 
@@ -26,6 +28,8 @@ class Mailbox:
             kirby + 0x0C: bytes(4), hp: bytes([10]),
         })
         self.memory[NARCOLEPSY_ROM_MARKER_OFFSET] = NARCOLEPSY_ROM_MARKER
+        self.memory[RANDOM_TELEPORT_ROM_MARKER_OFFSET] = RANDOM_TELEPORT_ROM_MARKER
+        self.memory[_normalize_gba_rom_address(data.rom_addresses['gArchipelagoInfo'])] = client._health_rom_auth
         self.offers = []
         self.applied = []
 
@@ -37,6 +41,12 @@ class Mailbox:
             self.memory[address] = value
             if address == self.client._transport_addr('incoming_item_id'):
                 self.offers.append(int.from_bytes(value, 'little'))
+
+    async def guarded_write(self, ctx, requests, guards):
+        if any(self.memory.get(address, bytes(len(expected))) != expected for address, expected, _ in guards):
+            return False
+        await self.write(ctx, requests)
+        return True
 
     def consume(self):
         c = self.client
