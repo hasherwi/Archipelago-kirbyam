@@ -6,8 +6,8 @@ check IDs are unchanged. A physical lever pull shows the same art because it
 uses the same native popup path. Receiving Lever Wall, restoring a lever, or
 re-entering its room does not show the art. The same gem also appears on the
 first physical press of an Archipelago Big Switch and the first completion
-of each Goal Game check, even with no native prize, and on first area visits.
-Other reward surfaces are unchanged.
+of each Goal Game check (even with no native prize), on first area visits,
+and on the first defeat of each area boss. Other reward surfaces are unchanged.
 
 | Original | Same frame with this patch |
 | --- | --- |
@@ -78,6 +78,22 @@ Both runs match the native visit events and progress to Room 1-01; entering
 that second room does not display another first-area gem. Transient VBlank
 phase differences during the scripted transition settle before the gem draws.
 
+## Area boss replay
+
+| King Golem reward branch | Control | Same frame with boss art |
+| --- | --- | --- |
+| Shard not owned | ![Unowned-shard branch without the gem](area_boss_reward_art_unowned_before.png) | ![Gem above the boss, native shard effect intact](area_boss_reward_art_unowned_in_game.png) |
+| Shard already owned | ![Owned-shard branch without the gem](area_boss_reward_art_owned_before.png) | ![Gem above the boss, native tomato intact](area_boss_reward_art_owned_in_game.png) |
+
+Both mGBA replays use the native pre-boss fixture and controller inputs for
+the actual King Golem fight (room 710). The owned-shard variant receives its
+shard through the normal isolated AP inbox before the fight. Each candidate
+queues one gem on the physical defeat. The control comparisons matched all
+3,596 owned-branch and 4,996 unowned-branch sampled gameplay states. The
+unowned replay continues through the native shard pickup and returns to
+Central Circle without a second gem. The 26-frame image pair changes pixels
+only inside the 16×16 gem rectangle at (196, 19), not the native reward.
+
 ## ROM contract
 
 The sole call from the chest-open handler to ChestItemPopup at ROM offset
@@ -117,3 +133,12 @@ only a transient visual tied to the active native save and destination. The
 effect waits until the local room, native player state, and native palette
 state allow it to draw. File changes, room changes, and timeouts clear pending
 visuals. Areas already established by any mapped room do not replay.
+
+The eight area-boss finish callsites share one hook immediately after the
+native reward branch. It forwards the native finish call and adds only a
+seed-authenticated cosmetic seen bit. It never writes boss transport, shard
+ownership, or other check state. Existing native saves carry the visual
+history; there is no forced save when showing the gem. A power loss or
+reset before any native save can replay the visual. Older Hub/lever records
+are read as before and have no historical boss-visual bits. Use the matching
+updated client and do not downgrade a save with these new visual bits.

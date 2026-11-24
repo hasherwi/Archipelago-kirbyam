@@ -539,6 +539,27 @@ static inline uint16_t ap_reward_local_room(void) {
         + (uint32_t)player * KIRBY_STRUCT_STRIDE + KIRBY_STRUCT_ROOM_OFFSET);
 }
 
+static const uint16_t ap_area_boss_rooms[8] __attribute__((section(".apvisitdata"))) = {
+    324u, 710u, 417u, 822u, 219u, 516u, 738u, 129u,
+};
+
+/* The original area-boss finish step is shared by both reward branches.
+ * Do not infer victory from owning the shard or change the later native/AP
+ * grant path. Store only visual history and let existing native saves flush it. */
+AP_REWARD_FX __attribute__((used)) void ap_area_boss_reward_art(void *boss, uint16_t identity) {
+    const uint8_t *object = boss;
+    uint16_t room = *(const volatile uint16_t*)(object + 0x60u);
+    ((void (*)(void*, uint16_t))0x08088701u)(boss, identity);
+    if (identity < 1u || identity > 8u || room != ap_reward_local_room()
+        || room != ap_area_boss_rooms[identity - 1u]
+        || (*(volatile uint32_t*)0x0203AD10u & 0x70u) != 0u
+        || *(volatile uint16_t*)0x0203AD48u > 2u) return;
+    if (ap_boss_art_record(AP_HUB_SAVED_CHECKS, AP_HUB_ROM_AUTH, identity - 1u)) {
+        ap_show_room_reward_gem(room, *(const volatile int32_t*)(object + 0x40u),
+            *(const volatile int32_t*)(object + 0x44u) - 28 * 256, 0u);
+    }
+}
+
 static __attribute__((noinline, section(".aprewardfx"))) void ap_reward_gem_frame(void) {
     void *task = *(void *volatile*)0x030035D0u;
     uint8_t *effect = ap_reward_task_data(task);

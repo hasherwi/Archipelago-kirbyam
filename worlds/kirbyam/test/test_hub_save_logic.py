@@ -59,6 +59,42 @@ int main(void) {
         CHECK(ap_lever_saved_checks(world+27,auth)==levers);
         for(unsigned i=0;i<27;i++) CHECK(world[i]==0xABC00000u+i);
     }
+    /* V3 sidecar migrates old records only on visual mutation. Others stay
+     * exactly the original bits; every native file is a separate buffer. */
+    memset(disk, 0, sizeof(disk));
+    for (unsigned slot=0; slot<3; ++slot) {
+        uint32_t *record=disk[slot]+27;
+        memcpy(record, auth, 16);
+        record[4] = slot==0 ? AP_HUB_SAVE_TAG | 0x1234u
+                          : AP_PHYSICAL_SAVE_TAG | 0x4265u | (1u << (15u+slot));
+        uint32_t before=ap_physical_saved_checks(record,auth);
+        CHECK(ap_boss_art_record(record,auth,slot));
+        CHECK(!ap_boss_art_record(record,auth,slot));
+        CHECK(ap_physical_saved_checks(record,auth)==before);
+        CHECK(ap_physical_saved_bits(record,auth) >> AP_BOSS_ART_SAVE_SHIFT == (1u<<slot));
+        CHECK(ap_hub_record_check(record,auth,14) == ((before & (1u<<14))==0));
+        CHECK(ap_lever_record_check(record,auth,0));
+        CHECK(ap_physical_saved_bits(record,auth) >> AP_BOSS_ART_SAVE_SHIFT == (1u<<slot));
+        CHECK(ap_physical_saved_checks(record,auth)==(before | (1u<<14) | (1u<<15)));
+    }
+    for (unsigned slot=0; slot<3; ++slot) {
+        uint32_t *record=disk[slot]+27;
+        CHECK(ap_physical_saved_bits(record,auth) >> AP_BOSS_ART_SAVE_SHIFT == (1u<<slot));
+        CHECK(!ap_boss_art_record(record,auth,8));
+        for (unsigned word=0; word<4; ++word) {
+            auth[word]^=0x200u;
+            CHECK(!ap_physical_saved_bits(record,auth));
+            CHECK(!ap_physical_saved_checks(record,auth));
+            auth[word]^=0x200u;
+        }
+    }
+    auth[0]^=1;
+    CHECK(ap_boss_art_record(disk[0]+27,auth,7));
+    CHECK(ap_physical_saved_bits(disk[0]+27,auth) == (1u<<26));
+    CHECK(ap_physical_saved_checks(disk[0]+27,auth)==0);
+    auth[0]^=1;
+    CHECK(ap_physical_saved_bits(disk[0]+27,auth)==0);
+    CHECK(ap_physical_saved_bits(disk[1]+27,auth) >> AP_BOSS_ART_SAVE_SHIFT == 2u);
     for(unsigned flags=0;flags<32;flags++) for(unsigned local=0;local<4;local++)
         for(unsigned owner=0;owner<4;owner++)
             CHECK(ap_hub_save_action(flags,local,owner)==

@@ -114,6 +114,20 @@ def test_saved_mask_and_legacy_migration_do_not_invent_physical_pulls() -> None:
     assert saved_physical_mask(merge_acknowledged_levers(record(), bytes(16), 1), bytes(16)) == 1 << 15
 
 
+def test_cosmetic_boss_bits_survive_ack_recovery_without_proving_checks() -> None:
+    v3_tag = 0x50000000
+    only_cosmetics = 0xA5 << 19
+    with_cosmetics = AUTH + (v3_tag | only_cosmetics).to_bytes(4, "little")
+    assert saved_physical_mask(with_cosmetics, AUTH) == 0
+    healed = merge_acknowledged_levers(with_cosmetics, AUTH, 0b1001)
+    assert healed == AUTH + (v3_tag | only_cosmetics | (0b1001 << 15)).to_bytes(4, "little")
+    assert saved_physical_mask(healed, AUTH) == 0b1001 << 15
+    assert merge_acknowledged_levers(healed, AUTH, 0b1000) == healed
+    assert saved_physical_mask(healed, bytes(16)) is None
+    fresh = merge_acknowledged_levers(healed, bytes(16), 2)
+    assert fresh == bytes(16) + (0x48400000 | (2 << 15)).to_bytes(4, "little")
+
+
 def setup_client(ctx: Any) -> Any:
     client: Any = KirbyAmClient()
     client.initialize_client()
