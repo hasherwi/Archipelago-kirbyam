@@ -187,3 +187,28 @@ Forcing zero sprite-heap capacity at the chest constructor previously queued
 the native no-art variant. This test does not imply ordinary gameplay exhausts
 either heap. With normal resources, the 712-frame Big Switch replay and
 screenshot were unchanged.
+
+## Trap placement art
+
+The seed writes a versioned sparse lookup of **this slot's physical check**
+identities for placed items with Archipelago's trap flag. A check which sends
+a trap to any other player shows the same red trap art as a check that finds
+one for yourself. Ordinary, unclassified and unsupported placements keep the
+six-gem sprite. No recipient, item name, or receipt data are embedded in the
+lookup. An empty or unrecognized table renders generic art.
+
+The sixteen-pixel source is preserved in `trap_reward_art.png`. The
+four-tile OBJ version in `trap_reward_art_gba.png` intentionally stretches
+the near-black red values onto the same stock palette used by the gem, so
+both may render together without changing any other sprite colors.
+
+A simultaneous first-area and RoomSanity or core-landmark check shares an
+effect only when the art matches. If the categories differ, the gem and trap
+appear side by side, with the trap given priority if graphics memory fits
+only one. A qualifying area-boss shard replaces the native shard's art.
+A repeat drop keeps the generic gem rather than presenting a second trap;
+the already-owned-shard Tomato has no shard art to replace and is unchanged.
+The cosmetic boss bit uses the seed-bound native save's existing reserved
+bits and never triggers a save or counts as a defeat. A reset to before the
+next normal save can replay an unsaved visual; the server's check and item
+deduplication is unmodified.

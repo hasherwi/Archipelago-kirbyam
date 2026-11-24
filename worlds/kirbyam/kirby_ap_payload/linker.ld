@@ -43,6 +43,8 @@ SECTIONS
     KEEP(*(.aprewardfx))
     KEEP(*(.apvisitdata))
     ap_extension_code_end = .;
+    . = 0xF000;
+    KEEP(*(.aprewardconfig))
     . = 0xFFC4;
     KEEP(*(.aproomvisitconfig))
     . = 0xFFC8;
@@ -61,7 +63,8 @@ ASSERT(SIZEOF(.apcolors) <= 0x10000, "Curated palette extension exceeds 64 KiB")
 ASSERT(ADDR(.text) + SIZEOF(.text) <= AP_CONFIG_ADDR, "KirbyAM payload overlaps fixed configuration ABI")
 ASSERT(SIZEOF(.data) == 0 && SIZEOF(.bss) == 0, "KirbyAM ROM payload must not contain writable static storage")
 
-ASSERT(ap_extension_code_end <= 0x0900FFC4, "Room visit config overlaps extension code")
+ASSERT(ap_extension_code_end <= 0x0900F000, "Reward art config overlaps extension code")
+ASSERT(gApRewardArtConfig == 0x0900F000, "Reward art config address changed")
 ASSERT(gApVisitRoomArtConfig == 0x0900FFC4, "Room visit config address changed")
 ASSERT(gApEnemySourceConfig == 0x0900FFDC, "Enemy source config address changed")
 

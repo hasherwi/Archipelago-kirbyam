@@ -1183,7 +1183,7 @@ class KirbyAmWorld(World):
             # Create procedure patch
             patch = KirbyAmProcedurePatch(player=self.player, player_name=self.player_name)
             patch.write_file("base_patch.bsdiff4", patch_data)
-            write_tokens(self, patch)
+            write_tokens(self, patch, filled_locations=self.multiworld.get_locations(self.player))
 
             # Write the patch file
             out_file_name = self.multiworld.get_out_file_name_base(self.player)

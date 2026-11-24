@@ -5,8 +5,8 @@
 /* USA world-state words 27..31 are inside the native checksummed, duplicated
  * save section, but have no native consumers. Words 27..30 bind physical checks
  * to the full ROM auth token. Keep legacy hub-only and V2 switch/lever records
- * readable. Preserve eight former draft boss-visual bits if present, but no
- * runtime path sets or uses them. They never stand for checks or ownership. */
+ * readable. Eight cosmetic boss trap-display bits never stand for checks or
+ * ownership. They ride existing native saves; they never request a write. */
 #define AP_HUB_SAVE_TAG 0x48530000u
 #define AP_HUB_SAVE_MASK 0x00007FFFu
 #define AP_PHYSICAL_SAVE_TAG 0x48400000u
@@ -65,6 +65,17 @@ static inline uint8_t ap_lever_record_check(
     volatile uint32_t saved[5], const volatile uint32_t auth[4], uint32_t bit
 ) {
     return bit < 4u ? ap_record_physical_check(saved, auth, bit + AP_LEVER_SAVE_SHIFT) : 0u;
+}
+static inline uint8_t ap_boss_trap_record_display(
+    volatile uint32_t saved[5], const volatile uint32_t auth[4], uint32_t boss
+) {
+    if (boss >= 8u) return 0u;
+    uint32_t flag = 1u << (AP_BOSS_ART_SAVE_SHIFT + boss);
+    uint32_t bits = ap_physical_saved_bits(saved, auth);
+    if (bits & flag) return 0u;
+    for (uint32_t i = 0u; i < 4u; ++i) saved[i] = auth[i];
+    saved[4] = AP_PHYSICAL_SAVE_V3_TAG | bits | flag;
+    return 1u;
 }
 /* Match WorldMapUnlockSave's native save-disable, link-owner and slot policy. */
 static inline uint32_t ap_hub_save_action(uint32_t flags, uint8_t local, uint8_t owner) {

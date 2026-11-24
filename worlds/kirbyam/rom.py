@@ -12,6 +12,7 @@ Issue #880 scales native enemy/miniboss/boss HP tables after the shared base
 patch is applied, so all native table consumers see the same per-seed values.
 """
 
+from collections.abc import Iterable
 from typing import TYPE_CHECKING
 
 from settings import get_settings
@@ -35,9 +36,11 @@ from .enemy_health_scaling import (
 from .options import AbilityRandomizationMode
 from .phone_protocol import PHONE_CONFIG_OFFSET, PHONE_MARKER
 from .phone_generation import PHONE_CONFIG_FILE, phone_patch_config, validate_phone_patch_intent
+from .reward_art_config import REWARD_ART_CONFIG_EMPTY, REWARD_ART_CONFIG_ROM_OFFSET, build_reward_art_config
 from .vitality import HEALTH_CONFIG_MAGIC, HEALTH_ROM_TITLE
 
 if TYPE_CHECKING:
+    from BaseClasses import Location
     from . import KirbyAmWorld
 
 
@@ -138,6 +141,14 @@ class KirbyAmPatchExtension(APPatchExtension):
         return rom
 
     @staticmethod
+    def validate_reward_art_base(caller: APProcedurePatch, rom: bytes) -> bytes:
+        """Reject a stale base before seed tokens can conceal its missing marker."""
+        offset = REWARD_ART_CONFIG_ROM_OFFSET
+        if rom[offset:offset + len(REWARD_ART_CONFIG_EMPTY)] != REWARD_ART_CONFIG_EMPTY:
+            raise ValueError("Location reward art config missing from base patch; rebuild the base patch")
+        return rom
+
+    @staticmethod
     def finalize_health_header(caller: APProcedurePatch, rom: bytes) -> bytes:
         """Version the ROM contract and recalculate the GBA header checksum."""
         from .vitality import decode_health_config
@@ -181,6 +192,7 @@ class KirbyAmProcedurePatch(APProcedurePatch, APTokenMixin):
         ("validate_enemy_source_base", []),
         ("validate_room16_timer_base", []),
         ("validate_room_visit_art_base", []),
+        ("validate_reward_art_base", []),
         ("apply_enemy_health_scaling", [ENEMY_HEALTH_MULTIPLIER_FILE]),
         ("apply_tokens", ["token_data.bin"]),
         ("finalize_health_header", []),
@@ -196,7 +208,8 @@ class KirbyAmProcedurePatch(APProcedurePatch, APTokenMixin):
         return base_rom_bytes
 
 
-def write_tokens(world: "KirbyAmWorld", patch: KirbyAmProcedurePatch) -> None:
+def write_tokens(world: "KirbyAmWorld", patch: KirbyAmProcedurePatch, *,
+                 filled_locations: Iterable["Location"] = ()) -> None:
     from .phone_traversal import validate_phone_profile
     validate_phone_profile(world, require_policy=True)
     from .yellow_cupid import validate_profile as validate_yellow_cupid_profile
@@ -208,6 +221,8 @@ def write_tokens(world: "KirbyAmWorld", patch: KirbyAmProcedurePatch) -> None:
     all_rooms = bool(getattr(room_sanity, "value", room_sanity))
     patch.write_token(APTokenTypes.WRITE, ROOM_VISIT_ART_CONFIG_ROM_OFFSET,
                       ROOM_VISIT_ART_ALL if all_rooms else ROOM_VISIT_ART_CORE_ONLY)
+    patch.write_token(APTokenTypes.WRITE, REWARD_ART_CONFIG_ROM_OFFSET,
+                      build_reward_art_config(filled_locations))
     health_multiplier = int(world.options.enemy_health_multiplier.value)
     if not ENEMY_HEALTH_MULTIPLIER_MIN <= health_multiplier <= ENEMY_HEALTH_MULTIPLIER_MAX:
         raise ValueError(

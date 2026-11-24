@@ -20,6 +20,7 @@ AP_COPY_EXT void ap_goal_poll(void);
 #include "chest_reward_art_runtime.h"
 #include "boss_shard_art_runtime.h"
 #include "chest_reward_art.h"
+#include "trap_reward_art.h"
 #include "reward_art.h"
 #include "visit_reward_art_runtime.h"
 
@@ -339,6 +340,48 @@ uint8_t ap_reward_native_vram_available(void) {
         *(const volatile uint16_t*)0x03002488u, *(const volatile uint32_t*)0x03002540u);
 }
 
+__attribute__((used, section(".aprewardconfig")))
+const volatile struct ApRewardArtConfig gApRewardArtConfig = {AP_REWARD_ART_MAGIC, 0u, {0u}};
+
+AP_REWARD_FX uint8_t ap_reward_art_for_key(uint32_t key) {
+    return ap_reward_art_from_config(&gApRewardArtConfig, key);
+}
+
+static inline uint32_t ap_reward_tiles_for_art(uint8_t art) {
+    return (uint32_t)(uintptr_t)(art == AP_REWARD_TRAP ? gApTrapRewardArt : gApChestRewardArt);
+}
+
+/* Only deterministic native check identities, never the displayed stock item
+ * or AP receipt, may choose the sprite. Ordinary non-AP chests stay generic. */
+static __attribute__((noinline, long_call, section(".aprewardfx"))) uint32_t
+ap_reward_key_for_chest(const void *chest) {
+    const uint8_t *object = chest;
+    uint32_t source = *(const volatile uint32_t*)(object + 0xB0u);
+    uint16_t reward = *(const volatile uint16_t*)(object + 0xE0u);
+    uint16_t room = *(const volatile uint16_t*)(object + 0x60u);
+    if (reward >= 0xAu && reward <= 0x13u) {
+        return AP_REWARD_KEY(AP_REWARD_MAP_CHEST, reward - 0xAu);
+    }
+    if (reward == 6u) {
+        switch (room) {
+            case 739u: return AP_REWARD_KEY(AP_REWARD_VITALITY_CHEST, 0u);
+            case 815u: return AP_REWARD_KEY(AP_REWARD_VITALITY_CHEST, 1u);
+            case 610u: return AP_REWARD_KEY(AP_REWARD_VITALITY_CHEST, 2u);
+            case 403u: return AP_REWARD_KEY(AP_REWARD_VITALITY_CHEST, 3u);
+            default: return 0u;
+        }
+    }
+    if (reward == 0x28u && room == 406u) return AP_REWARD_KEY(AP_REWARD_SOUND_CHEST, 0u);
+    if (reward == 0x63u) {
+        uint32_t lever = ap_lever_bit_for_chest(source, reward, object[0xE2u]);
+        for (uint32_t bit = 0u; bit < 4u; ++bit) {
+            if (lever == (1u << bit)) return AP_REWARD_KEY(AP_REWARD_LEVER, bit);
+        }
+    }
+    return source >= 0x08000000u && source < 0x09000000u
+        ? AP_REWARD_KEY(AP_REWARD_MINOR_CHEST, source - 0x08000000u) : 0u;
+}
+
 /* Prefer the native 16×16 chest slot (variant 0), even for no-bonus chests.
  * Without safe VRAM, use native 0x63: it starts the same popup timer but
  * reserves no sprite tiles. The native reward reads the parent Chest::unkE0. */
@@ -357,11 +400,12 @@ void ap_chest_reward_art(void *chest, int16_t x, int16_t y, uint16_t item) {
         native_popup(chest, x, y, 0x63u);
         return;
     }
+    uint8_t art = ap_reward_art_for_key(ap_reward_key_for_chest(chest));
     before = *tile_head;
     native_popup(chest, x, y, 0u);
     /* Change only this popup's single queued VRAM upload. All palettes,
      * native effects, timing, saves and reward/check data remain native. */
-    ap_chest_redirect_upload(tile_ring, before, *tile_head, (uint32_t)(uintptr_t)gApChestRewardArt);
+    ap_chest_redirect_upload(tile_ring, before, *tile_head, ap_reward_tiles_for_art(art));
 }
 
 #define AP_HUB_SAVED_CHECKS ((volatile uint32_t*)0x02028C7Cu)
@@ -470,12 +514,17 @@ static uint8_t ap_unlock_hub_door(uint8_t world_props_unlock_index) {
 /* Native visits are still recorded and saved by the original transition.
  * Pending visuals are transient and tied to the authenticated save epoch. */
 #define AP_VISIT_PENDING_ADDRESS (AP_BASE + 0x1C0u)
-struct ApVisitPending { uint32_t epoch, start; uint16_t room; };
+struct ApVisitPending { uint32_t epoch, start; uint16_t room; uint8_t arts; };
+#define AP_BOSS_TRAP_DRAW_ADDRESS (AP_BASE + 0x1D0u)
+struct ApBossTrapDraw { uint32_t epoch; const void *object; };
+#define AP_BOSS_TRAP_DRAW ((volatile struct ApBossTrapDraw*)AP_BOSS_TRAP_DRAW_ADDRESS)
 #define AP_VISIT_PENDING ((volatile struct ApVisitPending*)AP_VISIT_PENDING_ADDRESS)
 _Static_assert(AP_CUE_MAILBOX_ADDRESS + 0x10u <= AP_VISIT_PENDING_ADDRESS,
                "Visit effect overlaps receipt cue mailbox");
-_Static_assert(AP_VISIT_PENDING_ADDRESS + sizeof(struct ApVisitPending) <= AP_BASE + 0x200u,
-               "Visit effect exceeds reserved mailbox block");
+_Static_assert(AP_VISIT_PENDING_ADDRESS + sizeof(struct ApVisitPending) <= AP_BOSS_TRAP_DRAW_ADDRESS,
+               "Visit and boss trap state overlap");
+_Static_assert(AP_BOSS_TRAP_DRAW_ADDRESS + sizeof(struct ApBossTrapDraw) <= AP_BASE + 0x200u,
+               "Boss trap state exceeds reserved mailbox block");
 
 #define AP_NATIVE_VISITS ((const volatile uint16_t*)0x02028CA0u)
 #include "generated_visit_reward_art_rooms.inc"
@@ -485,18 +534,19 @@ volatile const uint32_t gApVisitRoomArtConfig = AP_VISIT_CORE_ONLY;
 
 AP_REWARD_FX __attribute__((used)) void ap_record_room_visit_for_reward_art(uint16_t room, void *kirby) {
     uint32_t epoch = 0u;
+    uint8_t arts = 0u;
     uint16_t index = AP_VISIT_ENTRY_COUNT; /* Invalid unless native room table matches. */
     if (kirby == (void*)KIRBY_STRUCTS_ADDR && room < 0x9998u / 40u) {
         index = *(const volatile uint16_t*)(0x089331ACu + (uint32_t)room * 40u + 36u);
-        if (ap_visit_should_show_reward(AP_NATIVE_VISITS, ap_visit_areas,
-                ap_visit_room_kinds, index, gApVisitRoomArtConfig)) {
-            epoch = ap_copy_room_epoch();
-        }
+        arts = ap_visit_reward_arts(AP_NATIVE_VISITS, ap_visit_areas, ap_visit_room_kinds,
+            index, gApVisitRoomArtConfig, &gApRewardArtConfig);
+        if (arts) epoch = ap_copy_room_epoch();
     }
     ((void (*)(uint16_t))0x08002A81u)(room);
     if (epoch != 0u && (AP_NATIVE_VISITS[index] & AP_VISIT_NATIVE_BIT) != 0u) {
         AP_VISIT_PENDING->start = AP_FRAME_COUNTER;
         AP_VISIT_PENDING->room = room;
+        AP_VISIT_PENDING->arts = arts;
         AP_VISIT_PENDING->epoch = epoch;
     }
 }
@@ -534,7 +584,7 @@ static __attribute__((noinline, long_call, section(".aprewardfx"))) void ap_visi
             *(volatile uint32_t*)0x03002440u, *(volatile uint16_t*)0x030024E8u,
             *(volatile uint16_t*)0x030024ECu) || !ap_visit_palette_ready()) return;
     AP_VISIT_PENDING->epoch = 0u;
-    ap_show_player_reward_gem(room);
+    ap_show_player_reward_gem(room, AP_VISIT_PENDING->arts);
 }
 
 /* Parentless visual for AP checks that are not Chest objects. The native
@@ -579,16 +629,30 @@ static __attribute__((noinline, section(".aprewardfx"))) uint8_t ap_is_boss_shar
         && template[0xCu] == 0x65u && template[0xEu] == subtype;
 }
 
-static inline void ap_replace_boss_shard_tiles(const uint8_t *sprite, uint8_t before) {
+static inline void ap_replace_boss_shard_tiles(const uint8_t *object, const uint8_t *sprite, uint8_t before) {
+    uint8_t art = AP_BOSS_TRAP_DRAW->object == object
+        && AP_BOSS_TRAP_DRAW->epoch != 0u && AP_BOSS_TRAP_DRAW->epoch == AP_COPY_CONTEXT->epoch
+        ? AP_REWARD_TRAP : AP_REWARD_GEM;
     ap_boss_shard_redirect_upload((volatile struct ApChestTileUpload*)0x03002EC0u, before,
-        *(volatile uint8_t*)0x030039A4u,
-        *(const volatile uint32_t*)sprite, (uint32_t)(uintptr_t)gApChestRewardArt);
+        *(volatile uint8_t*)0x030039A4u, *(const volatile uint32_t*)sprite, ap_reward_tiles_for_art(art));
 }
 
 AP_REWARD_FX __attribute__((used)) void ap_init_boss_shard_sprite(void *object) {
     uint8_t before = *(volatile uint8_t*)0x030039A4u;
     ((void (*)(void*))0x0809F3E1u)(object);
-    if (ap_is_boss_shard(object)) ap_replace_boss_shard_tiles((const uint8_t*)object + 0x10u, before);
+    if (ap_is_boss_shard(object)) {
+        uint16_t boss = *(const volatile uint16_t*)((const uint8_t*)object + 0xD4u);
+        uint32_t epoch = ap_copy_room_epoch();
+        AP_BOSS_TRAP_DRAW->object = 0;
+        if (epoch && ap_reward_art_for_key(AP_REWARD_KEY(AP_REWARD_BOSS, boss)) == AP_REWARD_TRAP
+            && ap_boss_trap_record_display(AP_HUB_SAVED_CHECKS, AP_HUB_ROM_AUTH, boss)) {
+            /* Keep that one drop's art stable for every native upload. A
+             * newly spawned shard in a repeat fight is only a generic gem. */
+            AP_BOSS_TRAP_DRAW->epoch = epoch;
+            AP_BOSS_TRAP_DRAW->object = object;
+        }
+        ap_replace_boss_shard_tiles(object, (const uint8_t*)object + 0x10u, before);
+    }
 }
 
 AP_REWARD_FX __attribute__((used)) int32_t ap_update_boss_shard_sprite(void *sprite) {
@@ -597,7 +661,7 @@ AP_REWARD_FX __attribute__((used)) int32_t ap_update_boss_shard_sprite(void *spr
     const uint8_t *data = sprite;
     if (*(const volatile uint16_t*)(data + 0xCu) == AP_SHARD_NATIVE_ANIM
         && ap_is_boss_shard(data - 0x10u)) {
-        ap_replace_boss_shard_tiles(data, before);
+        ap_replace_boss_shard_tiles(data - 0x10u, data, before);
     }
     return result;
 }
@@ -650,7 +714,7 @@ static __attribute__((noinline, section(".aprewardfx"))) void ap_reward_gem_fram
     ((void (*)(void*))0x0806FAC9u)(effect); /* EffectObjectPostUpdate */
 }
 
-AP_REWARD_FX void ap_show_room_reward_gem(uint16_t room, int32_t x, int32_t y, uint32_t stop_hub_bit) {
+AP_REWARD_FX void ap_show_room_reward_gem(uint16_t room, int32_t x, int32_t y, uint32_t stop_hub_bit, uint8_t art) {
     typedef void (*TaskFn)(void);
     typedef void (*DtorFn)(void *);
     typedef void *(*TaskCreateFn)(TaskFn, uint16_t, uint16_t, uint16_t, DtorFn);
@@ -679,7 +743,7 @@ AP_REWARD_FX void ap_show_room_reward_gem(uint16_t room, int32_t x, int32_t y, u
     *(volatile uint32_t*)(effect + 0x48u) = stop_hub_bit;
     uint8_t before = *head;
     ((SpriteInitFn)0x080709F9u)(effect, effect + 0xCu, vram, 0x2D1u, 0u, 0xBu);
-    if (!ap_chest_redirect_upload(ring, before, *head, (uint32_t)(uintptr_t)gApChestRewardArt)) {
+    if (!ap_chest_redirect_upload(ring, before, *head, ap_reward_tiles_for_art(art))) {
         /* Drop the effect on the next task tick; do not show a stock item. */
         *(volatile uint16_t*)(effect + 4u) = 32u;
     }
@@ -687,7 +751,7 @@ AP_REWARD_FX void ap_show_room_reward_gem(uint16_t room, int32_t x, int32_t y, u
 
 /* Goal results can put Kirby above the camera. Keep the independent gem in
  * the visible room even then; the native return motion remains untouched. */
-AP_REWARD_FX void ap_show_player_reward_gem(uint16_t room) {
+AP_REWARD_FX void ap_show_player_reward_gem(uint16_t room, uint8_t arts) {
     uint8_t player = KIRBY_CURRENT_PLAYER;
     if (player >= KIRBY_PLAYER_COUNT || room != ap_reward_local_room()) return;
     uintptr_t kirby = KIRBY_STRUCTS_ADDR + (uint32_t)player * KIRBY_STRUCT_STRIDE;
@@ -696,11 +760,15 @@ AP_REWARD_FX void ap_show_player_reward_gem(uint16_t room) {
     int32_t camera_y = *(volatile int32_t*)(viewport + 4u);
     int32_t x = *(volatile int32_t*)(kirby + 0x40u);
     int32_t y = *(volatile int32_t*)(kirby + 0x44u) - 24 * 256;
-    if (x < camera_x + 16 * 256) x = camera_x + 16 * 256;
-    if (x > camera_x + 224 * 256) x = camera_x + 224 * 256;
+    int32_t separation = arts == (AP_REWARD_MASK_GEM | AP_REWARD_MASK_TRAP) ? 10 * 256 : 0;
+    if (x < camera_x + 16 * 256 + separation) x = camera_x + 16 * 256 + separation;
+    if (x > camera_x + 224 * 256 - separation) x = camera_x + 224 * 256 - separation;
     if (y < camera_y + 48 * 256) y = camera_y + 48 * 256;
     if (y > camera_y + 132 * 256) y = camera_y + 132 * 256;
-    ap_show_room_reward_gem(room, x, y, 0u);
+    /* Different outcomes on the same transition must not cover each other.
+     * Give the trap first claim if VRAM can fit only one effect. */
+    if (arts & AP_REWARD_MASK_TRAP) ap_show_room_reward_gem(room, x + separation, y, 0u, AP_REWARD_TRAP);
+    if (arts & AP_REWARD_MASK_GEM) ap_show_room_reward_gem(room, x - separation, y, 0u, AP_REWARD_GEM);
 }
 
 __attribute__((used, noinline, long_call, section(".aprewardfx")))
@@ -709,6 +777,7 @@ void ap_big_switch_reward_art(void *object) {
     uint16_t state = *(const volatile uint16_t*)(sw + 0xB6u);
     uint16_t room = *(const volatile uint16_t*)(sw + 0x60u);
     uint32_t show_bit = 0u;
+    uint8_t art = AP_REWARD_GEM;
     /* Only the world-map branch of SwitchMain reaches this wrapper. Native
      * SwitchUpdatePressState sets 2 for a newly accepted press; the function
      * below sets its own 0x2000 sequence latch, including if the map is busy. */
@@ -721,6 +790,7 @@ void ap_big_switch_reward_art(void *object) {
             uint32_t bit = 1u << ap_hub_bits[door];
             if ((ap_hub_saved_checks(AP_HUB_SAVED_CHECKS, AP_HUB_ROM_AUTH) & bit) == 0u) {
                 show_bit = bit;
+                art = ap_reward_art_for_key(AP_REWARD_KEY(AP_REWARD_SWITCH, ap_hub_bits[door]));
             }
         }
     }
@@ -729,7 +799,7 @@ void ap_big_switch_reward_art(void *object) {
     ((void (*)(void*))0x08119B3Du)(object);
     if (show_bit) {
         ap_show_room_reward_gem(room, *(const volatile int32_t*)(sw + 0x40u),
-            *(const volatile int32_t*)(sw + 0x44u) - 30 * 256, show_bit);
+            *(const volatile int32_t*)(sw + 0x44u) - 30 * 256, show_bit, art);
     }
 }
 
@@ -1402,6 +1472,13 @@ __attribute__((used)) void ap_on_boss_defeat_collect_shard(uint32_t boss_index) 
     }
 }
 
+static AP_REWARD_FX void ap_note_boss_tomato_for_reward_art(uint32_t boss) {
+    if (boss < 8u && ap_copy_room_epoch()
+        && ap_reward_art_for_key(AP_REWARD_KEY(AP_REWARD_BOSS, boss)) == AP_REWARD_TRAP) {
+        (void)ap_boss_trap_record_display(AP_HUB_SAVED_CHECKS, AP_HUB_ROM_AUTH, boss);
+    }
+}
+
 typedef void (*KirbyBossAlreadyOwnedRewardFn)(void *obj2, int16_t x, int16_t y, uint32_t boss_index);
 #define KIRBY_BOSS_ALREADY_OWNED_REWARD_FN ((KirbyBossAlreadyOwnedRewardFn)0x08088A39u)
 
@@ -1412,6 +1489,7 @@ typedef void (*KirbyBossAlreadyOwnedRewardFn)(void *obj2, int16_t x, int16_t y, 
 // original reward function.
 __attribute__((used)) void ap_on_boss_defeat_already_owned_reward(void *obj2, int16_t x, int16_t y, uint32_t boss_index) {
     ap_set_boss_defeat_flag(boss_index);
+    ap_note_boss_tomato_for_reward_art(boss_index);
     KIRBY_BOSS_ALREADY_OWNED_REWARD_FN(obj2, x, y, boss_index);
 }
 
@@ -2578,6 +2656,8 @@ AP_COPY_EXT void ap_poll_mailbox_c(void) {
         AP_BOSS_TEMP_SHARD_BITFIELD = 0u;
         AP_CUE_REQUEST = AP_CUE_RESULT = AP_CUE_READY = AP_CUE_ACTIVE = 0u;
         AP_VISIT_PENDING->epoch = 0u;
+        AP_BOSS_TRAP_DRAW->epoch = 0u;
+        AP_BOSS_TRAP_DRAW->object = 0;
         AP_DELIVERED_VITALITY_ITEM_BITS = 0u;
         AP_HUB_CONNECTION_ITEM_MASK = AP_HUB_CONNECTION_ITEM_MASK_UNINITIALIZED;
         AP_HUB_SWITCH_INIT_STATE = 0u;

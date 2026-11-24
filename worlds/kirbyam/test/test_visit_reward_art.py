@@ -65,6 +65,15 @@ def test_native_first_visit_identity_and_transition_gates(tmp_path: Path) -> Non
 
 int main(void) {
     uint16_t visits[AP_VISIT_ENTRY_COUNT] = {0};
+    struct ApRewardArtConfig art = {AP_REWARD_ART_MAGIC, 1u, {AP_REWARD_KEY(AP_REWARD_ROOM, 77u)}};
+    assert(ap_visit_reward_arts(visits, ap_visit_areas, ap_visit_room_kinds, 77u, AP_VISIT_ALL_ROOMS, &art)
+           == (AP_REWARD_MASK_GEM | AP_REWARD_MASK_TRAP));
+    assert(ap_visit_reward_arts(visits, ap_visit_areas, ap_visit_room_kinds, 77u, AP_VISIT_CORE_ONLY, &art)
+           == AP_REWARD_MASK_GEM);
+    art.keys[1] = AP_REWARD_KEY(AP_REWARD_AREA, 2u);
+    art.count = 2u;
+    assert(ap_visit_reward_arts(visits, ap_visit_areas, ap_visit_room_kinds, 77u, AP_VISIT_ALL_ROOMS, &art)
+           == AP_REWARD_MASK_TRAP);
     assert(!ap_visit_is_first_area(visits, ap_visit_areas, AP_VISIT_ENTRY_COUNT));
     for (uint16_t i = 0; i < AP_VISIT_ENTRY_COUNT; ++i) {
         assert(ap_visit_is_first_area(visits, ap_visit_areas, i) == (ap_visit_areas[i] != 0u));
@@ -78,17 +87,17 @@ int main(void) {
     assert(ap_visit_areas[77] == 2u);
     assert(ap_visit_is_first_area(visits, ap_visit_areas, 77u));
     assert(ap_visit_room_kinds[21] == 1u && ap_visit_room_kinds[80] == 2u);
-    assert(!ap_visit_should_show_reward(visits, ap_visit_areas, ap_visit_room_kinds, 21u, AP_VISIT_CORE_ONLY));
-    assert(!ap_visit_should_show_reward(visits, ap_visit_areas, ap_visit_room_kinds, 21u, 0u));
-    assert(ap_visit_should_show_reward(visits, ap_visit_areas, ap_visit_room_kinds, 21u, AP_VISIT_ALL_ROOMS));
+    assert(!ap_visit_reward_arts(visits, ap_visit_areas, ap_visit_room_kinds, 21u, AP_VISIT_CORE_ONLY, &art));
+    assert(!ap_visit_reward_arts(visits, ap_visit_areas, ap_visit_room_kinds, 21u, 0u, &art));
+    assert(ap_visit_reward_arts(visits, ap_visit_areas, ap_visit_room_kinds, 21u, AP_VISIT_ALL_ROOMS, &art));
     visits[21] = 0x8000u;
-    assert(!ap_visit_should_show_reward(visits, ap_visit_areas, ap_visit_room_kinds, 21u, AP_VISIT_ALL_ROOMS));
+    assert(!ap_visit_reward_arts(visits, ap_visit_areas, ap_visit_room_kinds, 21u, AP_VISIT_ALL_ROOMS, &art));
     visits[77] = 0x8000u;
     assert(!ap_visit_is_first_area(visits, ap_visit_areas, 80u));
-    assert(ap_visit_should_show_reward(visits, ap_visit_areas, ap_visit_room_kinds, 80u, AP_VISIT_CORE_ONLY));
-    assert(ap_visit_should_show_reward(visits, ap_visit_areas, ap_visit_room_kinds, 80u, AP_VISIT_ALL_ROOMS));
+    assert(ap_visit_reward_arts(visits, ap_visit_areas, ap_visit_room_kinds, 80u, AP_VISIT_CORE_ONLY, &art));
+    assert(ap_visit_reward_arts(visits, ap_visit_areas, ap_visit_room_kinds, 80u, AP_VISIT_ALL_ROOMS, &art));
     visits[80] = 0x8000u;
-    assert(!ap_visit_should_show_reward(visits, ap_visit_areas, ap_visit_room_kinds, 80u, AP_VISIT_CORE_ONLY));
+    assert(!ap_visit_reward_arts(visits, ap_visit_areas, ap_visit_room_kinds, 80u, AP_VISIT_CORE_ONLY, &art));
     assert(!ap_visit_scene_ready(0xB00u, 0u, 0u, 0u));
     assert(!ap_visit_scene_ready(0u, 0xC00u, 0u, 0u));
     assert(!ap_visit_scene_ready(0u, 0u, 0x80u, 9u));

@@ -2,6 +2,7 @@
 #include <stdint.h>
 
 #include "generated_hub_switch_tables.inc"
+#include "reward_art_config.h"
 
 #define AP_HUB_SAVED_CHECKS ((void *)0)
 #define AP_HUB_ROM_AUTH ((void *)0)
@@ -45,10 +46,15 @@ static uint16_t ap_reward_local_room(void) {
     return local_room;
 }
 
-static void ap_show_room_reward_gem(uint16_t room, int32_t x, int32_t y, uint32_t bit) {
+static uint8_t ap_reward_art_for_key(uint32_t key) {
+    return key == AP_REWARD_KEY(AP_REWARD_SWITCH, 11u) ? AP_REWARD_TRAP : AP_REWARD_GEM;
+}
+
+static void ap_show_room_reward_gem(uint16_t room, int32_t x, int32_t y, uint32_t bit, uint8_t art) {
     assert(room == local_room && x == 136 * 256 && y == 98 * 256);
     assert((*(uint16_t*)(object + 0xB6u) & 0x2000u) != 0u);
     assert(bit == (1u << ap_hub_bits[*(uint16_t*)(fixture_source + 0x14u)]));
+    assert(art == (bit == (1u << 11u) ? AP_REWARD_TRAP : AP_REWARD_GEM));
     ++pops;
 }
 

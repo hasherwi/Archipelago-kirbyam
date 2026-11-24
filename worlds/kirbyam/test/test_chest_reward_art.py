@@ -1,4 +1,4 @@
-"""Chest art is unconditional on item, without rewriting item or check behavior."""
+"""Native stop, palette and constructor contracts for reward visuals."""
 import os
 import re
 import runpy
@@ -55,6 +55,25 @@ def test_submitted_shape_and_generated_palette_conversion() -> None:
         assert bool(value) == bool(src.getpixel((x, y))[3]) == bool(preview.getpixel((x, y))[3])
 
 
+def test_native_trap_tiles_use_owner_shape_and_shared_palette() -> None:
+    image = pytest.importorskip("PIL.Image")
+    art = runpy.run_path(str(PAYLOAD / "generate_trap_reward_art.py"))
+    src = image.open(art["SOURCE"]).convert("RGBA")
+    preview = image.open(art["PREVIEW"]).convert("RGBA")
+    assert src.size == preview.size == (16, 16)
+    tiles = [int(x, 16) for x in re.findall(r"0x([\dA-F]{2})", art["HEADER"].read_text())]
+    assert len(tiles) == 128
+    for y in range(16):
+        for x in range(16):
+            tile = (y // 8) * 2 + x // 8
+            index = (tiles[tile * 32 + (y % 8) * 4 + (x % 8) // 2] >> (4 * (x % 2))) & 15
+            assert index == art["palette_index"](src.getpixel((x, y)))
+            color = patch_rom.CHEST_REWARD_ART_NATIVE_PALETTE_DATA[index]
+            rendered = tuple(((color >> c) & 31) * 255 // 31 for c in (0, 5, 10))
+            assert preview.getpixel((x, y)) == rendered + (255 if index else 0,)
+    assert preview.tobytes() != src.tobytes()
+
+
 def test_actual_popup_wrapper_changes_only_matching_tile_upload(tmp_path: Path) -> None:
     cc = shutil.which("cc")
     if not cc:
@@ -67,11 +86,13 @@ def test_actual_popup_wrapper_changes_only_matching_tile_upload(tmp_path: Path) 
         ("(ChestPopupFn)0x0800B415u", "(ChestPopupFn)native_popup_host"),
         ("(volatile uint8_t *)0x030039A4u", "&head"),
         ("(volatile struct ApChestTileUpload *)0x03002EC0u", "ring"),
-        ("(uint32_t)(uintptr_t)gApChestRewardArt", "ART"),
     )
     for old, new in substitutes:
         assert wrapper.count(old) == 1
         wrapper = wrapper.replace(old, new)
+    key_begin = code.index("ap_reward_key_for_chest(const void *chest)")
+    key_end = code.index("\n}", key_begin) + 2
+    wrapper = "static uint32_t " + code[key_begin:key_end] + "\n" + wrapper
     harness = (WORLD / "test" / "native" / "chest_reward_art_host.c").read_text()
     source = tmp_path / "art.c"
     source.write_text(harness.replace("/* WRAPPER */", wrapper))

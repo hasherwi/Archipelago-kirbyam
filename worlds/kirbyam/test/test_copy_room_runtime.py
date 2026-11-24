@@ -53,8 +53,11 @@ static unsigned landed_finishes, gems;
 static void fake_landed(void *star) {
     if (landed_finishes) U32((uintptr_t)star + 0x78u)=0x0800DE21u;
 }
-void ap_show_player_reward_gem(uint16_t room) {
-    if (room==U16(KIRBY+0x60u)) ++gems;
+uint8_t ap_reward_art_for_key(uint32_t key) {
+    return key == AP_REWARD_KEY(AP_REWARD_GOAL, 4u) ? AP_REWARD_TRAP : AP_REWARD_GEM;
+}
+void ap_show_player_reward_gem(uint16_t room, uint8_t arts) {
+    if (room==U16(KIRBY+0x60u) && (arts==AP_REWARD_MASK_GEM || arts==AP_REWARD_MASK_TRAP)) ++gems;
 }
 #define CHECK(x) do { if(!(x)) {printf("line %d\n",__LINE__);return 1;} }while(0)
 #define START() ap_copy_room_start(1,0,0,0,0)

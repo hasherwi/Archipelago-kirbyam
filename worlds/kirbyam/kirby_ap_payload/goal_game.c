@@ -51,6 +51,7 @@ AP_COPY_EXT void ap_goal_landed_callback(void *star) {
             (U8(s + 0xB5u) & 1u) && U16(s + 0x60u) == U16(KIRBY + 0x60u),
             U32(s + 0x78u) == 0x0800DE21u);
     if (bit < 16u && ap_copy_room_complete_goal(bit)) {
-        ap_show_player_reward_gem(U16(KIRBY + 0x60u));
+        ap_show_player_reward_gem(U16(KIRBY + 0x60u),
+            1u << ap_reward_art_for_key(AP_REWARD_KEY(AP_REWARD_GOAL, bit)));
     }
 }

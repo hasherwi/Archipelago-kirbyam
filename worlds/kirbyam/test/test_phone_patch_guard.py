@@ -16,6 +16,7 @@ from ..enemy_ability_runtime_patch import ENEMY_SOURCE_CONFIG_LEGACY, ENEMY_SOUR
 from ..enemy_health_scaling import BOSS_HEALTH_TABLE_OFFSET
 from ..phone_generation import PHONE_CONFIG_FILE
 from ..phone_protocol import PHONE_CONFIG_OFFSET, PHONE_ENABLED_CONFIG, PHONE_MARKER, validate_phone_pairing
+from ..reward_art_config import REWARD_ART_CONFIG_EMPTY, REWARD_ART_CONFIG_ROM_OFFSET
 from ..rom import (
     AREA_KEYS_CONFIG_ON, AREA_KEYS_CONFIG_ROM_OFFSET, ENEMY_HEALTH_MULTIPLIER_FILE,
     HEALTH_INITIAL_ROM_OFFSET, KirbyAmPatchExtension, KirbyAmProcedurePatch,
@@ -43,6 +44,8 @@ def synthetic_post_base() -> bytes:
     buffer = bytearray(max(ENEMY_SOURCE_CONFIG_ROM_OFFSET + 36, 0x008C270A))
     buffer[PHONE_CONFIG_OFFSET:PHONE_CONFIG_OFFSET + 12] = DISABLED_PHONE_CONFIG
     buffer[ROOM_VISIT_ART_CONFIG_ROM_OFFSET:ROOM_VISIT_ART_CONFIG_ROM_OFFSET + 4] = ROOM_VISIT_ART_CORE_ONLY
+    reward_art_offset = REWARD_ART_CONFIG_ROM_OFFSET
+    buffer[reward_art_offset:reward_art_offset + len(REWARD_ART_CONFIG_EMPTY)] = REWARD_ART_CONFIG_EMPTY
     buffer[AREA_KEYS_CONFIG_ROM_OFFSET:AREA_KEYS_CONFIG_ROM_OFFSET + 4] = AREA_KEYS_CONFIG_ON.to_bytes(4, "little")
     buffer[ENEMY_SOURCE_CONFIG_ROM_OFFSET:ENEMY_SOURCE_CONFIG_ROM_OFFSET + 4] = (
         ENEMY_SOURCE_CONFIG_LEGACY.to_bytes(4, "little"))
@@ -95,6 +98,18 @@ def test_room_visit_art_base_guard_rejects_stale_or_seed_written_config(
             KirbyAmPatchExtension.validate_room_visit_art_base(None, bytes(bad))
 
 
+def test_reward_art_base_guard_rejects_absent_and_prepopulated_table(synthetic_post_base: bytes) -> None:
+    offset = REWARD_ART_CONFIG_ROM_OFFSET
+    assert KirbyAmPatchExtension.validate_reward_art_base(None, synthetic_post_base) is synthetic_post_base
+    steps = KirbyAmProcedurePatch.procedure
+    assert steps.index(("validate_reward_art_base", [])) < steps.index(("apply_tokens", ["token_data.bin"]))
+    for relative_offset in (0, 4, len(REWARD_ART_CONFIG_EMPTY) - 1):
+        malformed = bytearray(synthetic_post_base)
+        malformed[offset + relative_offset] ^= 1
+        with pytest.raises(ValueError, match="Location reward art config missing"):
+            KirbyAmPatchExtension.validate_reward_art_base(None, bytes(malformed))
+
+
 def _write_archive(patch: KirbyAmProcedurePatch, tmp_path: Path) -> Path:
     patch.write_file("token_data.bin", patch.get_token_binary())
     archive = tmp_path / "synthetic.apkirbyam"
@@ -131,7 +146,7 @@ def test_phone_validator_rejects_missing_or_truncated_buffers(length: int, synth
 def test_phone_guard_procedure_order_is_serialized(tmp_path: Path, synthetic_bsdiffs: dict[str, bytes]) -> None:
     expected = [HISTORICAL_PROCEDURE[0], ("validate_production_phone_disabled", []),
                 *HISTORICAL_PROCEDURE[1:3], ("validate_room16_timer_base", []),
-                ("validate_room_visit_art_base", []),
+                ("validate_room_visit_art_base", []), ("validate_reward_art_base", []),
                 *HISTORICAL_PROCEDURE[3:], ("validate_phone_seed_config", [])]
     assert KirbyAmProcedurePatch.procedure == expected
     archive = _write_archive(_synthetic_patch(synthetic_bsdiffs["disabled"]), tmp_path)
