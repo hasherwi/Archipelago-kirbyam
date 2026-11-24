@@ -1,0 +1,73 @@
+#include <assert.h>
+#include <stdint.h>
+#include <string.h>
+#include "chest_reward_art_runtime.h"
+
+#define ART 0x09001000u
+static volatile uint8_t head;
+static volatile struct ApChestTileUpload ring[64];
+static uint8_t lever, commands;
+static uint16_t parent_reward, visual_reward, transferred_size;
+static uint32_t source;
+
+static uint32_t ap_lever_bit_for_obj(uint32_t chest) {
+    assert(chest == 0x02000000u);
+    return lever;
+}
+
+static void native_popup_host(void *chest, int16_t x, int16_t y, uint16_t visual) {
+    assert(chest == (void *)0x02000000u);
+    assert(x == -8 && y == 46);
+    visual_reward = visual;
+    if (commands) {
+        ring[head].source = source;
+        ring[head].destination = 0x06015400u;
+        ring[head].size = transferred_size;
+        head = (head + commands) & 63;
+    }
+}
+
+/* WRAPPER */
+
+int main(void) {
+    /* Opening real chests, including all ordinary items and no-bonus cases,
+     * always queues the same image without changing the original item. */
+    const uint16_t cases[] = {0, 1, 2, 3, 4, 5, 6, 0xA, 0x13, 0x14, 0x21, 0x28, 0x29, 0x32, 0x63};
+    commands = 1;
+    source = AP_CHEST_NATIVE_TILES;
+    transferred_size = AP_CHEST_ART_SIZE;
+    for (unsigned i = 0; i < sizeof(cases) / sizeof(*cases); i++) {
+        head = 63;
+        memset((void *)ring, 0, sizeof(ring));
+        ring[62].source = AP_CHEST_NATIVE_TILES;
+        parent_reward = cases[i];
+        ap_chest_reward_art((void *)0x02000000u, -8, 46, parent_reward);
+        assert(visual_reward == 0 && parent_reward == cases[i] && head == 0);
+        assert(ring[63].source == ART && ring[62].source == AP_CHEST_NATIVE_TILES);
+        assert(ring[63].destination == 0x06015400u && ring[63].size == AP_CHEST_ART_SIZE);
+    }
+    /* The distinct physical lever check still has its original no-item visual. */
+    lever = 1;
+    head = 9;
+    ap_chest_reward_art((void *)0x02000000u, -8, 46, 0x63);
+    assert(visual_reward == 0x63 && ring[9].source == AP_CHEST_NATIVE_TILES);
+    lever = 0;
+    /* Fail closed on unexpected queue shape, source and size. */
+    for (uint8_t n = 0; n <= 2; n += 2) {
+        head = 9;
+        commands = n;
+        ap_chest_reward_art((void *)0x02000000u, -8, 46, 0xA);
+        assert(ring[9].source == AP_CHEST_NATIVE_TILES);
+    }
+    commands = 1;
+    source = 0x08000000u;
+    head = 9;
+    ap_chest_reward_art((void *)0x02000000u, -8, 46, 0xA);
+    assert(ring[9].source == source);
+    source = AP_CHEST_NATIVE_TILES;
+    transferred_size = 64;
+    head = 9;
+    ap_chest_reward_art((void *)0x02000000u, -8, 46, 0xA);
+    assert(ring[9].source == source && ring[9].size == 64);
+    return 0;
+}

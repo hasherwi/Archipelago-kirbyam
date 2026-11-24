@@ -217,3 +217,18 @@ ap_phone_call_entry:
 1:  .word 0x08056C35
 2:  pop {r0-r2, pc}
 .size ap_phone_call_entry, .-ap_phone_call_entry
+
+.section .text.ap_transition_entries,"ax",%progbits
+.balign 4
+.global ap_chest_reward_art_entry
+.type ap_chest_reward_art_entry, %function
+.thumb_func
+ap_chest_reward_art_entry:
+    push {r3}
+    ldr r3, 1f
+    mov ip, r3
+    pop {r3}
+    bx ip
+.balign 4
+1:  .word ap_chest_reward_art
+.size ap_chest_reward_art_entry, .-ap_chest_reward_art_entry

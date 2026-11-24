@@ -130,6 +130,19 @@ ORIGINAL_ABILITY_COMMIT_ADDR = 0x0805C618
 ABILITY_COMMIT_INSTALLER_RANGE = (0x0005C11C, 0x0005C618)
 
 
+# ChestItemPopup constructor in the native chest-open handler, followed by
+# the known static 16×16 art-only variant and stock pickup palette.
+CHEST_REWARD_ART_CALLSITE = 0xB3FE
+CHEST_REWARD_ART_NATIVE_FUNCTION = 0x0800B414
+CHEST_REWARD_ART_NATIVE_SCRIPT = 0x4219A8
+CHEST_REWARD_ART_NATIVE_SCRIPT_DATA = struct.pack("<9i", -2, 159, 16, -1, 45113, 4, 1, 0, -4)
+CHEST_REWARD_ART_NATIVE_PALETTE = 0x4BB0EC + 42 * 32
+CHEST_REWARD_ART_NATIVE_PALETTE_DATA = (
+    0x5EA0, 0x7E80, 0x00D2, 0x01B8, 0x02FE, 0x08BF, 0x025F, 0x0000,
+    0x6E9F, 0x7D40, 0x7FA0, 0x1C96, 0x393B, 0x1262, 0x7FFF, 0x03FF,
+)
+
+
 # Retail audio ABI used by the native receipt cue scheduler.
 NATIVE_RECEIPT_START_OFFSET = 0x15011C
 NATIVE_RECEIPT_START_SIGNATURE = bytes.fromhex("00 b5 00 04 07 4a 08 49")
@@ -2134,6 +2147,19 @@ def build_hub_board_sprite_writes(rom: bytes | bytearray, address: int,
             HUB_BOARD_ATTR_POINTER: struct.pack("<I", address + 92)}
 
 
+def build_chest_reward_art_hook(rom: bytes | bytearray, target: int) -> dict[int, bytes]:
+    """Reject other popup/graphics ABIs before changing the rendering call."""
+    for offset, expected, label in (
+        (CHEST_REWARD_ART_CALLSITE, thumb_bl_bytes(0x08000000 + CHEST_REWARD_ART_CALLSITE,
+                                                  CHEST_REWARD_ART_NATIVE_FUNCTION), "constructor"),
+        (CHEST_REWARD_ART_NATIVE_SCRIPT, CHEST_REWARD_ART_NATIVE_SCRIPT_DATA, "tile script"),
+        (CHEST_REWARD_ART_NATIVE_PALETTE, struct.pack("<16H", *CHEST_REWARD_ART_NATIVE_PALETTE_DATA), "palette"),
+    ):
+        if rom[offset:offset + len(expected)] != expected:
+            raise SystemExit(f"Unexpected native chest reward art {label}; refusing to patch")
+    return {CHEST_REWARD_ART_CALLSITE: thumb_bl_bytes(0x08000000 + CHEST_REWARD_ART_CALLSITE, target)}
+
+
 def apply_color_extension(rom: bytearray, elf_path: Path) -> None:
     # This module also supports callers that import patch_rom.py by filename.
     import importlib.util
@@ -2159,7 +2185,9 @@ def apply_color_extension(rom: bytearray, elf_path: Path) -> None:
         rom, extension,
         resolve_elf_symbol_address(elf_path, "ap_color_sprite_palette"),
         resolve_elf_symbol_address(elf_path, "ap_color_load_bg"))
-    for offset, replacement in {**writes, **board_writes}.items():
+    chest_writes = build_chest_reward_art_hook(
+        rom, resolve_elf_symbol_address(elf_path, "ap_chest_reward_art_entry"))
+    for offset, replacement in {**writes, **board_writes, **chest_writes}.items():
         rom[offset:offset + len(replacement)] = replacement
 
 

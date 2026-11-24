@@ -17,6 +17,8 @@ AP_COPY_EXT void ap_goal_poll(void);
 #include "color_runtime_logic.h"
 #include "goal_game_runtime_logic.h"
 #include "receipt_sound_runtime.h"
+#include "chest_reward_art_runtime.h"
+#include "chest_reward_art.h"
 
 __attribute__((used, section(".apcueinfo")))
 const uint8_t gApReceiptCueInfo[8] = {'A','P','C','U','E','0','1',0};
@@ -326,6 +328,30 @@ uint32_t ap_lever_bit_for_obj(uint32_t chest_obj_ptr) {
         *(volatile uint16_t*)(chest_obj_ptr + 0xE0u),
         *(volatile uint8_t*)(chest_obj_ptr + 0xE2u)
     );
+}
+
+/* Always use the same native, 16×16 chest visual slot (variant 0), even
+ * for no-bonus chests. This argument only controls popup graphics: the
+ * native delayed reward code reads Chest::unkE0 from the parent object. */
+__attribute__((used, noinline, long_call, section(".aphub")))
+void ap_chest_reward_art(void *chest, int16_t x, int16_t y, uint16_t item) {
+    typedef void (*ChestPopupFn)(void *, int16_t, int16_t, uint16_t);
+    ChestPopupFn native_popup = (ChestPopupFn)0x0800B415u;
+    volatile uint8_t *tile_head = (volatile uint8_t *)0x030039A4u;
+    volatile struct ApChestTileUpload *tile_ring = (volatile struct ApChestTileUpload *)0x03002EC0u;
+    uint8_t before;
+
+    /* These physical levers reuse Chest tasks but are not treasure chests. */
+    if (ap_lever_bit_for_obj((uint32_t)(uintptr_t)chest)) {
+        native_popup(chest, x, y, item);
+        return;
+    }
+
+    before = *tile_head;
+    native_popup(chest, x, y, 0u);
+    /* Change only this popup's single queued VRAM upload. All palettes,
+     * native effects, timing, saves and reward/check data remain native. */
+    ap_chest_redirect_upload(tile_ring, before, *tile_head, (uint32_t)(uintptr_t)gApChestRewardArt);
 }
 
 #define AP_HUB_SAVED_CHECKS ((volatile uint32_t*)0x02028C7Cu)

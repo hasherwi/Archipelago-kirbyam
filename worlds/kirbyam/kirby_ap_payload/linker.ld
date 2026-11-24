@@ -39,6 +39,7 @@ SECTIONS
   /* Append beyond the clean 16 MiB ROM; never allocate presumed internal padding. */
   .apcolors 0x09000000 : { KEEP(*(.apcolorinfo)) KEEP(*(.aphubinfo)) KEEP(*(.apgoalinfo)) KEEP(*(.apfullinfo)) KEEP(*(.apcueinfo)) color_payload.o(.text* .rodata*) *(.aphub)
     KEEP(*(.aphubboards))
+    KEEP(*(.apchestart))
     ap_extension_code_end = .;
     . = 0xFFC8;
     KEEP(*(.apphoneinfo))

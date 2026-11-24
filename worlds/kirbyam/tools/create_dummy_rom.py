@@ -81,6 +81,15 @@ def build_dummy_rom() -> bytearray:
         offset = patch_rom.NATIVE_RECEIPT_SONG_TABLE_OFFSET + song * 8 + 4
         rom[offset:offset + 4] = player.to_bytes(2, "little") * 2
 
+    # Minimal validated chest art ABI; no original tiles or images are needed.
+    put_bl(patch_rom.CHEST_REWARD_ART_CALLSITE, patch_rom.CHEST_REWARD_ART_NATIVE_FUNCTION)
+    offset = patch_rom.CHEST_REWARD_ART_NATIVE_SCRIPT
+    script = patch_rom.CHEST_REWARD_ART_NATIVE_SCRIPT_DATA
+    rom[offset:offset + len(script)] = script
+    offset = patch_rom.CHEST_REWARD_ART_NATIVE_PALETTE
+    rom[offset:offset + 32] = b"".join(color.to_bytes(2, "little")
+                                      for color in patch_rom.CHEST_REWARD_ART_NATIVE_PALETTE_DATA)
+
     # The common R-call entry is validated before installing the Phone wrapper.
     rom[0x56C2C:0x56C34] = bytes.fromhex("f0 b5 47 46 80 b4 81 b0")
 
