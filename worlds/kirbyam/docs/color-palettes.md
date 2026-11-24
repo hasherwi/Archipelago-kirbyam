@@ -15,7 +15,7 @@ Kirby & The Amazing Mirror:
 
 ### Original colors
 
-![Kirby sprites and swatches for the 14 original palettes, from Carbon to Yellow. The YAML keys are listed below.](color-palettes-native.png)
+![Kirby sprites and swatches for the 14 original palettes, with Pink first, then Carbon through Yellow. The YAML keys are listed below.](color-palettes-native.png)
 
 ### Additional starting colors
 
@@ -28,6 +28,7 @@ Kirby & The Amazing Mirror:
 
 | Color | YAML value |
 | --- | --- |
+| Pink | `pink` |
 | Carbon | `carbon` |
 | Chalk | `chalk` |
 | Cherry | `cherry` |
@@ -37,7 +38,6 @@ Kirby & The Amazing Mirror:
 | Green | `green` |
 | Ocean | `ocean` |
 | Orange | `orange` |
-| Pink | `pink` |
 | Red | `red` |
 | Sapphire | `sapphire` |
 | Snow | `snow` |
