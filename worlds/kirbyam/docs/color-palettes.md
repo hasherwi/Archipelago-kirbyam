@@ -2,8 +2,6 @@
 
 Browse **65 starting colors**: 14 from the original game and 51 additional KirbyAM colors. Each preview shows the same normal Kirby pose alongside its swatches, so you can compare colors directly. Copy abilities and effects can look different in-game.
 
-> **Draft availability:** This page describes the expanded catalog. This documentation change does not add palettes to the game. Until the matching implementation ships, choose from the options listed in your build’s generated YAML.
-
 ## Choose your color
 
 Set `starting_kirby_color` in your Kirby YAML. Use the exact value in the generated YAML for your build. For example:
