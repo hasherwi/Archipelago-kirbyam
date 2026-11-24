@@ -16,7 +16,7 @@ from .test_receipt_journal import Mailbox, drain, make_client, receipt_env, tick
 
 
 def item(location, player=2, flags=0):
-    return NetworkItem(3860107, location, player, flags)
+    return NetworkItem(3860114, location, player, flags)  # UFO has no dedicated statue artwork.
 
 
 @pytest.mark.parametrize(("location", "player", "flags", "visual"), [
@@ -83,7 +83,7 @@ def test_known_kirby_item_uses_its_distinct_code_on_live_remote_receipt(code, ar
 
 
 def test_access_receipt_art_codes_keep_preexisting_shard_and_wire_reserved():
-    assert VISUAL_ROM_MARKER == b"APVIS04\0"
+    assert VISUAL_ROM_MARKER == b"APVIS05\0"
     assert RewardArt.SHARD + 1 == 45
     assert RewardArt.PHONE + 1 == 46
     assert RewardArt.HUB_SWITCH + 1 == 47
@@ -93,6 +93,15 @@ def test_access_receipt_art_codes_keep_preexisting_shard_and_wire_reserved():
         assert visual_for_remote_receipt(NetworkItem(code, 7, 2, 1), 1) == 47
     for code in range(3860037, 3860041):
         assert visual_for_remote_receipt(NetworkItem(code, 7, 2, 1), 1) == 48
+
+
+@pytest.mark.parametrize("code", [3860111, 3860112, 3860114, 3860121, 3860123, 3860124])
+def test_non_statue_ability_receipts_use_generic_gem(code):
+    assert visual_for_remote_receipt(NetworkItem(code, 7, 2, 1), 1) == VISUAL_GEM
+
+
+def test_burning_unlock_receipt_uses_its_statue_art_opcode():
+    assert visual_for_remote_receipt(NetworkItem(3860103, 7, 2, 1), 1) == 50
 
 
 @pytest.mark.asyncio
@@ -137,7 +146,7 @@ async def test_native_mailbox_accept_reject_ambiguous_reset_busy_and_distinct_ar
 async def test_high_collectible_opcode_and_frame_wrap_keep_the_reject_bit_free():
     q = ReceiptVisuals()
     opcode = max(RewardArt) + 1
-    assert opcode == VISUAL_MAX_OPCODE == 48
+    assert opcode == VISUAL_MAX_OPCODE == 67
     q.pending.append(opcode)
     q.supported = True
     read = AsyncMock(return_value=[pack("<IIII", 0, 0, 1, 0),
@@ -152,7 +161,7 @@ async def test_high_collectible_opcode_and_frame_wrap_keep_the_reject_bit_free()
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize("marker", [bytes(8), b"APVIS01\0", b"APVIS02\0", b"APVIS03\0"])
+@pytest.mark.parametrize("marker", [bytes(8), b"APVIS01\0", b"APVIS02\0", b"APVIS03\0", b"APVIS04\0"])
 async def test_marker_is_optional_and_same_socket_history_replacement_fences_async_pump(marker):
     q = ReceiptVisuals()
     q.pending.append(VISUAL_GEM)

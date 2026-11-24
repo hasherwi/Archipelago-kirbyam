@@ -11,7 +11,7 @@ from BaseClasses import Item, ItemClassification, Location
 import pytest
 from worlds.Files import APTokenTypes
 
-from ..data import LocationCategory, data
+from ..data import LocationCategory, data, load_json_data
 from ..items import KirbyAmItem
 from ..locations import KirbyAmLocation
 from ..options import AbilityRandomizationMode
@@ -24,7 +24,13 @@ from ..reward_art_config import (
     build_reward_art_config,
     reward_art_location_key,
 )
-from ..reward_art_types import KIRBY_CONSUMABLE_ART_BY_ITEM_CODE, KIRBY_NATIVE_ART_BY_ITEM_CODE, RewardArt
+from ..reward_art_types import (
+    KIRBY_CONSUMABLE_ART_BY_ITEM_CODE,
+    KIRBY_NATIVE_ART_BY_ITEM_CODE,
+    KIRBY_STATUE_ART_BY_ITEM_CODE,
+    RewardArt,
+    reward_art_for_item,
+)
 from ..rom import KirbyAmProcedurePatch, write_tokens
 from .test_rom_tokens import _make_world
 
@@ -152,6 +158,8 @@ def test_python_tokens_match_native_lookup_abi(tmp_path: Path) -> None:
         _location("BOSS_DEFEAT_4", KirbyAmItem(
             "Moonlight Mansion 2-11 - Lever Wall", ItemClassification.progression, 3860037, 1,
         )),
+        _location("BOSS_DEFEAT_5", KirbyAmItem("Burning Ability", ItemClassification.progression, 3860103, 1)),
+        _location("BOSS_DEFEAT_6", KirbyAmItem("Parasol Ability", ItemClassification.progression, 3860105, 1)),
     ))
     (tmp_path / "abi.bin").write_bytes(token)
     source = tmp_path / "native.c"
@@ -165,7 +173,7 @@ int main(void) {
     FILE *f = fopen("abi.bin", "rb");
     assert(f && fread(&config, 1, sizeof(config), f) == sizeof(config));
     fclose(f);
-    assert(config.marker == AP_REWARD_ART_MAGIC && config.count == 8u);
+    assert(config.marker == AP_REWARD_ART_MAGIC && config.count == 10u);
     assert(ap_reward_art_from_config(&config, AP_REWARD_KEY(AP_REWARD_MAP_CHEST, 0)) == AP_REWARD_TRAP);
     assert(ap_reward_art_from_config(&config, AP_REWARD_KEY(AP_REWARD_SWITCH, 1)) == AP_REWARD_TRAP);
     assert(ap_reward_art_from_config(&config, AP_REWARD_KEY(AP_REWARD_MAP_CHEST, 1)) == AP_REWARD_GEM);
@@ -175,14 +183,16 @@ int main(void) {
     assert(ap_reward_art_from_config(&config, AP_REWARD_KEY(AP_REWARD_BOSS, 1)) == 45u);
     assert(ap_reward_art_from_config(&config, AP_REWARD_KEY(AP_REWARD_BOSS, 2)) == 46u);
     assert(ap_reward_art_from_config(&config, AP_REWARD_KEY(AP_REWARD_BOSS, 3)) == 47u);
+    assert(ap_reward_art_from_config(&config, AP_REWARD_KEY(AP_REWARD_BOSS, 4)) == 49u);
+    assert(ap_reward_art_from_config(&config, AP_REWARD_KEY(AP_REWARD_BOSS, 5)) == 66u);
     assert(ap_reward_art_from_config(&config, 0u) == AP_REWARD_GEM);
     config.count = AP_REWARD_ART_CAPACITY + 1u;
     assert(ap_reward_art_from_config(&config, AP_REWARD_KEY(AP_REWARD_MAP_CHEST, 0)) == AP_REWARD_GEM);
-    config.count = 8u;
+    config.count = 10u;
     config.marker = 0x32565241u; /* Older packed ARV2 data is not interpreted as ARV3. */
     assert(ap_reward_art_from_config(&config, AP_REWARD_KEY(AP_REWARD_MAP_CHEST, 0)) == AP_REWARD_GEM);
     config.marker = AP_REWARD_ART_MAGIC;
-    config.variants[6] = 0xFFu;
+    config.variants[8] = 0xFFu;
     assert(ap_reward_art_from_config(&config, AP_REWARD_KEY(AP_REWARD_MAP_CHEST, 0)) == AP_REWARD_GEM);
     return 0;
 }
@@ -297,7 +307,7 @@ def test_unknown_local_kirby_item_and_unsupported_item_keep_generic() -> None:
     area_key = _location("BOSS_DEFEAT_2", KirbyAmItem(
         "Moonlight Mansion - Area Key", ItemClassification.progression, 3860041, 1,
     ))
-    ability = _location("BOSS_DEFEAT_3", KirbyAmItem("Fire Ability", ItemClassification.progression, 3860101, 1))
+    ability = _location("BOSS_DEFEAT_3", KirbyAmItem("Sleep Ability", ItemClassification.progression, 3860111, 1))
     copy_room = _location("BOSS_DEFEAT_4", KirbyAmItem(
         "Copy Ability Room Access", ItemClassification.progression, 3860500, 1,
     ))
@@ -320,7 +330,7 @@ def test_native_art_registry_matches_the_curated_areas_and_complete_item_familie
     native = KIRBY_NATIVE_ART_BY_ITEM_CODE
     areas = ("Rainbow Route", "Moonlight Mansion", "Cabbage Cavern", "Mustard Mountain",
              "Carrot Castle", "Olive Ocean", "Peppermint Palace", "Radish Ruins", "Candy Constellation")
-    assert len(native) == 78
+    assert len(native) == 97
     for area_index, label in enumerate(areas, 9):
         (code,) = (code for code, art in native.items() if art == area_index)
         assert data.items[code].label == f"{label} - Map"
@@ -407,3 +417,99 @@ def test_generated_seed_preserves_variant_identity_across_treasure_and_access_fa
         location = data.locations[key]
         assert slot[location.location_id][:2] == (item_code, 1)
         assert variants[reward_art_location_key(location)] == art
+
+
+def test_ability_art_registry_matches_native_statue_subtypes_only() -> None:
+    inventory = load_json_data("ability_source_inventory.json")
+    statue_abilities = {
+        (row["type_id"], row["subtype1"]): row["native_grant"]
+        for row in inventory["placements"]
+        if row["source_type"] == "statue" and row["native_room"] == 970
+    }
+    vanilla_names_to_runtime_id = load_json_data("abilities.json")
+    native = KIRBY_STATUE_ART_BY_ITEM_CODE
+    assert len(native) == len(statue_abilities) == 19
+
+    # Retail 0x2D1 variants 11–29 are grouped by object families 1, 2, 4,
+    # 3, not numeric order of the native object type IDs.
+    first_retail_variant = {146: 11, 147: 19, 148: 29, 149: 26}
+    for (native_type, subtype), name in statue_abilities.items():
+        retail_variant = first_retail_variant[native_type] + subtype
+        art = 48 + retail_variant - 11
+        code = 3860100 + vanilla_names_to_runtime_id[name]["runtime_ability_id"]
+        assert native[code] == art
+        assert KIRBY_NATIVE_ART_BY_ITEM_CODE[code] == art
+        assert data.items[code].label == f"{name} Ability"
+
+    assert (146, 1, "Burning", 291, "0x088C263C") in {
+        (row["type_id"], row["subtype1"], row["native_grant"], row["native_room"], row["template_address"])
+        for row in inventory["placements"]
+        if row["source_type"] == "statue"
+    }
+    nonstatue = {"Sleep": 11, "Cook": 12, "UFO": 14, "Magic": 21, "Mini": 23, "Crash": 24}
+    for name, runtime_id in nonstatue.items():
+        ap_code = 3860100 + runtime_id
+        assert ap_code not in native
+        item = KirbyAmItem(f"{name} Ability", ItemClassification.progression, ap_code, 1)
+        assert reward_art_for_item(item, 1) == RewardArt.GEM
+    assert 3860126 not in native  # Master stand/sword is not a CopyAbilityObject.
+
+
+def test_generated_burning_uses_statue_and_sleep_stays_generic(tmp_path: Path) -> None:
+    from io import BytesIO
+    from zipfile import ZipFile
+    import Generate
+    import Main
+    from .support.integration_generation import load_multidata_from_archive
+
+    players = tmp_path / "players"
+    players.mkdir()
+    output = tmp_path / "output"
+    output.mkdir()
+    (players / "1.yaml").write_text(
+        'name: Statue Ability\n'
+        'game: Kirby & The Amazing Mirror\n'
+        'Kirby & The Amazing Mirror:\n'
+        '  ability_gating: true\n'
+        '  ability_randomization_mode: 0\n'
+        '  area_keys: false\n'
+        '  room_sanity: true\n'
+        '  accessibility: full\n'
+        '  enable_traps: false\n'
+        '  plando_items:\n'
+        '    - item: Burning Ability\n'
+        '      location: Tutorial World Map - Big Chest\n'
+        '      force: true\n'
+        '    - item: Sleep Ability\n'
+        '      location: Rainbow Route - First Visit\n'
+        '      force: true\n'
+    )
+    options = Generate.mystery_argparse([
+        "--multi", "1", "--seed", "1086", "--plando", "items",
+        "--player_files_path", str(players), "--outputpath", str(output),
+    ])
+    options.weights_file_path = None
+    options.meta_file_path = None
+    Main.main(*Generate.main(options))
+    archive_path, = output.glob("*.zip")
+    slot = load_multidata_from_archive(archive_path)["locations"][1]
+    with ZipFile(archive_path) as archive:
+        name, = (name for name in archive.namelist() if name.endswith(".apkirbyam"))
+        with ZipFile(BytesIO(archive.read(name))) as patch:
+            token_data = patch.read("token_data.bin")
+    pos = 4
+    for _ in range(struct.unpack_from("<I", token_data)[0]):
+        kind, offset, length = struct.unpack_from("<BII", token_data, pos)
+        pos += 9
+        if kind == APTokenTypes.WRITE and offset == REWARD_ART_CONFIG_ROM_OFFSET:
+            break
+        pos += length
+    else:
+        pytest.fail("Generated archive is missing the ARV3 reward art token")
+    variants = _variants(token_data[pos:pos + length])
+    chest = data.locations["MAJOR_CHEST_WORLD_MAP"]
+    area = data.locations["AREA_VISIT_1_RAINBOW_ROUTE"]
+    assert slot[chest.location_id][:2] == (3860103, 1)
+    assert slot[area.location_id][:2] == (3860111, 1)
+    assert variants[reward_art_location_key(chest)] == RewardArt.ABILITY_BURNING
+    assert reward_art_location_key(area) not in variants

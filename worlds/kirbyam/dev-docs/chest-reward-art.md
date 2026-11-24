@@ -291,3 +291,17 @@ native lever. The two larger objects are scaled to the existing 16×16
 popup and all three use existing bank F. A reward visual never operates
 the phone, a switch, or a lever; those mechanics are unchanged. Outgoing
 non-trap items still use the generic gem.
+
+### Copy-ability unlock awards
+
+Only unlocks with a verified native ability statue use statue art. The
+nineteen stock frames are Beam, Burning, Laser, Fire, Stone, Fighter, Bomb,
+Tornado, Wheel, Ice, Spark, Missile, Smash, Throw, Hammer, Sword, Cutter,
+Cupid, and Parasol. The payload uses their 16×16 native shapes with the
+existing popup palette; it will not spawn a statue or transform Kirby.
+
+The remaining ability unlocks (Sleep, Cook, UFO, Magic, Mini, and Crash),
+Master's separate stand, and Copy Ability Room access do not use statue
+art. These keep the generic gem, as do outgoing non-trap items and
+unsupported placements. A live incoming statue award is still purely
+visual and happens only after its separate ROM delivery acknowledgment.

@@ -24,9 +24,9 @@ def test_reserved_table_and_runtime_art_ids(art, rom):
     writes = patch_rom.build_collectible_art_extension(rom, bytes(65536))
     assert set(writes) == {0x1007000, 0x100D000}
     table = writes[0x100D000]
-    assert table[:8] == b"APART04\0"
-    assert 0x100D000 + len(table) == 0x100E388
-    for art_id in range(9, 48):
+    assert table[:8] == b"APART05\0"
+    assert 0x100D000 + len(table) == 0x100ED08
+    for art_id in range(9, 67):
         offset = 8 + (art_id - 9) * 128
         assert bool(any(table[offset:offset + 128])) == (art_id not in (18, 19))
 
@@ -56,11 +56,11 @@ def test_rejects_bad_native_abi_or_occupied_slot(art, rom):
         with pytest.raises(ValueError, match="Unexpected native collectible"):
             build(bad, bytes(65536))
     occupied = bytearray(65536)
-    occupied[0xE387] = 1
+    occupied[0xED07] = 1
     with pytest.raises(ValueError, match="reserved extension slot"):
         build(rom, occupied)
     with pytest.raises(ValueError, match="reserved extension slot"):
-        build(rom, bytes(0xE387))
+        build(rom, bytes(0xED07))
 
 
 def test_shard_composite_piece_packing(art):
@@ -126,4 +126,32 @@ def test_access_art_uses_fixed_pink_palette_and_stock_object_geometry(art, rom):
         bad = bytearray(rom)
         bad[native_offset] ^= 1
         with pytest.raises(ValueError, match="Unexpected native Phone/Switch/Lever"):
+            build(bad, bytes(65536))
+
+
+def test_statue_graphics_follow_native_ability_variants(art, rom):
+    build = art["build_collectible_art_table"]
+    table = build(rom, bytes(65536))
+    native_order = (7, 3, 13, 1, 8, 20, 9, 16, 4, 2, 15, 25, 22, 10, 17, 18, 6, 19, 5)
+    assert art["STATUE_ABILITY_IDS"] == native_order
+    assert len(set(native_order)) == 19
+    tiles = {
+        ability: table[8 + (i + 48 - 9) * 128:8 + (i + 49 - 9) * 128]
+        for i, ability in enumerate(native_order)
+    }
+    assert len(set(tiles.values())) == 19
+    assert tiles[3] != tiles[1]  # Burning vs Fire, variants 12 and 14.
+    for ability, index, palette in ((3, 1, 429), (18, 15, 431), (5, 18, 42)):
+        start = art["STATUE_ART_BASE"] + index * 128
+        raw = rom[start:start + 128]
+        colors = art["_remap"](art["_palette"](rom, palette)) if palette != 42 else tuple(range(16))
+        assert tiles[ability] == bytes(colors[b & 15] | colors[b >> 4] << 4 for b in raw)
+        assert [(n & 15 == 0, n >> 4 == 0) for n in raw] == [
+            (n & 15 == 0, n >> 4 == 0) for n in tiles[ability]
+        ]
+    for address in (0x35369C, 0x3538FC, 0x440760, 0x4765E8, 0x4B7658,
+                    art["STATUE_ART_BASE"], art["PALETTE_BASE"] + 429 * 32):
+        bad = bytearray(rom)
+        bad[address] ^= 1
+        with pytest.raises(ValueError, match="Unexpected native ability-statue"):
             build(bad, bytes(65536))

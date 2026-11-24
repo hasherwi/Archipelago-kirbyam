@@ -103,7 +103,8 @@ def build_dummy_rom() -> bytearray:
     # Deterministic non-retail tiles; exact script/OAM shape exercises the real builder.
     art = runpy.run_path(str(PATCH_ROM_PATH.with_name("collectible_art.py")))
     for offset, asset in {**art["native_abi_fixtures"](), **art["synthetic_assets"](),
-                          **art["synthetic_animation_assets"](), **art["synthetic_access_assets"]()}.items():
+                          **art["synthetic_animation_assets"](), **art["synthetic_access_assets"](),
+                          **art["synthetic_statue_assets"]()}.items():
         rom[offset:offset + len(asset)] = asset
 
     # The common R-call entry is validated before installing the Phone wrapper.

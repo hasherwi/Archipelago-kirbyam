@@ -98,7 +98,7 @@ int main(void) {
     request = (AP_FRAME_COUNTER << AP_VISUAL_FRAME_SHIFT) | AP_VISUAL_MAX_CODE;
     fixture.request = request;
     ap_receipt_visual_poll();
-    assert(draws == 4 && last_art == AP_REWARD_LEVER_WALL && fixture.result == request);
+    assert(draws == 4 && last_art == AP_REWARD_STATUE_LAST && fixture.result == request);
     assert(ap_visual_can_start((AP_VISUAL_FRAME_MASK << AP_VISUAL_FRAME_SHIFT) | AP_VISUAL_GEM, 0u, AP_VISUAL_READY));
     return 0;
 }

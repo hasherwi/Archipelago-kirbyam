@@ -37,7 +37,7 @@ _Static_assert(AP_GOAL_RUN_ADDRESS + sizeof(struct ApGoalRun) <= AP_CUE_MAILBOX_
 #define AP_CUE_ACTIVE (*(volatile uint32_t *)(AP_CUE_MAILBOX_ADDRESS + 12u))
 #define AP_VISUAL_MAILBOX ((volatile struct ApReceiptVisualMailbox *)AP_VISUAL_MAILBOX_ADDRESS)
 __attribute__((used, section(".apvisualinfo")))
-const char gApReceiptVisualInfo[8] = "APVIS04";
+const char gApReceiptVisualInfo[8] = "APVIS05";
 
 
 // Kirby AP item ID base offset
