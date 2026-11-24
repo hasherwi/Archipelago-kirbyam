@@ -362,11 +362,14 @@ def _build_starting_kirby_color_option() -> type[Choice]:
     A confirmed, owned treasure-room paint overrides this static choice and
     persists per save file. The treasure menu's default swatch clears that choice.
 
+    Compare Kirby starting colors:
+      https://github.com/hasherwi/Archipelago-kirbyam/blob/main/worlds/kirbyam/docs/color-palettes.md
+
     Supported color names:
       %s
 
-    Shadow, Ivory, Citrus, White and Lavender are appearance choices, without
-    new collectible spray paints. Native Chalk keeps its original appearance.
+    Custom palettes are appearance choices without new collectible spray paints.
+    All original spray-paint appearances, including Chalk, are unchanged.
 
     Set the entire option to `random` to let Archipelago choose one supported
     color during option parsing. In a YAML, the shorthand is:
@@ -375,9 +378,11 @@ def _build_starting_kirby_color_option() -> type[Choice]:
     `starting_kirby_color` weight mapping with that one line.
 
     Set to `random_color_per_room` to choose an initial color at generation,
-    then change to a different supported color whenever the connected BizHawk
-    client observes Kirby enter a different room. This mode takes priority over
-    a treasure-room paint choice; it does not erase the saved choice.
+    then change to a different supported color whenever a connected KirbyAM
+    client on BizHawk or mGBA observes Kirby enter a different room. Without a
+    connected client, the patched ROM applies only the initial color. This
+    mode takes priority over a treasure-room paint choice; it does not erase
+    the saved choice.
     """
         % kirby_color_names_for_docs()
     )

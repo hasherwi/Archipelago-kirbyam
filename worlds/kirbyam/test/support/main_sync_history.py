@@ -29,6 +29,11 @@ def main_text(name: str, raw: bytes) -> bytes:
     """Reject any unpinned byte, then reverse only the explicitly recorded feature delta."""
     raw = raw.replace(b'\r\n', b'\n')
     entry = record()['files'][name]
+    # Each reviewed successor reverses to the exact preceding version. The
+    # original integrated hash and the historical main hash remain independent pins.
+    for successor in reversed(entry.get('reviewed_successors', [])):
+        assert _sha(raw) == successor['integrated_sha256'], 'Unreviewed successor source change'
+        raw = ''.join(_reverse(raw.decode('utf-8').splitlines(keepends=True), successor)).encode('utf-8')
     assert _sha(raw) == entry['integrated_sha256'], 'Unreviewed integrated source change'
     result = ''.join(_reverse(raw.decode('utf-8').splitlines(keepends=True), entry)).encode('utf-8')
     assert _sha(result) == entry['main_sha256'], 'Invalid main projection'
