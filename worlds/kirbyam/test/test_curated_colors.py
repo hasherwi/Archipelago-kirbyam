@@ -43,7 +43,7 @@ def test_registry_build_and_options_agree():
 
 @pytest.mark.parametrize('defect', ['short', 'wide', 'bool', 'transparent', 'missing_context', 'fallback', 'provenance', 'native_id'])
 def test_registry_rejects_unsafe_palette_data(defect):
-    data = json.loads((WORLD / 'data/colors.json').read_text())
+    data = json.loads((WORLD / 'data/colors.json').read_text(encoding='utf-8'))
     custom = data['colors'][14]
     if defect == 'short': custom['palettes']['normal'].pop()
     elif defect == 'wide': custom['palettes']['ufo'][4] = 0x8000
@@ -179,7 +179,7 @@ def test_new_themed_colors_keep_readable_shading_and_distinct_rows(key):
 
 def test_reference_palettes_match_the_gallery_and_preserve_runtime_owned_slots():
     colors = load_kirby_colors()
-    gallery = (WORLD / 'docs/color-palettes.md').read_text()
+    gallery = (WORLD / 'docs/color-palettes.md').read_text(encoding='utf-8')
     names = re.findall(r'^- \[([^\]]+)\]', gallery, re.MULTILINE)
     links = re.findall(r'(?<!!)\[([^\]]+)\]\((color-palette-[^()]+\.png)\)', gallery)
     expected_links = {color.display_name: f'color-palette-{color.key}.png' for color in colors}
