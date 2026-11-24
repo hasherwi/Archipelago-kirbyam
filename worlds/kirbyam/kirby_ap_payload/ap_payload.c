@@ -19,6 +19,7 @@ AP_COPY_EXT void ap_goal_poll(void);
 #include "receipt_sound_runtime.h"
 #include "chest_reward_art_runtime.h"
 #include "chest_reward_art.h"
+#include "reward_art.h"
 
 __attribute__((used, section(".apcueinfo")))
 const uint8_t gApReceiptCueInfo[8] = {'A','P','C','U','E','0','1',0};
@@ -454,10 +455,10 @@ static uint8_t ap_unlock_hub_door(uint8_t world_props_unlock_index) {
     return 1u;
 }
 
-/* The Big Switch uses a separate, parentless visual task. The native chest
- * popup task is not reusable here: its callback eventually reads and grants
- * the parent chest's reward. This task uses only native tile/draw/cleanup APIs. */
-static inline uint8_t *ap_big_switch_task_data(void *task) {
+/* Parentless visual for AP checks that are not Chest objects. The native
+ * Chest popup eventually reads and grants its parent chest's item. This task
+ * uses only native tile/draw/cleanup APIs and cannot grant a reward. */
+static inline uint8_t *ap_reward_task_data(void *task) {
     uint16_t offset = *(volatile uint16_t*)((uint8_t*)task + 6u);
     return (*(volatile uint16_t*)((uint8_t*)task + 0x12u) & 0x10u)
         ? (uint8_t*)(0x02000000u + ((uintptr_t)offset << 2))
@@ -471,9 +472,9 @@ static inline uint16_t ap_reward_local_room(void) {
         + (uint32_t)player * KIRBY_STRUCT_STRIDE + KIRBY_STRUCT_ROOM_OFFSET);
 }
 
-static __attribute__((noinline, section(".aprewardfx"))) void ap_big_switch_gem_frame(void) {
+static __attribute__((noinline, section(".aprewardfx"))) void ap_reward_gem_frame(void) {
     void *task = *(void *volatile*)0x030035D0u;
-    uint8_t *effect = ap_big_switch_task_data(task);
+    uint8_t *effect = ap_reward_task_data(task);
     volatile uint16_t *age = (volatile uint16_t*)(effect + 4u);
     /* The map interlude suspends room tasks. Do not let the visual
      * reappear when they resume after the physical check has persisted. */
@@ -487,19 +488,18 @@ static __attribute__((noinline, section(".aprewardfx"))) void ap_big_switch_gem_
     ((void (*)(void*))0x0806FAC9u)(effect); /* EffectObjectPostUpdate */
 }
 
-static __attribute__((noinline, section(".aprewardfx"))) void ap_spawn_big_switch_gem(
-    const uint8_t *sw, uint16_t room, uint32_t bit
-) {
+AP_REWARD_FX void ap_show_room_reward_gem(uint16_t room, int32_t x, int32_t y, uint32_t stop_hub_bit) {
     typedef void (*TaskFn)(void);
     typedef void (*DtorFn)(void *);
     typedef void *(*TaskCreateFn)(TaskFn, uint16_t, uint16_t, uint16_t, DtorFn);
     typedef void (*SpriteInitFn)(void *, void *, uint32_t, uint16_t, uint8_t, uint16_t);
     volatile uint8_t *head = (volatile uint8_t*)0x030039A4u;
     volatile struct ApChestTileUpload *ring = (volatile struct ApChestTileUpload*)0x03002EC0u;
-    void *task = ((TaskCreateFn)0x08152B01u)(ap_big_switch_gem_frame, 0x4Cu, 0x3500u, 0u,
+    if (room != ap_reward_local_room()) return;
+    void *task = ((TaskCreateFn)0x08152B01u)(ap_reward_gem_frame, 0x4Cu, 0x3500u, 0u,
                                           (DtorFn)0x0803DCCDu);
     if (task == (void*)0x03002500u) return; /* gEmptyTask */
-    uint8_t *effect = ap_big_switch_task_data(task);
+    uint8_t *effect = ap_reward_task_data(task);
     ((void (*)(void*))0x0803E3B1u)(effect); /* ClearEffectObject */
     effect[0] = 3u;
     uint32_t vram = ((uint32_t (*)(uint32_t))0x081570B1u)(4u);
@@ -507,16 +507,34 @@ static __attribute__((noinline, section(".aprewardfx"))) void ap_spawn_big_switc
         ((void (*)(void*))0x08152C3Du)(task);
         return;
     }
-    *(volatile int32_t*)(effect + 0x34u) = *(const volatile int32_t*)(sw + 0x40u);
-    *(volatile int32_t*)(effect + 0x38u) = *(const volatile int32_t*)(sw + 0x44u) - 30 * 256;
+    *(volatile int32_t*)(effect + 0x34u) = x;
+    *(volatile int32_t*)(effect + 0x38u) = y;
     *(volatile uint16_t*)(effect + 0x42u) = room;
-    *(volatile uint32_t*)(effect + 0x48u) = bit;
+    *(volatile uint32_t*)(effect + 0x48u) = stop_hub_bit;
     uint8_t before = *head;
     ((SpriteInitFn)0x080709F9u)(effect, effect + 0xCu, vram, 0x2D1u, 0u, 0xBu);
     if (!ap_chest_redirect_upload(ring, before, *head, (uint32_t)(uintptr_t)gApChestRewardArt)) {
         /* Drop the effect on the next task tick; do not show a stock item. */
         *(volatile uint16_t*)(effect + 4u) = 32u;
     }
+}
+
+/* Goal results can put Kirby above the camera. Keep the independent gem in
+ * the visible room even then; the native return motion remains untouched. */
+AP_REWARD_FX void ap_show_player_reward_gem(uint16_t room) {
+    uint8_t player = KIRBY_CURRENT_PLAYER;
+    if (player >= KIRBY_PLAYER_COUNT || room != ap_reward_local_room()) return;
+    uintptr_t kirby = KIRBY_STRUCTS_ADDR + (uint32_t)player * KIRBY_STRUCT_STRIDE;
+    uintptr_t viewport = 0x02023530u + (uint32_t)player * 0x668u + 0xCu;
+    int32_t camera_x = *(volatile int32_t*)viewport;
+    int32_t camera_y = *(volatile int32_t*)(viewport + 4u);
+    int32_t x = *(volatile int32_t*)(kirby + 0x40u);
+    int32_t y = *(volatile int32_t*)(kirby + 0x44u) - 24 * 256;
+    if (x < camera_x + 16 * 256) x = camera_x + 16 * 256;
+    if (x > camera_x + 224 * 256) x = camera_x + 224 * 256;
+    if (y < camera_y + 48 * 256) y = camera_y + 48 * 256;
+    if (y > camera_y + 132 * 256) y = camera_y + 132 * 256;
+    ap_show_room_reward_gem(room, x, y, 0u);
 }
 
 __attribute__((used, noinline, long_call, section(".aprewardfx")))
@@ -535,7 +553,8 @@ void ap_big_switch_reward_art(void *object) {
         if (source[12] == 0x86u && door >= 1u && door <= 15u && source[4] == ap_hub_props[door]) {
             uint32_t bit = 1u << ap_hub_bits[door];
             if ((ap_hub_saved_checks(AP_HUB_SAVED_CHECKS, AP_HUB_ROM_AUTH) & bit) == 0u) {
-                ap_spawn_big_switch_gem(sw, room, bit);
+                ap_show_room_reward_gem(room, *(const volatile int32_t*)(sw + 0x40u),
+                    *(const volatile int32_t*)(sw + 0x44u) - 30 * 256, bit);
             }
         }
     }

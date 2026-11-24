@@ -14,7 +14,8 @@ def test_three_file_ownership_and_save_retries(tmp_path):
     payload = Path(__file__).resolve().parents[1] / "kirby_ap_payload"
     source = (payload / "copy_room.c").read_text() + "\n" + (payload / "battery.c").read_text() + "\n" + (payload / "phone.c").read_text() + "\n" + (payload / "goal_game.c").read_text()
     for address, name in (("0x0800ACD5u", "fake_save"), ("0x0800A91Du", "fake_load"),
-                          ("0x0800AC01u", "fake_clear"), ("0x080332BDu", "fake_start")):
+                          ("0x0800AC01u", "fake_clear"), ("0x080332BDu", "fake_start"),
+                          ("0x0800D2E1u", "fake_landed")):
         source = source.replace(address, "&" + name)
     source = r'''
 #define _GNU_SOURCE
@@ -25,6 +26,7 @@ def test_three_file_ownership_and_save_retries(tmp_path):
 static int16_t fake_save(uint32_t,uint16_t);
 static int16_t fake_load(uint32_t,uint16_t);
 static void fake_clear(uint32_t);
+static void fake_landed(void*);
 static void fake_start(uint8_t,uint8_t,const uint16_t*,const int32_t*,const uint32_t*);
 ''' + source + r'''
 #define WORLD ((uint32_t*)0x02028C10u)
@@ -46,6 +48,13 @@ static void fake_start(uint8_t humans,uint8_t local,const uint16_t*r,const int32
     U32(KIRBY+0xCC)=0x03001000;U32(0x03001008)=0x0803EE19;
     U16(0x03001010)=0x3000;U16(0x03001002)=1;U16(0x03001004)=1;
     U16(0x03001006)=0x2000;U16(0x03001012)=0;U8(0x03002000)=0;
+}
+static unsigned landed_finishes, gems;
+static void fake_landed(void *star) {
+    if (landed_finishes) U32((uintptr_t)star + 0x78u)=0x0800DE21u;
+}
+void ap_show_player_reward_gem(uint16_t room) {
+    if (room==U16(KIRBY+0x60u)) ++gems;
 }
 #define CHECK(x) do { if(!(x)) {printf("line %d\n",__LINE__);return 1;} }while(0)
 #define START() ap_copy_room_start(1,0,0,0,0)
@@ -110,13 +119,13 @@ int main(void) {
     for(unsigned slot=0;slot<3;slot++) {
         SAVE_SLOT=slot;CHECK(ap_copy_room_load(1,slot)==0);START();
         CHECK(ap_copy_room_epoch());
-        for(unsigned bit=0;bit<16;bit++) ap_copy_room_complete_goal(bit);
+        for(unsigned bit=0;bit<16;bit++) CHECK(ap_copy_room_complete_goal(bit));
         CHECK((RECORD[4]&AP_GOAL_FLAGS)==AP_GOAL_FLAGS && ap_copy_room_owned());
         fail_save=1;ap_copy_room_poll();CHECK(CTX->dirty);
         fail_save=0;for(unsigned i=0;i<61;i++)ap_copy_room_poll();
         CHECK(!CTX->dirty && files[slot][26]==(AP_COPY_TAG|AP_GOAL_FLAGS|1));
         unsigned before=saves[slot];
-        ap_copy_room_complete_goal(15);ap_copy_room_complete_goal(16);COMMAND(1);
+        CHECK(!ap_copy_room_complete_goal(15));CHECK(!ap_copy_room_complete_goal(16));COMMAND(1);
         CHECK(saves[slot]==before && !CTX->dirty);
         memset((void*)CTX,0,sizeof(*CTX));
         CHECK(ap_copy_room_load(1,slot)==0);START();
@@ -143,6 +152,27 @@ int main(void) {
     ap_goal_start(RUN,CTX->epoch,door->destination,0x03002000u,1u);
     for(unsigned i=0;i<20;i++) { ap_phone_poll();ap_goal_poll(); }
     CHECK(RUN->phase==2u && RUN->star==0x03002000u);
+    /* Drive native callback and shipping origin/lifecycle gates together.
+     * No bonus callback or score is supplied: a normal landing still counts. */
+    const uintptr_t star=0x03002000u;
+    U8(star+0xB5u)=1u;
+    U16(star+0x60u)=door->destination;
+    U32(star+0x78u)=0x0800D2E1u;
+    ap_goal_landed_callback((void*)star);
+    CHECK(gems==0 && !(RECORD[4]&AP_GOAL_FLAGS));
+    landed_finishes=1;
+    ap_goal_landed_callback((void*)star);
+    CHECK(gems==1 && RECORD[4]==(AP_COPY_TAG|(1u<<(door->bit+2u))));
+    ap_goal_landed_callback((void*)star);
+    CHECK(gems==1);
+    ap_copy_room_poll();
+    CHECK(ap_copy_room_load(1,0)==0);START();
+    U16(KIRBY+0x60u)=door->destination;
+    U8(KIRBY+0x100u)=6u;
+    ap_goal_enter(RUN,CTX->epoch,door->pointer,door->source,door->destination);
+    ap_goal_start(RUN,CTX->epoch,door->destination,star,1u);
+    ap_goal_landed_callback((void*)star);
+    CHECK(gems==1 && RECORD[4]==(AP_COPY_TAG|(1u<<(door->bit+2u))));
     /* Each Goal Game bit is independent of both permission bits. */
     for(unsigned bit=0;bit<16;bit++) {
         SAVE_SLOT=0;ap_copy_room_clear(1);START();

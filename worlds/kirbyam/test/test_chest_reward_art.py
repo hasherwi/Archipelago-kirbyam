@@ -111,7 +111,7 @@ def test_big_switch_reward_art_triggers_only_on_fresh_physical_ap_checks(tmp_pat
     source_read = "*(const uint8_t*const volatile*)(sw + 0xB0u)"
     assert wrapper.count(source_read) == 1
     wrapper = wrapper.replace(source_read, "fixture_source")
-    frame_begin = code.index("void ap_big_switch_gem_frame(")
+    frame_begin = code.index("void ap_reward_gem_frame(")
     frame_end = code.index("\n}", frame_begin) + 2
     frame = code[frame_begin:frame_end]
     for old, new in (

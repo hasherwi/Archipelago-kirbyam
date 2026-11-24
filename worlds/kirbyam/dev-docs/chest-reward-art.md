@@ -1,12 +1,13 @@
-# Shared chest, lever, and Big Switch reward art
+# Shared chest, lever, Big Switch, and Goal Game reward art
 
 Every treasure chest uses the supplied six-gem reward art on opening. The
 closed chest, rising popup motion, sounds, duration, original reward logic, and
 check IDs are unchanged. A physical lever pull shows the same art because it
 uses the same native popup path. Receiving Lever Wall, restoring a lever, or
 re-entering its room does not show the art. The same gem also appears on the
-first physical press of an Archipelago Big Switch. Other reward surfaces are
-unchanged.
+first physical press of an Archipelago Big Switch and the first completion
+of each Goal Game check, even with no native prize. Other reward surfaces
+are unchanged.
 
 | Original | Same frame with this patch |
 | --- | --- |
@@ -47,6 +48,21 @@ positions, and the later exit and re-entry. The corresponding hub connection
 stayed closed without receiving its item. The new build queued the gem exactly
 once, on the press at frame 41, and did not requeue it after re-entry.
 
+## Goal Game replay
+
+| Zero-prize control | Same frame with Goal Game art |
+| --- | --- |
+| ![Goal Game completion without the gem](goal_game_reward_art_before.png) | ![Six-gem popup after a zero-prize Goal Game](goal_game_reward_art_in_game.png) |
+
+This is the first physical Goal Game source (room 557 to cabinet 980), 33
+frames after the authenticated completion. Both zero- and one-prize input
+routes used an isolated blank-save native startup-room fixture, with no runtime
+memory edits. Candidate and control matched all 1,180 sampled gameplay states
+per route. Both recorded the expected native-file-0 check at frame 2185 and
+returned to Central Circle at frame 2639. Read-only native callback counting
+confirmed unchanged prize counts (0 and 1) and landing counts (62 each). The
+candidate queued the gem exactly once on the new check in each route.
+
 ## ROM contract
 
 The sole call from the chest-open handler to ChestItemPopup at ROM offset
@@ -71,3 +87,10 @@ Keep the original dispatch intact. A short-lived, parentless effect uses the
 same four tiles and palette as the two chest-task families, without invoking
 the chest reward callback. It stops drawing when that check persists, the
 player leaves the room, or the effect expires.
+
+Goal Games reuse the parentless art without touching native prize collection.
+The shipping landing handler records the physical check only after the native
+completion step, and now reports whether the authenticated save record changed.
+Only that fresh-check result shows the gem. Its position stays inside the
+current cabinet view even when Kirby has moved above the camera for the native
+return sequence. A completed cabinet remains playable without another AP gem.

@@ -1,6 +1,7 @@
 #include "copy_room.h"
 #include "goal_game_runtime_logic.h"
 #include "battery.h"
+#include "reward_art.h"
 #define RUN ((volatile struct ApGoalRun *)AP_GOAL_RUN_ADDRESS)
 _Static_assert(0x0203B190u + sizeof(struct ApBatteryContext) <= AP_GOAL_RUN_ADDRESS, "Goal state overlaps Phone battery state");
 _Static_assert(AP_GOAL_RUN_ADDRESS + sizeof(struct ApGoalRun) <= 0x02040000u, "Goal state exceeds EWRAM");
@@ -49,5 +50,7 @@ AP_COPY_EXT void ap_goal_landed_callback(void *star) {
     bit = ap_goal_complete(RUN, ap_copy_room_epoch(), U16(KIRBY + 0x60u), s,
             (U8(s + 0xB5u) & 1u) && U16(s + 0x60u) == U16(KIRBY + 0x60u),
             U32(s + 0x78u) == 0x0800DE21u);
-    if (bit < 16u) ap_copy_room_complete_goal(bit);
+    if (bit < 16u && ap_copy_room_complete_goal(bit)) {
+        ap_show_player_reward_gem(U16(KIRBY + 0x60u));
+    }
 }

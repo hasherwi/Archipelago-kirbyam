@@ -15,7 +15,7 @@ static uint8_t task_identity;
 static void *fixture_task = &task_identity;
 static uint32_t AP_HUB_SWITCH_FLAGS;
 
-static uint8_t *ap_big_switch_task_data(void *task) {
+static uint8_t *ap_reward_task_data(void *task) {
     assert(task == fixture_task);
     return fixture_effect;
 }
@@ -40,8 +40,8 @@ static uint16_t ap_reward_local_room(void) {
     return local_room;
 }
 
-static void ap_spawn_big_switch_gem(const uint8_t *sw, uint16_t room, uint32_t bit) {
-    assert(sw == object && room == local_room);
+static void ap_show_room_reward_gem(uint16_t room, int32_t x, int32_t y, uint32_t bit) {
+    assert(room == local_room && x == 136 * 256 && y == 98 * 256);
     assert(bit == (1u << ap_hub_bits[*(uint16_t*)(fixture_source + 0x14u)]));
     ++pops;
 }
@@ -58,6 +58,8 @@ static void native_dispatch(void *sw) {
 
 static void physical_state(uint16_t state, uint16_t big, uint16_t room, uint16_t door,
                            uint8_t world_prop, uint8_t object_type) {
+    *(int32_t*)(object + 0x40u) = 136 * 256;
+    *(int32_t*)(object + 0x44u) = 128 * 256;
     *(uint16_t*)(object + 0xB6u) = state;
     *(uint16_t*)(object + 0xB8u) = big;
     *(uint16_t*)(object + 0x60u) = room;
@@ -105,19 +107,19 @@ int main(void) {
     *effect_room = local_room;
     *bit = 2u;
     AP_HUB_SWITCH_FLAGS = 1u; /* Different checks do not despawn this gem. */
-    ap_big_switch_gem_frame();
-    ap_big_switch_gem_frame();
+    ap_reward_gem_frame();
+    ap_reward_gem_frame();
     assert(*age == 2u && *y == -256 && draws == 2u && destroys == 0u);
     AP_HUB_SWITCH_FLAGS = 3u;
-    ap_big_switch_gem_frame(); /* Native tasks resumed after the save/transition. */
+    ap_reward_gem_frame(); /* Native tasks resumed after the save/transition. */
     assert(draws == 2u && destroys == 1u);
     AP_HUB_SWITCH_FLAGS = 0u;
     *effect_room = 711u;
-    ap_big_switch_gem_frame(); /* Nothing follows the camera to another room. */
+    ap_reward_gem_frame(); /* Nothing follows the camera to another room. */
     assert(draws == 2u && destroys == 2u);
     *effect_room = local_room;
     *age = 32u;
-    ap_big_switch_gem_frame(); /* No persisted check needed for normal expiry. */
+    ap_reward_gem_frame(); /* No persisted check needed for normal expiry. */
     assert(draws == 2u && destroys == 3u);
     return 0;
 }

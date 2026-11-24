@@ -141,14 +141,15 @@ AP_COPY_EXT uint32_t *ap_copy_room_state(uint32_t kind, uint32_t index, uint32_t
     return ((uint32_t *(*)(uint32_t,uint32_t,uint32_t))0x08002889u)(kind,index,player);
 }
 
-/* Goal flags share authentication and native-file lifecycle with ownership. */
-AP_COPY_EXT void ap_copy_room_complete_goal(uint32_t bit) {
+/* Report only a newly recorded completion. The visual caller must not
+ * replay when visiting a cabinet whose bit the native file already owns. */
+AP_COPY_EXT uint8_t ap_copy_room_complete_goal(uint32_t bit) {
     uint32_t flag;
-    if (bit >= 16u || !ap_copy_room_epoch()) return;
+    if (bit >= 16u || !ap_copy_room_epoch()) return 0u;
     flag = 1u << (bit + 2u);
-    if (!(RECORD[4] & flag)) {
-        RECORD[4] |= flag;
-        CTX->dirty = 1u;
-        CTX->retry = 0u;
-    }
+    if (RECORD[4] & flag) return 0u;
+    RECORD[4] |= flag;
+    CTX->dirty = 1u;
+    CTX->retry = 0u;
+    return 1u;
 }
