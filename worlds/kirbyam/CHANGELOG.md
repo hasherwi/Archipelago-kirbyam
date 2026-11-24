@@ -15,7 +15,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Play distinct in-game cues when new Archipelago items are received (PR #1136).
 
 ### Improvements
-- Use the shared six-gem sprite for chests, levers, Big Switches, Goal Game checks, first area visits, RoomSanity and core landmark checks, and Mirror Shards dropped by area bosses.
+- Use a variant of the Archipelago logo as an item sprite for for all location checks that don't have an in-game asset or award items to other AP worlds. This replaces all native in-game sprites where relevant (PR #1137).
 - Show boss defeat progress in `/goal` when using the boss-count goal (PR #1133).
 
 ### Known Limitations
