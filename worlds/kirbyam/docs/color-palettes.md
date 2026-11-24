@@ -15,44 +15,51 @@ Kirby & The Amazing Mirror:
 
 ### Original colors
 
-![Kirby sprites and swatches for the 14 original palettes, from Pink to Chalk. The YAML keys are listed below.](color-palettes-native.png)
+![Kirby sprites and swatches for the 14 original palettes, from Carbon to Yellow. The YAML keys are listed below.](color-palettes-native.png)
 
 ### Additional starting colors
 
-![Kirby sprites and swatches for the 13 additional selectable palettes, from Shadow to Mint Chip. The YAML keys are listed below.](color-palettes-curated.png)
+![Kirby sprites and swatches for the 13 additional selectable palettes, from Candy Corn to White. The YAML keys are listed below.](color-palettes-curated.png)
 
 <details>
 <summary>All 27 color names and YAML values</summary>
 
+**Original colors**
+
 | Color | YAML value |
 | --- | --- |
-| Pink | `pink` |
-| Yellow | `yellow` |
-| Red | `red` |
-| Green | `green` |
-| Snow | `snow` |
 | Carbon | `carbon` |
-| Ocean | `ocean` |
-| Sapphire | `sapphire` |
-| Grape | `grape` |
-| Emerald | `emerald` |
-| Orange | `orange` |
-| Chocolate | `chocolate` |
-| Cherry | `cherry` |
 | Chalk | `chalk` |
-| Shadow | `shadow` |
-| Ivory | `ivory` |
-| Citrus | `citrus` |
-| White | `white` |
-| Lavender | `lavender` |
-| Rainbow | `rainbow` |
+| Cherry | `cherry` |
+| Chocolate | `chocolate` |
+| Emerald | `emerald` |
+| Grape | `grape` |
+| Green | `green` |
+| Ocean | `ocean` |
+| Orange | `orange` |
+| Pink | `pink` |
+| Red | `red` |
+| Sapphire | `sapphire` |
+| Snow | `snow` |
+| Yellow | `yellow` |
+
+**Additional starting colors**
+
+| Color | YAML value |
+| --- | --- |
 | Candy Corn | `candy_corn` |
+| Citrus | `citrus` |
+| Cotton Candy | `cotton_candy` |
+| Ivory | `ivory` |
+| Lavender | `lavender` |
+| Mint Chip | `mint_chip` |
 | Negative | `negative` |
 | Pineapple | `pineapple` |
-| Cotton Candy | `cotton_candy` |
-| Royal | `royal` |
 | Pumpkin | `pumpkin` |
-| Mint Chip | `mint_chip` |
+| Rainbow | `rainbow` |
+| Royal | `royal` |
+| Shadow | `shadow` |
+| White | `white` |
 
 </details>
 
@@ -60,54 +67,54 @@ Kirby & The Amazing Mirror:
 
 These **41 reference palettes** are not in the game and cannot be selected in YAML. The sprite mockups show how the reference swatches look on normal Kirby; they have not been implemented or checked in gameplay. Names and colors may change.
 
-![Kirby mockups and swatches for the first 21 proposals, Rose through Samus. The names are listed below.](color-palettes-proposals-1.png)
+![Kirby mockups and swatches for the first 21 proposals, Advance Ice through Meconopsis / Blue Poppy. The names are listed below.](color-palettes-proposals-1.png)
 
-![Kirby mockups and swatches for the remaining 20 proposals, Marx through Ultra Stone. The names are listed below.](color-palettes-proposals-2.png)
+![Kirby mockups and swatches for the remaining 20 proposals, Mogeko through Waddle Dee. The names are listed below.](color-palettes-proposals-2.png)
 
 <details>
 <summary>All 41 proposed color names</summary>
 
-- Rose
-- Daisy
-- Lemon
-- Beautiful Sunset
-- Carrot Cake
-- Snow Cone
-- Strawberry Peach
-- Halloween
-- Ramia’s Scale & Star Stone
-- Meconopsis / Blue Poppy
-- Superstar Ice
-- KDL3 Pink
 - Advance Ice
-- Advance Stone
-- Superstar Meta Knight
 - Advance Meta Knight
-- Galacta Knight
-- Morpho Knight
-- Dedede
-- Link
-- Samus
-- Marx
-- Purple
+- Advance Stone
+- Beautiful Sunset
 - Bright
-- Spicy
-- Toad
-- Edgey
-- Mogeko
-- Waddle Dee
-- Lololo
-- Lalala
 - Calie
+- Carrot Cake
+- Daisy
+- Dedede
+- Edgey
+- Galacta Knight
+- Halloween
+- KDL3 Pink
+- Lalala
+- Lemon
+- Link
+- Lololo
 - Marie
-- Pearl
 - Marina
+- Marx
+- Meconopsis / Blue Poppy
+- Mogeko
+- Morpho Knight
+- Pearl
+- Purple
+- Ramia’s Scale & Star Stone
+- Rose
+- Samus
+- Snow Cone
+- Spicy
+- Strawberry Peach
+- Superstar Ice
+- Superstar Meta Knight
+- Toad
 - Ultra Beam
 - Ultra Fire
 - Ultra Mirror
 - Ultra Ninja
 - Ultra Plasma
 - Ultra Stone
+- Waddle Dee
 
 </details>
 
