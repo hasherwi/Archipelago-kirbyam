@@ -26,7 +26,7 @@ from .phone_protocol import (
 )
 from .copy_room_protocol import (
     COPY_ROOM_CONTEXT_ADDRESS, COPY_ROOM_ITEM_ID, COPY_ROOM_MARKER, COPY_ROOM_MARKER_OFFSET,
-    copy_room_slot_version, sync_copy_room_ownership,
+    copy_room_slot_version, decode_copy_room_snapshot, sync_copy_room_ownership,
 )
 from .goal_game_protocol import GOAL_MARKER, GOAL_MARKER_OFFSET, goal_slot_version, poll_goal_games
 from .hub_protocol import HUB_MARKER, HUB_MARKER_OFFSET, hub_slot_version
@@ -4794,6 +4794,84 @@ class KirbyAmClient(BizHawkClient):
         return (entry is not None and entry.label in
                 {f"{name} Ability" for name in (*STARTING_COPY_ABILITIES, *starting_copy_abilities(0))})
 
+    async def _restore_confirmed_file_progress(
+        self, ctx: KirbyAmBizHawkClientContext, flag_addr: int,
+    ) -> bool:
+        """Restore only earlier, locally ACKed permanent receipts, never advance the cursor."""
+        journal = self._receipt_journal
+        auth = self._health_rom_auth
+        if (journal is None or auth is None or self._delivered_item_index <= 0
+                or not copy_room_slot_version(getattr(ctx, "slot_data", {}))):
+            return True
+        if not self._hub_connection_item_history_ready(ctx):
+            return False
+        cursor = self._delivered_item_index
+        history = tuple(ctx.items_received)
+        if cursor > len(history):
+            return False
+        socket = getattr(getattr(ctx, "server", None), "socket", None)
+        streams = getattr(ctx.bizhawk_ctx, "streams", None)
+        session = self._authenticated_session_key(ctx)
+        keys_enabled = self._area_keys_enabled(ctx)
+        mask = 0
+        try:
+            for index in range(cursor):
+                item = getattr(history[index], "item", None)
+                if keys_enabled and item in _AREA_KEY_ITEM_ID_TO_AREA_ID:
+                    bit = item - 3860041
+                elif item in _HUB_CONNECTION_ITEM_ID_TO_DOOR_INDEX:
+                    bit = _HUB_CONNECTION_ITEM_ID_TO_DOOR_INDEX[item] + 7
+                else:
+                    continue
+                if not mask & (1 << bit) and journal.acknowledged(receipt_key(history, index)):
+                    mask |= 1 << bit
+        except (OSError, sqlite3.Error, ValueError) as exc:
+            self._receipt_failure(f"could not verify previously received Area Keys or Hub Connections ({exc})")
+            return False
+        if not mask:
+            return True
+
+        auth_addr = _normalize_gba_rom_address(data.rom_addresses["gArchipelagoInfo"])
+        ownership_addr = 0x02028C64
+        request_addr = 0x0203B1C8
+        domain = "System Bus"
+        raw, owned, request, rom = await bizhawk.read(ctx.bizhawk_ctx, [
+            (COPY_ROOM_CONTEXT_ADDRESS, 36, domain), (ownership_addr, 4, domain),
+            (request_addr + 4, 4, domain), (auth_addr, 16, "ROM"),
+        ])
+        fence = bytes(raw[:12])
+        native_file = decode_copy_room_snapshot(raw, fence)
+
+        def still_current() -> bool:
+            return (journal is self._receipt_journal and auth == self._health_rom_auth
+                    and session == self._authenticated_session_key(ctx)
+                    and socket is getattr(getattr(ctx, "server", None), "socket", None)
+                    and streams is getattr(ctx.bizhawk_ctx, "streams", None)
+                    and self._hub_connection_item_history_ready(ctx)
+                    and cursor == self._delivered_item_index
+                    and history == tuple(ctx.items_received))
+
+        if native_file is None or bytes(rom) != auth or not still_current():
+            return False
+        # Confirm by reading the seed-bound native save record on a later tick.
+        owned_value = self._u32_le(owned)
+        if owned_value & ~0x007FFFFF == (0xA8000000 | native_file.slot << 24):
+            if owned_value & mask == mask:
+                return True
+            mask &= ~owned_value
+        if self._u32_le(request):
+            return False
+        await bizhawk.guarded_write(ctx.bizhawk_ctx, [
+            (request_addr, mask.to_bytes(4, "little") + fence[:4], domain),
+        ], [
+            (flag_addr, bytes(4), domain),
+            (COPY_ROOM_CONTEXT_ADDRESS, fence, domain),
+            (ownership_addr, bytes(owned), domain),
+            (request_addr + 4, bytes(4), domain),
+            (auth_addr, auth, "ROM"),
+        ])
+        return False
+
     async def _deliver_items(self, ctx: KirbyAmBizHawkClientContext, allow_new_writes: bool = True,
                              *, allow_starting_abilities: bool = False) -> None:
         """
@@ -5093,6 +5171,9 @@ class KirbyAmClient(BizHawkClient):
             return
 
         if self._delivery_retry_not_before > 0.0 and time.monotonic() < self._delivery_retry_not_before:
+            return
+
+        if allow_new_writes and not await self._restore_confirmed_file_progress(ctx, flag_addr):
             return
 
         # Nothing to deliver

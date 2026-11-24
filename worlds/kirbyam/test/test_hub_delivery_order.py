@@ -294,3 +294,53 @@ async def test_durable_progress_timeout_preserves_exactly_one_ack(
             assert not client._delivery_counter_ahead_fallback_active
     finally:
         journal.close()
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("keys_enabled", [False, True])
+async def test_file_restore_only_grants_confirmed_prior_permanent_receipts(
+    mock_bizhawk_context, tmp_path, keys_enabled,
+):
+    from ..client import bizhawk
+    ctx = mock_bizhawk_context
+    ctx.slot_data = {"copy_ability_room_protocol_version": 2, "area_keys": int(keys_enabled)}
+    ctx.items_received = [
+        NetworkItem(3860401, 1, 1, 0), NetworkItem(3860041, 2, 1, 0),
+        NetworkItem(3860027, 3, 1, 0), NetworkItem(3860402, 4, 1, 0),
+        NetworkItem(3860403, 5, 1, 0),
+    ]
+    client = KirbyAmClient()
+    client.initialize_client()
+    client.on_package(ctx, "ReceivedItems", {"index": 0})
+    client._health_rom_auth = bytes(range(16))
+    client._delivered_item_index = 4
+    journal = ReceiptJournal(str(tmp_path / "receipts.sqlite3"), "test")
+    client._receipt_journal = journal
+    for index in (0, 1, 2, 4):
+        journal.acknowledge(receipt_key(ctx.items_received, index))
+    native = b"".join(x.to_bytes(4, "little") for x in
+                      (2, 2, 1, 0, 1, 0x03000000, 0, 0x43504332, 0))
+    want = 0x100 | keys_enabled
+    read = [native, bytes(4), bytes(4), client._health_rom_auth]
+    try:
+        with patch.object(bizhawk, "read", new=AsyncMock(return_value=read)), \
+                patch.object(bizhawk, "guarded_write", new=AsyncMock(return_value=True)) as write:
+            assert not await client._restore_confirmed_file_progress(ctx, 0x0203B004)
+            writes, guards = write.await_args.args[1:]
+            assert writes == [(0x0203B1C8, want.to_bytes(4, "little") + native[:4], "System Bus")]
+            assert (COPY_ROOM_CONTEXT_ADDRESS, native[:12], "System Bus") in guards
+            assert (0x0203B004, bytes(4), "System Bus") in guards
+            assert client._delivered_item_index == 4
+            write.reset_mock()
+            read[2] = native[:4]
+            assert not await client._restore_confirmed_file_progress(ctx, 0x0203B004)
+            write.assert_not_awaited()
+            read[1] = (0xA9000000 | want).to_bytes(4, "little")
+            read[2] = bytes(4)
+            assert await client._restore_confirmed_file_progress(ctx, 0x0203B004)
+            write.assert_not_awaited()
+            read[0] = bytes(36)
+            assert not await client._restore_confirmed_file_progress(ctx, 0x0203B004)
+            write.assert_not_awaited()
+    finally:
+        journal.close()

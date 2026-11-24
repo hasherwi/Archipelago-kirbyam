@@ -18,6 +18,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Show boss defeat progress in `/goal` when using the boss-count goal (PR #1133).
 
 ### Bug Fixes
+- Restored previously received Area Keys and Hub Connections when switching Adventure files without restarting the emulator.
 
 - Area Keys now remain usable after restarting the game offline in the same seed and save file.
 - Hub Connections are saved when received, so restarting offline no longer loses newly opened routes.

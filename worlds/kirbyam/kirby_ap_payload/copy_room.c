@@ -22,10 +22,11 @@
 #define INCOMING_FLAG U32(0x0203B004u)
 #define INCOMING_ITEM U32(0x0203B008u)
 #define REQUEST ((volatile uint32_t *)0x0203B160u)
+#define PROGRESS_RESTORE ((volatile uint32_t *)0x0203B1C8u)
 #define NATIVE_SAVE ((int16_t (*)(uint32_t,uint16_t))0x0800ACD5u)
 
 __attribute__((used,section(".apcopyinfo")))
-const char ap_copy_room_marker[8] = "APCPY02";
+const char ap_copy_room_marker[8] = "APCPY03";
 
 static AP_COPY_EXT uint8_t record_valid(void) {
     if ((RECORD[4] & ~(AP_ACCESS_MASK | AP_GOAL_FLAGS)) != AP_COPY_TAG) return 0u;
@@ -37,6 +38,7 @@ static AP_COPY_EXT void deactivate(void) {
     CTX->epoch=0u; CTX->owned=0u; CTX->slot=AP_COPY_INVALID_SLOT;
     CTX->task=0u; CTX->dirty=0u; CTX->retry=0u;
     REQUEST[0]=0u; REQUEST[2]=0u; REQUEST[3]=0u;
+    PROGRESS_RESTORE[1]=0u;
 }
 static AP_COPY_EXT void initialize(void) {
     if (CTX->cookie == COOKIE) return;
@@ -80,11 +82,10 @@ AP_COPY_EXT uint32_t ap_progress_owned(void) {
     return ap_copy_room_epoch() ? progress_for_slot((uint16_t)CTX->slot) : 0u;
 }
 
-AP_COPY_EXT uint8_t ap_progress_receive(uint32_t bit) {
-    if (!ap_copy_room_epoch() || bit >= 23u) return 0u;
+static AP_COPY_EXT uint8_t progress_apply(uint32_t acquired) {
     uint32_t old = PROGRESS;
-    uint32_t owned = progress_for_slot((uint16_t)CTX->slot), acquired = 1u << bit;
-    if (owned & acquired) return 1u;
+    uint32_t owned = progress_for_slot((uint16_t)CTX->slot);
+    if ((owned & acquired) == acquired) return 1u;
     PROGRESS = PROGRESS_TAG | (CTX->slot << PROGRESS_SLOT_SHIFT) | owned | acquired;
     /* Only ACK a successful write of this active Adventure file. A failed
      * write does not become ownership in EWRAM; the same offer may retry. */
@@ -94,6 +95,10 @@ AP_COPY_EXT uint8_t ap_progress_receive(uint32_t bit) {
     }
     CTX->dirty=0u; /* This native serialization also flushed the shared header. */
     return 1u;
+}
+
+AP_COPY_EXT uint8_t ap_progress_receive(uint32_t bit) {
+    return ap_copy_room_epoch() && bit < 23u && progress_apply(1u << bit);
 }
 
 AP_COPY_EXT uint32_t ap_copy_room_owned(void) {
@@ -175,6 +180,15 @@ AP_COPY_EXT void ap_copy_room_poll(void) {
     /* Never modify preview buffers or save outside the active native file. */
     if (!epoch) return;
     WORD18=ap_copy_room_owned();
+    /* Restore saved-evidence bits without touching the ordinary receipt mailbox
+     * or its physical count. Re-read native ownership on the next client tick. */
+    uint32_t restore_epoch=PROGRESS_RESTORE[1];
+    if (restore_epoch) {
+        uint32_t mask=PROGRESS_RESTORE[0];
+        PROGRESS_RESTORE[1]=0u;
+        if (restore_epoch==epoch && !INCOMING_FLAG && mask && !(mask & ~PROGRESS_BITS)
+            && progress_apply(mask)) ap_project_hub_doors(ap_progress_owned());
+    }
     if (CTX->dirty) {
         if (CTX->retry) --CTX->retry;
         else if (NATIVE_SAVE(1u,(uint16_t)CTX->slot)==0) CTX->dirty=0u;

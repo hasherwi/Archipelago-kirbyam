@@ -182,6 +182,16 @@ native WORLD serialization before clearing the receipt flag and incrementing
 the counter; an unsuccessful write does not acknowledge or leave the bit
 in RAM. Replayed, already-owned items do not write again.
 
+Without an emulator restart, the transport cursor can carry across a native
+file switch. Before offering another receipt, the client checks only
+journal-confirmed Area Keys and Hub Connections whose exact authenticated
+receipt occurs before that cursor. It sends missing bits through the dedicated
+mask/epoch request at `0x0203B1C8`, fenced by ROM token and Adventure file
+epoch. The native hook drops stale requests and saves accepted bits in the
+active Adventure file before projecting Hub mirrors. This recovery never
+acknowledges an ordinary receipt, changes its cursor/counter, replays
+consumables, or sends another item notification.
+
 On file load, Hub mirror words 1–15 are rebuilt from the authenticated record,
 including clearing stale native bits. A legacy/foreign record, another file's
 record, or a history-only mask grants nothing. Previously earned items from
@@ -985,7 +995,7 @@ a mismatching seed, or the old prototype record never grants access. Hub words
 protocol dependency. Preserve original saves; the deferred prototype's expanded
 save format is not migrated by this feature.
 
-The ROM capability marker `APCPY02\0` is at file offset `0x100FFD4`, immediately
+The ROM capability marker `APCPY03\0` is at file offset `0x100FFD4`, immediately
 before the existing source configuration. Slots require
 `copy_ability_room_protocol_version: 2`. Prototype version 1, mixed ROM/slot
 capabilities and a shared-save slot fail closed. Regenerate seeds and patches

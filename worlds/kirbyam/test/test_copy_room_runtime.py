@@ -150,6 +150,27 @@ int main(void) {
     CHECK(ap_progress_owned()==(1u|(1u<<9)));
     SAVE_SLOT=1;CHECK(ap_copy_room_load(1,1)==0);START();
     CHECK(!ap_progress_owned() && WORLD[2]==0);
+    /* Separate epoch-bound recovery transaction; no delivery flag or counter ACK. */
+    unsigned before_restore=saves[1];
+    uint32_t *restore=(uint32_t *)0x0203B1C8u;
+    volatile uint32_t *counter=(uint32_t *)0x0203B010u;
+    *counter=4u;
+    restore[0]=(1u | (1u<<9));restore[1]=CTX->epoch-1u;
+    ap_copy_room_poll();CHECK(!ap_progress_owned() && !restore[1] && saves[1]==before_restore);
+    restore[1]=CTX->epoch;INCOMING_FLAG=1u;
+    ap_copy_room_poll();CHECK(!ap_progress_owned() && !restore[1] && INCOMING_FLAG==1u);
+    INCOMING_FLAG=0;
+    fail_save=1;restore[1]=CTX->epoch;ap_copy_room_poll();
+    CHECK(!ap_progress_owned() && WORLD[2]==0 && *counter==4u);
+    fail_save=0;restore[1]=CTX->epoch;ap_copy_room_poll();
+    CHECK(ap_progress_owned()==(1u|(1u<<9)) && WORLD[2]==1 && *counter==4u && !INCOMING_FLAG);
+    unsigned after_restore=saves[1];
+    restore[1]=CTX->epoch;ap_copy_room_poll();
+    CHECK(saves[1]==after_restore && *counter==4u);
+    restore[1]=CTX->epoch;SAVE_SLOT=0;CHECK(ap_copy_room_load(1,0)==0 && !restore[1]);START();
+    CHECK(ap_progress_owned()==(1u|(1u<<9)) && *counter==4u);
+    SAVE_SLOT=1;CHECK(ap_copy_room_load(1,1)==0);START();
+    CHECK(ap_progress_owned()==(1u|(1u<<9)) && *counter==4u);
     /* Even a manual native-file copy cannot carry AP ownership into slot 2. */
     memcpy(files[2],files[0],sizeof(files[0]));files[2][2]=1;
     SAVE_SLOT=2;CHECK(ap_copy_room_load(1,2)==0);START();
