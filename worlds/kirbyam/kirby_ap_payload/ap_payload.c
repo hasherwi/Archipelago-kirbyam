@@ -454,6 +454,96 @@ static uint8_t ap_unlock_hub_door(uint8_t world_props_unlock_index) {
     return 1u;
 }
 
+/* The Big Switch uses a separate, parentless visual task. The native chest
+ * popup task is not reusable here: its callback eventually reads and grants
+ * the parent chest's reward. This task uses only native tile/draw/cleanup APIs. */
+static inline uint8_t *ap_big_switch_task_data(void *task) {
+    uint16_t offset = *(volatile uint16_t*)((uint8_t*)task + 6u);
+    return (*(volatile uint16_t*)((uint8_t*)task + 0x12u) & 0x10u)
+        ? (uint8_t*)(0x02000000u + ((uintptr_t)offset << 2))
+        : (uint8_t*)(0x03000000u + (uintptr_t)offset);
+}
+
+static inline uint16_t ap_reward_local_room(void) {
+    uint8_t player = KIRBY_CURRENT_PLAYER;
+    if (player >= KIRBY_PLAYER_COUNT) return 0xFFFFu;
+    return *(volatile uint16_t*)(KIRBY_STRUCTS_ADDR
+        + (uint32_t)player * KIRBY_STRUCT_STRIDE + KIRBY_STRUCT_ROOM_OFFSET);
+}
+
+static __attribute__((noinline, section(".aprewardfx"))) void ap_big_switch_gem_frame(void) {
+    void *task = *(void *volatile*)0x030035D0u;
+    uint8_t *effect = ap_big_switch_task_data(task);
+    volatile uint16_t *age = (volatile uint16_t*)(effect + 4u);
+    /* The map interlude suspends room tasks. Do not let the visual
+     * reappear when they resume after the physical check has persisted. */
+    if (*age >= 32u || *(volatile uint16_t*)(effect + 0x42u) != ap_reward_local_room()
+        || (AP_HUB_SWITCH_FLAGS & *(volatile uint32_t*)(effect + 0x48u)) != 0u) {
+        ((void (*)(void*))0x08152C3Du)(task); /* TaskDestroy invokes ObjectBaseDestroy. */
+        return;
+    }
+    if ((*age & 1u) == 0u) *(volatile int32_t*)(effect + 0x38u) -= 256;
+    ++*age;
+    ((void (*)(void*))0x0806FAC9u)(effect); /* EffectObjectPostUpdate */
+}
+
+static __attribute__((noinline, section(".aprewardfx"))) void ap_spawn_big_switch_gem(
+    const uint8_t *sw, uint16_t room, uint32_t bit
+) {
+    typedef void (*TaskFn)(void);
+    typedef void (*DtorFn)(void *);
+    typedef void *(*TaskCreateFn)(TaskFn, uint16_t, uint16_t, uint16_t, DtorFn);
+    typedef void (*SpriteInitFn)(void *, void *, uint32_t, uint16_t, uint8_t, uint16_t);
+    volatile uint8_t *head = (volatile uint8_t*)0x030039A4u;
+    volatile struct ApChestTileUpload *ring = (volatile struct ApChestTileUpload*)0x03002EC0u;
+    void *task = ((TaskCreateFn)0x08152B01u)(ap_big_switch_gem_frame, 0x4Cu, 0x3500u, 0u,
+                                          (DtorFn)0x0803DCCDu);
+    if (task == (void*)0x03002500u) return; /* gEmptyTask */
+    uint8_t *effect = ap_big_switch_task_data(task);
+    ((void (*)(void*))0x0803E3B1u)(effect); /* ClearEffectObject */
+    effect[0] = 3u;
+    uint32_t vram = ((uint32_t (*)(uint32_t))0x081570B1u)(4u);
+    if (vram < 0x06014000u || vram > 0x06018000u - AP_CHEST_ART_SIZE) {
+        ((void (*)(void*))0x08152C3Du)(task);
+        return;
+    }
+    *(volatile int32_t*)(effect + 0x34u) = *(const volatile int32_t*)(sw + 0x40u);
+    *(volatile int32_t*)(effect + 0x38u) = *(const volatile int32_t*)(sw + 0x44u) - 30 * 256;
+    *(volatile uint16_t*)(effect + 0x42u) = room;
+    *(volatile uint32_t*)(effect + 0x48u) = bit;
+    uint8_t before = *head;
+    ((SpriteInitFn)0x080709F9u)(effect, effect + 0xCu, vram, 0x2D1u, 0u, 0xBu);
+    if (!ap_chest_redirect_upload(ring, before, *head, (uint32_t)(uintptr_t)gApChestRewardArt)) {
+        /* Drop the effect on the next task tick; do not show a stock item. */
+        *(volatile uint16_t*)(effect + 4u) = 32u;
+    }
+}
+
+__attribute__((used, noinline, long_call, section(".aprewardfx")))
+void ap_big_switch_reward_art(void *object) {
+    const uint8_t *sw = object;
+    uint16_t state = *(const volatile uint16_t*)(sw + 0xB6u);
+    uint16_t room = *(const volatile uint16_t*)(sw + 0x60u);
+    /* Only the world-map branch of SwitchMain reaches this wrapper. Native
+     * SwitchUpdatePressState sets 2 for a newly accepted press; the function
+     * below sets its own 0x2000 sequence latch, including if the map is busy. */
+    if ((state & 0x2002u) == 2u
+        && *(const volatile uint16_t*)(sw + 0xB8u) != 0u
+        && room == ap_reward_local_room()) {
+        const uint8_t *source = *(const uint8_t*const volatile*)(sw + 0xB0u);
+        uint16_t door = *(const volatile uint16_t*)(source + 0x14u);
+        if (source[12] == 0x86u && door >= 1u && door <= 15u && source[4] == ap_hub_props[door]) {
+            uint32_t bit = 1u << ap_hub_bits[door];
+            if ((ap_hub_saved_checks(AP_HUB_SAVED_CHECKS, AP_HUB_ROM_AUTH) & bit) == 0u) {
+                ap_spawn_big_switch_gem(sw, room, bit);
+            }
+        }
+    }
+    /* Keep the original press latch/interlude/check/save flow untouched,
+     * even on dropped art or native switches outside the AP table. */
+    ((void (*)(void*))0x08119B3Du)(object);
+}
+
 /* Use the existing appended Hub extension, preserving the fixed config ABI. */
 static __attribute__((noinline, long_call, section(".aphub")))
 void ap_apply_hub_connection_unlocks_from_mask(void) {

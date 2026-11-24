@@ -134,6 +134,8 @@ ABILITY_COMMIT_INSTALLER_RANGE = (0x0005C11C, 0x0005C618)
 # the known static 16×16 art-only variant and stock pickup palette.
 CHEST_REWARD_ART_CALLSITE = 0xB3FE
 CHEST_REWARD_ART_NATIVE_FUNCTION = 0x0800B414
+BIG_SWITCH_REWARD_ART_CALLSITE = 0x1199F6
+BIG_SWITCH_REWARD_ART_NATIVE_FUNCTION = 0x08119B3C
 CHEST_REWARD_ART_NATIVE_SCRIPT = 0x4219A8
 CHEST_REWARD_ART_NATIVE_SCRIPT_DATA = struct.pack("<9i", -2, 159, 16, -1, 45113, 4, 1, 0, -4)
 CHEST_REWARD_ART_NATIVE_PALETTE = 0x4BB0EC + 42 * 32
@@ -2160,6 +2162,14 @@ def build_chest_reward_art_hook(rom: bytes | bytearray, target: int) -> dict[int
     return {CHEST_REWARD_ART_CALLSITE: thumb_bl_bytes(0x08000000 + CHEST_REWARD_ART_CALLSITE, target)}
 
 
+def build_big_switch_reward_art_hook(rom: bytes | bytearray, target: int) -> dict[int, bytes]:
+    callsite = BIG_SWITCH_REWARD_ART_CALLSITE
+    expected = thumb_bl_bytes(0x08000000 + callsite, BIG_SWITCH_REWARD_ART_NATIVE_FUNCTION)
+    if rom[callsite:callsite + len(expected)] != expected:
+        raise SystemExit("Unexpected native Big Switch reward art dispatch; refusing to patch")
+    return {callsite: thumb_bl_bytes(0x08000000 + callsite, target)}
+
+
 def apply_color_extension(rom: bytearray, elf_path: Path) -> None:
     # This module also supports callers that import patch_rom.py by filename.
     import importlib.util
@@ -2187,7 +2197,9 @@ def apply_color_extension(rom: bytearray, elf_path: Path) -> None:
         resolve_elf_symbol_address(elf_path, "ap_color_load_bg"))
     chest_writes = build_chest_reward_art_hook(
         rom, resolve_elf_symbol_address(elf_path, "ap_chest_reward_art_entry"))
-    for offset, replacement in {**writes, **board_writes, **chest_writes}.items():
+    switch_writes = build_big_switch_reward_art_hook(
+        rom, resolve_elf_symbol_address(elf_path, "ap_big_switch_reward_art_entry"))
+    for offset, replacement in {**writes, **board_writes, **chest_writes, **switch_writes}.items():
         rom[offset:offset + len(replacement)] = replacement
 
 

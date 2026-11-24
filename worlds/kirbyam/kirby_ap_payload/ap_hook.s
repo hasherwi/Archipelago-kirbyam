@@ -232,3 +232,15 @@ ap_chest_reward_art_entry:
 .balign 4
 1:  .word ap_chest_reward_art
 .size ap_chest_reward_art_entry, .-ap_chest_reward_art_entry
+
+.section .text.ap_transition_entries,"ax",%progbits
+.balign 4
+.global ap_big_switch_reward_art_entry
+.type ap_big_switch_reward_art_entry, %function
+.thumb_func
+ap_big_switch_reward_art_entry:
+    ldr r3, 1f
+    bx r3
+.balign 4
+1:  .word ap_big_switch_reward_art
+.size ap_big_switch_reward_art_entry, .-ap_big_switch_reward_art_entry

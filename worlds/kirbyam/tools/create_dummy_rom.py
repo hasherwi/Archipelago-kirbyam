@@ -83,6 +83,7 @@ def build_dummy_rom() -> bytearray:
 
     # Minimal validated chest art ABI; no original tiles or images are needed.
     put_bl(patch_rom.CHEST_REWARD_ART_CALLSITE, patch_rom.CHEST_REWARD_ART_NATIVE_FUNCTION)
+    put_bl(patch_rom.BIG_SWITCH_REWARD_ART_CALLSITE, patch_rom.BIG_SWITCH_REWARD_ART_NATIVE_FUNCTION)
     offset = patch_rom.CHEST_REWARD_ART_NATIVE_SCRIPT
     script = patch_rom.CHEST_REWARD_ART_NATIVE_SCRIPT_DATA
     rom[offset:offset + len(script)] = script

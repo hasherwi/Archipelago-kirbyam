@@ -40,6 +40,7 @@ SECTIONS
   .apcolors 0x09000000 : { KEEP(*(.apcolorinfo)) KEEP(*(.aphubinfo)) KEEP(*(.apgoalinfo)) KEEP(*(.apfullinfo)) KEEP(*(.apcueinfo)) color_payload.o(.text* .rodata*) *(.aphub)
     KEEP(*(.aphubboards))
     KEEP(*(.apchestart))
+    KEEP(*(.aprewardfx))
     ap_extension_code_end = .;
     . = 0xFFC8;
     KEEP(*(.apphoneinfo))

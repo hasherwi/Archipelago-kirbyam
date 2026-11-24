@@ -81,3 +81,50 @@ def test_actual_popup_wrapper_changes_only_matching_tile_upload(tmp_path: Path) 
     subprocess.run([cc, "-std=c99", "-Wall", "-Wextra", "-Werror", "-I", str(PAYLOAD),
                     str(source), "-o", str(exe)], check=True)
     subprocess.run([str(exe)], check=True)
+
+
+def test_big_switch_rom_guard_rejects_mismatched_native_call() -> None:
+    dummy = runpy.run_path(str(WORLD / "tools" / "create_dummy_rom.py"))["build_dummy_rom"]()
+    call = patch_rom.BIG_SWITCH_REWARD_ART_CALLSITE
+    target = 0x0815E102
+    assert patch_rom.build_big_switch_reward_art_hook(dummy, target) == {
+        call: patch_rom.thumb_bl_bytes(0x08000000 + call, target),
+    }
+    dummy[call + 2] ^= 1
+    with pytest.raises(SystemExit, match="Big Switch reward art dispatch"):
+        patch_rom.build_big_switch_reward_art_hook(dummy, target)
+
+
+def test_big_switch_reward_art_triggers_only_on_fresh_physical_ap_checks(tmp_path: Path) -> None:
+    cc = shutil.which("cc")
+    if not cc:
+        pytest.skip("requires a native C compiler")
+    code = (PAYLOAD / "ap_payload.c").read_text()
+    begin = code.index("void ap_big_switch_reward_art(")
+    end = code.index("\n}", begin) + 2
+    wrapper = code[begin:end]
+    hook = "((void (*)(void*))0x08119B3Du)(object);"
+    assert wrapper.count(hook) == 1
+    wrapper = wrapper.replace(hook, "native_dispatch(object);")
+    # The native source pointer is four bytes; avoid overlapping adjacent
+    # halfwords when exercising the same wrapper on a 64-bit host.
+    source_read = "*(const uint8_t*const volatile*)(sw + 0xB0u)"
+    assert wrapper.count(source_read) == 1
+    wrapper = wrapper.replace(source_read, "fixture_source")
+    frame_begin = code.index("void ap_big_switch_gem_frame(")
+    frame_end = code.index("\n}", frame_begin) + 2
+    frame = code[frame_begin:frame_end]
+    for old, new in (
+        ("*(void *volatile*)0x030035D0u", "fixture_task"),
+        ("((void (*)(void*))0x08152C3Du)(task)", "destroy_task(task)"),
+        ("((void (*)(void*))0x0806FAC9u)(effect)", "draw_effect(effect)"),
+    ):
+        assert frame.count(old) == 1
+        frame = frame.replace(old, new)
+    harness = (WORLD / "test" / "native" / "big_switch_reward_art_host.c").read_text()
+    source = tmp_path / "switch.c"
+    source.write_text(harness.replace("/* WRAPPER */", wrapper).replace("/* FRAME */", frame))
+    exe = tmp_path / ("test-switch-art.exe" if os.name == "nt" else "test-switch-art")
+    subprocess.run([cc, "-std=c11", "-Wall", "-Wextra", "-Werror", "-I", str(PAYLOAD),
+                    str(source), "-o", str(exe)], check=True)
+    subprocess.run([str(exe)], check=True)
