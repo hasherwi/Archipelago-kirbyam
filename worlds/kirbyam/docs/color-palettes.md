@@ -67,9 +67,9 @@ Kirby & The Amazing Mirror:
 
 ### Reference-sheet palettes
 
-![Kirby sprite previews and swatches for 19 reference-sheet palettes, Advance Ice through Meconopsis / Blue Poppy. The names are listed below.](color-palettes-proposals-1.png)
+![Kirby sprite previews and swatches for 19 reference-sheet palettes, Advance Ice through Meconopsis / Blue Poppy. The names are listed below.](color-palettes-reference-sheet-1.png)
 
-![Kirby sprite previews and swatches for the remaining 19 reference-sheet palettes, Mogeko through Waddle Dee. The names are listed below.](color-palettes-proposals-2.png)
+![Kirby sprite previews and swatches for the remaining 19 reference-sheet palettes, Mogeko through Waddle Dee. The names are listed below.](color-palettes-reference-sheet-2.png)
 
 <details>
 <summary>All 38 reference-sheet color names</summary>
