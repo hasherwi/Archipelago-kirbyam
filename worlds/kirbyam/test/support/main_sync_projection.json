@@ -377,6 +377,102 @@
           ],
           "main": []
         }
+      ],
+      "reviewed_successors": [
+        {
+          "feature": "palette catalog v4 (#1135)",
+          "integrated_sha256": "e3987dd85a88ca721bbc952d2bfee51d01ef1353b135dc4a86da019a2db05345",
+          "reverse_slices": [
+            {
+              "start": 21,
+              "stop": 22,
+              "current": [
+                "from .colors import choose_different_kirby_color, color_catalog_marker, color_catalog_max_id\n"
+              ],
+              "main": [
+                "from .colors import choose_different_kirby_color, kirby_color_name_by_id\n"
+              ]
+            },
+            {
+              "start": 128,
+              "stop": 128,
+              "current": [],
+              "main": [
+                "_STARTING_KIRBY_COLOR_MAX = max(kirby_color_name_by_id())\n"
+              ]
+            },
+            {
+              "start": 1513,
+              "stop": 1514,
+              "current": [
+                "        maximum = color_catalog_max_id(version)\n"
+              ],
+              "main": [
+                "        maximum = _STARTING_KIRBY_COLOR_MAX if version == 3 else 18 if version == 2 else 13\n"
+              ]
+            },
+            {
+              "start": 1573,
+              "stop": 1576,
+              "current": [
+                "        version = slot_data.get(\"kirby_color_catalog_version\") if isinstance(slot_data, dict) else None\n",
+                "        expected = color_catalog_marker(version)\n",
+                "        if expected is None:\n"
+              ],
+              "main": [
+                "        if not isinstance(slot_data, dict) or slot_data.get(\"kirby_color_catalog_version\", 1) not in (2, 3):\n"
+              ]
+            },
+            {
+              "start": 1582,
+              "stop": 1582,
+              "current": [],
+              "main": [
+                "            expected = b\"APCOL03\\0\" if slot_data[\"kirby_color_catalog_version\"] == 3 else b\"APCOL02\\0\"\n"
+              ]
+            },
+            {
+              "start": 1621,
+              "stop": 1624,
+              "current": [
+                "            and _STARTING_KIRBY_COLOR_MIN <= current_color_id <= color_catalog_max_id(\n",
+                "                ctx.slot_data.get(\"kirby_color_catalog_version\")\n",
+                "            )\n"
+              ],
+              "main": [
+                "            and _STARTING_KIRBY_COLOR_MIN <= current_color_id <= _STARTING_KIRBY_COLOR_MAX\n"
+              ]
+            },
+            {
+              "start": 4256,
+              "stop": 4258,
+              "current": [
+                "        catalog_version = ctx.slot_data.get(\"kirby_color_catalog_version\")\n",
+                "        maximum = color_catalog_max_id(catalog_version)\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 4262,
+              "stop": 4263,
+              "current": [
+                "            or current_color_id > maximum\n"
+              ],
+              "main": [
+                "            or current_color_id > _STARTING_KIRBY_COLOR_MAX\n"
+              ]
+            },
+            {
+              "start": 4269,
+              "stop": 4269,
+              "current": [],
+              "main": [
+                "        catalog_version = getattr(ctx, \"slot_data\", {}).get(\"kirby_color_catalog_version\", 1)\n",
+                "        maximum = _STARTING_KIRBY_COLOR_MAX if catalog_version == 3 else 18 if catalog_version == 2 else 13\n"
+              ]
+            }
+          ]
+        }
       ]
     },
     "data/minor_chest_manifest.json": {
