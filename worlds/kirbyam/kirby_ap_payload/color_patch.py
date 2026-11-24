@@ -15,7 +15,7 @@ def build_color_extension_writes(rom: bytes | bytearray, extension: bytes,
         raise ValueError("Color extension requires the original 16 MiB ROM size")
     if not extension or len(extension) > COLOR_EXTENSION_LIMIT:
         raise ValueError("Color extension must occupy 1..65536 bytes")
-    if extension[:8] != b"APCOL03\0":
+    if extension[:8] != b"APCOL04\0":
         raise ValueError("Color extension catalog marker mismatch")
     for target in (sprite_target, hud_target):
         if target & 1 or not COLOR_EXTENSION_ADDRESS + 8 <= target < COLOR_EXTENSION_ADDRESS + len(extension):

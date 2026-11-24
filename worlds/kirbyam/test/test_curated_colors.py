@@ -24,17 +24,17 @@ def module(name):
 
 def test_registry_build_and_options_agree():
     colors = load_kirby_colors()
-    assert [c.key for c in colors[14:]] == [
+    assert [c.key for c in colors[14:27]] == [
         'shadow', 'ivory', 'citrus', 'white', 'lavender', 'rainbow', 'candy_corn',
         'negative', 'pineapple', 'cotton_candy', 'royal', 'pumpkin', 'mint_chip',
     ]
-    assert [(c.color_id, StartingKirbyColor.from_text(c.key).value) for c in colors] == [(i, i) for i in range(27)]
+    assert [(c.color_id, StartingKirbyColor.from_text(c.key).value) for c in colors] == [(i, i) for i in range(65)]
     assert colors[13].key == 'chalk' and not colors[13].palettes
     assert module('generate_colors').render() == (WORLD / 'kirby_ap_payload/color_tables.h').read_text()
     rng = Random(599)
-    for current in range(27):
-        seen = {choose_different_kirby_color(current, rng).color_id for _ in range(500)}
-        assert seen == set(range(27)) - {current}
+    for current in range(65):
+        seen = {choose_different_kirby_color(current, rng).color_id for _ in range(1500)}
+        assert seen == set(range(65)) - {current}
     for current in range(14):
         seen = {choose_different_kirby_color(current, rng, native_only=True).color_id for _ in range(500)}
         assert seen == set(range(14)) - {current}
@@ -66,7 +66,7 @@ def fixture_rom():
 def test_extension_appends_and_validates_both_native_hooks_before_mutation():
     api, rom = fixture_rom()
     original = bytes(rom)
-    extension = b'APCOL03\0' + bytes(56)
+    extension = b'APCOL04\0' + bytes(56)
     writes = api.build_color_extension_writes(rom, extension, 0x09000008, 0x09000020)
     assert bytes(rom) == original
     for offset, content in writes.items(): rom[offset:offset + len(content)] = content
@@ -80,7 +80,7 @@ def test_extension_appends_and_validates_both_native_hooks_before_mutation():
 @pytest.mark.parametrize('defect', ['empty', 'oversized', 'odd', 'outside', 'marker', 'dispatch', 'hud'])
 def test_extension_refuses_unsafe_inputs(defect):
     api, rom = fixture_rom()
-    extension = b'APCOL03\0' + bytes(56)
+    extension = b'APCOL04\0' + bytes(56)
     target = 0x09000008
     if defect == 'empty': extension = b''
     elif defect == 'oversized': extension += bytes(65536)
@@ -112,10 +112,10 @@ async def test_client_requires_new_payload_for_curated_catalog(mock_bizhawk_cont
             assert read.await_count == 1
 
 
-@pytest.mark.parametrize('version,maximum', [(1, 13), (2, 18), (3, 26), ([], 13), ({}, 13)])
+@pytest.mark.parametrize('version,maximum', [(1, 13), (2, 18), (3, 26), (4, 64), (5, 13), ([], 13), ({}, 13)])
 def test_catalog_limits_preserve_old_seed_pool(mock_bizhawk_context, version, maximum):
     client = KirbyAmClient()
-    for color in range(27):
+    for color in range(65):
         mock_bizhawk_context.slot_data = {'kirby_color_catalog_version': version, 'starting_kirby_color': color}
         assert (client._get_starting_kirby_color_config(mock_bizhawk_context) is not None) == (color <= maximum)
     rng = Random(19)
@@ -125,7 +125,8 @@ def test_catalog_limits_preserve_old_seed_pool(mock_bizhawk_context, version, ma
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize('version,marker,ready', [
-    (3, b'APCOL03\0', True), (3, b'APCOL02\0', False),
+    (4, b'APCOL04\0', True), (4, b'APCOL03\0', False),
+    (3, b'APCOL04\0', False), (3, b'APCOL03\0', True), (3, b'APCOL02\0', False),
     (2, b'APCOL02\0', True), (2, b'APCOL03\0', False),
 ])
 async def test_catalog_version_requires_matching_rom(mock_bizhawk_context, version, marker, ready):
@@ -168,3 +169,22 @@ def test_new_themed_colors_keep_readable_shading_and_distinct_rows(key):
     assert all(brightness(a) > brightness(b) for a, b in zip(normal[2:8], normal[3:9]))
     assert all(brightness(a) > brightness(b) for a, b in zip(normal[9:11], normal[10:12]))
     assert all(color.palettes != other.palettes for other in load_kirby_colors() if other.key != key)
+
+
+def test_reference_palettes_match_the_gallery_and_preserve_runtime_owned_slots():
+    colors = load_kirby_colors()
+    names = [
+        line[2:] for line in (WORLD / 'docs/color-palettes.md').read_text().splitlines()
+        if line.startswith('- ')
+    ]
+    assert len(names) == len(set(names)) == 51
+    assert names == sorted((color.display_name for color in colors[14:]), key=str.casefold)
+    assert len(colors[27:]) == 38
+    assert len({color.palettes[0] for color in colors[14:]}) == 51
+    for color in colors[27:]:
+        normal, ufo, hud = color.palettes
+        assert normal[12:] == (12915, 20215, 27581, 32767)
+        assert ufo[4] == 24218
+        assert ufo[12:] == (118, 4127, 16912, 32767)
+        assert hud[1:7] == tuple(normal[i] for i in (3, 4, 5, 10, 6, 7))
+        assert hud[7:] == (0, 32767, 863, 32589, 607, 479, 20480, 863, 19026)

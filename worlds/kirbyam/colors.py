@@ -9,6 +9,23 @@ from .data import load_json_data
 
 STARTING_KIRBY_COLOR_RANDOM_PER_ROOM_OPTION = 254
 COLOR_CONFIG_MAGIC = 0xC0100000
+COLOR_CATALOG_VERSION = 4
+COLOR_EXTENSION_MARKERS = {2: b"APCOL02\0", 3: b"APCOL03\0", 4: b"APCOL04\0"}
+_LEGACY_COLOR_CATALOG_MAX = {2: 18, 3: 26}
+
+
+def color_catalog_max_id(version: object) -> int:
+    """Restrict the selected and per-room colors to the matching seed catalog."""
+    if type(version) is not int:
+        return 13
+    if version == COLOR_CATALOG_VERSION:
+        return max(kirby_color_name_by_id())
+    return _LEGACY_COLOR_CATALOG_MAX.get(version, 13)
+
+
+def color_catalog_marker(version: object) -> bytes | None:
+    """Read an extension marker only for a known curated catalog version."""
+    return COLOR_EXTENSION_MARKERS.get(version) if type(version) is int else None
 
 
 def encode_color_config(color_id: int, per_room: bool) -> int:

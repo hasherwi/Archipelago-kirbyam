@@ -26,7 +26,7 @@ The one-shot latch lives at `0x0203B0B8`. Payload code executes from ROM, so a w
 
 ## Compatibility and safety
 
-- Native paint IDs remain `0..13`; curated logical IDs `14..26` use native Pink as a safe renderer fallback. IDs absent from the generated registry are ignored.
+- Native paint IDs remain `0..13`; custom logical IDs `14..64` use native Pink as a safe renderer fallback. IDs absent from the generated registry are ignored.
 - ROM default `0xFFFFFFFF` keeps older procedure patches safe.
 - Pink is the fallback and a valid requested palette. Runtime Pink refresh is no longer skipped.
 - The owned-paint A-button handler at `0x0814406C` records a genuine choice, including choosing a paint matching the AP default. Saved preference uses native treasure padding and the native serializer, not raw SRAM writes. See PROTOCOL.md for the marker and priority order.
@@ -148,3 +148,15 @@ contiguous at 21..26; their palette colors are unchanged. Earlier draft seeds an
 ROM patches must be regenerated together after removal of a draft entry: APCOL03
 cannot distinguish those draft layouts and mixing them can select the wrong color.
 Native paint saves and released catalog-2 seeds remain compatible.
+
+## Expanded custom catalog (Issue #1035)
+
+Catalog 4 adds IDs 27–64 in alphabetical order; all 27 existing IDs stay fixed.
+The normal palette uses the visible swatches on the main reference sheet, mapped
+to the same outline, body, and foot indices as the sheet's original Pink render.
+RGB channels are reduced to RGB555; shared trailing detail colors are retained.
+The UFO adaptation uses the same shade indices with the native canopy and effect
+tail intact. HUD values use the established six-index mapping, leaving the rest
+of the HUD palette intact. These options do not add collectible sprays or change
+save data. The client checks the matching `APCOL04` marker, and still restricts
+catalogs 2 and 3 to their original ID ranges and markers.
