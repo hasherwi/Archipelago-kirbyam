@@ -305,6 +305,7 @@ def test_available_trap_item_labels_include_all_traps_from_items_json() -> None:
         "Battery Drain Trap",
         "Life Wipeout Trap",
         "Hub Teleport Trap",
+        "Narcolepsy",
     )
 
 
@@ -338,6 +339,7 @@ def test_no_extra_lives_removes_life_traps_from_active_trap_pool() -> None:
         "Bomb Trap",
         "Battery Drain Trap",
         "Hub Teleport Trap",
+        "Narcolepsy",
     )
 
 
@@ -354,6 +356,7 @@ def test_one_hit_mode_removes_health_down_from_active_trap_pool() -> None:
         "Battery Drain Trap",
         "Life Wipeout Trap",
         "Hub Teleport Trap",
+        "Narcolepsy",
     )
 
 
@@ -368,6 +371,7 @@ def test_combined_modes_remove_life_and_health_traps_from_active_trap_pool() -> 
         "Bomb Trap",
         "Battery Drain Trap",
         "Hub Teleport Trap",
+        "Narcolepsy",
     )
 
 

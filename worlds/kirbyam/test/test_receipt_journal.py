@@ -5,6 +5,7 @@ from unittest.mock import AsyncMock, patch
 import pytest
 from NetUtils import NetworkItem
 from ..client import KirbyAmClient, _build_kirbyam_command_processor
+from ..narcolepsy import NARCOLEPSY_ITEM_ID, NARCOLEPSY_ROM_MARKER_OFFSET
 from ..receipts import ReceiptJournal, TRANSIENT_ITEM_IDS, receipt_key, scope_key
 from .test_reset_counter_gaps import Mailbox
 
@@ -472,3 +473,17 @@ async def test_live_offer_timeout_does_not_release_changed_history(receipt_env):
     await tick(client, ctx, box, display)
     assert client._receipt_journal.pending() == [key]
     assert display.await_count == 0
+
+
+@pytest.mark.asyncio
+async def test_narcolepsy_rejects_old_rom_before_reserving_receipt(receipt_env):
+    ctx = receipt_env
+    ctx.items_received = [NetworkItem(NARCOLEPSY_ITEM_ID, 3960566, 1, 4)]
+    client = make_client(ctx)
+    box = Mailbox(client)
+    box.memory.pop(NARCOLEPSY_ROM_MARKER_OFFSET)
+    await tick(client, ctx, box, AsyncMock())
+    assert not box.offers
+    assert not client._receipt_journal.pending()
+    assert not client._receipt_journal.acknowledged(receipt_key(ctx.items_received, 0))
+    assert "patch your seed with the current APWorld" in client._receipt_error

@@ -18,6 +18,7 @@ from worlds._bizhawk.client import BizHawkClient
 
 from .area_keys import AREA_KEY_AREA_ID_BY_LABEL, AREA_NAME_BY_ID
 from .candy import CANDY_ITEM_ID, candy_delivery_ready
+from .narcolepsy import NARCOLEPSY_ITEM_ID, NARCOLEPSY_ROM_MARKER, NARCOLEPSY_ROM_MARKER_OFFSET
 from .receipts import ReceiptJournal, TRANSIENT_ITEM_IDS, receipt_key, scope_key
 from .receipt_sounds import ReceiptSounds
 from .colors import choose_different_kirby_color, color_catalog_marker, color_catalog_max_id
@@ -5184,15 +5185,23 @@ class KirbyAmClient(BizHawkClient):
                 )
                 self._delivery_counter_ahead_resume_logged = True
 
-            if item_id == CANDY_ITEM_ID:
-                if not await self._invincibility_candy_ready(ctx):
-                    return  # Keep history order; do not reserve or consume this receipt yet.
-                # Readiness awaits the connector; reject a changed delivery session.
+            if item_id in (CANDY_ITEM_ID, NARCOLEPSY_ITEM_ID):
+                if item_id == CANDY_ITEM_ID:
+                    if not await self._invincibility_candy_ready(ctx):
+                        return  # Keep history order; do not reserve or consume this receipt yet.
+                else:
+                    marker, = await bizhawk.read(ctx.bizhawk_ctx, [
+                        (NARCOLEPSY_ROM_MARKER_OFFSET, len(NARCOLEPSY_ROM_MARKER), "ROM"),
+                    ])
+                # These reads await the connector; reject a changed delivery session.
                 if (receipt_session != (self._authenticated_session_key(ctx), self._health_rom_auth)
                         or delivery_socket is not getattr(getattr(ctx, "server", None), "socket", None)
                         or delivery_streams is not getattr(ctx.bizhawk_ctx, "streams", None)
                         or self._delivered_item_index >= len(ctx.items_received)
                         or ctx.items_received[self._delivered_item_index] is not itm):
+                    return
+                if item_id == NARCOLEPSY_ITEM_ID and bytes(marker) != NARCOLEPSY_ROM_MARKER:
+                    self._receipt_failure("this ROM does not support Narcolepsy; patch your seed with the current APWorld")
                     return
 
             self._log_verbose(

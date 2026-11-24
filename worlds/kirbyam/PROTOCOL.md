@@ -910,6 +910,16 @@ The menu's always-available default swatch clears the marker, allowing the AP st
 
 HUD refresh uses the native color-specific HUD table and BG+backup loader, then sets the BG upload flag. It waits for the active single-player gameplay HUD, valid Kirby task/ability and completed hardware brightness fades. Native BG/OBJ RGB-transformation enables (`gMainFlags & 0x30000`) can persist during ordinary gameplay and do not defer a color request. The OBJ refresh retains native transformation behavior; the HUD keeps its raw resolved backup row and uses native `LoadBgPaletteWithTransformation` for its working row when BG transformation is enabled. It does not reinitialize HUD tasks or touch health, lives, battery counts, other players or paint ownership. Changes require a newly generated ROM patch; old ROMs retain their previous color behavior.
 
+### Narcolepsy deferral (item 3860301)
+
+The client requires the ROM's `APN1` marker at ROM offset `0x0100FFC0` before
+reserving Narcolepsy. The native hook leaves the mailbox pending during
+transitions, death and other incompatible states, so the normal journal and
+native acknowledgment preserve delivery order. The local player's next
+eligible grounded state starts the stock Sleep transition, without granting
+ability ownership or leaving a recovery star. An already sleeping player
+acknowledges an additional trap without restarting Sleep.
+
 ### Hub Teleport Trap deferral (item 3860300)
 
 This trap retains the existing incoming flag and receipt index until the main-thread scheduler wrapper observes native warp-star charge enter takeoff (or safely observes Kirby already in the hub). The input mailbox poll leaves it pending. Scripts, pause, death, demo, multiplayer and transition states defer it. Its client ACK timeout retains the flag instead of clearing/reoffering it; later receipts remain ordered behind it. It is transient/non-replayable after observed ACK, and uses the existing ambiguous-receipt recovery after process loss. No mailbox or native save layout changes. See [native evidence and emulator acceptance](dev-docs/hub-teleport-trap.md).

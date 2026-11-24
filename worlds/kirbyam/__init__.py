@@ -415,6 +415,8 @@ class KirbyAmWorld(World):
 
         option = getattr(getattr(self, "options", None), "exclude_trap_types", None)
         excluded_traps: set[str] = set(getattr(option, "value", ()))
+        if getattr(self, "_tracker_legacy_trap_catalog", False):
+            excluded_traps.add(_label_for_item_key("TRAP_NARCOLEPSY"))
         if self._no_extra_lives_enabled():
             excluded_traps.update(
                 {

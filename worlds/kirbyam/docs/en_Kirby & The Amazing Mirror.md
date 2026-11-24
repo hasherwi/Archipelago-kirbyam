@@ -93,12 +93,17 @@ exclude_trap_types:
 ```
 
 Valid names are Health Down Trap, Life Down Trap, Bomb Trap, Battery Drain Trap,
-Life Wipeout Trap, and Hub Teleport Trap. Omit the list or set it to `[]` to keep
+Life Wipeout Trap, Hub Teleport Trap, and Narcolepsy. Omit the list or set it to `[]` to keep
 all otherwise eligible types. No Extra Lives still excludes Life Down and Life
 Wipeout, and minimum health of 1 still excludes Health Down. If nothing remains,
 the generator uses ordinary filler without re-enabling any excluded type.
 This controls the randomized items contributed by your KirbyAM slot, not traps
 sent by someone else's world or the effects of received traps.
+
+Narcolepsy replaces Kirby's equipped ability with Sleep even if Sleep is locked.
+The previous ability is lost without dropping a star, and the trap never unlocks
+Sleep. It waits for a safe moment to act; another Narcolepsy received while
+Kirby is asleep does not restart the nap.
 
 ### Using Archipelago's built-in `random` choice
 

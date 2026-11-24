@@ -5,6 +5,7 @@ import pytest
 from NetUtils import NetworkItem
 
 from ..client import KirbyAmClient
+from ..narcolepsy import NARCOLEPSY_ROM_MARKER, NARCOLEPSY_ROM_MARKER_OFFSET
 
 
 class Mailbox:
@@ -24,6 +25,7 @@ class Mailbox:
             kirby + 0xCC: (0x03001000).to_bytes(4, "little"),
             kirby + 0x0C: bytes(4), hp: bytes([10]),
         })
+        self.memory[NARCOLEPSY_ROM_MARKER_OFFSET] = NARCOLEPSY_ROM_MARKER
         self.offers = []
         self.applied = []
 

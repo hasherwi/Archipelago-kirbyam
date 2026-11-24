@@ -2008,6 +2008,63 @@ static HUB_EXT uint8_t ap_receipt_cue_gameplay_ready(void) {
         && *(volatile uint32_t *)(kirby + 0x110u) == 0u;
 }
 
+/* APN1: receipt 3860301 is implemented by this payload. The client checks the
+ * marker before reserving the trap so an older ROM cannot strand a receipt. */
+__attribute__((used, section(".apnarcolepsyinfo")))
+const uint8_t gApNarcolepsyInfo[4] = {'A', 'P', 'N', '1'};
+
+#define AP_NARCOLEPSY_ITEM (KIRBY_ITEM_ID_BASE_OFFSET + 301u)
+#define KIRBY_ABILITY_SLEEP 11u
+#define KIRBY_ABILITY_MINI 23u
+#define KIRBY_ABILITY_MASTER 26u
+#define KIRBY_NATIVE_GROUNDED_IDLE 0x0803FF65u
+#define KIRBY_NATIVE_GROUNDED_WALK 0x080411E9u
+#define KIRBY_NATIVE_GROUNDED_RUN  0x08041B09u
+
+static HUB_EXT uint8_t ap_trap_narcolepsy(void) {
+    uint32_t kirby = KIRBY_STRUCTS_ADDR; /* Only the local, human-controlled Kirby. */
+    uint8_t ability, stage;
+    uint32_t state, collision;
+    if (!ap_receipt_cue_gameplay_ready()) return 0u;
+
+    ability = *(volatile uint8_t *)(kirby + KIRBY_STRUCT_ABILITY_OFFSET);
+    if (ability == KIRBY_ABILITY_SLEEP) return 1u; /* Don't reset a native nap. */
+
+    state = *(volatile uint32_t *)(kirby + 0x78u);
+    if (state != KIRBY_NATIVE_GROUNDED_IDLE && state != KIRBY_NATIVE_GROUNDED_WALK
+            && state != KIRBY_NATIVE_GROUNDED_RUN) return 0u;
+
+    collision = *(volatile uint32_t *)(kirby + KIRBY_STRUCT_COLLISION_OFFSET);
+    stage = *(volatile uint8_t *)(kirby + KIRBY_STRUCT_TRANSITION_KIND_OFFSET);
+    if (!(stage & 4u) || (collision & 2u) /* Ground contact, not underwater. */
+            || (*(volatile uint32_t *)(kirby + 8u) & 0x03800B80u)
+            || *(volatile uint8_t *)(kirby + KIRBY_TRANSITIONING_ABILITY_OFFSET)) return 0u;
+    /* The retail tile predicate distinguishes Mini passages from normal space.
+     * Do not expand the body while it is still inside a small passage. */
+    if (ability == KIRBY_ABILITY_MINI && (collision & 0x400u)) return 0u;
+    /* Do not take away the Sword during the Dimension Mirror boss sequence. */
+    if (ability == KIRBY_ABILITY_MASTER && KIRBY_CURRENT_ROOM >= 909u
+            && KIRBY_CURRENT_ROOM <= 919u) return 0u;
+
+    /* Enter the retail transition directly, like a statue, without going
+     * through the copy-source RNG/unlock hooks. A new temporary Sleep effect
+     * replaces the old ability; no star creation or ownership change occurs. */
+    *(volatile uint8_t *)(kirby + KIRBY_TRANSITIONING_ABILITY_OFFSET) = KIRBY_ABILITY_SLEEP;
+    KIRBY_START_ABILITY_TRANSITION_FN((void *)kirby);
+    if (*(volatile uint32_t *)(kirby + 0x78u)
+            != (uint32_t)(uintptr_t)ap_on_commit_copy_ability_transition) {
+        *(volatile uint8_t *)(kirby + KIRBY_TRANSITIONING_ABILITY_OFFSET) = 0u;
+        return 0u; /* No confirmed native transition; leave the mailbox pending. */
+    }
+    /* Bypass the final ownership gate for this one actor/state only. Nothing
+     * is unlocked: native commit replaces this callback, and interruption or
+     * death discards it together with any ordinary ability transition. */
+    *(volatile uint32_t *)(kirby + 0x78u) = 0x0805C619u;
+    /* Native Master loss releases the global uniqueness latch. */
+    if (ability == KIRBY_ABILITY_MASTER) *(volatile uint8_t *)0x0203AD34u = 0u;
+    return 1u;
+}
+
 static HUB_EXT void ap_receipt_cue_poll(void) {
     uint32_t ready = 0u, request, active;
     if (AP_MAILBOX_INIT_COOKIE != AP_MAILBOX_INIT_COOKIE_VALUE) return;
@@ -2078,6 +2135,7 @@ static uint8_t ap_apply_item(uint32_t ap_item_id) {
     /* Only authenticated complete history may grant this access item. */
     if (ap_item_id == AP_PHONE_ITEM) return (uint8_t)ap_phone_owned();
     if (ap_item_id == AP_COPY_ROOM_ITEM) return (uint8_t)ap_copy_room_owned();
+    if (ap_item_id == AP_NARCOLEPSY_ITEM) return ap_trap_narcolepsy();
     // 1_UP = BASE+1
     if (ap_item_id == (KIRBY_ITEM_ID_BASE_OFFSET + 1u)) {
         ap_grant_lives(1u);

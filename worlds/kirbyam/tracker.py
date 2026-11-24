@@ -5,6 +5,7 @@ from typing import TYPE_CHECKING, Any, Iterable
 
 from BaseClasses import Item
 from .options import ExcludeTrapTypes, KirbyAmOptions
+from .narcolepsy import NARCOLEPSY_ITEM_NAME, TRAP_CATALOG_VERSION
 
 TRACKER_OPTIONS = (*KirbyAmOptions.__annotations__, "accessibility", "exclude_locations")
 
@@ -25,12 +26,18 @@ def validate_tracker_data(slot_data: dict[str, Any]) -> dict[str, Any]:
     options = tracker.get("options")
     if not isinstance(options, dict) or not required.issubset(options):
         raise ValueError("Incomplete Kirby tracker options; refusing to reroll the seed.")
+    if "trap_catalog_version" in tracker:
+        version = tracker["trap_catalog_version"]
+        if type(version) is not int or version != TRAP_CATALOG_VERSION:
+            raise ValueError("Unsupported Kirby tracker trap catalog; use the matching APWorld.")
     if "exclude_trap_types" in options:
         exclusions = options["exclude_trap_types"]
         if not isinstance(exclusions, list) or any(
             not isinstance(name, str) or name not in ExcludeTrapTypes.valid_keys for name in exclusions
         ):
             raise ValueError("Invalid Kirby tracker exclude_trap_types; expected a list of known trap names.")
+        if "trap_catalog_version" not in tracker and NARCOLEPSY_ITEM_NAME in exclusions:
+            raise ValueError("Kirby tracker lists Narcolepsy without its trap catalog version.")
     for key in ("enemy_copy_ability_policy", "goal_configured_area_boss_key",
                 "starting_kirby_color", "starting_kirby_color_name"):
         if key not in slot_data:
@@ -49,6 +56,8 @@ def export_tracker_data(world: "KirbyAmWorld", items: Iterable[Item]) -> dict[st
         options[name] = sorted(value) if isinstance(value, (set, frozenset)) else deepcopy(value)
     return {
         "version": 1,
+        **({} if getattr(world, "_tracker_legacy_trap_catalog", False)
+           else {"trap_catalog_version": TRAP_CATALOG_VERSION}),
         "options": options,
         "precollected_items": dict(Counter(item.name for item in items)),
     }
@@ -56,6 +65,7 @@ def export_tracker_data(world: "KirbyAmWorld", items: Iterable[Item]) -> dict[st
 
 def restore_tracker_data(world: "KirbyAmWorld", slot_data: dict[str, Any]) -> None:
     tracker = validate_tracker_data(slot_data)
+    world._tracker_legacy_trap_catalog = "trap_catalog_version" not in tracker
     for name, option_type in KirbyAmOptions.type_hints.items():
         if name in TRACKER_OPTIONS:
             # Values were already rolled by generation. Do not call from_any,

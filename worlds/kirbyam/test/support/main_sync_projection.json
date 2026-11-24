@@ -570,6 +570,50 @@
               "main": []
             }
           ]
+        },
+        {
+          "integrated_sha256": "7325800ce0fe8ab11f17c2b902d192600d9651ffe6ef0b6a117c8d1cbe544fb1",
+          "reverse_slices": [
+            {
+              "start": 20,
+              "stop": 21,
+              "current": [
+                "from .narcolepsy import NARCOLEPSY_ITEM_ID, NARCOLEPSY_ROM_MARKER, NARCOLEPSY_ROM_MARKER_OFFSET\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 5187,
+              "stop": 5196,
+              "current": [
+                "            if item_id in (CANDY_ITEM_ID, NARCOLEPSY_ITEM_ID):\n",
+                "                if item_id == CANDY_ITEM_ID:\n",
+                "                    if not await self._invincibility_candy_ready(ctx):\n",
+                "                        return  # Keep history order; do not reserve or consume this receipt yet.\n",
+                "                else:\n",
+                "                    marker, = await bizhawk.read(ctx.bizhawk_ctx, [\n",
+                "                        (NARCOLEPSY_ROM_MARKER_OFFSET, len(NARCOLEPSY_ROM_MARKER), \"ROM\"),\n",
+                "                    ])\n",
+                "                # These reads await the connector; reject a changed delivery session.\n"
+              ],
+              "main": [
+                "            if item_id == CANDY_ITEM_ID:\n",
+                "                if not await self._invincibility_candy_ready(ctx):\n",
+                "                    return  # Keep history order; do not reserve or consume this receipt yet.\n",
+                "                # Readiness awaits the connector; reject a changed delivery session.\n"
+              ]
+            },
+            {
+              "start": 5201,
+              "stop": 5204,
+              "current": [
+                "                    return\n",
+                "                if item_id == NARCOLEPSY_ITEM_ID and bytes(marker) != NARCOLEPSY_ROM_MARKER:\n",
+                "                    self._receipt_failure(\"this ROM does not support Narcolepsy; patch your seed with the current APWorld\")\n"
+              ],
+              "main": []
+            }
+          ]
         }
       ]
     },
