@@ -333,9 +333,15 @@ uint32_t ap_lever_bit_for_obj(uint32_t chest_obj_ptr) {
     );
 }
 
-/* Always use the same native, 16×16 chest visual slot (variant 0), even
- * for no-bonus chests. This argument only controls popup graphics: the
- * native delayed reward code reads Chest::unkE0 from the parent object. */
+static __attribute__((noinline, long_call, section(".aprewardfx")))
+uint8_t ap_reward_native_vram_available(void) {
+    return ap_reward_native_vram_can_fit((const volatile uint16_t*)0x030064B0u,
+        *(const volatile uint16_t*)0x03002488u, *(const volatile uint32_t*)0x03002540u);
+}
+
+/* Prefer the native 16×16 chest slot (variant 0), even for no-bonus chests.
+ * Without safe VRAM, use native 0x63: it starts the same popup timer but
+ * reserves no sprite tiles. The native reward reads the parent Chest::unkE0. */
 __attribute__((used, noinline, long_call, section(".aphub")))
 void ap_chest_reward_art(void *chest, int16_t x, int16_t y, uint16_t item) {
     typedef void (*ChestPopupFn)(void *, int16_t, int16_t, uint16_t);
@@ -347,6 +353,10 @@ void ap_chest_reward_art(void *chest, int16_t x, int16_t y, uint16_t item) {
     /* Physical lever pulls use this same native open call. Wall receipts
      * and restored pulls only change the wall or callback; neither enters it. */
     (void)item;  /* Native visual parameter, not the real parent reward. */
+    if (!ap_reward_native_vram_available()) {
+        native_popup(chest, x, y, 0x63u);
+        return;
+    }
     before = *tile_head;
     native_popup(chest, x, y, 0u);
     /* Change only this popup's single queued VRAM upload. All palettes,
@@ -531,10 +541,18 @@ static __attribute__((noinline, long_call, section(".aprewardfx"))) void ap_visi
  * Chest popup eventually reads and grants its parent chest's item. This task
  * uses only native tile/draw/cleanup APIs and cannot grant a reward. */
 static inline uint8_t *ap_reward_task_data(void *task) {
-    uint16_t offset = *(volatile uint16_t*)((uint8_t*)task + 6u);
-    return (*(volatile uint16_t*)((uint8_t*)task + 0x12u) & 0x10u)
-        ? (uint8_t*)(0x02000000u + ((uintptr_t)offset << 2))
-        : (uint8_t*)(0x03000000u + (uintptr_t)offset);
+    const uint8_t *native = task;
+    return (uint8_t*)(uintptr_t)ap_reward_task_effect_address(
+        *(const volatile uint16_t*)(native + 6u), *(const volatile uint16_t*)(native + 0x12u));
+}
+
+/* A failed nonempty task has a scheduler slot but no owned data. Remove it
+ * without allowing the destructor or TaskDestroy to use its invalid offset. */
+static inline void ap_drop_invalid_reward_task(void *task) {
+    uint8_t *native = task;
+    *(volatile uint16_t*)(native + 6u) = 0u;
+    *(volatile uint32_t*)(native + 0xCu) = 0u;
+    ((void (*)(void*))0x08152C3Du)(task);
 }
 
 static inline uint16_t ap_reward_local_room(void) {
@@ -615,6 +633,10 @@ AP_REWARD_FX __attribute__((used)) void ap_draw_boss_shard_sprite(void *sprite) 
 static __attribute__((noinline, section(".aprewardfx"))) void ap_reward_gem_frame(void) {
     void *task = *(void *volatile*)0x030035D0u;
     uint8_t *effect = ap_reward_task_data(task);
+    if (effect == 0) {
+        ap_drop_invalid_reward_task(task);
+        return;
+    }
     volatile uint16_t *age = (volatile uint16_t*)(effect + 4u);
     /* The map interlude suspends room tasks. Do not let the visual
      * reappear when they resume after the physical check has persisted. */
@@ -635,15 +657,19 @@ AP_REWARD_FX void ap_show_room_reward_gem(uint16_t room, int32_t x, int32_t y, u
     typedef void (*SpriteInitFn)(void *, void *, uint32_t, uint16_t, uint8_t, uint16_t);
     volatile uint8_t *head = (volatile uint8_t*)0x030039A4u;
     volatile struct ApChestTileUpload *ring = (volatile struct ApChestTileUpload*)0x03002EC0u;
-    if (room != ap_reward_local_room()) return;
-    void *task = ((TaskCreateFn)0x08152B01u)(ap_reward_gem_frame, 0x4Cu, 0x3500u, 0u,
+    if (room != ap_reward_local_room() || !ap_reward_native_vram_available()) return;
+    void *task = ((TaskCreateFn)0x08152B01u)(ap_reward_gem_frame, AP_REWARD_EFFECT_SIZE, 0x3500u, 0u,
                                           (DtorFn)0x0803DCCDu);
     if (task == (void*)0x03002500u) return; /* gEmptyTask */
     uint8_t *effect = ap_reward_task_data(task);
+    if (effect == 0) {
+        ap_drop_invalid_reward_task(task);
+        return;
+    }
     ((void (*)(void*))0x0803E3B1u)(effect); /* ClearEffectObject */
     effect[0] = 3u;
     uint32_t vram = ((uint32_t (*)(uint32_t))0x081570B1u)(4u);
-    if (vram < 0x06014000u || vram > 0x06018000u - AP_CHEST_ART_SIZE) {
+    if (!ap_reward_vram_address_is_valid(vram)) {
         ((void (*)(void*))0x08152C3Du)(task);
         return;
     }
@@ -682,6 +708,7 @@ void ap_big_switch_reward_art(void *object) {
     const uint8_t *sw = object;
     uint16_t state = *(const volatile uint16_t*)(sw + 0xB6u);
     uint16_t room = *(const volatile uint16_t*)(sw + 0x60u);
+    uint32_t show_bit = 0u;
     /* Only the world-map branch of SwitchMain reaches this wrapper. Native
      * SwitchUpdatePressState sets 2 for a newly accepted press; the function
      * below sets its own 0x2000 sequence latch, including if the map is busy. */
@@ -693,14 +720,17 @@ void ap_big_switch_reward_art(void *object) {
         if (source[12] == 0x86u && door >= 1u && door <= 15u && source[4] == ap_hub_props[door]) {
             uint32_t bit = 1u << ap_hub_bits[door];
             if ((ap_hub_saved_checks(AP_HUB_SAVED_CHECKS, AP_HUB_ROM_AUTH) & bit) == 0u) {
-                ap_show_room_reward_gem(room, *(const volatile int32_t*)(sw + 0x40u),
-                    *(const volatile int32_t*)(sw + 0x44u) - 30 * 256, bit);
+                show_bit = bit;
             }
         }
     }
     /* Keep the original press latch/interlude/check/save flow untouched,
      * even on dropped art or native switches outside the AP table. */
     ((void (*)(void*))0x08119B3Du)(object);
+    if (show_bit) {
+        ap_show_room_reward_gem(room, *(const volatile int32_t*)(sw + 0x40u),
+            *(const volatile int32_t*)(sw + 0x44u) - 30 * 256, show_bit);
+    }
 }
 
 /* Use the existing appended Hub extension, preserving the fixed config ABI. */

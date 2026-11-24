@@ -30,6 +30,11 @@ static void draw_effect(void *effect) {
     ++draws;
 }
 
+static void ap_drop_invalid_reward_task(void *task) {
+    assert(task == fixture_task);
+    assert(0 && "valid fixture tasks should use standard cleanup");
+}
+
 static uint32_t ap_hub_saved_checks(const void *saved, const void *auth) {
     (void)saved;
     (void)auth;
@@ -42,6 +47,7 @@ static uint16_t ap_reward_local_room(void) {
 
 static void ap_show_room_reward_gem(uint16_t room, int32_t x, int32_t y, uint32_t bit) {
     assert(room == local_room && x == 136 * 256 && y == 98 * 256);
+    assert((*(uint16_t*)(object + 0xB6u) & 0x2000u) != 0u);
     assert(bit == (1u << ap_hub_bits[*(uint16_t*)(fixture_source + 0x14u)]));
     ++pops;
 }

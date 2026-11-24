@@ -13,6 +13,44 @@ struct ApChestTileUpload {
 
 #define AP_CHEST_NATIVE_TILES 0x0861F46Cu
 #define AP_CHEST_ART_SIZE 128u
+#define AP_REWARD_EFFECT_SIZE 0x4Cu
+
+static inline uint8_t ap_reward_vram_address_is_valid(uint32_t address) {
+    return address >= 0x06014000u && address <= 0x06018000u - AP_CHEST_ART_SIZE;
+}
+
+/* Mirror the USA VramMalloc(4) first fit without mutating its heap: four
+ * tiles occupy two 64-byte segments. Occupied runs are tagged only at
+ * their first segment, so inner zero entries do not signify free space. */
+static inline uint8_t ap_reward_native_vram_can_fit(
+    const volatile uint16_t *segments, uint16_t tile_slots, uint32_t base
+) {
+    uint32_t count = tile_slots >> 1;
+    if (count > 0x200u || base < 0x06010000u || base >= 0x06018000u) return 0u;
+    for (uint32_t i = 0u; i + 1u < count;) {
+        uint16_t occupied = segments[i];
+        if (occupied == 0u) {
+            if (segments[i + 1u] == 0u) return ap_reward_vram_address_is_valid(base + i * 64u);
+            ++i;
+        } else {
+            i += occupied;
+        }
+    }
+    return 0u;
+}
+
+/* TaskCreate may return a linked task when both heaps fail. Reject invalid
+ * offsets before initializing an effect or attaching its destructor. */
+static inline uint32_t ap_reward_task_effect_address(uint16_t offset, uint16_t flags) {
+    if (flags & 0x10u) {
+        uint32_t address = 0x02000000u + ((uint32_t)offset << 2);
+        return address >= 0x02000008u && address <= 0x02020080u - AP_REWARD_EFFECT_SIZE ? address : 0u;
+    }
+    uint32_t address = 0x03000000u + offset;
+    return address >= 0x03003A24u && address <= 0x03006024u - AP_REWARD_EFFECT_SIZE
+        && !(address & 3u) ? address : 0u;
+}
+
 
 static inline uint8_t ap_chest_redirect_upload(
     volatile struct ApChestTileUpload *ring, uint8_t before, uint8_t after, uint32_t source

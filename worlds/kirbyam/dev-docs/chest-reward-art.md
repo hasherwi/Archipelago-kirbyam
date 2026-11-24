@@ -168,3 +168,22 @@ gate. A dedicated versioned seed config selects all 263 catalogued RoomSanity
 locations or only the eight core landmarks; it works offline. Coalescing
 first area and room art never coalesces or edits their AP location checks.
 Historical patch archives retain their original procedure and behavior.
+
+## Resource pressure
+
+The popup is cosmetic, so it gives way to native gameplay allocations. Before
+selecting the four-tile chest presentation, check for a valid contiguous run
+in the native sprite heap. Without one, the native no-art variant still starts
+the original reward timer; the item or wall logic still reads the same
+parent chest. Shared standalone effects similarly skip unavailable artwork.
+A returned scheduler task without valid heap data is detached without either
+initializing the nonexistent data or running its effect destructor.
+
+In an isolated mGBA pressure test, the older Big Switch popup attempted to
+clear the EWRAM heap head when both native task heaps were full. The guarded
+version dropped that task and the physical switch check still recorded.
+Forcing zero sprite-heap capacity at the chest constructor previously queued
+128 bytes to address 0; the guarded version queued nothing and returned with
+the native no-art variant. This test does not imply ordinary gameplay exhausts
+either heap. With normal resources, the 712-frame Big Switch replay and
+screenshot were unchanged.
