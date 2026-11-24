@@ -13,6 +13,14 @@
 #define HUMANS U8(0x0203AD30u)
 #define KIRBY 0x02020EE0u
 #define WORD18 U32(0x02028C58u)
+/* WORLD word 21 shares the full seed token in words 22..25. Do not
+ * alias native words 1..15, Copy Room word 18, or goal/switch records. */
+#define PROGRESS U32(0x02028C64u)
+#define PROGRESS_TAG 0xA8000000u
+#define PROGRESS_SLOT_SHIFT 24u
+#define PROGRESS_BITS 0x007FFFFFu
+#define INCOMING_FLAG U32(0x0203B004u)
+#define INCOMING_ITEM U32(0x0203B008u)
 #define REQUEST ((volatile uint32_t *)0x0203B160u)
 #define NATIVE_SAVE ((int16_t (*)(uint32_t,uint16_t))0x0800ACD5u)
 
@@ -60,6 +68,34 @@ AP_COPY_EXT uint32_t ap_copy_room_epoch(void) {
         || !live_task(CTX->task) || !record_valid())) deactivate();
     return CTX->epoch;
 }
+/* 0..7 are Area Keys 2..9, 8..22 are Hub Connections 1..15. */
+static AP_COPY_EXT uint32_t progress_for_slot(uint16_t slot) {
+    if (slot > 2u || !record_valid()
+        || (PROGRESS & ~PROGRESS_BITS) != (PROGRESS_TAG | ((uint32_t)slot << PROGRESS_SLOT_SHIFT)))
+        return 0u;
+    return PROGRESS & PROGRESS_BITS;
+}
+
+AP_COPY_EXT uint32_t ap_progress_owned(void) {
+    return ap_copy_room_epoch() ? progress_for_slot((uint16_t)CTX->slot) : 0u;
+}
+
+AP_COPY_EXT uint8_t ap_progress_receive(uint32_t bit) {
+    if (!ap_copy_room_epoch() || bit >= 23u) return 0u;
+    uint32_t old = PROGRESS;
+    uint32_t owned = progress_for_slot((uint16_t)CTX->slot), acquired = 1u << bit;
+    if (owned & acquired) return 1u;
+    PROGRESS = PROGRESS_TAG | (CTX->slot << PROGRESS_SLOT_SHIFT) | owned | acquired;
+    /* Only ACK a successful write of this active Adventure file. A failed
+     * write does not become ownership in EWRAM; the same offer may retry. */
+    if (NATIVE_SAVE(1u,(uint16_t)CTX->slot) != 0) {
+        PROGRESS = old;
+        return 0u;
+    }
+    CTX->dirty=0u; /* This native serialization also flushed the shared header. */
+    return 1u;
+}
+
 AP_COPY_EXT uint32_t ap_copy_room_owned(void) {
     return ap_copy_room_epoch() ? (RECORD[4] & AP_COPY_OWNED) : 0u;
 }
@@ -73,17 +109,30 @@ AP_COPY_EXT void ap_copy_room_grant_access(uint32_t mask) {
     }
     CTX->owned=RECORD[4]&AP_COPY_OWNED;
 }
+static AP_COPY_EXT void abandon_progress_offer(void) {
+    uint32_t item = INCOMING_ITEM;
+    if (INCOMING_FLAG == 1u && ((item >= 3860041u && item <= 3860048u)
+        || (item >= 3860401u && item <= 3860415u))) {
+        /* Reset the offer without incrementing the native receipt counter.
+         * The client's receipt journal treats this as unacknowledged. */
+        INCOMING_FLAG = 0u;
+    }
+}
+
 AP_COPY_EXT int16_t ap_copy_room_load(uint32_t kind, uint16_t slot) {
     int16_t result;
     initialize();
-    if (kind==1u) { deactivate(); CTX->loaded_slot=AP_COPY_INVALID_SLOT; }
+    if (kind==1u) { abandon_progress_offer(); deactivate(); CTX->loaded_slot=AP_COPY_INVALID_SLOT; }
     result=((int16_t (*)(uint32_t,uint16_t))0x0800A91Du)(kind,slot);
-    if (kind==1u && result==0 && slot<=2u) CTX->loaded_slot=slot;
+    if (kind==1u && result==0 && slot<=2u) {
+        CTX->loaded_slot=slot;
+        ap_project_hub_doors(progress_for_slot(slot));
+    }
     return result;
 }
 AP_COPY_EXT void ap_copy_room_clear(uint32_t kind) {
     initialize();
-    if (kind==1u) { deactivate(); CTX->loaded_slot=AP_COPY_INVALID_SLOT; }
+    if (kind==1u) { abandon_progress_offer(); deactivate(); CTX->loaded_slot=AP_COPY_INVALID_SLOT; }
     ((void (*)(uint32_t))0x0800AC01u)(kind);
     if (kind==1u && SAVE_SLOT<=2u) CTX->loaded_slot=SAVE_SLOT;
 }
@@ -100,6 +149,7 @@ AP_COPY_EXT void ap_copy_room_start(uint8_t humans, uint8_t local, const uint16_
         || humans!=1u || local!=0u || LOCAL!=0u || HUMANS!=1u || !live_task(task)) return;
     if (!record_valid()) {
         RECORD[4]=0u;
+        PROGRESS=0u; /* Old/foreign ownership must not bind to the new token. */
         for (uint32_t i=0u; i<4u; ++i) RECORD[i]=AUTH[i];
         RECORD[4]=AP_COPY_TAG;
         CTX->dirty=1u;

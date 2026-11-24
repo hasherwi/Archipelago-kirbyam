@@ -17,6 +17,11 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ### Improvements
 - Show boss defeat progress in `/goal` when using the boss-count goal (PR #1133).
 
+### Bug Fixes
+
+- Area Keys now remain usable after restarting the game offline in the same seed and save file.
+- Hub Connections are saved when received, so restarting offline no longer loses newly opened routes.
+
 ### Known Limitations
 - Phone charges can exceed three, but the battery display does not show the extra charges (PR #1086).
 - Ranged-attack coverage remains incomplete. Three targets retain older rules outside reviewed source assignments; broader physical outcomes still need review. See the [detailed coverage ledger](dev-docs/ranged-coverage-ledger.md) (PR #1052).

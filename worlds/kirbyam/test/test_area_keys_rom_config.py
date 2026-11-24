@@ -66,6 +66,7 @@ def test_native_config_defaults_on_and_bypasses_only_destination_key(tmp_path: P
 #define AP_AREA_KEYS_CONFIG_OFF 0x414B0100u
 #define KIRBY_NATIVE_AREA_UNKNOWN 255u
 static uint32_t gApAreaKeysConfig, AP_AREA_KEY_BITFIELD_RUNTIME, copy_room_owned;
+static uint32_t ap_progress_owned(void) { return AP_AREA_KEY_BITFIELD_RUNTIME >> 2; }
 static uint32_t ap_copy_room_owned(void) { return copy_room_owned; }
 /* Native area metadata is isolated here; all tested policy functions are extracted production bodies. */
 static uint8_t ap_native_area_for_room(uint16_t room) { return (uint8_t)room; }

@@ -25,7 +25,7 @@ from .phone_protocol import (
     PHONE_ITEM_ID, PHONE_CONFIG_BUS_ADDRESS, sync_phone_ownership, validate_phone_pairing,
 )
 from .copy_room_protocol import (
-    COPY_ROOM_ITEM_ID, COPY_ROOM_MARKER, COPY_ROOM_MARKER_OFFSET,
+    COPY_ROOM_CONTEXT_ADDRESS, COPY_ROOM_ITEM_ID, COPY_ROOM_MARKER, COPY_ROOM_MARKER_OFFSET,
     copy_room_slot_version, sync_copy_room_ownership,
 )
 from .goal_game_protocol import GOAL_MARKER, GOAL_MARKER_OFFSET, goal_slot_version, poll_goal_games
@@ -5199,10 +5199,14 @@ class KirbyAmClient(BizHawkClient):
                 (flag_addr, (1).to_bytes(4, "little"), "System Bus"),
             ]
             hub_door = _HUB_CONNECTION_ITEM_ID_TO_DOOR_INDEX.get(item_id)
-            if hub_door is not None:
+            native_auth = self._health_rom_auth
+            durable_progress = (self._receipt_journal is not None and native_auth is not None
+                                and copy_room_slot_version(getattr(ctx, "slot_data", {}))
+                                and (hub_door is not None or item_id in _AREA_KEY_ITEM_ID_TO_AREA_ID))
+            if hub_door is not None or durable_progress:
                 delivery_index = self._delivered_item_index
 
-                def hub_offer_current() -> bool:
+                def progress_offer_current() -> bool:
                     return (
                         receipt_session == (self._authenticated_session_key(ctx), self._health_rom_auth)
                         and delivery_socket is getattr(getattr(ctx, "server", None), "socket", None)
@@ -5213,20 +5217,30 @@ class KirbyAmClient(BizHawkClient):
                         and ctx.items_received[delivery_index] is itm
                     )
 
-                # ReceivedItems can arrive during the watcher polls after its
-                # initial ownership sync. Acknowledge ownership separately:
-                # connectors can continue later writes after a batch error.
-                mask = await self._sync_hub_connection_item_ownership(ctx)
-                mask_addr = self._transport_addr("hub_connection_item_mask")
-                if (mask is None or mask_addr is None or not mask & (1 << hub_door)
-                        or not hub_offer_current()):
+                guards = [(flag_addr, bytes(4), "System Bus")]
+                if durable_progress:
+                    auth_addr = _normalize_gba_rom_address(data.rom_addresses["gArchipelagoInfo"])
+                    native_file, auth = await bizhawk.read(ctx.bizhawk_ctx, [
+                        (COPY_ROOM_CONTEXT_ADDRESS, 12, "System Bus"),
+                        (auth_addr, 16, "ROM"),
+                    ])
+                    if (len(native_file) != 12 or not self._u32_le(native_file[:4])
+                            or self._u32_le(native_file[8:12]) > 2 or bytes(auth) != native_auth
+                            or not progress_offer_current()):
+                        return
+                    guards += [(COPY_ROOM_CONTEXT_ADDRESS, bytes(native_file), "System Bus"),
+                               (auth_addr, bytes(auth), "ROM")]
+                if hub_door is not None:
+                    # Publish the current confirmed history as a prerequisite
+                    # to the receipt, but not as native ownership authority.
+                    mask = await self._sync_hub_connection_item_ownership(ctx)
+                    mask_addr = self._transport_addr("hub_connection_item_mask")
+                    if mask is None or mask_addr is None or not mask & (1 << hub_door):
+                        return
+                    guards.append((mask_addr, mask.to_bytes(4, "little"), "System Bus"))
+                if not progress_offer_current() or not await bizhawk.guarded_write(ctx.bizhawk_ctx, offer, guards):
                     return
-                if not await bizhawk.guarded_write(ctx.bizhawk_ctx, offer, [
-                    (mask_addr, mask.to_bytes(4, "little"), "System Bus"),
-                    (flag_addr, bytes(4), "System Bus"),
-                ]):
-                    return
-                if not hub_offer_current():
+                if not progress_offer_current():
                     return  # An in-flight offer may have committed; reconcile by readback.
             else:
                 await bizhawk.write(ctx.bizhawk_ctx, offer)

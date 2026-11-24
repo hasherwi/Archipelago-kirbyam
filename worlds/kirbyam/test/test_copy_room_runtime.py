@@ -30,6 +30,9 @@ static void fake_start(uint8_t,uint8_t,const uint16_t*,const int32_t*,const uint
 #define WORLD ((uint32_t*)0x02028C10u)
 static uint32_t files[3][32];
 static unsigned saves[3], fail_save, fail_load;
+void ap_project_hub_doors(uint32_t owned) {
+    for (unsigned i=1;i<=15;i++) WORLD[i]=(owned>>(i+7u))&1u;
+}
 static int16_t fake_save(uint32_t kind,uint16_t slot) {
     if(kind!=1 || slot>2) return -99;
     saves[slot]++; if(fail_save) return -1;
@@ -71,7 +74,7 @@ int main(void) {
         CHECK(saves[slot]==before+1 && (files[slot][26]&~1u)!=AP_COPY_TAG);
         fail_save=0;for(unsigned i=0;i<61;i++)ap_copy_room_poll();
         CHECK(!CTX->dirty && saves[slot]==before+2 && files[slot][26]==(AP_COPY_TAG|1));
-        for(unsigned i=0;i<32;i++) if(i!=18 && (i<22 || i>26))
+        for(unsigned i=0;i<32;i++) if(i!=18 && i!=21 && (i==0 || i>=16) && (i<22 || i>26))
             CHECK(files[slot][i]==0xA5000000+slot*256+i); /* Hub and all other words preserved. */
         before=saves[slot];COMMAND(1);CHECK(!CTX->dirty && saves[slot]==before);
         for(unsigned i=0;i<5;i++)ap_copy_room_poll();CHECK(ap_copy_room_owned());
@@ -132,6 +135,29 @@ int main(void) {
     FLAGS=0x10;uint32_t inactive_record=RECORD[4];
     ap_copy_room_complete_goal(0);CHECK(RECORD[4]==inactive_record && !CTX->epoch);
     FLAGS=0;
+    /* Native progression: do not ACK a failed write; isolate the files and
+     * projected mirror words, even if copied or saved under another seed. */
+    SAVE_SLOT=0;ap_copy_room_clear(1);START();
+    unsigned before_progress=saves[0];
+    fail_save=1;CHECK(!ap_progress_receive(0u) && !ap_progress_owned());
+    CHECK(saves[0]==before_progress+1);
+    fail_save=0;CHECK(ap_progress_receive(0u) && ap_progress_receive(9u));
+    CHECK(saves[0]==before_progress+3 && ap_progress_owned()==(1u|(1u<<9)));
+    CHECK(ap_progress_receive(9u) && !ap_progress_receive(23u) && saves[0]==before_progress+3);
+    INCOMING_ITEM=3860402u;INCOMING_FLAG=1u;
+    CHECK(ap_copy_room_load(1,0)==0 && !INCOMING_FLAG && !ap_progress_owned());
+    CHECK(WORLD[2]==1 && WORLD[1]==0);START();
+    CHECK(ap_progress_owned()==(1u|(1u<<9)));
+    SAVE_SLOT=1;CHECK(ap_copy_room_load(1,1)==0);START();
+    CHECK(!ap_progress_owned() && WORLD[2]==0);
+    /* Even a manual native-file copy cannot carry AP ownership into slot 2. */
+    memcpy(files[2],files[0],sizeof(files[0]));files[2][2]=1;
+    SAVE_SLOT=2;CHECK(ap_copy_room_load(1,2)==0);START();
+    CHECK(!ap_progress_owned() && WORLD[2]==0);
+    /* Stale native mirror state plus a different exact seed/slot token. */
+    memcpy((void*)AUTH,"fedcba9876543210",16);files[0][2]=1;
+    SAVE_SLOT=0;CHECK(ap_copy_room_load(1,0)==0);START();
+    CHECK(!ap_progress_owned() && WORLD[2]==0 && PROGRESS==0);
     /* Execute both shipping pollers: Phone refresh must not erase a Goal run. */
     SAVE_SLOT=0;ap_copy_room_clear(1);START();
     const struct ApGoalDoor *door=&ap_goal_doors[0];

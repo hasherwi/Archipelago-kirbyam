@@ -186,7 +186,7 @@ def test_payload_applies_connection_items_and_excludes_their_unlocks_from_switch
 
     assert "AP_HUB_CONNECTION_ITEM_MASK (*(volatile uint32_t*)(AP_BASE + 0x134u))" in content
     assert "AP_HUB_CONNECTION_ITEM_MASK_UNINITIALIZED 0xFFFFFFFFu" in content
-    assert "*world_props_entry = 1u;" in content, "Door items must write native world-props unlock state"
+    assert "*entry = (owned >> (door + 7u)) & 1u;" in content, "Only durable ownership projects native door state"
 
     apply_match = re.search(
         r"uint8_t\s+ap_apply_item[^{]*\{(?P<body>.*?)^}",
@@ -198,18 +198,10 @@ def test_payload_applies_connection_items_and_excludes_their_unlocks_from_switch
     assert "KIRBY_ITEM_ID_BASE_OFFSET + 401u" in apply_body
     assert "KIRBY_ITEM_ID_BASE_OFFSET + 415u" in apply_body
     assert "ap_item_id - (KIRBY_ITEM_ID_BASE_OFFSET + 400u)" in apply_body
-    assert "ap_try_map_worldmap_door_to_hub_switch_bit(" in apply_body
-    assert "return ap_unlock_hub_door(world_props_unlock_index);" in apply_body
-
-    reconcile_match = re.search(
-        r"void\s+ap_apply_hub_connection_unlocks_from_mask[^{]*\{(?P<body>.*?)^}",
-        content,
-        flags=re.DOTALL | re.MULTILINE,
-    )
-    assert reconcile_match is not None
-    reconcile_body = reconcile_match.group("body")
-    assert "item_mask & (1u << door_index)" in reconcile_body
-    assert "ap_unlock_hub_door(world_props_unlock_index)" in reconcile_body
+    assert "mask & (1u << door_index)" in apply_body
+    assert "!ap_progress_receive(door_index + 7u)" in apply_body
+    assert "ap_project_hub_doors(ap_progress_owned());" in apply_body
+    assert "ap_apply_hub_connection_unlocks_from_mask" not in content
 
     assert "ap_sync_hub_switch_flags_from_world_props" not in content
     assert "ap_restore_hub_switch_checks();" in content
