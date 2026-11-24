@@ -58,14 +58,14 @@ Kirby & The Amazing Mirror:
 
 ## Proposed colors
 
-These **42 reference palettes** are not in the game and cannot be selected in YAML. The sprite mockups show how the reference swatches look on normal Kirby; they have not been implemented or checked in gameplay. Names and colors may change.
+These **41 reference palettes** are not in the game and cannot be selected in YAML. The sprite mockups show how the reference swatches look on normal Kirby; they have not been implemented or checked in gameplay. Names and colors may change.
 
 ![Kirby mockups and swatches for the first 21 proposals, Rose through Samus. The names are listed below.](color-palettes-proposals-1.png)
 
-![Kirby mockups and swatches for the remaining 21 proposals, Marx through Invincible. The names are listed below.](color-palettes-proposals-2.png)
+![Kirby mockups and swatches for the remaining 20 proposals, Marx through Ultra Stone. The names are listed below.](color-palettes-proposals-2.png)
 
 <details>
-<summary>All 42 proposed color names</summary>
+<summary>All 41 proposed color names</summary>
 
 - Rose
 - Daisy
@@ -108,7 +108,6 @@ These **42 reference palettes** are not in the game and cannot be selected in YA
 - Ultra Ninja
 - Ultra Plasma
 - Ultra Stone
-- Invincible
 
 </details>
 
