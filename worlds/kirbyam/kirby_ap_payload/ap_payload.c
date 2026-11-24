@@ -15,6 +15,18 @@ AP_COPY_EXT void ap_goal_poll(void);
 #include "lever_runtime_logic.h"
 #include "vitality_runtime_logic.h"
 #include "color_runtime_logic.h"
+#include "goal_game_runtime_logic.h"
+#include "receipt_sound_runtime.h"
+
+__attribute__((used, section(".apcueinfo")))
+const uint8_t gApReceiptCueInfo[8] = {'A','P','C','U','E','0','1',0};
+
+_Static_assert(AP_GOAL_RUN_ADDRESS + sizeof(struct ApGoalRun) <= AP_CUE_MAILBOX_ADDRESS,
+               "Receipt cue mailbox overlaps Goal Game runtime state");
+#define AP_CUE_REQUEST (*(volatile uint32_t *)(AP_CUE_MAILBOX_ADDRESS))
+#define AP_CUE_RESULT (*(volatile uint32_t *)(AP_CUE_MAILBOX_ADDRESS + 4u))
+#define AP_CUE_READY (*(volatile uint32_t *)(AP_CUE_MAILBOX_ADDRESS + 8u))
+#define AP_CUE_ACTIVE (*(volatile uint32_t *)(AP_CUE_MAILBOX_ADDRESS + 12u))
 
 // Kirby AP item ID base offset
 #define KIRBY_ITEM_ID_BASE_OFFSET       3860000u  // must match worlds/kirbyam/data.py BASE_OFFSET
@@ -1959,6 +1971,73 @@ static HUB_EXT uint8_t ap_hub_idle_ready(void) {
         && (*(volatile uint32_t *)(KIRBY_STRUCTS_ADDR + 0xCu) & 0x1000u) != 0u;
 }
 
+/* US retail m4a player/song tables. Progression uses the first native
+ * effects player; useful/filler and trap use the second. Never start an AP
+ * cue over a native effect already using its player. */
+#define AP_CUE_MPLAY_TABLE ((const uint32_t *)0x08B59EA0u)
+#define AP_CUE_SONG_TABLE ((const uint32_t *)0x08B59ED0u)
+#define AP_CUE_SONG_START ((void (*)(uint16_t))0x0815011Du)
+
+static HUB_EXT uint8_t ap_cue_mplay_busy(uint32_t player) {
+    const volatile uint32_t *info = (const volatile uint32_t *)AP_CUE_MPLAY_TABLE[player * 3u];
+    const volatile uint8_t *track = (const volatile uint8_t *)AP_CUE_MPLAY_TABLE[player * 3u + 1u];
+    uint32_t status = info[1];
+    /* MPlayStart clears the status before its first mixer tick; track
+     * flags still show that a native sound is armed in that interval. */
+    return !(status & 0x80000000u) && ((status & 0xFFFFu) || (*track & 0x40u));
+}
+
+static HUB_EXT uint8_t ap_receipt_cue_gameplay_ready(void) {
+    uint32_t kirby = KIRBY_STRUCTS_ADDR, hud = KIRBY_HUD_TASK;
+    uint16_t animation = *(volatile uint16_t *)(kirby + 0xD4u);
+    return AP_MAILBOX_INIT_COOKIE == AP_MAILBOX_INIT_COOKIE_VALUE
+        && ap_runtime_ai_allows_gameplay()
+        && !(DEMO_PLAYBACK_FLAGS & 0x76u)
+        && !(KIRBY_MAIN_FLAGS & 0x4C00u)
+        && *(volatile uint32_t *)0x0203AD4Cu == 0u /* gInGameInterludeTask */
+        && KIRBY_CURRENT_PLAYER == 0u && *(volatile uint8_t *)0x0203AD30u == 1u
+        && hud >= 0x03000000u && hud < 0x03007FECu && !(hud & 3u)
+        && *(volatile uint32_t *)(hud + 8u) == 0x08033B9Du
+        && !(*(volatile uint8_t *)0x03000514u & 0x11u)
+        && *(volatile uint32_t *)(kirby + KIRBY_STRUCT_TASK_OFFSET) != 0u
+        && *(volatile int8_t *)(kirby + KIRBY_STRUCT_HP_OFFSET) > 0
+        && KIRBY_CURRENT_ROOM != 0u
+        && *(volatile uint16_t *)(kirby + KIRBY_STRUCT_ROOM_OFFSET) == KIRBY_CURRENT_ROOM
+        && animation != 39u && animation <= 122u
+        && !(*(volatile uint8_t *)(kirby + 0x62u) & 0x10u) /* native pending doorway */
+        && *(volatile uint32_t *)(kirby + 0x110u) == 0u;
+}
+
+static HUB_EXT void ap_receipt_cue_poll(void) {
+    uint32_t ready = 0u, request, active;
+    if (AP_MAILBOX_INIT_COOKIE != AP_MAILBOX_INIT_COOKIE_VALUE) return;
+    request = AP_CUE_REQUEST;
+    active = AP_CUE_ACTIVE;
+    if (active && (active > 2u || !ap_cue_mplay_busy(active))) AP_CUE_ACTIVE = active = 0u;
+    if (ap_receipt_cue_gameplay_ready() && !active) {
+        if (!ap_cue_mplay_busy(1u)) ready |= (1u << 1);
+        if (!ap_cue_mplay_busy(2u)) ready |= (1u << 2) | (1u << 3);
+    }
+    if (request) {
+        uint32_t cue = request & 3u;
+        uint32_t player = cue == 1u ? 1u : 2u;
+        uint16_t song = cue == 1u ? 0x227u : cue == 2u ? 0x20Du : 0x251u;
+        AP_CUE_RESULT = request | AP_CUE_REJECTED;
+        if (ap_cue_request_valid(request, AP_FRAME_COUNTER, ready)) {
+            const volatile uint32_t *info = (const volatile uint32_t *)AP_CUE_MPLAY_TABLE[player * 3u];
+            AP_CUE_SONG_START(song);
+            if (info[0] == AP_CUE_SONG_TABLE[(uint32_t)song << 1] && ap_cue_mplay_busy(player)) {
+                AP_CUE_ACTIVE = player;
+                AP_CUE_RESULT = request;
+                ready = 0u;
+            }
+        }
+        /* Publish the result first. No queued/chained native requests. */
+        AP_CUE_REQUEST = 0u;
+    }
+    AP_CUE_READY = ready;
+}
+
 HUB_EXT void ap_hub_tasks(void) {
     uint16_t held = HUB_HELD_KEYS;
     uint32_t before = HUB_STATE_FN;
@@ -1980,6 +2059,8 @@ HUB_EXT void ap_hub_tasks(void) {
     if (inject) HUB_HELD_KEYS = held | 0x200u;
     ((void (*)(void))0x08152CF5u)();
     HUB_HELD_KEYS = held;
+    /* Native TasksExec has already updated menu, transition and mixer state. */
+    ap_receipt_cue_poll();
     if (!ap_hub_pending_ready()) return;
     /* Accept only this frame's native charge -> takeoff transition. A receipt
      * arriving during an earlier takeoff must wait for safe arrival instead. */
@@ -2192,6 +2273,7 @@ AP_COPY_EXT void ap_poll_mailbox_c(void) {
         AP_SHARD_SCRUB_DELAY = 0u;
         AP_BOSS_DEFEAT_FLAGS = 0u;
         AP_BOSS_TEMP_SHARD_BITFIELD = 0u;
+        AP_CUE_REQUEST = AP_CUE_RESULT = AP_CUE_READY = AP_CUE_ACTIVE = 0u;
         AP_DELIVERED_VITALITY_ITEM_BITS = 0u;
         AP_HUB_CONNECTION_ITEM_MASK = AP_HUB_CONNECTION_ITEM_MASK_UNINITIALIZED;
         AP_HUB_SWITCH_INIT_STATE = 0u;

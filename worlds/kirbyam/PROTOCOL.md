@@ -1094,3 +1094,34 @@ ACK/counter advancement. The client preserves that in-flight command on timeout
 rather than clearing/reoffering it; Phone ownership has its separate queue.
 This can delay later consumables until delivery is possible. Already-ACKed
 batteries are not replayed after reload. Three is initial, not an AP charge cap.
+
+### Optional native item receipt cues
+
+The ROM marker `APCUE01\0` at file offset `0x1000020` enables this protocol.
+An old ROM continues to receive items without cues. The shared client queues a
+cue only on the first durable, identity-specific acknowledgement of a live
+multiworld receipt. Delivery and ownership recovery do not depend on audio.
+Starting inventory and restoring previously acknowledged receipts are silent.
+The host queue is scoped to the authenticated seed, ROM, team and AP slot.
+
+| Address | Owner | Purpose |
+| --- | --- | --- |
+| `0x0203B1B0` | Client → ROM | Single offered cue: `(frame & 0x1fffffff) << 2` OR cue 1, 2 or 3. |
+| `0x0203B1B4` | ROM → Client | The offer token on mixer start, or the token with bit 31 set on definite rejection. |
+| `0x0203B1B8` | ROM → Client | Ready mask, one bit per cue ID. Zero in unsafe gameplay states or while another receipt cue is active. |
+| `0x0203B1BC` | ROM internal | Active receipt cue's native effects player (or zero). |
+
+The client guards an offer with the validated ROM identity and empty request.
+The payload rechecks the frame deadline, live gameplay state and native effects
+player after game tasks update. It publishes a disposition before clearing the
+request; only explicit rejection is retried. A missing result after a reset or
+load is ambiguous and is not reoffered. This protocol does not add a native save
+field or queue. An emulator savestate taken at the moment of an in-flight audio
+command still contains transient emulator/audio state; loading that exact
+snapshot is not equivalent to reprocessing an AP receipt.
+
+Cue 1 starts `0x227` (progression), cue 2 starts `0x20D` (useful and filler),
+and cue 3 starts `0x251` (trap). Trap wins over progression for mixed flags.
+The native mixer gate serializes AP cues and does not suppress vanilla effects.
+A chest's native sound followed by a genuine self-receipt may therefore be
+audible as two cues.

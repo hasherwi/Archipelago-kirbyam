@@ -6,7 +6,7 @@
   "files": {
     "client.py": {
       "main_sha256": "280e0f77f04a41ce17322dd286dd584dc2e86c376bb566d8536557dc1f972e0b",
-      "integrated_sha256": "6c571c2a81038246d569d55c2dbc158da4035c1826447a7b79a9e33270717839",
+      "integrated_sha256": "0aed30ec0ccae3cd10107c1d65e4ec917d691d5a01177fcb83c8f76e47259467",
       "reverse_slices": [
         {
           "start": 12,
@@ -19,8 +19,16 @@
           ]
         },
         {
-          "start": 22,
-          "stop": 25,
+          "start": 21,
+          "stop": 22,
+          "current": [
+            "from .receipt_sounds import ReceiptSounds\n"
+          ],
+          "main": []
+        },
+        {
+          "start": 23,
+          "stop": 26,
           "current": [
             "from .phone_protocol import (\n",
             "    PHONE_ITEM_ID, PHONE_CONFIG_BUS_ADDRESS, sync_phone_ownership, validate_phone_pairing,\n",
@@ -29,16 +37,16 @@
           "main": []
         },
         {
-          "start": 29,
-          "stop": 30,
+          "start": 30,
+          "stop": 31,
           "current": [
             "from .goal_game_protocol import GOAL_MARKER, GOAL_MARKER_OFFSET, goal_slot_version, poll_goal_games\n"
           ],
           "main": []
         },
         {
-          "start": 258,
-          "stop": 266,
+          "start": 259,
+          "stop": 267,
           "current": [
             "def _acknowledged_area_boss_count(ctx: KirbyAmBizHawkClientContext) -> int:\n",
             "    \"\"\"Count distinct canonical area defeats acknowledged for this slot, not items or raw bits.\"\"\"\n",
@@ -52,8 +60,8 @@
           "main": []
         },
         {
-          "start": 317,
-          "stop": 321,
+          "start": 318,
+          "stop": 322,
           "current": [
             "        elif goal == Goal.option_full_completion:\n",
             "            description = (\"100% Game Completion: explore all 272 native rooms, open every chest, \"\n",
@@ -63,8 +71,8 @@
           "main": []
         },
         {
-          "start": 337,
-          "stop": 339,
+          "start": 338,
+          "stop": 340,
           "current": [
             "            defeated = _acknowledged_area_boss_count(self.ctx)\n",
             "            description = f\"Defeat any {count} distinct area {noun}. Bosses defeated: {defeated}/{count}.\"\n"
@@ -74,16 +82,24 @@
           ]
         },
         {
-          "start": 531,
-          "stop": 532,
+          "start": 532,
+          "stop": 533,
           "current": [
             "        self._full_completion_reported_scope = None\n"
           ],
           "main": []
         },
         {
-          "start": 561,
-          "stop": 563,
+          "start": 539,
+          "stop": 540,
+          "current": [
+            "        self._receipt_sounds = ReceiptSounds()\n"
+          ],
+          "main": []
+        },
+        {
+          "start": 563,
+          "stop": 565,
           "current": [
             "                elif loc.name == \"GOAL_100_PERCENT\":\n",
             "                    self._goal_location_ids_by_option[Goal.option_full_completion] = loc.location_id\n"
@@ -91,8 +107,38 @@
           "main": []
         },
         {
-          "start": 2053,
-          "stop": 2054,
+          "start": 1711,
+          "stop": 1712,
+          "current": [
+            "                self._receipt_sounds = ReceiptSounds()\n"
+          ],
+          "main": []
+        },
+        {
+          "start": 1744,
+          "stop": 1759,
+          "current": [
+            "\n",
+            "    async def _pump_receipt_sounds(self, ctx: \"BizHawkClientContext\") -> None:\n",
+            "        auth = self._health_rom_auth\n",
+            "        auth_addr = data.rom_addresses.get(\"gArchipelagoInfo\")\n",
+            "        frame_addr = self._transport_addr(\"frame_counter\")\n",
+            "        if auth is None or auth_addr is None or frame_addr is None:\n",
+            "            return\n",
+            "        try:\n",
+            "            await self._receipt_sounds.pump(\n",
+            "                ctx.bizhawk_ctx, auth_offset=_normalize_gba_rom_address(auth_addr),\n",
+            "                auth=auth, frame_addr=frame_addr,\n",
+            "            )\n",
+            "        except (bizhawk.RequestFailedError, bizhawk.NotConnectedError, bizhawk.SyncError):\n",
+            "            # Do not let a sound-only failure pause item delivery.\n",
+            "            return\n"
+          ],
+          "main": []
+        },
+        {
+          "start": 2071,
+          "stop": 2072,
           "current": [
             "    async def _health_protocol_ready(self, ctx: Any, *, require_identity: bool = True) -> bool:\n"
           ],
@@ -101,8 +147,8 @@
           ]
         },
         {
-          "start": 2087,
-          "stop": 2113,
+          "start": 2105,
+          "stop": 2131,
           "current": [
             "            if goal_slot_version(slot):\n",
             "                marker = (await bizhawk.read(ctx.bizhawk_ctx, [(GOAL_MARKER_OFFSET, 8, \"ROM\")]))[0]\n",
@@ -134,24 +180,35 @@
           "main": []
         },
         {
-          "start": 2317,
-          "stop": 2318,
+          "start": 2335,
+          "stop": 2336,
           "current": [
             "            await sync_phone_ownership(ctx, self._hub_connection_item_history_ready)\n"
           ],
           "main": []
         },
         {
-          "start": 2348,
-          "stop": 2349,
+          "start": 2366,
+          "stop": 2367,
           "current": [
             "            await poll_goal_games(ctx)\n"
           ],
           "main": []
         },
         {
-          "start": 3149,
-          "stop": 3151,
+          "start": 2403,
+          "stop": 2407,
+          "current": [
+            "\n",
+            "            # Audio is best-effort and runs after delivery. A connector error\n",
+            "            # cannot change the receipt cursor or defer any gameplay work.\n",
+            "            await self._pump_receipt_sounds(ctx)\n"
+          ],
+          "main": []
+        },
+        {
+          "start": 3171,
+          "stop": 3173,
           "current": [
             "    async def _post_clear_player_task_active(self, ctx: KirbyAmBizHawkClientContext, expected_hp: int,\n",
             "                                             *, evidence_guards: list | None = None) -> bool:\n"
@@ -161,8 +218,8 @@
           ]
         },
         {
-          "start": 3190,
-          "stop": 3191,
+          "start": 3212,
+          "stop": 3213,
           "current": [
             "        final_reads = [\n"
           ],
@@ -171,8 +228,8 @@
           ]
         },
         {
-          "start": 3194,
-          "stop": 3204,
+          "start": 3216,
+          "stop": 3226,
           "current": [
             "        ]\n",
             "        final = await bizhawk.read(ctx.bizhawk_ctx, final_reads)\n",
@@ -194,8 +251,8 @@
           ]
         },
         {
-          "start": 4101,
-          "stop": 4102,
+          "start": 4123,
+          "stop": 4124,
           "current": [
             "        use received wall items. New patches save physical pulls independently.\n"
           ],
@@ -204,8 +261,8 @@
           ]
         },
         {
-          "start": 4124,
-          "stop": 4154,
+          "start": 4146,
+          "stop": 4176,
           "current": [
             "        save_version = ctx.slot_data.get(\"physical_check_save_version\")\n",
             "        if save_version is not None:\n",
@@ -241,8 +298,20 @@
           "main": []
         },
         {
-          "start": 4976,
-          "stop": 4979,
+          "start": 4932,
+          "stop": 4935,
+          "current": [
+            "                    first_ack = self._receipt_journal.acknowledge(confirmed_receipt)\n",
+            "                    if first_ack and delivered_index >= self._max_delivered_item_index_seen:\n",
+            "                        self._receipt_sounds.enqueue(ctx.items_received[delivered_index])\n"
+          ],
+          "main": [
+            "                    self._receipt_journal.acknowledge(confirmed_receipt)\n"
+          ]
+        },
+        {
+          "start": 5000,
+          "stop": 5003,
           "current": [
             "            # Hub teleport, Candy and Battery deliberately leave the mailbox pending\n",
             "            # through scripts, room transitions or a full/invalid battery epoch.\n",
@@ -254,8 +323,8 @@
           ]
         },
         {
-          "start": 4983,
-          "stop": 4984,
+          "start": 5007,
+          "stop": 5008,
           "current": [
             "                    and getattr(ctx.items_received[pending_index], \"item\", None) in (3860300, CANDY_ITEM_ID, 3860027)):\n"
           ],
@@ -264,8 +333,8 @@
           ]
         },
         {
-          "start": 5252,
-          "stop": 5254,
+          "start": 5276,
+          "stop": 5278,
           "current": [
             "        \"\"\"Return whether the server has acknowledged enough distinct area defeats.\"\"\"\n",
             "        return _acknowledged_area_boss_count(ctx) >= required_bosses\n"
@@ -279,8 +348,8 @@
           ]
         },
         {
-          "start": 5277,
-          "stop": 5357,
+          "start": 5301,
+          "stop": 5381,
           "current": [
             "    async def _maybe_report_full_completion(self, ctx) -> None:\n",
             "        \"\"\"Recompute this goal from one authenticated native-save snapshot.\n",
@@ -366,8 +435,8 @@
           "main": []
         },
         {
-          "start": 5371,
-          "stop": 5376,
+          "start": 5395,
+          "stop": 5400,
           "current": [
             "        slot_data = getattr(ctx, \"slot_data\", None)\n",
             "        if isinstance(slot_data, dict) and type(slot_data.get(\"goal\")) is int and slot_data[\"goal\"] == Goal.option_full_completion:\n",
@@ -380,12 +449,11 @@
       ],
       "reviewed_successors": [
         {
-          "feature": "palette catalog v4 (#1135)",
-          "integrated_sha256": "e3987dd85a88ca721bbc952d2bfee51d01ef1353b135dc4a86da019a2db05345",
+          "integrated_sha256": "1753ee0f22b7f1f330448fb328661419de082c8aeee1b455fdd18297140a4c01",
           "reverse_slices": [
             {
-              "start": 21,
-              "stop": 22,
+              "start": 22,
+              "stop": 23,
               "current": [
                 "from .colors import choose_different_kirby_color, color_catalog_marker, color_catalog_max_id\n"
               ],
@@ -394,16 +462,16 @@
               ]
             },
             {
-              "start": 128,
-              "stop": 128,
+              "start": 129,
+              "stop": 129,
               "current": [],
               "main": [
                 "_STARTING_KIRBY_COLOR_MAX = max(kirby_color_name_by_id())\n"
               ]
             },
             {
-              "start": 1513,
-              "stop": 1514,
+              "start": 1515,
+              "stop": 1516,
               "current": [
                 "        maximum = color_catalog_max_id(version)\n"
               ],
@@ -412,8 +480,8 @@
               ]
             },
             {
-              "start": 1573,
-              "stop": 1576,
+              "start": 1575,
+              "stop": 1578,
               "current": [
                 "        version = slot_data.get(\"kirby_color_catalog_version\") if isinstance(slot_data, dict) else None\n",
                 "        expected = color_catalog_marker(version)\n",
@@ -424,16 +492,16 @@
               ]
             },
             {
-              "start": 1582,
-              "stop": 1582,
+              "start": 1584,
+              "stop": 1584,
               "current": [],
               "main": [
                 "            expected = b\"APCOL03\\0\" if slot_data[\"kirby_color_catalog_version\"] == 3 else b\"APCOL02\\0\"\n"
               ]
             },
             {
-              "start": 1621,
-              "stop": 1624,
+              "start": 1623,
+              "stop": 1626,
               "current": [
                 "            and _STARTING_KIRBY_COLOR_MIN <= current_color_id <= color_catalog_max_id(\n",
                 "                ctx.slot_data.get(\"kirby_color_catalog_version\")\n",
@@ -444,8 +512,8 @@
               ]
             },
             {
-              "start": 4256,
-              "stop": 4258,
+              "start": 4278,
+              "stop": 4280,
               "current": [
                 "        catalog_version = ctx.slot_data.get(\"kirby_color_catalog_version\")\n",
                 "        maximum = color_catalog_max_id(catalog_version)\n"
@@ -453,8 +521,8 @@
               "main": []
             },
             {
-              "start": 4262,
-              "stop": 4263,
+              "start": 4284,
+              "stop": 4285,
               "current": [
                 "            or current_color_id > maximum\n"
               ],
@@ -463,8 +531,8 @@
               ]
             },
             {
-              "start": 4269,
-              "stop": 4269,
+              "start": 4291,
+              "stop": 4291,
               "current": [],
               "main": [
                 "        catalog_version = getattr(ctx, \"slot_data\", {}).get(\"kirby_color_catalog_version\", 1)\n",

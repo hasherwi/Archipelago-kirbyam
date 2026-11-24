@@ -19,6 +19,7 @@ from worlds._bizhawk.client import BizHawkClient
 from .area_keys import AREA_KEY_AREA_ID_BY_LABEL, AREA_NAME_BY_ID
 from .candy import CANDY_ITEM_ID, candy_delivery_ready
 from .receipts import ReceiptJournal, TRANSIENT_ITEM_IDS, receipt_key, scope_key
+from .receipt_sounds import ReceiptSounds
 from .colors import choose_different_kirby_color, color_catalog_marker, color_catalog_max_id
 from .phone_protocol import (
     PHONE_ITEM_ID, PHONE_CONFIG_BUS_ADDRESS, sync_phone_ownership, validate_phone_pairing,
@@ -535,6 +536,7 @@ class KirbyAmClient(BizHawkClient):
             old_journal.close()
         self._receipt_journal = None
         self._receipt_scope = None
+        self._receipt_sounds = ReceiptSounds()
         self._receipt_active = None
         self._receipt_blocked = None
         self._receipt_resolution = None
@@ -1709,6 +1711,7 @@ class KirbyAmClient(BizHawkClient):
                     self._notified_receive_indices.clear()
                     self._acknowledged_non_redeliverable_indices.clear()
                 self._receipt_active = self._receipt_blocked = self._receipt_resolution = None
+                self._receipt_sounds = ReceiptSounds()
                 self._receipt_journal = ReceiptJournal(Utils.user_path("kirbyam", "receipts.sqlite3"), scope)
                 self._receipt_scope = scope
             return True
@@ -1741,6 +1744,21 @@ class KirbyAmClient(BizHawkClient):
         except (OSError, sqlite3.Error, ValueError) as exc:
             self._receipt_failure(f"receipt journal unavailable ({exc})")
             return False
+
+    async def _pump_receipt_sounds(self, ctx: "BizHawkClientContext") -> None:
+        auth = self._health_rom_auth
+        auth_addr = data.rom_addresses.get("gArchipelagoInfo")
+        frame_addr = self._transport_addr("frame_counter")
+        if auth is None or auth_addr is None or frame_addr is None:
+            return
+        try:
+            await self._receipt_sounds.pump(
+                ctx.bizhawk_ctx, auth_offset=_normalize_gba_rom_address(auth_addr),
+                auth=auth, frame_addr=frame_addr,
+            )
+        except (bizhawk.RequestFailedError, bizhawk.NotConnectedError, bizhawk.SyncError):
+            # Do not let a sound-only failure pause item delivery.
+            return
 
     async def _emit_receive_notification(self, ctx: "BizHawkClientContext", delivered_index: int) -> None:
         if delivered_index < 0 or delivered_index >= len(ctx.items_received):
@@ -2385,6 +2403,10 @@ class KirbyAmClient(BizHawkClient):
                 await self._deliver_items(ctx, allow_new_writes=False)
             else:
                 await self._deliver_items(ctx)
+
+            # Audio is best-effort and runs after delivery. A connector error
+            # cannot change the receipt cursor or defer any gameplay work.
+            await self._pump_receipt_sounds(ctx)
 
             # Goal reporting
             await self._maybe_report_goal(ctx, ai_state_override=ai_state)
@@ -4910,7 +4932,9 @@ class KirbyAmClient(BizHawkClient):
                     if confirmed_receipt != self._receipt_active:
                         self._receipt_failure("item history changed during an in-flight delivery; reconnect before continuing")
                         return
-                    self._receipt_journal.acknowledge(confirmed_receipt)
+                    first_ack = self._receipt_journal.acknowledge(confirmed_receipt)
+                    if first_ack and delivered_index >= self._max_delivered_item_index_seen:
+                        self._receipt_sounds.enqueue(ctx.items_received[delivered_index])
                     self._receipt_active = None
                 except (OSError, sqlite3.Error, ValueError) as exc:
                     self._receipt_failure(f"could not record item acknowledgement ({exc})")
