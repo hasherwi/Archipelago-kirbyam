@@ -2015,11 +2015,13 @@ const uint8_t gApNarcolepsyInfo[4] = {'A', 'P', 'N', '1'};
 
 #define AP_NARCOLEPSY_ITEM (KIRBY_ITEM_ID_BASE_OFFSET + 301u)
 #define KIRBY_ABILITY_SLEEP 11u
+#define KIRBY_ABILITY_UFO 14u
 #define KIRBY_ABILITY_MINI 23u
 #define KIRBY_ABILITY_MASTER 26u
 #define KIRBY_NATIVE_GROUNDED_IDLE 0x0803FF65u
 #define KIRBY_NATIVE_GROUNDED_WALK 0x080411E9u
 #define KIRBY_NATIVE_GROUNDED_RUN  0x08041B09u
+#define KIRBY_NATIVE_UFO_HOVER 0x0806A85Du
 
 static HUB_EXT uint8_t ap_trap_narcolepsy(void) {
     uint32_t kirby = KIRBY_STRUCTS_ADDR; /* Only the local, human-controlled Kirby. */
@@ -2031,14 +2033,25 @@ static HUB_EXT uint8_t ap_trap_narcolepsy(void) {
     if (ability == KIRBY_ABILITY_SLEEP) return 1u; /* Don't reset a native nap. */
 
     state = *(volatile uint32_t *)(kirby + 0x78u);
-    if (state != KIRBY_NATIVE_GROUNDED_IDLE && state != KIRBY_NATIVE_GROUNDED_WALK
-            && state != KIRBY_NATIVE_GROUNDED_RUN) return 0u;
-
     collision = *(volatile uint32_t *)(kirby + KIRBY_STRUCT_COLLISION_OFFSET);
     stage = *(volatile uint8_t *)(kirby + KIRBY_STRUCT_TRANSITION_KIND_OFFSET);
-    if (!(stage & 4u) || (collision & 2u) /* Ground contact, not underwater. */
+    if ((collision & 2u) /* Not underwater. */
             || (*(volatile uint32_t *)(kirby + 8u) & 0x03800B80u)
             || *(volatile uint8_t *)(kirby + KIRBY_TRANSITIONING_ABILITY_OFFSET)) return 0u;
+
+    if (ability == KIRBY_ABILITY_UFO) {
+        /* UFO never enters the grounded callbacks. Its stock hover controller
+         * decelerates to zero when released. Refuse active flight, hazardous
+         * tiles and attack states rather than waiting for UFO to be discarded. */
+        if (state != KIRBY_NATIVE_UFO_HOVER
+                || *(volatile int16_t *)(kirby + 0x50u) != 0 /* xspeed */
+                || *(volatile int16_t *)(kirby + 0x52u) != 0 /* yspeed */
+                || (*(volatile uint16_t *)(kirby + KIRBY_STRUCT_MOVEMENT_STATE_OFFSET) & 0xF3u)
+                || (collision & 0x2400u)) return 0u;
+    } else if (!(stage & 4u) /* Ground contact. */
+            || (state != KIRBY_NATIVE_GROUNDED_IDLE && state != KIRBY_NATIVE_GROUNDED_WALK
+                && state != KIRBY_NATIVE_GROUNDED_RUN)) return 0u;
+
     /* The retail tile predicate distinguishes Mini passages from normal space.
      * Do not expand the body while it is still inside a small passage. */
     if (ability == KIRBY_ABILITY_MINI && (collision & 0x400u)) return 0u;

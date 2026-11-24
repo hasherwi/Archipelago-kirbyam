@@ -916,7 +916,7 @@ The client requires the ROM's `APN1` marker at ROM offset `0x0100FFC0` before
 reserving Narcolepsy. The native hook leaves the mailbox pending during
 transitions, death and other incompatible states, so the normal journal and
 native acknowledgment preserve delivery order. The local player's next
-eligible grounded state starts the stock Sleep transition, without granting
+eligible grounded state (or stable, dry UFO hover) starts the stock Sleep transition, without granting
 ability ownership or leaving a recovery star. An already sleeping player
 acknowledges an additional trap without restarting Sleep.
 

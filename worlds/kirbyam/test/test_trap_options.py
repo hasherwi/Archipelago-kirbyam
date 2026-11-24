@@ -99,6 +99,9 @@ def test_real_generation_and_tracker_roundtrip_selected_and_legacy_seed():
     assert {item.name for item in rebuilt.itempool if item.trap} == {"Bomb Trap"}
     # The added choice defaults to no exclusions in earlier schema-1 slots.
     del slot["tracker"]["options"]["exclude_trap_types"]
+    with pytest.raises(ValueError, match="Missing Kirby tracker exclude_trap_types"):
+        reconstruct(slot)
+    del slot["tracker"]["trap_catalog_version"]
     rebuilt = reconstruct(slot)
     assert not rebuilt.worlds[1].options.exclude_trap_types.value
     assert {item.name for item in rebuilt.itempool if item.trap} > {"Bomb Trap"}

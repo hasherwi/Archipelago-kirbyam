@@ -30,6 +30,8 @@ def validate_tracker_data(slot_data: dict[str, Any]) -> dict[str, Any]:
         version = tracker["trap_catalog_version"]
         if type(version) is not int or version != TRAP_CATALOG_VERSION:
             raise ValueError("Unsupported Kirby tracker trap catalog; use the matching APWorld.")
+        if "exclude_trap_types" not in options:
+            raise ValueError("Missing Kirby tracker exclude_trap_types for this trap catalog.")
     if "exclude_trap_types" in options:
         exclusions = options["exclude_trap_types"]
         if not isinstance(exclusions, list) or any(
