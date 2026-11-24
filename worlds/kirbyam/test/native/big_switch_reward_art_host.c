@@ -3,6 +3,7 @@
 
 #include "generated_hub_switch_tables.inc"
 #include "reward_art_config.h"
+#include "receipt_visual_runtime.h"
 
 #define AP_HUB_SAVED_CHECKS ((void *)0)
 #define AP_HUB_ROM_AUTH ((void *)0)
@@ -15,6 +16,8 @@ static _Alignas(4) uint8_t fixture_effect[0x4C];
 static uint8_t task_identity;
 static void *fixture_task = &task_identity;
 static uint32_t AP_HUB_SWITCH_FLAGS;
+static struct ApReceiptVisualMailbox fake_visuals;
+#define AP_VISUAL_MAILBOX (&fake_visuals)
 
 static uint8_t *ap_reward_task_data(void *task) {
     assert(task == fixture_task);

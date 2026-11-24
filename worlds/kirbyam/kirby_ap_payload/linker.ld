@@ -37,7 +37,7 @@ SECTIONS
     KEEP(*(.apconfig.statue))
   }
   /* Append beyond the clean 16 MiB ROM; never allocate presumed internal padding. */
-  .apcolors 0x09000000 : { KEEP(*(.apcolorinfo)) KEEP(*(.aphubinfo)) KEEP(*(.apgoalinfo)) KEEP(*(.apfullinfo)) KEEP(*(.apcueinfo)) color_payload.o(.text* .rodata*) *(.aphub)
+  .apcolors 0x09000000 : { KEEP(*(.apcolorinfo)) KEEP(*(.aphubinfo)) KEEP(*(.apgoalinfo)) KEEP(*(.apfullinfo)) KEEP(*(.apcueinfo)) KEEP(*(.apvisualinfo)) color_payload.o(.text* .rodata*) *(.aphub)
     KEEP(*(.aphubboards))
     KEEP(*(.apchestart))
     KEEP(*(.aprewardfx))
@@ -75,3 +75,5 @@ ASSERT(gApGoalInfo == 0x09000010, "Goal Game marker address changed")
 ASSERT(gApPhoneConfig == 0x0900FFC8, "Phone config address changed")
 
 ASSERT(gApReceiptCueInfo == 0x09000020, "Receipt cue marker address changed")
+
+ASSERT(gApReceiptVisualInfo == 0x09000028, "Receipt visual marker address changed")

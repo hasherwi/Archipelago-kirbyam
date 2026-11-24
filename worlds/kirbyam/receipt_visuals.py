@@ -1,0 +1,131 @@
+"""Best-effort gem display for first ACKs of live remote deliveries."""
+from collections import deque
+from struct import pack, unpack
+
+import worlds._bizhawk as bizhawk
+
+VISUAL_ROM_OFFSET = 0x1000028
+VISUAL_ROM_MARKER = b"APVIS01\0"
+VISUAL_MAILBOX = 0x0203B1E0
+VISUAL_GEM = 1
+VISUAL_TRAP = 2
+VISUAL_REJECTED = 1 << 31
+VISUAL_FRAME_MASK = (1 << 29) - 1
+VISUAL_LIMIT = 8
+BUS = "System Bus"
+
+
+def visual_for_remote_receipt(item: object, local_slot: int) -> int:
+    location = getattr(item, "location", None)
+    finder = getattr(item, "player", None)
+    flags = getattr(item, "flags", None)
+    if (type(location) is not int or location < 0 or type(finder) is not int
+            or finder <= 0 or finder == local_slot or type(flags) is not int):
+        return 0
+    return VISUAL_TRAP if flags & 4 else VISUAL_GEM
+
+
+class ReceiptVisuals:
+    """Track append provenance separately from durable delivery and audio."""
+
+    def __init__(self) -> None:
+        self.revision = 0
+        self.socket = None
+        self.session = None
+        self.history = None
+        self.history_end: int | None = None
+        self.live: dict[int, tuple[object, int]] = {}
+        self.pending: deque[int] = deque()
+        self.in_flight = 0
+        self.supported: bool | None = None
+
+    def matches(self, socket: object, session: tuple) -> bool:
+        return (socket is not None and self.socket is socket and self.session == session
+                and not getattr(socket, "closed", True))
+
+    def baseline(self, socket: object, session: tuple, history: list) -> None:
+        revision = self.revision + 1
+        self.__init__()
+        self.revision = revision
+        self.socket, self.session, self.history = socket, session, history
+        self.history_end = len(history)
+
+    def packet(self, socket: object, session: tuple, history: list, start: int,
+               packet_length: int, cursor: int | None, local_slot: int) -> None:
+        # Ignore initial history and index-zero rewrites from Sync. The first
+        # append to an already established *empty* list may legitimately be zero.
+        ends_at_history_end = start >= 0 and start + packet_length == len(history)
+        exact_append = (self.matches(socket, session) and self.history_end == start
+                        and ends_at_history_end and (self.history is history or start == 0))
+        if not exact_append:
+            self.baseline(socket, session, history)
+            if start != 0 or not ends_at_history_end:
+                # CommonClient sends Sync for any gap. Its eventual index-zero
+                # replay is catch-up even if the old native history was empty.
+                self.history_end = None
+            return
+        self.history, self.history_end = history, len(history)
+        if cursor is None or cursor < start:
+            return  # A native/connection backlog is catch-up, not a live cue.
+        for index in range(start, len(history)):
+            if len(self.live) >= VISUAL_LIMIT:
+                break
+            item = history[index]
+            art = visual_for_remote_receipt(item, local_slot)
+            if art:
+                self.live[index] = item, art
+
+    def acknowledge(self, index: int, item: object, *, first: bool) -> None:
+        for older in tuple(self.live):
+            if older < index:
+                self.live.pop(older)
+        witnessed = self.live.pop(index, None)
+        if (first and witnessed is not None and witnessed[0] is item
+                and len(self.pending) < VISUAL_LIMIT and self.supported is not False):
+            self.pending.append(witnessed[1])
+
+    async def pump(self, transport, *, auth_offset: int, auth: bytes, frame_addr: int,
+                   session_current) -> None:
+        revision = self.revision
+
+        def current():
+            return self.revision == revision and session_current()
+
+        if not self.pending or self.supported is False or not current():
+            return
+        if self.supported is None:
+            marker, = await bizhawk.read(transport, [(VISUAL_ROM_OFFSET, len(VISUAL_ROM_MARKER), "ROM")])
+            if not current():
+                return
+            self.supported = marker == VISUAL_ROM_MARKER
+            if not self.supported:
+                self.pending.clear()
+                return
+
+        mailbox, native_frame = await bizhawk.read(transport, [
+            (VISUAL_MAILBOX, 16, BUS), (frame_addr, 4, BUS),
+        ])
+        if len(mailbox) != 16 or len(native_frame) != 4 or not current():
+            return
+        request, result, ready, active = unpack("<IIII", mailbox)
+        if self.in_flight:
+            if request == self.in_flight:
+                return
+            if result != (self.in_flight | VISUAL_REJECTED):
+                self.pending.popleft()  # Missing result after reset is ambiguous; don't replay it.
+            self.in_flight = 0
+
+        if request or active or not self.pending or not ready & (1 << self.pending[0]):
+            return
+        frame, = unpack("<I", native_frame)
+        token = ((frame & VISUAL_FRAME_MASK) << 2) | self.pending[0]
+        self.in_flight = token
+        written = await bizhawk.guarded_write(transport, [
+            (VISUAL_MAILBOX + 4, bytes(4), BUS),
+            (VISUAL_MAILBOX, pack("<I", token), BUS),
+        ], [
+            (auth_offset, auth, "ROM"),
+            (VISUAL_MAILBOX, bytes(4), BUS),
+        ])
+        if not written and current():
+            self.in_flight = 0

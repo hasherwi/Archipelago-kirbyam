@@ -212,3 +212,20 @@ The cosmetic boss bit uses the seed-bound native save's existing reserved
 bits and never triggers a save or counts as a defeat. A reset to before the
 next normal save can replay an unsaved visual; the server's check and item
 deduplication is unmodified.
+
+## Incoming item presentation
+
+A new live cross-world receipt can also display an icon near Kirby, separate
+from the sender's location sprite. The client waits for a first confirmed ROM
+delivery acknowledgment, with live append provenance from the current
+Archipelago connection, before enqueuing the effect. The cosmetic queue is
+bounded, independent of sound and not consulted by item delivery. No visual
+is replayed for reconnect inventory, queued catch-up, starting inventory,
+duplicate acknowledgments, or checks found in Kirby's own world.
+
+A trap uses the red trap icon; other currently supported arrivals use the
+generic gem. The ROM takes one fresh presentation request at a time only
+during an authenticated, visible gameplay scene. It does not spawn a pickup
+or alter the item, timing, native events or persistence. A visual may be
+dropped when the queue or native memory is full. As with the other optional
+effects, a pause, room change, or native-file load cancels active artwork.

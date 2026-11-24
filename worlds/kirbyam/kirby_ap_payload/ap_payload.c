@@ -17,6 +17,7 @@ AP_COPY_EXT void ap_goal_poll(void);
 #include "color_runtime_logic.h"
 #include "goal_game_runtime_logic.h"
 #include "receipt_sound_runtime.h"
+#include "receipt_visual_runtime.h"
 #include "chest_reward_art_runtime.h"
 #include "boss_shard_art_runtime.h"
 #include "chest_reward_art.h"
@@ -33,6 +34,10 @@ _Static_assert(AP_GOAL_RUN_ADDRESS + sizeof(struct ApGoalRun) <= AP_CUE_MAILBOX_
 #define AP_CUE_RESULT (*(volatile uint32_t *)(AP_CUE_MAILBOX_ADDRESS + 4u))
 #define AP_CUE_READY (*(volatile uint32_t *)(AP_CUE_MAILBOX_ADDRESS + 8u))
 #define AP_CUE_ACTIVE (*(volatile uint32_t *)(AP_CUE_MAILBOX_ADDRESS + 12u))
+#define AP_VISUAL_MAILBOX ((volatile struct ApReceiptVisualMailbox *)AP_VISUAL_MAILBOX_ADDRESS)
+__attribute__((used, section(".apvisualinfo")))
+const char gApReceiptVisualInfo[8] = "APVIS01";
+
 
 // Kirby AP item ID base offset
 #define KIRBY_ITEM_ID_BASE_OFFSET       3860000u  // must match worlds/kirbyam/data.py BASE_OFFSET
@@ -523,8 +528,10 @@ _Static_assert(AP_CUE_MAILBOX_ADDRESS + 0x10u <= AP_VISIT_PENDING_ADDRESS,
                "Visit effect overlaps receipt cue mailbox");
 _Static_assert(AP_VISIT_PENDING_ADDRESS + sizeof(struct ApVisitPending) <= AP_BOSS_TRAP_DRAW_ADDRESS,
                "Visit and boss trap state overlap");
-_Static_assert(AP_BOSS_TRAP_DRAW_ADDRESS + sizeof(struct ApBossTrapDraw) <= AP_BASE + 0x200u,
-               "Boss trap state exceeds reserved mailbox block");
+_Static_assert(AP_BOSS_TRAP_DRAW_ADDRESS + sizeof(struct ApBossTrapDraw) <= AP_VISUAL_MAILBOX_ADDRESS,
+               "Boss trap state overlaps receipt visual mailbox");
+_Static_assert(AP_VISUAL_MAILBOX_ADDRESS + sizeof(struct ApReceiptVisualMailbox) <= AP_BASE + 0x200u,
+               "Receipt visual state exceeds reserved mailbox block");
 
 #define AP_NATIVE_VISITS ((const volatile uint16_t*)0x02028CA0u)
 #include "generated_visit_reward_art_rooms.inc"
@@ -704,8 +711,12 @@ static __attribute__((noinline, section(".aprewardfx"))) void ap_reward_gem_fram
     volatile uint16_t *age = (volatile uint16_t*)(effect + 4u);
     /* The map interlude suspends room tasks. Do not let the visual
      * reappear when they resume after the physical check has persisted. */
-    if (*age >= 32u || *(volatile uint16_t*)(effect + 0x42u) != ap_reward_local_room()
-        || (AP_HUB_SWITCH_FLAGS & *(volatile uint32_t*)(effect + 0x48u)) != 0u) {
+    uint32_t stop = *(volatile uint32_t*)(effect + 0x48u);
+    uint8_t stopped = (stop & AP_VISUAL_REJECTED)
+        ? (stop & ~AP_VISUAL_REJECTED) != AP_VISUAL_MAILBOX->active
+        : (AP_HUB_SWITCH_FLAGS & stop) != 0u;
+    if (*age >= AP_VISUAL_DURATION || *(volatile uint16_t*)(effect + 0x42u) != ap_reward_local_room()
+        || stopped) {
         ((void (*)(void*))0x08152C3Du)(task); /* TaskDestroy invokes ObjectBaseDestroy. */
         return;
     }
@@ -714,28 +725,28 @@ static __attribute__((noinline, section(".aprewardfx"))) void ap_reward_gem_fram
     ((void (*)(void*))0x0806FAC9u)(effect); /* EffectObjectPostUpdate */
 }
 
-AP_REWARD_FX void ap_show_room_reward_gem(uint16_t room, int32_t x, int32_t y, uint32_t stop_hub_bit, uint8_t art) {
+AP_REWARD_FX uint8_t ap_show_room_reward_gem(uint16_t room, int32_t x, int32_t y, uint32_t stop_hub_bit, uint8_t art) {
     typedef void (*TaskFn)(void);
     typedef void (*DtorFn)(void *);
     typedef void *(*TaskCreateFn)(TaskFn, uint16_t, uint16_t, uint16_t, DtorFn);
     typedef void (*SpriteInitFn)(void *, void *, uint32_t, uint16_t, uint8_t, uint16_t);
     volatile uint8_t *head = (volatile uint8_t*)0x030039A4u;
     volatile struct ApChestTileUpload *ring = (volatile struct ApChestTileUpload*)0x03002EC0u;
-    if (room != ap_reward_local_room() || !ap_reward_native_vram_available()) return;
+    if (room != ap_reward_local_room() || !ap_reward_native_vram_available()) return 0u;
     void *task = ((TaskCreateFn)0x08152B01u)(ap_reward_gem_frame, AP_REWARD_EFFECT_SIZE, 0x3500u, 0u,
                                           (DtorFn)0x0803DCCDu);
-    if (task == (void*)0x03002500u) return; /* gEmptyTask */
+    if (task == (void*)0x03002500u) return 0u; /* gEmptyTask */
     uint8_t *effect = ap_reward_task_data(task);
     if (effect == 0) {
         ap_drop_invalid_reward_task(task);
-        return;
+        return 0u;
     }
     ((void (*)(void*))0x0803E3B1u)(effect); /* ClearEffectObject */
     effect[0] = 3u;
     uint32_t vram = ((uint32_t (*)(uint32_t))0x081570B1u)(4u);
     if (!ap_reward_vram_address_is_valid(vram)) {
         ((void (*)(void*))0x08152C3Du)(task);
-        return;
+        return 0u;
     }
     *(volatile int32_t*)(effect + 0x34u) = x;
     *(volatile int32_t*)(effect + 0x38u) = y;
@@ -745,8 +756,10 @@ AP_REWARD_FX void ap_show_room_reward_gem(uint16_t room, int32_t x, int32_t y, u
     ((SpriteInitFn)0x080709F9u)(effect, effect + 0xCu, vram, 0x2D1u, 0u, 0xBu);
     if (!ap_chest_redirect_upload(ring, before, *head, ap_reward_tiles_for_art(art))) {
         /* Drop the effect on the next task tick; do not show a stock item. */
-        *(volatile uint16_t*)(effect + 4u) = 32u;
+        *(volatile uint16_t*)(effect + 4u) = AP_VISUAL_DURATION;
+        return 0u;
     }
+    return 1u;
 }
 
 /* Goal results can put Kirby above the camera. Keep the independent gem in
@@ -2079,6 +2092,8 @@ __attribute__((used)) void ap_on_start_single_player_game(
     AP_STARTING_KIRBY_COLOR_APPLIED = AP_COLOR_STARTUP;
 
     AP_VISIT_PENDING->epoch = 0u;
+    AP_VISUAL_MAILBOX->request = AP_VISUAL_MAILBOX->result = 0u;
+    AP_VISUAL_MAILBOX->ready = AP_VISUAL_MAILBOX->active = 0u;
     KIRBY_START_GAME_FN(mode, arg1, rooms, positions, flags);
     AP_STARTING_KIRBY_COLOR_APPLIED = 0u;
 }
@@ -2419,6 +2434,45 @@ static HUB_EXT void ap_receipt_cue_poll(void) {
     AP_CUE_READY = ready;
 }
 
+static AP_REWARD_FX uint8_t ap_show_incoming_reward(uint8_t art, uint32_t active) {
+    uintptr_t viewport = 0x0202353Cu;
+    int32_t cx = *(const volatile int32_t*)viewport;
+    int32_t cy = *(const volatile int32_t*)(viewport + 4u);
+    int32_t x = *(const volatile int32_t*)(KIRBY_STRUCTS_ADDR + 0x40u);
+    int32_t y = *(const volatile int32_t*)(KIRBY_STRUCTS_ADDR + 0x44u) - 42 * 256;
+    /* Keep a live receipt above and to the side of the normal check art;
+     * a remote arrival should not hide the event that was played locally. */
+    x += (x < cx + 120 * 256 ? 24 : -24) * 256;
+    if (x < cx + 16 * 256) x = cx + 16 * 256;
+    if (x > cx + 224 * 256) x = cx + 224 * 256;
+    if (y < cy + 30 * 256) y = cy + 30 * 256;
+    if (y > cy + 132 * 256) y = cy + 132 * 256;
+    return ap_show_room_reward_gem(ap_reward_local_room(), x, y, active | AP_VISUAL_REJECTED, art);
+}
+
+static AP_REWARD_FX void ap_receipt_visual_poll(void) {
+    volatile struct ApReceiptVisualMailbox *msg = AP_VISUAL_MAILBOX;
+    uint32_t frame = AP_FRAME_COUNTER, request = msg->request, active = msg->active;
+    uint8_t game = ap_receipt_cue_gameplay_ready()
+        && ap_copy_room_epoch() && ap_visit_palette_ready();
+    if (active && (!game || ap_visual_age(active, frame) >= AP_VISUAL_DURATION)) {
+        msg->active = active = 0u;
+    }
+    uint32_t ready = game && !active ? AP_VISUAL_READY_MASK : 0u;
+    if (request) {
+        msg->result = request | AP_VISUAL_REJECTED;
+        uint32_t token = ((frame & AP_VISUAL_FRAME_MASK) << 2) | (request & 3u);
+        if (ap_visual_can_start(request, frame, ready)
+            && ap_show_incoming_reward((request & 3u) == AP_VISUAL_TRAP ? AP_REWARD_TRAP : AP_REWARD_GEM, token)) {
+            msg->active = token;
+            msg->result = request;
+            ready = 0u;
+        }
+        msg->request = 0u;
+    }
+    msg->ready = ready;
+}
+
 HUB_EXT void ap_hub_tasks(void) {
     uint16_t held = HUB_HELD_KEYS;
     uint32_t before = HUB_STATE_FN;
@@ -2442,6 +2496,7 @@ HUB_EXT void ap_hub_tasks(void) {
     HUB_HELD_KEYS = held;
     /* Native TasksExec has already updated menu, transition and mixer state. */
     ap_receipt_cue_poll();
+    ap_receipt_visual_poll();
     if (!ap_hub_pending_ready()) return;
     /* Accept only this frame's native charge -> takeoff transition. A receipt
      * arriving during an earlier takeoff must wait for safe arrival instead. */
@@ -2655,6 +2710,8 @@ AP_COPY_EXT void ap_poll_mailbox_c(void) {
         AP_BOSS_DEFEAT_FLAGS = 0u;
         AP_BOSS_TEMP_SHARD_BITFIELD = 0u;
         AP_CUE_REQUEST = AP_CUE_RESULT = AP_CUE_READY = AP_CUE_ACTIVE = 0u;
+        AP_VISUAL_MAILBOX->request = AP_VISUAL_MAILBOX->result = 0u;
+        AP_VISUAL_MAILBOX->ready = AP_VISUAL_MAILBOX->active = 0u;
         AP_VISIT_PENDING->epoch = 0u;
         AP_BOSS_TRAP_DRAW->epoch = 0u;
         AP_BOSS_TRAP_DRAW->object = 0;

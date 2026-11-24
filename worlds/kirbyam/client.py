@@ -20,6 +20,7 @@ from .area_keys import AREA_KEY_AREA_ID_BY_LABEL, AREA_NAME_BY_ID
 from .candy import CANDY_ITEM_ID, candy_delivery_ready
 from .receipts import ReceiptJournal, TRANSIENT_ITEM_IDS, receipt_key, scope_key
 from .receipt_sounds import ReceiptSounds
+from .receipt_visuals import ReceiptVisuals
 from .colors import choose_different_kirby_color, color_catalog_marker, color_catalog_max_id
 from .phone_protocol import (
     PHONE_ITEM_ID, PHONE_CONFIG_BUS_ADDRESS, sync_phone_ownership, validate_phone_pairing,
@@ -537,6 +538,7 @@ class KirbyAmClient(BizHawkClient):
         self._receipt_journal = None
         self._receipt_scope = None
         self._receipt_sounds = ReceiptSounds()
+        self._receipt_visuals = ReceiptVisuals()
         self._receipt_active = None
         self._receipt_blocked = None
         self._receipt_resolution = None
@@ -1710,6 +1712,7 @@ class KirbyAmClient(BizHawkClient):
                     self._reset_item_delivery_state()
                     self._notified_receive_indices.clear()
                     self._acknowledged_non_redeliverable_indices.clear()
+                    self._receipt_visuals = ReceiptVisuals()
                 self._receipt_active = self._receipt_blocked = self._receipt_resolution = None
                 self._receipt_sounds = ReceiptSounds()
                 self._receipt_journal = ReceiptJournal(Utils.user_path("kirbyam", "receipts.sqlite3"), scope)
@@ -1758,6 +1761,27 @@ class KirbyAmClient(BizHawkClient):
             )
         except (bizhawk.RequestFailedError, bizhawk.NotConnectedError, bizhawk.SyncError):
             # Do not let a sound-only failure pause item delivery.
+            return
+
+    async def _pump_receipt_visuals(self, ctx: "BizHawkClientContext") -> None:
+        auth = self._health_rom_auth
+        auth_addr = data.rom_addresses.get("gArchipelagoInfo")
+        frame_addr = self._transport_addr("frame_counter")
+        if auth is None or auth_addr is None or frame_addr is None:
+            return
+        visuals = self._receipt_visuals
+
+        def session_current():
+            return (visuals is self._receipt_visuals and auth == self._health_rom_auth
+                    and visuals.matches(getattr(getattr(ctx, "server", None), "socket", None),
+                                        self._authenticated_session_key(ctx)))
+        try:
+            await visuals.pump(
+                ctx.bizhawk_ctx, auth_offset=_normalize_gba_rom_address(auth_addr),
+                auth=auth, frame_addr=frame_addr, session_current=session_current,
+            )
+        except (bizhawk.RequestFailedError, bizhawk.NotConnectedError, bizhawk.SyncError):
+            # A cosmetic transport outage must not affect acknowledged delivery.
             return
 
     async def _emit_receive_notification(self, ctx: "BizHawkClientContext", delivered_index: int) -> None:
@@ -2222,6 +2246,8 @@ class KirbyAmClient(BizHawkClient):
 
         # Only run when connected and slot_data is ready
         if not self._server_session_ready(ctx):
+            if self._receipt_visuals.socket is not None:
+                self._receipt_visuals = ReceiptVisuals()
             self._watcher_server_ready = False
             self._watcher_requires_bizhawk_resync = False
             self._last_watcher_transport_error = None
@@ -2407,6 +2433,7 @@ class KirbyAmClient(BizHawkClient):
             # Audio is best-effort and runs after delivery. A connector error
             # cannot change the receipt cursor or defer any gameplay work.
             await self._pump_receipt_sounds(ctx)
+            await self._pump_receipt_visuals(ctx)
 
             # Goal reporting
             await self._maybe_report_goal(ctx, ai_state_override=ai_state)
@@ -3529,6 +3556,7 @@ class KirbyAmClient(BizHawkClient):
         ctx.items_received = []
         self._hub_connection_received_items_socket = socket
         self._hub_connection_received_items_ready = True
+        self._receipt_visuals.baseline(socket, self._authenticated_session_key(ctx), ctx.items_received)
 
     async def _persist_u32(self, ctx: KirbyAmBizHawkClientContext, key: str, value: int) -> None:
         """Persist a 32-bit value to RAM by address key."""
@@ -4933,8 +4961,13 @@ class KirbyAmClient(BizHawkClient):
                         self._receipt_failure("item history changed during an in-flight delivery; reconnect before continuing")
                         return
                     first_ack = self._receipt_journal.acknowledge(confirmed_receipt)
-                    if first_ack and delivered_index >= self._max_delivered_item_index_seen:
-                        self._receipt_sounds.enqueue(ctx.items_received[delivered_index])
+                    fresh = first_ack and delivered_index >= self._max_delivered_item_index_seen
+                    item = ctx.items_received[delivered_index]
+                    if fresh:
+                        self._receipt_sounds.enqueue(item)
+                    if self._receipt_visuals.matches(getattr(getattr(ctx, "server", None), "socket", None),
+                                                     self._authenticated_session_key(ctx)):
+                        self._receipt_visuals.acknowledge(delivered_index, item, first=fresh)
                     self._receipt_active = None
                 except (OSError, sqlite3.Error, ValueError) as exc:
                     self._receipt_failure(f"could not record item acknowledgement ({exc})")
@@ -5556,6 +5589,7 @@ class KirbyAmClient(BizHawkClient):
 
     def on_package(self, ctx: "BizHawkClientContext", cmd: str, args: dict) -> None:
         if cmd == "Connected":
+            self._receipt_visuals = ReceiptVisuals()
             self._sync_death_link_event_session(ctx)
             self._lever_checked_session = self._authenticated_session_key(ctx)
             self._vitality_history_session = None
@@ -5593,6 +5627,19 @@ class KirbyAmClient(BizHawkClient):
             else:
                 self._hub_connection_received_items_socket = None
                 self._hub_connection_received_items_ready = False
+        if cmd == "ReceivedItems":
+            socket = getattr(getattr(ctx, "server", None), "socket", None)
+            index = args.get("index")
+            items = args.get("items")
+            if (self._hub_connection_item_history_ready(ctx) and type(index) is int
+                    and isinstance(items, (list, tuple)) and type(ctx.slot) is int):
+                # A server with an empty inventory has no journal yet. Its
+                # known-empty stream can still deliver the first live item.
+                known_empty = self._receipt_visuals.history_end == 0 and self._delivered_item_index == 0
+                ready = self._watcher_server_ready and (self._receipt_journal is not None or known_empty)
+                cursor = self._delivered_item_index if ready else None
+                self._receipt_visuals.packet(socket, self._authenticated_session_key(ctx),
+                                             ctx.items_received, index, len(items), cursor, ctx.slot)
         if cmd == "Bounced":
             if self._server_session_ready(ctx):
                 self._sync_death_link_event_session(ctx)

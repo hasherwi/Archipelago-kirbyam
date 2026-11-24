@@ -86,19 +86,33 @@ def test_palette_projection_rejects_marker_guard_mutation() -> None:
         history.main_text('client.py', changed)
 
 
-def test_palette_reverse_layer_cannot_move_the_original_integration_pin(monkeypatch: pytest.MonkeyPatch) -> None:
+def test_reviewed_successors_preserve_prior_layers_and_original_pin() -> None:
+    raw = (ROOT / 'client.py').read_bytes().replace(b'\r\n', b'\n')
+    entry = history.record()['files']['client.py']
+    palette, receipts = entry['reviewed_successors']
+
+    after_receipt_reversal = ''.join(history._reverse(raw.decode('utf-8').splitlines(keepends=True),
+                                                       receipts)).encode('utf-8')
+    assert history._sha(after_receipt_reversal) == palette['integrated_sha256']
+    original = ''.join(history._reverse(after_receipt_reversal.decode('utf-8').splitlines(keepends=True),
+                                        palette)).encode('utf-8')
+    assert history._sha(original) == entry['integrated_sha256']
+    for unlayered in (after_receipt_reversal, original):
+        with pytest.raises(AssertionError, match='Unreviewed successor source change'):
+            history.main_text('client.py', unlayered)
+
+
+@pytest.mark.parametrize(('layer', 'rejection'), [
+    (0, 'Unreviewed integrated source change'),
+    (1, 'Unreviewed successor source change'),
+], ids=['palette', 'receipt'])
+def test_a_reverse_layer_cannot_silently_modify_predecessor(
+    monkeypatch: pytest.MonkeyPatch, layer: int, rejection: str,
+) -> None:
     raw = (ROOT / 'client.py').read_bytes()
     record = history.record()
-    entry = record['files']['client.py']
-    successor = entry['reviewed_successors'][-1]
-
-    previous = ''.join(history._reverse(raw.decode('utf-8').replace('\r\n', '\n').splitlines(keepends=True),
-                                        successor)).encode('utf-8')
-    assert history._sha(previous) == entry['integrated_sha256']
-    with pytest.raises(AssertionError, match='Unreviewed successor source change'):
-        history.main_text('client.py', previous)
-
+    successor = record['files']['client.py']['reviewed_successors'][layer]
     successor['reverse_slices'][0]['main'] = ['# unreviewed predecessor replacement\n']
     monkeypatch.setattr(history, 'record', lambda: record)
-    with pytest.raises(AssertionError, match='Unreviewed integrated source change'):
+    with pytest.raises(AssertionError, match=rejection):
         history.main_text('client.py', raw)
