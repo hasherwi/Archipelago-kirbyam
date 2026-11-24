@@ -72,6 +72,15 @@ def build_dummy_rom() -> bytearray:
     rom[0x12630A:0x12631C] = bytes.fromhex("0f 2d 46 d1 02 20 12 21 00 22 dc f6 b8 fa 01 21 01 60")
     rom[0x12639C:0x1263A8] = bytes.fromhex("03 48 00 68 2c f0 4c fc 13 f7 64 f9")
 
+    # Match the validated native receipt-audio ABI without including any
+    # retail audio or playable tracks. The production guard remains strict.
+    start = patch_rom.NATIVE_RECEIPT_START_OFFSET
+    signature = patch_rom.NATIVE_RECEIPT_START_SIGNATURE
+    rom[start:start + len(signature)] = signature
+    for song, player in patch_rom.NATIVE_RECEIPT_SONG_PLAYERS:
+        offset = patch_rom.NATIVE_RECEIPT_SONG_TABLE_OFFSET + song * 8 + 4
+        rom[offset:offset + 4] = player.to_bytes(2, "little") * 2
+
     # The common R-call entry is validated before installing the Phone wrapper.
     rom[0x56C2C:0x56C34] = bytes.fromhex("f0 b5 47 46 80 b4 81 b0")
 

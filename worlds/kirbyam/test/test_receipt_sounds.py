@@ -1,6 +1,7 @@
 """Receipt cues use a separate native mailbox, never the AP offer itself."""
 from os import name as os_name
 from pathlib import Path
+from runpy import run_path
 from shutil import which
 from struct import pack, unpack
 from subprocess import run
@@ -11,6 +12,7 @@ import pytest
 from NetUtils import NetworkItem
 from ..receipt_sounds import CUE_MAILBOX, CUE_REJECTED, ReceiptSounds, cue_for_receipt
 from .test_receipt_journal import Mailbox, drain, make_client, receipt_env, tick  # noqa: F401
+from .test_runtime_regression_hooks import patch_rom
 
 
 @pytest.mark.parametrize("flags,cue", [(0, 2), (2, 2), (1, 1), (3, 1), (4, 3), (7, 3)])
@@ -139,3 +141,19 @@ def test_native_deadline_and_ready_mask(tmp_path):
     run([cc, "-std=c99", "-Wall", "-Wextra", "-Werror", "-I", str(include),
          str(source), "-o", str(output)], check=True)
     run([str(output)], check=True)
+
+
+def test_symbol_and_player_validation_is_fail_closed_on_the_synthetic_smoke_rom():
+    dummy = run_path(str(Path(__file__).parents[1] / "tools" / "create_dummy_rom.py"))
+    rom = dummy["build_dummy_rom"]()
+    patch_rom.validate_receipt_sound_native_contract(rom)
+    for offset, error in (
+        (0x15011C, "m4aSongNumStart"),
+        (0xB59ED0 + 0x227 * 8 + 4, "receipt song player"),
+        (0xB59ED0 + 0x20D * 8 + 4, "receipt song player"),
+        (0xB59ED0 + 0x251 * 8 + 4, "receipt song player"),
+    ):
+        rom[offset] ^= 1
+        with pytest.raises(SystemExit, match=error):
+            patch_rom.validate_receipt_sound_native_contract(rom)
+        rom[offset] ^= 1

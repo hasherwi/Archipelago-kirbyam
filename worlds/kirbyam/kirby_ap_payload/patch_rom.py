@@ -130,6 +130,13 @@ ORIGINAL_ABILITY_COMMIT_ADDR = 0x0805C618
 ABILITY_COMMIT_INSTALLER_RANGE = (0x0005C11C, 0x0005C618)
 
 
+# Retail audio ABI used by the native receipt cue scheduler.
+NATIVE_RECEIPT_START_OFFSET = 0x15011C
+NATIVE_RECEIPT_START_SIGNATURE = bytes.fromhex("00 b5 00 04 07 4a 08 49")
+NATIVE_RECEIPT_SONG_TABLE_OFFSET = 0xB59ED0
+NATIVE_RECEIPT_SONG_PLAYERS = ((0x227, 1), (0x20D, 2), (0x251, 2))
+
+
 ROM_PATH_TMP = "rom_path.tmp"
 INTERMEDIARY_ROM = "baseline_patched.tmp.gba"
 EXPECTED_BASE_ROM_SIZE = 0x1000000
@@ -1374,6 +1381,18 @@ def validate_candy_room_table(rom: bytes | bytearray) -> None:
         raise SystemExit("Error: unverified native Candy exclusion room table")
 
 
+def validate_receipt_sound_native_contract(rom: bytes | bytearray) -> None:
+    """Confirm the callable US Thumb entry and three retail mixer assignments."""
+    start = NATIVE_RECEIPT_START_OFFSET
+    signature = NATIVE_RECEIPT_START_SIGNATURE
+    if rom[start:start + len(signature)] != signature:
+        raise SystemExit("Unexpected native m4aSongNumStart signature")
+    for song, player in NATIVE_RECEIPT_SONG_PLAYERS:
+        offset = NATIVE_RECEIPT_SONG_TABLE_OFFSET + song * 8 + 4
+        if rom[offset:offset + 4] != struct.pack("<HH", player, player):
+            raise SystemExit(f"Unexpected native receipt song player for {song:#x}")
+
+
 def validate_rom_callsite_instructions(rom: bytes | bytearray) -> dict[str, bytes]:
     validate_hub_unlock_callback_table(rom)
     original_boss_hook = validate_thumb_bl_callsite(
@@ -2124,13 +2143,7 @@ def apply_color_extension(rom: bytearray, elf_path: Path) -> None:
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     validate_candy_room_table(rom)
-    # The payload calls this native Thumb function and uses the retail
-    # song-to-mixer assignments to avoid interrupting existing sounds.
-    if rom[0x15011C:0x150124] != bytes.fromhex("00 b5 00 04 07 4a 08 49"):
-        raise SystemExit("Unexpected native m4aSongNumStart signature")
-    for song, player in ((0x227, 1), (0x20D, 2), (0x251, 2)):
-        if struct.unpack_from("<HH", rom, 0xB59ED0 + song * 8 + 4) != (player, player):
-            raise SystemExit(f"Unexpected native receipt song player for {song:#x}")
+    validate_receipt_sound_native_contract(rom)
     extension = elf_path.with_name("color_payload.bin").read_bytes()
     if (resolve_elf_symbol_address(elf_path, "gApReceiptCueInfo") != 0x09000020
             or extension[0x20:0x28] != b"APCUE01\0"):
