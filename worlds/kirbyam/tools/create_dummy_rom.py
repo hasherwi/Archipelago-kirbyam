@@ -85,8 +85,12 @@ def build_dummy_rom() -> bytearray:
     put_bl(patch_rom.CHEST_REWARD_ART_CALLSITE, patch_rom.CHEST_REWARD_ART_NATIVE_FUNCTION)
     put_bl(patch_rom.BIG_SWITCH_REWARD_ART_CALLSITE, patch_rom.BIG_SWITCH_REWARD_ART_NATIVE_FUNCTION)
     put_bl(patch_rom.ROOM_VISIT_REWARD_ART_CALLSITE, patch_rom.ROOM_VISIT_REWARD_ART_NATIVE_FUNCTION)
-    for offset in patch_rom.AREA_BOSS_REWARD_ART_CALLSITES:
-        put_bl(offset, patch_rom.AREA_BOSS_REWARD_ART_NATIVE_FUNCTION)
+    for _, target, offsets in patch_rom.BOSS_SHARD_ART_HOOK_GROUPS:
+        for offset in offsets:
+            put_bl(offset, target)
+    offset = patch_rom.BOSS_SHARD_NATIVE_SCRIPT_OFFSET
+    script = patch_rom.BOSS_SHARD_NATIVE_SCRIPT
+    rom[offset:offset + len(script)] = script
     offset = patch_rom.CHEST_REWARD_ART_NATIVE_SCRIPT
     script = patch_rom.CHEST_REWARD_ART_NATIVE_SCRIPT_DATA
     rom[offset:offset + len(script)] = script

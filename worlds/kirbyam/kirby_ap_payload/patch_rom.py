@@ -138,9 +138,17 @@ BIG_SWITCH_REWARD_ART_CALLSITE = 0x1199F6
 BIG_SWITCH_REWARD_ART_NATIVE_FUNCTION = 0x08119B3C
 ROOM_VISIT_REWARD_ART_CALLSITE = 0x5655C
 ROOM_VISIT_REWARD_ART_NATIVE_FUNCTION = 0x08002A80
-AREA_BOSS_REWARD_ART_NATIVE_FUNCTION = 0x08088700
-AREA_BOSS_REWARD_ART_CALLSITES = (
-    0x870A6, 0x8719A, 0x87286, 0x87380, 0x87470, 0x87582, 0x8766E, 0x87766,
+BOSS_SHARD_ART_HOOK_GROUPS = (
+    ("ap_init_boss_shard_sprite_entry", 0x0809F3E0, (0x01B9CE,)),
+    ("ap_update_boss_shard_sprite_entry", 0x08155128, (0x09A884, 0x09A8B0, 0x09D868)),
+    ("ap_draw_boss_shard_sprite_entry", 0x0815604C, (0x09A97E, 0x09D8B8)),
+)
+BOSS_SHARD_NATIVE_SCRIPT_OFFSET = 0x422894
+BOSS_SHARD_NATIVE_SCRIPT = struct.pack(
+    "<49i", -2, 220, 16,
+    -1, 45779, 9, 3, 0, -1, 45788, 9, 5, 1, -1, 45797, 3, 5, 2,
+    -1, 45800, 9, 5, 3, -1, 45809, 9, 5, 4, -1, 45818, 9, 5, 5,
+    -1, 45827, 3, 5, 6, -1, 45830, 9, 5, 7, -1, 45839, 9, 2, 8, -4,
 )
 CHEST_REWARD_ART_NATIVE_SCRIPT = 0x4219A8
 CHEST_REWARD_ART_NATIVE_SCRIPT_DATA = struct.pack("<9i", -2, 159, 16, -1, 45113, 4, 1, 0, -4)
@@ -2184,14 +2192,18 @@ def build_room_visit_reward_art_hook(rom: bytes | bytearray, target: int) -> dic
     return {callsite: thumb_bl_bytes(0x08000000 + callsite, target)}
 
 
-def build_area_boss_reward_art_hooks(rom: bytes | bytearray, target: int) -> dict[int, bytes]:
+def build_boss_shard_art_hooks(rom: bytes | bytearray, targets: dict[str, int]) -> dict[int, bytes]:
+    offset = BOSS_SHARD_NATIVE_SCRIPT_OFFSET
+    if rom[offset:offset + len(BOSS_SHARD_NATIVE_SCRIPT)] != BOSS_SHARD_NATIVE_SCRIPT:
+        raise SystemExit("Unexpected native boss shard animation script; refusing to patch")
     writes: dict[int, bytes] = {}
-    for callsite in AREA_BOSS_REWARD_ART_CALLSITES:
-        address = 0x08000000 + callsite
-        expected = thumb_bl_bytes(address, AREA_BOSS_REWARD_ART_NATIVE_FUNCTION)
-        if rom[callsite:callsite + len(expected)] != expected:
-            raise SystemExit("Unexpected native area boss reward art dispatch; refusing to patch")
-        writes[callsite] = thumb_bl_bytes(address, target)
+    for name, original, offsets in BOSS_SHARD_ART_HOOK_GROUPS:
+        for callsite in offsets:
+            address = 0x08000000 + callsite
+            expected = thumb_bl_bytes(address, original)
+            if rom[callsite:callsite + len(expected)] != expected:
+                raise SystemExit("Unexpected native boss shard render call; refusing to patch")
+            writes[callsite] = thumb_bl_bytes(address, targets[name])
     return writes
 
 
@@ -2226,8 +2238,8 @@ def apply_color_extension(rom: bytearray, elf_path: Path) -> None:
         rom, resolve_elf_symbol_address(elf_path, "ap_big_switch_reward_art_entry"))
     visit_writes = build_room_visit_reward_art_hook(
         rom, resolve_elf_symbol_address(elf_path, "ap_room_visit_reward_art_entry"))
-    boss_writes = build_area_boss_reward_art_hooks(
-        rom, resolve_elf_symbol_address(elf_path, "ap_area_boss_reward_art_entry"))
+    boss_writes = build_boss_shard_art_hooks(
+        rom, {name: resolve_elf_symbol_address(elf_path, name) for name, _, _ in BOSS_SHARD_ART_HOOK_GROUPS})
     for offset, replacement in {
         **writes, **board_writes, **chest_writes, **switch_writes, **visit_writes, **boss_writes,
     }.items():

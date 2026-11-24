@@ -18,6 +18,7 @@ AP_COPY_EXT void ap_goal_poll(void);
 #include "goal_game_runtime_logic.h"
 #include "receipt_sound_runtime.h"
 #include "chest_reward_art_runtime.h"
+#include "boss_shard_art_runtime.h"
 #include "chest_reward_art.h"
 #include "reward_art.h"
 #include "visit_reward_art_runtime.h"
@@ -543,21 +544,68 @@ static const uint16_t ap_area_boss_rooms[8] __attribute__((section(".apvisitdata
     324u, 710u, 417u, 822u, 219u, 516u, 738u, 129u,
 };
 
-/* The original area-boss finish step is shared by both reward branches.
- * Do not infer victory from owning the shard or change the later native/AP
- * grant path. Store only visual history and let existing native saves flush it. */
-AP_REWARD_FX __attribute__((used)) void ap_area_boss_reward_art(void *boss, uint16_t identity) {
-    const uint8_t *object = boss;
-    uint16_t room = *(const volatile uint16_t*)(object + 0x60u);
-    ((void (*)(void*, uint16_t))0x08088701u)(boss, identity);
-    if (identity < 1u || identity > 8u || room != ap_reward_local_room()
-        || room != ap_area_boss_rooms[identity - 1u]
-        || (*(volatile uint32_t*)0x0203AD10u & 0x70u) != 0u
-        || *(volatile uint16_t*)0x0203AD48u > 2u) return;
-    if (ap_boss_art_record(AP_HUB_SAVED_CHECKS, AP_HUB_ROM_AUTH, identity - 1u)) {
-        ap_show_room_reward_gem(room, *(const volatile int32_t*)(object + 0x40u),
-            *(const volatile int32_t*)(object + 0x44u) - 28 * 256, 0u);
+/* Do not use a global replacement of animation 0x2D4: it also renders
+ * outside gameplay. Match the dynamic native drop, subtype, and boss room. */
+static __attribute__((noinline, section(".aprewardfx"))) uint8_t ap_is_boss_shard(const uint8_t *object) {
+    if (object[0] != 1u || object[0x82u] != 0x65u) return 0u;
+    uint16_t subtype = *(const volatile uint16_t*)(object + 0xD4u);
+    if (subtype >= 8u || *(const volatile uint16_t*)(object + 0x60u) != ap_area_boss_rooms[subtype]) return 0u;
+    uintptr_t source = *(const volatile uint32_t*)(object + 0xB0u);
+    if (source < 0x02000000u || source > 0x0203FFDCu) return 0u;
+    const uint8_t *template = (const uint8_t*)source;
+    return template[0] == 1u && template[1] == 0x24u && template[3] == 0x1Fu
+        && template[0xCu] == 0x65u && template[0xEu] == subtype;
+}
+
+static inline void ap_replace_boss_shard_tiles(const uint8_t *sprite, uint8_t before) {
+    ap_boss_shard_redirect_upload((volatile struct ApChestTileUpload*)0x03002EC0u, before,
+        *(volatile uint8_t*)0x030039A4u,
+        *(const volatile uint32_t*)sprite, (uint32_t)(uintptr_t)gApChestRewardArt);
+}
+
+AP_REWARD_FX __attribute__((used)) void ap_init_boss_shard_sprite(void *object) {
+    uint8_t before = *(volatile uint8_t*)0x030039A4u;
+    ((void (*)(void*))0x0809F3E1u)(object);
+    if (ap_is_boss_shard(object)) ap_replace_boss_shard_tiles((const uint8_t*)object + 0x10u, before);
+}
+
+AP_REWARD_FX __attribute__((used)) int32_t ap_update_boss_shard_sprite(void *sprite) {
+    uint8_t before = *(volatile uint8_t*)0x030039A4u;
+    int32_t result = ((int32_t (*)(void*))0x08155129u)(sprite);
+    const uint8_t *data = sprite;
+    if (*(const volatile uint16_t*)(data + 0xCu) == AP_SHARD_NATIVE_ANIM
+        && ap_is_boss_shard(data - 0x10u)) {
+        ap_replace_boss_shard_tiles(data, before);
     }
+    return result;
+}
+
+AP_REWARD_FX __attribute__((used)) void ap_draw_boss_shard_sprite(void *sprite) {
+    typedef void (*DisplayFn)(void *);
+    DisplayFn native = (DisplayFn)0x0815604Du;
+    uint8_t *data = sprite;
+    volatile uint32_t *frame = (volatile uint32_t*)(data + 4u);
+    volatile uint32_t *draw_flags = (volatile uint32_t*)(data + 8u);
+    volatile uint16_t *anim = (volatile uint16_t*)(data + 0xCu);
+    uint32_t original_frame = *frame;
+    if (*anim != AP_SHARD_NATIVE_ANIM || original_frame > 8u || !ap_is_boss_shard(data - 0x10u)) {
+        native(sprite);
+        return;
+    }
+    uint32_t flags = *draw_flags;
+    uint8_t palette = data[0x1Fu];
+    /* Temporarily select the one centered 16×16 gem rendering frame.
+     * Original animation, timings and collision fields remain native. */
+    *anim = AP_GEM_RENDER_ANIM;
+    *frame = 0u;
+    *draw_flags = flags & ~0xC00u;
+    data[0x1Fu] = 15u;
+    native(sprite);
+    data[0x1Eu] = original_frame == 2u || original_frame == 6u ? 2u : 4u;
+    data[0x1Fu] = palette;
+    *draw_flags = flags;
+    *frame = original_frame;
+    *anim = AP_SHARD_NATIVE_ANIM;
 }
 
 static __attribute__((noinline, section(".aprewardfx"))) void ap_reward_gem_frame(void) {

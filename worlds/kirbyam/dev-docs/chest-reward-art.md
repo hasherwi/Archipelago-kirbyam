@@ -7,7 +7,8 @@ uses the same native popup path. Receiving Lever Wall, restoring a lever, or
 re-entering its room does not show the art. The same gem also appears on the
 first physical press of an Archipelago Big Switch and the first completion
 of each Goal Game check (even with no native prize), on first area visits,
-and on the first defeat of each area boss. Other reward surfaces are unchanged.
+and replaces the collectible Mirror Shard art dropped by an area boss. A
+defeat with the shard already owned still shows its native Maxim Tomato.
 
 | Original | Same frame with this patch |
 | --- | --- |
@@ -78,21 +79,19 @@ Both runs match the native visit events and progress to Room 1-01; entering
 that second room does not display another first-area gem. Transient VBlank
 phase differences during the scripted transition settle before the gem draws.
 
-## Area boss replay
+## Area boss Mirror Shard replay
 
-| King Golem reward branch | Control | Same frame with boss art |
-| --- | --- | --- |
-| Shard not owned | ![Unowned-shard branch without the gem](area_boss_reward_art_unowned_before.png) | ![Gem above the boss, native shard effect intact](area_boss_reward_art_unowned_in_game.png) |
-| Shard already owned | ![Owned-shard branch without the gem](area_boss_reward_art_owned_before.png) | ![Gem above the boss, native tomato intact](area_boss_reward_art_owned_in_game.png) |
+| Native collectible | Same native collectible with gem art |
+| --- | --- |
+| ![Native shard in the King Golem arena](boss_shard_reward_art_before.png) | ![Gem in the same pickup location](boss_shard_reward_art_in_game.png) |
 
-Both mGBA replays use the native pre-boss fixture and controller inputs for
-the actual King Golem fight (room 710). The owned-shard variant receives its
-shard through the normal isolated AP inbox before the fight. Each candidate
-queues one gem on the physical defeat. The control comparisons matched all
-3,596 owned-branch and 4,996 unowned-branch sampled gameplay states. The
-unowned replay continues through the native shard pickup and returns to
-Central Circle without a second gem. The 26-frame image pair changes pixels
-only inside the 16×16 gem rectangle at (196, 19), not the native reward.
+Both runs use controller input for the native King Golem fight in room 710.
+The before image uses the same rendering hook with only substitution disabled.
+All 215 changed pixels fall within the original/replacement sprite rectangle.
+The two versions matched 4,996 unowned-shard and 3,596 owned-shard state
+samples. The unowned playthrough completes pickup and native return to Central
+Circle. The already-owned [Maxim Tomato branch](boss_shard_already_owned_in_game.png)
+is pixel-identical with and without substitution, and has no gem upload.
 
 ## ROM contract
 
@@ -134,11 +133,11 @@ effect waits until the local room, native player state, and native palette
 state allow it to draw. File changes, room changes, and timeouts clear pending
 visuals. Areas already established by any mapped room do not replay.
 
-The eight area-boss finish callsites share one hook immediately after the
-native reward branch. It forwards the native finish call and adds only a
-seed-authenticated cosmetic seen bit. It never writes boss transport, shard
-ownership, or other check state. Existing native saves carry the visual
-history; there is no forced save when showing the gem. A power loss or
-reset before any native save can replay the visual. Older Hub/lever records
-are read as before and have no historical boss-visual bits. Use the matching
-updated client and do not downgrade a save with these new visual bits.
+Only the native eight dynamic area-boss shard drops are eligible. Separate
+constructor, normal-update, paused-update, and draw callsites preserve the
+native object's original animation state, collision box, pickup and cutscene.
+The native sprite's tile queue keeps the same destinations, order and byte
+lengths; only its matching tile sources and rendered image are substituted.
+The Dimension Mirror, separate cutscene art, and menus/credits are not changed.
+No cosmetic state is created or used. A record from the earlier draft remains
+readable and its obsolete cosmetic bits are preserved by check recovery.

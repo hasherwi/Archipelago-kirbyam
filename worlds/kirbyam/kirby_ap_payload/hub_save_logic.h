@@ -5,8 +5,8 @@
 /* USA world-state words 27..31 are inside the native checksummed, duplicated
  * save section, but have no native consumers. Words 27..30 bind physical checks
  * to the full ROM auth token. Keep legacy hub-only and V2 switch/lever records
- * readable. V3 adds eight cosmetic boss bits above the unchanged check bits.
- * The new bits never stand for native drops, AP checks, or item ownership. */
+ * readable. Preserve eight former draft boss-visual bits if present, but no
+ * runtime path sets or uses them. They never stand for checks or ownership. */
 #define AP_HUB_SAVE_TAG 0x48530000u
 #define AP_HUB_SAVE_MASK 0x00007FFFu
 #define AP_PHYSICAL_SAVE_TAG 0x48400000u
@@ -44,27 +44,17 @@ static inline uint32_t ap_lever_saved_checks(
 ) {
     return ap_physical_saved_checks(saved, auth) >> AP_LEVER_SAVE_SHIFT;
 }
-static inline uint8_t ap_record_physical_bit(
+static inline uint8_t ap_record_physical_check(
     volatile uint32_t saved[5], const volatile uint32_t auth[4], uint32_t bit
 ) {
     uint32_t i, mask;
-    if (bit >= 27u) return 0u;
+    if (bit >= 19u) return 0u;
     mask = ap_physical_saved_bits(saved, auth);
     if (mask & (1u << bit)) return 0u;
     for (i = 0u; i < 4u; i++) saved[i] = auth[i];
     mask |= 1u << bit;
     saved[4] = (mask & ~AP_PHYSICAL_SAVE_MASK ? AP_PHYSICAL_SAVE_V3_TAG : AP_PHYSICAL_SAVE_TAG) | mask;
     return 1u;
-}
-static inline uint8_t ap_record_physical_check(
-    volatile uint32_t saved[5], const volatile uint32_t auth[4], uint32_t bit
-) {
-    return bit < 19u ? ap_record_physical_bit(saved, auth, bit) : 0u;
-}
-static inline uint8_t ap_boss_art_record(
-    volatile uint32_t saved[5], const volatile uint32_t auth[4], uint32_t boss
-) {
-    return boss < 8u ? ap_record_physical_bit(saved, auth, boss + AP_BOSS_ART_SAVE_SHIFT) : 0u;
 }
 static inline uint8_t ap_hub_record_check(
     volatile uint32_t saved[5], const volatile uint32_t auth[4], uint32_t bit

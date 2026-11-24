@@ -259,13 +259,19 @@ ap_room_visit_reward_art_entry:
 .size ap_room_visit_reward_art_entry, .-ap_room_visit_reward_art_entry
 
 .section .text.ap_transition_entries,"ax",%progbits
+.macro BOSS_SHARD_ART_ENTRY entry, handler
 .balign 4
-.global ap_area_boss_reward_art_entry
-.type ap_area_boss_reward_art_entry, %function
+.global \entry
+.type \entry, %function
 .thumb_func
-ap_area_boss_reward_art_entry:
+\entry:
     ldr r3, 1f
     bx r3
 .balign 4
-1:  .word ap_area_boss_reward_art
-.size ap_area_boss_reward_art_entry, .-ap_area_boss_reward_art_entry
+1:  .word \handler
+.size \entry, .-\entry
+.endm
+
+BOSS_SHARD_ART_ENTRY ap_init_boss_shard_sprite_entry, ap_init_boss_shard_sprite
+BOSS_SHARD_ART_ENTRY ap_update_boss_shard_sprite_entry, ap_update_boss_shard_sprite
+BOSS_SHARD_ART_ENTRY ap_draw_boss_shard_sprite_entry, ap_draw_boss_shard_sprite
