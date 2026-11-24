@@ -68,11 +68,6 @@ requires:
       }}
     {%- endif -%}
 
-    {%- if game == "Kirby & The Amazing Mirror" and option_key == "starting_kirby_color" %}
-    # Compare Kirby starting colors:
-    # https://github.com/hasherwi/Archipelago-kirbyam/blob/main/worlds/kirbyam/docs/color-palettes.md
-    {%- endif %}
-
     {%- if option.__doc__ and option.range_start is defined %}
     #
     {%- endif -%}

@@ -362,6 +362,9 @@ def _build_starting_kirby_color_option() -> type[Choice]:
     A confirmed, owned treasure-room paint overrides this static choice and
     persists per save file. The treasure menu's default swatch clears that choice.
 
+    Compare Kirby starting colors:
+      https://github.com/hasherwi/Archipelago-kirbyam/blob/main/worlds/kirbyam/docs/color-palettes.md
+
     Supported color names:
       %s
 
