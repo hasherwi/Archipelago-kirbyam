@@ -60,8 +60,23 @@ def test_native_first_visit_identity_and_transition_gates(tmp_path: Path) -> Non
     source = tmp_path / "visit.c"
     source.write_text(r'''
 #include <assert.h>
+#include <stdint.h>
+/* Only the GBA ELF build needs ROM sections; these are host behavior tests. */
+#if defined(__MACH__)
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wkeyword-macro"
+#endif
+#define __attribute__(...)
+#endif
 #include "visit_reward_art_runtime.h"
 #include "generated_visit_reward_art_rooms.inc"
+#if defined(__MACH__)
+#undef __attribute__
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif
+#endif
 
 int main(void) {
     uint16_t visits[AP_VISIT_ENTRY_COUNT] = {0};

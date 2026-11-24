@@ -37,8 +37,23 @@ def test_nine_native_tile_batches_keep_original_queue_length_and_destination(tmp
     source = tmp_path / "shard-art.c"
     source.write_text(r'''
 #include <assert.h>
+#include <stdint.h>
+/* Only the GBA ELF build needs ROM sections; these are host behavior tests. */
+#if defined(__MACH__)
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wkeyword-macro"
+#endif
+#define __attribute__(...)
+#endif
 #include "boss_shard_art_runtime.h"
 #include "chest_reward_art.h"
+#if defined(__MACH__)
+#undef __attribute__
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif
+#endif
 
 int main(void) {
     struct ApChestTileUpload ring[64] = {0};
