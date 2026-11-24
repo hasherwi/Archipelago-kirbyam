@@ -263,3 +263,19 @@ versioned collectible art block. Seed art data (ARV3) stores sorted physical
 keys and separate variant bytes; the ROM and client negotiate APVIS03 for
 receipt display. A coincident first area and room check still shows both
 different icons, including high-ID collectibles.
+
+### Rotating Mirror Shard award
+
+A visible Mirror Shard award uses the nine retail rotation frames and their
+original 40-tick timing. The nearby part of the native 23-tick sparkle burst
+is baked into the same 32×32 icon. It is a short burst, not a permanent
+glow. The original particles can extend farther than the popup; particles
+outside its rounded boundary are clipped. Matching native boss drops retain their
+complete original effect instead of receiving another one.
+
+The effect adds no pickup and uses existing palette bank F without writing
+new palette or blend state. It allocates one temporary, bounded graphics
+slot and only enqueues changed frames. Without a safe 32×32 slot, small
+popups can use the static shard, or omit the cosmetic art under pressure.
+For a chest, the original native timer still controls the reward. On scene
+exit the visual abandons only its own pending graphics transfers.

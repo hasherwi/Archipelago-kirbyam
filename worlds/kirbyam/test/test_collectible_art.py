@@ -22,7 +22,7 @@ def rom():
 
 def test_reserved_table_and_runtime_art_ids(art, rom):
     writes = patch_rom.build_collectible_art_extension(rom, bytes(65536))
-    assert set(writes) == {0x100D000}
+    assert set(writes) == {0x1007000, 0x100D000}
     table = writes[0x100D000]
     assert table[:8] == b"APART03\0"
     assert 0x100D000 + len(table) == 0x100E208
@@ -74,3 +74,26 @@ def test_shard_composite_piece_packing(art):
         )
     raw = art["_shard_icon"](source)
     assert [raw[0] & 15, raw[35] >> 4, raw[92] & 15, raw[127] >> 4] == [1, 7, 5, 9]
+
+
+def test_shard_animation_exact_ticks_and_reserved_slot(art, rom):
+    build = art["build_shard_animation"]
+    table = build(rom, bytes(65536))
+    assert table[:8] == b"APSHD01\0"
+    assert 0x1007000 + len(table) == 0x100C008
+    frames = [table[8 + i * 512:8 + (i + 1) * 512] for i in range(40)]
+    assert all(any(frame) for frame in frames)
+    assert len(set(frames[:23])) >= 19  # Aura samples track exact native frame progression.
+    assert frames[23] == frames[27]
+    assert frames[28] != frames[27] and frames[28] == frames[32]
+    assert frames[33] != frames[32] and frames[33] == frames[37]
+    assert frames[38] == frames[39] and frames[37] != frames[38]
+    occupied = bytearray(65536)
+    occupied[0xC007] = 1
+    with pytest.raises(ValueError, match="rotating shard extension slot"):
+        build(rom, occupied)
+    for addr in (0x41DCE0, 0x422894, 0x46A234, 0x4A043E, art["AURA_BASE"], 0x4BC6CE):
+        bad = bytearray(rom)
+        bad[addr] ^= 1
+        with pytest.raises(ValueError, match="Unexpected native"):
+            build(bad, bytes(65536))

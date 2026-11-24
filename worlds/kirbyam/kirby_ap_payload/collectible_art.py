@@ -38,6 +38,10 @@ def native_abi_fixtures() -> dict[int, bytes]:
         for start, tile, frame, palettes in script_rows for i, palette in enumerate(palettes)
     }
     records.update({
+        # Single square 32×32 runtime display slot, independent of native shard actors.
+        0x421BD0: struct.pack("<9i", -2, 205, 16, -1, 45169, 16, 1, 0, -4),
+        0x46D528: struct.pack("<4H2h", 0, 1, 32, 32, 16, 14),
+        0x4A7FE6: struct.pack("<3H", 0, 0x8000, 0),
         0x421B50: struct.pack("<9i", -2, 159, 16, -1, 45161, 4, 1, 12, -4),
         0x421B74: struct.pack("<9i", -2, 159, 16, -1, 45165, 4, 1, 13, -4),
         0x422894: struct.pack("<11i", -2, 220, 16, -1, 45779, 9, 3, 0, -1, 45788, 9),
@@ -138,3 +142,141 @@ def build_collectible_art_table(rom: bytes | bytearray, extension: bytes) -> byt
             put(first + i, bytes(colors[n & 15] | colors[n >> 4] << 4 for n in src))
     put(44, _shard_icon(rom))
     return bytes(table)
+
+
+SHARD_ANIM_OFFSET = 0x1007000
+SHARD_ANIM_MARKER = b"APSHD01\0"
+SHARD_ANIM_TICKS = 40
+SHARD_ANIM_FRAME_SIZE = 512
+SHARD_ANIM_SIZE = len(SHARD_ANIM_MARKER) + SHARD_ANIM_TICKS * SHARD_ANIM_FRAME_SIZE
+AURA_BASE = 0x61098C
+SHARD_ANIM_ROWS = ((45779, 9, 3), (45788, 9, 5), (45797, 3, 5),
+                   (45800, 9, 5), (45809, 9, 5), (45818, 9, 5),
+                   (45827, 3, 5), (45830, 9, 5), (45839, 9, 2))
+AURA_DELAYS = (2, *(1,) * 10, 4, *(1,) * 7)
+SHARD_ANIM_SCRIPT = struct.pack("<49i", -2, 220, 16, *(
+    word for frame, (tile, count, delay) in enumerate(SHARD_ANIM_ROWS)
+    for word in (-1, tile, count, delay, frame)), -4)
+AURA_SCRIPT = struct.pack("<45i", -2, 175, 16, -1, 43234, 256, *(
+    word for frame, delay in enumerate(AURA_DELAYS) for word in (delay, frame)), -4)
+
+# These ranges pin the native images, frame bounds, OAM and flip declarations.
+ANIM_RETAIL_HASHES = {
+    (AURA_BASE, 8192): "16f2e8d1f4156257a850e8c1f6d4a1645920fd641716f1dbf09cb1b4b29b2e5c",
+    (SHARD_BASE, 2208): "db1b5658eb3b9d524363ad09372e92ea1ccb04cfe25752adeb4d720645ce282a",
+    (0x46A234, 228): "be9eb9418c4f33341f1f9a1b0ea696c16f0ea99961df865f8f49bbe2db065c64",
+    (0x4A043E, 714): "c0a99433c3fb3f3773aae6b0fec6be75cf9723ef771d760e93282f11d2fb5c0a",
+    (0x46D81C, 108): "f4a035b36e9cb5a1f3cd554c8f8b512c62ceca66be76f0e0165c62b87635f857",
+    (0x4A8286, 192): "d45d334320d0f41177b8c68a06aba5f5d7c7f0a0b3f7e3f7ca0eefdfe7611a21",
+}
+
+
+def synthetic_animation_assets() -> dict[int, bytes]:
+    """Playable metadata shape but invented fixture graphics; no retail art."""
+    shard_attrs, shard_oam = bytearray(), bytearray()
+    for frame in range(9):
+        first = len(shard_oam) // 6
+        if frame in (2, 6):
+            shard_attrs.extend(struct.pack("<4H2h", first, 2, 8, 24, 3, 11))
+            shard_oam.extend(struct.pack("<6H", 0x8000, 0, 0, 16, 0, 2))
+        else:
+            shard_attrs.extend(struct.pack("<4H2h", first, 4, 24, 24, 11, 11))
+            shard_oam.extend(native_abi_fixtures()[0x4A8286])
+    return {
+        0x422894: SHARD_ANIM_SCRIPT,
+        0x41DCE0: AURA_SCRIPT,
+        # Artificial per-frame particles, including native-style negative coordinates.
+        0x46A234: b"".join(struct.pack("<4H2h", frame, 1, 0, 0, 0, 0) for frame in range(19)),
+        0x4A043E: b"".join(struct.pack("<3H", 0xF2, (frame - 9) & 511, frame) for frame in range(19)) + bytes(600),
+        0x46D81C: bytes(shard_attrs),
+        0x4A8286: bytes(shard_oam),
+        AURA_BASE: hashlib.shake_256(b"KirbyAM synthetic aura").digest(8192),
+        SHARD_BASE: synthetic_assets()[SHARD_BASE] + hashlib.shake_256(b"KirbyAM synthetic rotation").digest(1920),
+        PALETTE_BASE + 175 * 32: struct.pack("<16H", *BANK_F),
+    }
+
+
+def _validate_animation_sources(rom: bytes | bytearray) -> None:
+    for off, script in ((0x422894, SHARD_ANIM_SCRIPT), (0x41DCE0, AURA_SCRIPT)):
+        if rom[off:off + len(script)] != script:
+            raise ValueError(f"Unexpected native shard/aura animation script at {off:#x}")
+    synthetic = all(
+        rom[off:off + len(data)] == data for off, data in synthetic_animation_assets().items()
+    )
+    if not synthetic:
+        for (off, size), expected in ANIM_RETAIL_HASHES.items():
+            if hashlib.sha256(rom[off:off + size]).hexdigest() != expected:
+                raise ValueError(f"Unexpected native shard/aura tiles or OAM at {off:#x}")
+    # Retail aura palette 175 uses the stock bank-F visible colors already.
+    if _palette(rom, 175)[1:] != BANK_F[1:]:
+        raise ValueError("Unexpected native aura palette")
+
+
+OAM_SIZES = (((8, 8), (16, 16), (32, 32), (64, 64)),
+             ((16, 8), (32, 8), (32, 16), (64, 32)),
+             ((8, 16), (8, 32), (16, 32), (32, 64)))
+
+
+def _draw_native_frame(
+    rom: bytes | bytearray, grid: list[int], attrs: int, oam: int,
+    tiles: int, tile_count: int, colors: tuple[int, ...],
+) -> None:
+    first, count, _, _, offset_x, offset_y = struct.unpack_from("<4H2h", rom, attrs)
+    first &= 0x3FFF
+    # Earlier entries have native OAM foreground precedence.
+    for piece in range(first + count - 1, first - 1, -1):
+        a, b, c = struct.unpack_from("<3H", rom, oam + 6 * piece)
+        if a & 0x2300 or (a >> 14) == 3:
+            raise ValueError("Unexpected affine/8bpp native shard/aura OAM")
+        width, height = OAM_SIZES[a >> 14][b >> 14]
+        origin_x = ((b & 511) ^ 256) - 256 + 16 - offset_x
+        origin_y = ((a & 255) ^ 128) - 128 + 16 - offset_y
+        tile = c & 1023
+        if tile + width * height // 64 > tile_count:
+            raise ValueError("Native shard/aura OAM tile range is invalid")
+        for y in range(max(0, -origin_y), min(height, 32 - origin_y)):
+            py = height - 1 - y if b & 0x2000 else y
+            for x in range(max(0, -origin_x), min(width, 32 - origin_x)):
+                px = width - 1 - x if b & 0x1000 else x
+                raw_tile = tile + py // 8 * (width // 8) + px // 8
+                raw = rom[tiles + raw_tile * 32 + py % 8 * 4 + px % 8 // 2]
+                pixel = raw >> (4 * (px & 1)) & 15
+                if pixel:
+                    grid[(origin_y + y) * 32 + origin_x + x] = colors[pixel]
+
+
+def _pack_32(image: list[int]) -> bytes:
+    return bytes(
+        image[32 * y + x] | image[32 * y + x + 1] << 4
+        for ty in range(0, 32, 8) for tx in range(0, 32, 8)
+        for y in range(ty, ty + 8) for x in range(tx, tx + 8, 2)
+    )
+
+
+def build_shard_animation(rom: bytes | bytearray, extension: bytes) -> bytes:
+    start = SHARD_ANIM_OFFSET - 0x1000000
+    if (len(rom) != 0x1000000 or len(extension) < start + SHARD_ANIM_SIZE
+            or any(extension[start:start + SHARD_ANIM_SIZE])):
+        raise ValueError("Missing empty rotating shard extension slot")
+    _validate_animation_sources(rom)
+    shard_colors = _remap(_palette(rom, 220))
+    aura_colors = tuple(range(16))
+    aura_ticks = [frame for frame, duration in enumerate(AURA_DELAYS) for _ in range(duration)]
+    output = bytearray(SHARD_ANIM_MARKER)
+    tick = 0
+    for frame, (tile, count, duration) in enumerate(SHARD_ANIM_ROWS):
+        for _ in range(duration):
+            grid = [0] * 1024
+            if tick < len(aura_ticks):
+                _draw_native_frame(rom, grid, 0x46A234 + aura_ticks[tick] * 12,
+                                   0x4A043E, AURA_BASE, 256, aura_colors)
+                # Bloom and outer trail can fill the square clip. Keep the
+                # native shard below unmasked; soften the aura to a round footprint.
+                for j in range(1024):
+                    if (2 * (j % 32) - 31) ** 2 + (2 * (j // 32) - 31) ** 2 > 31 ** 2:
+                        grid[j] = 0
+            _draw_native_frame(rom, grid, 0x46D81C + frame * 12, 0x4A8286,
+                               SHARD_BASE + (tile - 45779) * 32, count, shard_colors)
+            output.extend(_pack_32(grid))
+            tick += 1
+    return bytes(output)

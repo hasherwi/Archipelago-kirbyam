@@ -19,24 +19,34 @@ static inline uint8_t ap_reward_vram_address_is_valid(uint32_t address) {
     return address >= 0x06014000u && address <= 0x06018000u - AP_CHEST_ART_SIZE;
 }
 
-/* Mirror the USA VramMalloc(4) first fit without mutating its heap: four
- * tiles occupy two 64-byte segments. Occupied runs are tagged only at
- * their first segment, so inner zero entries do not signify free space. */
-static inline uint8_t ap_reward_native_vram_can_fit(
-    const volatile uint16_t *segments, uint16_t tile_slots, uint32_t base
+/* Mirror the USA VramMalloc first fit without mutating its heap. Occupied
+ * runs are tagged only at the start; interior zero entries are not free. */
+static inline uint8_t ap_reward_native_vram_can_fit_tiles(
+    const volatile uint16_t *segments, uint16_t tile_slots, uint32_t base, uint16_t tiles
 ) {
-    uint32_t count = tile_slots >> 1;
-    if (count > 0x200u || base < 0x06010000u || base >= 0x06018000u) return 0u;
-    for (uint32_t i = 0u; i + 1u < count;) {
+    uint32_t count = tile_slots >> 1, needed = tiles >> 1;
+    if (!needed || tiles & 1u || count > 0x200u || base < 0x06010000u || base >= 0x06018000u) return 0u;
+    for (uint32_t i = 0u; i + needed <= count;) {
         uint16_t occupied = segments[i];
         if (occupied == 0u) {
-            if (segments[i + 1u] == 0u) return ap_reward_vram_address_is_valid(base + i * 64u);
-            ++i;
+            uint32_t run = 1u;
+            while (run < needed && !segments[i + run]) ++run;
+            if (run == needed) {
+                uint32_t address = base + i * 64u;
+                return address >= 0x06014000u && address <= 0x06018000u - (uint32_t)tiles * 32u;
+            }
+            i += run;
         } else {
             i += occupied;
         }
     }
     return 0u;
+}
+
+static inline uint8_t ap_reward_native_vram_can_fit(
+    const volatile uint16_t *segments, uint16_t tile_slots, uint32_t base
+) {
+    return ap_reward_native_vram_can_fit_tiles(segments, tile_slots, base, 4u);
 }
 
 /* TaskCreate may return a linked task when both heaps fail. Reject invalid

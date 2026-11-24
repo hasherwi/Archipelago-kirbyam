@@ -4,6 +4,7 @@
 #include "generated_hub_switch_tables.inc"
 #include "reward_art_config.h"
 #include "receipt_visual_runtime.h"
+#include "shard_award_runtime.h"
 
 #define AP_HUB_SAVED_CHECKS ((void *)0)
 #define AP_HUB_ROM_AUTH ((void *)0)
@@ -17,6 +18,11 @@ static uint8_t task_identity;
 static void *fixture_task = &task_identity;
 static uint32_t AP_HUB_SWITCH_FLAGS;
 static struct ApReceiptVisualMailbox fake_visuals;
+static struct ApChestTileUpload tile_uploads[64];
+static uint8_t head, tail;
+#define AP_REWARD_UPLOAD_RING tile_uploads
+#define AP_REWARD_UPLOAD_HEAD (&head)
+#define AP_REWARD_UPLOAD_TAIL tail
 #define AP_VISUAL_MAILBOX (&fake_visuals)
 
 static uint8_t *ap_reward_task_data(void *task) {

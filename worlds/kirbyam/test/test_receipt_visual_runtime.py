@@ -32,6 +32,7 @@ def test_actual_native_visual_poll_accepts_only_one_fresh_ready_command(tmp_path
     source.write_text(r'''
 #include <assert.h>
 #include "receipt_visual_runtime.h"
+#include "shard_award_runtime.h"
 #include "reward_art_config.h"
 
 static struct ApReceiptVisualMailbox fixture;
@@ -87,7 +88,13 @@ int main(void) {
     request = (AP_FRAME_COUNTER << AP_VISUAL_FRAME_SHIFT) | AP_VISUAL_MAX_CODE;
     fixture.request = request;
     ap_receipt_visual_poll();
-    assert(draws == 3 && last_art == AP_REWARD_MIRROR_SHARD && fixture.result == request); /* Don't resume a cue with the pause. */
+    assert(draws == 3 && last_art == AP_REWARD_MIRROR_SHARD && fixture.result == request);
+    AP_FRAME_COUNTER += AP_SHARD_AWARD_TICKS - 1u;
+    ap_receipt_visual_poll();
+    assert(fixture.active && !fixture.ready);
+    ++AP_FRAME_COUNTER;
+    ap_receipt_visual_poll();
+    assert(!fixture.active && fixture.ready); /* Don't resume a cue with the pause. */
     assert(ap_visual_can_start((AP_VISUAL_FRAME_MASK << AP_VISUAL_FRAME_SHIFT) | AP_VISUAL_GEM, 0u, AP_VISUAL_READY));
     return 0;
 }

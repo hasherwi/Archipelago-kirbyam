@@ -40,6 +40,16 @@ static void native_popup_host(void *chest, int16_t x, int16_t y, uint16_t visual
     }
 }
 
+static uint8_t animate;
+static unsigned overlays;
+static uint16_t ap_reward_local_room(void) { return 805u; }
+static uint8_t ap_can_show_animated_shard(void) { return animate; }
+static uint8_t ap_show_room_reward_gem(uint16_t room, int32_t x, int32_t y, uint32_t stop, uint8_t art) {
+    assert(room == 805u && x == -8 * 256 && y == 30 * 256 && !stop && art == AP_REWARD_MIRROR_SHARD);
+    ++overlays;
+    return 1u;
+}
+
 /* WRAPPER */
 
 int main(void) {
@@ -106,6 +116,22 @@ int main(void) {
     head = 9u;
     ap_chest_reward_art(native_chest, -8, 46, 0x63u);
     assert(ring[9].source == ART);
+    config.count = 0u;
+    config.count = 1u;
+    config.keys[0] = AP_REWARD_KEY(AP_REWARD_MAP_CHEST, 0u);
+    config.variants[0] = AP_REWARD_MIRROR_SHARD;
+    *(uint32_t*)(native_chest + 0xB0u) = 0u;
+    *(uint16_t*)(native_chest + 0x60u) = 805u;
+    *(uint16_t*)(native_chest + 0xE0u) = 0xAu;
+    unsigned started = native_popups;
+    head = 9u;
+    animate = 1u;
+    ap_chest_reward_art(native_chest, -8, 46, 0xAu);
+    assert(visual_reward == 0x63u && head == 9u && overlays == 1u && native_popups == started + 1u);
+    animate = 0u;
+    ap_chest_reward_art(native_chest, -8, 46, 0xAu);
+    assert(visual_reward == 0u && head == 10u && overlays == 1u && native_popups == started + 2u);
+    assert(*(uint16_t*)(native_chest + 0xE0u) == 0xAu);
     config.count = 0u;
     ring[9].source = AP_CHEST_NATIVE_TILES;
     /* Fail closed on unexpected queue shape, source and size. */

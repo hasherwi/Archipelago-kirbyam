@@ -20,6 +20,7 @@ AP_COPY_EXT void ap_goal_poll(void);
 #include "receipt_visual_runtime.h"
 #include "chest_reward_art_runtime.h"
 #include "boss_shard_art_runtime.h"
+#include "shard_award_runtime.h"
 #include "chest_reward_art.h"
 #include "trap_reward_art.h"
 #include "reward_art.h"
@@ -412,6 +413,20 @@ ap_reward_key_for_chest(const void *chest) {
         ? AP_REWARD_KEY(AP_REWARD_MINOR_CHEST, source - 0x08000000u) : 0u;
 }
 
+#define AP_REWARD_UPLOAD_HEAD ((volatile uint8_t*)0x030039A4u)
+#define AP_REWARD_UPLOAD_TAIL (*(volatile uint8_t*)0x03006078u)
+#define AP_REWARD_UPLOAD_RING ((volatile struct ApChestTileUpload*)0x03002EC0u)
+static inline uint16_t ap_reward_local_room(void);
+
+static AP_REWARD_FX uint8_t ap_can_show_animated_shard(void) {
+    const volatile uint32_t *header = (const volatile uint32_t*)AP_SHARD_AWARD_ROM;
+    return header[0] == AP_SHARD_AWARD_MAGIC_FIRST && header[1] == AP_SHARD_AWARD_MAGIC_LAST
+        && ap_shard_award_queue_available(*AP_REWARD_UPLOAD_HEAD, AP_REWARD_UPLOAD_TAIL)
+        && ap_reward_native_vram_can_fit_tiles((const volatile uint16_t*)0x030064B0u,
+            *(const volatile uint16_t*)0x03002488u, *(const volatile uint32_t*)0x03002540u,
+            AP_SHARD_AWARD_VRAM_TILES);
+}
+
 /* Prefer the native 16×16 chest slot (variant 0), even for no-bonus chests.
  * Without safe VRAM, use native 0x63: it starts the same popup timer but
  * reserves no sprite tiles. The native reward reads the parent Chest::unkE0. */
@@ -431,6 +446,18 @@ void ap_chest_reward_art(void *chest, int16_t x, int16_t y, uint16_t item) {
         return;
     }
     uint8_t art = ap_reward_art_for_key(ap_reward_key_for_chest(chest));
+    if (art == AP_REWARD_MIRROR_SHARD) {
+        uint16_t room = *(const volatile uint16_t*)((const uint8_t*)chest + 0x60u);
+        if (ap_reward_local_room() == room && ap_can_show_animated_shard()) {
+            /* The native constructor still owns this chest's real timer and
+             * reward. Its no-art mode leaves the optional 32x32 overlay free
+             * to render without altering that task or adding a pickup. */
+            native_popup(chest, x, y, 0x63u);
+            (void)ap_show_room_reward_gem(room, (int32_t)x * 256,
+                ((int32_t)y - 16) * 256, 0u, art);
+            return;
+        }
+    }
     before = *tile_head;
     native_popup(chest, x, y, 0u);
     /* Change only this popup's single queued VRAM upload. All palettes,
@@ -743,19 +770,29 @@ static __attribute__((noinline, section(".aprewardfx"))) void ap_reward_gem_fram
         return;
     }
     volatile uint16_t *age = (volatile uint16_t*)(effect + 4u);
-    /* The map interlude suspends room tasks. Do not let the visual
-     * reappear when they resume after the physical check has persisted. */
+    uint8_t animated = *(const volatile uint16_t*)(effect + 0x18u) == AP_SHARD_AWARD_STATIC_ANIM;
+    uint8_t ticks = (uint8_t)*age;
     uint32_t stop = *(volatile uint32_t*)(effect + 0x48u);
     uint8_t stopped = (stop & AP_VISUAL_REJECTED)
         ? (stop & ~AP_VISUAL_REJECTED) != AP_VISUAL_MAILBOX->active
         : (AP_HUB_SWITCH_FLAGS & stop) != 0u;
-    if (*age >= AP_VISUAL_DURATION || *(volatile uint16_t*)(effect + 0x42u) != ap_reward_local_room()
-        || stopped) {
+    if (ticks >= (animated ? AP_SHARD_AWARD_TICKS : AP_VISUAL_DURATION)
+        || *(volatile uint16_t*)(effect + 0x42u) != ap_reward_local_room() || stopped) {
+        if (animated) {
+            ap_shard_award_cancel_uploads(AP_REWARD_UPLOAD_RING, *AP_REWARD_UPLOAD_HEAD,
+                AP_REWARD_UPLOAD_TAIL, *(const volatile uint32_t*)(effect + 0xCu));
+        }
         ((void (*)(void*))0x08152C3Du)(task); /* TaskDestroy invokes ObjectBaseDestroy. */
         return;
     }
-    if ((*age & 1u) == 0u) *(volatile int32_t*)(effect + 0x38u) -= 256;
-    ++*age;
+    if (animated && ap_shard_award_frame_changed(ticks)) {
+        /* Queue one owned 32x32 tile batch per changed frame; an occupied
+         * native DMA queue safely drops visual frames without blocking. */
+        (void)ap_shard_award_queue_frame(AP_REWARD_UPLOAD_RING, AP_REWARD_UPLOAD_HEAD,
+            AP_REWARD_UPLOAD_TAIL, *(const volatile uint32_t*)(effect + 0xCu), ticks);
+    }
+    if ((ticks & 1u) == 0u) *(volatile int32_t*)(effect + 0x38u) -= 256;
+    *age = ticks + 1u;
     ((void (*)(void*))0x0806FAC9u)(effect); /* EffectObjectPostUpdate */
 }
 
@@ -766,7 +803,9 @@ AP_REWARD_FX uint8_t ap_show_room_reward_gem(uint16_t room, int32_t x, int32_t y
     typedef void (*SpriteInitFn)(void *, void *, uint32_t, uint16_t, uint8_t, uint16_t);
     volatile uint8_t *head = (volatile uint8_t*)0x030039A4u;
     volatile struct ApChestTileUpload *ring = (volatile struct ApChestTileUpload*)0x03002EC0u;
-    if (room != ap_reward_local_room() || !ap_reward_native_vram_available()) return 0u;
+    if (room != ap_reward_local_room()) return 0u;
+    uint8_t animated = art == AP_REWARD_MIRROR_SHARD && ap_can_show_animated_shard();
+    if (!animated && !ap_reward_native_vram_available()) return 0u;
     void *task = ((TaskCreateFn)0x08152B01u)(ap_reward_gem_frame, AP_REWARD_EFFECT_SIZE, 0x3500u, 0u,
                                           (DtorFn)0x0803DCCDu);
     if (task == (void*)0x03002500u) return 0u; /* gEmptyTask */
@@ -777,8 +816,8 @@ AP_REWARD_FX uint8_t ap_show_room_reward_gem(uint16_t room, int32_t x, int32_t y
     }
     ((void (*)(void*))0x0803E3B1u)(effect); /* ClearEffectObject */
     effect[0] = 3u;
-    uint32_t vram = ((uint32_t (*)(uint32_t))0x081570B1u)(4u);
-    if (!ap_reward_vram_address_is_valid(vram)) {
+    uint32_t vram = ((uint32_t (*)(uint32_t))0x081570B1u)(animated ? AP_SHARD_AWARD_VRAM_TILES : 4u);
+    if (!(animated ? ap_shard_award_vram_valid(vram) : ap_reward_vram_address_is_valid(vram))) {
         ((void (*)(void*))0x08152C3Du)(task);
         return 0u;
     }
@@ -787,10 +826,13 @@ AP_REWARD_FX uint8_t ap_show_room_reward_gem(uint16_t room, int32_t x, int32_t y
     *(volatile uint16_t*)(effect + 0x42u) = room;
     *(volatile uint32_t*)(effect + 0x48u) = stop_hub_bit;
     uint8_t before = *head;
-    ((SpriteInitFn)0x080709F9u)(effect, effect + 0xCu, vram, 0x2D1u, 0u, 0xBu);
-    if (!ap_chest_redirect_upload(ring, before, *head, ap_reward_tiles_for_art(art))) {
+    ((SpriteInitFn)0x080709F9u)(effect, effect + 0xCu, vram,
+        animated ? AP_SHARD_AWARD_STATIC_ANIM : AP_GEM_RENDER_ANIM, 0u, 0xBu);
+    uint8_t redirected = animated ? ap_shard_award_redirect_first(ring, before, *head, vram)
+        : ap_chest_redirect_upload(ring, before, *head, ap_reward_tiles_for_art(art));
+    if (!redirected) {
         /* Drop the effect on the next task tick; do not show a stock item. */
-        *(volatile uint16_t*)(effect + 4u) = AP_VISUAL_DURATION;
+        *(volatile uint16_t*)(effect + 4u) = 0xFFu;
         return 0u;
     }
     return 1u;
@@ -812,7 +854,8 @@ AP_REWARD_FX void ap_show_player_reward_gem(uint16_t room, uint16_t arts) {
      * over the gem if memory fits only one, keeping them 20 pixels apart. */
     uint8_t preferred = (uint8_t)((arts & 0xFFu) - 1u);
     uint8_t other = (uint8_t)(arts >> 8);
-    int32_t separation = other ? 10 * 256 : 0;
+    int32_t separation = !other ? 0 : (preferred == AP_REWARD_MIRROR_SHARD
+        || other == AP_REWARD_MIRROR_SHARD + 1u ? 14 : 10) * 256;
     if (x < camera_x + 16 * 256 + separation) x = camera_x + 16 * 256 + separation;
     if (x > camera_x + 224 * 256 - separation) x = camera_x + 224 * 256 - separation;
     if (y < camera_y + 48 * 256) y = camera_y + 48 * 256;
@@ -2482,7 +2525,8 @@ static AP_REWARD_FX uint8_t ap_show_incoming_reward(uint8_t art, uint32_t active
     x += (x < cx + 120 * 256 ? 24 : -24) * 256;
     if (x < cx + 16 * 256) x = cx + 16 * 256;
     if (x > cx + 224 * 256) x = cx + 224 * 256;
-    if (y < cy + 30 * 256) y = cy + 30 * 256;
+    int32_t minimum_y = cy + (art == AP_REWARD_MIRROR_SHARD ? 40 : 30) * 256;
+    if (y < minimum_y) y = minimum_y;
     if (y > cy + 132 * 256) y = cy + 132 * 256;
     return ap_show_room_reward_gem(ap_reward_local_room(), x, y, active | AP_VISUAL_REJECTED, art);
 }
@@ -2492,7 +2536,9 @@ static AP_REWARD_FX void ap_receipt_visual_poll(void) {
     uint32_t frame = AP_FRAME_COUNTER, request = msg->request, active = msg->active;
     uint8_t game = ap_receipt_cue_gameplay_ready()
         && ap_copy_room_epoch() && ap_visit_palette_ready();
-    if (active && (!game || ap_visual_age(active, frame) >= AP_VISUAL_DURATION)) {
+    uint32_t duration = (active & AP_VISUAL_CODE_MASK) == AP_REWARD_MIRROR_SHARD + 1u
+        ? AP_SHARD_AWARD_TICKS : AP_VISUAL_DURATION;
+    if (active && (!game || ap_visual_age(active, frame) >= duration)) {
         msg->active = active = 0u;
     }
     uint32_t ready = game && !active ? AP_VISUAL_READY : 0u;

@@ -2221,7 +2221,8 @@ def build_collectible_art_extension(rom: bytes | bytearray, extension: bytes) ->
     assert spec is not None and spec.loader is not None
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
-    return {module.OFFSET: module.build_collectible_art_table(rom, extension)}
+    return {module.OFFSET: module.build_collectible_art_table(rom, extension),
+            module.SHARD_ANIM_OFFSET: module.build_shard_animation(rom, extension)}
 
 
 def apply_color_extension(rom: bytearray, elf_path: Path) -> None:
