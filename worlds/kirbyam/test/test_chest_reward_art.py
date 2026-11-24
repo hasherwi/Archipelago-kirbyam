@@ -25,6 +25,8 @@ def test_clean_guard_accepts_synthetic_contract_and_rejects_invalid_native_field
     for offset, label in (
         (call, "constructor"),
         (patch_rom.CHEST_REWARD_ART_NATIVE_SCRIPT + 16, "tile script"),
+        *((offset + 16, "consumable tile script")
+          for offset, _ in patch_rom.CHEST_REWARD_ART_CONSUMABLE_SCRIPTS),
         (patch_rom.CHEST_REWARD_ART_NATIVE_PALETTE + 14, "palette"),
     ):
         dummy[offset] ^= 1
@@ -72,6 +74,24 @@ def test_native_trap_tiles_use_owner_shape_and_shared_palette() -> None:
             rendered = tuple(((color >> c) & 31) * 255 // 31 for c in (0, 5, 10))
             assert preview.getpixel((x, y)) == rendered + (255 if index else 0,)
     assert preview.tobytes() != src.tobytes()
+
+
+def test_exact_native_consumable_tiles_match_validated_animation_variants() -> None:
+    code = (PAYLOAD / "ap_payload.c").read_text()
+    native_variants = dict(re.findall(
+        r"case AP_REWARD_(\w+): return AP_CHEST_NATIVE_TILES \+ (\d+)u \* AP_CHEST_ART_SIZE", code,
+    ))
+    assert native_variants == {
+        "ONE_UP": "0", "FOOD": "4", "DRINK": "2", "MEAT": "5",
+        "TOMATO": "3", "CANDY": "1", "BATTERY": "6",
+    }
+    import struct
+    scripts = [patch_rom.CHEST_REWARD_ART_NATIVE_SCRIPT_DATA,
+               *(script for _, script in patch_rom.CHEST_REWARD_ART_CONSUMABLE_SCRIPTS)]
+    assert sorted(map(int, native_variants.values())) == list(range(len(scripts)))
+    for variant, script in enumerate(scripts):
+        palette, palette_start, cmd, start, length = struct.unpack_from("<5i", script, 4)
+        assert (palette, palette_start, cmd, start, length) == (159, 16, -1, 45113 + 4 * variant, 4)
 
 
 def test_actual_popup_wrapper_changes_only_matching_tile_upload(tmp_path: Path) -> None:

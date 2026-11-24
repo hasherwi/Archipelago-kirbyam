@@ -5,7 +5,7 @@
 /* USA world-state words 27..31 are inside the native checksummed, duplicated
  * save section, but have no native consumers. Words 27..30 bind physical checks
  * to the full ROM auth token. Keep legacy hub-only and V2 switch/lever records
- * readable. Eight cosmetic boss trap-display bits never stand for checks or
+ * readable. Eight cosmetic boss item-display bits never stand for checks or
  * ownership. They ride existing native saves; they never request a write. */
 #define AP_HUB_SAVE_TAG 0x48530000u
 #define AP_HUB_SAVE_MASK 0x00007FFFu
@@ -66,7 +66,7 @@ static inline uint8_t ap_lever_record_check(
 ) {
     return bit < 4u ? ap_record_physical_check(saved, auth, bit + AP_LEVER_SAVE_SHIFT) : 0u;
 }
-static inline uint8_t ap_boss_trap_record_display(
+static inline uint8_t ap_boss_item_record_display(
     volatile uint32_t saved[5], const volatile uint32_t auth[4], uint32_t boss
 ) {
     if (boss >= 8u) return 0u;

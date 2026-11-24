@@ -94,6 +94,8 @@ def build_dummy_rom() -> bytearray:
     offset = patch_rom.CHEST_REWARD_ART_NATIVE_SCRIPT
     script = patch_rom.CHEST_REWARD_ART_NATIVE_SCRIPT_DATA
     rom[offset:offset + len(script)] = script
+    for offset, script in patch_rom.CHEST_REWARD_ART_CONSUMABLE_SCRIPTS:
+        rom[offset:offset + len(script)] = script
     offset = patch_rom.CHEST_REWARD_ART_NATIVE_PALETTE
     rom[offset:offset + 32] = b"".join(color.to_bytes(2, "little")
                                       for color in patch_rom.CHEST_REWARD_ART_NATIVE_PALETTE_DATA)

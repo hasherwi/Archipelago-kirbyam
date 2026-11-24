@@ -51,17 +51,23 @@ int main(void) {
         uint8_t dest=frame ? frame-1u : 63u, next=(dest+1u)&63u;
         uint16_t size=frame==2u || frame==6u ? 96u : 288u;
         ring[dest]=(struct ApChestTileUpload){addr[frame],tile,size,0xA5A5u};
-        assert(!ap_boss_shard_redirect_upload(ring,dest,next,tile+32u,art));
-        assert(!ap_boss_shard_redirect_upload(ring,dest,(dest+2u)&63u,tile,art));
+        assert(!ap_boss_shard_redirect_upload(ring,dest,next,tile+32u,art,0u));
+        assert(!ap_boss_shard_redirect_upload(ring,dest,(dest+2u)&63u,tile,art,0u));
         assert(ring[dest].source==addr[frame] && ring[dest].size==size);
-        assert(ap_boss_shard_redirect_upload(ring,dest,next,tile,art));
+        assert(ap_boss_shard_redirect_upload(ring,dest,next,tile,art,0u));
         assert(ring[dest].source==art && ring[dest].size==size
                && ring[dest].destination==tile && ring[dest].padding==0xA5A5u);
     }
     ring[63]=(struct ApChestTileUpload){0x086247ACu,tile,96u,0u};
-    assert(!ap_boss_shard_redirect_upload(ring,63u,0u,tile,art));
+    assert(!ap_boss_shard_redirect_upload(ring,63u,0u,tile,art,0u));
     ring[63]=(struct ApChestTileUpload){0x0861F46Cu,tile,128u,0u};
-    assert(!ap_boss_shard_redirect_upload(ring,63u,0u,tile,art));
+    assert(!ap_boss_shard_redirect_upload(ring,63u,0u,tile,art,0u));
+    ring[63]=(struct ApChestTileUpload){0x086247ACu,tile,288u,0u};
+    assert(ap_boss_shard_redirect_upload(ring,63u,0u,tile,0x0861F76Cu,1u));
+    assert(ring[63].size==128u && ring[63].source==0x0861F76Cu);
+    ring[63]=(struct ApChestTileUpload){0x086249ECu,tile,96u,0u};
+    assert(ap_boss_shard_redirect_upload(ring,63u,0u,tile,0x0861F76Cu,1u));
+    assert(ring[63].size==96u);
     return 0;
 }
 ''')

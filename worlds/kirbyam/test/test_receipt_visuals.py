@@ -7,8 +7,9 @@ from unittest.mock import AsyncMock, patch
 import pytest
 
 from NetUtils import NetworkItem
+from ..reward_art_types import KIRBY_CONSUMABLE_ART_BY_ITEM_CODE, RewardArt
 from ..receipt_visuals import (
-    VISUAL_GEM, VISUAL_LIMIT, VISUAL_MAILBOX, VISUAL_REJECTED,
+    VISUAL_ART_BITS, VISUAL_FRAME_MASK, VISUAL_GEM, VISUAL_LIMIT, VISUAL_MAILBOX, VISUAL_REJECTED,
     VISUAL_ROM_MARKER, VISUAL_TRAP, ReceiptVisuals, visual_for_remote_receipt,
 )
 from .test_receipt_journal import Mailbox, drain, make_client, receipt_env, tick  # noqa: F401
@@ -73,6 +74,14 @@ def test_empty_baseline_first_append_zero_and_bounded_drop_order():
     assert len(q.pending) == VISUAL_LIMIT and not q.live
 
 
+@pytest.mark.parametrize(("code", "art"), sorted(KIRBY_CONSUMABLE_ART_BY_ITEM_CODE.items()))
+def test_known_kirby_item_uses_its_distinct_code_on_live_remote_receipt(code, art):
+    assert visual_for_remote_receipt(NetworkItem(code, 7, 2, 0), 1) == art + 1
+    assert visual_for_remote_receipt(NetworkItem(code, 7, 2, 4), 1) == VISUAL_TRAP
+    assert visual_for_remote_receipt(NetworkItem(code, -2, 0, 0), 1) == 0
+    assert visual_for_remote_receipt(NetworkItem(code, 7, 1, 0), 1) == 0
+
+
 @pytest.mark.asyncio
 async def test_native_mailbox_accept_reject_ambiguous_reset_busy_and_distinct_art():
     q = ReceiptVisuals()
@@ -92,7 +101,7 @@ async def test_native_mailbox_accept_reject_ambiguous_reset_busy_and_distinct_ar
         await pump(0, 0, 1 << VISUAL_TRAP, 0, 10)
         assert write.await_count == 0
         await pump(0, 0, ready, 0, 10)
-        first = (10 << 2) | VISUAL_GEM
+        first = (10 << VISUAL_ART_BITS) | VISUAL_GEM
         assert q.in_flight == first
         transport, values, guards = write.await_args.args
         assert values == [(VISUAL_MAILBOX + 4, bytes(4), "System Bus"),
@@ -101,20 +110,38 @@ async def test_native_mailbox_accept_reject_ambiguous_reset_busy_and_distinct_ar
         await pump(first, 0, ready, 0, 11)
         assert write.await_count == 1
         await pump(0, first | VISUAL_REJECTED, ready, 0, 12)
-        assert write.await_count == 2 and q.in_flight == (12 << 2) | VISUAL_GEM
+        assert write.await_count == 2 and q.in_flight == (12 << VISUAL_ART_BITS) | VISUAL_GEM
         await pump(0, 0, ready, 0, 13)  # Reset: never double-display the ambiguous gem.
         assert list(q.pending) == [VISUAL_TRAP]
-        trap = (13 << 2) | VISUAL_TRAP
+        trap = (13 << VISUAL_ART_BITS) | VISUAL_TRAP
         assert q.in_flight == trap
         await pump(0, trap, ready, 1, 14)
         assert not q.pending and write.await_count == 3
 
 
 @pytest.mark.asyncio
-async def test_marker_is_optional_and_same_socket_history_replacement_fences_async_pump():
+async def test_high_consumable_opcode_and_frame_wrap_keep_the_reject_bit_free():
+    q = ReceiptVisuals()
+    opcode = RewardArt.BATTERY + 1
+    q.pending.append(opcode)
+    q.supported = True
+    read = AsyncMock(return_value=[pack("<IIII", 0, 0, 1 << opcode, 0),
+                                  pack("<I", 0xFFFFFFFF)])
+    write = AsyncMock(return_value=True)
+    with patch("worlds.kirbyam.receipt_visuals.bizhawk.read", read), \
+         patch("worlds.kirbyam.receipt_visuals.bizhawk.guarded_write", write):
+        await q.pump(None, auth_offset=5, auth=b"id", frame_addr=8, session_current=lambda: True)
+    assert q.in_flight == (VISUAL_FRAME_MASK << VISUAL_ART_BITS) | opcode
+    assert q.in_flight & VISUAL_REJECTED == 0
+    assert unpack("<I", write.await_args.args[1][-1][1])[0] == q.in_flight
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("marker", [bytes(8), b"APVIS01\0"])
+async def test_marker_is_optional_and_same_socket_history_replacement_fences_async_pump(marker):
     q = ReceiptVisuals()
     q.pending.append(VISUAL_GEM)
-    with patch("worlds.kirbyam.receipt_visuals.bizhawk.read", AsyncMock(return_value=[bytes(8)])), \
+    with patch("worlds.kirbyam.receipt_visuals.bizhawk.read", AsyncMock(return_value=[marker])), \
          patch("worlds.kirbyam.receipt_visuals.bizhawk.guarded_write", AsyncMock()) as write:
         await q.pump(None, auth_offset=5, auth=b"id", frame_addr=8, session_current=lambda: True)
         assert q.supported is False and not q.pending

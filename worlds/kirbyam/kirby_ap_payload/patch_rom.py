@@ -152,6 +152,13 @@ BOSS_SHARD_NATIVE_SCRIPT = struct.pack(
 )
 CHEST_REWARD_ART_NATIVE_SCRIPT = 0x4219A8
 CHEST_REWARD_ART_NATIVE_SCRIPT_DATA = struct.pack("<9i", -2, 159, 16, -1, 45113, 4, 1, 0, -4)
+# Six immediately following 16×16 variants share stock bank F, four tiles
+# each. Alongside variant zero, these are the seven native consumable frames.
+CHEST_REWARD_ART_CONSUMABLE_SCRIPTS = tuple(
+    (CHEST_REWARD_ART_NATIVE_SCRIPT + variant * 36,
+     struct.pack("<9i", -2, 159, 16, -1, 45113 + 4 * variant, 4, 1, variant, -4))
+    for variant in range(1, 7)
+)
 CHEST_REWARD_ART_NATIVE_PALETTE = 0x4BB0EC + 42 * 32
 CHEST_REWARD_ART_NATIVE_PALETTE_DATA = (
     0x5EA0, 0x7E80, 0x00D2, 0x01B8, 0x02FE, 0x08BF, 0x025F, 0x0000,
@@ -2169,6 +2176,7 @@ def build_chest_reward_art_hook(rom: bytes | bytearray, target: int) -> dict[int
         (CHEST_REWARD_ART_CALLSITE, thumb_bl_bytes(0x08000000 + CHEST_REWARD_ART_CALLSITE,
                                                   CHEST_REWARD_ART_NATIVE_FUNCTION), "constructor"),
         (CHEST_REWARD_ART_NATIVE_SCRIPT, CHEST_REWARD_ART_NATIVE_SCRIPT_DATA, "tile script"),
+        *((offset, script, "consumable tile script") for offset, script in CHEST_REWARD_ART_CONSUMABLE_SCRIPTS),
         (CHEST_REWARD_ART_NATIVE_PALETTE, struct.pack("<16H", *CHEST_REWARD_ART_NATIVE_PALETTE_DATA), "palette"),
     ):
         if rom[offset:offset + len(expected)] != expected:

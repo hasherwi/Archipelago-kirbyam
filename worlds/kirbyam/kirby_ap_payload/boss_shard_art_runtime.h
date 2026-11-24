@@ -11,7 +11,7 @@
  * primes all four gem tiles; later three-tile frames retain the fourth tile. */
 static inline uint8_t ap_boss_shard_redirect_upload(
     volatile struct ApChestTileUpload *ring, uint8_t before, uint8_t after,
-    uint32_t dest, uint32_t art
+    uint32_t dest, uint32_t art, uint8_t retail_tiles
 ) {
     if (before >= 64u || after != ((before + 1u) & 63u)
         || dest < 0x06014000u || dest > 0x06018000u - AP_SHARD_ART_PADDED_SIZE) return 0u;
@@ -28,6 +28,10 @@ static inline uint8_t ap_boss_shard_redirect_upload(
         default: return 0u;
     }
     upload->source = art;
+    /* Each retail consumable has exactly four tiles. The larger native
+     * shard batch must not read the next object's graphics. The two
+     * three-tile refreshes still retain the fourth tile. */
+    if (retail_tiles && upload->size > AP_CHEST_ART_SIZE) upload->size = AP_CHEST_ART_SIZE;
     return 1u;
 }
 #endif

@@ -1,15 +1,14 @@
 # Shared location reward art
 
-Every treasure chest uses the supplied six-gem reward art on opening. The
-closed chest, rising popup motion, sounds, duration, original reward logic, and
-check IDs are unchanged. A physical lever pull shows the same art because it
-uses the same native popup path. Receiving Lever Wall, restoring a lever, or
-re-entering its room does not show the art. The same gem also appears on the
-first physical press of an Archipelago Big Switch and the first completion
-of each Goal Game check (even with no native prize), on first area visits,
-and replaces the collectible Mirror Shard art dropped by an area boss. A
-defeat with the shard already owned still shows its native Maxim Tomato.
-Fresh RoomSanity checks and always-on core landmarks also use the gem.
+The supplied six-gem art is the fallback reward sprite for treasure chests,
+physical lever pulls, Archipelago Big Switches, Goal Games (even with no
+native prize), first area visits, area-boss Mirror Shard drops, RoomSanity,
+and core landmarks. The location can instead show a trap or a supported
+local item, as described below. Gameplay, checks, audio and native saving are
+unaffected. Restoring a saved lever or receiving Lever Wall shows no new art.
+A boss defeat with the shard already owned still shows its native Maxim Tomato.
+
+The following captures document the earlier, generic-only location pass.
 
 | Original | Same frame with this patch |
 | --- | --- |
@@ -142,9 +141,9 @@ player leaves the room, or the effect expires.
 Goal Games reuse the parentless art without touching native prize collection.
 The shipping landing handler records the physical check only after the native
 completion step, and now reports whether the authenticated save record changed.
-Only that fresh-check result shows the gem. Its position stays inside the
+Only that fresh-check result shows a reward sprite. Its position stays inside the
 current cabinet view even when Kirby has moved above the camera for the native
-return sequence. A completed cabinet remains playable without another AP gem.
+return sequence. A completed cabinet remains playable without another reward sprite.
 
 The native visit writer stays authoritative. The hook reads the same
 catalog-derived area identity and native high visit bit used by the client,
@@ -157,11 +156,11 @@ visuals. Areas already established by any mapped room do not replay.
 Only the native eight dynamic area-boss shard drops are eligible. Separate
 constructor, normal-update, paused-update, and draw callsites preserve the
 native object's original animation state, collision box, pickup and cutscene.
-The native sprite's tile queue keeps the same destinations, order and byte
-lengths; only its matching tile sources and rendered image are substituted.
-The Dimension Mirror, separate cutscene art, and menus/credits are not changed.
-No cosmetic state is created or used. A record from the earlier draft remains
-readable and its obsolete cosmetic bits are preserved by check recovery.
+The native sprite's tile queue keeps the same destinations and order; only
+matching tile uploads and rendered art are substituted. Retail consumables
+use only their four native tiles. The Dimension Mirror, separate cutscene
+art, and menus/credits are unchanged. The authenticated visual-only record
+can remember the first special art across the next normal native save.
 
 RoomSanity uses the same native visits and waits for the same visible-room
 gate. A dedicated versioned seed config selects all 263 catalogued RoomSanity
@@ -188,14 +187,16 @@ the native no-art variant. This test does not imply ordinary gameplay exhausts
 either heap. With normal resources, the 712-frame Big Switch replay and
 screenshot were unchanged.
 
-## Trap placement art
+## Trap and consumable placement art
 
 The seed writes a versioned sparse lookup of **this slot's physical check**
-identities for placed items with Archipelago's trap flag. A check which sends
-a trap to any other player shows the same red trap art as a check that finds
-one for yourself. Ordinary, unclassified and unsupported placements keep the
-six-gem sprite. No recipient, item name, or receipt data are embedded in the
-lookup. An empty or unrecognized table renders generic art.
+identities and selected sprite variants. A check which sends a trap to any
+other player shows the same red trap art as a check that finds one for
+yourself. A known Kirby consumable uses its native picture only if that check
+gives the item to this Kirby slot; a non-trap consumable sent to another
+player keeps the six-gem sprite. Other unsupported placements keep the gem.
+No recipient, item name, or receipt data are embedded in the lookup. An empty
+or unrecognized table renders generic art.
 
 The sixteen-pixel source is preserved in `trap_reward_art.png`. The
 four-tile OBJ version in `trap_reward_art_gba.png` intentionally stretches
@@ -203,15 +204,22 @@ the near-black red values onto the same stock palette used by the gem, so
 both may render together without changing any other sprite colors.
 
 A simultaneous first-area and RoomSanity or core-landmark check shares an
-effect only when the art matches. If the categories differ, the gem and trap
-appear side by side, with the trap given priority if graphics memory fits
-only one. A qualifying area-boss shard replaces the native shard's art.
-A repeat drop keeps the generic gem rather than presenting a second trap;
-the already-owned-shard Tomato has no shard art to replace and is unchanged.
-The cosmetic boss bit uses the seed-bound native save's existing reserved
-bits and never triggers a save or counts as a defeat. A reset to before the
-next normal save can replay an unsaved visual; the server's check and item
-deduplication is unmodified.
+effect only when the art matches. Distinct icons appear side by side, with
+the trap first, then consumables, then the gem if graphics memory fits only
+one. An area-boss reward uses the same selection to replace the native
+Mirror Shard art. Repeat drops stay generic, and the already-owned-shard
+Tomato is unchanged. The cosmetic boss bit uses the seed-bound native save's
+existing reserved bits and never triggers a save or counts as a defeat.
+Resetting before the next normal save can replay the unsaved visual; the
+server's check and item deduplication is unmodified.
+
+The native 1-Up, cherry food, Energy Drink, meat, Maxim Tomato, invincibility
+candy, and phone battery use stock animation `0x2D1` variants 0, 4, 2, 5,
+3, 1, and 6, respectively. The build validates their shared palette and
+16×16 tile scripts. The payload references the tiles already in the clean
+ROM instead of copying them into the patch or installing another palette.
+The native Mirror Shard's larger initial upload is capped to four tiles
+only when displaying one of these retail icons.
 
 ## Incoming item presentation
 
@@ -223,8 +231,9 @@ bounded, independent of sound and not consulted by item delivery. No visual
 is replayed for reconnect inventory, queued catch-up, starting inventory,
 duplicate acknowledgments, or checks found in Kirby's own world.
 
-A trap uses the red trap icon; other currently supported arrivals use the
-generic gem. The ROM takes one fresh presentation request at a time only
+A trap uses the red trap icon; each known Kirby consumable uses its native
+icon, and other arrivals use the generic gem. The ROM takes one fresh
+presentation request at a time only
 during an authenticated, visible gameplay scene. It does not spawn a pickup
 or alter the item, timing, native events or persistence. A visual may be
 dropped when the queue or native memory is full. As with the other optional

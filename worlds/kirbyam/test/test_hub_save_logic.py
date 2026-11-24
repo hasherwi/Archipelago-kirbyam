@@ -59,7 +59,7 @@ int main(void) {
         CHECK(ap_lever_saved_checks(world+27,auth)==levers);
         for(unsigned i=0;i<27;i++) CHECK(world[i]==0xABC00000u+i);
     }
-    /* A boss trap presentation writes only a cosmetic bit. A native reload
+    /* A boss item presentation writes only a cosmetic bit. A native reload
      * of that file remembers it; a different file or other seed does not. */
     memset(disk, 0, sizeof(disk));
     for (unsigned slot=0; slot<3; ++slot) {
@@ -67,9 +67,9 @@ int main(void) {
         uint32_t high=1u<<(AP_BOSS_ART_SAVE_SHIFT+slot);
         memcpy(record, auth, 16);
         record[4] = AP_PHYSICAL_SAVE_TAG | 0x0265u;
-        CHECK(ap_boss_trap_record_display(record,auth,slot));
-        CHECK(!ap_boss_trap_record_display(record,auth,slot));
-        CHECK(!ap_boss_trap_record_display(record,auth,8u));
+        CHECK(ap_boss_item_record_display(record,auth,slot));
+        CHECK(!ap_boss_item_record_display(record,auth,slot));
+        CHECK(!ap_boss_item_record_display(record,auth,8u));
         CHECK(record[4] == (AP_PHYSICAL_SAVE_V3_TAG | 0x0265u | high));
         CHECK(ap_physical_saved_checks(record,auth)==0x265u);
         CHECK(ap_hub_record_check(record,auth,14));

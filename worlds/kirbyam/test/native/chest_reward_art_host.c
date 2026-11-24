@@ -78,17 +78,19 @@ int main(void) {
     ap_chest_reward_art(native_chest, -8, 46, parent_reward);
     assert(visual_reward == 0 && parent_reward == 0x63 && ring[9].source == ART);
     const uint32_t trap_keys[] = {
-        AP_REWARD_KEY(AP_REWARD_MAP_CHEST, 0u), AP_REWARD_KEY(AP_REWARD_VITALITY_CHEST, 0u),
+        AP_REWARD_KEY(AP_REWARD_LEVER, 0u), AP_REWARD_KEY(AP_REWARD_MAP_CHEST, 0u), AP_REWARD_KEY(AP_REWARD_VITALITY_CHEST, 0u),
         AP_REWARD_KEY(AP_REWARD_VITALITY_CHEST, 1u), AP_REWARD_KEY(AP_REWARD_VITALITY_CHEST, 2u),
         AP_REWARD_KEY(AP_REWARD_VITALITY_CHEST, 3u), AP_REWARD_KEY(AP_REWARD_SOUND_CHEST, 0u),
-        AP_REWARD_KEY(AP_REWARD_MINOR_CHEST, 0x008B6EB4u), AP_REWARD_KEY(AP_REWARD_LEVER, 0u),
+        AP_REWARD_KEY(AP_REWARD_MINOR_CHEST, 0x008B6EB4u),
     };
     const struct {uint16_t reward, room; uint32_t source; uint8_t id;} trapped[] = {
         {0xAu, 30u, 0u, 1u}, {6u, 739u, 0u, 1u}, {6u, 815u, 0u, 1u},
         {6u, 610u, 0u, 1u}, {6u, 403u, 0u, 1u}, {0x28u, 406u, 0u, 1u},
         {0x29u, 30u, 0x088B6EB4u, 1u}, {0x63u, 743u, 0x088BE07Cu, 18u},
     };
-    memcpy(config.keys, trap_keys, sizeof(trap_keys));
+    for (unsigned i = 0; i < sizeof(trap_keys) / sizeof(trap_keys[0]); ++i) {
+        config.keys[i] = trap_keys[i] | (AP_REWARD_TRAP << AP_REWARD_ART_SHIFT);
+    }
     config.count = sizeof(trap_keys) / sizeof(trap_keys[0]);
     for (unsigned i = 0; i < config.count; ++i) {
         *(uint32_t*)(native_chest + 0xB0u) = trapped[i].source;

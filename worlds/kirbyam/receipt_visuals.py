@@ -1,16 +1,19 @@
-"""Best-effort gem display for first ACKs of live remote deliveries."""
+"""Best-effort item art for first ACKs of live remote deliveries."""
 from collections import deque
 from struct import pack, unpack
 
 import worlds._bizhawk as bizhawk
 
+from .reward_art_types import KIRBY_CONSUMABLE_ART_BY_ITEM_CODE, RewardArt
+
 VISUAL_ROM_OFFSET = 0x1000028
-VISUAL_ROM_MARKER = b"APVIS01\0"
+VISUAL_ROM_MARKER = b"APVIS02\0"
 VISUAL_MAILBOX = 0x0203B1E0
-VISUAL_GEM = 1
-VISUAL_TRAP = 2
+VISUAL_GEM = RewardArt.GEM + 1
+VISUAL_TRAP = RewardArt.TRAP + 1
+VISUAL_ART_BITS = 4
 VISUAL_REJECTED = 1 << 31
-VISUAL_FRAME_MASK = (1 << 29) - 1
+VISUAL_FRAME_MASK = (1 << 27) - 1
 VISUAL_LIMIT = 8
 BUS = "System Bus"
 
@@ -22,7 +25,12 @@ def visual_for_remote_receipt(item: object, local_slot: int) -> int:
     if (type(location) is not int or location < 0 or type(finder) is not int
             or finder <= 0 or finder == local_slot or type(flags) is not int):
         return 0
-    return VISUAL_TRAP if flags & 4 else VISUAL_GEM
+    if flags & 4:
+        return VISUAL_TRAP
+    code = getattr(item, "item", None)
+    if type(code) is not int:
+        return 0
+    return KIRBY_CONSUMABLE_ART_BY_ITEM_CODE.get(code, RewardArt.GEM) + 1
 
 
 class ReceiptVisuals:
@@ -118,7 +126,7 @@ class ReceiptVisuals:
         if request or active or not self.pending or not ready & (1 << self.pending[0]):
             return
         frame, = unpack("<I", native_frame)
-        token = ((frame & VISUAL_FRAME_MASK) << 2) | self.pending[0]
+        token = ((frame & VISUAL_FRAME_MASK) << VISUAL_ART_BITS) | self.pending[0]
         self.in_flight = token
         written = await bizhawk.guarded_write(transport, [
             (VISUAL_MAILBOX + 4, bytes(4), BUS),

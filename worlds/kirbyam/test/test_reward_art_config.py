@@ -12,6 +12,7 @@ import pytest
 from worlds.Files import APTokenTypes
 
 from ..data import LocationCategory, data
+from ..items import KirbyAmItem
 from ..locations import KirbyAmLocation
 from ..options import AbilityRandomizationMode
 from ..reward_art_config import (
@@ -19,9 +20,12 @@ from ..reward_art_config import (
     REWARD_ART_CONFIG_MAX_KEYS,
     REWARD_ART_CONFIG_ROM_OFFSET,
     REWARD_ART_CONFIG_SIZE,
+    REWARD_ART_KEY_MASK,
+    REWARD_ART_VARIANT_SHIFT,
     build_reward_art_config,
     reward_art_location_key,
 )
+from ..reward_art_types import KIRBY_CONSUMABLE_ART_BY_ITEM_CODE, RewardArt
 from ..rom import KirbyAmProcedurePatch, write_tokens
 from .test_rom_tokens import _make_world
 
@@ -38,14 +42,18 @@ def _location(key: str, item: Item | None = None) -> KirbyAmLocation:
     return loc
 
 
-def _keys(payload: bytes) -> tuple[int, ...]:
+def _variants(payload: bytes) -> dict[int, RewardArt]:
     assert len(payload) == REWARD_ART_CONFIG_SIZE
     magic, count = struct.unpack_from("<4sI", payload)
     assert magic == REWARD_ART_CONFIG_MAGIC
     assert count <= REWARD_ART_CONFIG_MAX_KEYS
     end = 8 + count * 4
     assert not any(payload[end:])
-    return struct.unpack_from(f"<{count}I", payload, 8)
+    words = struct.unpack_from(f"<{count}I", payload, 8)
+    assert list(word & REWARD_ART_KEY_MASK for word in words) == sorted(
+        {word & REWARD_ART_KEY_MASK for word in words}
+    )
+    return {word & REWARD_ART_KEY_MASK: RewardArt(word >> REWARD_ART_VARIANT_SHIFT) for word in words}
 
 
 def test_location_families_have_disjoint_native_identities() -> None:
@@ -58,8 +66,8 @@ def test_location_families_have_disjoint_native_identities() -> None:
         LocationCategory.HUB_SWITCH: 13,
         LocationCategory.MINOR_CHEST: 14,
         LocationCategory.AREA_VISIT: 15,
-        LocationCategory.LEVER: 16,
-        LocationCategory.GOAL_GAME: 17,
+        LocationCategory.LEVER: 3,
+        LocationCategory.GOAL_GAME: 4,
     }
     keys: dict[int, str] = {}
     by_category: set[LocationCategory] = set()
@@ -71,7 +79,7 @@ def test_location_families_have_disjoint_native_identities() -> None:
             continue
         index = location.source_rom_offset if category == LocationCategory.MINOR_CHEST else location.bit_index
         assert index is not None and key == (expected_categories[category] << 24) | index
-        assert key not in keys, (location.name, keys.get(key))
+        assert key and key not in keys, (location.name, keys.get(key))
         keys[key] = location.name
         by_category.add(category)
     assert by_category == expected_categories.keys()
@@ -95,7 +103,7 @@ def test_config_includes_outgoing_cross_game_traps_and_ignores_non_traps() -> No
     placements = [outgoing_trap, ordinary, logical_goal, local_trap, event, unresolved, mixed_trap, unknown, foreign_check]
     config = build_reward_art_config(placements)
     assert config == build_reward_art_config(reversed(placements))
-    assert _keys(config) == (0x09000000, 0x09000001, 0x0D000001)
+    assert _variants(config) == dict.fromkeys((0x09000000, 0x09000001, 0x0D000001), RewardArt.TRAP)
 
 
 def test_trap_cosmetics_are_written_as_production_seed_tokens() -> None:
@@ -117,13 +125,13 @@ def test_trap_cosmetics_are_written_as_production_seed_tokens() -> None:
         pos += length
     assert pos == len(blob)
     payload, = writes
-    assert _keys(payload) == (0x02000000, 0x0D000001)
+    assert _variants(payload) == dict.fromkeys((0x02000000, 0x0D000001), RewardArt.TRAP)
 
 
 def test_empty_config_clears_entire_reserved_window() -> None:
     stride = REWARD_ART_CONFIG_SIZE
     assert len(build_reward_art_config(())) == stride
-    assert build_reward_art_config(()) == b"ARV1" + bytes(stride - 4)
+    assert build_reward_art_config(()) == b"ARV2" + bytes(stride - 4)
 
 
 def test_python_tokens_match_native_lookup_abi(tmp_path: Path) -> None:
@@ -134,6 +142,8 @@ def test_python_tokens_match_native_lookup_abi(tmp_path: Path) -> None:
     token = build_reward_art_config((
         _location("MAJOR_CHEST_WORLD_MAP", item),
         _location("HUB_SWITCH_MOONLIGHT", ForeignItem("Outgoing", ItemClassification.trap, 222, 2)),
+        _location("LEVER_MOONLIGHT_MANSION_2_11", KirbyAmItem("Max Tomato", ItemClassification.filler, 3860028, 1)),
+        _location("GOAL_GAME_1_GOAL_2", KirbyAmItem("1 Up", ItemClassification.filler, 3860001, 1)),
     ))
     (tmp_path / "abi.bin").write_bytes(token)
     source = tmp_path / "native.c"
@@ -147,15 +157,20 @@ int main(void) {
     FILE *f = fopen("abi.bin", "rb");
     assert(f && fread(&config, 1, sizeof(config), f) == sizeof(config));
     fclose(f);
-    assert(config.marker == AP_REWARD_ART_MAGIC && config.count == 2u);
+    assert(config.marker == AP_REWARD_ART_MAGIC && config.count == 4u);
     assert(ap_reward_art_from_config(&config, AP_REWARD_KEY(AP_REWARD_MAP_CHEST, 0)) == AP_REWARD_TRAP);
     assert(ap_reward_art_from_config(&config, AP_REWARD_KEY(AP_REWARD_SWITCH, 1)) == AP_REWARD_TRAP);
     assert(ap_reward_art_from_config(&config, AP_REWARD_KEY(AP_REWARD_MAP_CHEST, 1)) == AP_REWARD_GEM);
-    assert(ap_reward_art_from_config(&config, AP_REWARD_KEY(AP_REWARD_GOAL, 1)) == AP_REWARD_GEM);
+    assert(ap_reward_art_from_config(&config, AP_REWARD_KEY(AP_REWARD_GOAL, 1)) == 2u);
+    assert(ap_reward_art_from_config(&config, AP_REWARD_KEY(AP_REWARD_LEVER, 0)) == 6u);
+    assert(ap_reward_art_from_config(&config, 0u) == AP_REWARD_GEM);
     config.count = AP_REWARD_ART_CAPACITY + 1u;
     assert(ap_reward_art_from_config(&config, AP_REWARD_KEY(AP_REWARD_MAP_CHEST, 0)) == AP_REWARD_GEM);
-    config.count = 2u;
-    config.marker = 0u;
+    config.count = 4u;
+    config.marker = 0x31565241u; /* Historical ARV1 data must not be interpreted as ARV2. */
+    assert(ap_reward_art_from_config(&config, AP_REWARD_KEY(AP_REWARD_MAP_CHEST, 0)) == AP_REWARD_GEM);
+    config.marker = AP_REWARD_ART_MAGIC;
+    config.keys[2] = AP_REWARD_KEY(AP_REWARD_MAP_CHEST, 0) | 0xF0000000u;
     assert(ap_reward_art_from_config(&config, AP_REWARD_KEY(AP_REWARD_MAP_CHEST, 0)) == AP_REWARD_GEM);
     return 0;
 }
@@ -243,4 +258,41 @@ def test_same_generated_seed_uses_each_slots_physical_placements(tmp_path: Path)
                 if kind == APTokenTypes.WRITE:
                     tokens[offset] = token_data[pos:pos + length]
                 pos += length
-            assert (key in _keys(tokens[REWARD_ART_CONFIG_ROM_OFFSET])) == should_show_trap
+            art = _variants(tokens[REWARD_ART_CONFIG_ROM_OFFSET]).get(key, RewardArt.GEM)
+            assert art == (RewardArt.TRAP if should_show_trap else RewardArt.GEM)
+
+
+@pytest.mark.parametrize("code,art", KIRBY_CONSUMABLE_ART_BY_ITEM_CODE.items())
+def test_consumable_art_requires_exact_known_local_kirby_item(code: int, art: RewardArt) -> None:
+    name = data.items[code].label
+    local = _location("BOSS_DEFEAT_1", KirbyAmItem(name, ItemClassification.filler, code, 1))
+    outbound = _location("BOSS_DEFEAT_2", KirbyAmItem(name, ItemClassification.filler, code, 2))
+    foreign = _location("BOSS_DEFEAT_3", ForeignItem(name, ItemClassification.filler, code, 1))
+    mixed_trap = _location("BOSS_DEFEAT_4", KirbyAmItem(
+        name, ItemClassification.trap | ItemClassification.useful, code, 1,
+    ))
+    assert _variants(build_reward_art_config((local, outbound, foreign, mixed_trap))) == {
+        0x02000000: art,
+        0x02000003: RewardArt.TRAP,
+    }
+
+
+def test_unknown_local_kirby_item_and_non_consumable_keep_native_fallback() -> None:
+    class UnknownKirbyItem(Item):
+        game = "Kirby & The Amazing Mirror"
+
+    unknown = _location("BOSS_DEFEAT_1", UnknownKirbyItem("Unknown", ItemClassification.filler, 999999, 1))
+    known_map = _location("BOSS_DEFEAT_2", KirbyAmItem("Rainbow Route - Map", ItemClassification.useful, 3860024, 1))
+    assert not _variants(build_reward_art_config((unknown, known_map)))
+
+
+def test_consumable_art_registry_matches_the_seven_native_items() -> None:
+    assert {art: data.items[code].label for code, art in KIRBY_CONSUMABLE_ART_BY_ITEM_CODE.items()} == {
+        RewardArt.ONE_UP: "1 Up",
+        RewardArt.FOOD: "Small Food",
+        RewardArt.DRINK: "Energy Drink",
+        RewardArt.MEAT: "Hunk of Meat",
+        RewardArt.TOMATO: "Max Tomato",
+        RewardArt.CANDY: "Invincibility Candy",
+        RewardArt.BATTERY: "Cell Phone Battery",
+    }

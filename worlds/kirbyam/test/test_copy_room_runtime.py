@@ -56,7 +56,7 @@ static void fake_landed(void *star) {
 uint8_t ap_reward_art_for_key(uint32_t key) {
     return key == AP_REWARD_KEY(AP_REWARD_GOAL, 4u) ? AP_REWARD_TRAP : AP_REWARD_GEM;
 }
-void ap_show_player_reward_gem(uint16_t room, uint8_t arts) {
+void ap_show_player_reward_gem(uint16_t room, uint16_t arts) {
     if (room==U16(KIRBY+0x60u) && (arts==AP_REWARD_MASK_GEM || arts==AP_REWARD_MASK_TRAP)) ++gems;
 }
 #define CHECK(x) do { if(!(x)) {printf("line %d\n",__LINE__);return 1;} }while(0)

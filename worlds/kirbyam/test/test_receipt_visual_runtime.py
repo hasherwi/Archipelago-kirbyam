@@ -59,19 +59,19 @@ int main(void) {
     AP_FRAME_COUNTER = 504u;
     ap_receipt_visual_poll();
     assert(fixture.ready == AP_VISUAL_READY_MASK);
-    uint32_t request = (500u << 2) | AP_VISUAL_TRAP;
+    uint32_t request = (500u << AP_VISUAL_FRAME_SHIFT) | AP_VISUAL_TRAP;
     fixture.request = request;
     ap_receipt_visual_poll();
     assert(!fixture.request && fixture.result == request && !fixture.ready);
     assert(draws == 1 && last_art == AP_REWARD_TRAP && fixture.active == last_token);
-    rejected((504u << 2) | AP_VISUAL_GEM); /* No overlapping incoming effects. */
+    rejected((504u << AP_VISUAL_FRAME_SHIFT) | AP_VISUAL_GEM); /* No overlapping incoming effects. */
     AP_FRAME_COUNTER += AP_VISUAL_DURATION;
     ap_receipt_visual_poll();
     assert(!fixture.active && fixture.ready);
-    rejected((500u << 2) | AP_VISUAL_TRAP); /* Old or rewind-ambiguous. */
-    rejected(((AP_FRAME_COUNTER + 1u) << 2) | AP_VISUAL_TRAP);
-    rejected((AP_FRAME_COUNTER << 2) | 3u);
-    request = (AP_FRAME_COUNTER << 2) | AP_VISUAL_GEM;
+    rejected((500u << AP_VISUAL_FRAME_SHIFT) | AP_VISUAL_TRAP); /* Old or rewind-ambiguous. */
+    rejected(((AP_FRAME_COUNTER + 1u) << AP_VISUAL_FRAME_SHIFT) | AP_VISUAL_TRAP);
+    rejected((AP_FRAME_COUNTER << AP_VISUAL_FRAME_SHIFT) | 10u);
+    request = (AP_FRAME_COUNTER << AP_VISUAL_FRAME_SHIFT) | AP_VISUAL_GEM;
     gameplay = 0u; rejected(request);
     gameplay = 1u; epoch = 0u; rejected(request);
     epoch = 1u; palette = 0u; rejected(request);
@@ -81,8 +81,14 @@ int main(void) {
     ap_receipt_visual_poll();
     assert(draws == 2 && last_art == AP_REWARD_GEM && fixture.active);
     gameplay = 0u; ap_receipt_visual_poll();
-    assert(!fixture.active && !fixture.ready); /* Don't resume a cue with the pause. */
-    assert(ap_visual_can_start((AP_VISUAL_FRAME_MASK << 2) | AP_VISUAL_GEM, 0u, AP_VISUAL_READY_MASK));
+    assert(!fixture.active && !fixture.ready);
+    gameplay = 1u;
+    ++AP_FRAME_COUNTER;
+    request = (AP_FRAME_COUNTER << AP_VISUAL_FRAME_SHIFT) | AP_VISUAL_MAX_CODE;
+    fixture.request = request;
+    ap_receipt_visual_poll();
+    assert(draws == 3 && last_art == AP_REWARD_BATTERY && fixture.result == request); /* Don't resume a cue with the pause. */
+    assert(ap_visual_can_start((AP_VISUAL_FRAME_MASK << AP_VISUAL_FRAME_SHIFT) | AP_VISUAL_GEM, 0u, AP_VISUAL_READY_MASK));
     return 0;
 }
 ''')

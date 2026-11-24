@@ -2,16 +2,19 @@
 from collections.abc import Iterable
 import struct
 
-from BaseClasses import ItemClassification, Location
+from BaseClasses import Location
 
 from .data import LocationCategory, LocationData, data
 from .locations import KirbyAmLocation
+from .reward_art_types import RewardArt, reward_art_for_item
 
 
 # Fixed append-only ROM window reserved by kirby_ap_payload/linker.ld.
 REWARD_ART_CONFIG_ROM_OFFSET = 0x100F000
 REWARD_ART_CONFIG_SIZE = 0x800
-REWARD_ART_CONFIG_MAGIC = b"ARV1"
+REWARD_ART_CONFIG_MAGIC = b"ARV2"
+REWARD_ART_KEY_MASK = 0x0FFFFFFF
+REWARD_ART_VARIANT_SHIFT = 28
 REWARD_ART_CONFIG_MAX_KEYS = (REWARD_ART_CONFIG_SIZE - 8) // 4
 REWARD_ART_CONFIG_EMPTY = REWARD_ART_CONFIG_MAGIC.ljust(REWARD_ART_CONFIG_SIZE, b"\0")
 
@@ -26,6 +29,12 @@ _BIT_INDEXED_CATEGORIES = frozenset({
     LocationCategory.LEVER,
     LocationCategory.GOAL_GAME,
 })
+# Existing category values 16 and 17 do not fit the four-bit namespace.
+# Explicitly remap them to unused namespaces; key zero stays invalid.
+_CATEGORY_NAMESPACE_OVERRIDES = {
+    LocationCategory.LEVER: 3,
+    LocationCategory.GOAL_GAME: 4,
+}
 
 
 def reward_art_location_key(location: LocationData) -> int | None:
@@ -38,35 +47,38 @@ def reward_art_location_key(location: LocationData) -> int | None:
         return None
     if index is None or not 0 <= index < (1 << 24):
         return None
-    return (int(location.category) << 24) | index
+    namespace = _CATEGORY_NAMESPACE_OVERRIDES.get(location.category, int(location.category))
+    return (namespace << 24) | index
 
 
 def build_reward_art_config(locations: Iterable[Location]) -> bytes:
-    """Serialize only trap locations; unlisted physical checks use the generic art.
+    """Serialize exceptions to generic art, sorted by the masked physical key.
 
-    Placement is authoritative even for an outgoing (possibly cross-game) item.
     The config does not disclose recipient IDs, names, or item IDs to the ROM.
     """
-    keys: set[int] = set()
+    variants: dict[int, RewardArt] = {}
     for location in locations:
         if not isinstance(location, KirbyAmLocation) or location.key is None or location.address is None:
             continue
-        item = location.item
-        if item is None or item.code is None or not (item.classification & ItemClassification.trap):
+        art = reward_art_for_item(location.item, location.player)
+        if art == RewardArt.GEM:
             continue
         location_data = data.locations.get(location.key)
         if location_data is None or location.address != location_data.location_id:
             continue
         key = reward_art_location_key(location_data)
         if key is not None:
-            keys.add(key)
-    if len(keys) > REWARD_ART_CONFIG_MAX_KEYS:
-        raise ValueError(f"Too many Kirby reward art locations: {len(keys)}")
-    if not keys:
+            old = variants.get(key)
+            if old is not None and old != art:
+                raise ValueError(f"Conflicting Kirby reward art placements for key 0x{key:07X}")
+            variants[key] = art
+    if len(variants) > REWARD_ART_CONFIG_MAX_KEYS:
+        raise ValueError(f"Too many Kirby reward art locations: {len(variants)}")
+    if not variants:
         return REWARD_ART_CONFIG_EMPTY
-    # Always overwrite the entire reserved window, even for seeds without any
-    # trap placements, so no previous seed's trailing keys can be retained.
+    # Always overwrite the full window, so no trailing entries can carry over.
     return (
-        struct.pack("<4sI", REWARD_ART_CONFIG_MAGIC, len(keys))
-        + b"".join(struct.pack("<I", key) for key in sorted(keys))
+        struct.pack("<4sI", REWARD_ART_CONFIG_MAGIC, len(variants))
+        + b"".join(struct.pack("<I", key | (art << REWARD_ART_VARIANT_SHIFT))
+                   for key, art in sorted(variants.items()))
     ).ljust(REWARD_ART_CONFIG_SIZE, b"\0")
