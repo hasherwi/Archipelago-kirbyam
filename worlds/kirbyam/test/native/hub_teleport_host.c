@@ -67,6 +67,12 @@ int main(void) {
         MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED, -1, 0) == (void*)0x02000000);
     CHECK(mmap((void*)0x03000000, 0x8000, PROT_READ|PROT_WRITE,
         MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED, -1, 0) == (void*)0x03000000);
+    /* The post-task audio scheduler reads the retail SFX player's info and
+     * track pointers. Provide idle host fixtures; no native sound is called. */
+    CHECK(mmap((void*)0x08B59000u, 0x1000, PROT_READ|PROT_WRITE,
+        MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED, -1, 0) == (void*)0x08B59000u);
+    U32(0x08B59EAC) = 0x030016E0; U32(0x08B59EB0) = 0x02020580;
+    U32(0x08B59EB8) = 0x03001720; U32(0x08B59EBC) = 0x020208A0;
     ready();
     ap_poll_mailbox_c(); /* Input poll cannot execute or acknowledge this trap. */
     CHECK(AP_IN_FLAG == 1 && AP_ITEM_RCVD_COUNTER == 100 && !requests);
@@ -157,6 +163,11 @@ int main(void) {
         ap_after_tasks(); ap_after_tasks(); ap_after_tasks();
         CHECK(requests == 1 && AP_IN_FLAG == 0 && AP_ITEM_RCVD_COUNTER == 101);
         ap_after_tasks(); CHECK(requests == 1 && AP_ITEM_RCVD_COUNTER == 101);
+        CHECK(AP_CUE_READY == 0xE && AP_CUE_REQUEST == 0 && AP_CUE_RESULT == 0);
+        U32(0x030016E4) = 1; /* Native player 1 is busy: do not offer progression. */
+        ap_after_tasks(); CHECK(AP_CUE_READY == 0xC);
+        U32(0x03002440) = 0x800; /* Pause must close all cue lanes. */
+        ap_after_tasks(); CHECK(AP_CUE_READY == 0);
     }
     return 0;
 }
