@@ -68,3 +68,30 @@ async def test_missing_marker_and_rejected_guard_never_reserve_or_offer(receipt_
     await tick(client, ctx, box, AsyncMock())
     assert box.guarded_write.await_count == 1
     assert not box.offers and not client._receipt_journal.pending()
+
+
+def test_native_source_admits_central_even_without_redundant_retreat_flag(tmp_path):
+    """Exercise the same C predicate used by the production payload."""
+    from pathlib import Path
+    import shutil
+    import subprocess
+
+    cc = shutil.which("cc")
+    if cc is None:
+        pytest.skip("requires a C compiler")
+    payload = Path(__file__).resolve().parents[1] / "kirby_ap_payload"
+    source = tmp_path / "source.c"
+    source.write_text("""
+#include "random_teleport_runtime_logic.h"
+int main(void) {
+    return !ap_random_teleport_source_supported(801, 0, 0x19)
+        || !ap_random_teleport_source_supported(190, 0, 0x79)
+        || ap_random_teleport_source_supported(970, 0, 0x19)
+        || ap_random_teleport_source_supported(801, 255, 0x19)
+        || ap_random_teleport_source_supported(909, 10, 0x79);
+}
+""")
+    executable = tmp_path / "source"
+    subprocess.run([cc, "-std=c99", "-Wall", "-Werror", "-I", str(payload), str(source),
+                    "-o", str(executable)], check=True)
+    subprocess.run([str(executable)], check=True)

@@ -17,6 +17,7 @@ AP_COPY_EXT void ap_goal_poll(void);
 #include "color_runtime_logic.h"
 #include "goal_game_runtime_logic.h"
 #include "receipt_sound_runtime.h"
+#include "random_teleport_runtime_logic.h"
 
 __attribute__((used, section(".apcueinfo")))
 const uint8_t gApReceiptCueInfo[8] = {'A','P','C','U','E','0','1',0};
@@ -2097,7 +2098,7 @@ static const struct ApTeleportLanding AP_TELEPORT_LANDINGS[] = {
     {190u, 9u, 3u, 1u},  /* East */
     {194u, 9u, 3u, 3u},  /* South */
     {192u, 13u, 3u, 5u}, /* West */
-    {801u, 24u, 12u, 0u}, /* Central Circle, stock return from East */
+    {AP_RANDOM_TELEPORT_CENTRAL_ROOM, 24u, 12u, 0u}, /* Central Circle, stock return from East */
 };
 
 static HUB_EXT uint8_t ap_trap_random_teleport(void) {
@@ -2105,16 +2106,18 @@ static HUB_EXT uint8_t ap_trap_random_teleport(void) {
     uint32_t request = AP_RANDOM_TELEPORT_NONCE;
     uint32_t nonce = request & 0x1FFFFFFFu;
     uint16_t source;
-    uint8_t ability, count = 0u, eligible[3];
+    uint8_t ability, area, count = 0u, eligible[3];
     const struct ApTeleportLanding *target;
     if (owned == AP_HUB_CONNECTION_ITEM_MASK_UNINITIALIZED || !nonce
             || !ap_receipt_cue_gameplay_ready()) return 0u;
     source = KIRBY_CURRENT_ROOM;
     ability = *(volatile uint8_t *)(kirby + KIRBY_STRUCT_ABILITY_OFFSET);
-    /* The stock L retreat availability flag rules out special/boss rooms.
+    /* Match ordinary native retreat availability outside Central Circle.
      * Do not interrupt ability-specific bodies/scripts or strand their egress. */
-    if (ap_native_area_for_room(source) >= 9u
-            || !(*(volatile const uint16_t *)(0x089331ACu + 40u * source + 0x12u) & 0x40u)
+    area = ap_native_area_for_room(source);
+    if (area >= 9u
+            || !ap_random_teleport_source_supported(source, area,
+                  *(volatile const uint16_t *)(0x089331ACu + 40u * source + 0x12u))
             || ability == KIRBY_ABILITY_SLEEP || ability == KIRBY_ABILITY_MINI
             || ability == KIRBY_ABILITY_MASTER || ability == KIRBY_ABILITY_UFO) return 1u;
     if (*(volatile uint32_t *)(kirby + 0x78u) != KIRBY_NATIVE_GROUNDED_IDLE
@@ -2138,7 +2141,7 @@ static HUB_EXT uint8_t ap_trap_random_teleport(void) {
         /* A stable per-receipt pseudorandom ordinal among eligible rooms. */
         target = &AP_TELEPORT_LANDINGS[eligible[(nonce - 1u) % count]];
     } else {
-        if (source == 801u) return 1u; /* No distinct logically safe destination. */
+        if (source == AP_RANDOM_TELEPORT_CENTRAL_ROOM) return 1u; /* No distinct safe destination. */
         target = &AP_TELEPORT_LANDINGS[3];
     }
     return ap_on_explicit_room_transition((void *)kirby, target->room, target->x, target->y);
