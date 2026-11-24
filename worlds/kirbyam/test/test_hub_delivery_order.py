@@ -344,3 +344,70 @@ async def test_file_restore_only_grants_confirmed_prior_permanent_receipts(
             write.assert_not_awaited()
     finally:
         journal.close()
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("native_active,mailbox_flag,allow_new_writes,writes_restore", [
+    (True, 0, True, True),
+    (True, 1, True, False),
+    (True, 0, False, False),
+    (False, 0, True, False),
+])
+async def test_file_restore_keeps_unresolved_transient_queue_suspended(
+    mock_bizhawk_context, tmp_path, native_active, mailbox_flag, allow_new_writes, writes_restore,
+):
+    from ..client import bizhawk
+
+    ctx = mock_bizhawk_context
+    ctx.slot_data = {"copy_ability_room_protocol_version": 2, "area_keys": 1}
+    ctx.items_received = [
+        NetworkItem(3860401, 11, 1, 0), NetworkItem(3860041, 12, 1, 0),
+        NetworkItem(3860031, 13, 1, 0), NetworkItem(3860402, 14, 1, 0),
+    ]
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._health_rom_auth = bytes(range(16))
+    client._delivered_item_index = 2
+    client.on_package(ctx, "ReceivedItems", {"index": 0})
+    journal = ReceiptJournal(str(tmp_path / "receipts.sqlite3"), "test")
+    client._receipt_journal = journal
+    for index in (0, 1):
+        journal.acknowledge(receipt_key(ctx.items_received, index))
+    transient = receipt_key(ctx.items_received, 2)
+    assert journal.reserve(transient)
+    flag_addr = client._transport_addr("incoming_item_flag")
+    native = (b"".join(x.to_bytes(4, "little") for x in
+                      (2, 2, 1, 0, 1, 0x03000000, 0, 0x43504332, 0))
+              if native_active else bytes(36))
+    read_mailbox = [mailbox_flag.to_bytes(4, "little"), bytes(4), bytes(4), bytes(4)]
+    read_restore = [native, bytes(4), bytes(4), client._health_rom_auth]
+    readback = [native, (0xA9000101).to_bytes(4, "little"), bytes(4), client._health_rom_auth]
+    read_side_effect = [read_mailbox, read_restore]
+    if writes_restore:
+        read_side_effect += [read_mailbox, readback]
+    try:
+        with (
+            patch.object(client, "_start_inventory_cursor_ready", new=AsyncMock(return_value=True)),
+            patch.object(client, "_prepare_receipts", return_value=True),
+            patch.object(bizhawk, "read", new=AsyncMock(side_effect=read_side_effect)),
+            patch.object(bizhawk, "write", new=AsyncMock()) as ordinary_write,
+            patch.object(bizhawk, "guarded_write", new=AsyncMock(return_value=True)) as guarded,
+        ):
+            await client._deliver_items(ctx, allow_new_writes=allow_new_writes)
+            if writes_restore:
+                writes, guards = guarded.await_args.args[1:]
+                assert writes == [(0x0203B1C8, (0x101).to_bytes(4, "little") + native[:4], "System Bus")]
+                assert (flag_addr, bytes(4), "System Bus") in guards
+                assert (COPY_ROOM_CONTEXT_ADDRESS, native[:12], "System Bus") in guards
+                await client._deliver_items(ctx)
+                guarded.assert_awaited_once()
+            else:
+                guarded.assert_not_awaited()
+            ordinary_write.assert_not_awaited()
+            assert client._delivered_item_index == 2
+            assert not client._delivery_pending
+            assert journal.pending() == [transient]
+            assert not journal.acknowledged(transient)
+            assert not journal.acknowledged(receipt_key(ctx.items_received, 3))
+    finally:
+        journal.close()

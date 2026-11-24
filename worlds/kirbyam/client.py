@@ -4941,6 +4941,10 @@ class KirbyAmClient(BizHawkClient):
             self._last_hook_heartbeat = hook_heartbeat
 
         if not self._receipts_ready(flag):
+            # Consuming another ordinary receipt is unsafe, but recovery of
+            # already-ACKed, permanent progression uses a separate transaction.
+            if allow_new_writes and flag == 0:
+                await self._restore_confirmed_file_progress(ctx, flag_addr)
             return
 
         # The payload counts applied requests; the history index also includes

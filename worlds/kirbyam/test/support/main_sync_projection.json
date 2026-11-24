@@ -819,6 +819,22 @@
               "main": []
             }
           ]
+        },
+        {
+          "integrated_sha256": "b71400cb78a7047eee6a6f9704298b75fa2354af620a8aac3e33ce4ad1a0aba5",
+          "reverse_slices": [
+            {
+              "start": 4943,
+              "stop": 4947,
+              "current": [
+                "            # Consuming another ordinary receipt is unsafe, but recovery of\n",
+                "            # already-ACKed, permanent progression uses a separate transaction.\n",
+                "            if allow_new_writes and flag == 0:\n",
+                "                await self._restore_confirmed_file_progress(ctx, flag_addr)\n"
+              ],
+              "main": []
+            }
+          ]
         }
       ]
     },
