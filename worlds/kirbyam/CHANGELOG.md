@@ -10,6 +10,9 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ## Unreleased
 
+### New Features
+- Play distinct in-game cues when new Archipelago items are received (Issue #916).
+
 ### Improvements
 - Show boss defeat progress in `/goal` when using the boss-count goal (PR #1133).
 

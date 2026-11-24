@@ -2124,7 +2124,17 @@ def apply_color_extension(rom: bytearray, elf_path: Path) -> None:
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     validate_candy_room_table(rom)
+    # The payload calls this native Thumb function and uses the retail
+    # song-to-mixer assignments to avoid interrupting existing sounds.
+    if rom[0x15011C:0x150124] != bytes.fromhex("00 b5 00 04 07 4a 08 49"):
+        raise SystemExit("Unexpected native m4aSongNumStart signature")
+    for song, player in ((0x227, 1), (0x20D, 2), (0x251, 2)):
+        if struct.unpack_from("<HH", rom, 0xB59ED0 + song * 8 + 4) != (player, player):
+            raise SystemExit(f"Unexpected native receipt song player for {song:#x}")
     extension = elf_path.with_name("color_payload.bin").read_bytes()
+    if (resolve_elf_symbol_address(elf_path, "gApReceiptCueInfo") != 0x09000020
+            or extension[0x20:0x28] != b"APCUE01\0"):
+        raise SystemExit("Error: missing versioned receipt cue marker")
     board_address = resolve_elf_symbol_address(elf_path, "gApHubBoardSpriteData")
     board_offset = board_address - 0x09000000
     board_writes = build_hub_board_sprite_writes(

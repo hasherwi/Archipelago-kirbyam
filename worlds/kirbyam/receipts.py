@@ -73,10 +73,13 @@ class ReceiptJournal:
                                      (self.scope, receipt))
         return result.rowcount == 1
 
-    def acknowledge(self, receipt: str) -> None:
+    def acknowledge(self, receipt: str) -> bool:
+        """Record a native ACK, returning whether this identity is newly acknowledged."""
         with self.db:
-            self.db.execute("INSERT INTO receipts VALUES (?, ?, 'acked', 0) "
-                            "ON CONFLICT(scope, receipt) DO UPDATE SET state='acked'", (self.scope, receipt))
+            result = self.db.execute("INSERT INTO receipts VALUES (?, ?, 'acked', 0) "
+                                     "ON CONFLICT(scope, receipt) DO UPDATE SET state='acked' "
+                                     "WHERE receipts.state != 'acked'", (self.scope, receipt))
+        return result.rowcount == 1
 
     def claim_notice(self, receipt: str) -> bool:
         with self.db:
