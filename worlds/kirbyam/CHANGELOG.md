@@ -12,17 +12,17 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ### New Features
 - Add 38 Kirby starting color palettes and a [visual gallery of all 65 colors](docs/color-palettes.md) (PR #1135).
-- Play distinct in-game cues when new Archipelago items are received (PR #1136).
+- Play distinct in-game sound cues and display item sprites when new Archipelago items are received (PR #1136, PR #1137).
 
 ### Improvements
-- Use a variant of the Archipelago logo as an item sprite for for all location checks that don't have an in-game asset or award items to other AP worlds. This replaces all native in-game sprites where relevant (PR #1137).
+- Sprite Swapping: In-game item sprites now reflect the actual item awarded to the player. We use a variant of the Archipelago logo as an item sprite for for all location checks that don't have an in-game asset or award items to other AP worlds (PR #1137).
 - Show boss defeat progress in `/goal` when using the boss-count goal (PR #1133).
 
 ### Known Limitations
 - Phone charges can exceed three, but the battery display does not show the extra charges (PR #1086).
 - Ranged-attack coverage remains incomplete. Three targets retain older rules outside reviewed source assignments; broader physical outcomes still need review. See the [detailed coverage ledger](dev-docs/ranged-coverage-ledger.md) (PR #1052).
 - Only the North American ROM is supported; AP notifications are English.
-- Chest reward art is generic rather than item-specific; chest animations and statue art remain native.
+- The copy ability room unlock, area keys, and six ability unlocks use the AP logo sprite as an asset, native or custom, does not yet exist that meets the canvas we are limited to.
 - mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.
 - Testing covers selected gameplay scenarios, not a complete playthrough or every multiplayer setup.
 
