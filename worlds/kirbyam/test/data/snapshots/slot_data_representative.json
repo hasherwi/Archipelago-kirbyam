@@ -6423,6 +6423,7 @@
       "enable_traps": 0,
       "enemy_health_multiplier": 100,
       "exclude_locations": [],
+      "exclude_trap_types": [],
       "goal": 0,
       "maximum_health": 10,
       "minimum_health": 6,

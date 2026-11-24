@@ -21,7 +21,7 @@ def validate_tracker_data(slot_data: dict[str, Any]) -> dict[str, Any]:
             "options; shuffled enemy policies may not track correctly. Generate a new "
             "seed with tracker schema 1 for exact YAML-less tracking."
         )
-    required = set(TRACKER_OPTIONS)
+    required = set(TRACKER_OPTIONS) - {"exclude_trap_types"}  # Older schema-1 seeds used the empty default.
     if not required.issubset(tracker.get("options", {})):
         raise ValueError("Incomplete Kirby tracker options; refusing to reroll the seed.")
     for key in ("enemy_copy_ability_policy", "goal_configured_area_boss_key",
@@ -34,13 +34,15 @@ def validate_tracker_data(slot_data: dict[str, Any]) -> dict[str, Any]:
 
 
 def export_tracker_data(world: "KirbyAmWorld", items: Iterable[Item]) -> dict[str, Any]:
+    # Keep resolved Option values separate from client fields, and encode
+    # sets in a stable JSON form without changing their generation semantics.
+    options = {}
+    for name in TRACKER_OPTIONS:
+        value = getattr(world.options, name).value
+        options[name] = sorted(value) if isinstance(value, (set, frozenset)) else deepcopy(value)
     return {
         "version": 1,
-        # Keep original option values separate from client fields such as the
-        # resolved color ID (which is not a StartingKirbyColor option value).
-        "options": {name: (sorted(getattr(world.options, name).value) if name == "exclude_locations"
-                           else deepcopy(getattr(world.options, name).value))
-                    for name in TRACKER_OPTIONS},
+        "options": options,
         "precollected_items": dict(Counter(item.name for item in items)),
     }
 
@@ -51,8 +53,8 @@ def restore_tracker_data(world: "KirbyAmWorld", slot_data: dict[str, Any]) -> No
         if name in TRACKER_OPTIONS:
             # Values were already rolled by generation. Do not call from_any,
             # which permits random choice strings to consume fresh randomness.
-            value = deepcopy(tracker["options"][name])
-            setattr(world.options, name, option_type(set(value) if name == "exclude_locations" else value))
+            value = deepcopy(tracker["options"].get(name, option_type.default))
+            setattr(world.options, name, option_type(set(value) if name in {"exclude_locations", "exclude_trap_types"} else value))
     world._enemy_copy_ability_policy = deepcopy(slot_data["enemy_copy_ability_policy"])
     world._resolved_configured_area_boss_goal_key = slot_data["goal_configured_area_boss_key"]
     world._resolved_starting_kirby_color_id = slot_data["starting_kirby_color"]

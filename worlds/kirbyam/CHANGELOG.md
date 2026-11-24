@@ -13,6 +13,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ### New Features
 - Add 38 Kirby starting color palettes and a [visual gallery of all 65 colors](docs/color-palettes.md) (PR #1135).
 - Play distinct in-game cues when new Archipelago items are received (PR #1136).
+- Choose which trap types to exclude from randomized item pools (Issue #1040).
 
 ### Improvements
 - Show boss defeat progress in `/goal` when using the boss-count goal (PR #1133).
