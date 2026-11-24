@@ -65,14 +65,14 @@ Kirby & The Amazing Mirror:
 
 ## Proposed colors
 
-These **39 reference palettes** are not in the game and cannot be selected in YAML. The sprite mockups show how the reference swatches look on normal Kirby; they have not been implemented or checked in gameplay. Names and colors may change.
+These **38 reference palettes** are not in the game and cannot be selected in YAML. The sprite mockups show how the reference swatches look on normal Kirby; they have not been implemented or checked in gameplay. Names and colors may change.
 
 ![Kirby mockups and swatches for the first 19 proposals, Advance Ice through Meconopsis / Blue Poppy. The names are listed below.](color-palettes-proposals-1.png)
 
-![Kirby mockups and swatches for the remaining 20 proposals, Mogeko through Waddle Dee. The names are listed below.](color-palettes-proposals-2.png)
+![Kirby mockups and swatches for the remaining 19 proposals, Mogeko through Waddle Dee. The names are listed below.](color-palettes-proposals-2.png)
 
 <details>
-<summary>All 39 proposed color names</summary>
+<summary>All 38 proposed color names</summary>
 
 - Advance Ice
 - Advance Stone
@@ -99,7 +99,6 @@ These **39 reference palettes** are not in the game and cannot be selected in YA
 - Purple
 - Ramia’s Scale & Star Stone
 - Rose
-- Samus
 - Snow Cone
 - Spicy
 - Strawberry Peach
