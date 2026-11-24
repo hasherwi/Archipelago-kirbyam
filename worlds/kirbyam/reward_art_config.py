@@ -11,11 +11,10 @@ from .reward_art_types import RewardArt, reward_art_for_item
 
 # Fixed append-only ROM window reserved by kirby_ap_payload/linker.ld.
 REWARD_ART_CONFIG_ROM_OFFSET = 0x100F000
-REWARD_ART_CONFIG_SIZE = 0x800
-REWARD_ART_CONFIG_MAGIC = b"ARV2"
-REWARD_ART_KEY_MASK = 0x0FFFFFFF
-REWARD_ART_VARIANT_SHIFT = 28
-REWARD_ART_CONFIG_MAX_KEYS = (REWARD_ART_CONFIG_SIZE - 8) // 4
+REWARD_ART_CONFIG_SIZE = 0xA00
+REWARD_ART_CONFIG_MAGIC = b"ARV3"
+REWARD_ART_CONFIG_MAX_KEYS = 510
+REWARD_ART_CONFIG_VARIANT_OFFSET = 8 + 4 * REWARD_ART_CONFIG_MAX_KEYS
 REWARD_ART_CONFIG_EMPTY = REWARD_ART_CONFIG_MAGIC.ljust(REWARD_ART_CONFIG_SIZE, b"\0")
 
 _BIT_INDEXED_CATEGORIES = frozenset({
@@ -77,8 +76,9 @@ def build_reward_art_config(locations: Iterable[Location]) -> bytes:
     if not variants:
         return REWARD_ART_CONFIG_EMPTY
     # Always overwrite the full window, so no trailing entries can carry over.
-    return (
-        struct.pack("<4sI", REWARD_ART_CONFIG_MAGIC, len(variants))
-        + b"".join(struct.pack("<I", key | (art << REWARD_ART_VARIANT_SHIFT))
-                   for key, art in sorted(variants.items()))
-    ).ljust(REWARD_ART_CONFIG_SIZE, b"\0")
+    buffer = bytearray(REWARD_ART_CONFIG_EMPTY)
+    struct.pack_into("<I", buffer, 4, len(variants))
+    for index, (key, art) in enumerate(sorted(variants.items())):
+        struct.pack_into("<I", buffer, 8 + 4 * index, key)
+        buffer[REWARD_ART_CONFIG_VARIANT_OFFSET + index] = art
+    return bytes(buffer)

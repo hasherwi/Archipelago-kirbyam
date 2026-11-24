@@ -65,20 +65,22 @@ def test_native_first_visit_identity_and_transition_gates(tmp_path: Path) -> Non
 
 int main(void) {
     uint16_t visits[AP_VISIT_ENTRY_COUNT] = {0};
-    struct ApRewardArtConfig art = {AP_REWARD_ART_MAGIC, 1u, {AP_REWARD_KEY(AP_REWARD_ROOM, 77u) | (AP_REWARD_TRAP << AP_REWARD_ART_SHIFT)}};
+    struct ApRewardArtConfig art = {.marker = AP_REWARD_ART_MAGIC, .count = 1u,
+        .keys = {AP_REWARD_KEY(AP_REWARD_ROOM, 77u)}, .variants = {AP_REWARD_TRAP}};
     assert(ap_visit_reward_arts(visits, ap_visit_areas, ap_visit_room_kinds, 77u, AP_VISIT_ALL_ROOMS, &art)
-           == (AP_REWARD_MASK_GEM | AP_REWARD_MASK_TRAP));
+           == ap_reward_pair_add(AP_REWARD_TRAP + 1u, AP_REWARD_GEM));
     assert(ap_visit_reward_arts(visits, ap_visit_areas, ap_visit_room_kinds, 77u, AP_VISIT_CORE_ONLY, &art)
-           == AP_REWARD_MASK_GEM);
-    art.keys[1] = AP_REWARD_KEY(AP_REWARD_AREA, 2u) | (AP_REWARD_TRAP << AP_REWARD_ART_SHIFT);
+           == AP_REWARD_GEM + 1u);
+    art.keys[1] = AP_REWARD_KEY(AP_REWARD_AREA, 2u);
+    art.variants[1] = AP_REWARD_TRAP;
     art.count = 2u;
     assert(ap_visit_reward_arts(visits, ap_visit_areas, ap_visit_room_kinds, 77u, AP_VISIT_ALL_ROOMS, &art)
-           == AP_REWARD_MASK_TRAP);
-    art.keys[0] = AP_REWARD_KEY(AP_REWARD_ROOM, 77u) | (AP_REWARD_BATTERY << AP_REWARD_ART_SHIFT);
+           == AP_REWARD_TRAP + 1u);
+    art.variants[0] = AP_REWARD_MIRROR_SHARD;
     uint16_t pair = ap_visit_reward_arts(visits, ap_visit_areas, ap_visit_room_kinds, 77u, AP_VISIT_ALL_ROOMS, &art);
-    assert(pair == ((1u << AP_REWARD_BATTERY) | AP_REWARD_MASK_TRAP));
-    assert(ap_reward_preferred_art(pair) == AP_REWARD_TRAP);
-    assert(ap_reward_preferred_art(pair & ~AP_REWARD_MASK_TRAP) == AP_REWARD_BATTERY);
+    assert((pair & 0xFFu) == AP_REWARD_TRAP + 1u);
+    assert((pair >> 8) == AP_REWARD_MIRROR_SHARD + 1u);
+    assert((ap_reward_pair_add(AP_REWARD_GEM + 1u, AP_REWARD_BATTERY) & 0xFFu) == AP_REWARD_BATTERY + 1u);
     assert(!ap_visit_is_first_area(visits, ap_visit_areas, AP_VISIT_ENTRY_COUNT));
     for (uint16_t i = 0; i < AP_VISIT_ENTRY_COUNT; ++i) {
         assert(ap_visit_is_first_area(visits, ap_visit_areas, i) == (ap_visit_areas[i] != 0u));

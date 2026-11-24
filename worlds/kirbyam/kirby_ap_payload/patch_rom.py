@@ -2215,6 +2215,15 @@ def build_boss_shard_art_hooks(rom: bytes | bytearray, targets: dict[str, int]) 
     return writes
 
 
+def build_collectible_art_extension(rom: bytes | bytearray, extension: bytes) -> dict[int, bytes]:
+    spec = importlib.util.spec_from_file_location(
+        "kirby_collectible_art", Path(__file__).with_name("collectible_art.py"))
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return {module.OFFSET: module.build_collectible_art_table(rom, extension)}
+
+
 def apply_color_extension(rom: bytearray, elf_path: Path) -> None:
     # This module also supports callers that import patch_rom.py by filename.
     import importlib.util
@@ -2251,8 +2260,10 @@ def apply_color_extension(rom: bytearray, elf_path: Path) -> None:
         rom, resolve_elf_symbol_address(elf_path, "ap_room_visit_reward_art_entry"))
     boss_writes = build_boss_shard_art_hooks(
         rom, {name: resolve_elf_symbol_address(elf_path, name) for name, _, _ in BOSS_SHARD_ART_HOOK_GROUPS})
+    collectible_writes = build_collectible_art_extension(rom, extension)
     for offset, replacement in {
         **writes, **board_writes, **chest_writes, **switch_writes, **visit_writes, **boss_writes,
+        **collectible_writes,
     }.items():
         rom[offset:offset + len(replacement)] = replacement
 

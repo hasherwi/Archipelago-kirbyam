@@ -7,16 +7,16 @@ from unittest.mock import AsyncMock, patch
 import pytest
 
 from NetUtils import NetworkItem
-from ..reward_art_types import KIRBY_CONSUMABLE_ART_BY_ITEM_CODE, RewardArt
+from ..reward_art_types import KIRBY_NATIVE_ART_BY_ITEM_CODE, RewardArt
 from ..receipt_visuals import (
-    VISUAL_ART_BITS, VISUAL_FRAME_MASK, VISUAL_GEM, VISUAL_LIMIT, VISUAL_MAILBOX, VISUAL_REJECTED,
+    VISUAL_ART_BITS, VISUAL_FRAME_MASK, VISUAL_GEM, VISUAL_LIMIT, VISUAL_MAILBOX, VISUAL_MAX_OPCODE, VISUAL_REJECTED,
     VISUAL_ROM_MARKER, VISUAL_TRAP, ReceiptVisuals, visual_for_remote_receipt,
 )
 from .test_receipt_journal import Mailbox, drain, make_client, receipt_env, tick  # noqa: F401
 
 
 def item(location, player=2, flags=0):
-    return NetworkItem(3860025, location, player, flags)
+    return NetworkItem(3860107, location, player, flags)
 
 
 @pytest.mark.parametrize(("location", "player", "flags", "visual"), [
@@ -74,7 +74,7 @@ def test_empty_baseline_first_append_zero_and_bounded_drop_order():
     assert len(q.pending) == VISUAL_LIMIT and not q.live
 
 
-@pytest.mark.parametrize(("code", "art"), sorted(KIRBY_CONSUMABLE_ART_BY_ITEM_CODE.items()))
+@pytest.mark.parametrize(("code", "art"), sorted(KIRBY_NATIVE_ART_BY_ITEM_CODE.items()))
 def test_known_kirby_item_uses_its_distinct_code_on_live_remote_receipt(code, art):
     assert visual_for_remote_receipt(NetworkItem(code, 7, 2, 0), 1) == art + 1
     assert visual_for_remote_receipt(NetworkItem(code, 7, 2, 4), 1) == VISUAL_TRAP
@@ -88,7 +88,7 @@ async def test_native_mailbox_accept_reject_ambiguous_reset_busy_and_distinct_ar
     q.pending.extend((VISUAL_GEM, VISUAL_TRAP))
     q.supported = True
     read, write = AsyncMock(), AsyncMock(return_value=True)
-    ready = (1 << VISUAL_GEM) | (1 << VISUAL_TRAP)
+    ready = 1
 
     async def pump(req, res, eligible, active, frame):
         read.return_value = [pack("<IIII", req, res, eligible, active), pack("<I", frame)]
@@ -98,7 +98,8 @@ async def test_native_mailbox_accept_reject_ambiguous_reset_busy_and_distinct_ar
     with patch("worlds.kirbyam.receipt_visuals.bizhawk.read", read), \
          patch("worlds.kirbyam.receipt_visuals.bizhawk.guarded_write", write):
         await pump(0, 0, ready, 1, 10)
-        await pump(0, 0, 1 << VISUAL_TRAP, 0, 10)
+        await pump(0, 0, 0, 0, 10)
+        await pump(0, 0, 1 << VISUAL_TRAP, 0, 10)  # Stale bitmask is not a valid ready value.
         assert write.await_count == 0
         await pump(0, 0, ready, 0, 10)
         first = (10 << VISUAL_ART_BITS) | VISUAL_GEM
@@ -120,12 +121,13 @@ async def test_native_mailbox_accept_reject_ambiguous_reset_busy_and_distinct_ar
 
 
 @pytest.mark.asyncio
-async def test_high_consumable_opcode_and_frame_wrap_keep_the_reject_bit_free():
+async def test_high_collectible_opcode_and_frame_wrap_keep_the_reject_bit_free():
     q = ReceiptVisuals()
-    opcode = RewardArt.BATTERY + 1
+    opcode = max(RewardArt) + 1
+    assert opcode == VISUAL_MAX_OPCODE == 45
     q.pending.append(opcode)
     q.supported = True
-    read = AsyncMock(return_value=[pack("<IIII", 0, 0, 1 << opcode, 0),
+    read = AsyncMock(return_value=[pack("<IIII", 0, 0, 1, 0),
                                   pack("<I", 0xFFFFFFFF)])
     write = AsyncMock(return_value=True)
     with patch("worlds.kirbyam.receipt_visuals.bizhawk.read", read), \
@@ -137,7 +139,7 @@ async def test_high_consumable_opcode_and_frame_wrap_keep_the_reject_bit_free():
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize("marker", [bytes(8), b"APVIS01\0"])
+@pytest.mark.parametrize("marker", [bytes(8), b"APVIS01\0", b"APVIS02\0"])
 async def test_marker_is_optional_and_same_socket_history_replacement_fences_async_pump(marker):
     q = ReceiptVisuals()
     q.pending.append(VISUAL_GEM)
@@ -187,7 +189,8 @@ async def test_client_ack_visuals_separate_from_sound_start_history_self_and_rew
     assert client._delivered_item_index == 2
     client._watcher_server_ready = True
 
-    packet(2, item(20), item(21, ctx.slot), NetworkItem(3860032, 22, 2, 4))
+    packet(2, item(20), item(21, ctx.slot), NetworkItem(3860032, 22, 2, 4),
+           NetworkItem(3860201, 23, 2, 2))
     assert not client._receipt_visuals.pending
     await tick(client, ctx, box, display)
     assert not client._receipt_visuals.pending
@@ -196,8 +199,8 @@ async def test_client_ack_visuals_separate_from_sound_start_history_self_and_rew
     await tick(client, ctx, box, display)
     assert list(client._receipt_visuals.pending) == [VISUAL_GEM]
     await drain(client, ctx, box, display)
-    assert list(client._receipt_visuals.pending) == [VISUAL_GEM, VISUAL_TRAP]
-    assert list(client._receipt_sounds.pending) == [2, 2, 2, 3]
+    assert list(client._receipt_visuals.pending) == [VISUAL_GEM, VISUAL_TRAP, RewardArt.PAINT_02 + 1]
+    assert list(client._receipt_sounds.pending) == [2, 2, 2, 3, 2]
 
     # Same socket Sync replay is never live; a fresh socket is not either.
     packet(0, *ctx.items_received)
@@ -244,3 +247,18 @@ def test_sync_after_out_of_order_packet_is_not_first_live_append_even_from_empty
     q.packet(socket, session, history, 2, 1, 2, 1)
     q.acknowledge(2, history[2], first=True)
     assert list(q.pending) == [VISUAL_GEM]
+
+
+@pytest.mark.asyncio
+async def test_unassigned_wire_opcode_is_dropped_not_sent_even_if_7_bits_would_fit():
+    q = ReceiptVisuals()
+    q.supported = True
+    q.pending.extend((VISUAL_MAX_OPCODE + 1, VISUAL_GEM))
+    read = AsyncMock(return_value=[pack("<IIII", 0, 0, 1, 0), pack("<I", 19)])
+    write = AsyncMock(return_value=True)
+    with patch("worlds.kirbyam.receipt_visuals.bizhawk.read", read), \
+         patch("worlds.kirbyam.receipt_visuals.bizhawk.guarded_write", write):
+        await q.pump(None, auth_offset=5, auth=b"id", frame_addr=8, session_current=lambda: True)
+        write.assert_not_awaited()
+        await q.pump(None, auth_offset=5, auth=b"id", frame_addr=8, session_current=lambda: True)
+    assert q.in_flight == (19 << VISUAL_ART_BITS) | VISUAL_GEM

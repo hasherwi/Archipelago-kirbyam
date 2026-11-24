@@ -238,3 +238,28 @@ during an authenticated, visible gameplay scene. It does not spawn a pickup
 or alter the item, timing, native events or persistence. A visual may be
 dropped when the queue or native memory is full. As with the other optional
 effects, a pause, room change, or native-file load cancels active artwork.
+
+## Collectible reward art
+
+Native icons are also selected for each of the nine area Maps and nine
+Vitality Counters, the Sound Player, all fourteen spray paints, all ten
+music sheets, and all eight Mirror Shard items. These follow the same
+recipient rule as consumables: show collectible art for a local check
+that awards the item to this Kirby, or for a fresh remotely found receipt
+that this Kirby confirms. Outgoing non-trap items still show the gem.
+Trap classification always wins.
+
+Vitality and Sound Player use their four existing bank-F tiles directly.
+Map, paint, and sheet variants retain the native shape and their individual
+retail color choices, approximated in bank F without replacing live
+palettes. For arbitrary check popups an original Mirror Shard frame is
+scaled to 16×16; the actual boss's Mirror Shard keeps its full original
+animation when that boss awards a shard. The existing native pickup,
+collision, persistence, and reward logic are not used by the cosmetic
+display and are not changed.
+
+The build validates the stock tile/script/palette layout before writing the
+versioned collectible art block. Seed art data (ARV3) stores sorted physical
+keys and separate variant bytes; the ROM and client negotiate APVIS03 for
+receipt display. A coincident first area and room check still shows both
+different icons, including high-ID collectibles.

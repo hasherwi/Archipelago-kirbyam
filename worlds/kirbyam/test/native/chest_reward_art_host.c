@@ -8,7 +8,7 @@
 #define ART 0x09001000u
 #define TRAP 0x09001200u
 static _Alignas(4) uint8_t native_chest[0xE4];
-static struct ApRewardArtConfig config = {AP_REWARD_ART_MAGIC, 0, {0}};
+static struct ApRewardArtConfig config = {.marker = AP_REWARD_ART_MAGIC};
 static uint8_t ap_reward_art_for_key(uint32_t key) {
     return ap_reward_art_from_config(&config, key);
 }
@@ -89,7 +89,8 @@ int main(void) {
         {0x29u, 30u, 0x088B6EB4u, 1u}, {0x63u, 743u, 0x088BE07Cu, 18u},
     };
     for (unsigned i = 0; i < sizeof(trap_keys) / sizeof(trap_keys[0]); ++i) {
-        config.keys[i] = trap_keys[i] | (AP_REWARD_TRAP << AP_REWARD_ART_SHIFT);
+        config.keys[i] = trap_keys[i];
+        config.variants[i] = AP_REWARD_TRAP;
     }
     config.count = sizeof(trap_keys) / sizeof(trap_keys[0]);
     for (unsigned i = 0; i < config.count; ++i) {

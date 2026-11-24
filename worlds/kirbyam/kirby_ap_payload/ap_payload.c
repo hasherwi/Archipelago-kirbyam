@@ -36,7 +36,7 @@ _Static_assert(AP_GOAL_RUN_ADDRESS + sizeof(struct ApGoalRun) <= AP_CUE_MAILBOX_
 #define AP_CUE_ACTIVE (*(volatile uint32_t *)(AP_CUE_MAILBOX_ADDRESS + 12u))
 #define AP_VISUAL_MAILBOX ((volatile struct ApReceiptVisualMailbox *)AP_VISUAL_MAILBOX_ADDRESS)
 __attribute__((used, section(".apvisualinfo")))
-const char gApReceiptVisualInfo[8] = "APVIS02";
+const char gApReceiptVisualInfo[8] = "APVIS03";
 
 
 // Kirby AP item ID base offset
@@ -346,7 +346,12 @@ uint8_t ap_reward_native_vram_available(void) {
 }
 
 __attribute__((used, section(".aprewardconfig")))
-const volatile struct ApRewardArtConfig gApRewardArtConfig = {AP_REWARD_ART_MAGIC, 0u, {0u}};
+const volatile struct ApRewardArtConfig gApRewardArtConfig = {.marker = AP_REWARD_ART_MAGIC};
+
+static inline uint8_t ap_collectible_palette_tiles_available(void) {
+    const volatile uint32_t *header = (const volatile uint32_t*)AP_COLLECTIBLE_ART_ROM_ADDRESS;
+    return header[0] == AP_COLLECTIBLE_ART_MARKER_FIRST && header[1] == AP_COLLECTIBLE_ART_MARKER_LAST;
+}
 
 AP_REWARD_FX uint8_t ap_reward_art_for_key(uint32_t key) {
     return ap_reward_art_from_config(&gApRewardArtConfig, key);
@@ -364,7 +369,15 @@ static inline uint32_t ap_reward_tiles_for_art(uint8_t art) {
         case AP_REWARD_TOMATO: return AP_CHEST_NATIVE_TILES + 3u * AP_CHEST_ART_SIZE;
         case AP_REWARD_CANDY: return AP_CHEST_NATIVE_TILES + 1u * AP_CHEST_ART_SIZE;
         case AP_REWARD_BATTERY: return AP_CHEST_NATIVE_TILES + 6u * AP_CHEST_ART_SIZE;
-        default: return (uint32_t)(uintptr_t)gApChestRewardArt;
+        case AP_REWARD_VITALITY: return AP_CHEST_NATIVE_TILES + 12u * AP_CHEST_ART_SIZE;
+        case AP_REWARD_SOUND_PLAYER: return AP_CHEST_NATIVE_TILES + 13u * AP_CHEST_ART_SIZE;
+        default:
+            if (art >= AP_REWARD_MAP_FIRST && art < AP_REWARD_ART_COUNT
+                && ap_collectible_palette_tiles_available()) {
+                return AP_COLLECTIBLE_ART_ROM_ADDRESS + 8u
+                    + (art - AP_REWARD_MAP_FIRST) * AP_CHEST_ART_SIZE;
+            }
+            return (uint32_t)(uintptr_t)gApChestRewardArt;
     }
 }
 
@@ -647,10 +660,17 @@ static __attribute__((noinline, section(".aprewardfx"))) uint8_t ap_is_boss_shar
         && template[0xCu] == 0x65u && template[0xEu] == subtype;
 }
 
-static inline void ap_replace_boss_shard_tiles(const uint8_t *object, const uint8_t *sprite, uint8_t before) {
-    uint8_t art = AP_BOSS_ITEM_DRAW->object == (uint32_t)(uintptr_t)object
+static inline uint8_t ap_displayed_boss_art(const uint8_t *object) {
+    return AP_BOSS_ITEM_DRAW->object == (uint32_t)(uintptr_t)object
         && AP_BOSS_ITEM_DRAW->epoch != 0u && AP_BOSS_ITEM_DRAW->epoch == AP_COPY_CONTEXT->epoch
         ? AP_BOSS_ITEM_DRAW->art : AP_REWARD_GEM;
+}
+
+static inline void ap_replace_boss_shard_tiles(const uint8_t *object, const uint8_t *sprite, uint8_t before) {
+    uint8_t art = ap_displayed_boss_art(object);
+    /* A real Mirror Shard awarded at a native shard drop already has the
+     * correct dynamic sprite; leave its full animation and palette alone. */
+    if (art == AP_REWARD_MIRROR_SHARD) return;
     ap_boss_shard_redirect_upload((volatile struct ApChestTileUpload*)0x03002EC0u, before,
         *(volatile uint8_t*)0x030039A4u, *(const volatile uint32_t*)sprite, ap_reward_tiles_for_art(art), art >= AP_REWARD_ONE_UP);
 }
@@ -694,7 +714,8 @@ AP_REWARD_FX __attribute__((used)) void ap_draw_boss_shard_sprite(void *sprite) 
     volatile uint32_t *draw_flags = (volatile uint32_t*)(data + 8u);
     volatile uint16_t *anim = (volatile uint16_t*)(data + 0xCu);
     uint32_t original_frame = *frame;
-    if (*anim != AP_SHARD_NATIVE_ANIM || original_frame > 8u || !ap_is_boss_shard(data - 0x10u)) {
+    if (*anim != AP_SHARD_NATIVE_ANIM || original_frame > 8u || !ap_is_boss_shard(data - 0x10u)
+        || ap_displayed_boss_art(data - 0x10u) == AP_REWARD_MIRROR_SHARD) {
         native(sprite);
         return;
     }
@@ -789,15 +810,15 @@ AP_REWARD_FX void ap_show_player_reward_gem(uint16_t room, uint16_t arts) {
     int32_t y = *(volatile int32_t*)(kirby + 0x44u) - 24 * 256;
     /* A visit can collect two checks. Prioritize distinct native artwork
      * over the gem if memory fits only one, keeping them 20 pixels apart. */
-    uint8_t preferred = ap_reward_preferred_art(arts);
-    arts &= (uint16_t)~(1u << preferred);
-    int32_t separation = arts ? 10 * 256 : 0;
+    uint8_t preferred = (uint8_t)((arts & 0xFFu) - 1u);
+    uint8_t other = (uint8_t)(arts >> 8);
+    int32_t separation = other ? 10 * 256 : 0;
     if (x < camera_x + 16 * 256 + separation) x = camera_x + 16 * 256 + separation;
     if (x > camera_x + 224 * 256 - separation) x = camera_x + 224 * 256 - separation;
     if (y < camera_y + 48 * 256) y = camera_y + 48 * 256;
     if (y > camera_y + 132 * 256) y = camera_y + 132 * 256;
     ap_show_room_reward_gem(room, x + separation, y, 0u, preferred);
-    if (arts) ap_show_room_reward_gem(room, x - separation, y, 0u, ap_reward_preferred_art(arts));
+    if (other) ap_show_room_reward_gem(room, x - separation, y, 0u, other - 1u);
 }
 
 __attribute__((used, noinline, long_call, section(".aprewardfx")))
@@ -2474,7 +2495,7 @@ static AP_REWARD_FX void ap_receipt_visual_poll(void) {
     if (active && (!game || ap_visual_age(active, frame) >= AP_VISUAL_DURATION)) {
         msg->active = active = 0u;
     }
-    uint32_t ready = game && !active ? AP_VISUAL_READY_MASK : 0u;
+    uint32_t ready = game && !active ? AP_VISUAL_READY : 0u;
     if (request) {
         msg->result = request | AP_VISUAL_REJECTED;
         uint32_t code = request & AP_VISUAL_CODE_MASK;

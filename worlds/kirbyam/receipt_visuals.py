@@ -4,16 +4,17 @@ from struct import pack, unpack
 
 import worlds._bizhawk as bizhawk
 
-from .reward_art_types import KIRBY_CONSUMABLE_ART_BY_ITEM_CODE, RewardArt
+from .reward_art_types import KIRBY_NATIVE_ART_BY_ITEM_CODE, RewardArt
 
 VISUAL_ROM_OFFSET = 0x1000028
-VISUAL_ROM_MARKER = b"APVIS02\0"
+VISUAL_ROM_MARKER = b"APVIS03\0"
 VISUAL_MAILBOX = 0x0203B1E0
 VISUAL_GEM = RewardArt.GEM + 1
 VISUAL_TRAP = RewardArt.TRAP + 1
-VISUAL_ART_BITS = 4
+VISUAL_ART_BITS = 7
+VISUAL_MAX_OPCODE = max(RewardArt) + 1
 VISUAL_REJECTED = 1 << 31
-VISUAL_FRAME_MASK = (1 << 27) - 1
+VISUAL_FRAME_MASK = (1 << 24) - 1
 VISUAL_LIMIT = 8
 BUS = "System Bus"
 
@@ -30,7 +31,7 @@ def visual_for_remote_receipt(item: object, local_slot: int) -> int:
     code = getattr(item, "item", None)
     if type(code) is not int:
         return 0
-    return KIRBY_CONSUMABLE_ART_BY_ITEM_CODE.get(code, RewardArt.GEM) + 1
+    return KIRBY_NATIVE_ART_BY_ITEM_CODE.get(code, RewardArt.GEM) + 1
 
 
 class ReceiptVisuals:
@@ -123,10 +124,14 @@ class ReceiptVisuals:
                 self.pending.popleft()  # Missing result after reset is ambiguous; don't replay it.
             self.in_flight = 0
 
-        if request or active or not self.pending or not ready & (1 << self.pending[0]):
+        if request or active or not self.pending or ready != 1:
+            return
+        opcode = self.pending[0]
+        if not 1 <= opcode <= VISUAL_MAX_OPCODE:
+            self.pending.popleft()
             return
         frame, = unpack("<I", native_frame)
-        token = ((frame & VISUAL_FRAME_MASK) << VISUAL_ART_BITS) | self.pending[0]
+        token = ((frame & VISUAL_FRAME_MASK) << VISUAL_ART_BITS) | opcode
         self.in_flight = token
         written = await bizhawk.guarded_write(transport, [
             (VISUAL_MAILBOX + 4, bytes(4), BUS),

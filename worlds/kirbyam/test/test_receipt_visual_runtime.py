@@ -58,7 +58,7 @@ static void rejected(uint32_t request) {
 int main(void) {
     AP_FRAME_COUNTER = 504u;
     ap_receipt_visual_poll();
-    assert(fixture.ready == AP_VISUAL_READY_MASK);
+    assert(fixture.ready == AP_VISUAL_READY);
     uint32_t request = (500u << AP_VISUAL_FRAME_SHIFT) | AP_VISUAL_TRAP;
     fixture.request = request;
     ap_receipt_visual_poll();
@@ -70,7 +70,7 @@ int main(void) {
     assert(!fixture.active && fixture.ready);
     rejected((500u << AP_VISUAL_FRAME_SHIFT) | AP_VISUAL_TRAP); /* Old or rewind-ambiguous. */
     rejected(((AP_FRAME_COUNTER + 1u) << AP_VISUAL_FRAME_SHIFT) | AP_VISUAL_TRAP);
-    rejected((AP_FRAME_COUNTER << AP_VISUAL_FRAME_SHIFT) | 10u);
+    rejected((AP_FRAME_COUNTER << AP_VISUAL_FRAME_SHIFT) | (AP_VISUAL_MAX_CODE + 1u));
     request = (AP_FRAME_COUNTER << AP_VISUAL_FRAME_SHIFT) | AP_VISUAL_GEM;
     gameplay = 0u; rejected(request);
     gameplay = 1u; epoch = 0u; rejected(request);
@@ -87,8 +87,8 @@ int main(void) {
     request = (AP_FRAME_COUNTER << AP_VISUAL_FRAME_SHIFT) | AP_VISUAL_MAX_CODE;
     fixture.request = request;
     ap_receipt_visual_poll();
-    assert(draws == 3 && last_art == AP_REWARD_BATTERY && fixture.result == request); /* Don't resume a cue with the pause. */
-    assert(ap_visual_can_start((AP_VISUAL_FRAME_MASK << AP_VISUAL_FRAME_SHIFT) | AP_VISUAL_GEM, 0u, AP_VISUAL_READY_MASK));
+    assert(draws == 3 && last_art == AP_REWARD_MIRROR_SHARD && fixture.result == request); /* Don't resume a cue with the pause. */
+    assert(ap_visual_can_start((AP_VISUAL_FRAME_MASK << AP_VISUAL_FRAME_SHIFT) | AP_VISUAL_GEM, 0u, AP_VISUAL_READY));
     return 0;
 }
 ''')

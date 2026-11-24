@@ -84,11 +84,12 @@ def test_exact_native_consumable_tiles_match_validated_animation_variants() -> N
     assert native_variants == {
         "ONE_UP": "0", "FOOD": "4", "DRINK": "2", "MEAT": "5",
         "TOMATO": "3", "CANDY": "1", "BATTERY": "6",
+        "VITALITY": "12", "SOUND_PLAYER": "13",
     }
     import struct
     scripts = [patch_rom.CHEST_REWARD_ART_NATIVE_SCRIPT_DATA,
                *(script for _, script in patch_rom.CHEST_REWARD_ART_CONSUMABLE_SCRIPTS)]
-    assert sorted(map(int, native_variants.values())) == list(range(len(scripts)))
+    assert set(map(int, native_variants.values())) == {*range(len(scripts)), 12, 13}
     for variant, script in enumerate(scripts):
         palette, palette_start, cmd, start, length = struct.unpack_from("<5i", script, 4)
         assert (palette, palette_start, cmd, start, length) == (159, 16, -1, 45113 + 4 * variant, 4)

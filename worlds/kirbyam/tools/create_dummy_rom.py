@@ -100,6 +100,11 @@ def build_dummy_rom() -> bytearray:
     rom[offset:offset + 32] = b"".join(color.to_bytes(2, "little")
                                       for color in patch_rom.CHEST_REWARD_ART_NATIVE_PALETTE_DATA)
 
+    # Deterministic non-retail tiles; exact script/OAM shape exercises the real builder.
+    art = runpy.run_path(str(PATCH_ROM_PATH.with_name("collectible_art.py")))
+    for offset, asset in {**art["native_abi_fixtures"](), **art["synthetic_assets"]()}.items():
+        rom[offset:offset + len(asset)] = asset
+
     # The common R-call entry is validated before installing the Phone wrapper.
     rom[0x56C2C:0x56C34] = bytes.fromhex("f0 b5 47 46 80 b4 81 b0")
 

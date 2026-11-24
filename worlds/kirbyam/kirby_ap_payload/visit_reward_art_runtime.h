@@ -31,10 +31,10 @@ static inline uint16_t ap_visit_reward_arts(
     uint16_t arts = 0u;
     uint8_t room_kind = room_kinds[index];
     if (room_kind == 2u || (room_kind == 1u && config == AP_VISIT_ALL_ROOMS)) {
-        arts |= 1u << ap_reward_art_from_config(art, AP_REWARD_KEY(AP_REWARD_ROOM, index));
+        arts = ap_reward_pair_add(arts, ap_reward_art_from_config(art, AP_REWARD_KEY(AP_REWARD_ROOM, index)));
     }
     if (ap_visit_is_first_area(visits, areas, index)) {
-        arts |= 1u << ap_reward_art_from_config(art, AP_REWARD_KEY(AP_REWARD_AREA, areas[index]));
+        arts = ap_reward_pair_add(arts, ap_reward_art_from_config(art, AP_REWARD_KEY(AP_REWARD_AREA, areas[index])));
     }
     return arts;
 }
