@@ -7,6 +7,7 @@ from Options import (
     Choice,
     DeathLink,
     DefaultOnToggle,
+    OptionError,
     OptionGroup,
     OptionSet,
     PerGameCommonOptions,
@@ -288,6 +289,12 @@ class ExcludeTrapTypes(OptionSet):
     """
     display_name = "Exclude Trap Types"
     valid_keys = kirby_data.available_trap_item_labels
+
+    def __init__(self, value, random_str=None):
+        names = tuple(value)
+        if not all(isinstance(name, str) for name in names):
+            raise OptionError("Exclude Trap Types expects trap names as strings.")
+        super().__init__(names, random_str)
 
 
 class EnemyHealthMultiplier(Range):

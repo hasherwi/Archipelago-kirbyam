@@ -11,6 +11,7 @@ from test.general import setup_multiworld
 from .. import KirbyAmWorld
 from ..data import data
 from ..options import ExcludeTrapTypes, RandomizeShards
+from ..tracker import validate_tracker_data
 from .test_item_pool import _build_world_for_create_items
 from .test_universal_tracker import reconstruct
 
@@ -69,6 +70,20 @@ def test_automatic_exclusions_combine_with_user_and_overall_options():
 def test_non_trap_option_key_is_rejected():
     with pytest.raises(OptionError, match="unexpected key"):
         ExcludeTrapTypes.from_any(["Small Food"]).verify(KirbyAmWorld, "Kirby", PlandoOptions.none)
+
+
+@pytest.mark.parametrize("invalid", [[True], [0], [None], [["Bomb Trap"]], ["Bomb Trap", 0]])
+def test_non_string_yaml_trap_key_raises_option_error(invalid):
+    with pytest.raises(OptionError, match="Exclude Trap Types expects trap names as strings"):
+        ExcludeTrapTypes.from_any(invalid)
+
+
+@pytest.mark.parametrize("invalid", ["Bomb Trap", None, True, {}, [True], [0], ["Small Food"], ["bomb trap"]])
+def test_invalid_present_tracker_exclusions_fail_closed(invalid):
+    slot = setup_multiworld(KirbyAmWorld, seed=1040).worlds[1].fill_slot_data()
+    slot["tracker"]["options"]["exclude_trap_types"] = invalid
+    with pytest.raises(ValueError, match="exclude_trap_types"):
+        validate_tracker_data(slot)
 
 
 def test_real_generation_and_tracker_roundtrip_selected_and_legacy_seed():

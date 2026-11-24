@@ -540,6 +540,36 @@
               ]
             }
           ]
+        },
+        {
+          "integrated_sha256": "72d75542078c639176845e0fa5eaad5f2d685587595679390b56c751dae4fa4f",
+          "reverse_slices": [
+            {
+              "start": 5002,
+              "stop": 5020,
+              "current": [
+                "            # A durable transient already has a write-ahead reservation. Clearing\n",
+                "            # a live offer on elapsed time alone neither proves non-application nor\n",
+                "            # releases that reservation. Keep the same offer for the hook to consume.\n",
+                "            if timeout_triggered and flag == 1 and self._receipt_journal is not None:\n",
+                "                index = self._delivery_pending_item_index\n",
+                "                if (delivery_socket is not getattr(getattr(ctx, \"server\", None), \"socket\", None)\n",
+                "                        or delivery_streams is not getattr(ctx.bizhawk_ctx, \"streams\", None)):\n",
+                "                    return\n",
+                "                try:\n",
+                "                    if (index is None or index != self._delivered_item_index\n",
+                "                            or receipt_key(ctx.items_received, index) != self._receipt_active):\n",
+                "                        raise ValueError(\"in-flight item history changed\")\n",
+                "                except ValueError as exc:\n",
+                "                    self._receipt_failure(f\"{exc}; reconnect before continuing\")\n",
+                "                    return\n",
+                "                if ctx.items_received[index].item in TRANSIENT_ITEM_IDS:\n",
+                "                    return\n",
+                "\n"
+              ],
+              "main": []
+            }
+          ]
         }
       ]
     },

@@ -5000,6 +5000,24 @@ class KirbyAmClient(BizHawkClient):
                     timeout_triggered = True
                     timeout_reason = f"time timeout ({elapsed_seconds:.1f}s >= {_MAILBOX_ACK_TIMEOUT_SECONDS}s)"
 
+            # A durable transient already has a write-ahead reservation. Clearing
+            # a live offer on elapsed time alone neither proves non-application nor
+            # releases that reservation. Keep the same offer for the hook to consume.
+            if timeout_triggered and flag == 1 and self._receipt_journal is not None:
+                index = self._delivery_pending_item_index
+                if (delivery_socket is not getattr(getattr(ctx, "server", None), "socket", None)
+                        or delivery_streams is not getattr(ctx.bizhawk_ctx, "streams", None)):
+                    return
+                try:
+                    if (index is None or index != self._delivered_item_index
+                            or receipt_key(ctx.items_received, index) != self._receipt_active):
+                        raise ValueError("in-flight item history changed")
+                except ValueError as exc:
+                    self._receipt_failure(f"{exc}; reconnect before continuing")
+                    return
+                if ctx.items_received[index].item in TRANSIENT_ITEM_IDS:
+                    return
+
             # Hub teleport, Candy and Battery deliberately leave the mailbox pending
             # through scripts, room transitions or a full/invalid battery epoch.
             # Clearing/reoffering it on a timer

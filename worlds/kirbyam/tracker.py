@@ -4,7 +4,7 @@ from copy import deepcopy
 from typing import TYPE_CHECKING, Any, Iterable
 
 from BaseClasses import Item
-from .options import KirbyAmOptions
+from .options import ExcludeTrapTypes, KirbyAmOptions
 
 TRACKER_OPTIONS = (*KirbyAmOptions.__annotations__, "accessibility", "exclude_locations")
 
@@ -22,8 +22,15 @@ def validate_tracker_data(slot_data: dict[str, Any]) -> dict[str, Any]:
             "seed with tracker schema 1 for exact YAML-less tracking."
         )
     required = set(TRACKER_OPTIONS) - {"exclude_trap_types"}  # Older schema-1 seeds used the empty default.
-    if not required.issubset(tracker.get("options", {})):
+    options = tracker.get("options")
+    if not isinstance(options, dict) or not required.issubset(options):
         raise ValueError("Incomplete Kirby tracker options; refusing to reroll the seed.")
+    if "exclude_trap_types" in options:
+        exclusions = options["exclude_trap_types"]
+        if not isinstance(exclusions, list) or any(
+            not isinstance(name, str) or name not in ExcludeTrapTypes.valid_keys for name in exclusions
+        ):
+            raise ValueError("Invalid Kirby tracker exclude_trap_types; expected a list of known trap names.")
     for key in ("enemy_copy_ability_policy", "goal_configured_area_boss_key",
                 "starting_kirby_color", "starting_kirby_color_name"):
         if key not in slot_data:

@@ -26,6 +26,10 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.
 - Testing covers selected gameplay scenarios, not a complete playthrough or every multiplayer setup.
 
+### Bug Fixes
+- Keep pending traps and consumables from blocking item delivery after an emulator pause.
+- Reject invalid trap exclusions in player YAML and Universal Tracker data.
+
 ## v0.6.0
 
 ### New Features
