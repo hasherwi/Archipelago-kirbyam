@@ -345,7 +345,7 @@ Server → Client: ConnectionRefused | Connected
 - `advanced_logic` (int): `0` off (default), `1` on. Enabling Advanced Logic allows only reviewed Crash-dependent traversal witnesses; it does not change physical ability sources or client permissions.
 - `ability_gating` (bool): enables safe-to-gate ability lock/unlock behavior. Default on.
 - `enemy_copy_ability_whitelist` (list[str]): validated ability pool (must exclude `Wait`).
-- `enemy_copy_ability_policy` (dict): deterministic policy payload used by runtime hooks.
+- `enemy_copy_ability_policy` (dict): deterministic policy payload used by runtime hooks. Rare Shuffled Room 4-16 fallbacks store the eligible donor enemy key as `room16_foley_swap`; this swaps that enemy type's grant with Foley's in the ROM, spoiler and tracker logic. Policies without the field retain their original assignments.
 - `ability_gateable_abilities` (list[str]): abilities from `data/abilities.json` that are marked `safe_to_gate`.
 - `ability_unlock_items` (dict[str, str]): all 25 ability item labels from `data/items.json`, including the starting abilities. Exported with either gating setting; `abilities.json` remains the runtime/gating policy source.
 - `stake_breaking_abilities` (list[str]): reusable hammer-peg/stake ability group used by transition logic (currently `Hammer`, `Master`, `Smash`, `Stone`).

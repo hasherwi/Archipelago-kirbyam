@@ -27,6 +27,7 @@ def test_exact_ci_seed_exhaustion_and_full_archive(monkeypatch, tmp_path, histor
             return candidate
         if historical_cap:
             kwargs['max_attempts'] = 8192
+            kwargs['allow_room16_shuffle_repair'] = False
         return original(initial, counted, statues, **kwargs)
 
     def audit(world, players):
@@ -73,3 +74,69 @@ def test_room16_prerequisite_short_circuits_without_reordering_candidates(monkey
                                        max_attempts=3, require_room16=True)
     assert result is policies[2]
     assert checked == [1, 2]
+
+
+
+def test_exact_high_weight_room16_seed_uses_validated_swap(monkeypatch, tmp_path):
+    from collections import Counter
+    from io import BytesIO
+    from zipfile import ZipFile
+
+    import worlds.kirbyam as kirby
+    from ..enemy_ability_data import ABILITY_NAME_TO_ID, ABILITY_SOURCES
+    from ..enemy_ability_runtime_patch import (
+        ROOM16_FOLEY_SWAP, build_enemy_copy_spoiler_rows,
+    )
+    from ..rom import KirbyAmPatchExtension, KirbyAmProcedurePatch
+    from ..room16_timer import ROM_OFFSET
+    from ..traversal import SourcePolicy
+    from ..traversal_rules import static_room16_witness
+
+    select = kirby.validate_peg_assignment
+    validate = check_accessibility.validate_all_checks
+    audited = []
+
+    def capture(initial, *args, **kwargs):
+        assert initial['seed'] == 16414413953470095692
+        assert not kwargs['require_room16'] and kwargs['room16_for_completion']
+        return select(initial, *args, **kwargs)
+
+    def audit(world, players):
+        audited.append(world)
+        return validate(world, players)
+
+    monkeypatch.setattr(kirby, 'validate_peg_assignment', capture)
+    monkeypatch.setattr(check_accessibility, 'validate_all_checks', audit)
+    archive = generate_archive_from_fixture(
+        Path(__file__).parent / 'data/fuzz_room16_source_budget_497.yaml', tmp_path, seed=353521934,
+    )
+    world, = audited
+    actual = audit_local_checks(world, 1)
+    assert actual.unfilled == actual.inventory_unreachable == actual.progression_unreachable == ()
+    policy = load_multidata_from_archive(archive)['slot_data'][1]['enemy_copy_ability_policy']
+    donor = policy[ROOM16_FOLEY_SWAP]
+    assert policy['mode'] == 1 and policy['ability_randomization_no_ability_weight'] == 96
+    assert 'room16_switch_timer_frames' not in policy
+    base = {key: value for key, value in policy.items() if key != ROOM16_FOLEY_SWAP}
+    old = {(kind, key): ability for kind, key, ability in build_enemy_copy_spoiler_rows(base, True)}
+    new = {(kind, key): ability for kind, key, ability in build_enemy_copy_spoiler_rows(policy, True)}
+    assert Counter(old.values()) == Counter(new.values())
+    changed = {key for key in old if old[key] != new[key]}
+    assert {key for _, key in changed} == {'FOLEY', donor}
+    assert all(kind != 'statue' for kind, _ in changed)
+    foley, = (key for key in changed if key[1] == 'FOLEY')
+    other, = (key for key in changed if key[1] == donor)
+    assert (new[foley], new[other]) == (old[other], old[foley])
+    assert not static_room16_witness(SourcePolicy(base, True))
+    assert static_room16_witness(SourcePolicy(policy, True))
+    with ZipFile(archive) as generated:
+        patch_name, = (name for name in generated.namelist() if name.endswith('.apkirbyam'))
+        patch = KirbyAmProcedurePatch()
+        patch.read(BytesIO(generated.read(patch_name)))
+    untouched = b'\xff' * 0x1010000
+    patched = KirbyAmPatchExtension.apply_tokens(patch, untouched, 'token_data.bin')
+    for _, source_key in changed:
+        source, = (row for row in ABILITY_SOURCES if row.key == source_key)
+        patched_id = ABILITY_NAME_TO_ID[new[source.kind, source_key]]
+        assert all(patched[address] == patched_id for address in source.addresses)
+    assert patched[ROM_OFFSET:ROM_OFFSET + 2] == b'\x00\x00'

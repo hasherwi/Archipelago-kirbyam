@@ -22,6 +22,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 - Area Keys now remain usable after restarting the game offline in the same seed and save file.
 - Hub Connections are saved when received, so restarting offline no longer loses newly opened routes.
+- Preserve a verified Mustard Mountain Room 4-16 route when a required Shuffled seed exhausts its normal source search.
 
 ### Known Limitations
 - Phone charges can exceed three, but the battery display does not show the extra charges (PR #1086).

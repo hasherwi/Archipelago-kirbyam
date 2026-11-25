@@ -178,6 +178,32 @@ def _included_randomizable_sources(policy: dict[str, Any]) -> tuple[list[Ability
     return included_sources, excluded_unswallowable_sources
 
 
+ROOM16_FOLEY_SWAP = "room16_foley_swap"
+
+
+def _shuffled_enemy_assignments(policy: dict[str, Any], sources: list[AbilitySource]) -> dict[str, str]:
+    """Resolve enemy table assignments shared by the ROM, spoiler and logic."""
+    assignments = build_shuffled_enemy_type_assignments(policy, (source.key for source in sources))
+    if ROOM16_FOLEY_SWAP in policy:
+        donor = policy[ROOM16_FOLEY_SWAP]
+        if (not isinstance(donor, str) or donor == "FOLEY" or donor not in assignments
+                or "FOLEY" not in assignments
+                or assignments[donor] == "Normal"):
+            raise ValueError("Invalid Room 4-16 shuffled Foley donor")
+        assignments["FOLEY"], assignments[donor] = assignments[donor], assignments["FOLEY"]
+    return assignments
+
+
+def room16_foley_swap_candidates(policy: dict[str, Any], abilities: frozenset[str]) -> tuple[str, ...]:
+    """Return stable eligible enemy donors, without changing the grant multiset."""
+    sources, _ = _included_randomizable_sources(policy)
+    assignments = _shuffled_enemy_assignments(policy, sources)
+    if "FOLEY" not in assignments:
+        return ()
+    return tuple(key for key, ability in assignments.items()
+                 if key != "FOLEY" and ability in abilities and ability != assignments["FOLEY"])
+
+
 # Versioned immutable extension config. Version zero preserves legacy seeds.
 ENEMY_SOURCE_CONFIG_ROM_OFFSET = 0x100FFDC
 ENEMY_SOURCE_CONFIG_MAGIC = 0x41534501
@@ -212,10 +238,7 @@ def build_enemy_copy_spoiler_rows(
 
     shuffled_assignments: dict[str, str] = {}
     if mode == AbilityRandomizationMode.option_shuffled:
-        shuffled_assignments = build_shuffled_enemy_type_assignments(
-            policy,
-            (source.key for source in included_sources),
-        )
+        shuffled_assignments = _shuffled_enemy_assignments(policy, included_sources)
 
     rows: list[tuple[str, str, str]] = []
     for source in included_sources:
@@ -272,10 +295,7 @@ def build_enemy_copy_runtime_patch_writes(
 
     shuffled_assignments: dict[str, str] = {}
     if mode == AbilityRandomizationMode.option_shuffled:
-        shuffled_assignments = build_shuffled_enemy_type_assignments(
-            policy,
-            (source.key for source in included_sources),
-        )
+        shuffled_assignments = _shuffled_enemy_assignments(policy, included_sources)
 
     writes: dict[int, int] = {}
     for source in included_sources:
