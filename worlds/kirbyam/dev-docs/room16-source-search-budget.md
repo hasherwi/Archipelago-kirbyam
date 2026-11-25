@@ -6,7 +6,8 @@ initial source-policy seed was 2450128862376293350. All 8192 candidates failed t
 joint source constraints. The same input fails on main `06f398912`; it is not caused
 by the Completely Random timer or the Advanced Fire route.
 
-The unchanged deterministic candidate stream first succeeds at attempt 8552,
+With the former randomized Copy Ability Room statues, the same candidate stream
+first succeeded at attempt 8552,
 policy seed 884389559316697767. Full generation then passes the unchanged final
 all-check audit and produces an archive. The regression fixture retains the
 original fuzzer YAML, including its normalized health-range settings. Tests also
@@ -28,9 +29,19 @@ fuzzer classification was relaxed. The Completely Random timer and Advanced Fire
 route are unchanged. A bounded search can still exhaust on other seeds; that
 remains an explicit error with no emitted archive.
 
+## Fixed Copy Ability Room statues
+
+With the Copy Ability Room keeping its vanilla statues, the identical input
+and candidate stream first qualify at attempt 3354, policy seed
+9372867150608014686. A 3353-attempt run still fails closed, and the first valid
+candidate passes the unchanged final all-check audit. The regression separately
+replays 8192-attempt exhaustion using the former statue semantics. The
+production search budget remains unchanged.
+
 ## CI cases 369 and 497: only repair an exhausted Shuffle
 
-Case 369 (seed 89287592, RoomSanity, Standard, 83% no-ability) exhausts the
+Under the former Copy Ability Room grant rules, case 369 (seed 89287592,
+RoomSanity, Standard, 83% no-ability) exhausts the
 same 16,384 assignments. Case 497 exercises the independent 100% Game
 Completion requirement at 96% with RoomSanity off. When that happens,
 generation can exchange Foley's assignment with an already eligible enemy
@@ -50,3 +61,10 @@ Already placed or precollected copies and existing early requests take
 precedence. The request respects ordinary item placement rules, never
 precollects the item, and leaves a case with no valid placement subject to
 the same final audit. Minimal remains the recorded accessibility setting.
+
+The fixed Copy Ability Room grant rules find natural witnesses in both exact
+fixtures, selecting policy seeds 39282560134454757 (369) and
+5719372416106836257 (497) without an exchange or an early Stone request. The
+current archives still pass the strict final audit. The same input fixtures
+also run against the former room grant rules, preserving the donor exchange,
+ROM token, and early-Stone checks for exhausted profiles.

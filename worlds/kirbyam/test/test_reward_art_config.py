@@ -314,6 +314,7 @@ def test_unknown_local_kirby_item_and_unsupported_item_keep_generic() -> None:
     ))
     assert _variants(build_reward_art_config((unknown, area_key, ability, copy_room))) == {
         reward_art_location_key(data.locations["BOSS_DEFEAT_2"]): RewardArt.KEY_MOONLIGHT,
+        reward_art_location_key(data.locations["BOSS_DEFEAT_3"]): RewardArt.ABILITY_SLEEP,
         reward_art_location_key(data.locations["BOSS_DEFEAT_4"]): RewardArt.KEY_COPY_ROOM,
     }
     outbound = _location("BOSS_DEFEAT_2", KirbyAmItem(
@@ -341,7 +342,7 @@ def test_native_art_registry_matches_the_curated_areas_and_complete_item_familie
     native = KIRBY_NATIVE_ART_BY_ITEM_CODE
     areas = ("Rainbow Route", "Moonlight Mansion", "Cabbage Cavern", "Mustard Mountain",
              "Carrot Castle", "Olive Ocean", "Peppermint Palace", "Radish Ruins", "Candy Constellation")
-    assert len(native) == 108
+    assert len(native) == 114
     assert native[3860500] == RewardArt.KEY_COPY_ROOM
     for index, label in enumerate(areas, RewardArt.KEY_RAINBOW):
         (code,) = (code for code, art in native.items() if art == index)
@@ -467,11 +468,11 @@ def test_ability_art_registry_matches_native_statue_subtypes_only() -> None:
         ap_code = 3860100 + runtime_id
         assert ap_code not in native
         item = KirbyAmItem(f"{name} Ability", ItemClassification.progression, ap_code, 1)
-        assert reward_art_for_item(item, 1) == RewardArt.GEM
+        assert reward_art_for_item(item, 1) == RewardArt[f"ABILITY_{name.upper()}"]
     assert 3860126 not in native  # Master stand/sword is not a CopyAbilityObject.
 
 
-def test_generated_burning_uses_statue_and_sleep_stays_generic(tmp_path: Path) -> None:
+def test_generated_burning_and_sleep_use_their_statue_sprites(tmp_path: Path) -> None:
     from io import BytesIO
     from zipfile import ZipFile
     import Generate
@@ -529,7 +530,7 @@ def test_generated_burning_uses_statue_and_sleep_stays_generic(tmp_path: Path) -
     assert slot[chest.location_id][:2] == (3860103, 1)
     assert slot[area.location_id][:2] == (3860111, 1)
     assert variants[reward_art_location_key(chest)] == RewardArt.ABILITY_BURNING
-    assert reward_art_location_key(area) not in variants
+    assert variants[reward_art_location_key(area)] == RewardArt.ABILITY_SLEEP
 
 
 def test_hub_connection_art_tracks_item_catalog_tags() -> None:

@@ -305,7 +305,7 @@ Server → Client: ConnectionRefused | Connected
 
 `slot_data` currently includes:
 
-- `tracker` (object): Universal Tracker schema version 1, resolved Kirby options and effective precollected item counts. See `docs/universal-tracker.md`.
+- `tracker` (object): Universal Tracker schema version 2, resolved Kirby options and effective precollected item counts. Version 2 uses fixed native Copy Ability Room statue grants; earlier schemas are unsupported and require regeneration. See `docs/universal-tracker.md`.
 - `world_version` (str): world release/version identifier from `KirbyAmWorld.world_version` (for example, `0.2.0`), emitted for log/tracker/version diagnostics.
 - `goal` (int): selected canonical goal option (`0=Dark Mind`, `1=Defeat Any Area Boss`, `2=Defeat Area Boss`, `4=Defeat a Number of Area Bosses`, `5=100% Game Completion`). Value `3` is reserved for legacy hidden seeds. The older YAML name `defeat_configured_area_boss` parses as value `2`. The removed `defeat_random_hidden_area_boss` must be replaced with `goal: defeat_area_boss` plus `configured_area_boss: random`.
 - `full_completion_version` (int): `1` for goal 5. Requires exact native room/chest/switch/shard/final-clear obligations, all 99 physical AP acknowledgements, and authenticated required unlock ownership. Vitality ownership is excluded. Missing/unknown versions disable this goal.
@@ -337,7 +337,7 @@ Server → Client: ConnectionRefused | Connected
 - `ability_randomization_minibosses` (bool): include/exclude mini-boss ability grants.
 - `ability_randomization_passive_enemies` (bool): when true, enemies that natively grant no ability participate in copy-ability randomization. Default: `true`.
 - `ability_randomization_no_ability_weight` (int): percentage chance from `0` to `100` that an included randomized enemy grant resolves to no ability instead of a copy ability. Default: `55`.
-- `ability_randomization_statues` (bool): include/exclude ability statues (sometimes called ability trophies or ability stands) from copy-ability randomization. This option controls inclusion only; included statues inherit `ability_randomization_mode` (`off`, `shuffled`, `completely_random`) and always grant an ability (statues ignore `ability_randomization_no_ability_weight` and `ability_randomization_passive_enemies`; their default pool excludes Mini).
+- `ability_randomization_statues` (bool): include/exclude ordinary world statues; excluded statues remain native, including the Master Sword stand and all statues in the Copy Ability Room (native room 970). Shuffled world statues display the assigned ability using native or Aarcayne Art's custom tiles; Completely Random world statues show the question mark without revealing or changing the eventual grant. The matching runtime assignment mode and 19 native subtype grants are written to the immutable `APST01` seed config at ROM `0x100EE00`; Copy Ability Room grants use the unchanged stock ability table. Ability gating still applies.
 - `room_sanity` (bool): enables/disables the full room-visit location set (`Room X-<room code>`, 263 checks). The eight keyed-area hub landmarks remain active when this option is off.
 - `area_keys` (bool): default-on Area Key destination gates. Off removes the eight shuffled keys and the guaranteed Rainbow Route key and rebalances filler while retaining Hub, lever, ability and Dimension Mirror rules. Missing means enabled for older Area Key seeds.
 - `starting_area_key_bitfield` (int): Area Key bits already owned at generation, including user starting inventory, the guaranteed Rainbow Route key and any early Moonlight Mansion fallback. Bits `1..9` correspond to Areas `1..9`; this value is zero when `area_keys` is false.
@@ -921,7 +921,7 @@ crash-window limits and recovery semantics. ROM/save formats are unchanged.
 
 ### Area Key branch payload layout
 
-The combined payload starts at ROM file offset `0x15DC00`, extending the old window backward by 1 KiB. The patcher requires every added byte through `0x15DFFF` to match the retail zero padding. The payload ends at `0x15F6A0`; Minny/health/color/gate/statue config remains fixed at `0x15F68C..0x15F69F`. Transition helpers share the existing ROM extension at `0x09000000`; short native calls land on verified long-call entries in the fixed window. Hook destinations are resolved from the rebuilt ELF. This branch requires newly generated patches; offline patch validation does not establish transition gameplay acceptance.
+The combined payload starts at ROM file offset `0x15DB00`, extending the old window backward by 1,280 bytes. The patcher requires every added byte through `0x15DFFF` to match the retail zero padding. The payload ends at `0x15F6A0`; Minny/health/color/gate/statue config remains fixed at `0x15F68C..0x15F69F`. Transition helpers share the existing ROM extension at `0x09000000`; short native calls land on verified long-call entries in the fixed window. Hook destinations are resolved from the rebuilt ELF. This branch requires newly generated patches; offline patch validation does not establish transition gameplay acceptance.
 
 ### Acknowledged lever reset recovery (v0.4.1)
 

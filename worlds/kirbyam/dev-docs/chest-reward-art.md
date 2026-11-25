@@ -345,14 +345,38 @@ non-trap items still use the generic gem.
 
 ### Copy-ability unlock awards
 
-Only unlocks with a verified native ability statue use statue art. The
+Unlocks with a verified native ability statue use its stock art. The
 nineteen stock frames are Beam, Burning, Laser, Fire, Stone, Fighter, Bomb,
 Tornado, Wheel, Ice, Spark, Missile, Smash, Throw, Hammer, Sword, Cutter,
 Cupid, and Parasol. The payload uses their 16×16 native shapes with the
 existing popup palette; it will not spawn a statue or transform Kirby.
 
-The remaining ability unlocks (Sleep, Cook, UFO, Magic, Mini, and Crash)
-and Master's separate stand do not use statue art. These keep the generic gem,
-as do outgoing non-trap items and
-unsupported placements. A live incoming statue award is still purely
-visual and happens only after its separate ROM delivery acknowledgment.
+Master's separate stand and unsupported or outgoing non-trap placements retain
+the generic gem. Live incoming statue awards are purely visual and follow
+their separate ROM delivery acknowledgment.
+
+### Custom ability statue art
+
+**Aarcayne Art** supplied and is credited for the approved 16×16 Sleep, Cook, UFO, Magic,
+Mini, Crash, and question-mark sprites. The seven unmodified source PNGs are in
+[`assets/ability-statues`](assets/ability-statues); the six ability designs serve
+both as shuffled statue art and ability unlock icons. Completely Random uses the
+question mark for participating world statues only. The Copy Ability Room,
+Master stand, excluded statues, and trap visuals are unchanged.
+
+Run `python kirby_ap_payload/generate_custom_statue_art.py` (Pillow required for
+regeneration only) from the KirbyAM source directory. The patcher checks that the
+versioned table fits in its reserved ROM span `0x100C600–0x100C987`, outside the Area
+Key table. This table uses palette bank F so it shares the existing upload and
+palette paths. The six item-art variants are 77–82 (receipt opcodes 78–83);
+the question mark is not an item reward. Local rewards still require an exact
+Kirby item and recipient match. Incoming sprites are best-effort and only appear
+after a new delivery acknowledgement. Clients fall back to the AP gem on older
+compatible ROMs without this table.
+
+Native mGBA captures: [shuffled UFO statue](assets/ability-statues/evidence/shuffled-ufo.png),
+[Completely Random statues](assets/ability-statues/evidence/completely-random.png),
+[local Sleep unlock](assets/ability-statues/evidence/local-sleep.png), and
+[incoming UFO unlock](assets/ability-statues/evidence/incoming-ufo.png). Both award
+captures came from physically opened tutorial chests in a generated two-player
+session; the incoming cue appeared only after the receiver acknowledged the item.

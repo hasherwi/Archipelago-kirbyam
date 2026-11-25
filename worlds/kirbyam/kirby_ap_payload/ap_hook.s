@@ -273,5 +273,23 @@ ap_room_visit_reward_art_entry:
 .endm
 
 BOSS_SHARD_ART_ENTRY ap_init_boss_shard_sprite_entry, ap_init_boss_shard_sprite
-BOSS_SHARD_ART_ENTRY ap_update_boss_shard_sprite_entry, ap_update_boss_shard_sprite
-BOSS_SHARD_ART_ENTRY ap_draw_boss_shard_sprite_entry, ap_draw_boss_shard_sprite
+BOSS_SHARD_ART_ENTRY ap_update_reward_or_statue_sprite_entry, ap_update_reward_or_statue_sprite
+BOSS_SHARD_ART_ENTRY ap_draw_reward_or_statue_sprite_entry, ap_draw_reward_or_statue_sprite
+
+.section .text.ap_statue_entries,"ax",%progbits
+.macro AP_STATUE_ENTRY entry, handler
+.balign 4
+.global \entry
+.type \entry, %function
+.thumb_func
+\entry:
+    ldr r3, 1f
+    bx r3
+.balign 4
+1:  .word \handler
+.size \entry, .-\entry
+.endm
+
+AP_STATUE_ENTRY ap_init_world_statue_sprite_entry, ap_init_world_statue_sprite
+AP_STATUE_ENTRY ap_init_world_statue_grant_entry, ap_init_world_statue_grant
+AP_STATUE_ENTRY ap_reload_world_statue_sprite_entry, ap_reload_world_statue_sprite

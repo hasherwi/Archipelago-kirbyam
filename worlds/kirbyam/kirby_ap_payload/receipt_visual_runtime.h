@@ -23,7 +23,7 @@ static inline uint32_t ap_visual_age(uint32_t packet, uint32_t now) {
 static inline uint8_t ap_visual_can_start(uint32_t request, uint32_t frame, uint32_t ready) {
     uint32_t kind = request & AP_VISUAL_CODE_MASK;
     return !(request & AP_VISUAL_REJECTED) && ap_visual_age(request, frame) <= 8u
-        && kind && kind <= AP_VISUAL_MAX_CODE && ready == AP_VISUAL_READY;
+        && kind && ap_reward_art_value_valid((uint8_t)(kind - 1u)) && ready == AP_VISUAL_READY;
 }
 
 #endif

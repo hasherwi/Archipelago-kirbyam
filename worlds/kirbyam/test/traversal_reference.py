@@ -134,18 +134,17 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
     queue = deque(starts)
     visited: set[Position] = set()
     assumptions: set[str] = set()
-    grants: dict[tuple[str, tuple[str, ...]], Grant] = {}
+    grants: dict[tuple[str, tuple[str, ...], int], Grant] = {}
 
     def permitted(ability: str) -> bool:
         return ability_permission(ability, owned, gating)
 
-    def source_grant(key: str, native_grants: tuple[str, ...]) -> Grant:
+    def source_grant(key: str, native_grants: tuple[str, ...], room: int) -> Grant:
         # Grants describe deterministic possibilities, not individual RNG draws.
         # Policy, owned permissions and gating are fixed for this evaluation.
-        cache_key = (key, native_grants)
+        cache_key = (key, native_grants, room)
         if cache_key not in grants:
-            grants[cache_key] = (policy.grant(key, permitted, native_grants) if native_grants
-                                 else policy.grant(key, permitted))
+            grants[cache_key] = policy.grant(key, permitted, native_grants, native_room=room)
         return grants[cache_key]
 
     while queue:
@@ -168,9 +167,9 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
             if identity in position.consumed:
                 continue
             consumed = position.consumed if source.renewable else position.consumed | {identity}
-            grant = source_grant(source.source_key, source.native_grants)
-            unrestricted = (policy.grant(source.source_key, lambda _: True, source.native_grants)
-                            if source.native_grants else policy.grant(source.source_key, lambda _: True))
+            room = node_by_key[source.node].room
+            grant = source_grant(source.source_key, source.native_grants, room)
+            unrestricted = policy.grant(source.source_key, lambda _: True, source.native_grants, native_room=room)
             if source.source_choices:
                 grant = policy.grant_choice(source.source_choices, permitted)
                 unrestricted = policy.grant_choice(source.source_choices, lambda _: True)

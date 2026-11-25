@@ -23,10 +23,10 @@ Access is permission to enter, not equipment or an ability-unlock grant. The
 nineteen room 970 statue sources are owned by `REGION_COPY_ABILITY_ROOM/MAIN` and
 shared by four traversal consumers: the Wheel108 chest, Smash149 peg, joint
 Hammer228 chest and joint Hammer229 left1Up carriers. Each consumer requires independently reachable room 970; the shared source set
-also requires the access item at acquisition. Actual statue assignments, category
-inclusion/exclusion, eligible output pools, and ability-item gates still apply.
-Fixed excluded statues supply their native Wheel/Smash grants only after reaching
-970 with the corresponding ability permission when gating is enabled. They do
+also requires the access item at acquisition. Room 970 statues are always fixed at
+their native abilities, even when selected world statues are shuffled or live-rerolled.
+They supply their native Wheel/Smash grants only after reaching 970 with the
+corresponding ability permission when gating is enabled. They do
 not bypass the carrier's Hub Connection, Area Key, obstacle, or reset requirements.
 
 The earlier draft correctly rejected all-switch reachability as a substitute for

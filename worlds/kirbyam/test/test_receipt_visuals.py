@@ -17,7 +17,7 @@ from .test_receipt_journal import Mailbox, drain, make_client, receipt_env, tick
 
 
 def item(location, player=2, flags=0):
-    return NetworkItem(3860114, location, player, flags)  # UFO has no dedicated statue artwork.
+    return NetworkItem(3999999, location, player, flags)  # Unknown item keeps the generic art.
 
 
 @pytest.mark.parametrize(("location", "player", "flags", "visual"), [
@@ -96,9 +96,32 @@ def test_access_receipt_art_codes_keep_preexisting_shard_and_wire_reserved():
         assert visual_for_remote_receipt(NetworkItem(code, 7, 2, 1), 1) == 48
 
 
-@pytest.mark.parametrize("code", [3860111, 3860112, 3860114, 3860121, 3860123, 3860124])
-def test_non_statue_ability_receipts_use_generic_gem(code):
-    assert visual_for_remote_receipt(NetworkItem(code, 7, 2, 1), 1) == VISUAL_GEM
+@pytest.mark.parametrize("code,opcode", tuple(zip(
+    (3860111, 3860112, 3860114, 3860121, 3860123, 3860124), range(78, 84), strict=True,
+)))
+def test_custom_ability_receipts_have_distinct_opcodes(code, opcode):
+    assert visual_for_remote_receipt(NetworkItem(code, 7, 2, 1), 1) == opcode
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("present", [False, True])
+async def test_custom_ability_art_is_gated_on_the_rom_marker(present):
+    from ..reward_art_types import CUSTOM_STATUE_ART_MARKER, CUSTOM_STATUE_ART_ROM_OFFSET
+
+    q = ReceiptVisuals()
+    q.supported = True
+    q._enqueue(RewardArt.ABILITY_MAGIC + 1)
+    read = AsyncMock(side_effect=[
+        [pack("<IIII", 0, 0, 1, 0), pack("<I", 12)],
+        [CUSTOM_STATUE_ART_MARKER if present else bytes(8)],
+    ])
+    write = AsyncMock(return_value=True)
+    with patch("worlds.kirbyam.receipt_visuals.bizhawk.read", read), \
+         patch("worlds.kirbyam.receipt_visuals.bizhawk.guarded_write", write):
+        await q.pump(None, auth_offset=5, auth=b"id", frame_addr=8, session_current=lambda: True)
+    assert q.in_flight & 127 == (RewardArt.ABILITY_MAGIC + 1 if present else VISUAL_GEM)
+    assert ((CUSTOM_STATUE_ART_ROM_OFFSET, CUSTOM_STATUE_ART_MARKER, "ROM")
+            in write.await_args.args[2]) == present
 
 
 def test_burning_unlock_receipt_uses_its_statue_art_opcode():
@@ -147,9 +170,8 @@ async def test_native_mailbox_accept_reject_ambiguous_reset_busy_and_distinct_ar
 @pytest.mark.asyncio
 async def test_high_collectible_opcode_and_frame_wrap_keep_the_reject_bit_free():
     q = ReceiptVisuals()
-    opcode = max(RewardArt) + 1
-    assert opcode == VISUAL_MAX_OPCODE == 77
-    q._area_key_art_header = b"APKEY01\0\xff\x03\0\0"
+    opcode = RewardArt.ABILITY_PARASOL + 1
+    assert opcode == 67 < VISUAL_MAX_OPCODE == 83
     q._enqueue(opcode)
     q.supported = True
     read = AsyncMock(return_value=[pack("<IIII", 0, 0, 1, 0),
@@ -395,43 +417,6 @@ async def test_expiry_while_mailbox_read_is_awaited_prevents_publishing():
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize("art", [RewardArt.KEY_MOONLIGHT, RewardArt.KEY_COPY_ROOM])
-async def test_expiry_while_key_art_header_read_is_awaited_drops_only_expired_popup(art):
-    from ..receipt_visuals import AREA_KEY_ART_HEADER_OFFSET, AREA_KEY_ART_MARKER
-
-    now = [0.0]
-    q = ReceiptVisuals(clock=lambda: now[0])
-    q.supported = True
-    q._enqueue(art + 1)
-    now[0] = 1.0
-    q._enqueue(VISUAL_GEM)
-    tokens = []
-    frame = [42]
-
-    async def read(_, requests):
-        if requests[0][0] == VISUAL_MAILBOX:
-            return [pack("<IIII", 0, 0, 1, 0), pack("<I", frame[0])]
-        assert requests == [(AREA_KEY_ART_HEADER_OFFSET, 12, "ROM")]
-        # The emulator is paused, so the native-frame timeout can't discard
-        # the receipt. The Python-side wall-clock timer must expire it.
-        now[0] = VISUAL_MAX_AGE_SECONDS
-        return [AREA_KEY_ART_MARKER + pack("<I", 0x3FF)]
-
-    async def write(_, values, _guards):
-        tokens.append(unpack("<I", values[1][1])[0])
-        return True
-
-    with patch("worlds.kirbyam.receipt_visuals.bizhawk.read", side_effect=read), \
-         patch("worlds.kirbyam.receipt_visuals.bizhawk.guarded_write", side_effect=write):
-        await q.pump(None, auth_offset=5, auth=b"id", frame_addr=8, session_current=lambda: True)
-        assert not tokens and not q.in_flight
-        assert [entry.opcode for entry in q.pending] == [VISUAL_GEM]
-        frame[0] += 1
-        await q.pump(None, auth_offset=5, auth=b"id", frame_addr=8, session_current=lambda: True)
-        assert tokens == [(43 << VISUAL_ART_BITS) | VISUAL_GEM]
-
-
-@pytest.mark.asyncio
 async def test_expired_paused_request_is_retracted_without_touching_other_mailbox_words():
     now = [0.0]
     q = ReceiptVisuals(clock=lambda: now[0])
@@ -475,6 +460,33 @@ async def test_expired_paused_request_is_retracted_without_touching_other_mailbo
         )
         await pump()
         assert not q.in_flight and len(writes) == 2
+
+
+@pytest.mark.asyncio
+async def test_custom_rom_marker_read_cannot_publish_an_expired_ability():
+    from ..reward_art_types import CUSTOM_STATUE_ART_MARKER
+
+    now = [0.0]
+    q = ReceiptVisuals(clock=lambda: now[0])
+    q.supported = True
+    q._enqueue(RewardArt.ABILITY_MAGIC + 1)
+    now[0] = 1.0
+    q._enqueue(VISUAL_GEM)
+
+    async def read(transport, requests):
+        if len(requests) == 1:
+            now[0] = VISUAL_MAX_AGE_SECONDS
+            return [CUSTOM_STATUE_ART_MARKER]
+        return [pack("<IIII", 0, 0, 1, 0), pack("<I", 12)]
+
+    write = AsyncMock(return_value=True)
+    with patch("worlds.kirbyam.receipt_visuals.bizhawk.read", read), \
+         patch("worlds.kirbyam.receipt_visuals.bizhawk.guarded_write", write):
+        await q.pump(None, auth_offset=5, auth=b"id", frame_addr=8, session_current=lambda: True)
+        write.assert_not_awaited()
+        assert [entry.opcode for entry in q.pending] == [VISUAL_GEM]
+        await q.pump(None, auth_offset=5, auth=b"id", frame_addr=8, session_current=lambda: True)
+    assert q.in_flight & 127 == VISUAL_GEM
 
 
 @pytest.mark.asyncio

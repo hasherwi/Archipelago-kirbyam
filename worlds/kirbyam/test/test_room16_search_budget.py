@@ -8,25 +8,53 @@ from .support.integration_generation import generate_archive_from_fixture, load_
 from .support.check_accessibility import audit_local_checks
 
 
-@pytest.mark.parametrize('historical_cap', [True, False])
-def test_exact_ci_seed_exhaustion_and_full_archive(monkeypatch, tmp_path, historical_cap):
+def _emulate_legacy_room_statues(monkeypatch):
+    from ..traversal import SourcePolicy
+
+    grant = SourcePolicy.grant
+
+    def historical_grant(self, key, permitted, native_grants=(), *, native_room=None):
+        return grant(self, key, permitted, native_grants)
+
+    monkeypatch.setattr(SourcePolicy, 'grant', historical_grant)
+
+
+@pytest.mark.parametrize(
+    'historical_statues,cap,attempts,winning_seed',
+    [
+        pytest.param(True, 8192, 8192, None, id='historical-cap-exhaustion'),
+        pytest.param(False, 3353, 3353, None, id='fixed-statues-before-first-witness'),
+        pytest.param(False, None, 3354, 9372867150608014686, id='fixed-statues-full-archive'),
+    ],
+)
+def test_exact_ci_seed_exhaustion_and_full_archive(monkeypatch, tmp_path, historical_statues, cap,
+                                                  attempts, winning_seed):
     import worlds.kirbyam as kirby
+    if historical_statues:
+        # Replay the former grant rules only for the historical failure control.
+        _emulate_legacy_room_statues(monkeypatch)
+
     original = kirby.validate_peg_assignment
     validate = check_accessibility.validate_all_checks
-    draws = []
+    draws = 0
+    last = None
     audited = []
 
     def select(initial, factory, statues, **kwargs):
+        nonlocal draws, last
         assert initial['seed'] == 2450128862376293350
         assert kwargs['max_attempts'] == 16384
         assert kwargs['require_room16'] and not kwargs['advanced']
-        draws.append(initial)
+        draws, last = 1, initial
+
         def counted():
-            candidate = factory()
-            draws.append(candidate)
-            return candidate
-        if historical_cap:
-            kwargs['max_attempts'] = 8192
+            nonlocal draws, last
+            last = factory()
+            draws += 1
+            return last
+
+        if cap is not None:
+            kwargs['max_attempts'] = cap
             kwargs['allow_room16_shuffle_repair'] = False
         return original(initial, counted, statues, **kwargs)
 
@@ -37,20 +65,20 @@ def test_exact_ci_seed_exhaustion_and_full_archive(monkeypatch, tmp_path, histor
     monkeypatch.setattr(kirby, 'validate_peg_assignment', select)
     monkeypatch.setattr(check_accessibility, 'validate_all_checks', audit)
     fixture = Path(__file__).parent / 'data/fuzz_room16_source_budget_202.yaml'
-    if historical_cap:
-        with pytest.raises(KirbyAmRoom16SourceError, match='after 8192 attempts'):
+    if winning_seed is None:
+        with pytest.raises(KirbyAmRoom16SourceError, match=f'after {cap} attempts'):
             generate_archive_from_fixture(fixture, tmp_path, seed=587276755)
-        assert len(draws) == 8192 and not audited
+        assert draws == attempts and not audited
         assert not list(tmp_path.glob('*.zip'))
     else:
         archive = generate_archive_from_fixture(fixture, tmp_path, seed=587276755)
-        assert len(draws) == 8552
-        assert draws[-1]['seed'] == 884389559316697767
+        assert draws == attempts
+        assert last is not None and last['seed'] == winning_seed
         world, = audited
         actual = audit_local_checks(world, 1)
         assert actual.unfilled == actual.inventory_unreachable == actual.progression_unreachable == ()
         selected = load_multidata_from_archive(archive)['slot_data'][1]['enemy_copy_ability_policy']
-        assert {**selected, 'allowed_abilities': list(selected['allowed_abilities'])} == draws[-1]
+        assert {**selected, 'allowed_abilities': list(selected['allowed_abilities'])} == last
         assert selected['mode'] == 1 and selected['ability_randomization_no_ability_weight'] == 71
         assert 'room16_switch_timer_frames' not in selected
         assert len(list(tmp_path.glob('*.zip'))) == 1
@@ -77,16 +105,18 @@ def test_room16_prerequisite_short_circuits_without_reordering_candidates(monkey
 
 
 
+@pytest.mark.parametrize("historical_statues", [False, True], ids=["fixed-statues", "legacy-statues"])
 @pytest.mark.parametrize(
-    ("fixture", "seed", "initial_policy_seed", "weight", "completion"),
+    ("fixture", "seed", "initial_policy_seed", "weight", "completion", "natural_policy_seed"),
     [
-        ("369", 89287592, 6697895001130690181, 83, False),
-        ("497", 353521934, 16414413953470095692, 96, True),
+        ("369", 89287592, 6697895001130690181, 83, False, 39282560134454757),
+        ("497", 353521934, 16414413953470095692, 96, True, 5719372416106836257),
     ],
     ids=["CI-369-room-sanity", "CI-497-full-completion"],
 )
-def test_exact_high_weight_room16_seed_uses_validated_swap(
+def test_exact_high_weight_room16_seed_uses_reviewed_source(
     monkeypatch, tmp_path, fixture, seed, initial_policy_seed, weight, completion,
+    natural_policy_seed, historical_statues,
 ):
     from collections import Counter
     from io import BytesIO
@@ -102,6 +132,11 @@ def test_exact_high_weight_room16_seed_uses_validated_swap(
     from ..traversal import SourcePolicy
     from ..traversal_rules import static_room16_witness
 
+    if historical_statues:
+        # Retain the exact CI repair regressions under the grant semantics
+        # that exhausted the natural stream. Production fixed statues are
+        # separately required to use their first natural qualifying policy.
+        _emulate_legacy_room_statues(monkeypatch)
     select = kirby.validate_peg_assignment
     validate = check_accessibility.validate_all_checks
     audited = []
@@ -129,15 +164,23 @@ def test_exact_high_weight_room16_seed_uses_validated_swap(
         from BaseClasses import CollectionState
         from Options import Accessibility
 
-        stone, = (loc for loc in world.get_filled_locations()
-                  if loc.item is not None and loc.item.name == "Stone Ability")
-        assert stone.locked and stone.can_reach(CollectionState(world))
+        if historical_statues:
+            stone, = (loc for loc in world.get_filled_locations()
+                      if loc.item is not None and loc.item.name == "Stone Ability")
+            assert stone.locked and stone.can_reach(CollectionState(world))
         assert world.worlds[1].options.accessibility.value == Accessibility.option_minimal
         assert "Room 4-16" in {loc.name for loc in world.get_filled_locations()}
     policy = load_multidata_from_archive(archive)['slot_data'][1]['enemy_copy_ability_policy']
-    donor = policy[ROOM16_FOLEY_SWAP]
     assert policy['mode'] == 1 and policy['ability_randomization_no_ability_weight'] == weight
     assert 'room16_switch_timer_frames' not in policy
+    assert static_room16_witness(SourcePolicy(policy, True))
+    if not historical_statues:
+        assert ROOM16_FOLEY_SWAP not in policy
+        assert policy['seed'] == natural_policy_seed
+        assert world.early_items[1].get("Stone Ability", 0) == 0
+        return
+
+    donor = policy[ROOM16_FOLEY_SWAP]
     base = {key: value for key, value in policy.items() if key != ROOM16_FOLEY_SWAP}
     old = {(kind, key): ability for kind, key, ability in build_enemy_copy_spoiler_rows(base, True)}
     new = {(kind, key): ability for kind, key, ability in build_enemy_copy_spoiler_rows(policy, True)}
@@ -149,7 +192,6 @@ def test_exact_high_weight_room16_seed_uses_validated_swap(
     other, = (key for key in changed if key[1] == donor)
     assert (new[foley], new[other]) == (old[other], old[foley])
     assert not static_room16_witness(SourcePolicy(base, True))
-    assert static_room16_witness(SourcePolicy(policy, True))
     with ZipFile(archive) as generated:
         patch_name, = (name for name in generated.namelist() if name.endswith('.apkirbyam'))
         patch = KirbyAmProcedurePatch()

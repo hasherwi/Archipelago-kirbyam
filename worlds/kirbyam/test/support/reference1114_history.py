@@ -128,8 +128,28 @@ REVIEWED_TRANSFERS = (
 )
 
 
+# Room 970 exemption is a separately reviewed successor. Reverse the exact
+# room-aware grant changes before applying the unchanged 1114 evidence pins.
+REVIEWED_ROOM970_TRANSFERS = (
+    ("""    grants: dict[tuple[str, tuple[str, ...], int], Grant] = {}""",
+     """    grants: dict[tuple[str, tuple[str, ...]], Grant] = {}"""),
+    ("""    def source_grant(key: str, native_grants: tuple[str, ...], room: int) -> Grant:""",
+     """    def source_grant(key: str, native_grants: tuple[str, ...]) -> Grant:"""),
+    ("""        cache_key = (key, native_grants, room)""",
+     """        cache_key = (key, native_grants)"""),
+    ("""            grants[cache_key] = policy.grant(key, permitted, native_grants, native_room=room)""",
+     """            grants[cache_key] = (policy.grant(key, permitted, native_grants) if native_grants
+                                 else policy.grant(key, permitted))"""),
+    ("""            room = node_by_key[source.node].room
+            grant = source_grant(source.source_key, source.native_grants, room)
+            unrestricted = policy.grant(source.source_key, lambda _: True, source.native_grants, native_room=room)""",
+     """            grant = source_grant(source.source_key, source.native_grants)
+            unrestricted = (policy.grant(source.source_key, lambda _: True, source.native_grants)
+                            if source.native_grants else policy.grant(source.source_key, lambda _: True))"""),
+)
+
 def before_1114_reference_transfers(tail: bytes) -> bytes:
-    for current, historical in REVIEWED_TRANSFERS:
+    for current, historical in (*REVIEWED_ROOM970_TRANSFERS, *REVIEWED_TRANSFERS):
         current_bytes = current.encode()
         assert tail.count(current_bytes) == 1, "Reviewed reference transfer changed"
         tail = tail.replace(current_bytes, historical.encode(), 1)

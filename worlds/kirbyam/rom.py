@@ -36,6 +36,8 @@ from .enemy_health_scaling import (
 from .options import AbilityRandomizationMode
 from .phone_protocol import PHONE_CONFIG_OFFSET, PHONE_MARKER
 from .phone_generation import PHONE_CONFIG_FILE, phone_patch_config, validate_phone_patch_intent
+from .statue_seed import (STATUE_CONFIG_EMPTY, STATUE_CONFIG_ROM_OFFSET, STATUE_SLOT_ADDRESSES,
+                          build_statue_seed_config)
 from .reward_art_config import REWARD_ART_CONFIG_EMPTY, REWARD_ART_CONFIG_ROM_OFFSET, build_reward_art_config
 from .vitality import HEALTH_CONFIG_MAGIC, HEALTH_ROM_TITLE
 
@@ -136,6 +138,13 @@ class KirbyAmPatchExtension(APPatchExtension):
         return rom
 
     @staticmethod
+    def validate_statue_seed_base(caller: APProcedurePatch, rom: bytes) -> bytes:
+        offset = STATUE_CONFIG_ROM_OFFSET
+        if rom[offset:offset + len(STATUE_CONFIG_EMPTY)] != STATUE_CONFIG_EMPTY:
+            raise ValueError("Statue assignment marker missing from base patch; rebuild the base patch")
+        return rom
+
+    @staticmethod
     def validate_room_visit_art_base(caller: APProcedurePatch, rom: bytes) -> bytes:
         """A new seed token must not conceal a base lacking the native art hook."""
         offset = ROOM_VISIT_ART_CONFIG_ROM_OFFSET
@@ -196,6 +205,7 @@ class KirbyAmProcedurePatch(APProcedurePatch, APTokenMixin):
         ("validate_room16_timer_base", []),
         ("validate_room_visit_art_base", []),
         ("validate_reward_art_base", []),
+        ("validate_statue_seed_base", []),
         ("apply_enemy_health_scaling", [ENEMY_HEALTH_MULTIPLIER_FILE]),
         ("apply_tokens", ["token_data.bin"]),
         ("finalize_health_header", []),
@@ -324,12 +334,14 @@ def write_tokens(world: "KirbyAmWorld", patch: KirbyAmProcedurePatch, *,
         statue_allowed_mask.to_bytes(4, "little"),
     )
 
-    if isinstance(policy, dict):
-        ability_writes = build_enemy_copy_runtime_patch_writes(
-            policy,
-            include_statues=include_statues,
-        )
-        for rom_offset, ability_id in sorted(ability_writes.items()):
+    ability_writes = (build_enemy_copy_runtime_patch_writes(policy, include_statues=include_statues)
+                      if isinstance(policy, dict) else {})
+    # Preserve the shared vanilla table for the exempt Copy Ability Room.
+    # World-statue spawn and art code consume the exact same seed assignment.
+    patch.write_token(APTokenTypes.WRITE, STATUE_CONFIG_ROM_OFFSET,
+                      build_statue_seed_config(mode, include_statues, ability_writes))
+    for rom_offset, ability_id in sorted(ability_writes.items()):
+        if rom_offset not in STATUE_SLOT_ADDRESSES:
             patch.write_token(APTokenTypes.WRITE, rom_offset, bytes([ability_id]))
 
     patch.write_file("token_data.bin", patch.get_token_binary())

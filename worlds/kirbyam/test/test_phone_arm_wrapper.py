@@ -24,7 +24,7 @@ def test_phone_thumb_wrapper_abi(tmp_path: Path) -> None:
     flags = ["-mthumb", "-mcpu=arm7tdmi", "-Os", "-ffreestanding", "-fno-builtin",
              "-fno-jump-tables", "-fno-tree-switch-conversion", "-nostdlib", "-Wall", "-Wextra"]
     objects = []
-    for source in ("ap_payload.c", "ap_hook.s", "color_payload.c", "copy_room.c", "goal_game.c", "phone.c", "battery.c", "battery_hook.s"):
+    for source in ("ap_payload.c", "ap_hook.s", "color_payload.c", "copy_room.c", "goal_game.c", "phone.c", "battery.c", "battery_hook.s", "fileselect.c"):
         obj = tmp_path / (Path(source).stem + ".o")
         subprocess.run(["arm-none-eabi-gcc", *flags, "-I", str(payload), "-c",
                         str(payload / source), "-o", str(obj)], check=True)
@@ -41,7 +41,7 @@ def test_phone_thumb_wrapper_abi(tmp_path: Path) -> None:
             symbols[fields[2]] = int(fields[0], 16)
     # A synthetic address space only: no retail ROM, copyrighted assets, or saves.
     rom = bytearray(0x1010000)
-    for section, address in ((".text", 0x0815DC00), (".apcolors", 0x09000000)):
+    for section, address in ((".text", 0x0815DB00), (".apcolors", 0x09000000)):
         binary = tmp_path / (section + ".bin")
         subprocess.run(["arm-none-eabi-objcopy", "-O", "binary", "--only-section=" + section,
                         str(elf), str(binary)], check=True)

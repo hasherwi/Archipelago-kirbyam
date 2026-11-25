@@ -7,6 +7,116 @@ AP_COPY_EXT void ap_goal_poll(void);
 #include "phone.h"
 #include "battery.h"
 #include "statue_runtime_logic.h"
+#include "statue_art_runtime.h"
+#include "statue_logo.h"
+
+#define AP_STATUE_FX __attribute__((noinline, long_call, section(".apstatuefx")))
+#define AP_STATUE_UPLOAD_HEAD ((volatile uint8_t*)0x030039A4u)
+#define AP_STATUE_UPLOAD_TAIL (*(volatile uint8_t*)0x03006078u)
+#define AP_STATUE_UPLOAD_RING ((volatile struct ApStatueTileUpload*)0x03002EC0u)
+
+__attribute__((used, section(".apstatueconfig")))
+const volatile struct ApStatueConfig gApWorldStatueConfig = {.magic = "APST01"};
+
+AP_STATUE_FX uint8_t ap_world_statue_mode(uint16_t room) {
+    return ap_statue_world_mode(room, &gApWorldStatueConfig);
+}
+
+static AP_STATUE_FX uint8_t ap_world_statue_visual(const uint8_t *sprite) {
+    const uint8_t *obj = sprite - 0x10u;
+    if (obj[0] != 1u || *(const volatile uint16_t*)(sprite + 0xCu) != AP_STATUE_NATIVE_ANIM
+        || !ap_statue_vram_address_is_valid(*(const volatile uint32_t*)sprite)) return 0u;
+    return ap_statue_world_art(*(const volatile uint16_t*)(obj + 0x60u), obj[0x82u],
+        sprite[0x1Au], &gApWorldStatueConfig);
+}
+
+static inline uint32_t ap_custom_statue_tiles(uint8_t index) {
+    const volatile uint32_t *header = (const volatile uint32_t*)AP_STATUE_CUSTOM_ROM_ADDRESS;
+    if (header[0] != AP_STATUE_CUSTOM_MARKER_FIRST || header[1] != AP_STATUE_CUSTOM_MARKER_LAST) return 0u;
+    return ap_statue_custom_address(index);
+}
+
+/* Statue scripts share one static native frame and 16x16 footprint. Reuse
+ * the native object's existing allocation, DMA, animation and draw order. */
+static AP_STATUE_FX uint32_t ap_world_statue_tiles(uint8_t art) {
+    static const uint8_t mapping[32] __attribute__((section(".apstatuefx_data"))) = {
+        [7] = 1, [3] = 2, [13] = 3, [1] = 4, [8] = 5, [20] = 6, [9] = 7, [16] = 8,
+        [4] = 9, [2] = 10, [15] = 11, [25] = 12, [22] = 13, [10] = 14, [17] = 15,
+        [18] = 16, [6] = 17, [19] = 18, [5] = 19,
+    };
+    static const uint8_t custom[32] __attribute__((section(".apstatuefx_data"))) = {
+        [11] = 1u, [12] = 2u, [14] = 3u, [21] = 4u, [23] = 5u, [24] = 6u,
+    };
+    if (art < 32u && mapping[art]) {
+        return 0x0900E388u + (mapping[art] - 1u) * AP_STATUE_ART_SIZE;
+    }
+    uint8_t index = art == AP_STATUE_QUESTION ? 6u
+        : art < 32u && custom[art] ? (uint8_t)(custom[art] - 1u) : AP_STATUE_CUSTOM_FRAME_COUNT;
+    uint32_t tiles = ap_custom_statue_tiles(index);
+    return tiles ? tiles : (uint32_t)(uintptr_t)gApWorldStatueLogo;
+}
+
+static AP_STATUE_FX void ap_world_statue_redirect(const uint8_t *sprite, uint8_t before) {
+    uint8_t art = ap_world_statue_visual(sprite);
+    if (!art) return;
+    ap_statue_replace_upload(AP_STATUE_UPLOAD_RING, before, *AP_STATUE_UPLOAD_HEAD,
+        *(const volatile uint32_t*)sprite, sprite[0x1Au], ap_world_statue_tiles(art));
+}
+
+AP_STATUE_FX __attribute__((used)) void ap_init_world_statue_sprite(void *obj) {
+    uint8_t before = *AP_STATUE_UPLOAD_HEAD;
+    ((void (*)(void*))0x0809F3E1u)(obj); /* ObjectInitSprite */
+    ap_world_statue_redirect((const uint8_t*)obj + 0x10u, before);
+}
+
+AP_STATUE_FX __attribute__((used)) void ap_init_world_statue_grant(void *obj) {
+    ((void (*)(void*))0x080AA4EDu)(obj); /* Native statue setup including callback. */
+    uint8_t *object = obj;
+    uint8_t ability = ap_statue_world_ability(*(const volatile uint16_t*)(object + 0x60u),
+        object[0x82u], object[0x83u], &gApWorldStatueConfig);
+    if (ability) object[0x84u] = ability;
+}
+
+AP_STATUE_FX __attribute__((used)) void ap_reload_world_statue_sprite(void *obj) {
+    uint8_t before = *AP_STATUE_UPLOAD_HEAD;
+    ((void (*)(void*))0x0809A631u)(obj); /* Native object residency reload. */
+    ap_world_statue_redirect((const uint8_t*)obj + 0x10u, before);
+}
+
+static AP_STATUE_FX void ap_draw_world_statue_sprite(void *sprite) {
+    void (*native)(void*) = (void (*)(void*))0x0815604Du;
+    uint8_t *data = sprite;
+    uint8_t art = ap_world_statue_visual(data);
+    if (!art) {
+        native(sprite);
+        return;
+    }
+    uint32_t destination = *(const volatile uint32_t*)data;
+    uint32_t tiles = ap_world_statue_tiles(art);
+    if (!ap_statue_tiles_confirmed(AP_STATUE_UPLOAD_RING, *AP_STATUE_UPLOAD_HEAD,
+            AP_STATUE_UPLOAD_TAIL, destination, tiles, (const volatile uint32_t*)(uintptr_t)destination,
+            (const volatile uint32_t*)(uintptr_t)tiles)) {
+        native(sprite);
+        return;
+    }
+    uint8_t palette = data[0x1Fu];
+    volatile uint32_t *flags = (volatile uint32_t*)(data + 8u);
+    uint32_t original_flags = 0u;
+    uint8_t plain_question = art == AP_STATUE_QUESTION && tiles == ap_statue_custom_address(6u);
+    /* The question mark is a symbol, not a character sprite. Suppress the
+     * native statue's mirrored orientation only while drawing this frame. */
+    if (plain_question) {
+        original_flags = *flags;
+        *flags = ap_statue_question_draw_flags(original_flags);
+    }
+    /* Keep the native palette handle for ObjectDestroy; do not write a palette. */
+    data[0x1Fu] = 15u;
+    native(sprite);
+    data[0x1Fu] = palette;
+    if (plain_question) *flags = ap_statue_restore_draw_hflip(*flags, original_flags);
+}
+
+
 #include "transition_runtime_logic.h"
 #include "transition_route_logic.h"
 #include "enemy_runtime_logic.h"
@@ -404,6 +514,10 @@ static AP_REWARD_FX uint32_t ap_reward_tiles_for_art(uint8_t art) {
                 }
                 return (uint32_t)(uintptr_t)gApChestRewardArt;
             }
+            if (art >= AP_REWARD_CUSTOM_STATUE_FIRST && art <= AP_REWARD_CUSTOM_STATUE_LAST) {
+                uint32_t tiles = ap_custom_statue_tiles(art - AP_REWARD_CUSTOM_STATUE_FIRST);
+                if (tiles) return tiles;
+            }
             if (art >= AP_REWARD_MAP_FIRST && art <= AP_REWARD_STATUE_LAST
                 && ap_collectible_palette_tiles_available()) {
                 return AP_COLLECTIBLE_ART_ROM_ADDRESS + 8u
@@ -761,18 +875,20 @@ AP_REWARD_FX __attribute__((used)) void ap_init_boss_shard_sprite(void *object) 
     }
 }
 
-AP_REWARD_FX __attribute__((used)) int32_t ap_update_boss_shard_sprite(void *sprite) {
+AP_REWARD_FX __attribute__((used)) int32_t ap_update_reward_or_statue_sprite(void *sprite) {
     uint8_t before = *(volatile uint8_t*)0x030039A4u;
     int32_t result = ((int32_t (*)(void*))0x08155129u)(sprite);
     const uint8_t *data = sprite;
     if (*(const volatile uint16_t*)(data + 0xCu) == AP_SHARD_NATIVE_ANIM
         && ap_is_boss_shard(data - 0x10u)) {
         ap_replace_boss_shard_tiles(data - 0x10u, data, before);
+    } else {
+        ap_world_statue_redirect(data, before);
     }
     return result;
 }
 
-AP_REWARD_FX __attribute__((used)) void ap_draw_boss_shard_sprite(void *sprite) {
+static AP_REWARD_FX void ap_draw_boss_shard_sprite(void *sprite) {
     typedef void (*DisplayFn)(void *);
     DisplayFn native = (DisplayFn)0x0815604Du;
     uint8_t *data = sprite;
@@ -799,6 +915,16 @@ AP_REWARD_FX __attribute__((used)) void ap_draw_boss_shard_sprite(void *sprite) 
     *draw_flags = flags;
     *frame = original_frame;
     *anim = AP_SHARD_NATIVE_ANIM;
+}
+
+/* The generic object renderer is shared: each dispatch must call native
+ * display once, and the unrelated sprite class keeps native behavior. */
+AP_REWARD_FX __attribute__((used)) void ap_draw_reward_or_statue_sprite(void *sprite) {
+    if (*(const volatile uint16_t*)((const uint8_t*)sprite + 0xCu) == AP_STATUE_NATIVE_ANIM) {
+        ap_draw_world_statue_sprite(sprite);
+    } else {
+        ap_draw_boss_shard_sprite(sprite);
+    }
 }
 
 static __attribute__((noinline, section(".aprewardfx"))) void ap_reward_gem_frame(void) {
@@ -1972,8 +2098,10 @@ __attribute__((used)) void ap_on_start_copy_ability_transition(void *kirby) {
     pending_flags = *transitioning_ability;
     pending_ability = (uint8_t)(pending_flags & KIRBY_ABILITY_MASK);
     original_ability = pending_ability;
-    mode = AP_ABILITY_RANDOMIZATION_MODE;
     is_direct_statue = ap_statue_is_direct_touch_callsite(caller_pc);
+    mode = is_direct_statue
+        && ap_world_statue_mode(*(const volatile uint16_t*)((uintptr_t)kirby + KIRBY_STRUCT_ROOM_OFFSET))
+        ? AP_ABILITY_RANDOMIZATION_MODE : 0u;
     statue_allowed_mask = gApAbilityRandomizationStatueAllowedMask;
 
     /*
@@ -1984,7 +2112,8 @@ __attribute__((used)) void ap_on_start_copy_ability_transition(void *kirby) {
      * generated seed, and select directly from the per-seed statue mask after
      * removing currently locked abilities.  That mask is derived from the same
      * normalized pool as the static table writes, so custom whitelist and Minny
-     * settings stay aligned.  Statues intentionally ignore the no-ability,
+     * settings stay aligned. The Copy Ability Room uses the retail table
+     * and never rerolls. Statues intentionally ignore the no-ability,
      * passive-enemy, miniboss, and boss-spawn options.
      */
     if (ap_statue_should_reroll(caller_pc, mode, statue_allowed_mask) != 0u) {

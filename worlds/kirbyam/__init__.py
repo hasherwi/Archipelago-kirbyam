@@ -627,7 +627,7 @@ class KirbyAmWorld(World):
                 if spoiler_rows:
                     spoiler_header = "Enemy copy-ability shuffled assignments"
                     if randomize_statues:
-                        spoiler_header = "Enemy and statue copy-ability shuffled assignments"
+                        spoiler_header = "Enemy and world statue copy-ability shuffled assignments (Copy Ability Room excluded)"
                     logger.info("[P%s] %s (kind | source -> ability):", self.player, spoiler_header)
                     for source_kind, source_key, ability_name in spoiler_rows:
                         logger.info(
@@ -1385,7 +1385,7 @@ class KirbyAmWorld(World):
 
         spoiler_title = "Enemy Copy Ability Shuffle"
         if randomize_statues:
-            spoiler_title = "Enemy and Statue Copy Ability Shuffle"
+            spoiler_title = "Enemy and World Statue Copy Ability Shuffle (Copy Ability Room excluded)"
         spoiler_handle.write(f"\n\n{self.player_name}'s {spoiler_title}:\n\n")
         for source_kind, source_key, ability_name in spoiler_rows:
             spoiler_handle.write(f"{source_kind:12s} | {source_key:28s} -> {ability_name}\n")
