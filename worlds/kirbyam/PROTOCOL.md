@@ -1167,7 +1167,7 @@ audible as two cues.
 With `random_starting_mirror` enabled, the tutorial World Map chest retains
 its native map unlock and also reports its original Archipelago check
 (3960209). That check holds one equally weighted, eligible Central Circle
-Hub Connection, including the new Starting Mirror (3860416). An alternate
+Hub Connection, including the new Room 1-01 Mirror - Hub Connection (3860416). An alternate
 connection that also requires an Area Key is ineligible while keys are enabled.
 The selected copy is locked at the chest, not added to starting inventory or
 duplicated in the pool.
