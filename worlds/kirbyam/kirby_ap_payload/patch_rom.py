@@ -2282,6 +2282,21 @@ def build_collectible_art_extension(rom: bytes | bytearray, extension: bytes) ->
             module.SHARD_ANIM_OFFSET: module.build_shard_animation(rom, extension)}
 
 
+CUSTOM_STATUE_ART_OFFSET = 0x100C600
+CUSTOM_STATUE_ART_MARKER = b"APSTA01\0"
+
+
+def build_custom_statue_art_extension(extension: bytes) -> dict[int, bytes]:
+    table = Path(__file__).with_name("custom_statue_art.bin").read_bytes()
+    if len(table) != len(CUSTOM_STATUE_ART_MARKER) + 7 * 128 or not table.startswith(CUSTOM_STATUE_ART_MARKER):
+        raise SystemExit("Invalid custom statue sprite table")
+    offset = CUSTOM_STATUE_ART_OFFSET - 0x1000000
+    end = offset + len(table)
+    if end > 0xD000 or len(extension) < end or any(extension[offset:end]):
+        raise SystemExit("Missing empty custom statue art reservation")
+    return {CUSTOM_STATUE_ART_OFFSET: table}
+
+
 STARTING_MIRROR_OBJECT_MARKER = b"APMIR01\0"
 STARTING_MIRROR_OBJECT_SIZE = 524
 CENTRAL_OBJECT_LIST_INFO = 0x8B4CC0
@@ -2394,7 +2409,8 @@ def apply_color_extension(rom: bytearray, elf_path: Path) -> None:
         raise SystemExit("World statue art does not match the shared collectible tile table")
     for offset, replacement in {
         **writes, **board_writes, **chest_writes, **switch_writes, **visit_writes, **boss_writes,
-        **collectible_writes, **starting_mirror_writes, **statue_writes,
+        **collectible_writes, **build_custom_statue_art_extension(extension),
+        **starting_mirror_writes, **statue_writes,
     }.items():
         rom[offset:offset + len(replacement)] = replacement
 

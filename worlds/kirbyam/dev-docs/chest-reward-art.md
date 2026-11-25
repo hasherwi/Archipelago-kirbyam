@@ -307,3 +307,29 @@ Master's separate stand, and Copy Ability Room access do not use statue
 art. These keep the generic gem, as do outgoing non-trap items and
 unsupported placements. A live incoming statue award is still purely
 visual and happens only after its separate ROM delivery acknowledgment.
+
+### Custom ability statue art
+
+**Aarcayne Art** supplied and is credited for the approved 16×16 Sleep, Cook, UFO, Magic,
+Mini, Crash, and question-mark sprites. The seven unmodified source PNGs are in
+[`assets/ability-statues`](assets/ability-statues); the six ability designs serve
+both as shuffled statue art and ability unlock icons. Completely Random uses the
+question mark for participating world statues only. The Copy Ability Room,
+Master stand, excluded statues, and trap visuals are unchanged.
+
+Run `python kirby_ap_payload/generate_custom_statue_art.py` (Pillow required for
+regeneration only) from the KirbyAM source directory. The patcher checks that the
+versioned table fits in its reserved ROM span `0x100C600–0x100C987`, outside the Area
+Key table. This table uses palette bank F so it shares the existing upload and
+palette paths. The six item-art variants are 77–82 (receipt opcodes 78–83);
+the question mark is not an item reward. Local rewards still require an exact
+Kirby item and recipient match. Incoming sprites are best-effort and only appear
+after a new delivery acknowledgement. Clients fall back to the AP gem on older
+compatible ROMs without this table.
+
+Native mGBA captures: [shuffled UFO statue](assets/ability-statues/evidence/shuffled-ufo.png),
+[Completely Random statues](assets/ability-statues/evidence/completely-random.png),
+[local Sleep unlock](assets/ability-statues/evidence/local-sleep.png), and
+[incoming UFO unlock](assets/ability-statues/evidence/incoming-ufo.png). Both award
+captures came from physically opened tutorial chests in a generated two-player
+session; the incoming cue appeared only after the receiver acknowledged the item.

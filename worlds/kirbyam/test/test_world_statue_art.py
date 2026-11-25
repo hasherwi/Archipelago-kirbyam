@@ -117,10 +117,15 @@ int main(void) {
         assert(!ap_statue_world_art(970, type[i], variant[i], &cfg));
         assert(!ap_statue_world_ability(970, type[i], 0, &cfg));
         cfg.mode = 2;
-        assert(ap_statue_world_art(190, type[i], variant[i], &cfg) == AP_STATUE_LOGO);
+        assert(ap_statue_world_art(190, type[i], variant[i], &cfg) == AP_STATUE_QUESTION);
         assert(!ap_statue_world_art(970, type[i], variant[i], &cfg));
         assert(!ap_statue_world_mode(970, &cfg));
     }
+    cfg.assignments[0] = 0;
+    assert(ap_statue_world_art(190, 0x92, 11, &cfg) == AP_STATUE_QUESTION);
+    assert(ap_statue_custom_address(0) == 0x0900C608u);
+    assert(ap_statue_custom_address(6) == 0x0900C908u);
+    assert(ap_statue_custom_address(7) == 0u);
     assert(!ap_statue_world_art(190, 0x97, 11, &cfg));  /* Master/non-statue */
     assert(!ap_statue_world_art(190, 0x92, 29, &cfg));
     struct ApStatueTileUpload ring[64] = {0};
@@ -187,3 +192,19 @@ def test_boss_shard_and_world_statue_hooks_share_one_native_render_dispatch():
     assert all(statues[site] == bosses[site] for site in shared)
     assert len(statues.keys() - bosses.keys()) == 3
     assert len(bosses.keys() - statues.keys()) == 1
+
+
+def test_bundled_custom_statue_art_uses_its_guarded_disjoint_reservation():
+    root = WORLD / "kirby_ap_payload"
+    offset, table = next(iter(patch_rom.build_custom_statue_art_extension(bytes(0x10000)).items()))
+    assert offset == 0x100C600
+    assert 0x100C50C <= offset < offset + len(table) <= 0x100D000
+    assert table == (root / "custom_statue_art.bin").read_bytes()
+    assert table[:8] == b"APSTA01\0"
+    frames = [table[i:i + 128] for i in range(8, len(table), 128)]
+    assert len(set(frames)) == len(frames) == 7
+    assert all(map(any, frames))
+    extension = bytearray(0x10000)
+    extension[0xC600] = 1
+    with pytest.raises(SystemExit, match="custom statue art reservation"):
+        patch_rom.build_custom_statue_art_extension(extension)

@@ -18,7 +18,15 @@ static inline uint8_t ap_statue_vram_address_is_valid(uint32_t address) {
 }
 
 #define AP_STATUE_COPY_ROOM 970u
-#define AP_STATUE_LOGO 0xFFu
+#define AP_STATUE_QUESTION 0xFFu
+#define AP_STATUE_CUSTOM_ROM_ADDRESS 0x0900C600u
+#define AP_STATUE_CUSTOM_MARKER_FIRST 0x54535041u /* APST */
+#define AP_STATUE_CUSTOM_MARKER_LAST 0x00313041u /* A01\0 */
+#define AP_STATUE_CUSTOM_FRAME_COUNT 7u
+
+static inline uint32_t ap_statue_custom_address(uint8_t index) {
+    return index < AP_STATUE_CUSTOM_FRAME_COUNT ? AP_STATUE_CUSTOM_ROM_ADDRESS + 8u + index * AP_STATUE_ART_SIZE : 0u;
+}
 #define AP_STATUE_NATIVE_ANIM 0x384u
 #define AP_STATUE_NATIVE_TILES 0x087E63ECu
 #define AP_STATUE_SLOT_COUNT 19u
@@ -60,8 +68,9 @@ static inline uint8_t ap_statue_world_art(uint16_t room, uint8_t type, uint8_t v
     /* The retail Parasol variant follows 0x95 in the art atlas, although
      * it precedes it in the native assignment table. */
     uint8_t base = type == 0x92u ? 11u : type == 0x93u ? 19u : type == 0x94u ? 29u : 26u;
-    uint8_t ability = ap_statue_world_ability(room, type, variant - base, config);
-    return ability && mode == 2u ? AP_STATUE_LOGO : ability;
+    uint8_t subtype = variant - base;
+    if (ap_statue_slot(type, subtype) >= AP_STATUE_SLOT_COUNT) return 0u;
+    return mode == 2u ? AP_STATUE_QUESTION : ap_statue_world_ability(room, type, subtype, config);
 }
 
 static inline uint8_t ap_statue_replace_upload(volatile struct ApStatueTileUpload *ring, uint8_t before,

@@ -218,8 +218,8 @@ class AbilityRandomizationStatues(Toggle):
     The Copy Ability Room and Master Sword stand are excluded and retain their native art and grants.
 
     When this option or Ability Randomization Mode is Off, statues are unchanged.
-    Shuffled statues display their assigned ability's statue, or the Archipelago logo if none exists.
-    Completely Random statues all display the Archipelago logo.
+    Shuffled statues display their assigned ability using its native or custom sprite.
+    Completely Random statues all display a question mark.
     Randomized Copy Ability statues always grant an ability and do not use
     `ability_randomization_no_ability_weight` or
     `ability_randomization_passive_enemies`.

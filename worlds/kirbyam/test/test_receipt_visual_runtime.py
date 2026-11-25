@@ -72,6 +72,7 @@ int main(void) {
     rejected((500u << AP_VISUAL_FRAME_SHIFT) | AP_VISUAL_TRAP); /* Old or rewind-ambiguous. */
     rejected(((AP_FRAME_COUNTER + 1u) << AP_VISUAL_FRAME_SHIFT) | AP_VISUAL_TRAP);
     rejected((AP_FRAME_COUNTER << AP_VISUAL_FRAME_SHIFT) | (AP_VISUAL_MAX_CODE + 1u));
+    rejected((AP_FRAME_COUNTER << AP_VISUAL_FRAME_SHIFT) | 68u); /* Unassigned Area Key range. */
     request = (AP_FRAME_COUNTER << AP_VISUAL_FRAME_SHIFT) | AP_VISUAL_GEM;
     gameplay = 0u; rejected(request);
     gameplay = 1u; epoch = 0u; rejected(request);
@@ -98,7 +99,7 @@ int main(void) {
     request = (AP_FRAME_COUNTER << AP_VISUAL_FRAME_SHIFT) | AP_VISUAL_MAX_CODE;
     fixture.request = request;
     ap_receipt_visual_poll();
-    assert(draws == 4 && last_art == AP_REWARD_STATUE_LAST && fixture.result == request);
+    assert(draws == 4 && last_art == AP_REWARD_CUSTOM_STATUE_LAST && fixture.result == request);
     assert(ap_visual_can_start((AP_VISUAL_FRAME_MASK << AP_VISUAL_FRAME_SHIFT) | AP_VISUAL_GEM, 0u, AP_VISUAL_READY));
     return 0;
 }

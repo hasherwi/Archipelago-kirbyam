@@ -30,6 +30,12 @@ static AP_STATUE_FX uint8_t ap_world_statue_visual(const uint8_t *sprite) {
         sprite[0x1Au], &gApWorldStatueConfig);
 }
 
+static inline uint32_t ap_custom_statue_tiles(uint8_t index) {
+    const volatile uint32_t *header = (const volatile uint32_t*)AP_STATUE_CUSTOM_ROM_ADDRESS;
+    if (header[0] != AP_STATUE_CUSTOM_MARKER_FIRST || header[1] != AP_STATUE_CUSTOM_MARKER_LAST) return 0u;
+    return ap_statue_custom_address(index);
+}
+
 /* Statue scripts share one static native frame and 16x16 footprint. Reuse
  * the native object's existing allocation, DMA, animation and draw order. */
 static AP_STATUE_FX uint32_t ap_world_statue_tiles(uint8_t art) {
@@ -38,11 +44,16 @@ static AP_STATUE_FX uint32_t ap_world_statue_tiles(uint8_t art) {
         [4] = 9, [2] = 10, [15] = 11, [25] = 12, [22] = 13, [10] = 14, [17] = 15,
         [18] = 16, [6] = 17, [19] = 18, [5] = 19,
     };
-    uint32_t tiles = (uint32_t)(uintptr_t)gApWorldStatueLogo;
+    static const uint8_t custom[32] __attribute__((section(".apstatuefx_data"))) = {
+        [11] = 1u, [12] = 2u, [14] = 3u, [21] = 4u, [23] = 5u, [24] = 6u,
+    };
     if (art < 32u && mapping[art]) {
-        tiles = 0x0900E388u + (mapping[art] - 1u) * AP_STATUE_ART_SIZE;
+        return 0x0900E388u + (mapping[art] - 1u) * AP_STATUE_ART_SIZE;
     }
-    return tiles;
+    uint8_t index = art == AP_STATUE_QUESTION ? 6u
+        : art < 32u && custom[art] ? (uint8_t)(custom[art] - 1u) : AP_STATUE_CUSTOM_FRAME_COUNT;
+    uint32_t tiles = ap_custom_statue_tiles(index);
+    return tiles ? tiles : (uint32_t)(uintptr_t)gApWorldStatueLogo;
 }
 
 static AP_STATUE_FX void ap_world_statue_redirect(const uint8_t *sprite, uint8_t before) {
@@ -473,7 +484,11 @@ static inline uint32_t ap_reward_tiles_for_art(uint8_t art) {
         case AP_REWARD_VITALITY: return AP_CHEST_NATIVE_TILES + 12u * AP_CHEST_ART_SIZE;
         case AP_REWARD_SOUND_PLAYER: return AP_CHEST_NATIVE_TILES + 13u * AP_CHEST_ART_SIZE;
         default:
-            if (art >= AP_REWARD_MAP_FIRST && art < AP_REWARD_ART_COUNT
+            if (art >= AP_REWARD_CUSTOM_STATUE_FIRST && art <= AP_REWARD_CUSTOM_STATUE_LAST) {
+                uint32_t tiles = ap_custom_statue_tiles(art - AP_REWARD_CUSTOM_STATUE_FIRST);
+                if (tiles) return tiles;
+            }
+            if (art >= AP_REWARD_MAP_FIRST && art <= AP_REWARD_STATUE_LAST
                 && ap_collectible_palette_tiles_available()) {
                 return AP_COLLECTIBLE_ART_ROM_ADDRESS + 8u
                     + (art - AP_REWARD_MAP_FIRST) * AP_CHEST_ART_SIZE;

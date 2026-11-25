@@ -20,7 +20,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
   - Random Teleport moves Kirby to a safe room already in logic (Issue #696).
 
 ### Improvements
-- Shuffled ability statues show the ability they grant, or the Archipelago logo if that ability has no statue art. Completely Random statues show the Archipelago logo (PR #1141).
+- Shuffled ability statues show the ability they grant, including six new sprites by **Aarcayne Art** for Sleep, Cook, UFO, Magic, Mini, and Crash. Those sprites also appear when Kirby receives the matching ability unlock. Completely Random statues show Aarcayne Art's question mark (PR #1141).
 - Ability Randomization no longer affects the Copy Ability Room: its statues always grant their original abilities once unlocked (PR #1141).
 - Allow only File 1 to be selected, preventing cross-save problems (Issue #1144).
 - Sprite Swapping (**custom sprite artwork by Hunter**): In-game item sprites now reflect the actual item awarded to the player. We use a variant of the Archipelago logo as an item sprite for all location checks that don't have an in-game asset or award items to other AP worlds (PR #1137).
@@ -38,8 +38,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Phone charges can exceed three, but the battery display does not show the extra charges (PR #1086).
 - Ranged-attack coverage remains incomplete. Three targets retain older rules outside reviewed source assignments; broader physical outcomes still need review. See the [detailed coverage ledger](dev-docs/ranged-coverage-ledger.md) (PR #1052).
 - Only the North American ROM is supported; AP notifications are English.
-- The copy ability room unlock, area keys, and six ability unlocks use the AP logo sprite because an asset, native or custom, does not yet exist that meets the canvas we are limited to.
-- Shuffled statues use the Archipelago logo for abilities without native statue art.
+- The Copy Ability Room unlock and Area Keys use the AP logo sprite pending separate artwork updates.
 - mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.
 - Testing covers selected gameplay scenarios, not a complete playthrough or every multiplayer setup.
 
