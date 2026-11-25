@@ -27,7 +27,32 @@ either native exit to 9-13.
   emulator replay, not an AP server acknowledgment. The recorded route
   survived native damage; it does not prove a damage-free or 1-HP route.
 - This Standard witness has zero ability-carry room transitions and
-  installs only for assignments that guarantee Beam from Waddle Doo.
-  Beam is not an AP permission item. No alternative carrier, live RNG
-  retry, or unsupported randomization assignment is asserted; those
-  profiles keep the old location rule pending a separate native witness.
+  supplies the Beam branch below. Beam is not an AP permission item.
+
+## UFO alternative
+
+A separate controller-only mGBA replay used an isolated Shuffled fixture
+with the actual enemy table assigning UFO to Waddle Doo. With UFO permission
+present, the same lower Waddle Doo yielded UFO by an ordinary inhale and swallow;
+with permission withheld, the identical tape left Kirby Normal. The permission
+is `UFO Ability` (AP item 3860114) when ability gating is enabled. It is not
+equipment by itself.
+
+With the permitted grant, the uninterrupted same-room replay fired the
+maximum-charge UFO shot **right** from approximately (322.035,408.992) in
+the lower west aisle. The shot triggered the exact fuse and erased the three
+seal tiles. Kirby continued around the east gallery, lost UFO to a native hit
+after the seal cleared, and opened object `0x088C5BA4` as Normal (event 1, 4 HP).
+A separate east-side control with UFO equipped through test setup also opened
+the chest, preserving UFO and 6 HP, but did not prove a source from that side.
+The full local-source route was tested at 6 starting HP, not at 1 HP.
+Both routes stop at this check and export no door opening or equipment.
+
+The logic activates only when the raw effective Waddle Doo policy guarantees
+Beam or UFO. A mixed live pool, an ordinary Shuffled type assignment outside
+these abilities, or a no-ability roll does not meet that condition. Such
+profiles still have the legacy AP access rule, which is **not** evidence that
+their native chest is reachable. Scope intentionally does not change ability
+randomization settings, source assignments, or instantiated check counts.
+
+Follow-up: [#1161](https://github.com/hasherwi/Archipelago-kirbyam/issues/1161) tracks safe coverage for the remaining profiles.

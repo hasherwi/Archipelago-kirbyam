@@ -7,17 +7,17 @@
     "worlds/kirbyam/enemy_ability_data.py": "53a3b016462f875e43a036de2739b8315b87962f68aeda9e0eb74725eaa36e2a",
     "worlds/kirbyam/enemy_ability_runtime_patch.py": "3023bf9d06a923ea760f513fee1f9516e42b7f455f49640876e6f93c0e66141c",
     "worlds/kirbyam/data/abilities.json": "d180e496d17544579aefca6714716f27e7d0c8fdbfcc40196a72ef441a5c5f22",
-    "worlds/kirbyam/traversal.py": "f1c6bb211f99a8e7a71c7708459720af279a3647a9823bace53966494258beb1",
-    "worlds/kirbyam/traversal_data.py": "c876bfc98d0ca9432cad5b526a8a813492bd0333b5fca9fc6a627cac67365e12",
+    "worlds/kirbyam/traversal.py": "0aadb677f6cb849d5bc76235a1b07e334aec978fee094d00d6b93b48d2474f91",
+    "worlds/kirbyam/traversal_data.py": "9edb617bd05902787e0f5df716d2f802c34ae06771bd2d8efe214ca45614a8f2",
     "worlds/kirbyam/master_source.py": "ff8d987ae8913391865c2c8c28dd4efe01d83546eefdb4d965032b944dd11e2e",
-    "worlds/kirbyam/data/regions/rooms.json": "8b7f0db2eee26e170db0e3caed6787376055277523f42631c91aa25aeb0233ef",
+    "worlds/kirbyam/data/regions/rooms.json": "b3703933cb3d45ab18a209178d9de2a28602e4f01aa38e5fdbe50b583eb999cb",
     "worlds/kirbyam/phone_traversal.py": "bdafd7ff6de2583b8ed87da0668d41f1107660488812ca923caf330f366dc879",
     "worlds/kirbyam/rules.py": "e9c59053533211b7145b3c7407c8a580422ad40cb4ca608084813fc2dc034d4c",
     "worlds/kirbyam/ability_source_inventory.py": "333a5ffcaf2d7896f62a13f627ce0f956b20fcb3655359744b5a0af378b5ee55",
     "worlds/kirbyam/data/ability_source_inventory.json": "8d85df5c6ff423f9799e4dc751bbd3849e184b97253d4be3efd8b4419d57cc2b"
   },
-  "witnesses": 160,
-  "variants": 320,
+  "witnesses": 161,
+  "variants": 322,
   "valid_pool": [
     "Beam",
     "Bomb",
@@ -153,6 +153,9 @@
     ],
     "bomb_402_candy_chest": [
       "Beam"
+    ],
+    "bomb_402_candy_chest_ufo": [
+      "UFO"
     ],
     "bomb_538_beam_left_crossover": [
       "Beam"
@@ -16269,7 +16272,10 @@
       ],
       "target_source_condition": {
         "source_key": "WADDLE_DOO",
-        "ability": "Beam"
+        "abilities": [
+          "Beam",
+          "UFO"
+        ]
       },
       "target_source_alternatives": null,
       "graph_source_condition": null,
@@ -16307,7 +16313,92 @@
       ],
       "target_source_condition": {
         "source_key": "WADDLE_DOO",
-        "ability": "Beam"
+        "abilities": [
+          "Beam",
+          "UFO"
+        ]
+      },
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "bomb_402_candy_chest:arrival",
+          "to": "bomb_402_candy_chest:lower_doo",
+          "required_equipment": [
+            "Normal"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "bomb_402_candy_chest",
+      "witness": "local_ufo",
+      "area_keys": false,
+      "source_ids": [
+        "WADDLE_DOO@0x088C5BC8"
+      ],
+      "capability_routes": [
+        {
+          "from": "bomb_402_candy_chest:lower_doo",
+          "to": "bomb_402_candy_chest:chest",
+          "capability": "bomb_402_candy_chest_ufo",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "UFO"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": {
+        "source_key": "WADDLE_DOO",
+        "abilities": [
+          "Beam",
+          "UFO"
+        ]
+      },
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "bomb_402_candy_chest:arrival",
+          "to": "bomb_402_candy_chest:lower_doo",
+          "required_equipment": [
+            "Normal"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "bomb_402_candy_chest",
+      "witness": "local_ufo",
+      "area_keys": true,
+      "source_ids": [
+        "WADDLE_DOO@0x088C5BC8"
+      ],
+      "capability_routes": [
+        {
+          "from": "bomb_402_candy_chest:lower_doo",
+          "to": "bomb_402_candy_chest:chest",
+          "capability": "bomb_402_candy_chest_ufo",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "UFO"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": {
+        "source_key": "WADDLE_DOO",
+        "abilities": [
+          "Beam",
+          "UFO"
+        ]
       },
       "target_source_alternatives": null,
       "graph_source_condition": null,

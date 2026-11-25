@@ -396,6 +396,10 @@ def _validate_target(row: Mapping[str, Any]) -> None:
             raise ValueError("Unsupported target-specific guaranteed-source alternatives; reviewed chest target only")
     # These selective carry proofs may not spread to another source or surface.
     scoped_conditions = (
+        ({"source_key": "WADDLE_DOO", "abilities": ["Beam", "UFO"]}, (
+            "bomb_402_candy_chest", "block", 402, "REGION_CANDY_CONSTELLATION/ROOM_9_12",
+            "MINOR_CHEST_CANDY_CONSTELLATION_9_12",
+        )),
         ({"source_key": "TWISTER", "abilities": ["UFO", "Crash", "Cupid", "Cutter"]}, (
             "switch_310_mustard_map", "switch", 310, "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST",
             "MAJOR_CHEST_MUSTARD_MOUNTAIN",
