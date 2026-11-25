@@ -249,7 +249,7 @@ def test_historical_ownership_snapshot_and_current_union_are_separate():
         'surfaces': 1059, 'room_sanity_locations': 263, 'installed_target_definitions': 38}
     assert current['counts'] == {
         'regions': 386, 'mapped_native_definitions': 354, 'locations': 401,
-        'surfaces': 1108, 'room_sanity_locations': 263, 'installed_target_definitions': 65}
+        'surfaces': 1108, 'room_sanity_locations': 263, 'installed_target_definitions': 66}
     # Later host data (including the placement census) is not Beam native evidence.
     assert set(current['input_sha256']) - set(snapshot['input_sha256']) == {
         'data/yellow_cupid_witness.json', 'data/full_completion.json',
