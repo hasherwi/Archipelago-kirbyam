@@ -20,6 +20,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
   - Random Teleport moves Kirby to a safe room already in logic (Issue #696).
 
 ### Improvements
+- Allow only File 1 to be selected, preventing cross-save problems (Issue #1144).
 - Show boss defeat progress in `/goal` when using the boss-count goal (PR #1133).
 
 ### Known Limitations
@@ -31,6 +32,8 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Testing covers selected gameplay scenarios, not a complete playthrough or every multiplayer setup.
 
 ### Bug Fixes
+
+- Fixed an exhausted source search for Shuffled seeds that require Mustard Mountain Room 4-16.
 - Keep pending traps and consumables from blocking item delivery after an emulator pause (PR #1142).
 
 ## v0.6.0

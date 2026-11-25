@@ -55,6 +55,7 @@ def test_each_eligible_tutorial_reward_opens_route(monkeypatch, keys, selected):
                                   options={"random_starting_mirror": 1, "area_keys": keys, "room_sanity": 0})
     world = multiworld.worlds[1]
     chest = multiworld.get_location(TUTORIAL_WORLD_MAP_NAME, 1)
+    small_chest, = (loc for loc in multiworld.get_locations(1) if loc.address == 3960566)
     assert chest.locked and chest.item.name == reward and chest.item.advancement
     items = Counter(item.name for item in multiworld.itempool)
     assert not items[reward]
@@ -68,8 +69,12 @@ def test_each_eligible_tutorial_reward_opens_route(monkeypatch, keys, selected):
     state.collect(chest.item, True, chest)
     assert chosen.can_reach(state)
     assert start.can_reach(state) == (reward == STARTING_MIRROR_ITEM)
-    state.collect(world.create_item(STARTING_MIRROR_ITEM), True)
-    assert start.can_reach(state)
+    # Confirm that the lock fences an ordinary chest check, not merely the
+    # RoomSanity checks (disabled in this profile) or a named edge.
+    assert small_chest.can_reach(state) == (reward == STARTING_MIRROR_ITEM)
+    if reward != STARTING_MIRROR_ITEM:
+        state.collect(world.create_item(STARTING_MIRROR_ITEM), True)
+    assert start.can_reach(state) and small_chest.can_reach(state)
     assert world.fill_slot_data()["tracker"]["starting_mirror_tutorial_item"] == reward
 
 
@@ -116,7 +121,7 @@ def test_board_only_object_preserves_the_native_central_list():
 
 
 @pytest.mark.parametrize("keys", [0, 1])
-def test_generated_archive_places_one_starting_route_without_precollect(tmp_path, keys):
+def test_generated_archive_places_one_starting_route_without_precollect(monkeypatch, tmp_path, keys):
     from .support.integration_generation import generate_archive_from_fixture, load_multidata_from_archive
 
     player = tmp_path / "player.yaml"
@@ -125,9 +130,25 @@ def test_generated_archive_places_one_starting_route_without_precollect(tmp_path
         f"  random_starting_mirror: true\n  area_keys: {keys}\n  room_sanity: 0\n  shards: 2\n",
         encoding="utf-8",
     )
+    import worlds.kirbyam.check_accessibility as check_accessibility
+
+    audited = []
+    validate = check_accessibility.validate_all_checks
+
+    def capture(multiworld, players):
+        audited.append(multiworld)
+        return validate(multiworld, players)
+
+    monkeypatch.setattr(check_accessibility, "validate_all_checks", capture)
     decoded = load_multidata_from_archive(
         generate_archive_from_fixture(player, tmp_path / "output", seed=520 + keys)
     )
+    multiworld, = audited
+    progression = CollectionState(multiworld)
+    progression.sweep_for_advancements()
+    assert progression.has(STARTING_MIRROR_ITEM, 1)
+    small_chest, = (loc for loc in multiworld.get_locations(1) if loc.address == 3960566)
+    assert small_chest.can_reach(progression)
     slot = decoded["slot_data"][1]
     assert slot["random_starting_mirror"]
     reward = slot["tracker"]["starting_mirror_tutorial_item"]
