@@ -49,16 +49,16 @@ The full local-source route was tested at 6 starting HP, not at 1 HP.
 Both routes stop at this check and export no door opening or equipment.
 
 The logic activates only when the raw effective Waddle Doo policy guarantees
-Beam, UFO, Spark, or Missile. A mixed live pool, an ordinary Shuffled type assignment outside
+Beam, UFO, Spark, Missile, or Sword. A mixed live pool, an ordinary Shuffled type assignment outside
 these abilities, or a no-ability roll does not meet that condition. Such
 profiles still have the legacy AP access rule, which is **not** evidence that
 their native chest is reachable. Scope intentionally does not change ability
 randomization settings, source assignments, or instantiated check counts.
 
-## Spark and Missile alternatives
+## Spark, Missile and Sword alternatives
 
 The same private keyless checkpoint and controlled, guaranteed Waddle Doo
-assignments were used to witness both full routes. For each, native swallow
+assignments were used to witness these full routes. For each, native swallow
 withholds the copy ability when its corresponding AP permission is denied.
 No room transitions, helper, or gameplay state writes occurred after setup.
 
@@ -72,6 +72,11 @@ No room transitions, helper, or gameplay state writes occurred after setup.
   hitless: from about (548.75,345.89) after the east-gallery return, descend
   left as Missile into the opened seal, then open the same chest (native
   event at frame 2405, with Missile retained).
+- **Sword:** Carry the local Waddle Doo grant to the roof using rising
+  slash jumps. At (376.04,377) use Up+B; the fuse and all three linked seals
+  clear. Wait 24 frames after the landing/clear sequence, then return
+  through the upper/east galleries and open the chest with Sword retained
+  (native event at frame 2086, no damage at both 6 and fixed 1 HP).
 - **Master:** A player confirmed that Master can activate this chest.
   Master is not obtainable from the local enemy under the copy policy, and
   this work does not prove a Standard carrier or model it as required.

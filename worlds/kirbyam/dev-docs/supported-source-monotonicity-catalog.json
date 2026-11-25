@@ -7,17 +7,17 @@
     "worlds/kirbyam/enemy_ability_data.py": "53a3b016462f875e43a036de2739b8315b87962f68aeda9e0eb74725eaa36e2a",
     "worlds/kirbyam/enemy_ability_runtime_patch.py": "3023bf9d06a923ea760f513fee1f9516e42b7f455f49640876e6f93c0e66141c",
     "worlds/kirbyam/data/abilities.json": "d180e496d17544579aefca6714716f27e7d0c8fdbfcc40196a72ef441a5c5f22",
-    "worlds/kirbyam/traversal.py": "86107899a19c6706b35189b8630bd6cdfb8ae3028a9372243472d13771be649d",
-    "worlds/kirbyam/traversal_data.py": "01bc6d1bfa4a72258786170f4a0ec5ed472e6047cb10e83bf5c37c81d92433a6",
+    "worlds/kirbyam/traversal.py": "5c24865ee0c52096fb60231c82273943138cb251e1fd9936ab4108411399c3f5",
+    "worlds/kirbyam/traversal_data.py": "aba4ce415bfe8ae517c8b8de2760aeb4382a9bf4a23892f4a1b94abdfce9f5cf",
     "worlds/kirbyam/master_source.py": "ff8d987ae8913391865c2c8c28dd4efe01d83546eefdb4d965032b944dd11e2e",
-    "worlds/kirbyam/data/regions/rooms.json": "65e7b9e41518ff2c8ec907c3bac2e7bfb24096a9d844b5d1c59303f5e2d6adac",
+    "worlds/kirbyam/data/regions/rooms.json": "6ef94e3a169dc68b5b57495e6a2eba307d9a3db934250004611773a97c929fa8",
     "worlds/kirbyam/phone_traversal.py": "bdafd7ff6de2583b8ed87da0668d41f1107660488812ca923caf330f366dc879",
     "worlds/kirbyam/rules.py": "e9c59053533211b7145b3c7407c8a580422ad40cb4ca608084813fc2dc034d4c",
     "worlds/kirbyam/ability_source_inventory.py": "333a5ffcaf2d7896f62a13f627ce0f956b20fcb3655359744b5a0af378b5ee55",
     "worlds/kirbyam/data/ability_source_inventory.json": "8d85df5c6ff423f9799e4dc751bbd3849e184b97253d4be3efd8b4419d57cc2b"
   },
-  "witnesses": 163,
-  "variants": 326,
+  "witnesses": 164,
+  "variants": 328,
   "valid_pool": [
     "Beam",
     "Bomb",
@@ -162,6 +162,9 @@
     ],
     "bomb_402_candy_chest_missile": [
       "Missile"
+    ],
+    "bomb_402_candy_chest_sword": [
+      "Sword"
     ],
     "bomb_538_beam_left_crossover": [
       "Beam"
@@ -16282,7 +16285,8 @@
           "Beam",
           "UFO",
           "Spark",
-          "Missile"
+          "Missile",
+          "Sword"
         ]
       },
       "target_source_alternatives": null,
@@ -16325,7 +16329,8 @@
           "Beam",
           "UFO",
           "Spark",
-          "Missile"
+          "Missile",
+          "Sword"
         ]
       },
       "target_source_alternatives": null,
@@ -16368,7 +16373,8 @@
           "Beam",
           "UFO",
           "Spark",
-          "Missile"
+          "Missile",
+          "Sword"
         ]
       },
       "target_source_alternatives": null,
@@ -16411,7 +16417,8 @@
           "Beam",
           "UFO",
           "Spark",
-          "Missile"
+          "Missile",
+          "Sword"
         ]
       },
       "target_source_alternatives": null,
@@ -16454,7 +16461,8 @@
           "Beam",
           "UFO",
           "Spark",
-          "Missile"
+          "Missile",
+          "Sword"
         ]
       },
       "target_source_alternatives": null,
@@ -16497,7 +16505,8 @@
           "Beam",
           "UFO",
           "Spark",
-          "Missile"
+          "Missile",
+          "Sword"
         ]
       },
       "target_source_alternatives": null,
@@ -16540,7 +16549,8 @@
           "Beam",
           "UFO",
           "Spark",
-          "Missile"
+          "Missile",
+          "Sword"
         ]
       },
       "target_source_alternatives": null,
@@ -16583,7 +16593,96 @@
           "Beam",
           "UFO",
           "Spark",
-          "Missile"
+          "Missile",
+          "Sword"
+        ]
+      },
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "bomb_402_candy_chest:arrival",
+          "to": "bomb_402_candy_chest:lower_doo",
+          "required_equipment": [
+            "Normal"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "bomb_402_candy_chest",
+      "witness": "local_sword",
+      "area_keys": false,
+      "source_ids": [
+        "WADDLE_DOO@0x088C5BC8"
+      ],
+      "capability_routes": [
+        {
+          "from": "bomb_402_candy_chest:lower_doo",
+          "to": "bomb_402_candy_chest:chest",
+          "capability": "bomb_402_candy_chest_sword",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Sword"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": {
+        "source_key": "WADDLE_DOO",
+        "abilities": [
+          "Beam",
+          "UFO",
+          "Spark",
+          "Missile",
+          "Sword"
+        ]
+      },
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "bomb_402_candy_chest:arrival",
+          "to": "bomb_402_candy_chest:lower_doo",
+          "required_equipment": [
+            "Normal"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "bomb_402_candy_chest",
+      "witness": "local_sword",
+      "area_keys": true,
+      "source_ids": [
+        "WADDLE_DOO@0x088C5BC8"
+      ],
+      "capability_routes": [
+        {
+          "from": "bomb_402_candy_chest:lower_doo",
+          "to": "bomb_402_candy_chest:chest",
+          "capability": "bomb_402_candy_chest_sword",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Sword"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": {
+        "source_key": "WADDLE_DOO",
+        "abilities": [
+          "Beam",
+          "UFO",
+          "Spark",
+          "Missile",
+          "Sword"
         ]
       },
       "target_source_alternatives": null,

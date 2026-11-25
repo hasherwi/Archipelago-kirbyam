@@ -26,7 +26,7 @@ def test_requires_actual_local_beam_not_normal_or_permission(area_keys):
     graph = room_traversal_graph(TARGET, "local_beam", area_keys)
     chest, = graph.required_targets
     normal = policy(0, minny=False)
-    wrong_source = policy(1, pool=["Sword"], minny=False)
+    wrong_source = policy(1, pool=["Fire"], minny=False)
     assert CAPABILITY_ABILITIES[TARGET] == {"Beam"}
     assert target_applies(row, normal)
     assert not target_applies(row, wrong_source)
@@ -36,7 +36,7 @@ def test_requires_actual_local_beam_not_normal_or_permission(area_keys):
     assert data.locations[LOCATION].location_id == 3960575
 
 
-@pytest.mark.parametrize("mode,pool,supported", [(0, None, True), (1, ["Beam"], True), (1, ["Sword"], False)])
+@pytest.mark.parametrize("mode,pool,supported", [(0, None, True), (1, ["Beam"], True), (1, ["Fire"], False)])
 def test_world_rule_only_adds_witness_to_this_chest(monkeypatch, mode, pool, supported):
     resolved = policy(mode, pool=pool, minny=False)
     set_rule_test_policy(monkeypatch, lambda *args, **kwargs: resolved.policy)
@@ -71,13 +71,13 @@ def test_vanilla_source_seed_keeps_candy_chest_in_full_accessibility(tmp_path: P
 
 @pytest.mark.parametrize("mode", [1, 2])
 @pytest.mark.parametrize("gating", [False, True])
-@pytest.mark.parametrize("ability,item_code", [("UFO", 3860114), ("Spark", 3860115), ("Missile", 3860125)])
+@pytest.mark.parametrize("ability,item_code", [("UFO", 3860114), ("Spark", 3860115), ("Missile", 3860125), ("Sword", 3860118)])
 def test_local_ranged_requires_real_source_and_respects_permission(monkeypatch, mode, gating, ability, item_code):
     row = next(row for row in room_traversal_targets("block") if row["id"] == TARGET)
     graph = room_traversal_graph(TARGET, "local_" + ability.lower(), False)
     chest_node, = graph.required_targets
     resolved = policy(mode, pool=[ability], weight=0, minny=False)
-    wrong_source = policy(mode, pool=["Sword"], weight=0, minny=False)
+    wrong_source = policy(mode, pool=["Fire"], weight=0, minny=False)
     assert CAPABILITY_ABILITIES[TARGET + "_" + ability.lower()] == {ability}
     assert target_applies(row, resolved)
     assert not target_applies(row, wrong_source)
@@ -123,7 +123,7 @@ def test_candy_conditional_progression_only_for_gated_guaranteed_source(ability)
             (1, [ability], 0, True, True, True),
             (2, [ability], 0, True, True, True),
             (1, [ability], 0, False, True, False),
-            (2, [ability, "Sword"], 0, True, True, False),
+            (2, [ability, "Fire"], 0, True, True, False),
             (2, [ability], 100, True, True, False),
             (1, [ability], 0, True, False, False)):
         world = SimpleNamespace(

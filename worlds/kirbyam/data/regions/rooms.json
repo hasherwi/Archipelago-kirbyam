@@ -17930,7 +17930,8 @@
               "Beam",
               "UFO",
               "Spark",
-              "Missile"
+              "Missile",
+              "Sword"
             ]
           },
           "graphs": {
@@ -18139,6 +18140,58 @@
                   "to": "bomb_402_candy_chest:chest",
                   "capability": "bomb_402_candy_chest_missile",
                   "evidence": "dev-docs/candy-room12-beam-witness.md; Native shuffled local Doo grants permitted Missile. From the central roof at (387.93,377), use Down+B to detonate through the floor. After the east gallery use the descending Missile path into the open seal; opens chest with Missile retained at 1 HP. Terminal check does not export equipment."
+                }
+              ]
+            },
+            "local_sword": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CANDY_CONSTELLATION/ROOM_9_12"
+              },
+              "nodes": [
+                {
+                  "id": "bomb_402_candy_chest:arrival",
+                  "native_room": 402
+                },
+                {
+                  "id": "bomb_402_candy_chest:lower_doo",
+                  "native_room": 402
+                },
+                {
+                  "id": "bomb_402_candy_chest:chest",
+                  "native_room": 402
+                }
+              ],
+              "starts": [
+                "bomb_402_candy_chest:arrival"
+              ],
+              "required_targets": [
+                "bomb_402_candy_chest:chest"
+              ],
+              "sources": [
+                {
+                  "id": "0x088C5BC8",
+                  "inventory_id": "room:402/template:0x088C5BC8",
+                  "node": "bomb_402_candy_chest:lower_doo",
+                  "source_key": "WADDLE_DOO",
+                  "acquisition_evidence": "dev-docs/candy-room12-beam-witness.md; original lower Waddle Doo, inhaled and swallowed while Normal. Finite and same room."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "bomb_402_candy_chest:arrival",
+                  "to": "bomb_402_candy_chest:lower_doo",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/candy-room12-beam-witness.md; use the native lower gallery reached through the sole arrival from Room 9-10."
+                },
+                {
+                  "from": "bomb_402_candy_chest:lower_doo",
+                  "to": "bomb_402_candy_chest:chest",
+                  "capability": "bomb_402_candy_chest_sword",
+                  "evidence": "dev-docs/candy-room12-beam-witness.md; From the center roof at (376.04,377), use Up+B to trigger the hidden fuse; wait 24 frames after the seals clear before circling through the east gallery. Exact chest opens with Sword still equipped. Terminal check does not export equipment."
                 }
               ]
             }
