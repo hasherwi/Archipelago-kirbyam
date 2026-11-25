@@ -30,6 +30,8 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Testing covers selected gameplay scenarios, not a complete playthrough or every multiplayer setup.
 
 ### Bug Fixes
+
+- Fixed an exhausted source search for Shuffled seeds that require Mustard Mountain Room 4-16.
 - Keep pending traps and consumables from blocking item delivery after an emulator pause (PR #1142).
 
 ## v0.6.0
