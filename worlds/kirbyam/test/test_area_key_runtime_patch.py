@@ -43,7 +43,7 @@ def test_warp_star_guard_denies_before_native_boarding_mutates_state() -> None:
     assert "KIRBY_WARP_STAR_TRANSITION_FN(warp_star, human_only);" in guard
     assert "kirby->roomId" not in guard
     assert "KIRBY_WARP_STAR_DESTINATION_ROOM_OFFSET" in guard
-    assert "AP_AREA_KEY_BITFIELD_RUNTIME >> (destination_area + 1u)" in payload
+    assert "ap_progress_owned() >> (destination_area - 1u)" in payload
 
 
 def test_warp_star_destination_gate_semantics() -> None:
@@ -52,7 +52,7 @@ def test_warp_star_destination_gate_semantics() -> None:
     assert "source_area != destination_area" in payload
     assert "destination_area >= 1u" in payload
     assert "destination_area <= 8u" in payload
-    assert "AP_AREA_KEY_BITFIELD_RUNTIME >> (destination_area + 1u)" in payload
+    assert "ap_progress_owned() >> (destination_area - 1u)" in payload
 
     def transition_allowed(source_area: int, destination_area: int, key_mask: int) -> bool:
         if source_area == 0xFF or source_area == destination_area:
@@ -207,7 +207,7 @@ def test_payload_uses_native_destination_area_and_new_item_range() -> None:
     assert "source_area != KIRBY_NATIVE_AREA_UNKNOWN" in payload
     assert "destination_area >= 1u" in payload
     assert "destination_area <= 8u" in payload
-    assert "AP_AREA_KEY_BITFIELD_RUNTIME >> (destination_area + 1u)" in payload
+    assert "ap_progress_owned() >> (destination_area - 1u)" in payload
     assert "KIRBY_ITEM_ID_BASE_OFFSET + 41u" in payload
     assert "KIRBY_ITEM_ID_BASE_OFFSET + 48u" in payload
 

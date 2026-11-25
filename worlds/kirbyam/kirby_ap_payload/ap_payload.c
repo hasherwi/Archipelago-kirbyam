@@ -570,14 +570,18 @@ static volatile uint32_t *ap_get_hub_unlock_entry(uint8_t world_props_unlock_ind
     );
 }
 
-static uint8_t ap_unlock_hub_door(uint8_t world_props_unlock_index) {
-    volatile uint32_t *world_props_entry = ap_get_hub_unlock_entry(world_props_unlock_index);
-    if (world_props_entry == 0) {
-        return 0u;
+/* The native words are projections, not ownership. Clear unearned words
+ * on load as well as restoring earned ones before mirrors initialize. */
+__attribute__((noinline, long_call, section(".aphub")))
+void ap_project_hub_doors(uint32_t owned) {
+    uint16_t door;
+    for (door = 1u; door <= 15u; ++door) {
+        uint32_t physical_bit;
+        uint8_t native_index;
+        if (!ap_try_map_worldmap_door_to_hub_switch_bit(door, &physical_bit, &native_index)) continue;
+        volatile uint32_t *entry = ap_get_hub_unlock_entry(native_index);
+        if (entry != 0) *entry = (owned >> (door + 7u)) & 1u;
     }
-    /* The world-props unlock entry is the native state consumed by the map. */
-    *world_props_entry = 1u;
-    return 1u;
 }
 
 /* Native visits are still recorded and saved by the original transition.
@@ -597,8 +601,8 @@ _Static_assert(AP_VISIT_PENDING_ADDRESS + sizeof(struct ApVisitPending) <= AP_BO
                "Visit and boss trap state overlap");
 _Static_assert(AP_BOSS_ITEM_DRAW_ADDRESS + sizeof(struct ApBossItemDraw) <= AP_VISUAL_MAILBOX_ADDRESS,
                "Boss item art state overlaps receipt visual mailbox");
-_Static_assert(AP_VISUAL_MAILBOX_ADDRESS + sizeof(struct ApReceiptVisualMailbox) <= AP_BASE + 0x200u,
-               "Receipt visual state exceeds reserved mailbox block");
+_Static_assert(AP_VISUAL_MAILBOX_ADDRESS + sizeof(struct ApReceiptVisualMailbox) <= AP_PROGRESS_RESTORE_ADDRESS,
+               "Receipt visual state overlaps offline progress restore mailbox");
 
 #define AP_NATIVE_VISITS ((const volatile uint16_t*)0x02028CA0u)
 #include "generated_visit_reward_art_rooms.inc"
@@ -912,31 +916,6 @@ void ap_big_switch_reward_art(void *object) {
     }
 }
 
-/* Use the existing appended Hub extension, preserving the fixed config ABI. */
-static __attribute__((noinline, long_call, section(".aphub")))
-void ap_apply_hub_connection_unlocks_from_mask(void) {
-    uint32_t item_mask = AP_HUB_CONNECTION_ITEM_MASK;
-    uint16_t door_index;
-    if (item_mask == AP_HUB_CONNECTION_ITEM_MASK_UNINITIALIZED) {
-        return;
-    }
-
-    for (door_index = 1u; door_index <= 15u; door_index++) {
-        uint32_t ap_hub_switch_bit;
-        uint8_t world_props_unlock_index;
-        if ((item_mask & (1u << door_index)) == 0u) {
-            continue;
-        }
-        if (ap_try_map_worldmap_door_to_hub_switch_bit(
-                door_index,
-                &ap_hub_switch_bit,
-                &world_props_unlock_index
-            ) != 0u) {
-            (void)ap_unlock_hub_door(world_props_unlock_index);
-        }
-    }
-}
-
 /*
  * Hook target for the Big Switch object's native state lookup in
  * sub_0811938C. The door-to-hub initializer at sub_0802AD00 remains untouched
@@ -1086,7 +1065,7 @@ __attribute__((used, noinline, long_call, section(".aphub"))) uint32_t ap_transi
     }
 
     destination_area = ap_native_area_for_room(destination_room);
-    return (AP_AREA_KEY_BITFIELD_RUNTIME >> (destination_area + 1u)) & 1u;
+    return (ap_progress_owned() >> (destination_area - 1u)) & 1u;
 }
 
 /* The ring is ROM-to-client telemetry. Each slot has sequence, packed room IDs,
@@ -2907,9 +2886,7 @@ static uint8_t ap_apply_item(uint32_t ap_item_id) {
     // AREA_KEY_2..AREA_KEY_9 = BASE+41 .. BASE+48 (Issue #42).
     if (ap_item_id >= (KIRBY_ITEM_ID_BASE_OFFSET + 41u)
         && ap_item_id <= (KIRBY_ITEM_ID_BASE_OFFSET + 48u)) {
-        uint32_t area_id = 2u + (ap_item_id - (KIRBY_ITEM_ID_BASE_OFFSET + 41u));
-        AP_AREA_KEY_BITFIELD_RUNTIME |= (1u << area_id);
-        return 1u;
+        return ap_progress_receive(ap_item_id - (KIRBY_ITEM_ID_BASE_OFFSET + 41u));
     }
 
     if (ap_item_id == AP_STARTING_MIRROR_ITEM) {
@@ -2922,17 +2899,13 @@ static uint8_t ap_apply_item(uint32_t ap_item_id) {
     // HUB_CONNECTION_* = BASE+401 .. BASE+415; enum values 1..15 match WorldMapDoor.
     if (ap_item_id >= (KIRBY_ITEM_ID_BASE_OFFSET + 401u)
         && ap_item_id <= (KIRBY_ITEM_ID_BASE_OFFSET + 415u)) {
-        uint16_t door_index = (uint16_t)(ap_item_id - (KIRBY_ITEM_ID_BASE_OFFSET + 400u));
-        uint32_t ap_hub_switch_bit;
-        uint8_t world_props_unlock_index;
-        if (ap_try_map_worldmap_door_to_hub_switch_bit(
-                door_index,
-                &ap_hub_switch_bit,
-                &world_props_unlock_index
-            ) == 0u) {
-            return 0u;
-        }
-        return ap_unlock_hub_door(world_props_unlock_index);
+        uint32_t door_index = ap_item_id - (KIRBY_ITEM_ID_BASE_OFFSET + 400u);
+        uint32_t mask = AP_HUB_CONNECTION_ITEM_MASK;
+        if (mask == AP_HUB_CONNECTION_ITEM_MASK_UNINITIALIZED
+            || !(mask & (1u << door_index))
+            || !ap_progress_receive(door_index + 7u)) return 0u;
+        ap_project_hub_doors(ap_progress_owned());
+        return 1u;
     }
 
     // Fixed Spray Paint (+200..+213) and Music Sheet (+214..+223) items.
@@ -3016,9 +2989,8 @@ AP_COPY_EXT void ap_poll_mailbox_c(void) {
 
     ap_visit_reward_art_poll();
 
-    // Rebuild AP-owned native connection state from the client's complete item history.
-    // Restore only seed-bound physical checks, never infer them from item doors.
-    ap_apply_hub_connection_unlocks_from_mask();
+    // Native startup/receipt projects durable door ownership. Item history alone
+    // is not authority for a native file, and cannot invent physical checks.
     ap_restore_hub_switch_checks();
 
     uint8_t ap_delivered = (uint8_t)(AP_DELIVERED_SHARD_BITFIELD & 0xFFu);
