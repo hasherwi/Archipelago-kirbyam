@@ -453,6 +453,15 @@ class KirbyAmDeathLink(DeathLink):
     __doc__ = DeathLink.__doc__
 
 
+class RandomStartingMirror(DefaultOnToggle):
+    """Place a random usable Central Circle connection in the tutorial World Map chest.
+
+    The original one-way mirror to Room 1-01 requires its own Hub Connection item.
+    The tutorial reward can be that item or another equally weighted eligible connection.
+    """
+    display_name = "Random Starting Mirror"
+
+
 @dataclass
 class KirbyAmOptions(PerGameCommonOptions):
     goal: Goal
@@ -466,6 +475,8 @@ class KirbyAmOptions(PerGameCommonOptions):
     start_with_all_maps: StartWithAllMaps
 
     area_keys: AreaKeys
+
+    random_starting_mirror: RandomStartingMirror
 
     starting_kirby_color: StartingKirbyColor  # type: ignore[valid-type]
 
@@ -534,7 +545,8 @@ OPTION_GROUPS = [
         EnemyHealthMultiplier,
         KirbyAmDeathLink,
     ]),
-    OptionGroup("Ability Randomization", [
+    OptionGroup("Make the game more random", [
+        RandomStartingMirror,
         AbilityRandomizationMode,
         AbilityRandomizationStatues,
         AbilityRandomizationPassiveEnemies,

@@ -144,6 +144,22 @@ int main(void) {
     FLAGS=0x10;uint32_t inactive_record=RECORD[4];
     ap_copy_room_complete_goal(0);CHECK(RECORD[4]==inactive_record && !CTX->epoch);
     FLAGS=0;
+    SAVE_SLOT=0;ap_copy_room_clear(1);START();
+    fail_save=1;
+    CHECK(!ap_copy_room_receive_starting_mirror());
+    CHECK(!ap_copy_room_access_owned(AP_STARTING_MIRROR_OWNED));
+    INCOMING_ITEM=AP_STARTING_MIRROR_ITEM; INCOMING_FLAG=1u;
+    SAVE_SLOT=1; CHECK(ap_copy_room_load(1,1)==0 && !INCOMING_FLAG); START();
+    CHECK(!ap_copy_room_access_owned(AP_STARTING_MIRROR_OWNED));
+    fail_save=0;
+    SAVE_SLOT=0; CHECK(ap_copy_room_load(1,0)==0); START();
+    CHECK(ap_copy_room_receive_starting_mirror());
+    CHECK(files[0][26] & AP_STARTING_MIRROR_OWNED);
+    memset((void*)CTX,0,sizeof(*CTX));
+    memset(WORLD,0,sizeof(files[0]));
+    CHECK(ap_copy_room_load(1,0)==0); START();
+    CHECK(ap_copy_room_access_owned(AP_STARTING_MIRROR_OWNED));
+    ap_copy_room_clear(1); START();
     /* Execute both shipping pollers: Phone refresh must not erase a Goal run. */
     SAVE_SLOT=0;ap_copy_room_clear(1);START();
     const struct ApGoalDoor *door=&ap_goal_doors[0];

@@ -12,6 +12,8 @@
 #define LOCAL U8(0x0203AD3Cu)
 #define HUMANS U8(0x0203AD30u)
 #define KIRBY 0x02020EE0u
+#define INCOMING_FLAG U32(0x0203B004u)
+#define INCOMING_ITEM U32(0x0203B008u)
 #define WORD18 U32(0x02028C58u)
 #define REQUEST ((volatile uint32_t *)0x0203B160u)
 #define NATIVE_SAVE ((int16_t (*)(uint32_t,uint16_t))0x0800ACD5u)
@@ -73,17 +75,36 @@ AP_COPY_EXT void ap_copy_room_grant_access(uint32_t mask) {
     }
     CTX->owned=RECORD[4]&AP_COPY_OWNED;
 }
+AP_COPY_EXT uint8_t ap_copy_room_receive_starting_mirror(void) {
+    uint32_t old;
+    if (!ap_copy_room_epoch()) return 0u;
+    old = RECORD[4];
+    if (old & AP_STARTING_MIRROR_OWNED) return 1u;
+    RECORD[4] = old | AP_STARTING_MIRROR_OWNED;
+    if (NATIVE_SAVE(1u, (uint16_t)CTX->slot) != 0) {
+        RECORD[4] = old;
+        return 0u;
+    }
+    CTX->dirty = 0u;
+    CTX->retry = 0u;
+    return 1u;
+}
+
+static AP_COPY_EXT void abandon_starting_mirror_offer(void) {
+    /* A load/clear invalidates an offer for the previous Adventure epoch. */
+    if (INCOMING_FLAG == 1u && INCOMING_ITEM == AP_STARTING_MIRROR_ITEM) INCOMING_FLAG = 0u;
+}
 AP_COPY_EXT int16_t ap_copy_room_load(uint32_t kind, uint16_t slot) {
     int16_t result;
     initialize();
-    if (kind==1u) { deactivate(); CTX->loaded_slot=AP_COPY_INVALID_SLOT; }
+    if (kind==1u) { abandon_starting_mirror_offer(); deactivate(); CTX->loaded_slot=AP_COPY_INVALID_SLOT; }
     result=((int16_t (*)(uint32_t,uint16_t))0x0800A91Du)(kind,slot);
     if (kind==1u && result==0 && slot<=2u) CTX->loaded_slot=slot;
     return result;
 }
 AP_COPY_EXT void ap_copy_room_clear(uint32_t kind) {
     initialize();
-    if (kind==1u) { deactivate(); CTX->loaded_slot=AP_COPY_INVALID_SLOT; }
+    if (kind==1u) { abandon_starting_mirror_offer(); deactivate(); CTX->loaded_slot=AP_COPY_INVALID_SLOT; }
     ((void (*)(uint32_t))0x0800AC01u)(kind);
     if (kind==1u && SAVE_SLOT<=2u) CTX->loaded_slot=SAVE_SLOT;
 }

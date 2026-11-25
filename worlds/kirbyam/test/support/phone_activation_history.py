@@ -31,9 +31,25 @@ TRAP_CATALOG_INSERTION = b'''  "TRAP_NARCOLEPSY": {
 '''
 
 
+STARTING_MIRROR_CATALOG_INSERTION = b'''  "HUB_CONNECTION_STARTING_MIRROR": {
+    "label": "Room 1-01 Mirror - Hub Connection",
+    "classification": "PROGRESSION",
+    "item_id": 3860416,
+    "tags": [
+      "HubConnections",
+      "Progression",
+      "Unique"
+    ]
+  },
+'''
+
 def items_before_phone(raw: bytes) -> bytes:
-    """Check every current byte, remove the exact trap additions and Phone item."""
+    """Check every current byte, reverse the exact mirror, trap and Phone additions."""
     raw = raw.replace(b'\r\n', b'\n')
+    assert hashlib.sha256(raw).hexdigest() == (
+        'd212a0b44e9ea3db96427a916ce2bb1c5112c0fb861526058ec979abe181d507')
+    assert raw.count(STARTING_MIRROR_CATALOG_INSERTION) == 1
+    raw = raw.replace(STARTING_MIRROR_CATALOG_INSERTION, b'', 1)
     assert hashlib.sha256(raw).hexdigest() == (
         '74fa44a5e18e22bf3ac529008854d852d1538b69393f577e2b44bbdc3ff2e60c')
     assert raw.count(TRAP_CATALOG_INSERTION) == 1

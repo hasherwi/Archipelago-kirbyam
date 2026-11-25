@@ -33,7 +33,8 @@ def test_native_chest_identity_and_compartment():
 @pytest.mark.parametrize("ability_gating", [0, 1])
 def test_upper_entry_hub_receipts_and_alternate_routes(room_sanity, ability_gating, ability_randomization_mode):
     mw = setup_multiworld(KirbyAmWorld, seed=1032, options={
-        'room_sanity': room_sanity, 'ability_gating': ability_gating,
+        # This room topology test starts from the native Rainbow Route exit.
+        'random_starting_mirror': 0, 'room_sanity': room_sanity, 'ability_gating': ability_gating,
         'ability_randomization_mode': ability_randomization_mode})
     world = mw.worlds[1]
     chest = mw.get_location(data.locations[KEY].label, 1)

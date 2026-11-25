@@ -126,9 +126,17 @@ static uint32_t AP_DEBUG_LAST_ITEM_ID,AP_DEBUG_LAST_FROM;
 static uint32_t AP_RANDOM_TELEPORT_NONCE, AP_RANDOM_TELEPORT_EPOCH;
 static uint8_t ap_trap_narcolepsy(void) { abort(); }
 static uint8_t ap_trap_random_teleport(void) { abort(); }
+/* Starting Mirror has a separate integration test. Do not let this replay
+ * silently accept it as a Vitality operation. */
+static uint32_t AP_HUB_CONNECTION_ITEM_MASK;
+static uint8_t ap_random_starting_mirror_enabled(void) { return 0; }
+static uint8_t ap_copy_room_receive_starting_mirror(void) { abort(); }
 '''
-    for name in ['AP_NARCOLEPSY_ITEM', 'AP_RANDOM_TELEPORT_ITEM']:
-        definition = re.search(r'^#define ' + name + r' +[^\n]+', payload, re.MULTILINE)
+    for name in ['AP_NARCOLEPSY_ITEM', 'AP_RANDOM_TELEPORT_ITEM', 'AP_STARTING_MIRROR_ITEM',
+                 'AP_HUB_CONNECTION_ITEM_MASK_UNINITIALIZED', 'AP_STARTING_MIRROR_ITEM_MASK']:
+        native_source = ((world / "kirby_ap_payload/copy_room.h").read_text()
+                         if name == 'AP_STARTING_MIRROR_ITEM' else payload)
+        definition = re.search(r'^#define ' + name + r' +[^\n]+', native_source, re.MULTILINE)
         assert definition is not None
         source += definition.group() + '\n'
     for name in ['ap_grant_lives', 'ap_unlock_area_map', 'KIRBY_COLLECT_SOUND_PLAYER_FN',

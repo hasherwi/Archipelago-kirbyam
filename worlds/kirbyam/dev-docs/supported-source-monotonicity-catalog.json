@@ -2,7 +2,7 @@
   "schema": 2,
   "scope": "Current supported public generation, not custom narrowed policy safety or native gameplay. All compiled targets including logical subregions, both area-key modes. The always-on Phone 146 ownership rule and its separately profile-qualified witness are described in phone-progression-admission.md; neither is a compiled attack-provider graph, and the implementation is pinned here.",
   "source_sha256": {
-    "worlds/kirbyam/__init__.py": "4f62c066da8623f205874911e0a70474a7f10705c3c7be820e68ce805020b1d5",
+    "worlds/kirbyam/__init__.py": "9335d01a08620962ad8576a8698fdbc490d2184666c58e9faf971d48e45c4174",
     "worlds/kirbyam/ability_randomization.py": "0ede749f3cfe63dde9747c9f31184731b21c2b0d173501f8e94e090861979aaf",
     "worlds/kirbyam/enemy_ability_data.py": "53a3b016462f875e43a036de2739b8315b87962f68aeda9e0eb74725eaa36e2a",
     "worlds/kirbyam/enemy_ability_runtime_patch.py": "3023bf9d06a923ea760f513fee1f9516e42b7f455f49640876e6f93c0e66141c",
@@ -12,7 +12,7 @@
     "worlds/kirbyam/master_source.py": "ff8d987ae8913391865c2c8c28dd4efe01d83546eefdb4d965032b944dd11e2e",
     "worlds/kirbyam/data/regions/rooms.json": "ab26c58ee66278e8697301dae9579aec196127b57f0c14230e8b2c0ce5f04aed",
     "worlds/kirbyam/phone_traversal.py": "bdafd7ff6de2583b8ed87da0668d41f1107660488812ca923caf330f366dc879",
-    "worlds/kirbyam/rules.py": "7afff4b83e12775debcdd9896ca07683d52d7db332cd057de6c621b7e110f5e2",
+    "worlds/kirbyam/rules.py": "e9c59053533211b7145b3c7407c8a580422ad40cb4ca608084813fc2dc034d4c",
     "worlds/kirbyam/ability_source_inventory.py": "333a5ffcaf2d7896f62a13f627ce0f956b20fcb3655359744b5a0af378b5ee55",
     "worlds/kirbyam/data/ability_source_inventory.json": "8d85df5c6ff423f9799e4dc751bbd3849e184b97253d4be3efd8b4419d57cc2b"
   },

@@ -10,6 +10,7 @@ Kirby & The Amazing Mirror:
   configured_area_boss: moley
   required_area_bosses: 5
   start_with_all_maps: 'false'
+  random_starting_mirror: false
   area_keys: 'true'
   minimum_health: 8
   maximum_health: 8

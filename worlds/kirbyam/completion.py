@@ -9,6 +9,7 @@ from dataclasses import dataclass
 from typing import Any, Iterable
 
 from .data import data, load_json_data
+from .starting_mirror import STARTING_MIRROR_ITEM_ID
 
 FULL_COMPLETION_VERSION = 1
 FULL_COMPLETION_MARKER_OFFSET = 0x1000018
@@ -27,7 +28,11 @@ ROOM_INDICES = tuple(room["doors_idx"] for room in MANIFEST["rooms"])
 ROOM_REGIONS = tuple(tuple(room["region_keys"]) for room in MANIFEST["rooms"] if room["region_keys"])
 PHYSICAL_KEYS = tuple(MANIFEST["physical_location_keys"])
 PHYSICAL_IDS = frozenset(data.locations[key].location_id for key in PHYSICAL_KEYS)
-REQUIRED_ITEMS = tuple(item for item in data.items.values() if item.tags & {"Shards", "Levers", "HubConnections"})
+# The optional starting mirror has no native switch. Its route can gate a
+# required room, but it must not expand the fixed native completion catalog.
+REQUIRED_ITEMS = tuple(item for item in data.items.values()
+                       if item.item_id != STARTING_MIRROR_ITEM_ID
+                       and item.tags & {"Shards", "Levers", "HubConnections"})
 REQUIRED_ITEM_IDS = frozenset(item.item_id for item in REQUIRED_ITEMS)
 READ_KEYS = ("chest_flags", "shards", "room_visits", "world_switches", "save_id", "ai_state", "demo_flags")
 NATIVE_READS = tuple((int(MANIFEST["native_addresses"][key]["address"], 16),

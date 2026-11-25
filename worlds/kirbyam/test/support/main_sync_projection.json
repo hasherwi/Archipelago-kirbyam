@@ -1061,6 +1061,74 @@
               "main": []
             }
           ]
+        },
+        {
+          "label": "Random Starting Mirror client handshake on reward sprites branch",
+          "integrated_sha256": "fc0ccb61941d0fd641d2e9affdf7999d563ab63e6ebc40a8b7689d4a9258d418",
+          "reverse_slices": [
+            {
+              "start": 37,
+              "stop": 38,
+              "current": [
+                "from .starting_mirror import STARTING_MIRROR_ITEM_ID, STARTING_MIRROR_MASK_BIT\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 3528,
+              "stop": 3529,
+              "current": [
+                "            if door_index is not None and 1 <= door_index <= STARTING_MIRROR_MASK_BIT:\n"
+              ],
+              "main": [
+                "            if door_index is not None and 1 <= door_index <= 15:\n"
+              ]
+            },
+            {
+              "start": 5068,
+              "stop": 5069,
+              "current": [
+                "                    and getattr(ctx.items_received[pending_index], \"item\", None) in (3860300, CANDY_ITEM_ID, 3860027, STARTING_MIRROR_ITEM_ID)):\n"
+              ],
+              "main": [
+                "                    and getattr(ctx.items_received[pending_index], \"item\", None) in (3860300, CANDY_ITEM_ID, 3860027)):\n"
+              ]
+            },
+            {
+              "start": 5345,
+              "stop": 5346,
+              "current": [
+                "                guards = [\n"
+              ],
+              "main": [
+                "                if not await bizhawk.guarded_write(ctx.bizhawk_ctx, offer, [\n"
+              ]
+            },
+            {
+              "start": 5348,
+              "stop": 5363,
+              "current": [
+                "                ]\n",
+                "                if item_id == STARTING_MIRROR_ITEM_ID:\n",
+                "                    auth = self._health_rom_auth\n",
+                "                    if auth is None:\n",
+                "                        return\n",
+                "                    auth_addr = _normalize_gba_rom_address(data.rom_addresses[\"gArchipelagoInfo\"])\n",
+                "                    native_file, rom = await bizhawk.read(ctx.bizhawk_ctx, [\n",
+                "                        (COPY_ROOM_CONTEXT_ADDRESS, 36, \"System Bus\"), (auth_addr, 16, \"ROM\"),\n",
+                "                    ])\n",
+                "                    fence = bytes(native_file[:12])\n",
+                "                    if (decode_copy_room_snapshot(native_file, fence) is None or bytes(rom) != auth\n",
+                "                            or not hub_offer_current()):\n",
+                "                        return\n",
+                "                    guards += [(COPY_ROOM_CONTEXT_ADDRESS, fence, \"System Bus\"), (auth_addr, auth, \"ROM\")]\n",
+                "                if not await bizhawk.guarded_write(ctx.bizhawk_ctx, offer, guards):\n"
+              ],
+              "main": [
+                "                ]):\n"
+              ]
+            }
+          ]
         }
       ]
     },

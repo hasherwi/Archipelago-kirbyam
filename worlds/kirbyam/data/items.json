@@ -731,6 +731,16 @@
       "Unique"
     ]
   },
+  "HUB_CONNECTION_STARTING_MIRROR": {
+    "label": "Room 1-01 Mirror - Hub Connection",
+    "classification": "PROGRESSION",
+    "item_id": 3860416,
+    "tags": [
+      "HubConnections",
+      "Progression",
+      "Unique"
+    ]
+  },
   "ABILITY_UNLOCK_FIRE": {
     "label": "Fire Ability",
     "classification": "PROGRESSION",

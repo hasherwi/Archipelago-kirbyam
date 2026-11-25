@@ -72,6 +72,7 @@ def _build_representative_slot_data() -> dict[str, object]:
         "configured_area_boss": 7,
         "required_area_bosses": 3,
         "shards": 2,
+        "random_starting_mirror": True,
         "no_extra_lives": False,
         "ability_gating": True,
         "enable_traps": False,

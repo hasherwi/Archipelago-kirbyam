@@ -35,6 +35,7 @@ from .copy_room_protocol import (
     copy_room_slot_version, decode_copy_room_snapshot, sync_copy_room_ownership,
 )
 from .goal_game_protocol import GOAL_MARKER, GOAL_MARKER_OFFSET, goal_slot_version, poll_goal_games
+from .starting_mirror import STARTING_MIRROR_ITEM_ID, STARTING_MIRROR_MASK_BIT
 from .hub_protocol import HUB_MARKER, HUB_MARKER_OFFSET, hub_slot_version
 from .data import BASE_OFFSET, LocationCategory, data, format_room_region_label, load_json_data
 from .enemy_ability_data import ABILITY_SOURCES
@@ -3525,7 +3526,7 @@ class KirbyAmClient(BizHawkClient):
             if item_fields is None:
                 continue
             door_index = _HUB_CONNECTION_ITEM_ID_TO_DOOR_INDEX.get(item_fields[0])
-            if door_index is not None and 1 <= door_index <= 15:
+            if door_index is not None and 1 <= door_index <= STARTING_MIRROR_MASK_BIT:
                 item_mask |= 1 << door_index
 
         await bizhawk.write(
@@ -5065,7 +5066,7 @@ class KirbyAmClient(BizHawkClient):
             pending_index = self._delivery_pending_item_index
             if (timeout_triggered and flag == 1 and pending_index is not None
                     and 0 <= pending_index < len(ctx.items_received)
-                    and getattr(ctx.items_received[pending_index], "item", None) in (3860300, CANDY_ITEM_ID, 3860027)):
+                    and getattr(ctx.items_received[pending_index], "item", None) in (3860300, CANDY_ITEM_ID, 3860027, STARTING_MIRROR_ITEM_ID)):
                 return
 
             if timeout_triggered:
@@ -5342,10 +5343,24 @@ class KirbyAmClient(BizHawkClient):
                 if (mask is None or mask_addr is None or not mask & (1 << hub_door)
                         or not hub_offer_current()):
                     return
-                if not await bizhawk.guarded_write(ctx.bizhawk_ctx, offer, [
+                guards = [
                     (mask_addr, mask.to_bytes(4, "little"), "System Bus"),
                     (flag_addr, bytes(4), "System Bus"),
-                ]):
+                ]
+                if item_id == STARTING_MIRROR_ITEM_ID:
+                    auth = self._health_rom_auth
+                    if auth is None:
+                        return
+                    auth_addr = _normalize_gba_rom_address(data.rom_addresses["gArchipelagoInfo"])
+                    native_file, rom = await bizhawk.read(ctx.bizhawk_ctx, [
+                        (COPY_ROOM_CONTEXT_ADDRESS, 36, "System Bus"), (auth_addr, 16, "ROM"),
+                    ])
+                    fence = bytes(native_file[:12])
+                    if (decode_copy_room_snapshot(native_file, fence) is None or bytes(rom) != auth
+                            or not hub_offer_current()):
+                        return
+                    guards += [(COPY_ROOM_CONTEXT_ADDRESS, fence, "System Bus"), (auth_addr, auth, "ROM")]
+                if not await bizhawk.guarded_write(ctx.bizhawk_ctx, offer, guards):
                     return
                 if not hub_offer_current():
                     return  # An in-flight offer may have committed; reconcile by readback.

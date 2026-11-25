@@ -223,6 +223,7 @@ def test_same_generated_seed_uses_each_slots_physical_placements(tmp_path: Path)
         "  area_keys: false\n"
         "  ability_randomization_mode: 0\n"
         "  room_sanity: false\n"
+        "  random_starting_mirror: false\n"
     )
     (players / "1.yaml").write_text("name: Trap One\n" + common + (
         "  enable_traps: true\n"
@@ -330,7 +331,7 @@ def test_native_art_registry_matches_the_curated_areas_and_complete_item_familie
     native = KIRBY_NATIVE_ART_BY_ITEM_CODE
     areas = ("Rainbow Route", "Moonlight Mansion", "Cabbage Cavern", "Mustard Mountain",
              "Carrot Castle", "Olive Ocean", "Peppermint Palace", "Radish Ruins", "Candy Constellation")
-    assert len(native) == 97
+    assert len(native) == 98
     for area_index, label in enumerate(areas, 9):
         (code,) = (code for code, art in native.items() if art == area_index)
         assert data.items[code].label == f"{label} - Map"
@@ -346,7 +347,7 @@ def test_native_art_registry_matches_the_curated_areas_and_complete_item_familie
     assert {code for code, art in native.items() if art == RewardArt.SHARD} == set(range(3860002, 3860010))
     assert native[3860025] == RewardArt.SOUND_PLAYER
     assert {code for code, art in native.items() if art == RewardArt.PHONE} == {3860501}
-    assert {code for code, art in native.items() if art == RewardArt.HUB_SWITCH} == set(range(3860401, 3860416))
+    assert {code for code, art in native.items() if art == RewardArt.HUB_SWITCH} == set(range(3860401, 3860417))
     assert {code for code, art in native.items() if art == RewardArt.LEVER_WALL} == set(range(3860037, 3860041))
 
 
@@ -382,6 +383,7 @@ def test_generated_seed_preserves_variant_identity_across_treasure_and_access_fa
         "  area_keys: false\n"
         "  ability_randomization_mode: 0\n"
         "  room_sanity: true\n"
+        "  random_starting_mirror: false\n"
         "  plando_items:\n"
     )
     for key, item_code, _ in placements:
@@ -476,6 +478,7 @@ def test_generated_burning_uses_statue_and_sleep_stays_generic(tmp_path: Path) -
         '  room_sanity: true\n'
         '  accessibility: full\n'
         '  enable_traps: false\n'
+        '  random_starting_mirror: false\n'
         '  plando_items:\n'
         '    - item: Burning Ability\n'
         '      location: Tutorial World Map - Big Chest\n'

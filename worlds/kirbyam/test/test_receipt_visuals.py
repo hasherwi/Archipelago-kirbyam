@@ -90,7 +90,7 @@ def test_access_receipt_art_codes_keep_preexisting_shard_and_wire_reserved():
     assert RewardArt.HUB_SWITCH + 1 == 47
     assert RewardArt.LEVER_WALL + 1 == 48
     assert visual_for_remote_receipt(NetworkItem(3860501, 7, 2, 1), 1) == 46
-    for code in range(3860401, 3860416):
+    for code in range(3860401, 3860417):
         assert visual_for_remote_receipt(NetworkItem(code, 7, 2, 1), 1) == 47
     for code in range(3860037, 3860041):
         assert visual_for_remote_receipt(NetworkItem(code, 7, 2, 1), 1) == 48
