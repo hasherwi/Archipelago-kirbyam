@@ -64,7 +64,8 @@ def test_implicit_allocations_are_included_and_duplicate_ids_rejected() -> None:
 
 def test_hub_allocation_avoids_area_key_catalog_and_mailbox() -> None:
     hubs = {key: value for key, value in data.item_key_to_id.items() if key.startswith('HUB_CONNECTION_')}
-    assert set(hubs.values()) == set(range(3860401, 3860416))
+    assert set(hubs.values()) == set(range(3860401, 3860417))
+    assert hubs["HUB_CONNECTION_STARTING_MIRROR"] == INVENTORY["reserved_items"]["HUB_CONNECTION_STARTING_MIRROR"]
     keys = {value for key, value in data.item_key_to_id.items() if key.startswith('AREA_KEY_')}
     assert keys == set(range(3860041, 3860049))
     assert keys.isdisjoint(hubs.values())

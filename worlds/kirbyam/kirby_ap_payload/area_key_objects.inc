@@ -125,10 +125,12 @@ AREA_OBJECT_EXT void ap_area_door_decoration(void *door) {
      * leaves the original native background doorway exactly as it was. */
     if (starting_mirror) {
         uint32_t effect = OBJ_U32(obj, 0xB4u);
+        /* The retail 801→101 doorway already has a background frame.
+         * Hide the AreaDoor helper's own sprite; its separate effect draws the wood. */
+        OBJ_U32(obj, 8u) |= 0x400u;
         if (source != 801u || dest != 101u || ap_transition_allowed(source, dest)) {
             if (effect) OBJ_U16(effect, 6u) |= 0x1000u;
             OBJ_U32(obj, 0xB4u) = 0u;
-            OBJ_U32(obj, 8u) |= 0x400u;
             return;
         }
     }
