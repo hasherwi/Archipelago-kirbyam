@@ -24,6 +24,18 @@ static inline uint8_t ap_statue_vram_address_is_valid(uint32_t address) {
 #define AP_STATUE_CUSTOM_MARKER_LAST 0x00313041u /* A01\0 */
 #define AP_STATUE_CUSTOM_FRAME_COUNT 7u
 
+/* Sprite.unk8 bit 10 controls horizontal mirroring in DisplaySprite.
+ * All validated native statue frames have clear template and OAM hflip bits. */
+#define AP_STATUE_SPRITE_HFLIP (1u << 10)
+
+static inline uint32_t ap_statue_question_draw_flags(uint32_t flags) {
+    return flags & ~AP_STATUE_SPRITE_HFLIP;
+}
+
+static inline uint32_t ap_statue_restore_draw_hflip(uint32_t flags, uint32_t original) {
+    return (flags & ~AP_STATUE_SPRITE_HFLIP) | (original & AP_STATUE_SPRITE_HFLIP);
+}
+
 static inline uint32_t ap_statue_custom_address(uint8_t index) {
     return index < AP_STATUE_CUSTOM_FRAME_COUNT ? AP_STATUE_CUSTOM_ROM_ADDRESS + 8u + index * AP_STATUE_ART_SIZE : 0u;
 }

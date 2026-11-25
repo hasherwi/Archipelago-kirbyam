@@ -100,10 +100,20 @@ static AP_STATUE_FX void ap_draw_world_statue_sprite(void *sprite) {
         return;
     }
     uint8_t palette = data[0x1Fu];
+    volatile uint32_t *flags = (volatile uint32_t*)(data + 8u);
+    uint32_t original_flags = 0u;
+    uint8_t plain_question = art == AP_STATUE_QUESTION && tiles == ap_statue_custom_address(6u);
+    /* The question mark is a symbol, not a character sprite. Suppress the
+     * native statue's mirrored orientation only while drawing this frame. */
+    if (plain_question) {
+        original_flags = *flags;
+        *flags = ap_statue_question_draw_flags(original_flags);
+    }
     /* Keep the native palette handle for ObjectDestroy; do not write a palette. */
     data[0x1Fu] = 15u;
     native(sprite);
     data[0x1Fu] = palette;
+    if (plain_question) *flags = ap_statue_restore_draw_hflip(*flags, original_flags);
 }
 
 

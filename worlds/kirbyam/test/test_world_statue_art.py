@@ -126,6 +126,17 @@ int main(void) {
     assert(ap_statue_custom_address(0) == 0x0900C608u);
     assert(ap_statue_custom_address(6) == 0x0900C908u);
     assert(ap_statue_custom_address(7) == 0u);
+    /* Both original orientations draw the question mark unmirrored. Restore
+     * its native orientation afterward, but keep any changes made by drawing
+     * to unrelated flags. */
+    for (uint32_t flip = 0; flip <= 1u; ++flip) {
+        uint32_t original = 0x04003880u | (flip ? AP_STATUE_SPRITE_HFLIP : 0u);
+        uint32_t draw_flags = ap_statue_question_draw_flags(original);
+        assert(!(draw_flags & AP_STATUE_SPRITE_HFLIP));
+        assert((draw_flags ^ original) == (original & AP_STATUE_SPRITE_HFLIP));
+        uint32_t after = draw_flags & ~0x04000000u;
+        assert(ap_statue_restore_draw_hflip(after, original) == (original & ~0x04000000u));
+    }
     assert(!ap_statue_world_art(190, 0x97, 11, &cfg));  /* Master/non-statue */
     assert(!ap_statue_world_art(190, 0x92, 29, &cfg));
     struct ApStatueTileUpload ring[64] = {0};
