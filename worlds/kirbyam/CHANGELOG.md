@@ -11,7 +11,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ## Unreleased
 
 ### New Features
-- Add **Random Starting Mirror** (on by default). The tutorial World Map chest still grants the map and awards a random usable Central Circle Hub Connection. The original mirror to Room 1-01 stays locked until its Hub Connection is received (PR #1156).
+- Add **Random Starting Mirror** (on by default). The tutorial World Map chest awards a random usable Central Circle Hub Connection. The original mirror to Room 1-01 stays locked until its Hub Connection is received (PR #1156).
 - Add 38 Kirby starting color palettes and a [visual gallery of all 65 colors](docs/color-palettes.md) (PR #1135).
 - Play distinct in-game cues when new Archipelago items are received (PR #1136).
 - Traps:
