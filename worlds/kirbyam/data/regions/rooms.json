@@ -17915,6 +17915,75 @@
     },
     "exits": {
       "REGION_CANDY_CONSTELLATION/ROOM_9_13": null
+    },
+    "traversal": {
+      "version": 1,
+      "targets": [
+        {
+          "id": "bomb_402_candy_chest",
+          "kind": "block",
+          "native_room": 402,
+          "location": "MINOR_CHEST_CANDY_CONSTELLATION_9_12",
+          "requires_guaranteed_source": {
+            "source_key": "WADDLE_DOO",
+            "ability": "Beam"
+          },
+          "graphs": {
+            "local_beam": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CANDY_CONSTELLATION/ROOM_9_12"
+              },
+              "nodes": [
+                {
+                  "id": "bomb_402_candy_chest:arrival",
+                  "native_room": 402
+                },
+                {
+                  "id": "bomb_402_candy_chest:lower_doo",
+                  "native_room": 402
+                },
+                {
+                  "id": "bomb_402_candy_chest:chest",
+                  "native_room": 402
+                }
+              ],
+              "starts": [
+                "bomb_402_candy_chest:arrival"
+              ],
+              "required_targets": [
+                "bomb_402_candy_chest:chest"
+              ],
+              "sources": [
+                {
+                  "id": "0x088C5BC8",
+                  "inventory_id": "room:402/template:0x088C5BC8",
+                  "node": "bomb_402_candy_chest:lower_doo",
+                  "source_key": "WADDLE_DOO",
+                  "acquisition_evidence": "dev-docs/candy-room12-beam-witness.md; original lower Waddle Doo, inhaled and swallowed while Normal. Finite and same room."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "bomb_402_candy_chest:arrival",
+                  "to": "bomb_402_candy_chest:lower_doo",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "dev-docs/candy-room12-beam-witness.md; use the native lower gallery reached through the sole arrival from Room 9-10."
+                },
+                {
+                  "from": "bomb_402_candy_chest:lower_doo",
+                  "to": "bomb_402_candy_chest:chest",
+                  "capability": "bomb_402_candy_chest",
+                  "evidence": "dev-docs/candy-room12-beam-witness.md; carry Beam through the center one-way floor, attack diagonally left through the roof, then return through the east gallery and collect the chest. Terminal check; no equipment or wall persistence exported."
+                }
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_13": {
