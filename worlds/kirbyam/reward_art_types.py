@@ -3,6 +3,7 @@ from enum import IntEnum
 
 from BaseClasses import Item, ItemClassification
 
+from .data import data
 from .vitality import VITALITY_ITEM_IDS
 
 
@@ -130,7 +131,8 @@ KIRBY_NATIVE_ART_BY_ITEM_CODE = {
     **{3860214 + index: RewardArt(RewardArt.SHEET_01 + index) for index in range(10)},
     **dict.fromkeys(range(3860002, 3860010), RewardArt.SHARD),
     3860501: RewardArt.PHONE,
-    **dict.fromkeys(range(3860401, 3860416), RewardArt.HUB_SWITCH),
+    # Hub Connections all share the native Big Switch asset, including optional connections.
+    **{code: RewardArt.HUB_SWITCH for code, item in data.items.items() if "HubConnections" in item.tags},
     **dict.fromkeys(range(3860037, 3860041), RewardArt.LEVER_WALL),
 }
 

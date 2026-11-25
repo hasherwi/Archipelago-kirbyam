@@ -14,6 +14,8 @@ def test_items_projection_accepts_lf_and_crlf_only():
     raw = (ROOT / 'data/items.json').read_bytes().replace(b'\r\n', b'\n')
     assert items_before_phone(raw) == items_before_phone(raw.replace(b'\n', b'\r\n'))
     for bad in (raw.replace(b'3860501', b'3860502'),
+                raw.replace(b'3860301', b'3860303'),
+                raw.replace(b'3860302', b'3860303'),
                 raw.replace(b'PROGRESSION', b'USEFUL', 1), raw + b'\n',
                 raw.replace(b'"Phone", "Unique"', b'"Unique", "Phone"')):
         with pytest.raises(AssertionError):

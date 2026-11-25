@@ -13,6 +13,10 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ### New Features
 - Add 38 Kirby starting color palettes and a [visual gallery of all 65 colors](docs/color-palettes.md) (PR #1135).
 - Play distinct in-game sound cues and display item sprites when new Archipelago items are received (PR #1136, PR #1137).
+- Traps:
+  - Choose which trap types to exclude from randomized item pools (Issue #1040).
+  - Narcolepsy replaces Kirby's held copy ability with Sleep (Issue #1113).
+  - Random Teleport moves Kirby to a safe room already in logic (Issue #696).
 
 ### Improvements
 - Sprite Swapping: In-game item sprites now reflect the actual item awarded to the player. We use a variant of the Archipelago logo as an item sprite for for all location checks that don't have an in-game asset or award items to other AP worlds (PR #1137).
@@ -25,6 +29,9 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - The copy ability room unlock, area keys, and six ability unlocks use the AP logo sprite as an asset, native or custom, does not yet exist that meets the canvas we are limited to.
 - mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.
 - Testing covers selected gameplay scenarios, not a complete playthrough or every multiplayer setup.
+
+### Bug Fixes
+- Keep pending traps and consumables from blocking item delivery after an emulator pause (PR #1142).
 
 ## v0.6.0
 

@@ -513,3 +513,13 @@ def test_generated_burning_uses_statue_and_sleep_stays_generic(tmp_path: Path) -
     assert slot[area.location_id][:2] == (3860111, 1)
     assert variants[reward_art_location_key(chest)] == RewardArt.ABILITY_BURNING
     assert reward_art_location_key(area) not in variants
+
+
+def test_hub_connection_art_tracks_item_catalog_tags() -> None:
+    from ..data import data
+    from ..reward_art_types import KIRBY_NATIVE_ART_BY_ITEM_CODE, RewardArt
+
+    hub_ids = {code for code, item in data.items.items() if "HubConnections" in item.tags}
+    assert hub_ids
+    assert {code for code, art in KIRBY_NATIVE_ART_BY_ITEM_CODE.items()
+            if art == RewardArt.HUB_SWITCH} == hub_ids

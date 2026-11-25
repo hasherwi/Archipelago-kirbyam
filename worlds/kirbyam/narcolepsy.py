@@ -1,0 +1,7 @@
+"""Stable trap identity and native patch capability for Narcolepsy."""
+
+NARCOLEPSY_ITEM_ID = 3860301
+NARCOLEPSY_ITEM_NAME = "Narcolepsy"
+NARCOLEPSY_ROM_MARKER_OFFSET = 0x0100FFC0
+NARCOLEPSY_ROM_MARKER = b"APN1"
+NARCOLEPSY_TRAP_CATALOG_VERSION = 1

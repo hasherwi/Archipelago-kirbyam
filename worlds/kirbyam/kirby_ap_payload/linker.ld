@@ -42,11 +42,15 @@ SECTIONS
     KEEP(*(.apchestart))
     KEEP(*(.aprewardfx))
     KEEP(*(.apvisitdata))
+    KEEP(*(.aphubteleportdata))
     ap_extension_code_end = .;
     . = 0xF000;
     KEEP(*(.aprewardconfig))
-    . = 0xFFC4;
+    . = 0xFFBC;
     KEEP(*(.aproomvisitconfig))
+    . = 0xFFC0;
+    KEEP(*(.apnarcolepsyinfo))
+    KEEP(*(.aprandomteleportinfo))
     . = 0xFFC8;
     KEEP(*(.apphoneinfo))
     . = 0xFFD4;
@@ -65,7 +69,9 @@ ASSERT(SIZEOF(.data) == 0 && SIZEOF(.bss) == 0, "KirbyAM ROM payload must not co
 
 ASSERT(ap_extension_code_end <= 0x09007000, "Animated shard art overlaps extension code")
 ASSERT(gApRewardArtConfig == 0x0900F000, "Reward art config address changed")
-ASSERT(gApVisitRoomArtConfig == 0x0900FFC4, "Room visit config address changed")
+ASSERT(gApVisitRoomArtConfig == 0x0900FFBC, "Room visit config address changed")
+ASSERT(gApNarcolepsyInfo == 0x0900FFC0, "Narcolepsy marker address changed")
+ASSERT(gApRandomTeleportInfo == 0x0900FFC4, "Random Teleport marker address changed")
 ASSERT(gApEnemySourceConfig == 0x0900FFDC, "Enemy source config address changed")
 
 ASSERT(ap_full_completion_marker == 0x09000018, "Full completion marker address changed")

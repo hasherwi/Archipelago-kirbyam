@@ -542,35 +542,321 @@
           ]
         },
         {
-          "integrated_sha256": "db409be862b5b93ce29ca91bf251effc4b9237fe95da91699b53325b2ee135cb",
+          "integrated_sha256": "72d75542078c639176845e0fa5eaad5f2d685587595679390b56c751dae4fa4f",
+          "reverse_slices": [
+            {
+              "start": 5002,
+              "stop": 5020,
+              "current": [
+                "            # A durable transient already has a write-ahead reservation. Clearing\n",
+                "            # a live offer on elapsed time alone neither proves non-application nor\n",
+                "            # releases that reservation. Keep the same offer for the hook to consume.\n",
+                "            if timeout_triggered and flag == 1 and self._receipt_journal is not None:\n",
+                "                index = self._delivery_pending_item_index\n",
+                "                if (delivery_socket is not getattr(getattr(ctx, \"server\", None), \"socket\", None)\n",
+                "                        or delivery_streams is not getattr(ctx.bizhawk_ctx, \"streams\", None)):\n",
+                "                    return\n",
+                "                try:\n",
+                "                    if (index is None or index != self._delivered_item_index\n",
+                "                            or receipt_key(ctx.items_received, index) != self._receipt_active):\n",
+                "                        raise ValueError(\"in-flight item history changed\")\n",
+                "                except ValueError as exc:\n",
+                "                    self._receipt_failure(f\"{exc}; reconnect before continuing\")\n",
+                "                    return\n",
+                "                if ctx.items_received[index].item in TRANSIENT_ITEM_IDS:\n",
+                "                    return\n",
+                "\n"
+              ],
+              "main": []
+            }
+          ]
+        },
+        {
+          "integrated_sha256": "7325800ce0fe8ab11f17c2b902d192600d9651ffe6ef0b6a117c8d1cbe544fb1",
+          "reverse_slices": [
+            {
+              "start": 20,
+              "stop": 21,
+              "current": [
+                "from .narcolepsy import NARCOLEPSY_ITEM_ID, NARCOLEPSY_ROM_MARKER, NARCOLEPSY_ROM_MARKER_OFFSET\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 5187,
+              "stop": 5196,
+              "current": [
+                "            if item_id in (CANDY_ITEM_ID, NARCOLEPSY_ITEM_ID):\n",
+                "                if item_id == CANDY_ITEM_ID:\n",
+                "                    if not await self._invincibility_candy_ready(ctx):\n",
+                "                        return  # Keep history order; do not reserve or consume this receipt yet.\n",
+                "                else:\n",
+                "                    marker, = await bizhawk.read(ctx.bizhawk_ctx, [\n",
+                "                        (NARCOLEPSY_ROM_MARKER_OFFSET, len(NARCOLEPSY_ROM_MARKER), \"ROM\"),\n",
+                "                    ])\n",
+                "                # These reads await the connector; reject a changed delivery session.\n"
+              ],
+              "main": [
+                "            if item_id == CANDY_ITEM_ID:\n",
+                "                if not await self._invincibility_candy_ready(ctx):\n",
+                "                    return  # Keep history order; do not reserve or consume this receipt yet.\n",
+                "                # Readiness awaits the connector; reject a changed delivery session.\n"
+              ]
+            },
+            {
+              "start": 5201,
+              "stop": 5204,
+              "current": [
+                "                    return\n",
+                "                if item_id == NARCOLEPSY_ITEM_ID and bytes(marker) != NARCOLEPSY_ROM_MARKER:\n",
+                "                    self._receipt_failure(\"this ROM does not support Narcolepsy; patch your seed with the current APWorld\")\n"
+              ],
+              "main": []
+            }
+          ]
+        },
+        {
+          "integrated_sha256": "bbd011116b081629c92b97e6c399f33b0083e8b884c6b2f44ef53cf51bc34493",
+          "reverse_slices": [
+            {
+              "start": 21,
+              "stop": 25,
+              "current": [
+                "from .random_teleport import (\n",
+                "    RANDOM_TELEPORT_CONNECTION_BITS, RANDOM_TELEPORT_ITEM_ID, RANDOM_TELEPORT_NONCE_ADDR,\n",
+                "    RANDOM_TELEPORT_ROM_MARKER, RANDOM_TELEPORT_ROM_MARKER_OFFSET, teleport_nonce,\n",
+                ")\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 5191,
+              "stop": 5206,
+              "current": [
+                "            teleport_guards = None\n",
+                "            teleport_request = None\n",
+                "            if item_id in (CANDY_ITEM_ID, NARCOLEPSY_ITEM_ID, RANDOM_TELEPORT_ITEM_ID):\n",
+                "                delivery_index = self._delivered_item_index\n",
+                "\n",
+                "                def special_offer_current() -> bool:\n",
+                "                    return (\n",
+                "                        receipt_session == (self._authenticated_session_key(ctx), self._health_rom_auth)\n",
+                "                        and delivery_socket is getattr(getattr(ctx, \"server\", None), \"socket\", None)\n",
+                "                        and delivery_streams is getattr(ctx.bizhawk_ctx, \"streams\", None)\n",
+                "                        and self._delivered_item_index == delivery_index\n",
+                "                        and delivery_index < len(ctx.items_received)\n",
+                "                        and ctx.items_received[delivery_index] is itm\n",
+                "                    )\n",
+                "\n"
+              ],
+              "main": [
+                "            if item_id in (CANDY_ITEM_ID, NARCOLEPSY_ITEM_ID):\n"
+              ]
+            },
+            {
+              "start": 5210,
+              "stop": 5215,
+              "current": [
+                "                    marker_offset, expected_marker, name = (\n",
+                "                        (NARCOLEPSY_ROM_MARKER_OFFSET, NARCOLEPSY_ROM_MARKER, \"Narcolepsy\")\n",
+                "                        if item_id == NARCOLEPSY_ITEM_ID else\n",
+                "                        (RANDOM_TELEPORT_ROM_MARKER_OFFSET, RANDOM_TELEPORT_ROM_MARKER, \"Random Teleport\")\n",
+                "                    )\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 5216,
+              "stop": 5217,
+              "current": [
+                "                        (marker_offset, len(expected_marker), \"ROM\"),\n"
+              ],
+              "main": [
+                "                        (NARCOLEPSY_ROM_MARKER_OFFSET, len(NARCOLEPSY_ROM_MARKER), \"ROM\"),\n"
+              ]
+            },
+            {
+              "start": 5218,
+              "stop": 5224,
+              "current": [
+                "                    if not special_offer_current():\n",
+                "                        return\n",
+                "                    if bytes(marker) != expected_marker:\n",
+                "                        self._receipt_failure(f\"this ROM does not support {name}; patch your seed with the current APWorld\")\n",
+                "                        return\n",
+                "                if not special_offer_current():\n"
+              ],
+              "main": [
+                "                # These reads await the connector; reject a changed delivery session.\n",
+                "                if (receipt_session != (self._authenticated_session_key(ctx), self._health_rom_auth)\n",
+                "                        or delivery_socket is not getattr(getattr(ctx, \"server\", None), \"socket\", None)\n",
+                "                        or delivery_streams is not getattr(ctx.bizhawk_ctx, \"streams\", None)\n",
+                "                        or self._delivered_item_index >= len(ctx.items_received)\n",
+                "                        or ctx.items_received[self._delivered_item_index] is not itm):\n"
+              ]
+            },
+            {
+              "start": 5225,
+              "stop": 5252,
+              "current": [
+                "\n",
+                "                if item_id == RANDOM_TELEPORT_ITEM_ID:\n",
+                "                    auth = self._health_rom_auth\n",
+                "                    auth_addr = data.rom_addresses.get(\"gArchipelagoInfo\")\n",
+                "                    mask_addr = self._transport_addr(\"hub_connection_item_mask\")\n",
+                "                    if self._receipt_journal is None or auth_addr is None or mask_addr is None:\n",
+                "                        return  # A teleport always requires authenticated, durable authority.\n",
+                "                    mask = await self._sync_hub_connection_item_ownership(ctx)\n",
+                "                    if (mask is None or not special_offer_current()\n",
+                "                            or not self._hub_connection_item_history_ready(ctx)):\n",
+                "                        return\n",
+                "                    prefix_mask = 0\n",
+                "                    for received in ctx.items_received[:delivery_index]:\n",
+                "                        fields = self._extract_delivery_item_fields(received)\n",
+                "                        if fields and fields[0] in RANDOM_TELEPORT_CONNECTION_BITS:\n",
+                "                            prefix_mask |= 1 << RANDOM_TELEPORT_CONNECTION_BITS[fields[0]]\n",
+                "                    try:\n",
+                "                        nonce = teleport_nonce(self._receipt_scope, receipt_key(ctx.items_received, delivery_index))\n",
+                "                    except ValueError as exc:\n",
+                "                        self._receipt_failure(f\"could not identify Random Teleport receipt ({exc})\")\n",
+                "                        return\n",
+                "                    teleport_request = (RANDOM_TELEPORT_NONCE_ADDR, (nonce | prefix_mask).to_bytes(4, \"little\"), \"System Bus\")\n",
+                "                    teleport_guards = [\n",
+                "                        (_normalize_gba_rom_address(auth_addr), auth, \"ROM\"),\n",
+                "                        (mask_addr, mask.to_bytes(4, \"little\"), \"System Bus\"),\n",
+                "                        (flag_addr, bytes(4), \"System Bus\"),\n",
+                "                    ]\n"
+              ],
+              "main": [
+                "                if item_id == NARCOLEPSY_ITEM_ID and bytes(marker) != NARCOLEPSY_ROM_MARKER:\n",
+                "                    self._receipt_failure(\"this ROM does not support Narcolepsy; patch your seed with the current APWorld\")\n",
+                "                    return\n"
+              ]
+            },
+            {
+              "start": 5304,
+              "stop": 5316,
+              "current": [
+                "            elif teleport_guards is not None and teleport_request is not None:\n",
+                "                if not await bizhawk.guarded_write(ctx.bizhawk_ctx, [teleport_request, *offer], teleport_guards):\n",
+                "                    # False means a guard rejected the complete write, not a\n",
+                "                    # successful or ambiguous offer. Transport exceptions keep\n",
+                "                    # the durable reservation untouched for explicit recovery.\n",
+                "                    try:\n",
+                "                        self._receipt_journal.resolve(pending_receipt, \"retry\")\n",
+                "                    except (OSError, sqlite3.Error, ValueError) as exc:\n",
+                "                        self._receipt_failure(f\"could not release rejected teleport offer ({exc})\")\n",
+                "                    return\n",
+                "                if not special_offer_current():\n",
+                "                    return\n"
+              ],
+              "main": []
+            }
+          ]
+        },
+        {
+          "integrated_sha256": "4da02e8840fabb23dc0377eafe2ea63c6a385d62dbb60ba89cf0a4a4b98b10a5",
           "reverse_slices": [
             {
               "start": 22,
               "stop": 23,
+              "current": [
+                "    RANDOM_TELEPORT_CONNECTION_BITS, RANDOM_TELEPORT_EPOCH_ADDR, RANDOM_TELEPORT_ITEM_ID, RANDOM_TELEPORT_NONCE_ADDR,\n"
+              ],
+              "main": [
+                "    RANDOM_TELEPORT_CONNECTION_BITS, RANDOM_TELEPORT_ITEM_ID, RANDOM_TELEPORT_NONCE_ADDR,\n"
+              ]
+            },
+            {
+              "start": 32,
+              "stop": 34,
+              "current": [
+                "    COPY_ROOM_CONTEXT_ADDRESS, COPY_ROOM_ITEM_ID, COPY_ROOM_MARKER, COPY_ROOM_MARKER_OFFSET,\n",
+                "    copy_room_slot_version, decode_copy_room_snapshot, sync_copy_room_ownership,\n"
+              ],
+              "main": [
+                "    COPY_ROOM_ITEM_ID, COPY_ROOM_MARKER, COPY_ROOM_MARKER_OFFSET,\n",
+                "    copy_room_slot_version, sync_copy_room_ownership,\n"
+              ]
+            },
+            {
+              "start": 5236,
+              "stop": 5244,
+              "current": [
+                "                    raw_file, file_fence = await bizhawk.read(ctx.bizhawk_ctx, [\n",
+                "                        (COPY_ROOM_CONTEXT_ADDRESS, 36, \"System Bus\"),\n",
+                "                        (COPY_ROOM_CONTEXT_ADDRESS, 12, \"System Bus\"),\n",
+                "                    ])\n",
+                "                    native_file = decode_copy_room_snapshot(bytes(raw_file), bytes(file_fence))\n",
+                "                    if (native_file is None or not special_offer_current()\n",
+                "                            or not self._hub_connection_item_history_ready(ctx)):\n",
+                "                        return\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 5254,
+              "stop": 5258,
+              "current": [
+                "                    teleport_request = [\n",
+                "                        (RANDOM_TELEPORT_NONCE_ADDR, (nonce | prefix_mask).to_bytes(4, \"little\"), \"System Bus\"),\n",
+                "                        (RANDOM_TELEPORT_EPOCH_ADDR, native_file.epoch.to_bytes(4, \"little\"), \"System Bus\"),\n",
+                "                    ]\n"
+              ],
+              "main": [
+                "                    teleport_request = (RANDOM_TELEPORT_NONCE_ADDR, (nonce | prefix_mask).to_bytes(4, \"little\"), \"System Bus\")\n"
+              ]
+            },
+            {
+              "start": 5259,
+              "stop": 5260,
+              "current": [
+                "                        (COPY_ROOM_CONTEXT_ADDRESS, bytes(file_fence), \"System Bus\"),\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 5317,
+              "stop": 5318,
+              "current": [
+                "                if not await bizhawk.guarded_write(ctx.bizhawk_ctx, [*teleport_request, *offer], teleport_guards):\n"
+              ],
+              "main": [
+                "                if not await bizhawk.guarded_write(ctx.bizhawk_ctx, [teleport_request, *offer], teleport_guards):\n"
+              ]
+            }
+          ]
+        },
+        {
+          "integrated_sha256": "13caa07695d600b74f8195d8ee3724a343bb74e33122ae2cdc71c7a986dde421",
+          "reverse_slices": [
+            {
+              "start": 27,
+              "stop": 28,
               "current": [
                 "from .receipt_visuals import ReceiptVisuals\n"
               ],
               "main": []
             },
             {
-              "start": 540,
-              "stop": 541,
+              "start": 545,
+              "stop": 546,
               "current": [
                 "        self._receipt_visuals = ReceiptVisuals()\n"
               ],
               "main": []
             },
             {
-              "start": 1714,
-              "stop": 1715,
+              "start": 1719,
+              "stop": 1720,
               "current": [
                 "                    self._receipt_visuals = ReceiptVisuals()\n"
               ],
               "main": []
             },
             {
-              "start": 1763,
-              "stop": 1784,
+              "start": 1768,
+              "stop": 1789,
               "current": [
                 "            return\n",
                 "\n",
@@ -597,8 +883,41 @@
               "main": []
             },
             {
-              "start": 2248,
-              "stop": 2250,
+              "start": 2154,
+              "stop": 2157,
+              "current": [
+                "                from .completion import FULL_COMPLETION_MARKER_OFFSET, physical_check_save_marker\n",
+                "                expected = physical_check_save_marker(physical_version)\n",
+                "                if expected is None:\n"
+              ],
+              "main": [
+                "                from .completion import FULL_COMPLETION_MARKER, FULL_COMPLETION_MARKER_OFFSET\n",
+                "                if type(physical_version) is not int or physical_version != 1:\n"
+              ]
+            },
+            {
+              "start": 2158,
+              "stop": 2159,
+              "current": [
+                "                marker = (await bizhawk.read(ctx.bizhawk_ctx, [(FULL_COMPLETION_MARKER_OFFSET, len(expected), \"ROM\")]))[0]\n"
+              ],
+              "main": [
+                "                marker = (await bizhawk.read(ctx.bizhawk_ctx, [(FULL_COMPLETION_MARKER_OFFSET, 8, \"ROM\")]))[0]\n"
+              ]
+            },
+            {
+              "start": 2161,
+              "stop": 2162,
+              "current": [
+                "                if bytes(marker) != expected:\n"
+              ],
+              "main": [
+                "                if bytes(marker) != FULL_COMPLETION_MARKER:\n"
+              ]
+            },
+            {
+              "start": 2254,
+              "stop": 2256,
               "current": [
                 "            if self._receipt_visuals.socket is not None:\n",
                 "                self._receipt_visuals = ReceiptVisuals()\n"
@@ -606,24 +925,65 @@
               "main": []
             },
             {
-              "start": 2435,
-              "stop": 2436,
+              "start": 2441,
+              "stop": 2442,
               "current": [
                 "            await self._pump_receipt_visuals(ctx)\n"
               ],
               "main": []
             },
             {
-              "start": 3558,
-              "stop": 3559,
+              "start": 3564,
+              "stop": 3565,
               "current": [
                 "        self._receipt_visuals.baseline(socket, self._authenticated_session_key(ctx), ctx.items_received)\n"
               ],
               "main": []
             },
             {
-              "start": 4963,
-              "stop": 4970,
+              "start": 4184,
+              "stop": 4184,
+              "current": [],
+              "main": [
+                "            if type(save_version) is not int or save_version != 1:\n",
+                "                return\n"
+              ]
+            },
+            {
+              "start": 4185,
+              "stop": 4187,
+              "current": [
+                "                FULL_COMPLETION_MARKER_OFFSET, PHYSICAL_SAVE_ADDRESS, SAVE_ID_ADDRESS,\n",
+                "                merge_acknowledged_levers, physical_check_save_marker,\n"
+              ],
+              "main": [
+                "                FULL_COMPLETION_MARKER, FULL_COMPLETION_MARKER_OFFSET, PHYSICAL_SAVE_ADDRESS,\n",
+                "                SAVE_ID_ADDRESS, merge_acknowledged_levers,\n"
+              ]
+            },
+            {
+              "start": 4188,
+              "stop": 4191,
+              "current": [
+                "            marker = physical_check_save_marker(save_version)\n",
+                "            if marker is None:\n",
+                "                return\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 4195,
+              "stop": 4196,
+              "current": [
+                "                      (FULL_COMPLETION_MARKER_OFFSET, marker, \"ROM\"),\n"
+              ],
+              "main": [
+                "                      (FULL_COMPLETION_MARKER_OFFSET, FULL_COMPLETION_MARKER, \"ROM\"),\n"
+              ]
+            },
+            {
+              "start": 4970,
+              "stop": 4977,
               "current": [
                 "                    fresh = first_ack and delivered_index >= self._max_delivered_item_index_seen\n",
                 "                    item = ctx.items_received[delivered_index]\n",
@@ -639,16 +999,50 @@
               ]
             },
             {
-              "start": 5591,
-              "stop": 5592,
+              "start": 5444,
+              "stop": 5447,
+              "current": [
+                "            FULL_COMPLETION_MARKER_OFFSET, FULL_COMPLETION_VERSION, NATIVE_READS, PHYSICAL_IDS,\n",
+                "            PHYSICAL_SAVE_ADDRESS, PHYSICAL_SAVE_MASK, native_progress, ownership_complete,\n",
+                "            physical_check_save_marker, saved_physical_mask,\n"
+              ],
+              "main": [
+                "            FULL_COMPLETION_MARKER, FULL_COMPLETION_MARKER_OFFSET, FULL_COMPLETION_VERSION,\n",
+                "            NATIVE_READS, PHYSICAL_IDS, PHYSICAL_SAVE_ADDRESS, PHYSICAL_SAVE_MASK,\n",
+                "            native_progress, ownership_complete, saved_physical_mask,\n"
+              ]
+            },
+            {
+              "start": 5454,
+              "stop": 5457,
+              "current": [
+                "            return\n",
+                "        marker = physical_check_save_marker(slot_data.get(\"physical_check_save_version\"))\n",
+                "        if marker is None:\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 5484,
+              "stop": 5485,
+              "current": [
+                "                  (FULL_COMPLETION_MARKER_OFFSET, marker, \"ROM\"),\n"
+              ],
+              "main": [
+                "                  (FULL_COMPLETION_MARKER_OFFSET, FULL_COMPLETION_MARKER, \"ROM\"),\n"
+              ]
+            },
+            {
+              "start": 5694,
+              "stop": 5695,
               "current": [
                 "            self._receipt_visuals = ReceiptVisuals()\n"
               ],
               "main": []
             },
             {
-              "start": 5629,
-              "stop": 5642,
+              "start": 5732,
+              "stop": 5745,
               "current": [
                 "        if cmd == \"ReceivedItems\":\n",
                 "            socket = getattr(getattr(ctx, \"server\", None), \"socket\", None)\n",
@@ -665,119 +1059,6 @@
                 "                                             ctx.items_received, index, len(items), cursor, ctx.slot)\n"
               ],
               "main": []
-            }
-          ]
-        },
-        {
-          "integrated_sha256": "15e57f117e6cdf5cd2237296de904e4356d6497383d99a415621849ce5706c26",
-          "reverse_slices": [
-            {
-              "start": 2149,
-              "stop": 2152,
-              "current": [
-                "                from .completion import FULL_COMPLETION_MARKER_OFFSET, physical_check_save_marker\n",
-                "                expected = physical_check_save_marker(physical_version)\n",
-                "                if expected is None:\n"
-              ],
-              "main": [
-                "                from .completion import FULL_COMPLETION_MARKER, FULL_COMPLETION_MARKER_OFFSET\n",
-                "                if type(physical_version) is not int or physical_version != 1:\n"
-              ]
-            },
-            {
-              "start": 2153,
-              "stop": 2154,
-              "current": [
-                "                marker = (await bizhawk.read(ctx.bizhawk_ctx, [(FULL_COMPLETION_MARKER_OFFSET, len(expected), \"ROM\")]))[0]\n"
-              ],
-              "main": [
-                "                marker = (await bizhawk.read(ctx.bizhawk_ctx, [(FULL_COMPLETION_MARKER_OFFSET, 8, \"ROM\")]))[0]\n"
-              ]
-            },
-            {
-              "start": 2156,
-              "stop": 2157,
-              "current": [
-                "                if bytes(marker) != expected:\n"
-              ],
-              "main": [
-                "                if bytes(marker) != FULL_COMPLETION_MARKER:\n"
-              ]
-            },
-            {
-              "start": 4179,
-              "stop": 4179,
-              "current": [],
-              "main": [
-                "            if type(save_version) is not int or save_version != 1:\n",
-                "                return\n"
-              ]
-            },
-            {
-              "start": 4180,
-              "stop": 4182,
-              "current": [
-                "                FULL_COMPLETION_MARKER_OFFSET, PHYSICAL_SAVE_ADDRESS, SAVE_ID_ADDRESS,\n",
-                "                merge_acknowledged_levers, physical_check_save_marker,\n"
-              ],
-              "main": [
-                "                FULL_COMPLETION_MARKER, FULL_COMPLETION_MARKER_OFFSET, PHYSICAL_SAVE_ADDRESS,\n",
-                "                SAVE_ID_ADDRESS, merge_acknowledged_levers,\n"
-              ]
-            },
-            {
-              "start": 4183,
-              "stop": 4186,
-              "current": [
-                "            marker = physical_check_save_marker(save_version)\n",
-                "            if marker is None:\n",
-                "                return\n"
-              ],
-              "main": []
-            },
-            {
-              "start": 4190,
-              "stop": 4191,
-              "current": [
-                "                      (FULL_COMPLETION_MARKER_OFFSET, marker, \"ROM\"),\n"
-              ],
-              "main": [
-                "                      (FULL_COMPLETION_MARKER_OFFSET, FULL_COMPLETION_MARKER, \"ROM\"),\n"
-              ]
-            },
-            {
-              "start": 5346,
-              "stop": 5349,
-              "current": [
-                "            FULL_COMPLETION_MARKER_OFFSET, FULL_COMPLETION_VERSION, NATIVE_READS, PHYSICAL_IDS,\n",
-                "            PHYSICAL_SAVE_ADDRESS, PHYSICAL_SAVE_MASK, native_progress, ownership_complete,\n",
-                "            physical_check_save_marker, saved_physical_mask,\n"
-              ],
-              "main": [
-                "            FULL_COMPLETION_MARKER, FULL_COMPLETION_MARKER_OFFSET, FULL_COMPLETION_VERSION,\n",
-                "            NATIVE_READS, PHYSICAL_IDS, PHYSICAL_SAVE_ADDRESS, PHYSICAL_SAVE_MASK,\n",
-                "            native_progress, ownership_complete, saved_physical_mask,\n"
-              ]
-            },
-            {
-              "start": 5356,
-              "stop": 5359,
-              "current": [
-                "            return\n",
-                "        marker = physical_check_save_marker(slot_data.get(\"physical_check_save_version\"))\n",
-                "        if marker is None:\n"
-              ],
-              "main": []
-            },
-            {
-              "start": 5386,
-              "stop": 5387,
-              "current": [
-                "                  (FULL_COMPLETION_MARKER_OFFSET, marker, \"ROM\"),\n"
-              ],
-              "main": [
-                "                  (FULL_COMPLETION_MARKER_OFFSET, FULL_COMPLETION_MARKER, \"ROM\"),\n"
-              ]
             }
           ]
         }

@@ -2129,6 +2129,13 @@ physical-evidence graphs remain available for inspection;
 the target-level `advanced_graphs` list controls their inclusion in world logic.
 
 
+### Optional Mustard Mountain 4-11 crossing
+
+Grounded Hammer swings can move the large Heave-Ho and open the lava-wall
+crossing. The Small Chest and the existing exit do not require it, and the
+far side adds no distinct AP check or room transition. See the
+[native witness](../dev-docs/mustard-4-11-heave-ho-acceptance.md).
+
 ### Crash-route classification audit
 
 The complete compiled traversal catalog contains 57 targets and 146 witnesses

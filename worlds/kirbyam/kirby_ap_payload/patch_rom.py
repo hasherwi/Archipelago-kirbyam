@@ -2239,8 +2239,8 @@ def apply_color_extension(rom: bytearray, elf_path: Path) -> None:
     if (resolve_elf_symbol_address(elf_path, "gApReceiptCueInfo") != 0x09000020
             or extension[0x20:0x28] != b"APCUE01\0"):
         raise SystemExit("Error: missing versioned receipt cue marker")
-    if (resolve_elf_symbol_address(elf_path, "gApVisitRoomArtConfig") != 0x0900FFC4
-            or extension[0xFFC4:0xFFC8] != b"APR0"):
+    if (resolve_elf_symbol_address(elf_path, "gApVisitRoomArtConfig") != 0x0900FFBC
+            or extension[0xFFBC:0xFFC0] != b"APR0"):
         raise SystemExit("Error: missing versioned RoomSanity reward sprite config")
     board_address = resolve_elf_symbol_address(elf_path, "gApHubBoardSpriteData")
     board_offset = board_address - 0x09000000

@@ -1,10 +1,15 @@
 """Offline reset replay uses physical +1 ACKs, never history-index ACKs."""
 from unittest.mock import AsyncMock, patch
+from struct import pack
 
 import pytest
 from NetUtils import NetworkItem
 
-from ..client import KirbyAmClient
+from ..client import KirbyAmClient, _normalize_gba_rom_address
+from ..copy_room_protocol import COPY_ROOM_CONTEXT_ADDRESS
+from ..data import data
+from ..random_teleport import RANDOM_TELEPORT_ROM_MARKER, RANDOM_TELEPORT_ROM_MARKER_OFFSET
+from ..narcolepsy import NARCOLEPSY_ROM_MARKER, NARCOLEPSY_ROM_MARKER_OFFSET
 
 
 class Mailbox:
@@ -24,17 +29,27 @@ class Mailbox:
             kirby + 0xCC: (0x03001000).to_bytes(4, "little"),
             kirby + 0x0C: bytes(4), hp: bytes([10]),
         })
+        self.memory[NARCOLEPSY_ROM_MARKER_OFFSET] = NARCOLEPSY_ROM_MARKER
+        self.memory[RANDOM_TELEPORT_ROM_MARKER_OFFSET] = RANDOM_TELEPORT_ROM_MARKER
+        self.memory[_normalize_gba_rom_address(data.rom_addresses['gArchipelagoInfo'])] = client._health_rom_auth
+        self.memory[COPY_ROOM_CONTEXT_ADDRESS] = pack("<9I", 1, 1, 0, 0, 0, 0x03001000, 0, 0x43504332, 0)
         self.offers = []
         self.applied = []
 
     async def read(self, _ctx, requests):
-        return [self.memory.get(a, bytes(n)) for a, n, _ in requests]
+        return [self.memory.get(a, bytes(n))[:n] for a, n, _ in requests]
 
     async def write(self, _ctx, requests):
         for address, value, _ in requests:
             self.memory[address] = value
             if address == self.client._transport_addr('incoming_item_id'):
                 self.offers.append(int.from_bytes(value, 'little'))
+
+    async def guarded_write(self, ctx, requests, guards):
+        if any(self.memory.get(address, bytes(len(expected)))[:len(expected)] != expected for address, expected, _ in guards):
+            return False
+        await self.write(ctx, requests)
+        return True
 
     def consume(self):
         c = self.client
