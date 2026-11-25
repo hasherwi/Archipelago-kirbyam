@@ -217,3 +217,61 @@ ap_phone_call_entry:
 1:  .word 0x08056C35
 2:  pop {r0-r2, pc}
 .size ap_phone_call_entry, .-ap_phone_call_entry
+
+.section .text.ap_transition_entries,"ax",%progbits
+.balign 4
+.global ap_chest_reward_art_entry
+.type ap_chest_reward_art_entry, %function
+.thumb_func
+ap_chest_reward_art_entry:
+    push {r3}
+    ldr r3, 1f
+    mov ip, r3
+    pop {r3}
+    bx ip
+.balign 4
+1:  .word ap_chest_reward_art
+.size ap_chest_reward_art_entry, .-ap_chest_reward_art_entry
+
+.section .text.ap_transition_entries,"ax",%progbits
+.balign 4
+.global ap_big_switch_reward_art_entry
+.type ap_big_switch_reward_art_entry, %function
+.thumb_func
+ap_big_switch_reward_art_entry:
+    ldr r3, 1f
+    bx r3
+.balign 4
+1:  .word ap_big_switch_reward_art
+.size ap_big_switch_reward_art_entry, .-ap_big_switch_reward_art_entry
+
+.section .text.ap_transition_entries,"ax",%progbits
+.balign 4
+.global ap_room_visit_reward_art_entry
+.type ap_room_visit_reward_art_entry, %function
+.thumb_func
+ap_room_visit_reward_art_entry:
+    adds r1, r5, #0  @ Kirby*; native room ID is still in r0.
+    ldr r3, 1f
+    bx r3
+.balign 4
+1:  .word ap_record_room_visit_for_reward_art
+.size ap_room_visit_reward_art_entry, .-ap_room_visit_reward_art_entry
+
+.section .text.ap_transition_entries,"ax",%progbits
+.macro BOSS_SHARD_ART_ENTRY entry, handler
+.balign 4
+.global \entry
+.type \entry, %function
+.thumb_func
+\entry:
+    ldr r3, 1f
+    bx r3
+.balign 4
+1:  .word \handler
+.size \entry, .-\entry
+.endm
+
+BOSS_SHARD_ART_ENTRY ap_init_boss_shard_sprite_entry, ap_init_boss_shard_sprite
+BOSS_SHARD_ART_ENTRY ap_update_boss_shard_sprite_entry, ap_update_boss_shard_sprite
+BOSS_SHARD_ART_ENTRY ap_draw_boss_shard_sprite_entry, ap_draw_boss_shard_sprite

@@ -828,20 +828,255 @@
           ]
         },
         {
-          "label": "Random Starting Mirror client handshake",
-          "integrated_sha256": "d1f69683dd92eb75accec45e8dfc71ae55f17a2a30f501e16fc370fe6625e98c",
+          "integrated_sha256": "13caa07695d600b74f8195d8ee3724a343bb74e33122ae2cdc71c7a986dde421",
           "reverse_slices": [
             {
-              "start": 36,
-              "stop": 37,
+              "start": 27,
+              "stop": 28,
+              "current": [
+                "from .receipt_visuals import ReceiptVisuals\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 545,
+              "stop": 546,
+              "current": [
+                "        self._receipt_visuals = ReceiptVisuals()\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 1719,
+              "stop": 1720,
+              "current": [
+                "                    self._receipt_visuals = ReceiptVisuals()\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 1768,
+              "stop": 1789,
+              "current": [
+                "            return\n",
+                "\n",
+                "    async def _pump_receipt_visuals(self, ctx: \"BizHawkClientContext\") -> None:\n",
+                "        auth = self._health_rom_auth\n",
+                "        auth_addr = data.rom_addresses.get(\"gArchipelagoInfo\")\n",
+                "        frame_addr = self._transport_addr(\"frame_counter\")\n",
+                "        if auth is None or auth_addr is None or frame_addr is None:\n",
+                "            return\n",
+                "        visuals = self._receipt_visuals\n",
+                "\n",
+                "        def session_current():\n",
+                "            return (visuals is self._receipt_visuals and auth == self._health_rom_auth\n",
+                "                    and visuals.matches(getattr(getattr(ctx, \"server\", None), \"socket\", None),\n",
+                "                                        self._authenticated_session_key(ctx)))\n",
+                "        try:\n",
+                "            await visuals.pump(\n",
+                "                ctx.bizhawk_ctx, auth_offset=_normalize_gba_rom_address(auth_addr),\n",
+                "                auth=auth, frame_addr=frame_addr, session_current=session_current,\n",
+                "            )\n",
+                "        except (bizhawk.RequestFailedError, bizhawk.NotConnectedError, bizhawk.SyncError):\n",
+                "            # A cosmetic transport outage must not affect acknowledged delivery.\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 2154,
+              "stop": 2157,
+              "current": [
+                "                from .completion import FULL_COMPLETION_MARKER_OFFSET, physical_check_save_marker\n",
+                "                expected = physical_check_save_marker(physical_version)\n",
+                "                if expected is None:\n"
+              ],
+              "main": [
+                "                from .completion import FULL_COMPLETION_MARKER, FULL_COMPLETION_MARKER_OFFSET\n",
+                "                if type(physical_version) is not int or physical_version != 1:\n"
+              ]
+            },
+            {
+              "start": 2158,
+              "stop": 2159,
+              "current": [
+                "                marker = (await bizhawk.read(ctx.bizhawk_ctx, [(FULL_COMPLETION_MARKER_OFFSET, len(expected), \"ROM\")]))[0]\n"
+              ],
+              "main": [
+                "                marker = (await bizhawk.read(ctx.bizhawk_ctx, [(FULL_COMPLETION_MARKER_OFFSET, 8, \"ROM\")]))[0]\n"
+              ]
+            },
+            {
+              "start": 2161,
+              "stop": 2162,
+              "current": [
+                "                if bytes(marker) != expected:\n"
+              ],
+              "main": [
+                "                if bytes(marker) != FULL_COMPLETION_MARKER:\n"
+              ]
+            },
+            {
+              "start": 2254,
+              "stop": 2256,
+              "current": [
+                "            if self._receipt_visuals.socket is not None:\n",
+                "                self._receipt_visuals = ReceiptVisuals()\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 2441,
+              "stop": 2442,
+              "current": [
+                "            await self._pump_receipt_visuals(ctx)\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 3564,
+              "stop": 3565,
+              "current": [
+                "        self._receipt_visuals.baseline(socket, self._authenticated_session_key(ctx), ctx.items_received)\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 4184,
+              "stop": 4184,
+              "current": [],
+              "main": [
+                "            if type(save_version) is not int or save_version != 1:\n",
+                "                return\n"
+              ]
+            },
+            {
+              "start": 4185,
+              "stop": 4187,
+              "current": [
+                "                FULL_COMPLETION_MARKER_OFFSET, PHYSICAL_SAVE_ADDRESS, SAVE_ID_ADDRESS,\n",
+                "                merge_acknowledged_levers, physical_check_save_marker,\n"
+              ],
+              "main": [
+                "                FULL_COMPLETION_MARKER, FULL_COMPLETION_MARKER_OFFSET, PHYSICAL_SAVE_ADDRESS,\n",
+                "                SAVE_ID_ADDRESS, merge_acknowledged_levers,\n"
+              ]
+            },
+            {
+              "start": 4188,
+              "stop": 4191,
+              "current": [
+                "            marker = physical_check_save_marker(save_version)\n",
+                "            if marker is None:\n",
+                "                return\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 4195,
+              "stop": 4196,
+              "current": [
+                "                      (FULL_COMPLETION_MARKER_OFFSET, marker, \"ROM\"),\n"
+              ],
+              "main": [
+                "                      (FULL_COMPLETION_MARKER_OFFSET, FULL_COMPLETION_MARKER, \"ROM\"),\n"
+              ]
+            },
+            {
+              "start": 4970,
+              "stop": 4977,
+              "current": [
+                "                    fresh = first_ack and delivered_index >= self._max_delivered_item_index_seen\n",
+                "                    item = ctx.items_received[delivered_index]\n",
+                "                    if fresh:\n",
+                "                        self._receipt_sounds.enqueue(item)\n",
+                "                    if self._receipt_visuals.matches(getattr(getattr(ctx, \"server\", None), \"socket\", None),\n",
+                "                                                     self._authenticated_session_key(ctx)):\n",
+                "                        self._receipt_visuals.acknowledge(delivered_index, item, first=fresh)\n"
+              ],
+              "main": [
+                "                    if first_ack and delivered_index >= self._max_delivered_item_index_seen:\n",
+                "                        self._receipt_sounds.enqueue(ctx.items_received[delivered_index])\n"
+              ]
+            },
+            {
+              "start": 5444,
+              "stop": 5447,
+              "current": [
+                "            FULL_COMPLETION_MARKER_OFFSET, FULL_COMPLETION_VERSION, NATIVE_READS, PHYSICAL_IDS,\n",
+                "            PHYSICAL_SAVE_ADDRESS, PHYSICAL_SAVE_MASK, native_progress, ownership_complete,\n",
+                "            physical_check_save_marker, saved_physical_mask,\n"
+              ],
+              "main": [
+                "            FULL_COMPLETION_MARKER, FULL_COMPLETION_MARKER_OFFSET, FULL_COMPLETION_VERSION,\n",
+                "            NATIVE_READS, PHYSICAL_IDS, PHYSICAL_SAVE_ADDRESS, PHYSICAL_SAVE_MASK,\n",
+                "            native_progress, ownership_complete, saved_physical_mask,\n"
+              ]
+            },
+            {
+              "start": 5454,
+              "stop": 5457,
+              "current": [
+                "            return\n",
+                "        marker = physical_check_save_marker(slot_data.get(\"physical_check_save_version\"))\n",
+                "        if marker is None:\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 5484,
+              "stop": 5485,
+              "current": [
+                "                  (FULL_COMPLETION_MARKER_OFFSET, marker, \"ROM\"),\n"
+              ],
+              "main": [
+                "                  (FULL_COMPLETION_MARKER_OFFSET, FULL_COMPLETION_MARKER, \"ROM\"),\n"
+              ]
+            },
+            {
+              "start": 5694,
+              "stop": 5695,
+              "current": [
+                "            self._receipt_visuals = ReceiptVisuals()\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 5732,
+              "stop": 5745,
+              "current": [
+                "        if cmd == \"ReceivedItems\":\n",
+                "            socket = getattr(getattr(ctx, \"server\", None), \"socket\", None)\n",
+                "            index = args.get(\"index\")\n",
+                "            items = args.get(\"items\")\n",
+                "            if (self._hub_connection_item_history_ready(ctx) and type(index) is int\n",
+                "                    and isinstance(items, (list, tuple)) and type(ctx.slot) is int):\n",
+                "                # A server with an empty inventory has no journal yet. Its\n",
+                "                # known-empty stream can still deliver the first live item.\n",
+                "                known_empty = self._receipt_visuals.history_end == 0 and self._delivered_item_index == 0\n",
+                "                ready = self._watcher_server_ready and (self._receipt_journal is not None or known_empty)\n",
+                "                cursor = self._delivered_item_index if ready else None\n",
+                "                self._receipt_visuals.packet(socket, self._authenticated_session_key(ctx),\n",
+                "                                             ctx.items_received, index, len(items), cursor, ctx.slot)\n"
+              ],
+              "main": []
+            }
+          ]
+        },
+        {
+          "label": "Random Starting Mirror client handshake on reward sprites branch",
+          "integrated_sha256": "fc0ccb61941d0fd641d2e9affdf7999d563ab63e6ebc40a8b7689d4a9258d418",
+          "reverse_slices": [
+            {
+              "start": 37,
+              "stop": 38,
               "current": [
                 "from .starting_mirror import STARTING_MIRROR_ITEM_ID, STARTING_MIRROR_MASK_BIT\n"
               ],
               "main": []
             },
             {
-              "start": 3500,
-              "stop": 3501,
+              "start": 3528,
+              "stop": 3529,
               "current": [
                 "            if door_index is not None and 1 <= door_index <= STARTING_MIRROR_MASK_BIT:\n"
               ],
@@ -850,8 +1085,8 @@
               ]
             },
             {
-              "start": 5033,
-              "stop": 5034,
+              "start": 5068,
+              "stop": 5069,
               "current": [
                 "                    and getattr(ctx.items_received[pending_index], \"item\", None) in (3860300, CANDY_ITEM_ID, 3860027, STARTING_MIRROR_ITEM_ID)):\n"
               ],
@@ -860,8 +1095,8 @@
               ]
             },
             {
-              "start": 5310,
-              "stop": 5311,
+              "start": 5345,
+              "stop": 5346,
               "current": [
                 "                guards = [\n"
               ],
@@ -870,8 +1105,8 @@
               ]
             },
             {
-              "start": 5313,
-              "stop": 5328,
+              "start": 5348,
+              "stop": 5363,
               "current": [
                 "                ]\n",
                 "                if item_id == STARTING_MIRROR_ITEM_ID:\n",
