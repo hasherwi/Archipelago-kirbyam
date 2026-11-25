@@ -1175,8 +1175,10 @@ duplicated in the pool.
 The existing configuration word at ROM offset `0x15F688` uses bit 1 for this
 option; bit 0 continues to control Area Keys independently. Hub ownership
 mask bit 16 refers to Starting Mirror only, not a native WorldMapDoor index.
-The payload persists ownership in the authenticated native save file, and its
-transition and decoration hooks gate only Central Circle (801) to Room 1-01
+The history mask authenticates delivery, not ownership. The payload only acknowledges
+the receipt once it saves the existing authenticated native file record (WORLD word 26,
+bit 19); failed writes roll back the bit and may retry. Native load and clear abandon
+any unacknowledged offer from the previous file. The transition and decoration hooks gate only Central Circle (801) to Room 1-01
 (101). The lock uses the same four-piece, boards-only overlay as PR #1101
 (animation `0x294`, variant 11); the original mirror frame is unchanged. With the option off that exit and the chest's reward pool behave as
 before.

@@ -451,10 +451,6 @@ void ap_apply_hub_connection_unlocks_from_mask(void) {
         return;
     }
 
-    if (ap_random_starting_mirror_enabled() && (item_mask & AP_STARTING_MIRROR_ITEM_MASK)) {
-        ap_copy_room_grant_access(AP_STARTING_MIRROR_OWNED);
-    }
-
     for (door_index = 1u; door_index <= 15u; door_index++) {
         uint32_t ap_hub_switch_bit;
         uint8_t world_props_unlock_index;
@@ -2391,10 +2387,11 @@ static uint8_t ap_apply_item(uint32_t ap_item_id) {
         return 1u;
     }
 
-    if (ap_item_id == KIRBY_ITEM_ID_BASE_OFFSET + 416u) {
+    if (ap_item_id == AP_STARTING_MIRROR_ITEM) {
         if (!ap_random_starting_mirror_enabled()) return 1u;
-        ap_copy_room_grant_access(AP_STARTING_MIRROR_OWNED);
-        return ap_copy_room_access_owned(AP_STARTING_MIRROR_OWNED) != 0u;
+        uint32_t mask = AP_HUB_CONNECTION_ITEM_MASK;
+        return mask != AP_HUB_CONNECTION_ITEM_MASK_UNINITIALIZED
+            && (mask & AP_STARTING_MIRROR_ITEM_MASK) && ap_copy_room_receive_starting_mirror();
     }
 
     // HUB_CONNECTION_* = BASE+401 .. BASE+415; enum values 1..15 match WorldMapDoor.

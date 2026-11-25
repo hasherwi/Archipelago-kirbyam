@@ -22,7 +22,7 @@ def test_starting_mirror_defaults_and_eligible_routes():
     assert KirbyAmWorld.item_name_to_id[STARTING_MIRROR_ITEM] == 3860416
     assert "HubConnections" in data.items[3860416].tags
     assert RandomStartingMirror.default == 1
-    assert any(group.name == "More Random" and RandomStartingMirror in group.options for group in OPTION_GROUPS)
+    assert any(group.name == "Make the game more random" and RandomStartingMirror in group.options for group in OPTION_GROUPS)
     assert set(starting_mirror_candidates(True)) == {
         STARTING_MIRROR_ITEM,
         "Rainbow Route East - Hub Connection",
