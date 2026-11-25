@@ -18,16 +18,16 @@ def before_candy912_catalog(catalog):
     added = [row for row in result['graphs'] if row['target'] == TARGET]
     assert digest(added) == '87281214916accf98b294cec263a2f42eac12b58a31c844187bf7f164fbc5f64'
     result['graphs'] = [row for row in result['graphs'] if row['target'] != TARGET]
-    assert result['capability_providers'].pop('bomb_402_candy_chest') == ['Beam']
-    assert result['capability_providers'].pop('bomb_402_candy_chest_ufo') == ['UFO']
-    assert result['capability_providers'].pop('bomb_402_candy_chest_spark') == ['Spark']
-    assert result['capability_providers'].pop('bomb_402_candy_chest_missile') == ['Missile']
-    assert result['capability_providers'].pop('bomb_402_candy_chest_sword') == ['Sword']
-    assert result['capability_providers'].pop('bomb_402_candy_chest_spark') == ['Spark']
-    assert result['capability_providers'].pop('bomb_402_candy_chest_missile') == ['Missile']
-    assert result['capability_providers'].pop('bomb_402_candy_chest_spark') == ['Spark']
-    assert result['capability_providers'].pop('bomb_402_candy_chest_missile') == ['Missile']
-    assert result['sources'].pop('WADDLE_DOO@0x088C5BC8') == [
+    providers = {
+        TARGET: ['Beam'],
+        f'{TARGET}_ufo': ['UFO'],
+        f'{TARGET}_spark': ['Spark'],
+        f'{TARGET}_missile': ['Missile'],
+        f'{TARGET}_sword': ['Sword'],
+    }
+    for capability, expected in providers.items():
+        assert result['capability_providers'].pop(capability, None) == expected
+    assert result['sources'].pop('WADDLE_DOO@0x088C5BC8', None) == [
         {'source_key': 'WADDLE_DOO', 'identity': '0x088C5BC8', 'renewable': False, 'documented_retry': False}]
     result['witnesses'], result['variants'] = 159, 318
     return result

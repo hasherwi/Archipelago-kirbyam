@@ -197,3 +197,29 @@ def test_radish_catalog_projection_rejects_semantic_changes(mutation):
         row['equipment_routes'] = []
     with pytest.raises(AssertionError):
         catalog_before_radish617(catalog)
+
+
+
+@pytest.mark.parametrize('mutation', ['count', 'provider', 'missing_provider', 'source', 'equipment'])
+def test_candy_catalog_projection_rejects_semantic_changes(mutation: str) -> None:
+    from .support.candy912_history import TARGET, before_candy912_catalog
+
+    catalog = json.loads((Path(__file__).parents[1]
+                          / 'dev-docs/supported-source-monotonicity-catalog.json').read_text())
+    projected = before_candy912_catalog(catalog)
+    assert (projected['witnesses'], projected['variants']) == (159, 318)
+    assert all(row['target'] != TARGET for row in projected['graphs'])
+    provider = f'{TARGET}_spark'
+    row = next(r for r in catalog['graphs'] if r['target'] == TARGET and r['witness'] == 'local_spark')
+    if mutation == 'count':
+        catalog['witnesses'] += 1
+    elif mutation == 'provider':
+        catalog['capability_providers'][provider].append('Normal')
+    elif mutation == 'missing_provider':
+        del catalog['capability_providers'][provider]
+    elif mutation == 'source':
+        catalog['sources']['WADDLE_DOO@0x088C5BC8'][0]['renewable'] = True
+    else:
+        row['equipment_routes'] = []
+    with pytest.raises(AssertionError):
+        before_candy912_catalog(catalog)
