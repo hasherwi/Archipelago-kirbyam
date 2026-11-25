@@ -139,3 +139,116 @@ def test_generated_archive_places_one_starting_route_without_precollect(tmp_path
     assert sum(item[0] == reward_id for item in locations.values()) == 1
     assert sum(item[0] == KirbyAmWorld.item_name_to_id[STARTING_MIRROR_ITEM]
                for item in locations.values()) == 1
+
+
+def _generate_plando_world(tmp_path, seed, *player_yamls):
+    import Generate
+    import Main
+
+    players = tmp_path / "players"
+    players.mkdir()
+    output = tmp_path / "output"
+    output.mkdir()
+    for slot, yaml in enumerate(player_yamls, 1):
+        (players / f"{slot}.yaml").write_text(yaml, encoding="utf-8")
+    args = Generate.mystery_argparse([
+        "--multi", str(len(player_yamls)), "--seed", str(seed), "--plando", "items",
+        "--player_files_path", str(players), "--outputpath", str(output),
+    ])
+    args.weights_file_path = args.meta_file_path = None
+    return Main.main(*Generate.main(args))
+
+
+def _player_yaml(name, plan="", *, enabled=True):
+    return (
+        f"name: {name}\ngame: Kirby & The Amazing Mirror\nKirby & The Amazing Mirror:\n"
+        f"  random_starting_mirror: {int(enabled)}\n"
+        "  area_keys: true\n  room_sanity: true\n  ability_gating: false\n" + plan
+    )
+
+
+def _owned_locations(multiworld, name, owner):
+    return [(loc.player, loc.name) for loc in multiworld.get_filled_locations()
+            if loc.item and loc.item.name == name and loc.item.player == owner]
+
+
+@pytest.mark.parametrize("seed", [526, 515])
+def test_real_from_pool_plando_does_not_duplicate_tutorial_reward(tmp_path, seed):
+    plan = (
+        "  plando_items:\n"
+        f"    - item: {STARTING_MIRROR_ITEM}\n"
+        "      location: Room 1-CENTRAL_CIRCLE\n      force: true\n"
+    )
+    mw = _generate_plando_world(tmp_path, seed, _player_yaml("Plando Probe", plan))
+    chest = mw.get_location(TUTORIAL_WORLD_MAP_NAME, 1)
+    assert chest.item.name != STARTING_MIRROR_ITEM
+    assert chest.locked and chest.item.name in starting_mirror_candidates(True)
+    assert _owned_locations(mw, STARTING_MIRROR_ITEM, 1) == [(1, "Room 1-CENTRAL_CIRCLE")]
+    assert not mw.get_unfilled_locations()
+    assert mw.worlds[1].fill_slot_data()["tracker"]["starting_mirror_tutorial_item"] == chest.item.name
+
+
+def test_tutorial_draw_uses_only_resolved_own_from_pool_items(tmp_path, monkeypatch):
+    from unittest.mock import patch
+
+    checked_players = []
+    original = KirbyAmWorld.pre_fill
+
+    def inspect_draw(world):
+        if getattr(world, "_starting_mirror_placeholder", None) is None:
+            return original(world)
+        expected = set(starting_mirror_candidates(True))
+        placement = world.multiworld.get_location("Room 1-CENTRAL_CIRCLE", 2).item
+        assert placement is not None and placement.player == 1 and placement.name in expected
+        expected.remove(placement.name)
+        choice = world.random.choice
+
+        def choose(draw):
+            assert set(draw) == expected and len(draw) == len(expected)
+            checked_players.append(world.player)
+            return choice(draw)
+
+        with patch.object(world.random, "choice", side_effect=choose):
+            return original(world)
+
+    monkeypatch.setattr(KirbyAmWorld, "pre_fill", inspect_draw)
+    plan = (
+        "  plando_items:\n"
+        "    - items: ['Room 1-01 Mirror - Hub Connection', 'Rainbow Route East - Hub Connection']\n"
+        "      locations: [Room 1-CENTRAL_CIRCLE]\n      world: Second\n      count: 1\n      force: true\n"
+        "    - items: ['Rainbow Route West - Hub Connection']\n"
+        "      locations: [Room 1-01]\n      world: Second\n      count: {min: 0, max: 0}\n"
+    )
+    mw = _generate_plando_world(tmp_path, 526, _player_yaml("First", plan), _player_yaml("Second"))
+    planned = mw.get_location("Room 1-CENTRAL_CIRCLE", 2).item
+    assert checked_players == [1]
+    assert planned is not None and planned.player == 1
+    assert _owned_locations(mw, planned.name, 1) == [(2, "Room 1-CENTRAL_CIRCLE")]
+    assert len(_owned_locations(mw, planned.name, 2)) == 1
+    assert mw.get_location(TUTORIAL_WORLD_MAP_NAME, 1).item.name != planned.name
+
+
+def test_option_off_allows_ordinary_plando_to_tutorial_chest(tmp_path):
+    plan = (
+        "  plando_items:\n"
+        "    - item: Rainbow Route East - Hub Connection\n"
+        f"      location: {TUTORIAL_WORLD_MAP_NAME}\n      force: true\n"
+    )
+    mw = _generate_plando_world(tmp_path, 526, _player_yaml("Option Off", plan, enabled=False))
+    assert mw.get_location(TUTORIAL_WORLD_MAP_NAME, 1).item.name == "Rainbow Route East - Hub Connection"
+    assert not _owned_locations(mw, STARTING_MIRROR_ITEM, 1)
+
+
+def test_no_unreserved_tutorial_connection_fails_clearly():
+    from Options import PlandoItems
+
+    multiworld = setup_multiworld([KirbyAmWorld], steps=STEPS, seed=520,
+                                  options={"random_starting_mirror": 1, "area_keys": 1,
+                                           "plando_items": PlandoItems.from_any([{
+                                               "item": STARTING_MIRROR_ITEM, "location": "Room 1-CENTRAL_CIRCLE",
+                                           }]).value})
+    world = multiworld.worlds[1]
+    candidates = starting_mirror_candidates(True)
+    multiworld.itempool[:] = [item for item in multiworld.itempool if item.name not in candidates]
+    with pytest.raises(ValueError, match="Random Starting Mirror has no eligible Central Circle Hub Connection"):
+        world.pre_fill()

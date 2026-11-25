@@ -1170,7 +1170,12 @@ its native map unlock and also reports its original Archipelago check
 Hub Connection, including the new Room 1-01 Mirror - Hub Connection (3860416). An alternate
 connection that also requires an Area Key is ineligible while keys are enabled.
 The selected copy is locked at the chest, not added to starting inventory or
-duplicated in the pool.
+duplicated in the pool. When a from-pool plando could use one of those items,
+the chest stays reserved until the plan is applied. The draw then uses only
+still-available connections owned by this player, including when a plan puts
+their item in another world. If no eligible item remains, generation stops
+with an explicit error. To plando a different reward at the tutorial chest,
+disable Random Starting Mirror.
 
 The existing configuration word at ROM offset `0x15F688` uses bit 1 for this
 option; bit 0 continues to control Area Keys independently. Hub ownership
