@@ -2,22 +2,22 @@
   "schema": 2,
   "scope": "Current supported public generation, not custom narrowed policy safety or native gameplay. All compiled targets including logical subregions, both area-key modes. The always-on Phone 146 ownership rule and its separately profile-qualified witness are described in phone-progression-admission.md; neither is a compiled attack-provider graph, and the implementation is pinned here.",
   "source_sha256": {
-    "worlds/kirbyam/__init__.py": "aa135850f27f08258e32e0c61e69be6951c6d014ef55cca38a33fd8950dd64dd",
+    "worlds/kirbyam/__init__.py": "3355896fb1132f344ca8c26029510918b44f8937d69161f23f9d54ea242a98c1",
     "worlds/kirbyam/ability_randomization.py": "0ede749f3cfe63dde9747c9f31184731b21c2b0d173501f8e94e090861979aaf",
     "worlds/kirbyam/enemy_ability_data.py": "53a3b016462f875e43a036de2739b8315b87962f68aeda9e0eb74725eaa36e2a",
     "worlds/kirbyam/enemy_ability_runtime_patch.py": "3023bf9d06a923ea760f513fee1f9516e42b7f455f49640876e6f93c0e66141c",
     "worlds/kirbyam/data/abilities.json": "d180e496d17544579aefca6714716f27e7d0c8fdbfcc40196a72ef441a5c5f22",
-    "worlds/kirbyam/traversal.py": "f6f497ac77a79941fecbb666622bcf7d72613ab65ea120031a1dd230164e7f3f",
-    "worlds/kirbyam/traversal_data.py": "c876bfc98d0ca9432cad5b526a8a813492bd0333b5fca9fc6a627cac67365e12",
+    "worlds/kirbyam/traversal.py": "5c24865ee0c52096fb60231c82273943138cb251e1fd9936ab4108411399c3f5",
+    "worlds/kirbyam/traversal_data.py": "aba4ce415bfe8ae517c8b8de2760aeb4382a9bf4a23892f4a1b94abdfce9f5cf",
     "worlds/kirbyam/master_source.py": "ff8d987ae8913391865c2c8c28dd4efe01d83546eefdb4d965032b944dd11e2e",
-    "worlds/kirbyam/data/regions/rooms.json": "ab26c58ee66278e8697301dae9579aec196127b57f0c14230e8b2c0ce5f04aed",
+    "worlds/kirbyam/data/regions/rooms.json": "6ef94e3a169dc68b5b57495e6a2eba307d9a3db934250004611773a97c929fa8",
     "worlds/kirbyam/phone_traversal.py": "bdafd7ff6de2583b8ed87da0668d41f1107660488812ca923caf330f366dc879",
     "worlds/kirbyam/rules.py": "e9c59053533211b7145b3c7407c8a580422ad40cb4ca608084813fc2dc034d4c",
     "worlds/kirbyam/ability_source_inventory.py": "333a5ffcaf2d7896f62a13f627ce0f956b20fcb3655359744b5a0af378b5ee55",
     "worlds/kirbyam/data/ability_source_inventory.json": "8d85df5c6ff423f9799e4dc751bbd3849e184b97253d4be3efd8b4419d57cc2b"
   },
-  "witnesses": 159,
-  "variants": 318,
+  "witnesses": 164,
+  "variants": 328,
   "valid_pool": [
     "Beam",
     "Bomb",
@@ -150,6 +150,21 @@
     ],
     "bomb_138_green_normal_lower_slide": [
       "Normal"
+    ],
+    "bomb_402_candy_chest": [
+      "Beam"
+    ],
+    "bomb_402_candy_chest_ufo": [
+      "UFO"
+    ],
+    "bomb_402_candy_chest_spark": [
+      "Spark"
+    ],
+    "bomb_402_candy_chest_missile": [
+      "Missile"
+    ],
+    "bomb_402_candy_chest_sword": [
+      "Sword"
     ],
     "bomb_538_beam_left_crossover": [
       "Beam"
@@ -1154,6 +1169,14 @@
       {
         "source_key": "ROCKY",
         "identity": "0x088C5864",
+        "renewable": false,
+        "documented_retry": false
+      }
+    ],
+    "WADDLE_DOO@0x088C5BC8": [
+      {
+        "source_key": "WADDLE_DOO",
+        "identity": "0x088C5BC8",
         "renewable": false,
         "documented_retry": false
       }
@@ -16230,6 +16253,446 @@
           "to": "frozen_825_sound_effects:fire_launch",
           "required_equipment": [
             "Fire"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "bomb_402_candy_chest",
+      "witness": "local_beam",
+      "area_keys": false,
+      "source_ids": [
+        "WADDLE_DOO@0x088C5BC8"
+      ],
+      "capability_routes": [
+        {
+          "from": "bomb_402_candy_chest:lower_doo",
+          "to": "bomb_402_candy_chest:chest",
+          "capability": "bomb_402_candy_chest",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Beam"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": true,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": {
+        "source_key": "WADDLE_DOO",
+        "abilities": [
+          "Beam",
+          "UFO",
+          "Spark",
+          "Missile",
+          "Sword"
+        ]
+      },
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "bomb_402_candy_chest:arrival",
+          "to": "bomb_402_candy_chest:lower_doo",
+          "required_equipment": [
+            "Normal"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "bomb_402_candy_chest",
+      "witness": "local_beam",
+      "area_keys": true,
+      "source_ids": [
+        "WADDLE_DOO@0x088C5BC8"
+      ],
+      "capability_routes": [
+        {
+          "from": "bomb_402_candy_chest:lower_doo",
+          "to": "bomb_402_candy_chest:chest",
+          "capability": "bomb_402_candy_chest",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Beam"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": true,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": {
+        "source_key": "WADDLE_DOO",
+        "abilities": [
+          "Beam",
+          "UFO",
+          "Spark",
+          "Missile",
+          "Sword"
+        ]
+      },
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "bomb_402_candy_chest:arrival",
+          "to": "bomb_402_candy_chest:lower_doo",
+          "required_equipment": [
+            "Normal"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "bomb_402_candy_chest",
+      "witness": "local_ufo",
+      "area_keys": false,
+      "source_ids": [
+        "WADDLE_DOO@0x088C5BC8"
+      ],
+      "capability_routes": [
+        {
+          "from": "bomb_402_candy_chest:lower_doo",
+          "to": "bomb_402_candy_chest:chest",
+          "capability": "bomb_402_candy_chest_ufo",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "UFO"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": {
+        "source_key": "WADDLE_DOO",
+        "abilities": [
+          "Beam",
+          "UFO",
+          "Spark",
+          "Missile",
+          "Sword"
+        ]
+      },
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "bomb_402_candy_chest:arrival",
+          "to": "bomb_402_candy_chest:lower_doo",
+          "required_equipment": [
+            "Normal"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "bomb_402_candy_chest",
+      "witness": "local_ufo",
+      "area_keys": true,
+      "source_ids": [
+        "WADDLE_DOO@0x088C5BC8"
+      ],
+      "capability_routes": [
+        {
+          "from": "bomb_402_candy_chest:lower_doo",
+          "to": "bomb_402_candy_chest:chest",
+          "capability": "bomb_402_candy_chest_ufo",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "UFO"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": {
+        "source_key": "WADDLE_DOO",
+        "abilities": [
+          "Beam",
+          "UFO",
+          "Spark",
+          "Missile",
+          "Sword"
+        ]
+      },
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "bomb_402_candy_chest:arrival",
+          "to": "bomb_402_candy_chest:lower_doo",
+          "required_equipment": [
+            "Normal"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "bomb_402_candy_chest",
+      "witness": "local_spark",
+      "area_keys": false,
+      "source_ids": [
+        "WADDLE_DOO@0x088C5BC8"
+      ],
+      "capability_routes": [
+        {
+          "from": "bomb_402_candy_chest:lower_doo",
+          "to": "bomb_402_candy_chest:chest",
+          "capability": "bomb_402_candy_chest_spark",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Spark"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": {
+        "source_key": "WADDLE_DOO",
+        "abilities": [
+          "Beam",
+          "UFO",
+          "Spark",
+          "Missile",
+          "Sword"
+        ]
+      },
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "bomb_402_candy_chest:arrival",
+          "to": "bomb_402_candy_chest:lower_doo",
+          "required_equipment": [
+            "Normal"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "bomb_402_candy_chest",
+      "witness": "local_spark",
+      "area_keys": true,
+      "source_ids": [
+        "WADDLE_DOO@0x088C5BC8"
+      ],
+      "capability_routes": [
+        {
+          "from": "bomb_402_candy_chest:lower_doo",
+          "to": "bomb_402_candy_chest:chest",
+          "capability": "bomb_402_candy_chest_spark",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Spark"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": {
+        "source_key": "WADDLE_DOO",
+        "abilities": [
+          "Beam",
+          "UFO",
+          "Spark",
+          "Missile",
+          "Sword"
+        ]
+      },
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "bomb_402_candy_chest:arrival",
+          "to": "bomb_402_candy_chest:lower_doo",
+          "required_equipment": [
+            "Normal"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "bomb_402_candy_chest",
+      "witness": "local_missile",
+      "area_keys": false,
+      "source_ids": [
+        "WADDLE_DOO@0x088C5BC8"
+      ],
+      "capability_routes": [
+        {
+          "from": "bomb_402_candy_chest:lower_doo",
+          "to": "bomb_402_candy_chest:chest",
+          "capability": "bomb_402_candy_chest_missile",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Missile"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": {
+        "source_key": "WADDLE_DOO",
+        "abilities": [
+          "Beam",
+          "UFO",
+          "Spark",
+          "Missile",
+          "Sword"
+        ]
+      },
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "bomb_402_candy_chest:arrival",
+          "to": "bomb_402_candy_chest:lower_doo",
+          "required_equipment": [
+            "Normal"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "bomb_402_candy_chest",
+      "witness": "local_missile",
+      "area_keys": true,
+      "source_ids": [
+        "WADDLE_DOO@0x088C5BC8"
+      ],
+      "capability_routes": [
+        {
+          "from": "bomb_402_candy_chest:lower_doo",
+          "to": "bomb_402_candy_chest:chest",
+          "capability": "bomb_402_candy_chest_missile",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Missile"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": {
+        "source_key": "WADDLE_DOO",
+        "abilities": [
+          "Beam",
+          "UFO",
+          "Spark",
+          "Missile",
+          "Sword"
+        ]
+      },
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "bomb_402_candy_chest:arrival",
+          "to": "bomb_402_candy_chest:lower_doo",
+          "required_equipment": [
+            "Normal"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "bomb_402_candy_chest",
+      "witness": "local_sword",
+      "area_keys": false,
+      "source_ids": [
+        "WADDLE_DOO@0x088C5BC8"
+      ],
+      "capability_routes": [
+        {
+          "from": "bomb_402_candy_chest:lower_doo",
+          "to": "bomb_402_candy_chest:chest",
+          "capability": "bomb_402_candy_chest_sword",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Sword"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": {
+        "source_key": "WADDLE_DOO",
+        "abilities": [
+          "Beam",
+          "UFO",
+          "Spark",
+          "Missile",
+          "Sword"
+        ]
+      },
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "bomb_402_candy_chest:arrival",
+          "to": "bomb_402_candy_chest:lower_doo",
+          "required_equipment": [
+            "Normal"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "bomb_402_candy_chest",
+      "witness": "local_sword",
+      "area_keys": true,
+      "source_ids": [
+        "WADDLE_DOO@0x088C5BC8"
+      ],
+      "capability_routes": [
+        {
+          "from": "bomb_402_candy_chest:lower_doo",
+          "to": "bomb_402_candy_chest:chest",
+          "capability": "bomb_402_candy_chest_sword",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Sword"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": {
+        "source_key": "WADDLE_DOO",
+        "abilities": [
+          "Beam",
+          "UFO",
+          "Spark",
+          "Missile",
+          "Sword"
+        ]
+      },
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "bomb_402_candy_chest:arrival",
+          "to": "bomb_402_candy_chest:lower_doo",
+          "required_equipment": [
+            "Normal"
           ]
         }
       ]

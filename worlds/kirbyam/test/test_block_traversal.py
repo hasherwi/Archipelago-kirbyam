@@ -229,7 +229,7 @@ def test_ice_base_classification_stays_useful_with_conditional_goal2_witness():
     from ..traversal_data import room_traversal_targets
     assert {row['id'] for row in room_traversal_targets('block')} == {
         'underwater_819_exit', 'frozen_825_sound_effects', 'bomb_538_beam_left_exit',
-        'bomb_110_room9', 'bomb_138_green', 'bomb_517_chocolate', 'bomb_719_room13', 'bomb_733_yellow',
+        'bomb_110_room9', 'bomb_138_green', 'bomb_402_candy_chest', 'bomb_517_chocolate', 'bomb_719_room13', 'bomb_733_yellow',
         'normal_208_to_209_bottom', 'normal_210_to_209_upper', 'bomb_617_radish_map',
         'mirra_141_top_mustard',
         'mirra_141_east_moonlight', 'mirra_117_carrot', 'mirra_811_olive', 'normal_534_mustard_entry', 'normal_534_room15_entry', 'normal_815_vitality',
