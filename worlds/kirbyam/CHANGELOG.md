@@ -19,6 +19,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
   - Random Teleport moves Kirby to a safe room already in logic (Issue #696).
 
 ### Improvements
+- Allow only File 1 to be selected, preventing cross-save problems (Issue #1144).
 - Show boss defeat progress in `/goal` when using the boss-count goal (PR #1133).
 
 ### Bug Fixes
@@ -26,7 +27,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Restored previously received Area Keys and Hub Connections when switching Adventure files without restarting the emulator.
 - Area Keys now remain usable after restarting the game offline in the same seed and save file.
 - Hub Connections are saved when received, so restarting offline no longer loses newly opened routes.
-- Preserve a verified Mustard Mountain Room 4-16 route when a required Shuffled seed exhausts its normal source search.
+- Fixed an exhausted source search for Shuffled seeds that require Mustard Mountain Room 4-16.
 
 ### Known Limitations
 - Phone charges can exceed three, but the battery display does not show the extra charges (PR #1086).
