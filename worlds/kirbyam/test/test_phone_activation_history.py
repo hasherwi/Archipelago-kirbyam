@@ -17,6 +17,7 @@ def test_items_projection_accepts_lf_and_crlf_only():
                 raw.replace(b'3860301', b'3860303'),
                 raw.replace(b'3860302', b'3860303'),
                 raw.replace(b'3860416', b'3860417'),
+                raw.replace(b'3860056', b'3860057'),
                 raw.replace(b'PROGRESSION', b'USEFUL', 1), raw + b'\n',
                 raw.replace(b'"Phone", "Unique"', b'"Unique", "Phone"')):
         with pytest.raises(AssertionError):

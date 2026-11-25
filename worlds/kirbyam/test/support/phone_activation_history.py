@@ -43,9 +43,22 @@ STARTING_MIRROR_CATALOG_INSERTION = b'''  "HUB_CONNECTION_STARTING_MIRROR": {
   },
 '''
 
+RAINBOW_AREA_KEY_CATALOG_INSERTION = b'''  "AREA_KEY_1": {
+    "label": "Rainbow Route - Area Key",
+    "classification": "PROGRESSION",
+    "item_id": 3860056,
+    "tags": ["AreaKeys", "Unique"]
+  },
+'''
+
+
 def items_before_phone(raw: bytes) -> bytes:
-    """Check every current byte, reverse the exact mirror, trap and Phone additions."""
+    """Reverse the exact Rainbow key, mirror, trap and Phone additions after verifying each projection."""
     raw = raw.replace(b'\r\n', b'\n')
+    assert hashlib.sha256(raw).hexdigest() == (
+        'c3dc98375cdefea7e60378a9837d90c179007cb37901650dcddd1ac00292b806')
+    assert raw.count(RAINBOW_AREA_KEY_CATALOG_INSERTION) == 1
+    raw = raw.replace(RAINBOW_AREA_KEY_CATALOG_INSERTION, b'', 1)
     assert hashlib.sha256(raw).hexdigest() == (
         'd212a0b44e9ea3db96427a916ce2bb1c5112c0fb861526058ec979abe181d507')
     assert raw.count(STARTING_MIRROR_CATALOG_INSERTION) == 1

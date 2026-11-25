@@ -81,12 +81,15 @@ def test_native_config_defaults_on_and_bypasses_only_destination_key(tmp_path: P
 #define AP_AREA_KEYS_CONFIG_OFF 0x414B0100u
 #define AP_AREA_KEYS_CONFIG_ON 0x414B0101u
 #define AP_RAINBOW_ROUTE_KEY_CONFIG_BIT 4u
+#define AP_RAINBOW_ROUTE_KEY_BIT (1u << 1)
 #define AP_MAILBOX_INIT_COOKIE_VALUE 0x4B41504Du
 #define AP_STARTING_MIRROR_CONFIG_BIT 2u
 #define AP_STARTING_MIRROR_OWNED (1u << 19)
 #define KIRBY_NATIVE_AREA_UNKNOWN 255u
 static uint32_t gApAreaKeysConfig, AP_AREA_KEY_BITFIELD_RUNTIME, copy_room_owned;
 static uint32_t AP_MAILBOX_INIT_COOKIE = AP_MAILBOX_INIT_COOKIE_VALUE;
+static uint32_t durable_area_key_bits;
+static uint32_t ap_progress_owned(void) { return durable_area_key_bits; }
 static uint32_t ap_copy_room_owned(void) { return copy_room_owned & 1u; }
 static uint32_t ap_copy_room_access_owned(uint32_t mask) { return copy_room_owned & mask; }
 /* Native area metadata is isolated here; all tested policy functions are extracted production bodies. */
@@ -108,7 +111,10 @@ int main(void) {
         CHECK(ap_transition_allowed(0,1)==0);
         CHECK(ap_transition_reason(0,1,0)==2);
         AP_AREA_KEY_BITFIELD_RUNTIME=1u<<2;
+        CHECK(ap_transition_allowed(0,1)==0); /* Client mirror does not earn Area 2. */
+        durable_area_key_bits=1u;
         CHECK(ap_transition_allowed(0,1)==1);
+        durable_area_key_bits=0u;
         CHECK(ap_transition_reason(0,1,1)==3);
     }
     gApAreaKeysConfig=AP_AREA_KEYS_CONFIG_OFF;

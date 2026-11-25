@@ -24,6 +24,13 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Sprite Swapping (**custom sprite artwork by Hunter**): In-game item sprites now reflect the actual item awarded, including Hunter’s nine custom Area Key designs. When Area Keys are enabled, Kirby starts with the Rainbow Route key, so its area mirrors never need a separate unlock. The AP gem still represents outgoing non-traps and awards without their own artwork (PR #1137; Issue #1139).
 - Show boss defeat progress in `/goal` when using the boss-count goal (PR #1133).
 
+### Bug Fixes
+- Keep pending traps and consumables from blocking item delivery after an emulator pause (PR #1142).
+- Restored previously received Area Keys and Hub Connections when switching Adventure files without restarting the emulator.
+- Area Keys now remain usable after restarting the game offline in the same seed and save file.
+- Hub Connections are saved when received, so restarting offline no longer loses newly opened routes.
+- Fixed an exhausted source search for Shuffled seeds that require Mustard Mountain Room 4-16.
+
 ### Known Limitations
 - Phone charges can exceed three, but the battery display does not show the extra charges (PR #1086).
 - Ranged-attack coverage remains incomplete. Three targets retain older rules outside reviewed source assignments; broader physical outcomes still need review. See the [detailed coverage ledger](dev-docs/ranged-coverage-ledger.md) (PR #1052).
@@ -31,11 +38,6 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - The copy ability room unlock and six ability unlocks use the AP logo sprite because an asset, native or custom, does not yet exist that meets the canvas we are limited to.
 - mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.
 - Testing covers selected gameplay scenarios, not a complete playthrough or every multiplayer setup.
-
-### Bug Fixes
-
-- Fixed an exhausted source search for Shuffled seeds that require Mustard Mountain Room 4-16.
-- Keep pending traps and consumables from blocking item delivery after an emulator pause (PR #1142).
 
 ## v0.6.0
 

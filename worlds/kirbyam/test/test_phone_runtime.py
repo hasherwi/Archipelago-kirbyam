@@ -49,6 +49,8 @@ static void fake_start(uint8_t,uint8_t,const uint16_t*,const int32_t*,const uint
 ''' + source + r'''
 #define WORLD ((uint32_t*)0x02028C10u)
 static uint32_t files[3][32], saves, fail_save;
+/* Hub projection is covered by the dedicated hub/save harnesses. */
+void ap_project_hub_doors(uint32_t owned) { (void)owned; }
 static int16_t fake_save(uint32_t kind,uint16_t slot) {
     saves++; if(fail_save) return -1;
     memcpy(files[slot],WORLD,sizeof(files[slot])); return 0;

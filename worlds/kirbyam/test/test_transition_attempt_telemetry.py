@@ -27,14 +27,18 @@ async def test_transition_event_logs_allowed_and_denied_fields(mock_bizhawk_cont
     mock_bizhawk_context.slot_data["starting_area_key_bitfield"] = 0
     client._last_transition_event_counter = 4
     ring_addr = 0x0203B0C8
+    source_room, destination_room = 790, 801  # Moonlight Hub -> Central Circle mirror.
+    client._room_area_id_by_doors_idx = {77: 1}
 
     async def read(_ctx: Any, requests: Any) -> list[bytes]:
         address, size, _domain = requests[0]
         if address == 0x0203B130:
             return [0x54524E31.to_bytes(4, "little"), (8).to_bytes(4, "little")]
+        if address == 0x009331AC + destination_room * 0x28 + 0x24:
+            return [(77).to_bytes(2, "little")]
         sequence = ((address - ring_addr) // 12)
         if sequence == 5 % 8:
-            return [_event(5, 0x0100, 0x0200, 1, False, 2)]
+            return [_event(5, source_room, destination_room, 5, False, 2)]
         if sequence == 6 % 8:
             return [_event(6, 0x0200, 0x0201, 0, True, 0)]
         if sequence == 7 % 8:
@@ -49,12 +53,19 @@ async def test_transition_event_logs_allowed_and_denied_fields(mock_bizhawk_cont
         "transition_event_telemetry_cookie_runtime": 0x0203B130,
     }, clear=False), patch(
         "worlds.kirbyam.client.bizhawk.read", new_callable=AsyncMock, side_effect=read
-    ), patch("CommonClient.logger") as logger:
+    ), patch(
+        "worlds.kirbyam.client.bizhawk.display_message", new_callable=AsyncMock
+    ) as display, patch("CommonClient.logger") as logger:
         await client._poll_transition_attempt_events(mock_bizhawk_context)
 
+    display.assert_awaited_once_with(
+        mock_bizhawk_context.bizhawk_ctx,
+        "You need the Rainbow Route Area Key.",
+    )
     assert logger.info.call_count == 4
     denied = logger.info.call_args_list[0]
-    assert denied.args[1:] == ("denied", "warp star", 0x0100, 0x0200, "missing destination Area Key")
+    assert denied.args[1:] == ("denied", "door/special transition", source_room, destination_room,
+                               "missing destination Area Key")
     allowed = logger.info.call_args_list[1]
     assert allowed.args[1:] == ("allowed", "unclassified transition", 0x0200, 0x0201, "same-area allowance")
     mirror_shard = logger.info.call_args_list[2]

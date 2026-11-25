@@ -1,14 +1,18 @@
 """Late Hub receipts must install ownership before native item effects."""
 import base64
 import json
+from pathlib import Path
 from typing import Any, Callable
-from unittest.mock import Mock, patch
+from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
 
+from NetUtils import NetworkItem
 from worlds._bizhawk import RequestFailedError
-from ..client import KirbyAmClient
+from ..client import COPY_ROOM_CONTEXT_ADDRESS, KirbyAmClient, _MAILBOX_ACK_TIMEOUT_FRAMES
+from ..copy_room_protocol import COPY_ROOM_MARKER, COPY_ROOM_MARKER_OFFSET
 from ..data import data
+from ..receipts import ReceiptJournal, receipt_key
 
 
 class Bridge:
@@ -36,14 +40,14 @@ class Bridge:
             if req['type'] == 'READ':
                 initial = int(addr in [self.addresses[k] for k in
                                        ('debug_item_counter', 'frame_counter', 'hook_heartbeat')])
-                value = self.ram.get(addr, initial.to_bytes(req['size'], 'little'))
+                value = self.ram.get(addr, initial.to_bytes(req['size'], 'little'))[:req['size']]
                 responses.append({'type': 'READ_RESPONSE', 'value': base64.b64encode(value).decode()})
             elif req['type'] == 'GUARD':
                 if self.before_guard:
                     callback, self.before_guard = self.before_guard, None
                     callback()
                 expected = base64.b64decode(req['expected_data'])
-                valid = self.ram.get(addr, bytes(len(expected))) == expected
+                valid = self.ram.get(addr, bytes(len(expected)))[:len(expected)] == expected
                 responses.append({'type': 'GUARD_RESPONSE', 'value': valid})
                 if not valid:
                     break
@@ -95,6 +99,29 @@ async def test_late_hub_receipt_installs_ownership_before_native_offer(mock_bizh
         await client._deliver_items(ctx)
     assert bridge.offers == [(3860409, 0x220)]
     assert client._delivery_pending is True
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("native_epoch", [False, True])
+async def test_starting_mirror_offer_requires_authenticated_live_native_file(
+    mock_bizhawk_context: Any, native_epoch: bool,
+) -> None:
+    ctx = mock_bizhawk_context
+    client, bridge = await setup_client(ctx)
+    ctx.items_received[1] = NetworkItem(3860416, 2, 1, 0)
+    client.on_package(ctx, "ReceivedItems", {"index": 0})
+    auth = bytes(range(16))
+    client._health_rom_auth = auth
+    bridge.ram[0xF00000] = auth
+    bridge.ram[COPY_ROOM_CONTEXT_ADDRESS] = b"".join(
+        x.to_bytes(4, "little") for x in (
+            7, 7, 0, 0, 0, 0x03000000, 0, 0x43504332 if native_epoch else 0, 0,
+        )
+    )
+    with patch.object(client, "_prepare_receipts", return_value=True):
+        await client._deliver_items(ctx)
+    assert bridge.offers == ([(3860416, (1 << 5) | (1 << 16))] if native_epoch else [])
+    assert client._delivery_pending == native_epoch
 
 
 @pytest.mark.asyncio
@@ -217,3 +244,200 @@ async def test_recovery_installs_complete_ownership_before_retry(mock_bizhawk_co
         await client._deliver_items(ctx)
     assert bridge.offers == [(3860409, 0x220)]
     assert client._delivery_pending is True
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("item_id", [3860041, 3860402], ids=["area-key", "hub-connection"])
+@pytest.mark.parametrize("event", ["ack", "timeout", "reset", "file-change"])
+async def test_durable_progress_timeout_preserves_exactly_one_ack(
+    mock_bizhawk_context: Any, tmp_path: Path, item_id: int, event: str,
+) -> None:
+    ctx = mock_bizhawk_context
+    ctx.slot_data["copy_ability_room_protocol_version"] = 2
+    ctx.items_received = [NetworkItem(item_id, 3960209, 1, 1)]
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._health_rom_auth = b"test scoped auth"
+    client.on_package(ctx, "ReceivedItems", {"index": 0})
+    bridge = Bridge()
+    ctx.bizhawk_ctx._send_message.side_effect = bridge.send
+    bridge.ram[0xF00000] = client._health_rom_auth
+    native_file = (1).to_bytes(4, "little") + bytes(8)
+    bridge.ram[COPY_ROOM_CONTEXT_ADDRESS] = native_file
+    flag = bridge.addresses["incoming_item_flag"]
+    counter = bridge.addresses["debug_item_counter"]
+    frame = bridge.addresses["frame_counter"]
+    bridge.ram[counter] = bytes(4)
+    bridge.ram[frame] = (1).to_bytes(4, "little")
+    client._receipt_journal = journal = ReceiptJournal(str(tmp_path / "receipts.sqlite3"), "test")
+    client._receipt_scope = "test"
+    key = receipt_key(ctx.items_received, 0)
+
+    def native_ack() -> None:
+        assert bridge.value("incoming_item_flag") == 1
+        bridge.ram[flag] = bytes(4)
+        bridge.ram[counter] = (bridge.value("debug_item_counter") + 1).to_bytes(4, "little")
+
+    def native_reset() -> None:
+        bridge.ram[flag] = bytes(4)
+
+    def file_change() -> None:
+        # A busy mailbox whose flag and counter still match is not enough if
+        # the native file context has changed since the actual offer.
+        bridge.ram[COPY_ROOM_CONTEXT_ADDRESS] = (2).to_bytes(4, "little") + bytes(8)
+
+    try:
+        with (
+            patch.object(client, "_prepare_receipts", return_value=True),
+            patch.object(client, "_emit_receive_notification", new_callable=AsyncMock),
+        ):
+            await client._deliver_items(ctx)
+            assert len(bridge.offers) == 1 and client._delivery_pending
+            bridge.before_guard = {"ack": native_ack, "reset": native_reset,
+                                   "file-change": file_change}.get(event)
+            bridge.ram[frame] = (1 + _MAILBOX_ACK_TIMEOUT_FRAMES).to_bytes(4, "little")
+            await client._deliver_items(ctx)
+            assert client._delivery_pending == (event != "timeout")
+            assert client._delivery_timeout_total == (event == "timeout")
+            assert not journal.acknowledged(key)
+            if event == "file-change":
+                assert bridge.value("incoming_item_flag") == 1
+                native_reset()
+            if event in {"reset", "file-change"}:
+                await client._deliver_items(ctx)  # A reset (flag without count) is not an ACK.
+                assert client._delivered_item_index == 0 and not journal.acknowledged(key)
+            if event != "ack":
+                client._delivery_retry_not_before = 0
+                await client._deliver_items(ctx)
+                assert len(bridge.offers) == 2
+                native_ack()
+            await client._deliver_items(ctx)
+            assert len(bridge.offers) == (1 if event == "ack" else 2)
+            assert client._delivered_item_index == 1 and journal.acknowledged(key)
+            assert bridge.value("debug_item_counter") == 1
+            assert not client._delivery_counter_ahead_fallback_active
+    finally:
+        journal.close()
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("keys_enabled", [False, True])
+async def test_file_restore_only_grants_confirmed_prior_permanent_receipts(
+    mock_bizhawk_context, tmp_path, keys_enabled,
+):
+    from ..client import bizhawk
+    ctx = mock_bizhawk_context
+    ctx.slot_data = {"copy_ability_room_protocol_version": 2, "area_keys": int(keys_enabled)}
+    ctx.items_received = [
+        NetworkItem(3860401, 1, 1, 0), NetworkItem(3860041, 2, 1, 0),
+        NetworkItem(3860027, 3, 1, 0), NetworkItem(3860402, 4, 1, 0),
+        NetworkItem(3860416, 5, 1, 0), NetworkItem(3860056, -2, 0, 0),
+        NetworkItem(3860403, 6, 1, 0),
+    ]
+    client = KirbyAmClient()
+    client.initialize_client()
+    client.on_package(ctx, "ReceivedItems", {"index": 0})
+    client._health_rom_auth = bytes(range(16))
+    client._delivered_item_index = 6
+    journal = ReceiptJournal(str(tmp_path / "receipts.sqlite3"), "test")
+    client._receipt_journal = journal
+    for index in (0, 1, 2, 4, 5, 6):
+        journal.acknowledge(receipt_key(ctx.items_received, index))
+    native = b"".join(x.to_bytes(4, "little") for x in
+                      (2, 2, 1, 0, 1, 0x03000000, 0, 0x43504332, 0))
+    want = 0x100 | keys_enabled
+    read = [native, bytes(4), bytes(4), client._health_rom_auth, COPY_ROOM_MARKER]
+    try:
+        with patch.object(bizhawk, "read", new=AsyncMock(return_value=read)), \
+                patch.object(bizhawk, "guarded_write", new=AsyncMock(return_value=True)) as write:
+            assert not await client._restore_confirmed_file_progress(ctx, 0x0203B004)
+            writes, guards = write.await_args.args[1:]
+            assert writes == [(0x0203B1F0, want.to_bytes(4, "little") + native[:4], "System Bus")]
+            assert (COPY_ROOM_CONTEXT_ADDRESS, native[:12], "System Bus") in guards
+            assert (0x0203B004, bytes(4), "System Bus") in guards
+            assert client._delivered_item_index == 6
+            assert (COPY_ROOM_MARKER_OFFSET, COPY_ROOM_MARKER, "ROM") in guards
+            write.reset_mock()
+            read[4] = b"APCPY03\0"
+            assert not await client._restore_confirmed_file_progress(ctx, 0x0203B004)
+            write.assert_not_awaited()
+            read[4] = COPY_ROOM_MARKER
+            read[2] = native[:4]
+            assert not await client._restore_confirmed_file_progress(ctx, 0x0203B004)
+            write.assert_not_awaited()
+            read[1] = (0xA9000000 | want).to_bytes(4, "little")
+            read[2] = bytes(4)
+            assert await client._restore_confirmed_file_progress(ctx, 0x0203B004)
+            write.assert_not_awaited()
+            read[0] = bytes(36)
+            assert not await client._restore_confirmed_file_progress(ctx, 0x0203B004)
+            write.assert_not_awaited()
+    finally:
+        journal.close()
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("native_active,mailbox_flag,allow_new_writes,writes_restore", [
+    (True, 0, True, True),
+    (True, 1, True, False),
+    (True, 0, False, False),
+    (False, 0, True, False),
+])
+async def test_file_restore_keeps_unresolved_transient_queue_suspended(
+    mock_bizhawk_context, tmp_path, native_active, mailbox_flag, allow_new_writes, writes_restore,
+):
+    from ..client import bizhawk
+
+    ctx = mock_bizhawk_context
+    ctx.slot_data = {"copy_ability_room_protocol_version": 2, "area_keys": 1}
+    ctx.items_received = [
+        NetworkItem(3860401, 11, 1, 0), NetworkItem(3860041, 12, 1, 0),
+        NetworkItem(3860031, 13, 1, 0), NetworkItem(3860402, 14, 1, 0),
+    ]
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._health_rom_auth = bytes(range(16))
+    client._delivered_item_index = 2
+    client.on_package(ctx, "ReceivedItems", {"index": 0})
+    journal = ReceiptJournal(str(tmp_path / "receipts.sqlite3"), "test")
+    client._receipt_journal = journal
+    for index in (0, 1):
+        journal.acknowledge(receipt_key(ctx.items_received, index))
+    transient = receipt_key(ctx.items_received, 2)
+    assert journal.reserve(transient)
+    flag_addr = client._transport_addr("incoming_item_flag")
+    native = (b"".join(x.to_bytes(4, "little") for x in
+                      (2, 2, 1, 0, 1, 0x03000000, 0, 0x43504332, 0))
+              if native_active else bytes(36))
+    read_mailbox = [mailbox_flag.to_bytes(4, "little"), bytes(4), bytes(4), bytes(4)]
+    read_restore = [native, bytes(4), bytes(4), client._health_rom_auth, COPY_ROOM_MARKER]
+    readback = [native, (0xA9000101).to_bytes(4, "little"), bytes(4), client._health_rom_auth, COPY_ROOM_MARKER]
+    read_side_effect = [read_mailbox, read_restore]
+    if writes_restore:
+        read_side_effect += [read_mailbox, readback]
+    try:
+        with (
+            patch.object(client, "_start_inventory_cursor_ready", new=AsyncMock(return_value=True)),
+            patch.object(client, "_prepare_receipts", return_value=True),
+            patch.object(bizhawk, "read", new=AsyncMock(side_effect=read_side_effect)),
+            patch.object(bizhawk, "write", new=AsyncMock()) as ordinary_write,
+            patch.object(bizhawk, "guarded_write", new=AsyncMock(return_value=True)) as guarded,
+        ):
+            await client._deliver_items(ctx, allow_new_writes=allow_new_writes)
+            if writes_restore:
+                writes, guards = guarded.await_args.args[1:]
+                assert writes == [(0x0203B1F0, (0x101).to_bytes(4, "little") + native[:4], "System Bus")]
+                assert (flag_addr, bytes(4), "System Bus") in guards
+                assert (COPY_ROOM_CONTEXT_ADDRESS, native[:12], "System Bus") in guards
+                await client._deliver_items(ctx)
+                guarded.assert_awaited_once()
+            else:
+                guarded.assert_not_awaited()
+            ordinary_write.assert_not_awaited()
+            assert client._delivered_item_index == 2
+            assert not client._delivery_pending
+            assert journal.pending() == [transient]
+            assert not journal.acknowledged(transient)
+            assert not journal.acknowledged(receipt_key(ctx.items_received, 3))
+    finally:
+        journal.close()
