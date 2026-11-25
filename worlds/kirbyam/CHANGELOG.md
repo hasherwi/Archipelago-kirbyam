@@ -28,7 +28,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Phone charges can exceed three, but the battery display does not show the extra charges (PR #1086).
 - Ranged-attack coverage remains incomplete. Three targets retain older rules outside reviewed source assignments; broader physical outcomes still need review. See the [detailed coverage ledger](dev-docs/ranged-coverage-ledger.md) (PR #1052).
 - Only the North American ROM is supported; AP notifications are English.
-- The copy ability room unlock, area keys, and six ability unlocks use the AP logo sprite as an asset, native or custom, does not yet exist that meets the canvas we are limited to.
+- The copy ability room unlock, area keys, and six ability unlocks use the AP logo sprite because an asset, native or custom, does not yet exist that meets the canvas we are limited to.
 - mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.
 - Testing covers selected gameplay scenarios, not a complete playthrough or every multiplayer setup.
 
