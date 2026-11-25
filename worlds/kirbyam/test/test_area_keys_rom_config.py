@@ -81,6 +81,7 @@ def test_native_config_defaults_on_and_bypasses_only_destination_key(tmp_path: P
 #define AP_STARTING_MIRROR_OWNED (1u << 19)
 #define KIRBY_NATIVE_AREA_UNKNOWN 255u
 static uint32_t gApAreaKeysConfig, AP_AREA_KEY_BITFIELD_RUNTIME, copy_room_owned;
+static uint32_t ap_progress_owned(void) { return AP_AREA_KEY_BITFIELD_RUNTIME >> 2; }
 static uint32_t ap_copy_room_owned(void) { return copy_room_owned & 1u; }
 static uint32_t ap_copy_room_access_owned(uint32_t mask) { return copy_room_owned & mask; }
 /* Native area metadata is isolated here; all tested policy functions are extracted production bodies. */

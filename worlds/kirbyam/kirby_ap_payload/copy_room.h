@@ -18,6 +18,10 @@ AP_COPY_EXT uint8_t ap_copy_room_complete_goal(uint32_t bit);
 struct ApCopyContext {
     uint32_t epoch, serial, slot, dirty, loaded_slot, task, owned, cookie, retry;
 };
+/* Following the four receipt visual words at 0x0203B1E0..1EF. */
+#define AP_PROGRESS_RESTORE_ADDRESS 0x0203B1F0u
+_Static_assert(AP_PROGRESS_RESTORE_ADDRESS + 8u <= 0x0203B200u,
+               "Progress restoration overlaps the end of the AP mailbox reservation");
 #define AP_COPY_CONTEXT ((volatile struct ApCopyContext *)0x0203B13Cu)
 AP_COPY_EXT uint32_t ap_copy_room_epoch(void);
 AP_COPY_EXT uint32_t ap_copy_room_owned(void);
@@ -29,4 +33,7 @@ AP_COPY_EXT int16_t ap_copy_room_load(uint32_t kind, uint16_t slot);
 AP_COPY_EXT void ap_copy_room_clear(uint32_t kind);
 AP_COPY_EXT void ap_copy_room_start(uint8_t humans, uint8_t local, const uint16_t *rooms,
                                    const int32_t *positions, const uint32_t *spawn);
+AP_COPY_EXT uint32_t ap_progress_owned(void);
+AP_COPY_EXT uint8_t ap_progress_receive(uint32_t bit);
+void __attribute__((long_call)) ap_project_hub_doors(uint32_t owned);
 #endif

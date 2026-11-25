@@ -1129,6 +1129,318 @@
               ]
             }
           ]
+        },
+        {
+          "label": "Offline save and sprite receipt coexistence",
+          "integrated_sha256": "b8d6426fe697e6527d396ff030a9261ed7dcf856e69d6ff85e4be48941bc37ad",
+          "reverse_slices": [
+            {
+              "start": 33,
+              "stop": 34,
+              "current": [
+                "    COPY_ROOM_CONTEXT_ADDRESS, COPY_ROOM_ITEM_ID, COPY_ROOM_MARKER, COPY_ROOM_MARKER_OFFSET, PROGRESS_RESTORE_ADDRESS,\n"
+              ],
+              "main": [
+                "    COPY_ROOM_CONTEXT_ADDRESS, COPY_ROOM_ITEM_ID, COPY_ROOM_MARKER, COPY_ROOM_MARKER_OFFSET,\n"
+              ]
+            },
+            {
+              "start": 519,
+              "stop": 520,
+              "current": [
+                "        self._progress_receipt_fence: list[tuple[int, bytes, str]] = []\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 2183,
+              "stop": 2184,
+              "current": [
+                "                     or 3860401 <= getattr(item, \"item\", 0) <= STARTING_MIRROR_ITEM_ID\n"
+              ],
+              "main": [
+                "                     or 3860401 <= getattr(item, \"item\", 0) <= 3860415\n"
+              ]
+            },
+            {
+              "start": 4832,
+              "stop": 4913,
+              "current": [
+                "    async def _restore_confirmed_file_progress(\n",
+                "        self, ctx: KirbyAmBizHawkClientContext, flag_addr: int,\n",
+                "    ) -> bool:\n",
+                "        \"\"\"Restore only earlier, locally ACKed permanent receipts, never advance the cursor.\"\"\"\n",
+                "        journal = self._receipt_journal\n",
+                "        auth = self._health_rom_auth\n",
+                "        if (journal is None or auth is None or self._delivered_item_index <= 0\n",
+                "                or not copy_room_slot_version(getattr(ctx, \"slot_data\", {}))):\n",
+                "            return True\n",
+                "        if not self._hub_connection_item_history_ready(ctx):\n",
+                "            return False\n",
+                "        cursor = self._delivered_item_index\n",
+                "        history = tuple(ctx.items_received)\n",
+                "        if cursor > len(history):\n",
+                "            return False\n",
+                "        socket = getattr(getattr(ctx, \"server\", None), \"socket\", None)\n",
+                "        streams = getattr(ctx.bizhawk_ctx, \"streams\", None)\n",
+                "        session = self._authenticated_session_key(ctx)\n",
+                "        keys_enabled = self._area_keys_enabled(ctx)\n",
+                "        mask = 0\n",
+                "        try:\n",
+                "            for index in range(cursor):\n",
+                "                item = getattr(history[index], \"item\", None)\n",
+                "                if keys_enabled and item in _AREA_KEY_ITEM_ID_TO_AREA_ID:\n",
+                "                    bit = item - 3860041\n",
+                "                elif 1 <= (door := _HUB_CONNECTION_ITEM_ID_TO_DOOR_INDEX.get(item, 0)) <= 15:\n",
+                "                    bit = door + 7\n",
+                "                else:\n",
+                "                    continue\n",
+                "                if not mask & (1 << bit) and journal.acknowledged(receipt_key(history, index)):\n",
+                "                    mask |= 1 << bit\n",
+                "        except (OSError, sqlite3.Error, ValueError) as exc:\n",
+                "            self._receipt_failure(f\"could not verify previously received Area Keys or Hub Connections ({exc})\")\n",
+                "            return False\n",
+                "        if not mask:\n",
+                "            return True\n",
+                "\n",
+                "        auth_addr = _normalize_gba_rom_address(data.rom_addresses[\"gArchipelagoInfo\"])\n",
+                "        ownership_addr = 0x02028C64\n",
+                "        request_addr = PROGRESS_RESTORE_ADDRESS\n",
+                "        domain = \"System Bus\"\n",
+                "        raw, owned, request, rom, marker = await bizhawk.read(ctx.bizhawk_ctx, [\n",
+                "            (COPY_ROOM_CONTEXT_ADDRESS, 36, domain), (ownership_addr, 4, domain),\n",
+                "            (request_addr + 4, 4, domain), (auth_addr, 16, \"ROM\"),\n",
+                "            (COPY_ROOM_MARKER_OFFSET, len(COPY_ROOM_MARKER), \"ROM\"),\n",
+                "        ])\n",
+                "        fence = bytes(raw[:12])\n",
+                "        native_file = decode_copy_room_snapshot(raw, fence)\n",
+                "\n",
+                "        def still_current() -> bool:\n",
+                "            return (journal is self._receipt_journal and auth == self._health_rom_auth\n",
+                "                    and session == self._authenticated_session_key(ctx)\n",
+                "                    and socket is getattr(getattr(ctx, \"server\", None), \"socket\", None)\n",
+                "                    and streams is getattr(ctx.bizhawk_ctx, \"streams\", None)\n",
+                "                    and self._hub_connection_item_history_ready(ctx)\n",
+                "                    and cursor == self._delivered_item_index\n",
+                "                    and history == tuple(ctx.items_received))\n",
+                "\n",
+                "        if (native_file is None or bytes(rom) != auth or bytes(marker) != COPY_ROOM_MARKER\n",
+                "                or not still_current()):\n",
+                "            return False\n",
+                "        # Confirm by reading the seed-bound native save record on a later tick.\n",
+                "        owned_value = self._u32_le(owned)\n",
+                "        if owned_value & ~0x007FFFFF == (0xA8000000 | native_file.slot << 24):\n",
+                "            if owned_value & mask == mask:\n",
+                "                return True\n",
+                "            mask &= ~owned_value\n",
+                "        if self._u32_le(request):\n",
+                "            return False\n",
+                "        await bizhawk.guarded_write(ctx.bizhawk_ctx, [\n",
+                "            (request_addr, mask.to_bytes(4, \"little\") + fence[:4], domain),\n",
+                "        ], [\n",
+                "            (flag_addr, bytes(4), domain),\n",
+                "            (COPY_ROOM_CONTEXT_ADDRESS, fence, domain),\n",
+                "            (ownership_addr, bytes(owned), domain),\n",
+                "            (request_addr + 4, bytes(4), domain),\n",
+                "            (auth_addr, auth, \"ROM\"),\n",
+                "            (COPY_ROOM_MARKER_OFFSET, COPY_ROOM_MARKER, \"ROM\"),\n",
+                "        ])\n",
+                "        return False\n",
+                "\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 4982,
+              "stop": 4986,
+              "current": [
+                "            # Consuming another ordinary receipt is unsafe, but recovery of\n",
+                "            # already-ACKed, permanent progression uses a separate transaction.\n",
+                "            if allow_new_writes and flag == 0:\n",
+                "                await self._restore_confirmed_file_progress(ctx, flag_addr)\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 5158,
+              "stop": 5179,
+              "current": [
+                "                clear = [(flag_addr, bytes(4), \"System Bus\")]\n",
+                "                pending_item = (getattr(ctx.items_received[pending_index], \"item\", None)\n",
+                "                                if pending_index is not None and 0 <= pending_index < len(ctx.items_received)\n",
+                "                                else None)\n",
+                "                pending_progress = (bool(self._progress_receipt_fence)\n",
+                "                                    or isinstance(pending_item, int) and (\n",
+                "                                        pending_item in _AREA_KEY_ITEM_ID_TO_AREA_ID\n",
+                "                                        or pending_item in _HUB_CONNECTION_ITEM_ID_TO_DOOR_INDEX))\n",
+                "                if pending_progress:\n",
+                "                    # The native save can finish between our read and this clear.\n",
+                "                    # A lost guard is not a lost receipt: leave the offer pending\n",
+                "                    # so the next poll can account for the actual ACK or reset.\n",
+                "                    if (flag != 1 or counter_addr is None or rom_received_count is None\n",
+                "                            or rom_received_count != self._receipt_offer_count):\n",
+                "                        return\n",
+                "                    if not await bizhawk.guarded_write(ctx.bizhawk_ctx, clear, [\n",
+                "                        (flag_addr, flag.to_bytes(4, \"little\"), \"System Bus\"),\n",
+                "                        (counter_addr, rom_received_count.to_bytes(4, \"little\"), \"System Bus\"),\n",
+                "                        *self._progress_receipt_fence,\n",
+                "                    ]):\n",
+                "                        return\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 5221,
+              "stop": 5223,
+              "current": [
+                "                if not pending_progress:\n",
+                "                    await bizhawk.write(ctx.bizhawk_ctx, clear)\n"
+              ],
+              "main": [
+                "                await bizhawk.write(ctx.bizhawk_ctx, [\n",
+                "                    (flag_addr, (0).to_bytes(4, \"little\"), \"System Bus\"),\n",
+                "                ])\n"
+              ]
+            },
+            {
+              "start": 5239,
+              "stop": 5242,
+              "current": [
+                "            return\n",
+                "\n",
+                "        if allow_new_writes and not await self._restore_confirmed_file_progress(ctx, flag_addr):\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 5432,
+              "stop": 5438,
+              "current": [
+                "            native_auth = self._health_rom_auth\n",
+                "            durable_progress = (self._receipt_journal is not None and native_auth is not None\n",
+                "                                and copy_room_slot_version(getattr(ctx, \"slot_data\", {}))\n",
+                "                                and (hub_door is not None or item_id in _AREA_KEY_ITEM_ID_TO_AREA_ID))\n",
+                "            progress_fence: list[tuple[int, bytes, str]] = []\n",
+                "            if hub_door is not None or durable_progress:\n"
+              ],
+              "main": [
+                "            if hub_door is not None:\n"
+              ]
+            },
+            {
+              "start": 5440,
+              "stop": 5441,
+              "current": [
+                "                def progress_offer_current() -> bool:\n"
+              ],
+              "main": [
+                "                def hub_offer_current() -> bool:\n"
+              ]
+            },
+            {
+              "start": 5451,
+              "stop": 5453,
+              "current": [
+                "                guards = [(flag_addr, bytes(4), \"System Bus\")]\n",
+                "                if item_id == STARTING_MIRROR_ITEM_ID and native_auth is None:\n"
+              ],
+              "main": [
+                "                # ReceivedItems can arrive during the watcher polls after its\n",
+                "                # initial ownership sync. Acknowledge ownership separately:\n",
+                "                # connectors can continue later writes after a batch error.\n",
+                "                mask = await self._sync_hub_connection_item_ownership(ctx)\n",
+                "                mask_addr = self._transport_addr(\"hub_connection_item_mask\")\n",
+                "                if (mask is None or mask_addr is None or not mask & (1 << hub_door)\n",
+                "                        or not hub_offer_current()):\n"
+              ]
+            },
+            {
+              "start": 5454,
+              "stop": 5455,
+              "current": [
+                "                if durable_progress or item_id == STARTING_MIRROR_ITEM_ID:\n"
+              ],
+              "main": [
+                "                guards = [\n",
+                "                    (mask_addr, mask.to_bytes(4, \"little\"), \"System Bus\"),\n",
+                "                    (flag_addr, bytes(4), \"System Bus\"),\n",
+                "                ]\n",
+                "                if item_id == STARTING_MIRROR_ITEM_ID:\n",
+                "                    auth = self._health_rom_auth\n",
+                "                    if auth is None:\n",
+                "                        return\n"
+              ]
+            },
+            {
+              "start": 5456,
+              "stop": 5460,
+              "current": [
+                "                    read_size = 36 if item_id == STARTING_MIRROR_ITEM_ID else 12\n",
+                "                    native_file, auth = await bizhawk.read(ctx.bizhawk_ctx, [\n",
+                "                        (COPY_ROOM_CONTEXT_ADDRESS, read_size, \"System Bus\"),\n",
+                "                        (auth_addr, 16, \"ROM\"),\n"
+              ],
+              "main": [
+                "                    native_file, rom = await bizhawk.read(ctx.bizhawk_ctx, [\n",
+                "                        (COPY_ROOM_CONTEXT_ADDRESS, 36, \"System Bus\"), (auth_addr, 16, \"ROM\"),\n"
+              ]
+            },
+            {
+              "start": 5462,
+              "stop": 5467,
+              "current": [
+                "                    valid_file = (decode_copy_room_snapshot(native_file, fence) is not None\n",
+                "                                  if item_id == STARTING_MIRROR_ITEM_ID else\n",
+                "                                  len(fence) == 12 and self._u32_le(fence[:4])\n",
+                "                                  and self._u32_le(fence[8:12]) <= 2)\n",
+                "                    if not valid_file or bytes(auth) != native_auth or not progress_offer_current():\n"
+              ],
+              "main": [
+                "                    if (decode_copy_room_snapshot(native_file, fence) is None or bytes(rom) != auth\n",
+                "                            or not hub_offer_current()):\n"
+              ]
+            },
+            {
+              "start": 5468,
+              "stop": 5480,
+              "current": [
+                "                    guards += [(COPY_ROOM_CONTEXT_ADDRESS, fence, \"System Bus\"),\n",
+                "                               (auth_addr, bytes(auth), \"ROM\")]\n",
+                "                    progress_fence = guards[1:] + offer[:2]\n",
+                "                if hub_door is not None:\n",
+                "                    # Publish the current confirmed history as a prerequisite\n",
+                "                    # to the receipt, but not as native ownership authority.\n",
+                "                    mask = await self._sync_hub_connection_item_ownership(ctx)\n",
+                "                    mask_addr = self._transport_addr(\"hub_connection_item_mask\")\n",
+                "                    if mask is None or mask_addr is None or not mask & (1 << hub_door):\n",
+                "                        return\n",
+                "                    guards.append((mask_addr, mask.to_bytes(4, \"little\"), \"System Bus\"))\n",
+                "                if not progress_offer_current() or not await bizhawk.guarded_write(ctx.bizhawk_ctx, offer, guards):\n"
+              ],
+              "main": [
+                "                    guards += [(COPY_ROOM_CONTEXT_ADDRESS, fence, \"System Bus\"), (auth_addr, auth, \"ROM\")]\n",
+                "                if not await bizhawk.guarded_write(ctx.bizhawk_ctx, offer, guards):\n"
+              ]
+            },
+            {
+              "start": 5481,
+              "stop": 5482,
+              "current": [
+                "                if not progress_offer_current():\n"
+              ],
+              "main": [
+                "                if not hub_offer_current():\n"
+              ]
+            },
+            {
+              "start": 5501,
+              "stop": 5502,
+              "current": [
+                "            self._progress_receipt_fence = progress_fence\n"
+              ],
+              "main": []
+            }
+          ]
         }
       ]
     },
