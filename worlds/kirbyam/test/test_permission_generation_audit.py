@@ -26,6 +26,8 @@ from .support.check_accessibility import LocalCheckAudit, audit_local_checks
 from .test_cutter_progression import _generate, _gate_words
 
 
+# These seeds pin the fill outcomes archived before the optional starting mirror
+# changed initial item placement. The default-on contract is audited separately.
 PROFILES = (
     # weight, statues, passive, minibosses, boss spawns, rooms, keys
     (0, 0, 0, 0, 0, 0, 1),
@@ -135,6 +137,7 @@ def test_generated_all_check_smoke_matrix(
     monkeypatch.setattr(kirby, "validate_peg_assignment", timed_source_selection)
     weight, statues, passive, minibosses, bosses, rooms, keys = PROFILES[profile]
     options = {
+        "random_starting_mirror": 0,
         "ability_randomization_mode": mode, "ability_gating": gating, "accessibility": accessibility,
         "ability_randomization_no_ability_weight": weight, "ability_randomization_statues": statues,
         "ability_randomization_passive_enemies": passive, "ability_randomization_minibosses": minibosses,
@@ -190,6 +193,7 @@ def test_seed105101_is_now_safe_after_source_backed_goal_reconstruction(
     # Retain this exact old refusal as an accepted-output regression. The Goal
     # Game slots change the old hub-item placement here into ordinary filler.
     options = {
+        "random_starting_mirror": 0,
         "ability_randomization_mode": 1, "ability_gating": 0, "accessibility": "minimal",
         "ability_randomization_no_ability_weight": 99, "ability_randomization_statues": 1,
         "ability_randomization_passive_enemies": 0, "ability_randomization_minibosses": 1,
@@ -209,6 +213,7 @@ def test_seed105103_refuses_new_goal_game_fill_lock(
     # Keep the formerly accepted exact sample: Goal Game slots change its fill
     # into a progression lock, which the unchanged guard must refuse.
     options = {
+        "random_starting_mirror": 0,
         "ability_randomization_mode": mode, "ability_gating": 1, "accessibility": "minimal",
         "ability_randomization_no_ability_weight": 0, "ability_randomization_statues": 0,
         "ability_randomization_passive_enemies": 0, "ability_randomization_minibosses": 0,
@@ -278,6 +283,7 @@ def test_seed105100_refuses_original_and_controlled_smash_lock(
 
     monkeypatch.setattr(check_accessibility, "validate_all_checks", inspect_dependency)
     options = {
+        "random_starting_mirror": 0,
         "ability_randomization_mode": mode, "ability_gating": 1, "accessibility": "minimal",
         "ability_randomization_no_ability_weight": 0, "ability_randomization_statues": 0,
         "ability_randomization_passive_enemies": 0, "ability_randomization_minibosses": 0,
@@ -299,3 +305,41 @@ def test_historical_native105100_refusal_remains_distinct_from_goal_game_fill() 
     assert hashlib.sha256(historical["error"].encode()).hexdigest() == historical["error_sha256"] == (
         "a732a9779e2293207d7701f1cb950da1131d3daf3fef1f5a08d46314fc75bb1c")
     assert "unfilled=[]; unavailable even with all inventory=[]" in historical["error"]
+
+
+@pytest.mark.parametrize("mode,gating,keys", [
+    (0, 0, 0), (0, 1, 1), (1, 0, 1), (1, 1, 0), (2, 0, 0), (2, 1, 1),
+])
+def test_default_starting_mirror_keeps_permission_generation_reachable(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path, mode: int, gating: int, keys: int,
+) -> None:
+    from ..starting_mirror import STARTING_MIRROR_ENTRANCE, STARTING_MIRROR_ITEM
+    from ..starting_mirror import TUTORIAL_WORLD_MAP_NAME, starting_mirror_candidates
+
+    # Omit the option: these are new profiles exercising the actual user default,
+    # the normal all-check guard, and the archive and ROM token outputs.
+    options = {
+        "ability_randomization_mode": mode, "ability_gating": gating,
+        "accessibility": "full", "area_keys": keys, "room_sanity": 0,
+        "ability_randomization_statues": 0,
+    }
+    multiworld, decoded, archive = _generate(monkeypatch, tmp_path, 520 + keys, [options])
+    audit, _ = assert_generation_contract(multiworld, decoded, archive, 1)
+    assert audit.inventory_unreachable == audit.progression_unreachable == ()
+    slot = decoded["slot_data"][1]
+    assert slot["random_starting_mirror"] is True
+    reward = slot["tracker"]["starting_mirror_tutorial_item"]
+    candidates = starting_mirror_candidates(bool(keys))
+    assert reward in candidates
+    chest = multiworld.get_location(TUTORIAL_WORLD_MAP_NAME, 1)
+    assert chest.item and chest.locked and chest.item.name == reward
+    world = multiworld.worlds[1]
+    assert world.item_name_to_id[reward] not in decoded["precollected_items"][1]
+    assert world.item_name_to_id[STARTING_MIRROR_ITEM] not in decoded["precollected_items"][1]
+    state = CollectionState(multiworld)
+    assert chest.can_reach(state)
+    entrance = multiworld.get_entrance(STARTING_MIRROR_ENTRANCE, 1)
+    assert not entrance.can_reach(state)
+    state.collect(chest.item, True, chest)
+    assert multiworld.get_entrance(candidates[reward], 1).can_reach(state)
+    assert entrance.can_reach(state) == (reward == STARTING_MIRROR_ITEM)
