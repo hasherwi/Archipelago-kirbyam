@@ -1,4 +1,4 @@
-# Candy Constellation 9-12: Beam to Small Chest #1
+# Candy Constellation 9-12: ranged routes to Small Chest #1
 
 This is a bounded same-room route for AP location **3960575**, object
 `0x088C5BA4`, native room 402. It does not change the RoomSanity check or
@@ -49,10 +49,36 @@ The full local-source route was tested at 6 starting HP, not at 1 HP.
 Both routes stop at this check and export no door opening or equipment.
 
 The logic activates only when the raw effective Waddle Doo policy guarantees
-Beam or UFO. A mixed live pool, an ordinary Shuffled type assignment outside
+Beam, UFO, Spark, or Missile. A mixed live pool, an ordinary Shuffled type assignment outside
 these abilities, or a no-ability roll does not meet that condition. Such
 profiles still have the legacy AP access rule, which is **not** evidence that
 their native chest is reachable. Scope intentionally does not change ability
 randomization settings, source assignments, or instantiated check counts.
+
+## Spark and Missile alternatives
+
+The same private keyless checkpoint and controlled, guaranteed Waddle Doo
+assignments were used to witness both full routes. For each, native swallow
+withholds the copy ability when its corresponding AP permission is denied.
+No room transitions, helper, or gameplay state writes occurred after setup.
+
+- **Spark:** At (381.34,376.996) use Spark through the central roof. The
+  linked fuse and all three seal cells cleared, then the east gallery return
+  opened the exact chest with Spark still equipped. This was reproduced with
+  both 6 HP and 1 HP without taking damage.
+- **Missile:** At (387.93,377) use Down+B to detonate through the roof. After
+  the fuse and seals cleared, a 6-HP replay reached the exact chest after
+  two native hits. A second replay at fixed 1 HP from initial swallow stayed
+  hitless: from about (548.75,345.89) after the east-gallery return, descend
+  left as Missile into the opened seal, then open the same chest (native
+  event at frame 2405, with Missile retained).
+- **Master:** A player confirmed that Master can activate this chest.
+  Master is not obtainable from the local enemy under the copy policy, and
+  this work does not prove a Standard carrier or model it as required.
+
+When Ability Gating is on, Spark or Missile permission is progression only
+if this chest is enabled and the exact local source policy guarantees that
+ability (independent rules may also classify these items). Neither
+permission item itself equips Kirby.
 
 Follow-up: [#1161](https://github.com/hasherwi/Archipelago-kirbyam/issues/1161) tracks safe coverage for the remaining profiles.

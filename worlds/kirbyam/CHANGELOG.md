@@ -34,7 +34,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ### Bug Fixes
 
 - Fixed an exhausted source search for Shuffled seeds that require Mustard Mountain Room 4-16.
-- Account for Beam and UFO routes to Candy Constellation 9-12's Small Chest without gating the room or its exit (Issue #1059).
+- Account for Beam, UFO, Spark, and Missile routes to Candy Constellation 9-12's Small Chest without gating the room or its exit (Issue #1059).
 - Keep pending traps and consumables from blocking item delivery after an emulator pause (PR #1142).
 
 ## v0.6.0
