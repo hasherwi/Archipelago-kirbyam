@@ -21,14 +21,14 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ### Improvements
 - Allow only File 1 to be selected, preventing cross-save problems (Issue #1144).
-- Sprite Swapping (**custom sprite artwork by Hunter**): In-game item sprites now reflect the actual item awarded to the player. We use a variant of the Archipelago logo as an item sprite for all location checks that don't have an in-game asset or award items to other AP worlds (PR #1137).
+- Sprite Swapping (**custom sprite artwork by Hunter**): In-game item sprites now reflect the actual item awarded, including Hunter’s nine custom Area Key designs. When Area Keys are enabled, Kirby starts with the Rainbow Route key, so its area mirrors never need a separate unlock. The AP gem still represents outgoing non-traps and awards without their own artwork (PR #1137; Issue #1139).
 - Show boss defeat progress in `/goal` when using the boss-count goal (PR #1133).
 
 ### Known Limitations
 - Phone charges can exceed three, but the battery display does not show the extra charges (PR #1086).
 - Ranged-attack coverage remains incomplete. Three targets retain older rules outside reviewed source assignments; broader physical outcomes still need review. See the [detailed coverage ledger](dev-docs/ranged-coverage-ledger.md) (PR #1052).
 - Only the North American ROM is supported; AP notifications are English.
-- The copy ability room unlock, area keys, and six ability unlocks use the AP logo sprite because an asset, native or custom, does not yet exist that meets the canvas we are limited to.
+- The copy ability room unlock and six ability unlocks use the AP logo sprite because an asset, native or custom, does not yet exist that meets the canvas we are limited to.
 - mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.
 - Testing covers selected gameplay scenarios, not a complete playthrough or every multiplayer setup.
 

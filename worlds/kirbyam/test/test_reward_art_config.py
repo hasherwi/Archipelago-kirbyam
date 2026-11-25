@@ -312,7 +312,13 @@ def test_unknown_local_kirby_item_and_unsupported_item_keep_generic() -> None:
     copy_room = _location("BOSS_DEFEAT_4", KirbyAmItem(
         "Copy Ability Room Access", ItemClassification.progression, 3860500, 1,
     ))
-    assert not _variants(build_reward_art_config((unknown, area_key, ability, copy_room)))
+    assert _variants(build_reward_art_config((unknown, area_key, ability, copy_room))) == {
+        reward_art_location_key(data.locations["BOSS_DEFEAT_2"]): RewardArt.KEY_MOONLIGHT,
+    }
+    outbound = _location("BOSS_DEFEAT_2", KirbyAmItem(
+        "Moonlight Mansion - Area Key", ItemClassification.progression, 3860041, 2,
+    ))
+    assert not _variants(build_reward_art_config((outbound,)))
 
 
 def test_consumable_art_registry_matches_the_seven_native_items() -> None:
@@ -331,7 +337,10 @@ def test_native_art_registry_matches_the_curated_areas_and_complete_item_familie
     native = KIRBY_NATIVE_ART_BY_ITEM_CODE
     areas = ("Rainbow Route", "Moonlight Mansion", "Cabbage Cavern", "Mustard Mountain",
              "Carrot Castle", "Olive Ocean", "Peppermint Palace", "Radish Ruins", "Candy Constellation")
-    assert len(native) == 98
+    assert len(native) == 107
+    for index, label in enumerate(areas, RewardArt.KEY_RAINBOW):
+        (code,) = (code for code, art in native.items() if art == index)
+        assert data.items[code].label == f"{label} - Area Key"
     for area_index, label in enumerate(areas, 9):
         (code,) = (code for code, art in native.items() if art == area_index)
         assert data.items[code].label == f"{label} - Map"

@@ -426,8 +426,9 @@ StartingKirbyColor = _build_starting_kirby_color_option()
 class AreaKeys(DefaultOnToggle):
     """Require the destination Area Key for travel into Areas 2–9.
 
-    Disable to remove Area Keys from the item pool and leave native area travel
-    open. Hub Connection, lever, ability, and Dimension Mirror requirements remain.
+    Rainbow Route's area mirrors use its key, which you already have at the start.
+    Disable to remove Area Keys and leave native area travel open. Hub Connection,
+    lever, ability, and Dimension Mirror requirements remain.
     """
     display_name = "Area Keys"
 

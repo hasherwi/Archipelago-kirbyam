@@ -244,6 +244,9 @@ const unsigned char gArchipelagoInfo[16] = {0};
 #define AP_AREA_KEYS_CONFIG_OFF 0x414B0100u
 #define AP_AREA_KEYS_CONFIG_ON 0x414B0101u
 #define AP_STARTING_MIRROR_CONFIG_BIT 2u
+#define AP_RAINBOW_ROUTE_KEY_CONFIG_BIT 4u
+#define AP_RAINBOW_ROUTE_KEY_ITEM 3860056u
+#define AP_RAINBOW_ROUTE_KEY_BIT (1u << 1)
 __attribute__((used, section(".apconfig.area_keys")))
 volatile const uint32_t gApAreaKeysConfig = AP_AREA_KEYS_CONFIG_ON;
 
@@ -256,7 +259,15 @@ static inline uint8_t ap_is_starting_mirror(uint16_t source, uint16_t destinatio
 }
 
 static inline uint8_t ap_area_keys_enabled(void) {
-    return (uint8_t)((gApAreaKeysConfig & ~AP_STARTING_MIRROR_CONFIG_BIT) != AP_AREA_KEYS_CONFIG_OFF);
+    return (uint8_t)((gApAreaKeysConfig & ~(AP_STARTING_MIRROR_CONFIG_BIT
+        | AP_RAINBOW_ROUTE_KEY_CONFIG_BIT)) != AP_AREA_KEYS_CONFIG_OFF);
+}
+
+static __attribute__((noinline, long_call, section(".aphub"))) uint8_t ap_rainbow_route_gate_enabled(void) {
+    /* Older seed configurations keep the historical unlocked return. */
+    return gApAreaKeysConfig == (AP_AREA_KEYS_CONFIG_ON | AP_RAINBOW_ROUTE_KEY_CONFIG_BIT)
+        || gApAreaKeysConfig == (AP_AREA_KEYS_CONFIG_ON | AP_STARTING_MIRROR_CONFIG_BIT
+                                | AP_RAINBOW_ROUTE_KEY_CONFIG_BIT);
 }
 
 /* Per-seed Minny inclusion, defaulting to the safe vanilla exception. */
@@ -371,7 +382,7 @@ AP_REWARD_FX uint8_t ap_reward_art_for_key(uint32_t key) {
 
 /* Native chest animation 0x2D1 uses this shared sequence of 16x16,
  * bank-F graphics. The clean-ROM patcher validates all seven scripts. */
-static inline uint32_t ap_reward_tiles_for_art(uint8_t art) {
+static AP_REWARD_FX uint32_t ap_reward_tiles_for_art(uint8_t art) {
     switch (art) {
         case AP_REWARD_TRAP: return (uint32_t)(uintptr_t)gApTrapRewardArt;
         case AP_REWARD_ONE_UP: return AP_CHEST_NATIVE_TILES + 0u * AP_CHEST_ART_SIZE;
@@ -384,7 +395,16 @@ static inline uint32_t ap_reward_tiles_for_art(uint8_t art) {
         case AP_REWARD_VITALITY: return AP_CHEST_NATIVE_TILES + 12u * AP_CHEST_ART_SIZE;
         case AP_REWARD_SOUND_PLAYER: return AP_CHEST_NATIVE_TILES + 13u * AP_CHEST_ART_SIZE;
         default:
-            if (art >= AP_REWARD_MAP_FIRST && art < AP_REWARD_ART_COUNT
+            if (art >= AP_REWARD_AREA_KEY_FIRST && art <= AP_REWARD_AREA_KEY_LAST) {
+                const volatile uint32_t *keys = (const volatile uint32_t*)AP_AREA_KEY_ART_ROM_ADDRESS;
+                uint8_t index = art - AP_REWARD_AREA_KEY_FIRST;
+                if (keys[0] == AP_AREA_KEY_ART_MARKER_FIRST && keys[1] == AP_AREA_KEY_ART_MARKER_LAST
+                    && (keys[2] & (1u << index))) {
+                    return AP_AREA_KEY_ART_ROM_ADDRESS + 12u + index * AP_CHEST_ART_SIZE;
+                }
+                return (uint32_t)(uintptr_t)gApChestRewardArt;
+            }
+            if (art >= AP_REWARD_MAP_FIRST && art <= AP_REWARD_STATUE_LAST
                 && ap_collectible_palette_tiles_available()) {
                 return AP_COLLECTIBLE_ART_ROM_ADDRESS + 8u
                     + (art - AP_REWARD_MAP_FIRST) * AP_CHEST_ART_SIZE;
@@ -1056,23 +1076,54 @@ static __attribute__((noinline, long_call, section(".aphub"))) uint8_t ap_native
     return *(volatile const uint8_t*)(info_addr + KIRBY_ROOM_AREA_INFO_AREA_OFFSET);
 }
 
+/* Native room pairs for the return mirrors documented in
+ * dev-docs/native-room-wikirby-map.md. Boss and Goal Game exit stars,
+ * Tutorial, the Copy Ability Room and in-area mirrors are not gated here. */
+static __attribute__((noinline, long_call, section(".aphub"))) uint8_t ap_is_rainbow_return_mirror(
+    uint16_t source, uint16_t destination
+) {
+    switch (((uint32_t)source << 16) | destination) {
+        case (120u << 16) | 117u: /* Carrot 5-02 */
+        case (122u << 16) | 171u: /* Carrot 5-01 */
+        case (144u << 16) | 141u: /* Moonlight 2-16 */
+        case (145u << 16) | 143u: /* Moonlight 2-17 */
+        case (191u << 16) | 801u: /* Cabbage Hub East */
+        case (193u << 16) | 192u: /* Carrot Hub */
+        case (290u << 16) | 801u: /* Peppermint Hub East */
+        case (310u << 16) | 534u: /* Mustard Chest */
+        case (390u << 16) | 590u: /* Mustard Hub */
+        case (490u << 16) | 801u: /* Candy Hub */
+        case (509u << 16) | 127u: /* Cabbage 3-10 */
+        case (512u << 16) | 507u: /* Cabbage 3-04 */
+        case (533u << 16) | 534u: /* Mustard 4-15 */
+        case (539u << 16) | 538u: /* Mustard 4-01 */
+        case (544u << 16) | 543u: /* Mustard 4-06 */
+        case (545u << 16) | 141u: /* Mustard 4-07 */
+        case (591u << 16) | 194u: /* Cabbage Hub Center */
+        case (592u << 16) | 801u: /* Cabbage Hub West */
+        case (790u << 16) | 801u: /* Moonlight Hub */
+            return 1u;
+        default:
+            return 0u;
+    }
+}
+
 static __attribute__((noinline, long_call, section(".aphub"))) uint8_t ap_is_keyed_inter_area_edge(uint16_t source_room, uint16_t destination_room) {
     if (ap_area_keys_enabled() == 0u) return 0u;
     uint8_t source_area = ap_native_area_for_room(source_room);
     uint8_t destination_area = ap_native_area_for_room(destination_room);
 
+    if (destination_area == 0u) {
+        return ap_rainbow_route_gate_enabled() && ap_is_rainbow_return_mirror(source_room, destination_room);
+    }
     return (uint8_t)(
         source_area != KIRBY_NATIVE_AREA_UNKNOWN
         && source_area != destination_area
-        && destination_area >= 1u
-        && destination_area <= 8u
+        && destination_area >= 1u && destination_area <= 8u
     );
 }
 
-/*
- * Native areas 0..8 map to AP areas 1..9. Rainbow Route (native 0),
- * Tutorial (9), and Dimension Mirror (10) are never Area Key destinations.
- */
+/* Native areas 0..8 map to AP areas 1..9. Tutorial and Dimension Mirror remain unkeyed. */
 __attribute__((used, noinline, long_call, section(".aphub"))) uint32_t ap_transition_allowed(uint16_t source_room, uint16_t destination_room) {
     uint8_t destination_area;
 
@@ -1086,6 +1137,9 @@ __attribute__((used, noinline, long_call, section(".aphub"))) uint32_t ap_transi
     }
 
     destination_area = ap_native_area_for_room(destination_room);
+    /* Before the mailbox initializes, the verified ROM token owns this key.
+     * After it initializes, the runtime bit controls the mirror exactly like other keys. */
+    if (destination_area == 0u && AP_MAILBOX_INIT_COOKIE != AP_MAILBOX_INIT_COOKIE_VALUE) return 1u;
     return (AP_AREA_KEY_BITFIELD_RUNTIME >> (destination_area + 1u)) & 1u;
 }
 
@@ -1144,8 +1198,10 @@ static __attribute__((noinline, long_call, section(".aphub"))) uint8_t ap_transi
 
     if (source_area == KIRBY_NATIVE_AREA_UNKNOWN || destination_area == KIRBY_NATIVE_AREA_UNKNOWN) return 5u;
     if (source_area == destination_area) return 0u;
-    if (destination_area == 0u) return 1u; /* permitted Rainbow Route return */
-    if (destination_area < 1u || destination_area > 8u) return 4u; /* other unkeyed area */
+    if (destination_area == 0u && (!ap_rainbow_route_gate_enabled()
+        || !ap_is_rainbow_return_mirror(source_room, destination_room)))
+        return 1u; /* unkeyed Rainbow Route return */
+    if (destination_area > 8u) return 4u; /* other unkeyed area */
     return allowed ? 3u : 2u; /* destination key present / missing */
 }
 
@@ -2904,6 +2960,11 @@ static uint8_t ap_apply_item(uint32_t ap_item_id) {
         return 1u;
     }
 
+    if (ap_item_id == AP_RAINBOW_ROUTE_KEY_ITEM) {
+        if (ap_area_keys_enabled()) AP_AREA_KEY_BITFIELD_RUNTIME |= AP_RAINBOW_ROUTE_KEY_BIT;
+        return 1u;
+    }
+
     // AREA_KEY_2..AREA_KEY_9 = BASE+41 .. BASE+48 (Issue #42).
     if (ap_item_id >= (KIRBY_ITEM_ID_BASE_OFFSET + 41u)
         && ap_item_id <= (KIRBY_ITEM_ID_BASE_OFFSET + 48u)) {
@@ -2984,7 +3045,7 @@ AP_COPY_EXT void ap_poll_mailbox_c(void) {
         AP_NO_EXTRA_LIVES_RUNTIME = 0xFFFFFFFFu;
         AP_STARTING_KIRBY_COLOR_APPLIED = 0u;
         AP_LEVER_ACTIVATION_FLAGS = 0u;
-        AP_AREA_KEY_BITFIELD_RUNTIME = 0u;
+        AP_AREA_KEY_BITFIELD_RUNTIME = ap_rainbow_route_gate_enabled() ? AP_RAINBOW_ROUTE_KEY_BIT : 0u;
         AP_ABILITY_RANDOMIZATION_MODE = 0u;
         AP_ABILITY_RANDOMIZATION_SEED_LO = 0u;
         AP_ABILITY_RANDOMIZATION_SEED_HI = 0u;

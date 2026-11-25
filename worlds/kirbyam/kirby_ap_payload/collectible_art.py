@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import struct
+from pathlib import Path
 
 OFFSET = 0x100D000
 MARKER = b"APART05\0"
@@ -11,6 +12,28 @@ ART_SIZE = 128
 FIRST_ART = 9
 LAST_ART = 66
 TABLE_SIZE = len(MARKER) + (LAST_ART - FIRST_ART + 1) * ART_SIZE
+
+AREA_KEY_ART_OFFSET = 0x100C000
+AREA_KEY_ART_MARKER = b"APKEY01\0"
+AREA_KEY_ART_COUNT = 9
+AREA_KEY_ART_MASK = (1 << AREA_KEY_ART_COUNT) - 1
+
+
+def build_area_key_art_table(extension: bytes) -> bytes:
+    """Insert the reproducibly generated 4bpp custom tile catalog."""
+    catalog = Path(__file__).with_name("area_key_reward_art.bin").read_bytes()
+    start = AREA_KEY_ART_OFFSET - 0x1000000
+    size = 12 + AREA_KEY_ART_COUNT * ART_SIZE
+    if len(extension) < start + size or any(extension[start:start + size]):
+        raise ValueError("Missing empty Area Key art extension slot")
+    if len(catalog) != size or catalog[:8] != AREA_KEY_ART_MARKER:
+        raise ValueError("Invalid Area Key art catalog")
+    tiles = [catalog[i:i + ART_SIZE] for i in range(12, size, ART_SIZE)]
+    mask = sum(1 << index for index, art in enumerate(tiles) if any(art))
+    if struct.unpack_from("<I", catalog, 8)[0] != mask or len(set(tiles)) != len(tiles):
+        raise ValueError("Invalid Area Key art presence mask or duplicate assets")
+    return catalog
+
 
 PALETTE_BASE = 0x4BB0EC
 BANK_F = (0x5EA0, 0x7E80, 0x00D2, 0x01B8, 0x02FE, 0x08BF, 0x025F, 0x0000,

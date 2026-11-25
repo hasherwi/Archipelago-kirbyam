@@ -67,7 +67,8 @@ def test_hub_allocation_avoids_area_key_catalog_and_mailbox() -> None:
     assert set(hubs.values()) == set(range(3860401, 3860417))
     assert hubs["HUB_CONNECTION_STARTING_MIRROR"] == INVENTORY["reserved_items"]["HUB_CONNECTION_STARTING_MIRROR"]
     keys = {value for key, value in data.item_key_to_id.items() if key.startswith('AREA_KEY_')}
-    assert keys == set(range(3860041, 3860049))
+    assert keys == {*range(3860041, 3860049), 3860056}
+    assert INVENTORY["reserved_items"]["AREA_KEY_1"] == 3860056
     assert keys.isdisjoint(hubs.values())
     assert 3860300 not in keys | set(hubs.values())
     addresses = data.transport_ram_addresses

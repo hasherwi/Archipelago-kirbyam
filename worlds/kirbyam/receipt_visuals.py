@@ -16,6 +16,8 @@ VISUAL_GEM = RewardArt.GEM + 1
 VISUAL_TRAP = RewardArt.TRAP + 1
 VISUAL_ART_BITS = 7
 VISUAL_MAX_OPCODE = max(RewardArt) + 1
+AREA_KEY_ART_HEADER_OFFSET = 0x100C000
+AREA_KEY_ART_MARKER = b"APKEY01\0"
 VISUAL_REJECTED = 1 << 31
 VISUAL_FRAME_MASK = (1 << 24) - 1
 VISUAL_LIMIT = 8
@@ -62,6 +64,7 @@ class ReceiptVisuals:
         self._in_flight_item: _PendingVisual | None = None
         self._last_token = 0
         self.supported: bool | None = None
+        self._area_key_art_header: bytes | None = None
 
     def matches(self, socket: object, session: tuple) -> bool:
         return (socket is not None and self.socket is socket and self.session == session
@@ -185,6 +188,22 @@ class ReceiptVisuals:
         if not 1 <= opcode <= VISUAL_MAX_OPCODE:
             self.pending.popleft()
             return
+        area_key_guard = []
+        if RewardArt.KEY_RAINBOW + 1 <= opcode <= RewardArt.KEY_CANDY + 1:
+            if self._area_key_art_header is None:
+                header, = await bizhawk.read(transport, [(AREA_KEY_ART_HEADER_OFFSET, 12, "ROM")])
+                if not current():
+                    return
+                self._area_key_art_header = bytes(header)
+            header = self._area_key_art_header
+            key_index = opcode - (RewardArt.KEY_RAINBOW + 1)
+            if len(header) != 12 or header[:8] != AREA_KEY_ART_MARKER or not (
+                    int.from_bytes(header[8:], "little") & (1 << key_index)):
+                # v5 supports ordinary receipts, but cannot decode key opcodes
+                # without the new table. A generic gem is still safe to send.
+                opcode = VISUAL_GEM
+            else:
+                area_key_guard = [(AREA_KEY_ART_HEADER_OFFSET, header, "ROM")]
         frame, = unpack("<I", native_frame)
         token = ((frame & VISUAL_FRAME_MASK) << VISUAL_ART_BITS) | opcode
         if token == self._last_token or token == (result & ~VISUAL_REJECTED):
@@ -200,6 +219,7 @@ class ReceiptVisuals:
         ], [
             (auth_offset, auth, "ROM"),
             (VISUAL_MAILBOX, bytes(4), BUS),
+            *area_key_guard,
         ])
         if not written and current():
             # A false guard is known not to have published anything. Errors,

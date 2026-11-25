@@ -21,6 +21,42 @@ Both panels are native mGBA frames from a cold Tutorial World Map Chest replay
 206 rendered pixels differ, all inside the 16×16 sprite at (104, 57).
 The compared runs recorded the same chest flags and reached Central Circle.
 
+## Area Key rewards
+
+**Custom Area Key artwork by Hunter.** Harrison supplied the nine
+[original PNGs](assets/area-keys-1139/) and confirmed their area assignments in
+[#1139](https://github.com/hasherwi/Archipelago-kirbyam/issues/1139). The originals
+are unchanged. Each 1600×1600 file is a uniform 100× nearest-neighbor enlargement
+of a 16×16 sprite. The [converter](../kirby_ap_payload/generate_area_key_art.py)
+samples those exact cells (no redrawing or dithering), drops the translucent
+shadow at alpha <128, and maps opaque pixels to the nearest nontransparent
+entry in the existing GBA OBJ bank F. Color distances weight red, green and
+blue 3:4:2 and ties choose the earlier palette index. This preserves the
+silhouette, palette-bank isolation and simultaneous reward rendering.
+The result is four 8×8 4bpp tiles per key. Palette limits shift some shades,
+especially purple, toward the closest available color.
+
+The ROM table at `0x0900C000` is independent of the native collectible
+table. A missing table/entry falls back to the AP gem. Your own location awards
+and live acknowledged rewards from another world use the matching key icon;
+outgoing non-traps, unknown items and starting history retain their existing
+behavior. Rainbow Route starts precollected only when Area Keys are enabled;
+nothing randomizes it into the pool. Its mirror rule is separate from the
+starting mirror to Room 1-01. Boss, Goal Game and Tutorial escape routes
+remain unchanged.
+
+| Your own Mustard Mountain Key | Incoming Cabbage Cavern Key |
+| --- | --- |
+| ![In-game Mustard Key above the tutorial chest](assets/area-keys-1139/evidence/local-mustard-key.png) | ![In-game Cabbage Key above Kirby after a live receipt](assets/area-keys-1139/evidence/incoming-cabbage-key.png) |
+
+Both frames were captured unedited in mGBA from the same generated two-player
+seed, using the production KirbyAM client and a private AP server. One player
+opened their own tutorial chest and later received the other player’s Cabbage
+Key. The sender's own chest showed the AP gem while the receiver displayed
+the key only after its acknowledgement. The native renderer uploaded the
+matching tile data for both. The precollected Rainbow key was present before
+connecting and did not produce a starting-history popup.
+
 ## Physical lever replay
 
 | Chest-only control | Same frame with lever art |

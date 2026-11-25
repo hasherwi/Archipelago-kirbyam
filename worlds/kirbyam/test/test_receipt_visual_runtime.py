@@ -95,10 +95,16 @@ int main(void) {
     ++AP_FRAME_COUNTER;
     ap_receipt_visual_poll();
     assert(!fixture.active && fixture.ready); /* Don't resume a cue with the pause. */
-    request = (AP_FRAME_COUNTER << AP_VISUAL_FRAME_SHIFT) | AP_VISUAL_MAX_CODE;
+    request = (AP_FRAME_COUNTER << AP_VISUAL_FRAME_SHIFT) | (AP_REWARD_STATUE_LAST + 1u);
     fixture.request = request;
     ap_receipt_visual_poll();
     assert(draws == 4 && last_art == AP_REWARD_STATUE_LAST && fixture.result == request);
+    AP_FRAME_COUNTER += AP_VISUAL_DURATION;
+    ap_receipt_visual_poll();
+    request = (AP_FRAME_COUNTER << AP_VISUAL_FRAME_SHIFT) | AP_VISUAL_MAX_CODE;
+    fixture.request = request;
+    ap_receipt_visual_poll();
+    assert(draws == 5 && last_art == AP_REWARD_AREA_KEY_LAST && fixture.result == request);
     assert(ap_visual_can_start((AP_VISUAL_FRAME_MASK << AP_VISUAL_FRAME_SHIFT) | AP_VISUAL_GEM, 0u, AP_VISUAL_READY));
     return 0;
 }

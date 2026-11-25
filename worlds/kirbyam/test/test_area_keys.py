@@ -75,14 +75,14 @@ def _owned_pool_items(multiworld: MultiWorld, player: int, label: str) -> list[I
     ]
 
 
-def test_area_key_catalog_uses_stable_contiguous_ids_and_progression_tags() -> None:
+def test_area_key_catalog_preserves_stable_ids_and_progression_tags() -> None:
     area_keys = sorted(
         (item for item in data.items.values() if "AreaKeys" in item.tags),
         key=lambda item: item.item_id,
     )
 
-    assert [item.item_id for item in area_keys] == list(range(3860041, 3860049))
-    assert [item.label for item in area_keys] == list(AREA_KEY_LABELS)
+    assert [item.item_id for item in area_keys] == [*range(3860041, 3860049), 3860056]
+    assert {item.label for item in area_keys} == set(AREA_KEY_LABELS)
     assert all(item.classification == ItemClassification.progression for item in area_keys)
     assert all("Unique" in item.tags for item in area_keys)
     assert ITEM_GROUPS["AreaKeys"] == set(AREA_KEY_LABELS)
@@ -170,20 +170,26 @@ def test_core_landmarks_fill_default_capacity_without_duplicating_room_sanity() 
     )
 
 
-def test_area_key_bits_are_destination_area_ids_2_through_9() -> None:
+def test_area_key_bits_are_destination_area_ids_1_through_9() -> None:
     items = [type("Item", (), {"name": label})() for label in AREA_KEY_LABELS]
-    assert area_key_bitfield_from_items(items) == AREA_KEY_BITFIELD_MASK == 0x3FC
+    assert area_key_bitfield_from_items(items) == AREA_KEY_BITFIELD_MASK == 0x3FE
 
     moonlight = type("Item", (), {"name": AREA_KEY_LABEL_BY_AREA_ID[2]})()
     candy = type("Item", (), {"name": AREA_KEY_LABEL_BY_AREA_ID[9]})()
     assert area_key_bitfield_from_items([moonlight, candy]) == (1 << 2) | (1 << 9)
 
 
-def test_directed_area_key_contract_contains_main_and_room_edges_only_into_areas_2_to_9() -> None:
+def test_directed_area_key_contract_includes_rainbow_return_mirrors_but_not_escape_routes() -> None:
     gated = area_key_entrance_area_ids()
     assert gated["REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE -> REGION_MOONLIGHT_MANSION/ROOM_2_HUB"] == 2
     assert any("/ROOM_" in entrance_name for entrance_name in gated)
-    assert all(area_id in range(2, 10) for area_id in gated.values())
+    assert all(area_id in range(1, 10) for area_id in gated.values())
+    rainbow = [edge for edge, area in gated.items() if area == 1]
+    assert len(rainbow) == 19
+    assert "REGION_MOONLIGHT_MANSION/ROOM_2_HUB -> REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE" in rainbow
+    assert not any(any(token in edge.split(" -> ")[0] for token in ("_GOAL", "_BOSS", "TUTORIAL", "DIMENSION_MIRROR"))
+                   for edge in rainbow)
+    assert "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE -> REGION_RAINBOW_ROUTE/ROOM_1_01" not in gated
     assert "REGION_MOONLIGHT_MANSION/MAIN -> REGION_RAINBOW_ROUTE/MAIN" not in gated
     assert "REGION_RAINBOW_ROUTE/MAIN -> REGION_DIMENSION_MIRROR/MAIN" not in gated
 
@@ -323,8 +329,8 @@ def test_item_stage_fallback_is_isolated_per_player() -> None:
 
     assert len(_owned_pool_items(multiworld, 1, FALLBACK_STARTING_AREA_KEY_LABEL)) == 0
     assert len(_owned_pool_items(multiworld, 2, FALLBACK_STARTING_AREA_KEY_LABEL)) == 1
-    assert area_key_bitfield_from_items(multiworld.precollected_items[1]) == (1 << 2)
-    assert area_key_bitfield_from_items(multiworld.precollected_items[2]) == 0
+    assert area_key_bitfield_from_items(multiworld.precollected_items[1]) == (1 << 1) | (1 << 2)
+    assert area_key_bitfield_from_items(multiworld.precollected_items[2]) == 1 << 1
 
 
 @pytest.mark.parametrize("room_sanity", [0, 1])
@@ -348,8 +354,8 @@ def test_two_player_restrictive_fill_keeps_every_area_key_out_of_its_own_lock(ro
                          for item in items if item.name in AREA_KEY_LABELS]
     # The lower-cave chest is no longer a starting check. With RoomSanity off,
     # Item creation legitimately moves each player's Moonlight key out of fill.
-    assert len(area_key_locations) + len(precollected_keys) == 16
-    assert len(precollected_keys) == (2 if not room_sanity else 0)
+    assert len(area_key_locations) + len(precollected_keys) == 18
+    assert len(precollected_keys) == (4 if not room_sanity else 2)
     for player in (1, 2):
         for label in AREA_KEY_LABELS:
             assert sum(item.player == player and item.name == label
@@ -385,8 +391,8 @@ def test_slot_data_encodes_only_this_players_precollected_area_keys() -> None:
     multiworld.push_precollected(world_one.create_item(AREA_KEY_LABEL_BY_AREA_ID[2]))
     multiworld.push_precollected(world_two.create_item(AREA_KEY_LABEL_BY_AREA_ID[9]))
 
-    assert world_one.fill_slot_data()["starting_area_key_bitfield"] == (1 << 2)
-    assert world_two.fill_slot_data()["starting_area_key_bitfield"] == (1 << 9)
+    assert world_one.fill_slot_data()["starting_area_key_bitfield"] == (1 << 1) | (1 << 2)
+    assert world_two.fill_slot_data()["starting_area_key_bitfield"] == (1 << 1) | (1 << 9)
     assert world_one.fill_slot_data()["core_landmark_location_ids"] == [
         3961070,
         3961094,
