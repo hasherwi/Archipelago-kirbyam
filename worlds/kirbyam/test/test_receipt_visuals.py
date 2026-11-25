@@ -395,6 +395,43 @@ async def test_expiry_while_mailbox_read_is_awaited_prevents_publishing():
 
 
 @pytest.mark.asyncio
+@pytest.mark.parametrize("art", [RewardArt.KEY_MOONLIGHT, RewardArt.KEY_COPY_ROOM])
+async def test_expiry_while_key_art_header_read_is_awaited_drops_only_expired_popup(art):
+    from ..receipt_visuals import AREA_KEY_ART_HEADER_OFFSET, AREA_KEY_ART_MARKER
+
+    now = [0.0]
+    q = ReceiptVisuals(clock=lambda: now[0])
+    q.supported = True
+    q._enqueue(art + 1)
+    now[0] = 1.0
+    q._enqueue(VISUAL_GEM)
+    tokens = []
+    frame = [42]
+
+    async def read(_, requests):
+        if requests[0][0] == VISUAL_MAILBOX:
+            return [pack("<IIII", 0, 0, 1, 0), pack("<I", frame[0])]
+        assert requests == [(AREA_KEY_ART_HEADER_OFFSET, 12, "ROM")]
+        # The emulator is paused, so the native-frame timeout can't discard
+        # the receipt. The Python-side wall-clock timer must expire it.
+        now[0] = VISUAL_MAX_AGE_SECONDS
+        return [AREA_KEY_ART_MARKER + pack("<I", 0x3FF)]
+
+    async def write(_, values, _guards):
+        tokens.append(unpack("<I", values[1][1])[0])
+        return True
+
+    with patch("worlds.kirbyam.receipt_visuals.bizhawk.read", side_effect=read), \
+         patch("worlds.kirbyam.receipt_visuals.bizhawk.guarded_write", side_effect=write):
+        await q.pump(None, auth_offset=5, auth=b"id", frame_addr=8, session_current=lambda: True)
+        assert not tokens and not q.in_flight
+        assert [entry.opcode for entry in q.pending] == [VISUAL_GEM]
+        frame[0] += 1
+        await q.pump(None, auth_offset=5, auth=b"id", frame_addr=8, session_current=lambda: True)
+        assert tokens == [(43 << VISUAL_ART_BITS) | VISUAL_GEM]
+
+
+@pytest.mark.asyncio
 async def test_expired_paused_request_is_retracted_without_touching_other_mailbox_words():
     now = [0.0]
     q = ReceiptVisuals(clock=lambda: now[0])

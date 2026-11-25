@@ -195,6 +195,11 @@ class ReceiptVisuals:
                 if not current():
                     return
                 self._area_key_art_header = bytes(header)
+                # The emulator's frame can stay frozen while this read stalls.
+                # Recheck wall-clock expiry before offering the original popup.
+                self._expire(self._clock())
+                if not self.pending or self.pending[0] is not item:
+                    return
             header = self._area_key_art_header
             key_index = opcode - (RewardArt.KEY_RAINBOW + 1)
             if len(header) != 12 or header[:8] != AREA_KEY_ART_MARKER or not (
