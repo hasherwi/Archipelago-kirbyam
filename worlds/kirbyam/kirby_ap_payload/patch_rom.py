@@ -1133,12 +1133,15 @@ def resolve_payload_hook_targets(payload_elf_path: Path) -> dict[str, int]:
         "starting_color_start_game_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_on_start_single_player_game"),
     }
+    targets["file_selector_draw_target"] = resolve_elf_symbol_address(
+        payload_elf_path, "ap_draw_single_file_selector")
     for name in BATTERY_SITES:
         targets[name] = resolve_elf_symbol_address(payload_elf_path, name)
     return {name: target & ~1 for name, target in targets.items()}
 
 
 _PAYLOAD_TARGET_LABELS = {
+    "file_selector_draw_target": "native file selector disabled-row styling",
     "goal_transition_target": "Goal Game doorway transition",
     "goal_start_target": "Goal Game start callback",
     "goal_landed_target": "Goal Game landing callback",
@@ -1212,6 +1215,39 @@ def build_goal_game_writes(rom: bytes | bytearray, targets: dict[str, int]) -> d
     validate_expected_instruction_sequence(rom, offset, thumb_bl_bytes(0x08000000 + offset, 0x080562D0),
                                            "Goal Game doorway transition")
     writes[offset] = thumb_bl_bytes(0x08000000 + offset, targets["goal_transition_target"])
+    return writes
+
+
+# Verified USA-ROM selector sites in code_08138D64.c. The original title
+# dispatch, file previews, mode menu and save code are deliberately untouched.
+FILE_SELECTOR_DRAW_ADDR = 0x0813AD9C
+FILE_SELECTOR_DRAW_OFFSETS = (
+    0x13C666, 0x13C6CC, 0x13C808, 0x13C8A0, 0x13C9EA, 0x13CB50, 0x13CC88,
+    0x13CDB0, 0x141D2C, 0x141FEA, 0x14204E, 0x1420B2, 0x142A80,
+)
+FILE_SELECTOR_EDITS = (
+    (0x138C96, bytes.fromhex("01 1c"), bytes.fromhex("c0 46"),
+     "initialize both selector cursor indices to File 1"),
+    (0x13CA3A, bytes.fromhex("04 28"), bytes.fromhex("02 28"),
+     "ignore native selector directional actions"),
+    (0x13CA50, bytes.fromhex("60 ca 13 08"), bytes.fromhex("e0 ca 13 08"),
+     "route file confirmation through the slot-0 guard"),
+    # The original Up case is unreachable after the action cap above. Use
+    # its first eight bytes for a guard before *any* confirm-side save access.
+    # ldrb r0,[r4,#10]; cmp r0,#0; bne 0x0813cb10; b 0x0813ca60.
+    (0x13CAE0, bytes.fromhex("03 48 13 f0 1b fb a0 7a"),
+     bytes.fromhex("a0 7a 00 28 14 d1 bb e7"), "guard file confirmation"),
+)
+
+
+def build_file_selector_writes(rom: bytes | bytearray, draw_target: int) -> dict[int, bytes]:
+    writes = {}
+    for offset, expected, replacement, label in FILE_SELECTOR_EDITS:
+        validate_exact_rom_bytes(rom, offset, expected, label)
+        writes[offset] = replacement
+    for offset in FILE_SELECTOR_DRAW_OFFSETS:
+        validate_thumb_bl_callsite_target(rom, offset, "File selector draw", FILE_SELECTOR_DRAW_ADDR)
+        writes[offset] = thumb_bl_bytes(0x08000000 + offset, draw_target)
     return writes
 
 
@@ -2356,6 +2392,7 @@ def main() -> None:
             "ap_area_spawn_level_entry", "ap_area_spawn_strip_entry", "ap_area_door_decoration_entry",
             "ap_area_warp_star_main", "ap_area_mirror_main", "ap_area_spawn_main", "ap_area_hub_mirror_main",
         )
+        selector_writes = build_file_selector_writes(rom, hook_targets["file_selector_draw_target"])
         area_object_writes = build_area_object_writes(rom, {
             name: resolve_elf_symbol_address(payload_elf_path, name) for name in area_object_symbols
         })
@@ -2377,7 +2414,7 @@ def main() -> None:
             rom_base,
         )
 
-        for offset, data in area_object_writes.items():
+        for offset, data in (area_object_writes | selector_writes).items():
             rom[offset:offset + len(data)] = data
         apply_color_extension(rom, payload_elf_path)
 

@@ -2,7 +2,7 @@
 
 ## Required Software
 
-- [Archipelago](https://github.com/ArchipelagoMW/Archipelago/releases). This source fork now bundles framework 0.6.8; the standalone KirbyAM APWorld retains its 0.6.7 minimum.
+- [Archipelago](https://github.com/ArchipelagoMW/Archipelago/releases). KirbyAM requires Archipelago 0.6.8 or later. This source fork bundles Archipelago 0.6.8.
 - A USA Kirby & The Amazing Mirror ROM. The Archipelago community cannot provide this.
 - [BizHawk](https://tasvideos.org/BizHawk/ReleaseHistory) 2.7 or later
 - Alternatively, standalone [mGBA](https://mgba.io/downloads.html) with scripting support; see the setup below.
@@ -33,6 +33,8 @@ clear it.
 7. If this is your first time patching, you will be prompted to locate your vanilla ROM.
 8. A patched `.gba` file will be created in the same place as the patch file.
 9. On your first time opening a patch with BizHawk Client, you will also be asked to locate `EmuHawk.exe` in your BizHawk install.
+
+At the title screen, choose File 1 to start or continue your game. Files 2 and 3 are disabled, but any saves in them are left intact.
 
 If you're playing a single-player seed and you don't care about autotracking or hints, you can stop here, close the
 client, and load the patched ROM in any emulator. However, for multiworlds and other Archipelago features, continue
@@ -68,7 +70,7 @@ distinct area bosses. An unknown command, a Dark Mind requirement or unavailable
 client/slot setup needs correcting before play. Updating only the generator or server does not update
 the player's client. A successful server connection alone does not establish compatibility.
 
-ROM patches generated with the item-sprite update require the matching or newer KirbyAM
+**Custom sprite artwork by Hunter.** ROM patches generated with the item-sprite update require the matching or newer KirbyAM
 APWorld/client on every player's machine. Older clients cannot safely read the new
 physical-check save format and won't run with these patches. Updated clients can still
 play older seeds with their original patches.

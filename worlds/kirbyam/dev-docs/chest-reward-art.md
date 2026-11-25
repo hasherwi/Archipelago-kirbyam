@@ -1,5 +1,7 @@
 # Shared location reward art
 
+**Custom sprite artwork by Hunter.**
+
 The supplied six-gem art is the fallback reward sprite for treasure chests,
 physical lever pulls, Archipelago Big Switches, Goal Games (even with no
 native prize), first area visits, area-boss Mirror Shard drops, RoomSanity,

@@ -9,6 +9,7 @@ from collections import Counter
 from typing import TYPE_CHECKING, Any, ClassVar, TextIO
 
 import settings
+from Options import Accessibility
 from BaseClasses import CollectionState, Item, ItemClassification, LocationProgressType, MultiWorld, Tutorial
 from worlds.AutoWorld import WebWorld, World
 from worlds.LauncherComponents import Component, Type, components, launch as launch_component
@@ -222,6 +223,43 @@ class KirbyAmWorld(World):
         from .sanity_check import validate_group_maps, validate_regions
         assert validate_regions()
         assert validate_group_maps()
+
+    @classmethod
+    def stage_pre_fill(cls, multiworld: MultiWorld) -> None:
+        from .enemy_ability_runtime_patch import ROOM16_FOLEY_SWAP
+
+        stone = "Stone Ability"
+        stone_by_owner = {item.player: item for item in multiworld.itempool if item.name == stone and item.advancement}
+        for player in multiworld.player_ids:
+            world = multiworld.worlds[player]
+            if (not isinstance(world, cls) or player not in stone_by_owner
+                    or world.options.accessibility != Accessibility.option_minimal
+                    or not world._ability_gating_enabled()
+                    or ROOM16_FOLEY_SWAP not in getattr(world, "_enemy_copy_ability_policy", {})):
+                continue
+            if any(item.name == stone for item in multiworld.precollected_items[player]) or any(
+                location.item is not None and location.item.player == player and location.item.name == stone
+                for location in multiworld.get_filled_locations()
+            ):
+                continue  # The player already owns or deliberately placed this permission.
+            early = multiworld.early_items[player]
+            if early.get(stone, 0) or multiworld.local_early_items[player].get(stone, 0):
+                continue
+            # Prove the repaired profile has a check that needs this Stone
+            # permission. Sweep each state separately so an event behind Stone
+            # cannot be carried into the counterfactual without it.
+            full = multiworld.get_all_state(perform_sweep=False)
+            without_stone = full.copy()
+            without_stone.remove(stone_by_owner[player])
+            full.sweep_for_advancements()
+            without_stone.sweep_for_advancements()
+            if not any(loc.address is not None and loc.can_reach(full) and not loc.can_reach(without_stone)
+                       for loc in multiworld.get_locations(player)):
+                continue
+            # Minimal may put progression behind itself once the chosen boss
+            # is beatable. Use AP's ordinary early fill for this permission;
+            # don't change accessibility, locality, or locked/planned items.
+            early[stone] = 1
 
     @classmethod
     def stage_pre_output(cls, multiworld: MultiWorld) -> None:
@@ -547,6 +585,7 @@ class KirbyAmWorld(World):
                 advanced=self.options.advanced_logic.value == 1,
                 require_room16=bool(self.options.room_sanity.value),
                 room16_for_completion=self.options.goal.value == Goal.option_full_completion,
+                allow_room16_shuffle_repair=True,
             )
             validate_phone_profile(self)
             validate_mini_sources(self._enemy_copy_ability_policy, randomize_statues)
