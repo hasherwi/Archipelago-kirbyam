@@ -21,7 +21,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ### Improvements
 - Allow only File 1 to be selected, preventing cross-save problems (Issue #1144).
-- Sprite Swapping (**custom sprite artwork by Hunter**): In-game item sprites now reflect the actual item awarded, including Hunter’s nine custom Area Key designs. When Area Keys are enabled, Kirby starts with the Rainbow Route key, so its area mirrors never need a separate unlock. The AP gem still represents outgoing non-traps and awards without their own artwork (PR #1137; Issue #1139).
+- Sprite Swapping (**custom sprite artwork by Hunter**): In-game item sprites now reflect the actual item awarded. When Area Keys are enabled, Kirby starts with the new Rainbow Route area key, so its area mirrors never need a separate unlock (this key exists for future proofing). The AP gem represents the copy ability room, outgoing non-traps and awards without their own artwork (PR #1137; Issue #1139).
 - Show boss defeat progress in `/goal` when using the boss-count goal (PR #1133).
 
 ### Bug Fixes
