@@ -15,6 +15,7 @@ from .master_source import (
     CARROT_HUB, CARROT_KEY, CENTRAL_MASTER_IDENTITY, CENTRAL_MASTER_SOURCE, CENTRAL_REGION,
     CENTRAL_RETURN_EVENT, MASTER719_CAPABILITY, MASTER719_NODES, MASTER719_PREFIX, RAINBOW_WEST_HUB,
 )
+from .statue_seed import COPY_ABILITY_ROOM
 from .enemy_ability_data import ABILITY_NAME_TO_ID, ABILITY_SOURCES, GATEABLE_ENEMY_COPY_ABILITIES
 from .enemy_ability_runtime_patch import (
     _STATUE_TABLES,
@@ -224,13 +225,16 @@ class SourcePolicy:
         self.statue_mask = build_statue_runtime_allowed_mask(policy, include_statues)
 
     def grant(self, key: str, permitted: Callable[[str], bool],
-              native_grants: tuple[str, ...] = ()) -> Grant:
+              native_grants: tuple[str, ...] = (), *, native_room: int | None = None) -> Grant:
         if key == CENTRAL_MASTER_SOURCE:
             # Conditional output only. Physical Normal contact and availability
             # are enforced by the bounded witness, not ordinary permission RNG.
             return Grant(frozenset({"Master"}))
         if key in _STATUE_DEFAULTS:
             address, native_name = _STATUE_DEFAULTS[key]
+            if native_room == COPY_ABILITY_ROOM:
+                # Exact fixed statue, not the same subtype's global world assignment.
+                return Grant(frozenset({native_name}) if permitted(native_name) else frozenset())
             randomized = self.mode == 2 and bool(self.statue_mask)
             pool = frozenset(
                 name for ability_id, name in _ID_TO_NAME.items()
@@ -659,20 +663,24 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
     queue = deque(start_list)
     visited: set[Position] = set()
     assumptions: set[str] = set()
-    grants: dict[tuple[str, tuple[str, ...]], Grant] = {}
-    raw_grants: dict[tuple[str, tuple[str, ...]], Grant] = {}
+    grants: dict[tuple[str, tuple[str, ...], int | None], Grant] = {}
+    raw_grants: dict[tuple[str, tuple[str, ...], int | None], Grant] = {}
     expanded_sources: set[tuple[str, frozenset[str], frozenset[str], frozenset[str], frozenset[str]]] = set()
 
     def permitted(ability: str) -> bool:
         return ability_permission(ability, owned, gating)
 
-    def source_grant(key: str, native_grants: tuple[str, ...]) -> Grant:
-        # Grants describe deterministic possibilities, not individual RNG draws.
-        # Policy, owned permissions and gating are fixed for this evaluation.
-        cache_key = (key, native_grants)
+    def grant_at(key: str, native_grants: tuple[str, ...], room: int | None,
+                 allow: Callable[[str], bool]) -> Grant:
+        if room == COPY_ABILITY_ROOM:
+            return policy.grant(key, allow, native_grants, native_room=room)
+        return policy.grant(key, allow, native_grants) if native_grants else policy.grant(key, allow)
+
+    def source_grant(key: str, native_grants: tuple[str, ...], room: int | None) -> Grant:
+        # Cache eligibility and the location-dependent Copy Ability Room exception.
+        cache_key = (key, native_grants, room)
         if cache_key not in grants:
-            grants[cache_key] = (policy.grant(key, permitted, native_grants) if native_grants
-                                 else policy.grant(key, permitted))
+            grants[cache_key] = grant_at(key, native_grants, room, permitted)
         return grants[cache_key]
 
     while queue:
@@ -705,18 +713,18 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
                 if identity in position.consumed:
                     continue
                 consumed = position.consumed if source.renewable else position.consumed | {identity}
+                room = COPY_ABILITY_ROOM if node_by_key[source.node].room == COPY_ABILITY_ROOM else None
                 grant = (policy.grant_choice(source.source_choices, permitted) if source.source_choices
-                         else source_grant(source.source_key, source.native_grants))
+                         else source_grant(source.source_key, source.native_grants, room))
                 # Ownership-filtered live pools can expand on later unlocks.
                 # A finite guarantee must survive that expansion; renewable
                 # documented retries below retain the actual runtime pool.
-                raw_key = (source.source_key, source.native_grants)
+                raw_key = (source.source_key, source.native_grants, room)
                 if source.source_choices:
                     raw_grant = policy.grant_choice(source.source_choices, lambda _: True)
                 else:
                     if raw_key not in raw_grants:
-                        raw_grants[raw_key] = (policy.grant(source.source_key, lambda _: True, source.native_grants)
-                                              if source.native_grants else policy.grant(source.source_key, lambda _: True))
+                        raw_grants[raw_key] = grant_at(source.source_key, source.native_grants, room, lambda _: True)
                     raw_grant = raw_grants[raw_key]
                 bounded = not raw_grant.can_fail and grant.abilities == raw_grant.abilities
                 abilities = grant.guaranteed if bounded else frozenset()

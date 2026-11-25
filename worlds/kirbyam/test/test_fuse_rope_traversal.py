@@ -254,7 +254,9 @@ def test_joint_static_validation_rejects_bad_actual_assignment_without_rewriting
     raw = build_enemy_copy_ability_policy(random.Random(73), 1, True, True,
                                           whitelist=('Stone',), include_passive_enemies=True)
     before = deepcopy(raw)
-    with pytest.raises(ValueError, match='Reviewed Wheel-source search budget exhausted'):
+    # The fixed Copy Ability Room satisfies the Wheel witness, but this
+    # assignment still fails the subsequent fuse/rope witness.
+    with pytest.raises(ValueError, match='Reviewed fuse/rope/block-source search budget exhausted'):
         validate_peg_assignment(raw, lambda: pytest.fail('One-attempt budget must not draw another assignment'),
                                 include_statues=True, max_attempts=1)
     assert raw == before

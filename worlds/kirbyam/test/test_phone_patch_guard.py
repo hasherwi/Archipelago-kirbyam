@@ -20,6 +20,7 @@ from ..rom import (
     AREA_KEYS_CONFIG_ON, AREA_KEYS_CONFIG_ROM_OFFSET, ENEMY_HEALTH_MULTIPLIER_FILE,
     HEALTH_INITIAL_ROM_OFFSET, KirbyAmPatchExtension, KirbyAmProcedurePatch,
 )
+from ..statue_seed import STATUE_CONFIG_EMPTY, STATUE_CONFIG_ROM_OFFSET
 from ..vitality import HEALTH_CONFIG_MAGIC, HEALTH_ROM_TITLE
 
 
@@ -41,6 +42,7 @@ def synthetic_post_base() -> bytes:
     """Enough synthetic bytes for all real procedure steps and their guards."""
     buffer = bytearray(max(ENEMY_SOURCE_CONFIG_ROM_OFFSET + 36, 0x008C270A))
     buffer[PHONE_CONFIG_OFFSET:PHONE_CONFIG_OFFSET + 12] = DISABLED_PHONE_CONFIG
+    buffer[STATUE_CONFIG_ROM_OFFSET:STATUE_CONFIG_ROM_OFFSET + len(STATUE_CONFIG_EMPTY)] = STATUE_CONFIG_EMPTY
     buffer[AREA_KEYS_CONFIG_ROM_OFFSET:AREA_KEYS_CONFIG_ROM_OFFSET + 4] = AREA_KEYS_CONFIG_ON.to_bytes(4, "little")
     buffer[ENEMY_SOURCE_CONFIG_ROM_OFFSET:ENEMY_SOURCE_CONFIG_ROM_OFFSET + 4] = (
         ENEMY_SOURCE_CONFIG_LEGACY.to_bytes(4, "little"))
@@ -115,7 +117,7 @@ def test_phone_validator_rejects_missing_or_truncated_buffers(length: int, synth
 
 def test_phone_guard_procedure_order_is_serialized(tmp_path: Path, synthetic_bsdiffs: dict[str, bytes]) -> None:
     expected = [HISTORICAL_PROCEDURE[0], ("validate_production_phone_disabled", []),
-                *HISTORICAL_PROCEDURE[1:3], ("validate_room16_timer_base", []),
+                *HISTORICAL_PROCEDURE[1:3], ("validate_room16_timer_base", []), ("validate_statue_seed_base", []),
                 *HISTORICAL_PROCEDURE[3:], ("validate_phone_seed_config", [])]
     assert KirbyAmProcedurePatch.procedure == expected
     archive = _write_archive(_synthetic_patch(synthetic_bsdiffs["disabled"]), tmp_path)

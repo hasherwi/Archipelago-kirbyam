@@ -120,7 +120,7 @@ class RandomizeShards(Choice):
 class AbilityRandomizationMode(Choice):
     """
     Controls randomization of enemy-granted copy abilities.
-    If Copy Ability statue randomization is enabled, Copy Ability statues inherit this same mode.
+    If Copy Ability statue randomization is enabled, participating world statues inherit this mode.
 
     - Off: Enemy copy abilities stay at native defaults. Default.
     - Shuffled: Enemy types are remapped deterministically so all enemies of the
@@ -214,13 +214,12 @@ class AbilityRandomizationNoAbilityWeight(Range):
 
 class AbilityRandomizationStatues(Toggle):
     """
-    Include Copy Ability statues in copy-ability randomization.
-    The Master Sword stand is excluded.
+    Include world Copy Ability statues in copy-ability randomization.
+    The Copy Ability Room and Master Sword stand are excluded and retain their native art and grants.
 
-    This toggle only controls whether Copy Ability statues participate at all.
-    Only applies when Ability Randomization Mode is not Off.
-    Participating Copy Ability statues use the currently selected Ability Randomization Mode
-    (Off, Shuffled, or Completely Random).
+    When this option or Ability Randomization Mode is Off, statues are unchanged.
+    Shuffled statues display their assigned ability's statue, or the Archipelago logo if none exists.
+    Completely Random statues all display the Archipelago logo.
     Randomized Copy Ability statues always grant an ability and do not use
     `ability_randomization_no_ability_weight` or
     `ability_randomization_passive_enemies`.

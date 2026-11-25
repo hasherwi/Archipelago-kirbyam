@@ -19,13 +19,16 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
   - Random Teleport moves Kirby to a safe room already in logic (Issue #696).
 
 ### Improvements
+- Shuffled ability statues show the ability they grant, or the Archipelago logo if that ability has no statue art. Completely Random statues show the Archipelago logo (PR #1141).
+- Ability Randomization no longer affects the Copy Ability Room: its statues always grant their original abilities once unlocked (PR #1141).
 - Show boss defeat progress in `/goal` when using the boss-count goal (PR #1133).
+- Improved Logic for Item Placement and Accessible Locations (PR #1141).
 
 ### Known Limitations
 - Phone charges can exceed three, but the battery display does not show the extra charges (PR #1086).
 - Ranged-attack coverage remains incomplete. Three targets retain older rules outside reviewed source assignments; broader physical outcomes still need review. See the [detailed coverage ledger](dev-docs/ranged-coverage-ledger.md) (PR #1052).
 - Only the North American ROM is supported; AP notifications are English.
-- Chests retain their original item sprites and collection animations; statues retain their original ability appearance.
+- Chests retain their original item sprites and collection animations. Shuffled statues use the Archipelago logo for abilities without native statue art.
 - mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.
 - Testing covers selected gameplay scenarios, not a complete playthrough or every multiplayer setup.
 

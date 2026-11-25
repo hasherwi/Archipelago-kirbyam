@@ -7,6 +7,102 @@ AP_COPY_EXT void ap_goal_poll(void);
 #include "phone.h"
 #include "battery.h"
 #include "statue_runtime_logic.h"
+#include "statue_art_runtime.h"
+#include "statue_logo.h"
+
+#define AP_STATUE_FX __attribute__((noinline, long_call, section(".apstatuefx")))
+#define AP_STATUE_UPLOAD_HEAD ((volatile uint8_t*)0x030039A4u)
+#define AP_STATUE_UPLOAD_TAIL (*(volatile uint8_t*)0x03006078u)
+#define AP_STATUE_UPLOAD_RING ((volatile struct ApStatueTileUpload*)0x03002EC0u)
+
+__attribute__((used, section(".apstatueconfig")))
+const volatile struct ApStatueConfig gApWorldStatueConfig = {.magic = "APST01"};
+
+AP_STATUE_FX uint8_t ap_world_statue_mode(uint16_t room) {
+    return ap_statue_world_mode(room, &gApWorldStatueConfig);
+}
+
+static AP_STATUE_FX uint8_t ap_world_statue_visual(const uint8_t *sprite) {
+    const uint8_t *obj = sprite - 0x10u;
+    if (obj[0] != 1u || *(const volatile uint16_t*)(sprite + 0xCu) != AP_STATUE_NATIVE_ANIM
+        || !ap_statue_vram_address_is_valid(*(const volatile uint32_t*)sprite)) return 0u;
+    return ap_statue_world_art(*(const volatile uint16_t*)(obj + 0x60u), obj[0x82u],
+        sprite[0x1Au], &gApWorldStatueConfig);
+}
+
+/* Statue scripts share one static native frame and 16x16 footprint. Reuse
+ * the native object's existing allocation, DMA, animation and draw order. */
+static AP_STATUE_FX uint32_t ap_world_statue_tiles(uint8_t art) {
+    static const uint8_t mapping[32] __attribute__((section(".apstatuefx_data"))) = {
+        [7] = 1, [3] = 2, [13] = 3, [1] = 4, [8] = 5, [20] = 6, [9] = 7, [16] = 8,
+        [4] = 9, [2] = 10, [15] = 11, [25] = 12, [22] = 13, [10] = 14, [17] = 15,
+        [18] = 16, [6] = 17, [19] = 18, [5] = 19,
+    };
+    uint32_t tiles = (uint32_t)(uintptr_t)gApWorldStatueLogo;
+    if (art < 32u && mapping[art]) {
+        tiles = 0x0900E388u + (mapping[art] - 1u) * AP_STATUE_ART_SIZE;
+    }
+    return tiles;
+}
+
+static AP_STATUE_FX void ap_world_statue_redirect(const uint8_t *sprite, uint8_t before) {
+    uint8_t art = ap_world_statue_visual(sprite);
+    if (!art) return;
+    ap_statue_replace_upload(AP_STATUE_UPLOAD_RING, before, *AP_STATUE_UPLOAD_HEAD,
+        *(const volatile uint32_t*)sprite, sprite[0x1Au], ap_world_statue_tiles(art));
+}
+
+AP_STATUE_FX __attribute__((used)) void ap_init_world_statue_sprite(void *obj) {
+    uint8_t before = *AP_STATUE_UPLOAD_HEAD;
+    ((void (*)(void*))0x0809F3E1u)(obj); /* ObjectInitSprite */
+    ap_world_statue_redirect((const uint8_t*)obj + 0x10u, before);
+}
+
+AP_STATUE_FX __attribute__((used)) void ap_init_world_statue_grant(void *obj) {
+    ((void (*)(void*))0x080AA4EDu)(obj); /* Native statue setup including callback. */
+    uint8_t *object = obj;
+    uint8_t ability = ap_statue_world_ability(*(const volatile uint16_t*)(object + 0x60u),
+        object[0x82u], object[0x83u], &gApWorldStatueConfig);
+    if (ability) object[0x84u] = ability;
+}
+
+AP_STATUE_FX __attribute__((used)) void ap_reload_world_statue_sprite(void *obj) {
+    uint8_t before = *AP_STATUE_UPLOAD_HEAD;
+    ((void (*)(void*))0x0809A631u)(obj); /* Native object residency reload. */
+    ap_world_statue_redirect((const uint8_t*)obj + 0x10u, before);
+}
+
+AP_STATUE_FX __attribute__((used)) void ap_draw_world_statue_sprite(void *sprite) {
+    void (*native)(void*) = (void (*)(void*))0x0815604Du;
+    uint8_t *data = sprite;
+    uint8_t art = ap_world_statue_visual(data);
+    if (!art) {
+        native(sprite);
+        return;
+    }
+    uint32_t destination = *(const volatile uint32_t*)data;
+    uint32_t tiles = ap_world_statue_tiles(art);
+    if (!ap_statue_tiles_confirmed(AP_STATUE_UPLOAD_RING, *AP_STATUE_UPLOAD_HEAD,
+            AP_STATUE_UPLOAD_TAIL, destination, tiles, (const volatile uint32_t*)(uintptr_t)destination,
+            (const volatile uint32_t*)(uintptr_t)tiles)) {
+        native(sprite);
+        return;
+    }
+    uint8_t palette = data[0x1Fu];
+    /* Keep the native palette handle for ObjectDestroy; do not write a palette. */
+    data[0x1Fu] = 15u;
+    native(sprite);
+    data[0x1Fu] = palette;
+}
+
+
+AP_STATUE_FX __attribute__((used)) int32_t ap_update_world_statue_sprite(void *sprite) {
+    uint8_t before = *AP_STATUE_UPLOAD_HEAD;
+    int32_t result = ((int32_t (*)(void*))0x08155129u)(sprite);
+    ap_world_statue_redirect(sprite, before);
+    return result;
+}
+
 #include "transition_runtime_logic.h"
 #include "transition_route_logic.h"
 #include "enemy_runtime_logic.h"
@@ -1443,8 +1539,10 @@ __attribute__((used)) void ap_on_start_copy_ability_transition(void *kirby) {
     pending_flags = *transitioning_ability;
     pending_ability = (uint8_t)(pending_flags & KIRBY_ABILITY_MASK);
     original_ability = pending_ability;
-    mode = AP_ABILITY_RANDOMIZATION_MODE;
     is_direct_statue = ap_statue_is_direct_touch_callsite(caller_pc);
+    mode = is_direct_statue
+        && ap_world_statue_mode(*(const volatile uint16_t*)((uintptr_t)kirby + KIRBY_STRUCT_ROOM_OFFSET))
+        ? AP_ABILITY_RANDOMIZATION_MODE : 0u;
     statue_allowed_mask = gApAbilityRandomizationStatueAllowedMask;
 
     /*
@@ -1455,7 +1553,8 @@ __attribute__((used)) void ap_on_start_copy_ability_transition(void *kirby) {
      * generated seed, and select directly from the per-seed statue mask after
      * removing currently locked abilities.  That mask is derived from the same
      * normalized pool as the static table writes, so custom whitelist and Minny
-     * settings stay aligned.  Statues intentionally ignore the no-ability,
+     * settings stay aligned. The Copy Ability Room uses the retail table
+     * and never rerolls. Statues intentionally ignore the no-ability,
      * passive-enemy, miniboss, and boss-spawn options.
      */
     if (ap_statue_should_reroll(caller_pc, mode, statue_allowed_mask) != 0u) {

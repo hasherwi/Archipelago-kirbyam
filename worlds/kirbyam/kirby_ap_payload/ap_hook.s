@@ -217,3 +217,23 @@ ap_phone_call_entry:
 1:  .word 0x08056C35
 2:  pop {r0-r2, pc}
 .size ap_phone_call_entry, .-ap_phone_call_entry
+
+.section .text.ap_statue_entries,"ax",%progbits
+.macro AP_STATUE_ENTRY entry, handler
+.balign 4
+.global \entry
+.type \entry, %function
+.thumb_func
+\entry:
+    ldr r3, 1f
+    bx r3
+.balign 4
+1:  .word \handler
+.size \entry, .-\entry
+.endm
+
+AP_STATUE_ENTRY ap_init_world_statue_sprite_entry, ap_init_world_statue_sprite
+AP_STATUE_ENTRY ap_init_world_statue_grant_entry, ap_init_world_statue_grant
+AP_STATUE_ENTRY ap_reload_world_statue_sprite_entry, ap_reload_world_statue_sprite
+AP_STATUE_ENTRY ap_update_world_statue_sprite_entry, ap_update_world_statue_sprite
+AP_STATUE_ENTRY ap_draw_world_statue_sprite_entry, ap_draw_world_statue_sprite

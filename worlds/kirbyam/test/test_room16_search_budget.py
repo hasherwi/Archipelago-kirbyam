@@ -8,25 +8,50 @@ from .support.integration_generation import generate_archive_from_fixture, load_
 from .support.check_accessibility import audit_local_checks
 
 
-@pytest.mark.parametrize('historical_cap', [True, False])
-def test_exact_ci_seed_exhaustion_and_full_archive(monkeypatch, tmp_path, historical_cap):
+@pytest.mark.parametrize(
+    'historical_statues,cap,attempts,winning_seed',
+    [
+        pytest.param(True, 8192, 8192, None, id='historical-cap-exhaustion'),
+        pytest.param(False, 3353, 3353, None, id='fixed-statues-before-first-witness'),
+        pytest.param(False, None, 3354, 9372867150608014686, id='fixed-statues-full-archive'),
+    ],
+)
+def test_exact_ci_seed_exhaustion_and_full_archive(monkeypatch, tmp_path, historical_statues, cap,
+                                                  attempts, winning_seed):
     import worlds.kirbyam as kirby
+    from ..traversal import SourcePolicy
+
+    if historical_statues:
+        # Replay the original native-room-independent grant behavior only for
+        # the historical failure control, not for the current archive.
+        grant = SourcePolicy.grant
+
+        def historical_grant(self, key, permitted, native_grants=(), *, native_room=None):
+            return grant(self, key, permitted, native_grants)
+
+        monkeypatch.setattr(SourcePolicy, 'grant', historical_grant)
+
     original = kirby.validate_peg_assignment
     validate = check_accessibility.validate_all_checks
-    draws = []
+    draws = 0
+    last = None
     audited = []
 
     def select(initial, factory, statues, **kwargs):
+        nonlocal draws, last
         assert initial['seed'] == 2450128862376293350
         assert kwargs['max_attempts'] == 16384
         assert kwargs['require_room16'] and not kwargs['advanced']
-        draws.append(initial)
+        draws, last = 1, initial
+
         def counted():
-            candidate = factory()
-            draws.append(candidate)
-            return candidate
-        if historical_cap:
-            kwargs['max_attempts'] = 8192
+            nonlocal draws, last
+            last = factory()
+            draws += 1
+            return last
+
+        if cap is not None:
+            kwargs['max_attempts'] = cap
         return original(initial, counted, statues, **kwargs)
 
     def audit(world, players):
@@ -36,20 +61,20 @@ def test_exact_ci_seed_exhaustion_and_full_archive(monkeypatch, tmp_path, histor
     monkeypatch.setattr(kirby, 'validate_peg_assignment', select)
     monkeypatch.setattr(check_accessibility, 'validate_all_checks', audit)
     fixture = Path(__file__).parent / 'data/fuzz_room16_source_budget_202.yaml'
-    if historical_cap:
-        with pytest.raises(KirbyAmRoom16SourceError, match='after 8192 attempts'):
+    if winning_seed is None:
+        with pytest.raises(KirbyAmRoom16SourceError, match=f'after {cap} attempts'):
             generate_archive_from_fixture(fixture, tmp_path, seed=587276755)
-        assert len(draws) == 8192 and not audited
+        assert draws == attempts and not audited
         assert not list(tmp_path.glob('*.zip'))
     else:
         archive = generate_archive_from_fixture(fixture, tmp_path, seed=587276755)
-        assert len(draws) == 8552
-        assert draws[-1]['seed'] == 884389559316697767
+        assert draws == attempts
+        assert last is not None and last['seed'] == winning_seed
         world, = audited
         actual = audit_local_checks(world, 1)
         assert actual.unfilled == actual.inventory_unreachable == actual.progression_unreachable == ()
         selected = load_multidata_from_archive(archive)['slot_data'][1]['enemy_copy_ability_policy']
-        assert {**selected, 'allowed_abilities': list(selected['allowed_abilities'])} == draws[-1]
+        assert {**selected, 'allowed_abilities': list(selected['allowed_abilities'])} == last
         assert selected['mode'] == 1 and selected['ability_randomization_no_ability_weight'] == 71
         assert 'room16_switch_timer_frames' not in selected
         assert len(list(tmp_path.glob('*.zip'))) == 1

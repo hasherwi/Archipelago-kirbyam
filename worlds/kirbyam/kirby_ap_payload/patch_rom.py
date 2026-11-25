@@ -2134,6 +2134,27 @@ def build_hub_board_sprite_writes(rom: bytes | bytearray, address: int,
             HUB_BOARD_ATTR_POINTER: struct.pack("<I", address + 92)}
 
 
+WORLD_STATUE_HOOK_GROUPS = (
+    ("ap_init_world_statue_sprite_entry", 0x0809F3E0, (0x0AA4B0,)),
+    ("ap_init_world_statue_grant_entry", 0x080AA4EC, (0x0AA4CE,)),
+    ("ap_reload_world_statue_sprite_entry", 0x0809A630, (0x099E42,)),
+    ("ap_update_world_statue_sprite_entry", 0x08155128, (0x09A884, 0x09A8B0, 0x09D868)),
+    ("ap_draw_world_statue_sprite_entry", 0x0815604C, (0x09A97E, 0x09D8B8)),
+)
+
+
+def build_world_statue_hooks(rom: bytes | bytearray, targets: dict[str, int]) -> dict[int, bytes]:
+    # Cover construction, residency reload, and both ordinary and paused rendering.
+    writes: dict[int, bytes] = {}
+    for name, original, offsets in WORLD_STATUE_HOOK_GROUPS:
+        for callsite in offsets:
+            address = 0x08000000 + callsite
+            if rom[callsite:callsite + 4] != thumb_bl_bytes(address, original):
+                raise SystemExit("Unexpected native world statue call; refusing to patch")
+            writes[callsite] = thumb_bl_bytes(address, targets[name])
+    return writes
+
+
 def apply_color_extension(rom: bytearray, elf_path: Path) -> None:
     # This module also supports callers that import patch_rom.py by filename.
     import importlib.util
@@ -2159,7 +2180,20 @@ def apply_color_extension(rom: bytearray, elf_path: Path) -> None:
         rom, extension,
         resolve_elf_symbol_address(elf_path, "ap_color_sprite_palette"),
         resolve_elf_symbol_address(elf_path, "ap_color_load_bg"))
-    for offset, replacement in {**writes, **board_writes}.items():
+    if extension[0xEE00:0xEE1C] != b"APST01\0\0" + bytes(20):
+        raise SystemExit("Error: missing versioned world statue seed config")
+    statue_writes = build_world_statue_hooks(
+        rom, {name: resolve_elf_symbol_address(elf_path, name) for name, _, _ in WORLD_STATUE_HOOK_GROUPS})
+    spec = importlib.util.spec_from_file_location(
+        "kirby_world_statue_assets", Path(__file__).with_name("world_statue_assets.py"))
+    assert spec is not None and spec.loader is not None
+    statue_assets = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(statue_assets)
+    try:
+        asset_writes = statue_assets.build_statue_art_table(rom, extension)
+    except ValueError as exc:
+        raise SystemExit(str(exc)) from exc
+    for offset, replacement in {**writes, **board_writes, **statue_writes, **asset_writes}.items():
         rom[offset:offset + len(replacement)] = replacement
 
 

@@ -6,7 +6,8 @@ initial source-policy seed was 2450128862376293350. All 8192 candidates failed t
 joint source constraints. The same input fails on main `06f398912`; it is not caused
 by the Completely Random timer or the Advanced Fire route.
 
-The unchanged deterministic candidate stream first succeeds at attempt 8552,
+With the former randomized Copy Ability Room statues, the same candidate stream
+first succeeded at attempt 8552,
 policy seed 884389559316697767. Full generation then passes the unchanged final
 all-check audit and produces an archive. The regression fixture retains the
 original fuzzer YAML, including its normalized health-range settings. Tests also
@@ -27,3 +28,12 @@ Foley's assignment, or classify search exhaustion as a successful fuzz case. No
 fuzzer classification was relaxed. The Completely Random timer and Advanced Fire
 route are unchanged. A bounded search can still exhaust on other seeds; that
 remains an explicit error with no emitted archive.
+
+## Fixed Copy Ability Room statues
+
+With the Copy Ability Room keeping its vanilla statues, the identical input
+and candidate stream first qualify at attempt 3354, policy seed
+9372867150608014686. A 3353-attempt run still fails closed, and the first valid
+candidate passes the unchanged final all-check audit. The regression separately
+replays 8192-attempt exhaustion using the former statue semantics. The
+production search budget remains unchanged.

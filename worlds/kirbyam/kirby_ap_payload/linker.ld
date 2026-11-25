@@ -40,6 +40,14 @@ SECTIONS
   .apcolors 0x09000000 : { KEEP(*(.apcolorinfo)) KEEP(*(.aphubinfo)) KEEP(*(.apgoalinfo)) KEEP(*(.apfullinfo)) KEEP(*(.apcueinfo)) color_payload.o(.text* .rodata*) *(.aphub)
     KEEP(*(.aphubboards))
     KEEP(*(.aphubteleportdata))
+    KEEP(*(.apstatuefx))
+    KEEP(*(.apstatuefx_data))
+    ap_statue_code_end = .;
+    /* 19 extracted native statue frames occupy E388..ED07. */
+    . = 0xED10;
+    KEEP(*(.apstatueart))
+    . = 0xEE00;
+    KEEP(*(.apstatueconfig))
     ap_extension_code_end = .;
     . = 0xFFC0;
     KEEP(*(.apnarcolepsyinfo))
@@ -72,3 +80,7 @@ ASSERT(gApGoalInfo == 0x09000010, "Goal Game marker address changed")
 ASSERT(gApPhoneConfig == 0x0900FFC8, "Phone config address changed")
 
 ASSERT(gApReceiptCueInfo == 0x09000020, "Receipt cue marker address changed")
+
+ASSERT(ap_statue_code_end <= 0x0900E388, "World-statue tile table overlaps extension code")
+ASSERT(gApWorldStatueLogo == 0x0900ED10, "World-statue logo address changed")
+ASSERT(gApWorldStatueConfig == 0x0900EE00, "World-statue seed config address changed")

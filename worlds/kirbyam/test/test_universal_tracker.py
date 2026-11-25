@@ -1,4 +1,5 @@
 """Source-level reconstruction tests; optional upstream UT core integration."""
+import io
 import json
 import logging
 from collections import Counter
@@ -42,6 +43,7 @@ def test_roundtrip_resolved_options_graph_inventory_and_progression(mode, rooms,
         'start_with_all_maps': 1, 'ability_gating': 1,
     })
     slot = json.loads(json.dumps(original.worlds[1].fill_slot_data()))
+    assert slot["tracker"]["version"] == 2
     rebuilt = reconstruct(slot)
     a, b = original.worlds[1], rebuilt.worlds[1]
     for name in KirbyAmOptions.__annotations__:
@@ -65,10 +67,66 @@ def test_roundtrip_resolved_options_graph_inventory_and_progression(mode, rooms,
             assert snapshot(original, received) == snapshot(rebuilt, received)
 
 
-@pytest.mark.parametrize('slot', [{}, {'tracker': {'version': 99}}, {'tracker': {'version': 1, 'options': {}}}])
-def test_legacy_and_incomplete_data_fail_explicitly(slot):
-    with pytest.raises(ValueError, match='tracker|Tracker'):
+@pytest.mark.parametrize("version", [None, 1, 99, True, 2.0, "2"])
+def test_unsupported_tracker_versions_are_rejected(version):
+    with pytest.raises(ValueError, match="Update the KirbyAM APWorld and generate a new seed"):
+        KirbyAmWorld.interpret_slot_data({"tracker": {"version": version}})
+
+
+@pytest.mark.parametrize("slot", [
+    {}, {"tracker": None}, {"tracker": {"version": 2, "options": []}},
+    {"tracker": {"version": 2, "options": {}}},
+])
+def test_missing_or_malformed_tracker_data_fails_explicitly(slot):
+    with pytest.raises(ValueError, match="tracker|Tracker"):
         KirbyAmWorld.interpret_slot_data(slot)
+
+
+@pytest.mark.parametrize("mode", [1, 2])
+def test_tracker_schema_distinguishes_fixed_copy_room_statues(mode):
+    from ..traversal_data import graph_items
+    from ..wheel_traversal import COPY_ROOM_REGION, RACE_ENTRANCE, wheel_graph
+
+    original = setup_multiworld(KirbyAmWorld, seed=1054, options={
+        "ability_randomization_mode": mode,
+        "ability_randomization_statues": 1,
+        "ability_gating": 1,
+        "area_keys": 0,
+    })
+    slot = json.loads(json.dumps(original.worlds[1].fill_slot_data()))
+    assert slot["tracker"]["version"] == 2
+    legacy = json.loads(json.dumps(slot))
+    legacy["tracker"]["version"] = 1
+    with pytest.raises(ValueError, match="Update the KirbyAM APWorld and generate a new seed"):
+        reconstruct(legacy)
+
+    restored = reconstruct(slot)
+    assert restored.worlds[1]._enemy_copy_ability_policy == original.worlds[1]._enemy_copy_ability_policy
+    for mw in (original, restored):
+        world = mw.worlds[1]
+        state = CollectionState(mw)
+        access = "Copy Ability Room Access"
+        for item in (graph_items(wheel_graph(True)) - {access}) | {"Wheel Ability"}:
+            state.collect(world.create_item(item), prevent_sweep=True)
+        entrance = mw.get_entrance(RACE_ENTRANCE, 1)
+        with patch.object(state, "can_reach_region", side_effect=lambda region, _p: region == COPY_ROOM_REGION):
+            assert not entrance.access_rule(state)
+            state.collect(world.create_item(access), prevent_sweep=True)
+            assert entrance.access_rule(state)
+            state.remove(world.create_item("Wheel Ability"))
+            assert not entrance.access_rule(state)
+
+
+def test_shuffled_statue_spoiler_names_copy_room_exception():
+    world = setup_multiworld(KirbyAmWorld, seed=1054, options={
+        "ability_randomization_mode": 1,
+        "ability_randomization_statues": 1,
+    }).worlds[1]
+    spoiler = io.StringIO()
+    world.write_spoiler(spoiler)
+    text = spoiler.getvalue()
+    assert "Enemy and World Statue Copy Ability Shuffle (Copy Ability Room excluded)" in text
+    assert "Wheel Statue" in text
 
 
 def test_upstream_ut_core_history_checks_and_reconnect():

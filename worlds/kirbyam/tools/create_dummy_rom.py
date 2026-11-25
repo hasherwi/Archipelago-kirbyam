@@ -7,6 +7,7 @@ import argparse
 import importlib.util
 import random
 import runpy
+import struct
 from pathlib import Path
 from typing import Any
 
@@ -53,6 +54,19 @@ def build_dummy_rom() -> bytearray:
     # boss-already-owned reward function.
     for index in range(patch_rom.EXPECTED_BOSS_ALREADY_OWNED_REWARD_CALLSITES):
         put_bl(0x21000 + index * 4, patch_rom.ORIGINAL_BOSS_ALREADY_OWNED_REWARD_FN_ADDR)
+
+    for _, target, offsets in patch_rom.WORLD_STATUE_HOOK_GROUPS:
+        for offset in offsets:
+            put_bl(offset, target)
+    spec = importlib.util.spec_from_file_location(
+        "kirbyam_synthetic_statue_assets", PATCH_ROM_PATH.with_name("world_statue_assets.py"))
+    assert spec is not None and spec.loader is not None
+    statue_assets = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(statue_assets)
+    for offset, data in statue_assets.synthetic_statue_assets().items():
+        rom[offset:offset + len(data)] = data
+    bank_f = statue_assets.PALETTE_BASE + 42 * 32
+    rom[bank_f:bank_f + 32] = struct.pack("<16H", *statue_assets.BANK_F)
 
     # Ordinary enemy / ability-star request path.
     put_bl(0x22000, patch_rom.ORIGINAL_ABILITY_TRANSITION_FN_ADDR)

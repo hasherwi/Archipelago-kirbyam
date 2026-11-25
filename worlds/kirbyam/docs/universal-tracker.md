@@ -2,7 +2,7 @@
 
 KirbyAM already worked with Universal Tracker's YAML-based regeneration for some
 settings. Issue #1032 concerned the underlying Rainbow Route chest rule, not a
-missing tracker client. The schema-1 integration restores the generated slot's
+missing tracker client. The integration restores the generated slot's
 settings and enemy policy before constructing its regions and rules. It does not
 replace those rules or introduce an independent tracker logic model.
 
@@ -24,7 +24,7 @@ and separates historical evidence from current-head validation.
 1. Install Archipelago with its generator, Universal Tracker, and a KirbyAM
    APWorld containing this integration. Use matching Kirby world logic on the
    generator and tracker machines.
-2. Generate a new seed. Its slot data must contain `tracker.version: 1`.
+2. Generate a new seed. Its slot data must contain `tracker.version: 2`.
 3. Launch **Universal Tracker** separately from the Archipelago Launcher and
    connect to the room with your slot name and password if required. A player
    YAML is not required for these new slots. Keep the game client connected as
@@ -44,18 +44,14 @@ room telemetry, to calculate reachability.
 
 ## Older slots
 
-Within schema 1, `trap_catalog_version: 1` adds Narcolepsy, and version 2
-also adds Random Teleport Trap. Seeds without this field keep the original
-trap pool. Unknown trap catalog versions are rejected rather than rerolled.
+Trap catalog version 2 covers Narcolepsy and Random Teleport, with user-selected exclusions. Unsupported trap catalog versions are rejected rather than rerolled.
 
-Older slots lack the complete effective starting inventory and unambiguous
-original option payload. This implementation rejects them with an actionable
-error rather than advertising exact reconstruction. To keep using an old seed,
-use its matching older APWorld with the original UT YAML workflow: put a YAML
-with the exact resolved options in UT's configured players folder. Randomized
-enemy assignments can still diverge in that older workflow; do not treat it as
-validated exact support. Regenerate with schema 1 for YAML-less support. Unknown
-future schemas also fail explicitly.
+Use the latest KirbyAM APWorld on the generator and tracker machines. Slots
+with earlier tracker schemas are unsupported and rejected explicitly; generate
+a new seed for exact YAML-less tracking. Schema 2 marks the current rules, in
+which Copy Ability Room statues grant their fixed native abilities while world
+statues can be randomized. Schema 1 predates those rules. Unknown future
+schemas also fail explicitly.
 
 ## Validation and limits
 
