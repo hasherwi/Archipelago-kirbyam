@@ -276,6 +276,10 @@ def replay_fuzz_case(
     )
     generated_args, actual_seed = Generate.main(args)
     assert actual_seed == seed
+    # Replay the pre-feature defaults without altering any archived fixture bytes
+    # (or their rolled seed/options). Current profiles still use the default.
+    for option in generated_args.random_starting_mirror.values():
+        option.value = 0
     return cast(MultiWorld, Main.main(generated_args, actual_seed))
 
 

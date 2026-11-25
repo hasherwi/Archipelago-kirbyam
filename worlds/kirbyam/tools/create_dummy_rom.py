@@ -7,6 +7,7 @@ import argparse
 import importlib.util
 import random
 import runpy
+import struct
 from pathlib import Path
 from typing import Any
 
@@ -122,6 +123,20 @@ def build_dummy_rom() -> bytearray:
         patch_rom.HUB_BOARD_OAM_OFFSET: patch_rom.HUB_BOARD_OAM,
     }.items():
         rom[offset:offset + len(data)] = data
+
+    # Synthetic Central Circle object-list metadata, not retail assets.
+    templates = patch_rom.CENTRAL_NATIVE_TEMPLATES
+    preload = patch_rom.CENTRAL_NATIVE_PRELOAD
+    struct.pack_into("<II", rom, patch_rom.CENTRAL_OBJECT_LIST_INFO,
+                     ROM_BASE + templates, ROM_BASE + preload)
+    for index in range(patch_rom.CENTRAL_NATIVE_TEMPLATE_COUNT):
+        start = templates + index * patch_rom.CENTRAL_TEMPLATE_SIZE
+        rom[start:start + patch_rom.CENTRAL_TEMPLATE_SIZE] = bytes((
+            1, patch_rom.CENTRAL_TEMPLATE_SIZE, 0, index,
+        )) + bytes(patch_rom.CENTRAL_TEMPLATE_SIZE - 4)
+    terminator = templates + patch_rom.CENTRAL_NATIVE_TEMPLATE_COUNT * patch_rom.CENTRAL_TEMPLATE_SIZE
+    rom[terminator:preload] = bytes(preload - terminator)
+    rom[preload:preload + 5] = bytes((0x65, 0x8C, 0x8E, 0x98, 0xFF))
 
     # Native Mini-star source load, flag, and request ABI.
     rom[0x9C690:0x9C69C] = bytes.fromhex("2c 1c 84 34 20 78 80 21 01 43 30 1c")

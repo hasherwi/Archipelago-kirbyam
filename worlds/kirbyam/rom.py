@@ -47,6 +47,8 @@ if TYPE_CHECKING:
 AREA_KEYS_CONFIG_ROM_OFFSET = 0x0015F688
 AREA_KEYS_CONFIG_OFF = 0x414B0100
 AREA_KEYS_CONFIG_ON = 0x414B0101
+RANDOM_STARTING_MIRROR_CONFIG_BIT = 0x2
+
 HEALTH_INITIAL_ROM_OFFSET = 0x0015F690
 STARTING_KIRBY_COLOR_INITIAL_ROM_OFFSET = 0x0015F694
 ABILITY_GATE_MASK_INITIAL_ROM_OFFSET = 0x0015F698
@@ -214,9 +216,13 @@ def write_tokens(world: "KirbyAmWorld", patch: KirbyAmProcedurePatch) -> None:
 
     area_keys_option = getattr(world.options, "area_keys", True)
     area_keys_enabled = bool(getattr(area_keys_option, "value", area_keys_option))
+    from .starting_mirror import random_starting_mirror_enabled
+    config = AREA_KEYS_CONFIG_ON if area_keys_enabled else AREA_KEYS_CONFIG_OFF
+    if random_starting_mirror_enabled(world):
+        config |= RANDOM_STARTING_MIRROR_CONFIG_BIT
     patch.write_token(
         APTokenTypes.WRITE, AREA_KEYS_CONFIG_ROM_OFFSET,
-        (AREA_KEYS_CONFIG_ON if area_keys_enabled else AREA_KEYS_CONFIG_OFF).to_bytes(4, "little"),
+        config.to_bytes(4, "little"),
     )
 
     health = world._health_range()

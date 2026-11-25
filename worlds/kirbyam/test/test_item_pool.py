@@ -9,6 +9,7 @@ import pytest
 
 from BaseClasses import ItemClassification
 
+from ..starting_mirror import STARTING_MIRROR_ITEM_ID
 from .. import KirbyAmWorld
 from ..data import BASE_OFFSET, LocationCategory, data, load_json_data
 from ..items import get_item_classification
@@ -203,10 +204,12 @@ def test_hub_connection_items_are_in_the_randomized_progression_pool() -> None:
     world.create_items()
 
     expected_ids = {
-        item.item_id for item in data.items.values() if "HubConnections" in item.tags
+        item.item_id for item in data.items.values()
+        if "HubConnections" in item.tags and item.item_id != STARTING_MIRROR_ITEM_ID
     }
     pooled_ids = {item.code for item in world.multiworld.itempool if item.code is not None}
     assert expected_ids <= pooled_ids
+    assert STARTING_MIRROR_ITEM_ID not in pooled_ids
 
 
 def test_ability_unlock_items_are_explicit_and_match_runtime_catalog() -> None:
@@ -720,6 +723,7 @@ def test_completely_random_pool_contains_each_non_filler_item_exactly_once() -> 
         if item.classification not in (ItemClassification.filler, ItemClassification.trap)
     }
     expected_non_filler_codes -= {world.item_name_to_id[f"{name} Ability"] for name in starting_copy_abilities(0)}
+    expected_non_filler_codes.discard(STARTING_MIRROR_ITEM_ID)  # Fixture has Random Starting Mirror off.
     expected_non_filler_codes -= set(range(3860224, 3860229))  # Default 6..10 uses four identities.
     assert 3860501 in expected_non_filler_codes  # Phone is a standard item.
     pool_codes = [item.code for item in world.multiworld.itempool if item.code is not None]
@@ -747,6 +751,7 @@ def test_vanilla_pool_contains_each_non_shard_non_filler_item_exactly_once() -> 
         )
     }
     expected_non_filler_codes -= {world.item_name_to_id[f"{name} Ability"] for name in starting_copy_abilities(0)}
+    expected_non_filler_codes.discard(STARTING_MIRROR_ITEM_ID)  # Fixture has Random Starting Mirror off.
     expected_non_filler_codes -= set(range(3860224, 3860229))  # Default 6..10 uses four identities.
     assert 3860501 in expected_non_filler_codes  # Phone is a standard item.
     pool_codes = [item.code for item in world.multiworld.itempool if item.code is not None]
