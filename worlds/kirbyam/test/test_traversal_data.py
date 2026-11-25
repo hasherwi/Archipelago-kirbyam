@@ -180,6 +180,8 @@ def test_target_catalog_counts_and_provider_separation():
 
         "bomb_138_green": frozenset({"Spark"}),
         "bomb_138_green_normal_lower_slide": frozenset({"Normal"}),
+        "bomb_402_candy_chest": frozenset({"Beam"}),
+        "bomb_402_candy_chest_ufo": frozenset({"UFO"}),
         "bomb_538_beam_left_crossover": frozenset({"Beam"}),
         "bomb_733_yellow_ufo_top_charge": frozenset({"UFO"}),
         "bomb_733_cupid_upper_from_below": frozenset({"Cupid"}),

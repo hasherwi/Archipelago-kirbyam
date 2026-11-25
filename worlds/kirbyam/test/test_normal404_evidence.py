@@ -209,12 +209,12 @@ def test_current_host_structure_preserves_404_and_tracks_master719_and_green138_
     contract = evidence()['host_contract']
     # Frozen404 remains 144; later Master, Green, Ice, Radish, Kibble and two Mirra witnesses add seven.
     assert contract['counts']['witnesses'] == 144
-    assert status['counts'] == {**contract['counts'], 'witnesses': 159,
-                                'normalized_targets': 65, 'installed_target_definitions': 65,
+    assert status['counts'] == {**contract['counts'], 'witnesses': 161,
+                                'normalized_targets': 66, 'installed_target_definitions': 66,
                                 'locations': 401, 'surfaces': 1108,
                                 'regions': 386, 'mapped_native_definitions': 354}
     assert (len(data.regions), len(data.locations), len(coverage['surfaces']),
-            len(coverage['installed_targets']), status['counts']['witnesses']) == (386, 401, 1108, 65, 159)
+            len(coverage['installed_targets']), status['counts']['witnesses']) == (386, 401, 1108, 66, 161)
     # Project only the pinned feature surfaces, retaining the frozen native record.
     from .support.main_sync_history import main_surfaces
     assert digest(main_surfaces(coverage['surfaces'])) == contract['normalized_surface_sha256']
@@ -222,8 +222,9 @@ def test_current_host_structure_preserves_404_and_tracks_master719_and_green138_
     from .support.green138_history import before_green138
     from .support.advanced_crash_history import before_advanced_crash
     from .support.radish617_history import before_radish617_targets
+    from .support.candy912_history import before_candy912_targets
     historical = [{**row, 'target': before_green138(before_advanced_crash(row['target']))}
-                  for row in before_radish617_targets(coverage['installed_targets'])]
+                  for row in before_radish617_targets(before_candy912_targets(coverage['installed_targets']))]
     assert digest(historical) == '76c369a269387b9e3812400689c2da0e9ab02a68476624e71817e9a6b48c8933'
     carrot = next(row['target'] for row in coverage['installed_targets']
                   if row['target']['id'] == 'bomb_719_room13')
@@ -232,7 +233,7 @@ def test_current_host_structure_preserves_404_and_tracks_master719_and_green138_
     assert status['completion'] == 'partial' and not status['declaration_errors']
     scope = json.loads((ROOT / 'dev-docs/ranged-completion-scope.json').read_text(encoding='utf-8'))
     assert set(scope['policy_fallback_targets']) == {
-        'bomb_517_chocolate', 'bomb_733_yellow',
+        'bomb_402_candy_chest', 'bomb_517_chocolate', 'bomb_733_yellow',
         'switch_310_mustard_map',  # Room16 is now fail-closed under #1099.
     }
     for key in (ROOM, PREFIX + 'ROOM_9_02', PREFIX + 'ROOM_9_07', OWNER):

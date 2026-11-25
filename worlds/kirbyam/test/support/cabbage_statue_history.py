@@ -20,8 +20,9 @@ def before_cabbage_statues_target(row):
 
 
 def before_cabbage_statues_catalog(catalog):
+    from .candy912_history import before_candy912_catalog
     from .fire825_history import before_fire_catalog
-    result = before_fire_catalog(catalog)
+    result = before_fire_catalog(before_candy912_catalog(catalog))
     assert (result['witnesses'], result['variants']) == (158, 316)
     added = [r for r in result['graphs'] if (r['target'], r['witness']) == (TARGET, WITNESS)]
     assert digest(added) == 'c6b0b2199e682202df025bb5b8b72404a88453f0ef1eababc871673adaf75e70'

@@ -129,7 +129,11 @@ def test_all_catalog_entries_match_the_two_reviewed_parents() -> None:
     for region, room in rooms.items():
         traversal = room.get('traversal', {})
         for row in traversal.get('targets', []):
+            from .support.candy912_history import TARGET as CANDY_TARGET, before_candy912_targets
             from .support.radish617_history import TARGET, before_radish617_targets
+            if row['id'] == CANDY_TARGET:
+                assert before_candy912_targets([{'owner': region, 'target': row}]) == []
+                continue
             if row['id'] == TARGET:
                 assert before_radish617_targets([{'owner': region, 'target': row}]) == []
                 continue
