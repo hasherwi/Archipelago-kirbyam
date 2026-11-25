@@ -1073,6 +1073,72 @@
               "main": []
             }
           ]
+        },
+        {
+          "scope": "Fence offline progression restore against the current ROM marker and supported hub doors",
+          "integrated_sha256": "4aea635c06fa7ceaf3c497efa9d701e1f15f7c7bc9816cb3e2bc79ee40296200",
+          "reverse_slices": [
+            {
+              "start": 32,
+              "stop": 33,
+              "current": [
+                "    COPY_ROOM_CONTEXT_ADDRESS, COPY_ROOM_ITEM_ID, COPY_ROOM_MARKER, COPY_ROOM_MARKER_OFFSET, PROGRESS_RESTORE_ADDRESS,\n"
+              ],
+              "main": [
+                "    COPY_ROOM_CONTEXT_ADDRESS, COPY_ROOM_ITEM_ID, COPY_ROOM_MARKER, COPY_ROOM_MARKER_OFFSET,\n"
+              ]
+            },
+            {
+              "start": 4826,
+              "stop": 4828,
+              "current": [
+                "                elif 1 <= (door := _HUB_CONNECTION_ITEM_ID_TO_DOOR_INDEX.get(item, 0)) <= 15:\n",
+                "                    bit = door + 7\n"
+              ],
+              "main": [
+                "                elif item in _HUB_CONNECTION_ITEM_ID_TO_DOOR_INDEX:\n",
+                "                    bit = _HUB_CONNECTION_ITEM_ID_TO_DOOR_INDEX[item] + 7\n"
+              ]
+            },
+            {
+              "start": 4840,
+              "stop": 4846,
+              "current": [
+                "        request_addr = PROGRESS_RESTORE_ADDRESS\n",
+                "        domain = \"System Bus\"\n",
+                "        raw, owned, request, rom, marker = await bizhawk.read(ctx.bizhawk_ctx, [\n",
+                "            (COPY_ROOM_CONTEXT_ADDRESS, 36, domain), (ownership_addr, 4, domain),\n",
+                "            (request_addr + 4, 4, domain), (auth_addr, 16, \"ROM\"),\n",
+                "            (COPY_ROOM_MARKER_OFFSET, len(COPY_ROOM_MARKER), \"ROM\"),\n"
+              ],
+              "main": [
+                "        request_addr = 0x0203B1C8\n",
+                "        domain = \"System Bus\"\n",
+                "        raw, owned, request, rom = await bizhawk.read(ctx.bizhawk_ctx, [\n",
+                "            (COPY_ROOM_CONTEXT_ADDRESS, 36, domain), (ownership_addr, 4, domain),\n",
+                "            (request_addr + 4, 4, domain), (auth_addr, 16, \"ROM\"),\n"
+              ]
+            },
+            {
+              "start": 4859,
+              "stop": 4861,
+              "current": [
+                "        if (native_file is None or bytes(rom) != auth or bytes(marker) != COPY_ROOM_MARKER\n",
+                "                or not still_current()):\n"
+              ],
+              "main": [
+                "        if native_file is None or bytes(rom) != auth or not still_current():\n"
+              ]
+            },
+            {
+              "start": 4878,
+              "stop": 4879,
+              "current": [
+                "            (COPY_ROOM_MARKER_OFFSET, COPY_ROOM_MARKER, \"ROM\"),\n"
+              ],
+              "main": []
+            }
+          ]
         }
       ]
     },
