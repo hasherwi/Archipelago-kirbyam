@@ -19,7 +19,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
   - Random Teleport moves Kirby to a safe room already in logic (Issue #696).
 
 ### Improvements
-- Keep the native save-file menu and allow only File 1 to be selected, without altering progress in Files 2 and 3 (Issue #1144).
+- Allow only File 1 to be selected, preventing cross-save problems (Issue #1144).
 - Show boss defeat progress in `/goal` when using the boss-count goal (PR #1133).
 
 ### Known Limitations
