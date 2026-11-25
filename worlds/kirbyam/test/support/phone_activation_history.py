@@ -16,10 +16,28 @@ PHONE_ITEM_SUFFIX = b'''  },
 }
 '''
 
+TRAP_CATALOG_INSERTION = b'''  "TRAP_NARCOLEPSY": {
+    "label": "Narcolepsy",
+    "classification": "TRAP",
+    "item_id": 3860301,
+    "tags": ["Trap"]
+  },
+  "TRAP_RANDOM_TELEPORT": {
+    "label": "Random Teleport Trap",
+    "classification": "TRAP",
+    "item_id": 3860302,
+    "tags": ["Trap"]
+  },
+'''
+
 
 def items_before_phone(raw: bytes) -> bytes:
-    """Check every current byte, reverse only the exact added item, check old bytes."""
+    """Check every current byte, remove the exact trap additions and Phone item."""
     raw = raw.replace(b'\r\n', b'\n')
+    assert hashlib.sha256(raw).hexdigest() == (
+        '74fa44a5e18e22bf3ac529008854d852d1538b69393f577e2b44bbdc3ff2e60c')
+    assert raw.count(TRAP_CATALOG_INSERTION) == 1
+    raw = raw.replace(TRAP_CATALOG_INSERTION, b'', 1)
     assert hashlib.sha256(raw).hexdigest() == (
         'de4ecaaa79208b78f9054aa364caba91a0d10e211d2e68ab55c2a23881825d8d')
     assert raw.endswith(PHONE_ITEM_SUFFIX)
