@@ -34,6 +34,8 @@ clear it.
 8. A patched `.gba` file will be created in the same place as the patch file.
 9. On your first time opening a patch with BizHawk Client, you will also be asked to locate `EmuHawk.exe` in your BizHawk install.
 
+At the title screen, choose File 1 to start or continue your game. Files 2 and 3 are disabled, but any saves in them are left intact.
+
 If you're playing a single-player seed and you don't care about autotracking or hints, you can stop here, close the
 client, and load the patched ROM in any emulator. However, for multiworlds and other Archipelago features, continue
 below using your selected emulator and its connector.
