@@ -905,8 +905,9 @@ def test_area_key_client_mapping_follows_item_catalog_and_shared_label_contract(
     }
 
     assert _AREA_KEY_ITEM_ID_TO_AREA_ID == expected_mapping
-    assert sorted(_AREA_KEY_ITEM_ID_TO_AREA_ID) == list(range(3860041, 3860049))
-    assert set(_AREA_KEY_ITEM_ID_TO_AREA_ID.values()) == set(range(2, 10))
+    assert sorted(_AREA_KEY_ITEM_ID_TO_AREA_ID) == [*range(3860041, 3860049), 3860056]
+    assert _AREA_KEY_ITEM_ID_TO_AREA_ID[3860056] == 1
+    assert set(_AREA_KEY_ITEM_ID_TO_AREA_ID.values()) == set(range(1, 10))
 
 
 def test_ap_owned_area_key_bits_uses_starting_and_confirmed_delivery_prefix(mock_bizhawk_context):
