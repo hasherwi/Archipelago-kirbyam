@@ -1,16 +1,20 @@
 """Room Sanity is a check-set extension, not new physical Phone evidence."""
 import asyncio
+import struct
 from types import SimpleNamespace as NS
 
 import pytest
 
 
 @pytest.mark.parametrize('keys', [0, 1])
-def test_room_sanity_preserves_exact_production_tokens(keys):
+def test_room_sanity_only_changes_the_reward_art_production_token(keys):
     from test.general import setup_multiworld
     from .. import KirbyAmWorld
     from ..phone_generation import PHONE_CONFIG_FILE
-    from ..rom import KirbyAmProcedurePatch, write_tokens
+    from ..rom import (
+        KirbyAmProcedurePatch, ROOM_VISIT_ART_CONFIG_ROM_OFFSET, ROOM_VISIT_ART_CORE_ONLY,
+        ROOM_VISIT_ART_ALL, write_tokens,
+    )
     patches = []
     counts = []
     for room_sanity in (0, 1):
@@ -27,8 +31,27 @@ def test_room_sanity_preserves_exact_production_tokens(keys):
         counts.append(len(mw.get_locations(1)))
         assert w.fill_slot_data()['room_sanity'] == bool(room_sanity)
     assert counts[1] > counts[0]
-    for name in ('token_data.bin', PHONE_CONFIG_FILE, 'enemy_health_multiplier.bin'):
+    for name in (PHONE_CONFIG_FILE, 'enemy_health_multiplier.bin'):
         assert patches[0].get_file(name) == patches[1].get_file(name)
+
+    def tokens(blob: bytes) -> list[tuple[int, int, bytes]]:
+        count, = struct.unpack_from("<I", blob)
+        pos = 4
+        out = []
+        for _ in range(count):
+            kind, offset, length = struct.unpack_from("<BII", blob, pos)
+            pos += 9
+            out.append((kind, offset, blob[pos:pos + length]))
+            pos += length
+        assert pos == len(blob)
+        return out
+
+    off, on = [tokens(patch.get_token_binary()) for patch in patches]
+    contrast = [(a, b) for a, b in zip(off, on) if a != b]
+    assert len(off) == len(on) and contrast == [(
+        (0, ROOM_VISIT_ART_CONFIG_ROM_OFFSET, ROOM_VISIT_ART_CORE_ONLY),
+        (0, ROOM_VISIT_ART_CONFIG_ROM_OFFSET, ROOM_VISIT_ART_ALL),
+    )]
 
 
 @pytest.mark.parametrize('room_sanity', [False, True])

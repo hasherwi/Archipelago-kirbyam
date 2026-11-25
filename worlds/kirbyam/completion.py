@@ -13,10 +13,14 @@ from .starting_mirror import STARTING_MIRROR_ITEM_ID
 
 FULL_COMPLETION_VERSION = 1
 FULL_COMPLETION_MARKER_OFFSET = 0x1000018
-FULL_COMPLETION_MARKER = b"APFULL01"
+PHYSICAL_CHECK_SAVE_VERSION = 2
+LEGACY_PHYSICAL_CHECK_SAVE_MARKER = b"APFULL01"
+FULL_COMPLETION_MARKER = b"APFULL02"
 PHYSICAL_SAVE_ADDRESS = 0x02028C7C
 PHYSICAL_SAVE_TAG = 0x48400000
 PHYSICAL_SAVE_MASK = 0x7FFFF
+PHYSICAL_SAVE_V3_TAG = 0x50000000
+PHYSICAL_SAVE_V3_MASK = 0x07FFFFFF
 LEGACY_HUB_SAVE_TAG = 0x48530000
 LEGACY_HUB_SAVE_MASK = 0x7FFF
 MANIFEST: dict[str, Any] = dict(load_json_data("full_completion.json"))
@@ -36,11 +40,22 @@ NATIVE_READS = tuple((int(MANIFEST["native_addresses"][key]["address"], 16),
 SAVE_ID_ADDRESS = int(MANIFEST["native_addresses"]["save_id"]["address"], 16)
 
 
-def saved_physical_mask(raw: bytes, auth: bytes) -> int | None:
+def physical_check_save_marker(version: object) -> bytes | None:
+    """Negotiated ROM marker for shared native save reads and writes."""
+    if type(version) is not int:
+        return None
+    if version == 1:
+        return LEGACY_PHYSICAL_CHECK_SAVE_MARKER
+    return FULL_COMPLETION_MARKER if version == PHYSICAL_CHECK_SAVE_VERSION else None
+
+
+def _saved_physical_bits(raw: bytes, auth: bytes) -> int | None:
     """None means a missing/foreign/unsupported save record; never infer checks."""
     if len(raw) != 20 or len(auth) != 16 or raw[:16] != auth:
         return None
     word = int.from_bytes(raw[16:], "little")
+    if word & ~PHYSICAL_SAVE_V3_MASK == PHYSICAL_SAVE_V3_TAG:
+        return word & PHYSICAL_SAVE_V3_MASK
     if word & ~PHYSICAL_SAVE_MASK == PHYSICAL_SAVE_TAG:
         return word & PHYSICAL_SAVE_MASK
     if word & ~LEGACY_HUB_SAVE_MASK == LEGACY_HUB_SAVE_TAG:
@@ -48,10 +63,17 @@ def saved_physical_mask(raw: bytes, auth: bytes) -> int | None:
     return None
 
 
+def saved_physical_mask(raw: bytes, auth: bytes) -> int | None:
+    """Return only true Hub Switch/lever checks, not the cosmetic boss history."""
+    bits = _saved_physical_bits(raw, auth)
+    return bits & PHYSICAL_SAVE_MASK if bits is not None else None
+
+
 def merge_acknowledged_levers(raw: bytes, auth: bytes, levers: int) -> bytes:
     """Merge server-confirmed pulls into native RAM; native code owns save timing."""
-    existing = saved_physical_mask(raw, auth) or 0
-    return auth + (PHYSICAL_SAVE_TAG | existing | ((levers & 15) << 15)).to_bytes(4, "little")
+    existing = _saved_physical_bits(raw, auth) or 0
+    tag = PHYSICAL_SAVE_V3_TAG if existing & ~PHYSICAL_SAVE_MASK else PHYSICAL_SAVE_TAG
+    return auth + (tag | existing | ((levers & 15) << 15)).to_bytes(4, "little")
 
 
 @dataclass(frozen=True)

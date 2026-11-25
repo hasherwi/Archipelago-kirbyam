@@ -69,8 +69,8 @@ int main(void) {
         MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED, -1, 0) == (void*)0x03000000);
     /* The post-task audio scheduler reads the retail SFX player's info and
      * track pointers. Provide idle host fixtures; no native sound is called. */
-    CHECK(mmap((void*)0x08B59000u, 0x1000, PROT_READ|PROT_WRITE,
-        MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED, -1, 0) == (void*)0x08B59000u);
+    CHECK(mmap((void*)0x08B50000u, 0x10000, PROT_READ|PROT_WRITE,
+        MAP_PRIVATE|MAP_ANONYMOUS|MAP_FIXED, -1, 0) == (void*)0x08B50000u);
     U32(0x08B59EAC) = 0x030016E0; U32(0x08B59EB0) = 0x02020580;
     U32(0x08B59EB8) = 0x03001720; U32(0x08B59EBC) = 0x020208A0;
     ready();

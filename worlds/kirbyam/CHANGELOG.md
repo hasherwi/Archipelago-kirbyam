@@ -13,7 +13,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ### New Features
 - Add **Random Starting Mirror** (on by default). The tutorial World Map chest awards a random usable Central Circle Hub Connection. The original mirror to Room 1-01 stays locked until its Hub Connection is received (PR #1156).
 - Add 38 Kirby starting color palettes and a [visual gallery of all 65 colors](docs/color-palettes.md) (PR #1135).
-- Play distinct in-game cues when new Archipelago items are received (PR #1136).
+- Play distinct in-game sound cues and display item sprites when new Archipelago items are received (PR #1136, PR #1137).
 - Traps:
   - Choose which trap types to exclude from randomized item pools (Issue #1040).
   - Narcolepsy replaces Kirby's held copy ability with Sleep (Issue #1113).
@@ -21,13 +21,14 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ### Improvements
 - Allow only File 1 to be selected, preventing cross-save problems (Issue #1144).
+- Sprite Swapping (**custom sprite artwork by Hunter**): In-game item sprites now reflect the actual item awarded to the player. We use a variant of the Archipelago logo as an item sprite for all location checks that don't have an in-game asset or award items to other AP worlds (PR #1137).
 - Show boss defeat progress in `/goal` when using the boss-count goal (PR #1133).
 
 ### Known Limitations
 - Phone charges can exceed three, but the battery display does not show the extra charges (PR #1086).
 - Ranged-attack coverage remains incomplete. Four targets retain older rules outside reviewed source assignments; broader physical outcomes still need review. See the [detailed coverage ledger](dev-docs/ranged-coverage-ledger.md) (PR #1052).
 - Only the North American ROM is supported; AP notifications are English.
-- Chests retain their original item sprites and collection animations; statues retain their original ability appearance.
+- The copy ability room unlock, area keys, and six ability unlocks use the AP logo sprite because an asset, native or custom, does not yet exist that meets the canvas we are limited to.
 - mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.
 - Testing covers selected gameplay scenarios, not a complete playthrough or every multiplayer setup.
 

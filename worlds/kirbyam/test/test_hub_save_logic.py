@@ -59,6 +59,36 @@ int main(void) {
         CHECK(ap_lever_saved_checks(world+27,auth)==levers);
         for(unsigned i=0;i<27;i++) CHECK(world[i]==0xABC00000u+i);
     }
+    /* A boss item presentation writes only a cosmetic bit. A native reload
+     * of that file remembers it; a different file or other seed does not. */
+    memset(disk, 0, sizeof(disk));
+    for (unsigned slot=0; slot<3; ++slot) {
+        uint32_t *record=disk[slot]+27;
+        uint32_t high=1u<<(AP_BOSS_ART_SAVE_SHIFT+slot);
+        memcpy(record, auth, 16);
+        record[4] = AP_PHYSICAL_SAVE_TAG | 0x0265u;
+        CHECK(ap_boss_item_record_display(record,auth,slot));
+        CHECK(!ap_boss_item_record_display(record,auth,slot));
+        CHECK(!ap_boss_item_record_display(record,auth,8u));
+        CHECK(record[4] == (AP_PHYSICAL_SAVE_V3_TAG | 0x0265u | high));
+        CHECK(ap_physical_saved_checks(record,auth)==0x265u);
+        CHECK(ap_hub_record_check(record,auth,14));
+        CHECK(ap_lever_record_check(record,auth,0));
+        CHECK(ap_physical_saved_bits(record,auth) >> AP_BOSS_ART_SAVE_SHIFT == (1u<<slot));
+        CHECK(ap_physical_saved_checks(record,auth)==(0x265u | (1u<<14) | (1u<<15)));
+        CHECK(!ap_record_physical_check(record,auth,AP_BOSS_ART_SAVE_SHIFT));
+        for (unsigned word=0; word<4; ++word) {
+            auth[word]^=0x200u;
+            CHECK(!ap_physical_saved_bits(record,auth));
+            auth[word]^=0x200u;
+        }
+    }
+    auth[0]^=1;
+    CHECK(ap_lever_record_check(disk[0]+27,auth,2));
+    CHECK(disk[0][31] == (AP_PHYSICAL_SAVE_TAG | (1u<<17)));
+    auth[0]^=1;
+    CHECK(ap_physical_saved_bits(disk[0]+27,auth)==0);
+    CHECK(ap_physical_saved_bits(disk[1]+27,auth) >> AP_BOSS_ART_SAVE_SHIFT == 2u);
     for(unsigned flags=0;flags<32;flags++) for(unsigned local=0;local<4;local++)
         for(unsigned owner=0;owner<4;owner++)
             CHECK(ap_hub_save_action(flags,local,owner)==
