@@ -14,7 +14,7 @@
 AP_COPY_EXT uint8_t ap_copy_room_receive_starting_mirror(void);
 #define AP_STARTING_MIRROR_OWNED (1u << 19)
 #define AP_ACCESS_MASK (3u | AP_STARTING_MIRROR_OWNED)
-AP_COPY_EXT void ap_copy_room_complete_goal(uint32_t bit);
+AP_COPY_EXT uint8_t ap_copy_room_complete_goal(uint32_t bit);
 struct ApCopyContext {
     uint32_t epoch, serial, slot, dirty, loaded_slot, task, owned, cookie, retry;
 };

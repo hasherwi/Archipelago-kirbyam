@@ -87,6 +87,32 @@ def build_dummy_rom() -> bytearray:
         offset = patch_rom.NATIVE_RECEIPT_SONG_TABLE_OFFSET + song * 8 + 4
         rom[offset:offset + 4] = player.to_bytes(2, "little") * 2
 
+    # Minimal validated chest art ABI; no original tiles or images are needed.
+    put_bl(patch_rom.CHEST_REWARD_ART_CALLSITE, patch_rom.CHEST_REWARD_ART_NATIVE_FUNCTION)
+    put_bl(patch_rom.BIG_SWITCH_REWARD_ART_CALLSITE, patch_rom.BIG_SWITCH_REWARD_ART_NATIVE_FUNCTION)
+    put_bl(patch_rom.ROOM_VISIT_REWARD_ART_CALLSITE, patch_rom.ROOM_VISIT_REWARD_ART_NATIVE_FUNCTION)
+    for _, target, offsets in patch_rom.BOSS_SHARD_ART_HOOK_GROUPS:
+        for offset in offsets:
+            put_bl(offset, target)
+    offset = patch_rom.BOSS_SHARD_NATIVE_SCRIPT_OFFSET
+    script = patch_rom.BOSS_SHARD_NATIVE_SCRIPT
+    rom[offset:offset + len(script)] = script
+    offset = patch_rom.CHEST_REWARD_ART_NATIVE_SCRIPT
+    script = patch_rom.CHEST_REWARD_ART_NATIVE_SCRIPT_DATA
+    rom[offset:offset + len(script)] = script
+    for offset, script in patch_rom.CHEST_REWARD_ART_CONSUMABLE_SCRIPTS:
+        rom[offset:offset + len(script)] = script
+    offset = patch_rom.CHEST_REWARD_ART_NATIVE_PALETTE
+    rom[offset:offset + 32] = b"".join(color.to_bytes(2, "little")
+                                      for color in patch_rom.CHEST_REWARD_ART_NATIVE_PALETTE_DATA)
+
+    # Deterministic non-retail tiles; exact script/OAM shape exercises the real builder.
+    art = runpy.run_path(str(PATCH_ROM_PATH.with_name("collectible_art.py")))
+    for offset, asset in {**art["native_abi_fixtures"](), **art["synthetic_assets"](),
+                          **art["synthetic_animation_assets"](), **art["synthetic_access_assets"](),
+                          **art["synthetic_statue_assets"]()}.items():
+        rom[offset:offset + len(asset)] = asset
+
     # The common R-call entry is validated before installing the Phone wrapper.
     rom[0x56C2C:0x56C34] = bytes.fromhex("f0 b5 47 46 80 b4 81 b0")
 
