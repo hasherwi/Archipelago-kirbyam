@@ -1551,7 +1551,8 @@ class KirbyAmWorld(World):
 
     # Helper method to create item by item code
     def create_item_by_code(self, item_code: int) -> KirbyAmItem:
-        from .traversal_rules import cabbage_element_is_progression, mustard_magic_is_progression
+        from .traversal_rules import (cabbage_element_is_progression, candy912_source_is_progression,
+                                      mustard_magic_is_progression)
 
         classification = get_item_classification(item_code)
         if self.item_id_to_name[item_code] == "Ice Ability":
@@ -1560,7 +1561,7 @@ class KirbyAmWorld(World):
                     or mustard_ice_is_progression(self)):
                 classification = ItemClassification.progression
         if self.item_id_to_name[item_code] == "Spark Ability":
-            if cabbage_element_is_progression(self, "Spark"):
+            if cabbage_element_is_progression(self, "Spark") or candy912_source_is_progression(self, "Spark"):
                 classification = ItemClassification.progression
         if self.item_id_to_name[item_code] == "Crash Ability":
             from .traversal_rules import mustard_crash_is_progression
@@ -1572,7 +1573,7 @@ class KirbyAmWorld(World):
                 classification = ItemClassification.progression
         if self.item_id_to_name[item_code] == "Missile Ability":
             from .traversal_rules import cabbage_missile_is_progression
-            if cabbage_missile_is_progression(self):
+            if cabbage_missile_is_progression(self) or candy912_source_is_progression(self, "Missile"):
                 classification = ItemClassification.progression
         if self.item_id_to_name[item_code] == "Parasol Ability":
             from .traversal_rules import cabbage_parasol_is_progression

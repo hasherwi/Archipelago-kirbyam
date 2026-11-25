@@ -344,3 +344,25 @@ def test_actual_collection_never_inherits_hypothetical_all_inventory_event() -> 
     assert not real.has(CENTRAL_RETURN_EVENT, 1) and not f.target.can_reach(real)
     with pytest.raises(KirbyAmCheckAccessibilityError, match='unreachable from placed progression'):
         validate_all_checks(mw, [1])
+
+
+def test_master_available_after_dark_mind_before_full_completion():
+    from ..options import Goal
+
+    full_goal = _GOAL_LOCATION_LABELS[Goal.option_full_completion]
+    not_defeated = fixture(goal=Goal.option_full_completion, dmk=False)
+    before = not_defeated.sweep()
+    assert before.can_reach_region(DIMENSION, 1)
+    assert all(before.has(name, 1) for name in _SHARD_ITEM_LABELS)
+    assert not before.has(_DMK_DIMENSION_MIRROR_EVENT, 1)
+    assert not before.has(CENTRAL_RETURN_EVENT, 1)
+    assert not before.has(full_goal, 1)
+    assert not not_defeated.target.can_reach(before)
+
+    defeated = fixture(goal=Goal.option_full_completion)
+    after = defeated.sweep()
+    assert after.has(_DMK_DIMENSION_MIRROR_EVENT, 1)
+    assert after.has(CENTRAL_RETURN_EVENT, 1)
+    assert defeated.target.can_reach(after)  # Only post-clear Master can open this fixture's target.
+    assert not after.has(full_goal, 1)
+    assert not defeated.world.multiworld.has_beaten_game(after, 1)

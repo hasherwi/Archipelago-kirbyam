@@ -5155,6 +5155,7 @@
     }
   ],
   "policy_fallback_targets": [
+    "bomb_402_candy_chest",
     "bomb_517_chocolate",
     "bomb_733_yellow",
     "switch_310_mustard_map"

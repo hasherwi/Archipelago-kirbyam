@@ -30,10 +30,11 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Area Keys now remain usable after restarting the game offline in the same seed and save file.
 - Hub Connections are saved when received, so restarting offline no longer loses newly opened routes.
 - Fixed an exhausted source search for Shuffled seeds that require Mustard Mountain Room 4-16.
+- Account for Beam, UFO, Spark, Missile, and Sword routes to Candy Constellation 9-12's Small Chest without gating the room or its exit (Issue #1059).
 
 ### Known Limitations
 - Phone charges can exceed three, but the battery display does not show the extra charges (PR #1086).
-- Ranged-attack coverage remains incomplete. Three targets retain older rules outside reviewed source assignments; broader physical outcomes still need review. See the [detailed coverage ledger](dev-docs/ranged-coverage-ledger.md) (PR #1052).
+- Ranged-attack coverage remains incomplete. Four targets retain older rules outside reviewed source assignments; broader physical outcomes still need review. See the [detailed coverage ledger](dev-docs/ranged-coverage-ledger.md) (PR #1052).
 - Only the North American ROM is supported; AP notifications are English.
 - The copy ability room unlock, area keys, and six ability unlocks use the AP logo sprite because an asset, native or custom, does not yet exist that meets the canvas we are limited to.
 - mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.

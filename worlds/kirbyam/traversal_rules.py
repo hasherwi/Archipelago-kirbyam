@@ -62,6 +62,17 @@ def goal2_ice_is_progression(world: Any) -> bool:
             and data.locations["MINOR_CHEST_MUSIC_NOTE_10"].source_rom_offset is not None)
 
 
+def candy912_source_is_progression(world: Any, ability: str) -> bool:
+    """Promote a gated permission only when this chest uses its proven local source."""
+    if (ability not in {"Spark", "Missile"} or not world._ability_gating_enabled()
+            or not bool(getattr(world, "ENABLE_MINOR_CHESTS", False))
+            or data.locations["MINOR_CHEST_CANDY_CONSTELLATION_9_12"].source_rom_offset is None):
+        return False
+    raw = getattr(world, "_enemy_copy_ability_policy", None)
+    return (isinstance(raw, dict)
+            and SourcePolicy(raw).grant("WADDLE_DOO", lambda _: True).guaranteed == frozenset({ability}))
+
+
 def cabbage_source_is_progression(world: Any, ability: str) -> bool:
     """Use the enforced Chocolate graph's actual enemy and statue assignments."""
     raw = getattr(world, "_enemy_copy_ability_policy", None)

@@ -227,17 +227,18 @@ def test_current_counts_and_historical_404_record_are_distinct() -> None:
     status = build_status()
     coverage = build_coverage()
     assert status['completion'] == 'partial' and not status['declaration_errors']
-    assert status['counts']['witnesses'] == 159 and h['witnesses'] == 145
-    assert len(coverage['installed_targets']) == 65 and h['targets'] == 57
+    assert status['counts']['witnesses'] == 164 and h['witnesses'] == 145
+    assert len(coverage['installed_targets']) == 66 and h['targets'] == 57
     from .support.green138_history import before_green138
     from .support.advanced_crash_history import before_advanced_crash
     from .support.radish617_history import before_radish617_targets
+    from .support.candy912_history import before_candy912_targets
     historical = [{**row, 'target': before_green138(before_advanced_crash(row['target']))}
-                  for row in before_radish617_targets(coverage['installed_targets'])]
+                  for row in before_radish617_targets(before_candy912_targets(coverage['installed_targets']))]
     assert digest(historical) == '76c369a269387b9e3812400689c2da0e9ab02a68476624e71817e9a6b48c8933'
     scope = json.loads((ROOT / 'dev-docs/ranged-completion-scope.json').read_text(encoding='utf-8'))
     assert set(scope['policy_fallback_targets']) == {
-        'bomb_517_chocolate', 'bomb_733_yellow', 'switch_310_mustard_map'}
+        'bomb_402_candy_chest', 'bomb_517_chocolate', 'bomb_733_yellow', 'switch_310_mustard_map'}
     assert h['conditional_policy_fallback_targets'] == 5  # frozen historical record
     old = json.loads((ROOT / 'dev-docs/candy-normal404-acceptance.json').read_text(encoding='utf-8'))
     assert old['host_contract']['counts']['witnesses'] == 144

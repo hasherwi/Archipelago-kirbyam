@@ -353,7 +353,8 @@ def test_uncertain_enemy_policy_uses_native_statue_instead_of_fallback(monkeypat
 
 @pytest.mark.parametrize('ability', ['Spark', 'Ice'])
 def test_chocolate_and_remaining_independent_promotion_reasons(monkeypatch, ability):
-    # Chocolate promotes both elements. Only Ice retains an independent Goal 2 reason.
+    # Chocolate promotes both elements. The independent gates are Goal 2 for
+    # Ice and the verified Candy 9-12 route for a guaranteed local Spark.
     raw = policy(1, pool=[ability]).policy
     set_rule_test_policy(monkeypatch, lambda *args, **kwargs: raw)
     world = make_world(1, 1, accessibility='minimal')
@@ -362,6 +363,12 @@ def test_chocolate_and_remaining_independent_promotion_reasons(monkeypatch, abil
     monkeypatch.setitem(data.locations, CHEST, data.locations[CHEST]._replace(source_rom_offset=None))
     assert not rules.cabbage_element_is_progression(world, ability)
     assert rules.goal2_ice_is_progression(world)
+    assert rules.candy912_source_is_progression(world, ability) is (ability == 'Spark')
+    assert world.create_item(f'{ability} Ability').classification == ItemClassification.progression
+
+    candy = 'MINOR_CHEST_CANDY_CONSTELLATION_9_12'
+    monkeypatch.setitem(data.locations, candy, data.locations[candy]._replace(source_rom_offset=None))
+    assert not rules.candy912_source_is_progression(world, ability)
     expected = ItemClassification.progression if ability == 'Ice' else ItemClassification.useful
     assert world.create_item(f'{ability} Ability').classification == expected
 
