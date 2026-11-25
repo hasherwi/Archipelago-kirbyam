@@ -10,6 +10,22 @@ The allocation is inside the existing 128-byte `gUnk_02028C10` entry in the USA 
 
 A newly recorded bit invokes native `UpdateSaveBufferByOffset` at `0x0800ACD5`, preserving `WorldMapUnlockSave` policy: flag `0x10` suppresses saving; linked non-owner players request native save command 8; the owner saves section 1 with slot 0–2 and native fallback to 0. Duplicate hits do not rewrite the save. Native save errors and sudden power loss retain native limitations; this is not a new atomic-save protocol.
 
+## Offline Area Key and Hub Connection ownership
+
+Area Keys and Hub Connections are saved separately from physical checks. WORLD
+word 21 shares the existing full seed authentication in words 22–26 and encodes
+eight Area Keys, fifteen Hub Connections, and the native file index. When a
+file loads, the native Hub door words are rebuilt from this record, not accepted
+as authority. The existing native serializer records a new item before the ROM
+acknowledges it. A duplicate receipt does not rewrite the save.
+
+The retail USA accessor audit described above found valid WORLD indices 0–15,
+18 and 19, and the three relevant object records (`0x86`, `0x8C`, and `0x97`)
+were checked across all 287 native object tables: 15 Big Switches use words
+1–15, 10 special Hub mirrors use 1–15 or 18, and 22 return-mirror records use
+0–15. None uses word 21. The allocation also leaves Copy/Phone, Goal Game, and
+physical switch/lever data unchanged. See [the protocol](../PROTOCOL.md#durable-area-keys-and-hub-connections-issue-1123).
+
 ## Native callback identity
 
 Fresh emulator acceptance exposed a dispatch defect missed by the earlier helper-only tests. `sub_08039ED4` indexes a mixed callback table: indices 0–9 are non-Hub callbacks, while 10–24 select the fifteen `WorldMapUnlock*` callbacks. Cabbage West's task index is 18, not door enum 9. Treating the task index as the enum let this hit run the native unlock without recording an AP check.
