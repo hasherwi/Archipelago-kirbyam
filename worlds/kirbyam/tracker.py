@@ -5,6 +5,7 @@ from typing import TYPE_CHECKING, Any, Iterable
 
 from BaseClasses import Item
 from .options import ExcludeTrapTypes, KirbyAmOptions
+from .starting_mirror import starting_mirror_candidates
 from .narcolepsy import NARCOLEPSY_ITEM_NAME, NARCOLEPSY_TRAP_CATALOG_VERSION
 from .random_teleport import RANDOM_TELEPORT_ITEM_NAME, TRAP_CATALOG_VERSION
 
@@ -24,8 +25,7 @@ def validate_tracker_data(slot_data: dict[str, Any]) -> dict[str, Any]:
             "This Kirby seed does not support tracking with the current rules. "
             "Update the KirbyAM APWorld and generate a new seed for Universal Tracker."
         )
-    # The trap catalog validates exclusions separately from the schema version.
-    required = set(TRACKER_OPTIONS) - {"exclude_trap_types"}
+    required = set(TRACKER_OPTIONS) - {"exclude_trap_types", "random_starting_mirror"}  # Older schema-1 seeds used legacy behavior.
     options = tracker.get("options")
     if not isinstance(options, dict) or not required.issubset(options):
         raise ValueError("Incomplete Kirby tracker options; refusing to reroll the seed.")
@@ -51,6 +51,11 @@ def validate_tracker_data(slot_data: dict[str, Any]) -> dict[str, Any]:
             raise ValueError(f"Missing Kirby tracker field: {key}")
     if not isinstance(tracker.get("precollected_items"), dict):
         raise ValueError("Missing Kirby tracker starting inventory.")
+    mirror = options.get("random_starting_mirror", 0)
+    if type(mirror) is not int or mirror not in (0, 1):
+        raise ValueError("Invalid Kirby tracker Random Starting Mirror option.")
+    if mirror and tracker.get("starting_mirror_tutorial_item") not in starting_mirror_candidates(bool(options["area_keys"])):
+        raise ValueError("Missing or invalid Kirby tracker tutorial Hub Connection.")
     return tracker
 
 
@@ -67,6 +72,8 @@ def export_tracker_data(world: "KirbyAmWorld", items: Iterable[Item]) -> dict[st
            (version := getattr(world, "_tracker_trap_catalog_version", TRAP_CATALOG_VERSION)) else {}),
         # Keep original options separate from resolved client fields.
         "options": options,
+        **({"starting_mirror_tutorial_item": reward}
+           if (reward := getattr(world, "_starting_mirror_tutorial_item", None)) else {}),
         "precollected_items": dict(Counter(item.name for item in items)),
     }
 
@@ -78,8 +85,9 @@ def restore_tracker_data(world: "KirbyAmWorld", slot_data: dict[str, Any]) -> No
         if name in TRACKER_OPTIONS:
             # Values were already rolled by generation. Do not call from_any,
             # which permits random choice strings to consume fresh randomness.
-            value = deepcopy(tracker["options"].get(name, option_type.default))
+            value = deepcopy(tracker["options"].get(name, 0 if name == "random_starting_mirror" else option_type.default))
             setattr(world.options, name, option_type(set(value) if name in {"exclude_locations", "exclude_trap_types"} else value))
+    world._starting_mirror_tutorial_item = tracker.get("starting_mirror_tutorial_item")
     world._enemy_copy_ability_policy = deepcopy(slot_data["enemy_copy_ability_policy"])
     world._resolved_configured_area_boss_goal_key = slot_data["goal_configured_area_boss_key"]
     world._resolved_starting_kirby_color_id = slot_data["starting_kirby_color"]

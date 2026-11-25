@@ -9,6 +9,7 @@ from collections import Counter
 from typing import TYPE_CHECKING, Any, ClassVar, TextIO
 
 import settings
+from Options import Accessibility
 from BaseClasses import CollectionState, Item, ItemClassification, LocationProgressType, MultiWorld, Tutorial
 from worlds.AutoWorld import WebWorld, World
 from worlds.LauncherComponents import Component, Type, components, launch as launch_component
@@ -222,6 +223,43 @@ class KirbyAmWorld(World):
         from .sanity_check import validate_group_maps, validate_regions
         assert validate_regions()
         assert validate_group_maps()
+
+    @classmethod
+    def stage_pre_fill(cls, multiworld: MultiWorld) -> None:
+        from .enemy_ability_runtime_patch import ROOM16_FOLEY_SWAP
+
+        stone = "Stone Ability"
+        stone_by_owner = {item.player: item for item in multiworld.itempool if item.name == stone and item.advancement}
+        for player in multiworld.player_ids:
+            world = multiworld.worlds[player]
+            if (not isinstance(world, cls) or player not in stone_by_owner
+                    or world.options.accessibility != Accessibility.option_minimal
+                    or not world._ability_gating_enabled()
+                    or ROOM16_FOLEY_SWAP not in getattr(world, "_enemy_copy_ability_policy", {})):
+                continue
+            if any(item.name == stone for item in multiworld.precollected_items[player]) or any(
+                location.item is not None and location.item.player == player and location.item.name == stone
+                for location in multiworld.get_filled_locations()
+            ):
+                continue  # The player already owns or deliberately placed this permission.
+            early = multiworld.early_items[player]
+            if early.get(stone, 0) or multiworld.local_early_items[player].get(stone, 0):
+                continue
+            # Prove the repaired profile has a check that needs this Stone
+            # permission. Sweep each state separately so an event behind Stone
+            # cannot be carried into the counterfactual without it.
+            full = multiworld.get_all_state(perform_sweep=False)
+            without_stone = full.copy()
+            without_stone.remove(stone_by_owner[player])
+            full.sweep_for_advancements()
+            without_stone.sweep_for_advancements()
+            if not any(loc.address is not None and loc.can_reach(full) and not loc.can_reach(without_stone)
+                       for loc in multiworld.get_locations(player)):
+                continue
+            # Minimal may put progression behind itself once the chosen boss
+            # is beatable. Use AP's ordinary early fill for this permission;
+            # don't change accessibility, locality, or locked/planned items.
+            early[stone] = 1
 
     @classmethod
     def stage_pre_output(cls, multiworld: MultiWorld) -> None:
@@ -547,6 +585,7 @@ class KirbyAmWorld(World):
                 advanced=self.options.advanced_logic.value == 1,
                 require_room16=bool(self.options.room_sanity.value),
                 room16_for_completion=self.options.goal.value == Goal.option_full_completion,
+                allow_room16_shuffle_repair=True,
             )
             validate_phone_profile(self)
             validate_mini_sources(self._enemy_copy_ability_policy, randomize_statues)
@@ -686,6 +725,99 @@ class KirbyAmWorld(World):
             ])
             log_regions_created(self.player, len(regions_by_name), fillable_locations)
 
+    def _place_tutorial_hub_connection(self, locations_by_key: dict[str, KirbyAmLocation]) -> int | None:
+        from .starting_mirror import (
+            TUTORIAL_WORLD_MAP_KEY, random_starting_mirror_enabled, starting_mirror_candidates,
+        )
+        if not random_starting_mirror_enabled(self):
+            return None
+
+        location = locations_by_key.get(TUTORIAL_WORLD_MAP_KEY)
+        if location is None:
+            raise ValueError("Random Starting Mirror requires the tutorial World Map chest.")
+
+        candidates = starting_mirror_candidates(self._area_keys_enabled())
+        restored = getattr(self, "_starting_mirror_tutorial_item", None)
+        if restored is None:
+            if any(block.from_pool and candidates.keys() & block.items
+                   for block in self.options.plando_items.value):
+                # Keep this location out of AP's plando targets without taking
+                # any of its possible rewards out of the real owner's pool.
+                # Upstream resolves and executes its plans before pre_fill.
+                placeholder = KirbyAmItem(
+                    "Reserved tutorial Hub Connection", ItemClassification.filler, None, self.player,
+                )
+                self._starting_mirror_placeholder: KirbyAmItem | None = placeholder
+                location.place_locked_item(placeholder)
+                location.progress_type = LocationProgressType.DEFAULT
+                return None
+            configured_from_pool = getattr(getattr(self.options, "start_inventory_from_pool", None), "value", {})
+            draw = [name for name in candidates if not configured_from_pool.get(name, 0)]
+            if not draw:
+                raise ValueError("Random Starting Mirror needs a Central Circle connection outside start_inventory_from_pool.")
+            restored = self.random.choice(draw)
+            self._starting_mirror_tutorial_item = restored
+        if restored not in candidates:
+            raise ValueError("Invalid Random Starting Mirror tutorial Hub Connection.")
+        item = self.create_item(restored)
+        location.place_locked_item(item)
+        location.progress_type = LocationProgressType.DEFAULT
+        return self.item_name_to_id[restored]
+
+    def pre_fill(self) -> None:
+        placeholder = getattr(self, "_starting_mirror_placeholder", None)
+        if placeholder is None:
+            return
+        from .starting_mirror import starting_mirror_candidates
+
+        chest = placeholder.location
+        assert chest is not None and chest.item is placeholder
+        candidates = starting_mirror_candidates(self._area_keys_enabled())
+        owned = {
+            item.name: (index, item)
+            for index, item in enumerate(self.multiworld.itempool)
+            if item.player == self.player and item.name in candidates
+        }
+        draw = [name for name in candidates if name in owned]
+        if not draw:
+            raise ValueError(
+                f"[P{self.player}] Random Starting Mirror has no eligible Central Circle Hub Connection "
+                "left in this player's pool after item plando and starting inventory. "
+                "Leave at least one eligible connection unreserved."
+            )
+        reward = self.random.choice(draw)
+        index, item = owned[reward]
+        self.multiworld.itempool.pop(index)
+        placeholder.location = None
+        chest.item = None
+        chest.place_locked_item(item)
+        self._starting_mirror_placeholder = None
+        self._starting_mirror_tutorial_item = reward
+        self._verify_tutorial_hub_connection(after_plando=True)
+
+    def _verify_tutorial_hub_connection(self, *, after_plando: bool = False) -> None:
+        from .starting_mirror import (
+            TUTORIAL_WORLD_MAP_NAME, random_starting_mirror_enabled, starting_mirror_candidates,
+        )
+        if not random_starting_mirror_enabled(self):
+            return
+        if getattr(self, "_starting_mirror_placeholder", None) is not None:
+            return
+        chest = self.multiworld.get_location(TUTORIAL_WORLD_MAP_NAME, self.player)
+        item = chest.item
+        state = CollectionState(self.multiworld)
+        if item is None or not chest.can_reach(state):
+            raise ValueError("Random Starting Mirror tutorial reward is not reachable.")
+        edge = self.multiworld.get_entrance(starting_mirror_candidates(self._area_keys_enabled())[item.name], self.player)
+        state.collect(item, True, chest)
+        if not edge.can_reach(state):
+            raise ValueError(f"Random Starting Mirror tutorial reward {item.name!r} does not open its entrance.")
+        if not any(
+            loc is not chest and loc.address is not None and (after_plando or loc.item is None)
+            and loc.can_reach(state) for loc in self.multiworld.get_locations(self.player)
+        ):
+            raise ValueError(f"Random Starting Mirror tutorial reward {item.name!r} leaves no reachable randomized check.")
+
     def create_items(self) -> None:  # noqa: C901
         with generation_stage("create_items", self.player, self.player_name):
             # Create items for all fillable locations (address != None).
@@ -745,6 +877,7 @@ class KirbyAmWorld(World):
             area_visit_locations.sort(key=lambda loc: loc.key or "")
             goal_game_locations.sort(key=lambda loc: loc.key or "")
 
+            tutorial_hub_code = self._place_tutorial_hub_connection(location_by_key)
             locked_shard_count = 0
             randomized_item_codes: list[int] = []
             if (
@@ -827,7 +960,11 @@ class KirbyAmWorld(World):
                     )
                     if loc.item is None
                 ]
-                needed_pool_size = len(open_physical_locations)
+                # An unresolved tutorial lock removes a location but does not
+                # remove its eventual reward from AP's pool until pre_fill.
+                needed_pool_size = len(open_physical_locations) + int(
+                    getattr(self, "_starting_mirror_placeholder", None) is not None
+                )
 
                 # Generate collection items only for active, source-backed checks.
                 # Two known sources still need compartment attribution; their
@@ -844,6 +981,13 @@ class KirbyAmWorld(World):
                         not item.tags.intersection({"SprayPaint", "MusicSheet"})
                         or item.item_id in active_collection_item_codes
                     )
+                ]
+                from .starting_mirror import STARTING_MIRROR_ITEM_ID, random_starting_mirror_enabled
+
+                non_filler_item_codes = [
+                    code for code in non_filler_item_codes
+                    if code != tutorial_hub_code
+                    and (code != STARTING_MIRROR_ITEM_ID or random_starting_mirror_enabled(self))
                 ]
                 vitality_item_codes = getattr(self, "_vitality_item_codes", None)
                 if vitality_item_codes is None:
@@ -1099,6 +1243,7 @@ class KirbyAmWorld(World):
             world.set_rules()
         for world in worlds:
             world._ensure_starting_area_key()
+            world._verify_tutorial_hub_connection()
 
     # Rules are needed during item creation to evaluate real starting access.
     # The normal set_rules stage must not stack the same entrance predicates.
@@ -1247,6 +1392,7 @@ class KirbyAmWorld(World):
             "required_area_bosses",
             "shards",
             "start_with_all_maps",
+            "random_starting_mirror",
             "starting_kirby_color",
             "no_extra_lives",
             "ability_gating",

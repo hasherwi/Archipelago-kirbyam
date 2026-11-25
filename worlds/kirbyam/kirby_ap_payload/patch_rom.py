@@ -1097,12 +1097,15 @@ def resolve_payload_hook_targets(payload_elf_path: Path) -> dict[str, int]:
         "starting_color_start_game_hook_target": resolve_elf_symbol_address(
             payload_elf_path, "ap_on_start_single_player_game"),
     }
+    targets["file_selector_draw_target"] = resolve_elf_symbol_address(
+        payload_elf_path, "ap_draw_single_file_selector")
     for name in BATTERY_SITES:
         targets[name] = resolve_elf_symbol_address(payload_elf_path, name)
     return {name: target & ~1 for name, target in targets.items()}
 
 
 _PAYLOAD_TARGET_LABELS = {
+    "file_selector_draw_target": "native file selector disabled-row styling",
     "goal_transition_target": "Goal Game doorway transition",
     "goal_start_target": "Goal Game start callback",
     "goal_landed_target": "Goal Game landing callback",
@@ -1176,6 +1179,39 @@ def build_goal_game_writes(rom: bytes | bytearray, targets: dict[str, int]) -> d
     validate_expected_instruction_sequence(rom, offset, thumb_bl_bytes(0x08000000 + offset, 0x080562D0),
                                            "Goal Game doorway transition")
     writes[offset] = thumb_bl_bytes(0x08000000 + offset, targets["goal_transition_target"])
+    return writes
+
+
+# Verified USA-ROM selector sites in code_08138D64.c. The original title
+# dispatch, file previews, mode menu and save code are deliberately untouched.
+FILE_SELECTOR_DRAW_ADDR = 0x0813AD9C
+FILE_SELECTOR_DRAW_OFFSETS = (
+    0x13C666, 0x13C6CC, 0x13C808, 0x13C8A0, 0x13C9EA, 0x13CB50, 0x13CC88,
+    0x13CDB0, 0x141D2C, 0x141FEA, 0x14204E, 0x1420B2, 0x142A80,
+)
+FILE_SELECTOR_EDITS = (
+    (0x138C96, bytes.fromhex("01 1c"), bytes.fromhex("c0 46"),
+     "initialize both selector cursor indices to File 1"),
+    (0x13CA3A, bytes.fromhex("04 28"), bytes.fromhex("02 28"),
+     "ignore native selector directional actions"),
+    (0x13CA50, bytes.fromhex("60 ca 13 08"), bytes.fromhex("e0 ca 13 08"),
+     "route file confirmation through the slot-0 guard"),
+    # The original Up case is unreachable after the action cap above. Use
+    # its first eight bytes for a guard before *any* confirm-side save access.
+    # ldrb r0,[r4,#10]; cmp r0,#0; bne 0x0813cb10; b 0x0813ca60.
+    (0x13CAE0, bytes.fromhex("03 48 13 f0 1b fb a0 7a"),
+     bytes.fromhex("a0 7a 00 28 14 d1 bb e7"), "guard file confirmation"),
+)
+
+
+def build_file_selector_writes(rom: bytes | bytearray, draw_target: int) -> dict[int, bytes]:
+    writes = {}
+    for offset, expected, replacement, label in FILE_SELECTOR_EDITS:
+        validate_exact_rom_bytes(rom, offset, expected, label)
+        writes[offset] = replacement
+    for offset in FILE_SELECTOR_DRAW_OFFSETS:
+        validate_thumb_bl_callsite_target(rom, offset, "File selector draw", FILE_SELECTOR_DRAW_ADDR)
+        writes[offset] = thumb_bl_bytes(0x08000000 + offset, draw_target)
     return writes
 
 
@@ -2155,6 +2191,53 @@ def build_world_statue_hooks(rom: bytes | bytearray, targets: dict[str, int]) ->
     return writes
 
 
+STARTING_MIRROR_OBJECT_MARKER = b"APMIR01\0"
+STARTING_MIRROR_OBJECT_SIZE = 524
+CENTRAL_OBJECT_LIST_INFO = 0x8B4CC0
+CENTRAL_NATIVE_TEMPLATES = 0x8B4AD8
+CENTRAL_NATIVE_PRELOAD = 0x8B4CB8
+CENTRAL_TEMPLATE_SIZE = 0x24
+CENTRAL_NATIVE_TEMPLATE_COUNT = 13
+
+
+def build_starting_mirror_object_writes(rom: bytes | bytearray, address: int,
+                                       reserved: bytes) -> dict[int, bytes]:
+    """Attach an AreaDoor decoration to the verified native Central warp tile."""
+    if (address & 3 or not 0x09000028 <= address
+            or address + STARTING_MIRROR_OBJECT_SIZE > 0x0900FFC0):
+        raise SystemExit("Starting Mirror object metadata is outside its reserved extension")
+    if reserved != STARTING_MIRROR_OBJECT_MARKER + bytes(STARTING_MIRROR_OBJECT_SIZE - 8):
+        raise SystemExit("Starting Mirror object reservation mismatch")
+    base = 0x08000000
+    if rom[CENTRAL_OBJECT_LIST_INFO:CENTRAL_OBJECT_LIST_INFO + 8] != struct.pack(
+        "<II", base + CENTRAL_NATIVE_TEMPLATES, base + CENTRAL_NATIVE_PRELOAD,
+    ):
+        raise SystemExit("Unexpected Central Circle object-list pointers")
+    if rom[CENTRAL_NATIVE_PRELOAD:CENTRAL_NATIVE_PRELOAD + 5] != bytes((0x65, 0x8C, 0x8E, 0x98, 0xFF)):
+        raise SystemExit("Unexpected Central Circle object sprite preload list")
+    length = CENTRAL_NATIVE_TEMPLATE_COUNT * CENTRAL_TEMPLATE_SIZE
+    templates = rom[CENTRAL_NATIVE_TEMPLATES:CENTRAL_NATIVE_TEMPLATES + length]
+    if (not all(record[0] == 1 and record[1] == CENTRAL_TEMPLATE_SIZE
+                and record[3] == i for i, record in enumerate(
+                    templates[j:j + CENTRAL_TEMPLATE_SIZE] for j in range(0, length, CENTRAL_TEMPLATE_SIZE)))
+            or rom[CENTRAL_NATIVE_TEMPLATES + length:CENTRAL_NATIVE_TEMPLATES + length + 2] != b"\0\0"):
+        raise SystemExit("Unexpected Central Circle native object template list")
+    # OBJ_AREA_DOOR at the center of tile X=19, with foot Y=15. Native
+    # decoration reads (Y - 0xFFF) in tile units, selecting the 801->101
+    # trigger at (19, 14), not any of the nine nearby Hub Mirror objects.
+    door = bytearray(CENTRAL_TEMPLATE_SIZE)
+    door[:6] = bytes((1, CENTRAL_TEMPLATE_SIZE, 0, CENTRAL_NATIVE_TEMPLATE_COUNT, 0, 1))
+    struct.pack_into("<hh", door, 6, 312, 240)
+    door[10:14] = bytes((0xFF, 0xFF, 0x99, 0xFF))
+    object_list = templates + door + rom[CENTRAL_NATIVE_TEMPLATES + length:CENTRAL_NATIVE_PRELOAD]
+    preload = bytes((0x65, 0x8C, 0x8E, 0x98, 0x99, 0xFF, 0, 0))
+    assert len(object_list + preload) == STARTING_MIRROR_OBJECT_SIZE
+    return {
+        address - base: object_list + preload,
+        CENTRAL_OBJECT_LIST_INFO: struct.pack("<II", address, address + len(object_list)),
+    }
+
+
 def apply_color_extension(rom: bytearray, elf_path: Path) -> None:
     # This module also supports callers that import patch_rom.py by filename.
     import importlib.util
@@ -2173,6 +2256,10 @@ def apply_color_extension(rom: bytearray, elf_path: Path) -> None:
     board_offset = board_address - 0x09000000
     board_writes = build_hub_board_sprite_writes(
         rom, board_address, extension[board_offset:board_offset + HUB_BOARD_TABLE_SIZE])
+    start_address = resolve_elf_symbol_address(elf_path, "gApStartingMirrorObjectData")
+    start_offset = start_address - 0x09000000
+    starting_mirror_writes = build_starting_mirror_object_writes(
+        rom, start_address, extension[start_offset:start_offset + STARTING_MIRROR_OBJECT_SIZE])
     if (resolve_elf_symbol_address(elf_path, "gApEnemySourceConfig") != 0x0900FFDC
             or extension[0xFFDC:0x10000] != (0x41534500).to_bytes(4, "little") + bytes(32)):
         raise SystemExit("Error: missing versioned enemy source policy config")
@@ -2193,7 +2280,7 @@ def apply_color_extension(rom: bytearray, elf_path: Path) -> None:
         asset_writes = statue_assets.build_statue_art_table(rom, extension)
     except ValueError as exc:
         raise SystemExit(str(exc)) from exc
-    for offset, replacement in {**writes, **board_writes, **statue_writes, **asset_writes}.items():
+    for offset, replacement in {**writes, **board_writes, **starting_mirror_writes, **statue_writes, **asset_writes}.items():
         rom[offset:offset + len(replacement)] = replacement
 
 
@@ -2284,6 +2371,7 @@ def main() -> None:
             "ap_area_spawn_level_entry", "ap_area_spawn_strip_entry", "ap_area_door_decoration_entry",
             "ap_area_warp_star_main", "ap_area_mirror_main", "ap_area_spawn_main", "ap_area_hub_mirror_main",
         )
+        selector_writes = build_file_selector_writes(rom, hook_targets["file_selector_draw_target"])
         area_object_writes = build_area_object_writes(rom, {
             name: resolve_elf_symbol_address(payload_elf_path, name) for name in area_object_symbols
         })
@@ -2305,7 +2393,7 @@ def main() -> None:
             rom_base,
         )
 
-        for offset, data in area_object_writes.items():
+        for offset, data in (area_object_writes | selector_writes).items():
             rom[offset:offset + len(data)] = data
         apply_color_extension(rom, payload_elf_path)
 

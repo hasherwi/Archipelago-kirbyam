@@ -10,6 +10,7 @@ Kirby & The Amazing Mirror:
   configured_area_boss: kracko
   required_area_bosses: 7
   start_with_all_maps: 'false'
+  random_starting_mirror: false
   area_keys: 'false'
   minimum_health: 10
   maximum_health: 9

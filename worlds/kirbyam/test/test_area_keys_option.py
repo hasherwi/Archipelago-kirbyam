@@ -27,7 +27,7 @@ def test_area_keys_option_is_default_on_in_easier_group():
 def test_area_keys_off_rebalances_pool_without_losing_other_progression(room_sanity, shards):
     worlds = [setup_multiworld(KirbyAmWorld, seed=908, options={
         "area_keys": enabled, "room_sanity": room_sanity, "shards": shards,
-        "enable_traps": 0,
+        "enable_traps": 0, "random_starting_mirror": 0,
     }) for enabled in (0, 1)]
     off, on = worlds
     for mw, enabled in zip(worlds, (False, True)):

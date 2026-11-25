@@ -4,6 +4,13 @@
  * Variant 11 adds only the four wood OAM pieces; retail variants stay intact. */
 const uint8_t gApHubBoardSpriteData[776]
     __attribute__((used, aligned(4), section(".aphubboards"))) = "APBRD01";
+/* Central Circle's original outgoing warp has no decoration object. The
+ * builder copies its verified object list and adds this one template. */
+#define AP_STARTING_MIRROR_TEMPLATE_OFFSET (13u * 0x24u)
+const uint8_t gApStartingMirrorObjectData[524]
+    __attribute__((used, aligned(4), section(".aphubboards"))) = "APMIR01";
+#define AP_STARTING_MIRROR_TEMPLATE ((uint32_t)(gApStartingMirrorObjectData + AP_STARTING_MIRROR_TEMPLATE_OFFSET))
+
 #define AP_HUB_BOARD_VARIANT 11u
 #define AREA_OBJECT_EXT __attribute__((used, noinline, long_call, section(".aphub")))
 #define OBJ_U8(p, o) (*(volatile uint8_t*)((uint32_t)(p) + (o)))
@@ -16,6 +23,10 @@ typedef uint32_t (*AreaObjectSlotFn)(uint32_t, uint32_t, uint32_t);
 
 /* Invoked only after the native spawn-slot predicate returned zero. */
 AREA_OBJECT_EXT uint32_t ap_area_key_spawn_blocked(uint32_t template, uint32_t level) {
+    if (template == AP_STARTING_MIRROR_TEMPLATE)
+        return !ap_is_starting_mirror(OBJ_U16(level, 0x5F8u), 101u)
+            || ap_transition_allowed(801u, 101u);
+
     if (OBJ_U8(template, 0) != 1u || OBJ_U8(template, 0xCu) != 0x84u) return 0u;
     return !ap_transition_allowed(OBJ_U16(level, 0x5F8u), OBJ_U16(template, 0x1Eu));
 }
@@ -86,7 +97,7 @@ AREA_OBJECT_EXT void ap_area_mirror_main(void) {
         uint16_t source = OBJ_U16(obj, 0x60u);
         uint16_t dest = ap_transition_route_destination(source, OBJ_U16(tile, 8u), OBJ_U8(tile, 0xAu), OBJ_U8(tile, 0xBu));
         uint32_t effect = OBJ_U32(obj, 0xB4u);
-        if (effect && ap_is_keyed_inter_area_edge(source, dest)) {
+        if (effect && (ap_is_starting_mirror(source, dest) || ap_is_keyed_inter_area_edge(source, dest))) {
             uint8_t open = ap_transition_allowed(source, dest);
             uint8_t variant = open ? ((OBJ_U16(OBJ_U32(obj, 0xB0u), 0x22u) & 0x100u) ? 9u : 2u) : 6u;
             if (OBJ_U16(effect, 0x18u) != 0x294u || OBJ_U8(effect, 0x26u) != variant) {
@@ -107,6 +118,22 @@ AREA_OBJECT_EXT void ap_area_door_decoration(void *door) {
         OBJ_S32(obj, 0x40u) >> 12, (OBJ_S32(obj, 0x44u) - 0xFFF) >> 12);
     uint16_t source = OBJ_U16(obj, 0x60u);
     uint16_t dest = ap_transition_route_destination(source, OBJ_U16(tile, 8u), OBJ_U8(tile, 0xAu), OBJ_U8(tile, 0xBu));
+    uint8_t starting_mirror = OBJ_U32(obj, 0xB0u) == AP_STARTING_MIRROR_TEMPLATE;
+    /* #1101's boards-only overlay leaves Central Circle's native frame/glass intact. */
+    uint8_t board_variant = starting_mirror ? AP_HUB_BOARD_VARIANT : 6u;
+    /* Our object only draws the board. Restoring access removes it and
+     * leaves the original native background doorway exactly as it was. */
+    if (starting_mirror) {
+        uint32_t effect = OBJ_U32(obj, 0xB4u);
+        /* The retail 801→101 doorway already has a background frame.
+         * Hide the AreaDoor helper's own sprite; its separate effect draws the wood. */
+        OBJ_U32(obj, 8u) |= 0x400u;
+        if (source != 801u || dest != 101u || ap_transition_allowed(source, dest)) {
+            if (effect) OBJ_U16(effect, 6u) |= 0x1000u;
+            OBJ_U32(obj, 0xB4u) = 0u;
+            return;
+        }
+    }
     if (ap_transition_allowed(source, dest)) {
         /* Variant 6 is the full boarded frame, not the native interior A.
          * Restore the native decoration anchor before its updater reuses it. */
@@ -123,12 +150,12 @@ AREA_OBJECT_EXT void ap_area_door_decoration(void *door) {
     } else {
         uint32_t effect = OBJ_U32(obj, 0xB4u);
         if (!effect) {
-            effect = (uint32_t)((void* (*)(void*, uint32_t, uint32_t, uint32_t, uint32_t))0x0808B62Du)(door, 0, 0x294, 6, 0);
+            effect = (uint32_t)((void* (*)(void*, uint32_t, uint32_t, uint32_t, uint32_t))0x0808B62Du)(door, 0, 0x294, board_variant, 0);
             OBJ_U32(obj, 0xB4u) = effect;
         }
-        if (OBJ_U16(effect, 0x18u) != 0x294u || OBJ_U8(effect, 0x26u) != 6u) {
+        if (OBJ_U16(effect, 0x18u) != 0x294u || OBJ_U8(effect, 0x26u) != board_variant) {
             OBJ_U16(effect, 0x18u) = 0x294u;
-            OBJ_U8(effect, 0x26u) = 6u;
+            OBJ_U8(effect, 0x26u) = board_variant;
             OBJ_U8(effect, 0x27u) = 0xFFu;
         }
         OBJ_U16(effect, 6u) &= ~1u;
@@ -162,7 +189,7 @@ AREA_OBJECT_EXT void ap_area_hub_mirror_main(void) {
                 board_y = OBJ_S32(obj, 0x44u);
             }
         }
-        if (slot && ap_is_keyed_inter_area_edge(source, dest)) {
+        if (slot && (ap_is_starting_mirror(source, dest) || ap_is_keyed_inter_area_edge(source, dest))) {
             uint32_t effect = OBJ_U32(slot, 0u);
             if (!ap_transition_allowed(source, dest)) {
                 if (!effect) {

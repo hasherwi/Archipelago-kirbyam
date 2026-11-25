@@ -130,7 +130,8 @@ def test_all_65_chests_are_reachable_with_route_items() -> None:
     assert any(not multiworld.get_location(row.label, 1).can_reach(state) for row in rows)
     route_items = [item for item in data.items.values()
                    if {"AreaKeys", "HubConnections", "Levers", "Phone"}.intersection(item.tags)]
-    assert len(route_items) == 28  # Historical 27 route items plus always-on Phone.
+    # The historical 27, always-on Phone, and the enabled starting-mirror item.
+    assert len(route_items) == 29
     for item in route_items:
         state.collect(world.create_item(item.label), prevent_sweep=True)
     state.sweep_for_advancements()

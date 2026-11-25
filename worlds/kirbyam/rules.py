@@ -349,6 +349,11 @@ def set_rules(world: KirbyAmWorld) -> None:  # noqa: C901
         lambda state, required_goal=goal_label: state.has(required_goal, world.player)
     )
 
+    from .starting_mirror import STARTING_MIRROR_ENTRANCE, STARTING_MIRROR_ITEM, random_starting_mirror_enabled
+    if random_starting_mirror_enabled(world):
+        entrance = world.multiworld.get_entrance(STARTING_MIRROR_ENTRANCE, world.player)
+        add_rule(entrance, lambda state: state.has(STARTING_MIRROR_ITEM, world.player))
+
     # Area Keys are directional destination gates.  Use add_rule so an entrance
     # can simultaneously require its destination key and another traversal rule.
     area_keys_option = getattr(world.options, "area_keys", None)

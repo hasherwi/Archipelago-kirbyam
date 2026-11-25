@@ -198,8 +198,9 @@ _Static_assert(AP_GOAL_RUN_ADDRESS + sizeof(struct ApGoalRun) <= AP_CUE_MAILBOX_
 #define AP_TRANSITION_EVENT_LAST_FRAME (*(volatile uint32_t*)(AP_BASE + 0x12Cu))
 #define AP_TRANSITION_EVENT_TELEMETRY_COOKIE (*(volatile uint32_t*)(AP_BASE + 0x130u))
 #define AP_TRANSITION_EVENT_TELEMETRY_COOKIE_VALUE 0x54524E31u /* "TRN1" */
-/* Client-owned hub connection items, keyed by native WorldMapDoor index (1..15). */
+/* Client-owned hub connection items, indexed by native WorldMapDoor (1..15) plus starting mirror (16). */
 #define AP_HUB_CONNECTION_ITEM_MASK (*(volatile uint32_t*)(AP_BASE + 0x134u))
+#define AP_STARTING_MIRROR_ITEM_MASK (1u << 16)
 #define AP_HUB_CONNECTION_ITEM_MASK_UNINITIALIZED 0xFFFFFFFFu
 /* Scratch world-props entry so AP-owned doors do not hide uncollected switches. */
 #define AP_HUB_SWITCH_INIT_STATE (*(volatile uint32_t*)(AP_BASE + 0x138u))
@@ -326,11 +327,20 @@ const unsigned char gArchipelagoInfo[16] = {0};
  * disables gates; unwritten/legacy/corrupt words retain the default-on policy. */
 #define AP_AREA_KEYS_CONFIG_OFF 0x414B0100u
 #define AP_AREA_KEYS_CONFIG_ON 0x414B0101u
+#define AP_STARTING_MIRROR_CONFIG_BIT 2u
 __attribute__((used, section(".apconfig.area_keys")))
 volatile const uint32_t gApAreaKeysConfig = AP_AREA_KEYS_CONFIG_ON;
 
+static inline uint8_t ap_random_starting_mirror_enabled(void) {
+    return (gApAreaKeysConfig & AP_STARTING_MIRROR_CONFIG_BIT) != 0u;
+}
+
+static inline uint8_t ap_is_starting_mirror(uint16_t source, uint16_t destination) {
+    return ap_random_starting_mirror_enabled() && source == 801u && destination == 101u;
+}
+
 static inline uint8_t ap_area_keys_enabled(void) {
-    return (uint8_t)(gApAreaKeysConfig != AP_AREA_KEYS_CONFIG_OFF);
+    return (uint8_t)((gApAreaKeysConfig & ~AP_STARTING_MIRROR_CONFIG_BIT) != AP_AREA_KEYS_CONFIG_OFF);
 }
 
 /* Per-seed Minny inclusion, defaulting to the safe vanilla exception. */
@@ -693,6 +703,9 @@ __attribute__((used, noinline, long_call, section(".aphub"))) uint32_t ap_transi
     uint8_t destination_area;
 
     if (source_room == 801u && destination_room == 970u) return ap_copy_room_owned();
+    if (ap_is_starting_mirror(source_room, destination_room))
+        return ap_copy_room_access_owned(AP_STARTING_MIRROR_OWNED) != 0u;
+
 
     if (ap_is_keyed_inter_area_edge(source_room, destination_room) == 0u) {
         return 1u;
@@ -1072,7 +1085,7 @@ __attribute__((used)) uint32_t ap_on_query_special_door_state(
     uint8_t spawn_y
 ) {
     uint16_t permission_room = ap_transition_route_destination(room_id, destination_room, spawn_x, spawn_y);
-    if (ap_is_keyed_inter_area_edge(room_id, permission_room) != 0u) {
+    if (ap_is_starting_mirror(room_id, permission_room) || ap_is_keyed_inter_area_edge(room_id, permission_room) != 0u) {
         return ap_transition_allowed(room_id, permission_room);
     }
 
@@ -2471,6 +2484,13 @@ static uint8_t ap_apply_item(uint32_t ap_item_id) {
         uint32_t area_id = 2u + (ap_item_id - (KIRBY_ITEM_ID_BASE_OFFSET + 41u));
         AP_AREA_KEY_BITFIELD_RUNTIME |= (1u << area_id);
         return 1u;
+    }
+
+    if (ap_item_id == AP_STARTING_MIRROR_ITEM) {
+        if (!ap_random_starting_mirror_enabled()) return 1u;
+        uint32_t mask = AP_HUB_CONNECTION_ITEM_MASK;
+        return mask != AP_HUB_CONNECTION_ITEM_MASK_UNINITIALIZED
+            && (mask & AP_STARTING_MIRROR_ITEM_MASK) && ap_copy_room_receive_starting_mirror();
     }
 
     // HUB_CONNECTION_* = BASE+401 .. BASE+415; enum values 1..15 match WorldMapDoor.

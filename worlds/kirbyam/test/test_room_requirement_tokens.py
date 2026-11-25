@@ -158,7 +158,7 @@ def test_exported_stake_entrances_exist_in_generated_world() -> None:
 def test_explicit_hub_item_requirements_require_ownership() -> None:
     # Item labels are operands of an item expression, not capability tokens.
     hubs = [item.label for item in data.items.values() if "HubConnections" in item.tags]
-    assert len(hubs) == 15
+    assert len(hubs) == 16
     for label in hubs:
         requirement = {"item": label}
         assert not evaluate_room_logic_requirement(requirement, cast(CollectionState, _FakeState()), 1)

@@ -277,6 +277,7 @@ Server → Client: ConnectionRefused | Connected
 - `goal_configured_area_boss_key` (str | null): internal boss-defeat key selected for `defeat_area_boss` (`BOSS_DEFEAT_1 .. BOSS_DEFEAT_8`). The field name is retained for compatibility. Default target is `BOSS_DEFEAT_3` (Master Hand + Crazy Hand pair).
 - `shards` (int): shard randomization mode.
 - `start_with_all_maps` (bool): when true, all map items are precollected and removed from randomized placement, and the BizHawk client reasserts all native area-map bits during gameplay reconciliation.
+- `random_starting_mirror` (bool): when true, the native starting exit needs its Hub Connection and the tutorial World Map chest supplies one eligible connection. Tracker schema 2 records this choice as `tracker.starting_mirror_tutorial_item`.
 - `kirby_color_catalog_version` (int): `4` enables the 65-color catalog after the client verifies the ROM extension marker `APCOL04\0` at file offset `0x1000000`. Catalog 3 retains IDs 0..26 and requires `APCOL03\0`; catalog 2 retains IDs 0..18 and requires `APCOL02\0`. Absent/legacy metadata keeps the native-only 14-color per-room pool. The 38 added colors use IDs 27..64 and require regenerated patches and an updated client. Custom logical IDs still use native fallback Pink and never become paint ownership/save IDs.
 - `starting_kirby_color` (int): resolved Kirby starting color ID (`0..64` in catalog 4) after Archipelago option parsing. The ID and per-room mode are encoded into the ROM configuration; startup resolves precedence before creating Kirby.
 - `starting_kirby_color_name` (str): resolved Kirby starting color display name for logs/tracker surfaces.
@@ -308,7 +309,7 @@ Server → Client: ConnectionRefused | Connected
 - `advanced_logic` (int): `0` off (default), `1` on. Enabling Advanced Logic allows only reviewed Crash-dependent traversal witnesses; it does not change physical ability sources or client permissions.
 - `ability_gating` (bool): enables safe-to-gate ability lock/unlock behavior. Default on.
 - `enemy_copy_ability_whitelist` (list[str]): validated ability pool (must exclude `Wait`).
-- `enemy_copy_ability_policy` (dict): deterministic policy payload used by runtime hooks.
+- `enemy_copy_ability_policy` (dict): deterministic policy payload used by runtime hooks. Rare Shuffled Room 4-16 fallbacks store the eligible donor enemy key as `room16_foley_swap`; this swaps that enemy type's grant with Foley's in the ROM, spoiler and tracker logic. Policies without the field retain their original assignments.
 - `ability_gateable_abilities` (list[str]): abilities from `data/abilities.json` that are marked `safe_to_gate`.
 - `ability_unlock_items` (dict[str, str]): all 25 ability item labels from `data/items.json`, including the starting abilities. Exported with either gating setting; `abilities.json` remains the runtime/gating policy source.
 - `stake_breaking_abilities` (list[str]): reusable hammer-peg/stake ability group used by transition logic (currently `Hammer`, `Master`, `Smash`, `Stone`).
@@ -1160,3 +1161,30 @@ and cue 3 starts `0x251` (trap). Trap wins over progression for mixed flags.
 The native mixer gate serializes AP cues and does not suppress vanilla effects.
 A chest's native sound followed by a genuine self-receipt may therefore be
 audible as two cues.
+
+
+### Random Starting Mirror
+
+With `random_starting_mirror` enabled, the tutorial World Map chest retains
+its native map unlock and also reports its original Archipelago check
+(3960209). That check holds one equally weighted, eligible Central Circle
+Hub Connection, including the new Room 1-01 Mirror - Hub Connection (3860416). An alternate
+connection that also requires an Area Key is ineligible while keys are enabled.
+The selected copy is locked at the chest, not added to starting inventory or
+duplicated in the pool. When a from-pool plando could use one of those items,
+the chest stays reserved until the plan is applied. The draw then uses only
+still-available connections owned by this player, including when a plan puts
+their item in another world. If no eligible item remains, generation stops
+with an explicit error. To plando a different reward at the tutorial chest,
+disable Random Starting Mirror.
+
+The existing configuration word at ROM offset `0x15F688` uses bit 1 for this
+option; bit 0 continues to control Area Keys independently. Hub ownership
+mask bit 16 refers to Starting Mirror only, not a native WorldMapDoor index.
+The history mask authenticates delivery, not ownership. The payload only acknowledges
+the receipt once it saves the existing authenticated native file record (WORLD word 26,
+bit 19); failed writes roll back the bit and may retry. Native load and clear abandon
+any unacknowledged offer from the previous file. The transition and decoration hooks gate only Central Circle (801) to Room 1-01
+(101). The lock uses the same four-piece, boards-only overlay as PR #1101
+(animation `0x294`, variant 11); the original mirror frame is unchanged. With the option off that exit and the chest's reward pool behave as
+before.

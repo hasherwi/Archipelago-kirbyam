@@ -91,11 +91,13 @@ def validate_peg_assignment(
     initial: dict[str, Any], factory: Callable[[], dict[str, Any]], include_statues: bool,
     max_attempts: int = 8192, *, require_all_witnesses: bool = True, advanced: bool = False,
     require_room16: bool = False, room16_for_completion: bool = False,
+    allow_room16_shuffle_repair: bool = False,
 ) -> dict[str, Any]:
-    """Select a valid deterministic assignment; do not rewrite individual grants.
+    """Select a valid deterministic assignment without rerolling generation.
 
     The bounded default allows rare joint Wheelie/peg-source assignments with fixed
-    statues. It never forces individual grants. Rejection does not prove that no
+    statues. If an ordinary Room16 shuffle is exhausted, try swapping two existing
+    enemy grants while preserving grant counts and independently checking every witness. Rejection does not prove that no
     remote-carried solution exists. Live random statues use explicit retry semantics.
     RoomSanity and 100% Game Completion independently require the Room16
     witness, even under minimal accessibility. All witnesses share one policy.
@@ -125,6 +127,9 @@ def validate_peg_assignment(
             ROOM16_COMPLETION_WEIGHT_REJECTION if room16_for_completion else ROOM16_WEIGHT_REJECTION
         )
 
+    repair_candidates: list[dict[str, Any]] | None = (
+        [] if allow_room16_shuffle_repair and require_room16 and initial.get("mode") == 1 else None
+    )
     candidate = initial
     wheel_valid_candidate = None
     peg_valid_candidate = None
@@ -135,6 +140,8 @@ def validate_peg_assignment(
         # before the costly catalog evaluation. It consumes no RNG and preserves
         # the first jointly valid assignment from the original candidate stream.
         room16_valid = not require_room16 or static_room16_witness(policy, advanced=advanced)
+        if not room16_valid and repair_candidates is not None:
+            repair_candidates.append(candidate)
         wheel_valid = room16_valid and (not validate_static or static_wheel_witness(policy))
         if wheel_valid and wheel_valid_candidate is None:
             wheel_valid_candidate = candidate
@@ -147,6 +154,30 @@ def validate_peg_assignment(
             break
         if attempt + 1 < max_attempts:
             candidate = factory()
+    if repair_candidates:
+        from .enemy_ability_runtime_patch import ROOM16_FOLEY_SWAP, room16_foley_swap_candidates
+
+        room16 = next(row for row in room_traversal_targets("switch") if row["id"] == "switch_533_room16")
+        reviewed = frozenset(room16["requires_guaranteed_source"]["abilities"])
+
+        def other_witnesses(policy: SourcePolicy) -> bool:
+            return not validate_static or (
+                static_wheel_witness(policy)
+                and all(_assignment_has_witness(row, policy) for row in PEG_ROUTES)
+                and static_extra_witness(policy, advanced=advanced)
+            )
+
+        # Revisit only already-sampled candidates; no additional RNG draws. Prefer
+        # a policy with all the other witnesses intact before changing Foley.
+        for raw in repair_candidates:
+            if not other_witnesses(SourcePolicy(raw, include_statues)):
+                continue
+            for donor in room16_foley_swap_candidates(raw, reviewed):
+                corrected = {**raw, ROOM16_FOLEY_SWAP: donor}
+                policy = SourcePolicy(corrected, include_statues)
+                if static_room16_witness(policy, advanced=advanced) and other_witnesses(policy):
+                    return corrected
+
     raise _assignment_search_failure(initial, attempt + 1, wheel_valid_candidate is not None,
                                      peg_valid_candidate is not None, extra_valid, room16_for_completion,
                                      room16_required=require_room16)

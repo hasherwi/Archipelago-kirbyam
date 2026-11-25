@@ -11,6 +11,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ## Unreleased
 
 ### New Features
+- Add **Random Starting Mirror** (on by default). The tutorial World Map chest awards a random usable Central Circle Hub Connection. The original mirror to Room 1-01 stays locked until its Hub Connection is received (PR #1156).
 - Add 38 Kirby starting color palettes and a [visual gallery of all 65 colors](docs/color-palettes.md) (PR #1135).
 - Play distinct in-game cues when new Archipelago items are received (PR #1136).
 - Traps:
@@ -21,6 +22,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ### Improvements
 - Shuffled ability statues show the ability they grant, or the Archipelago logo if that ability has no statue art. Completely Random statues show the Archipelago logo (PR #1141).
 - Ability Randomization no longer affects the Copy Ability Room: its statues always grant their original abilities once unlocked (PR #1141).
+- Allow only File 1 to be selected, preventing cross-save problems (Issue #1144).
 - Show boss defeat progress in `/goal` when using the boss-count goal (PR #1133).
 - Improved Logic for Item Placement and Accessible Locations (PR #1141).
 
@@ -33,6 +35,8 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Testing covers selected gameplay scenarios, not a complete playthrough or every multiplayer setup.
 
 ### Bug Fixes
+
+- Fixed an exhausted source search for Shuffled seeds that require Mustard Mountain Room 4-16.
 - Keep pending traps and consumables from blocking item delivery after an emulator pause (PR #1142).
 
 ## v0.6.0

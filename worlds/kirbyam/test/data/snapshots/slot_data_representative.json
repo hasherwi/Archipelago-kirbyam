@@ -3528,6 +3528,7 @@
   "no_extra_lives": false,
   "phone_protocol_version": 1,
   "physical_check_save_version": 1,
+  "random_starting_mirror": true,
   "required_area_bosses": 3,
   "room_sanity": false,
   "rooms": {
@@ -6429,6 +6430,7 @@
       "minimum_health": 6,
       "no_extra_lives": 0,
       "one_hit_mode": 0,
+      "random_starting_mirror": 1,
       "required_area_bosses": 3,
       "room_sanity": 0,
       "shards": 2,
@@ -6501,6 +6503,7 @@
     "Rainbow Route North - Hub Connection",
     "Rainbow Route South - Hub Connection",
     "Rainbow Route West - Hub Connection",
+    "Room 1-01 Mirror - Hub Connection",
     "Sound Player",
     "Spray Paint #1",
     "Spray Paint #10",
