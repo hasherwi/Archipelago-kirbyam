@@ -22,11 +22,11 @@
 #define INCOMING_FLAG U32(0x0203B004u)
 #define INCOMING_ITEM U32(0x0203B008u)
 #define REQUEST ((volatile uint32_t *)0x0203B160u)
-#define PROGRESS_RESTORE ((volatile uint32_t *)0x0203B1C8u)
+#define PROGRESS_RESTORE ((volatile uint32_t *)AP_PROGRESS_RESTORE_ADDRESS)
 #define NATIVE_SAVE ((int16_t (*)(uint32_t,uint16_t))0x0800ACD5u)
 
 __attribute__((used,section(".apcopyinfo")))
-const char ap_copy_room_marker[8] = "APCPY03";
+const char ap_copy_room_marker[8] = "APCPY04";
 
 static AP_COPY_EXT uint8_t record_valid(void) {
     if ((RECORD[4] & ~(AP_ACCESS_MASK | AP_GOAL_FLAGS)) != AP_COPY_TAG) return 0u;

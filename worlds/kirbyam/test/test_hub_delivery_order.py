@@ -10,6 +10,7 @@ import pytest
 from NetUtils import NetworkItem
 from worlds._bizhawk import RequestFailedError
 from ..client import COPY_ROOM_CONTEXT_ADDRESS, KirbyAmClient, _MAILBOX_ACK_TIMEOUT_FRAMES
+from ..copy_room_protocol import COPY_ROOM_MARKER, COPY_ROOM_MARKER_OFFSET
 from ..data import data
 from ..receipts import ReceiptJournal, receipt_key
 
@@ -299,39 +300,46 @@ async def test_durable_progress_timeout_preserves_exactly_one_ack(
 @pytest.mark.asyncio
 @pytest.mark.parametrize("keys_enabled", [False, True])
 async def test_file_restore_only_grants_confirmed_prior_permanent_receipts(
-    mock_bizhawk_context, tmp_path, keys_enabled,
+    mock_bizhawk_context, tmp_path, keys_enabled, monkeypatch,
 ):
-    from ..client import bizhawk
+    from ..client import _HUB_CONNECTION_ITEM_ID_TO_DOOR_INDEX, bizhawk
+    # Follows #520’s catalog tagging without adding that feature to this PR.
+    monkeypatch.setitem(_HUB_CONNECTION_ITEM_ID_TO_DOOR_INDEX, 3860416, 16)
     ctx = mock_bizhawk_context
     ctx.slot_data = {"copy_ability_room_protocol_version": 2, "area_keys": int(keys_enabled)}
     ctx.items_received = [
         NetworkItem(3860401, 1, 1, 0), NetworkItem(3860041, 2, 1, 0),
         NetworkItem(3860027, 3, 1, 0), NetworkItem(3860402, 4, 1, 0),
-        NetworkItem(3860403, 5, 1, 0),
+        NetworkItem(3860416, 5, 1, 0), NetworkItem(3860403, 6, 1, 0),
     ]
     client = KirbyAmClient()
     client.initialize_client()
     client.on_package(ctx, "ReceivedItems", {"index": 0})
     client._health_rom_auth = bytes(range(16))
-    client._delivered_item_index = 4
+    client._delivered_item_index = 5
     journal = ReceiptJournal(str(tmp_path / "receipts.sqlite3"), "test")
     client._receipt_journal = journal
-    for index in (0, 1, 2, 4):
+    for index in (0, 1, 2, 4, 5):
         journal.acknowledge(receipt_key(ctx.items_received, index))
     native = b"".join(x.to_bytes(4, "little") for x in
                       (2, 2, 1, 0, 1, 0x03000000, 0, 0x43504332, 0))
     want = 0x100 | keys_enabled
-    read = [native, bytes(4), bytes(4), client._health_rom_auth]
+    read = [native, bytes(4), bytes(4), client._health_rom_auth, COPY_ROOM_MARKER]
     try:
         with patch.object(bizhawk, "read", new=AsyncMock(return_value=read)), \
                 patch.object(bizhawk, "guarded_write", new=AsyncMock(return_value=True)) as write:
             assert not await client._restore_confirmed_file_progress(ctx, 0x0203B004)
             writes, guards = write.await_args.args[1:]
-            assert writes == [(0x0203B1C8, want.to_bytes(4, "little") + native[:4], "System Bus")]
+            assert writes == [(0x0203B1F0, want.to_bytes(4, "little") + native[:4], "System Bus")]
             assert (COPY_ROOM_CONTEXT_ADDRESS, native[:12], "System Bus") in guards
             assert (0x0203B004, bytes(4), "System Bus") in guards
-            assert client._delivered_item_index == 4
+            assert client._delivered_item_index == 5
+            assert (COPY_ROOM_MARKER_OFFSET, COPY_ROOM_MARKER, "ROM") in guards
             write.reset_mock()
+            read[4] = b"APCPY03\0"
+            assert not await client._restore_confirmed_file_progress(ctx, 0x0203B004)
+            write.assert_not_awaited()
+            read[4] = COPY_ROOM_MARKER
             read[2] = native[:4]
             assert not await client._restore_confirmed_file_progress(ctx, 0x0203B004)
             write.assert_not_awaited()
@@ -380,8 +388,8 @@ async def test_file_restore_keeps_unresolved_transient_queue_suspended(
                       (2, 2, 1, 0, 1, 0x03000000, 0, 0x43504332, 0))
               if native_active else bytes(36))
     read_mailbox = [mailbox_flag.to_bytes(4, "little"), bytes(4), bytes(4), bytes(4)]
-    read_restore = [native, bytes(4), bytes(4), client._health_rom_auth]
-    readback = [native, (0xA9000101).to_bytes(4, "little"), bytes(4), client._health_rom_auth]
+    read_restore = [native, bytes(4), bytes(4), client._health_rom_auth, COPY_ROOM_MARKER]
+    readback = [native, (0xA9000101).to_bytes(4, "little"), bytes(4), client._health_rom_auth, COPY_ROOM_MARKER]
     read_side_effect = [read_mailbox, read_restore]
     if writes_restore:
         read_side_effect += [read_mailbox, readback]
@@ -396,7 +404,7 @@ async def test_file_restore_keeps_unresolved_transient_queue_suspended(
             await client._deliver_items(ctx, allow_new_writes=allow_new_writes)
             if writes_restore:
                 writes, guards = guarded.await_args.args[1:]
-                assert writes == [(0x0203B1C8, (0x101).to_bytes(4, "little") + native[:4], "System Bus")]
+                assert writes == [(0x0203B1F0, (0x101).to_bytes(4, "little") + native[:4], "System Bus")]
                 assert (flag_addr, bytes(4), "System Bus") in guards
                 assert (COPY_ROOM_CONTEXT_ADDRESS, native[:12], "System Bus") in guards
                 await client._deliver_items(ctx)

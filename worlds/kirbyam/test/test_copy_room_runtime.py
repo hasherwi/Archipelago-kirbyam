@@ -152,7 +152,7 @@ int main(void) {
     CHECK(!ap_progress_owned() && WORLD[2]==0);
     /* Separate epoch-bound recovery transaction; no delivery flag or counter ACK. */
     unsigned before_restore=saves[1];
-    uint32_t *restore=(uint32_t *)0x0203B1C8u;
+    uint32_t *restore=(uint32_t *)AP_PROGRESS_RESTORE_ADDRESS;
     volatile uint32_t *counter=(uint32_t *)0x0203B010u;
     *counter=4u;
     restore[0]=(1u | (1u<<9));restore[1]=CTX->epoch-1u;

@@ -27,7 +27,7 @@ Earlier Phone native ledgers retain their recorded ROM hashes, starts, gate mask
 | Surface | Address / format |
 | --- | --- |
 | ROM configuration | `0x0900FFC8`: `APPHN01\0`, then a little-endian enabled word; base/default value **0**; qualified enabled seed value **1** |
-| Copy Room marker | Unchanged at `0x0900FFD4`, `APCPY03\0` |
+| Copy Room marker | Unchanged at `0x0900FFD4`, `APCPY04\0` |
 | Native saved record | WORLD words 22–25: existing seed identity; word 26: `0x43500000` plus Copy bit 0 / Phone bit 1 |
 | Phone snapshot | `0x0203B170`: epoch, native slot, owned boolean, cookie `0x50484E31` |
 | Phone request | `0x0203B180`: request epoch, grant boolean, acknowledged epoch, acknowledged ownership |

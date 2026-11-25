@@ -30,7 +30,7 @@ from .phone_protocol import (
     PHONE_ITEM_ID, PHONE_CONFIG_BUS_ADDRESS, sync_phone_ownership, validate_phone_pairing,
 )
 from .copy_room_protocol import (
-    COPY_ROOM_CONTEXT_ADDRESS, COPY_ROOM_ITEM_ID, COPY_ROOM_MARKER, COPY_ROOM_MARKER_OFFSET,
+    COPY_ROOM_CONTEXT_ADDRESS, COPY_ROOM_ITEM_ID, COPY_ROOM_MARKER, COPY_ROOM_MARKER_OFFSET, PROGRESS_RESTORE_ADDRESS,
     copy_room_slot_version, decode_copy_room_snapshot, sync_copy_room_ownership,
 )
 from .goal_game_protocol import GOAL_MARKER, GOAL_MARKER_OFFSET, goal_slot_version, poll_goal_games
@@ -4824,8 +4824,8 @@ class KirbyAmClient(BizHawkClient):
                 item = getattr(history[index], "item", None)
                 if keys_enabled and item in _AREA_KEY_ITEM_ID_TO_AREA_ID:
                     bit = item - 3860041
-                elif item in _HUB_CONNECTION_ITEM_ID_TO_DOOR_INDEX:
-                    bit = _HUB_CONNECTION_ITEM_ID_TO_DOOR_INDEX[item] + 7
+                elif 1 <= (door := _HUB_CONNECTION_ITEM_ID_TO_DOOR_INDEX.get(item, 0)) <= 15:
+                    bit = door + 7
                 else:
                     continue
                 if not mask & (1 << bit) and journal.acknowledged(receipt_key(history, index)):
@@ -4838,11 +4838,12 @@ class KirbyAmClient(BizHawkClient):
 
         auth_addr = _normalize_gba_rom_address(data.rom_addresses["gArchipelagoInfo"])
         ownership_addr = 0x02028C64
-        request_addr = 0x0203B1C8
+        request_addr = PROGRESS_RESTORE_ADDRESS
         domain = "System Bus"
-        raw, owned, request, rom = await bizhawk.read(ctx.bizhawk_ctx, [
+        raw, owned, request, rom, marker = await bizhawk.read(ctx.bizhawk_ctx, [
             (COPY_ROOM_CONTEXT_ADDRESS, 36, domain), (ownership_addr, 4, domain),
             (request_addr + 4, 4, domain), (auth_addr, 16, "ROM"),
+            (COPY_ROOM_MARKER_OFFSET, len(COPY_ROOM_MARKER), "ROM"),
         ])
         fence = bytes(raw[:12])
         native_file = decode_copy_room_snapshot(raw, fence)
@@ -4856,7 +4857,8 @@ class KirbyAmClient(BizHawkClient):
                     and cursor == self._delivered_item_index
                     and history == tuple(ctx.items_received))
 
-        if native_file is None or bytes(rom) != auth or not still_current():
+        if (native_file is None or bytes(rom) != auth or bytes(marker) != COPY_ROOM_MARKER
+                or not still_current()):
             return False
         # Confirm by reading the seed-bound native save record on a later tick.
         owned_value = self._u32_le(owned)
@@ -4874,6 +4876,7 @@ class KirbyAmClient(BizHawkClient):
             (ownership_addr, bytes(owned), domain),
             (request_addr + 4, bytes(4), domain),
             (auth_addr, auth, "ROM"),
+            (COPY_ROOM_MARKER_OFFSET, COPY_ROOM_MARKER, "ROM"),
         ])
         return False
 
