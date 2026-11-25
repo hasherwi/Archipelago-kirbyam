@@ -545,10 +545,8 @@ OPTION_GROUPS = [
         EnemyHealthMultiplier,
         KirbyAmDeathLink,
     ]),
-    OptionGroup("More Random", [
+    OptionGroup("Make the game more random", [
         RandomStartingMirror,
-    ]),
-    OptionGroup("Ability Randomization", [
         AbilityRandomizationMode,
         AbilityRandomizationStatues,
         AbilityRandomizationPassiveEnemies,
