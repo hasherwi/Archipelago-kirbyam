@@ -12,6 +12,8 @@
 #define LOCAL U8(0x0203AD3Cu)
 #define HUMANS U8(0x0203AD30u)
 #define KIRBY 0x02020EE0u
+#define INCOMING_FLAG U32(0x0203B004u)
+#define INCOMING_ITEM U32(0x0203B008u)
 #define WORD18 U32(0x02028C58u)
 /* WORLD word 21 shares the full seed token in words 22..25. Do not
  * alias native words 1..15, Copy Room word 18, or goal/switch records. */
@@ -114,10 +116,25 @@ AP_COPY_EXT void ap_copy_room_grant_access(uint32_t mask) {
     }
     CTX->owned=RECORD[4]&AP_COPY_OWNED;
 }
+AP_COPY_EXT uint8_t ap_copy_room_receive_starting_mirror(void) {
+    uint32_t old;
+    if (!ap_copy_room_epoch()) return 0u;
+    old = RECORD[4];
+    if (old & AP_STARTING_MIRROR_OWNED) return 1u;
+    RECORD[4] = old | AP_STARTING_MIRROR_OWNED;
+    if (NATIVE_SAVE(1u, (uint16_t)CTX->slot) != 0) {
+        RECORD[4] = old;
+        return 0u;
+    }
+    CTX->dirty = 0u;
+    CTX->retry = 0u;
+    return 1u;
+}
+
 static AP_COPY_EXT void abandon_progress_offer(void) {
     uint32_t item = INCOMING_ITEM;
     if (INCOMING_FLAG == 1u && ((item >= 3860041u && item <= 3860048u)
-        || (item >= 3860401u && item <= 3860415u))) {
+        || (item >= 3860401u && item <= AP_STARTING_MIRROR_ITEM))) {
         /* Reset the offer without incrementing the native receipt counter.
          * The client's receipt journal treats this as unacknowledged. */
         INCOMING_FLAG = 0u;

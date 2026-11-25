@@ -10,6 +10,7 @@ Kirby & The Amazing Mirror:
   configured_area_boss: master_hand_crazy_hand_pair
   required_area_bosses: 2
   start_with_all_maps: 'false'
+  random_starting_mirror: false
   area_keys: 'false'
   minimum_health: 3
   maximum_health: 6

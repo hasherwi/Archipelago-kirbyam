@@ -157,7 +157,9 @@ def test_generated_seed_matrix(
 
     keep_historical_room16_assignment(monkeypatch)
     variant = SEEDS.index(seed)
+    # The archived exact pools and refusals predate the starting mirror option.
     options = {
+        "random_starting_mirror": 0,
         "ability_randomization_mode": mode, "ability_gating": gating, "accessibility": accessibility,
         "ability_randomization_no_ability_weight": (0, 99, 100)[variant],
         "ability_randomization_statues": variant % 2,
@@ -265,6 +267,7 @@ def test_mixed_multiworld_and_explicit_cutter_inventory(
          "ability_randomization_no_ability_weight": 100, "ability_randomization_statues": 1},
     ]
     # All three retained mixed seeds now pass the unchanged all-check guard.
+    options = [{**option, "random_starting_mirror": 0} for option in options]
     multiworld, decoded, archive = _generate(monkeypatch, tmp_path, seed, options)
     gates = _gate_words(archive)
     for player in multiworld.player_ids:
@@ -335,7 +338,7 @@ def test_advanced_seed1042_with_goal_games_preserves_historical_refusal(monkeypa
     refusal = json.loads((Path(__file__).parent / 'data/lever-seed1042-refusal.json').read_text())
     assert refusal['prior_error_sha256'] == 'c79a199251b2b2474e26217d0e7cfbe2a4bc37caf193a8a4a5db99f7c7084879'
     assert hashlib.sha256(refusal['current_error'].encode()).hexdigest() == refusal['current_error_sha256']
-    options = {'advanced_logic': True, 'ability_randomization_mode': 1,
+    options = {'random_starting_mirror': 0, 'advanced_logic': True, 'ability_randomization_mode': 1,
                'ability_gating': 1, 'accessibility': 'minimal',
                'ability_randomization_no_ability_weight': 0,
                'ability_randomization_statues': 0, 'ability_randomization_passive_enemies': 0,

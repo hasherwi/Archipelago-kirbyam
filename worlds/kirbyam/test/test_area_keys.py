@@ -37,6 +37,11 @@ _PRE_GENERATE_BASIC_STEPS = (
 def _setup_before_starting_area_key(worlds, *, seed: int, options=None) -> MultiWorld:
     # Boundary tests need to adjust access before the item-stage fallback runs.
     # Separate lifecycle tests below exercise the real stage without this seam.
+    # Keep the vanilla initial route while exercising only the Area Key fallback.
+    if isinstance(options, list):
+        options = [{"random_starting_mirror": 0, **player} for player in options]
+    else:
+        options = {"random_starting_mirror": 0, **(options or {})}
     with patch.object(KirbyAmWorld, "stage_create_items"):
         return setup_multiworld(worlds, steps=_PRE_GENERATE_BASIC_STEPS, seed=seed, options=options)
 
@@ -329,7 +334,7 @@ def test_two_player_restrictive_fill_keeps_every_area_key_out_of_its_own_lock(ro
     multiworld = setup_multiworld(
         [KirbyAmWorld, KirbyAmWorld],
         seed=50,
-        options={"room_sanity": room_sanity},
+        options={"room_sanity": room_sanity, "random_starting_mirror": 0},
     )
     distribute_items_restrictive(multiworld)
 
@@ -398,7 +403,7 @@ def test_slot_data_encodes_only_this_players_precollected_area_keys() -> None:
 def test_starting_key_finalizes_pool_during_create_items(room_sanity: int) -> None:
     multiworld = setup_multiworld(
         KirbyAmWorld, seed=1032, steps=("generate_early", "create_regions", "create_items"),
-        options={"room_sanity": room_sanity},
+        options={"room_sanity": room_sanity, "random_starting_mirror": 0},
     )
     created = list(multiworld.itempool)
     world = multiworld.worlds[1]

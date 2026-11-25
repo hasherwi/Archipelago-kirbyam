@@ -40,14 +40,14 @@ class Bridge:
             if req['type'] == 'READ':
                 initial = int(addr in [self.addresses[k] for k in
                                        ('debug_item_counter', 'frame_counter', 'hook_heartbeat')])
-                value = self.ram.get(addr, initial.to_bytes(req['size'], 'little'))
+                value = self.ram.get(addr, initial.to_bytes(req['size'], 'little'))[:req['size']]
                 responses.append({'type': 'READ_RESPONSE', 'value': base64.b64encode(value).decode()})
             elif req['type'] == 'GUARD':
                 if self.before_guard:
                     callback, self.before_guard = self.before_guard, None
                     callback()
                 expected = base64.b64decode(req['expected_data'])
-                valid = self.ram.get(addr, bytes(len(expected))) == expected
+                valid = self.ram.get(addr, bytes(len(expected)))[:len(expected)] == expected
                 responses.append({'type': 'GUARD_RESPONSE', 'value': valid})
                 if not valid:
                     break
@@ -99,6 +99,29 @@ async def test_late_hub_receipt_installs_ownership_before_native_offer(mock_bizh
         await client._deliver_items(ctx)
     assert bridge.offers == [(3860409, 0x220)]
     assert client._delivery_pending is True
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("native_epoch", [False, True])
+async def test_starting_mirror_offer_requires_authenticated_live_native_file(
+    mock_bizhawk_context: Any, native_epoch: bool,
+) -> None:
+    ctx = mock_bizhawk_context
+    client, bridge = await setup_client(ctx)
+    ctx.items_received[1] = NetworkItem(3860416, 2, 1, 0)
+    client.on_package(ctx, "ReceivedItems", {"index": 0})
+    auth = bytes(range(16))
+    client._health_rom_auth = auth
+    bridge.ram[0xF00000] = auth
+    bridge.ram[COPY_ROOM_CONTEXT_ADDRESS] = b"".join(
+        x.to_bytes(4, "little") for x in (
+            7, 7, 0, 0, 0, 0x03000000, 0, 0x43504332 if native_epoch else 0, 0,
+        )
+    )
+    with patch.object(client, "_prepare_receipts", return_value=True):
+        await client._deliver_items(ctx)
+    assert bridge.offers == ([(3860416, (1 << 5) | (1 << 16))] if native_epoch else [])
+    assert client._delivery_pending == native_epoch
 
 
 @pytest.mark.asyncio
@@ -300,11 +323,9 @@ async def test_durable_progress_timeout_preserves_exactly_one_ack(
 @pytest.mark.asyncio
 @pytest.mark.parametrize("keys_enabled", [False, True])
 async def test_file_restore_only_grants_confirmed_prior_permanent_receipts(
-    mock_bizhawk_context, tmp_path, keys_enabled, monkeypatch,
+    mock_bizhawk_context, tmp_path, keys_enabled,
 ):
-    from ..client import _HUB_CONNECTION_ITEM_ID_TO_DOOR_INDEX, bizhawk
-    # Follows #520’s catalog tagging without adding that feature to this PR.
-    monkeypatch.setitem(_HUB_CONNECTION_ITEM_ID_TO_DOOR_INDEX, 3860416, 16)
+    from ..client import bizhawk
     ctx = mock_bizhawk_context
     ctx.slot_data = {"copy_ability_room_protocol_version": 2, "area_keys": int(keys_enabled)}
     ctx.items_received = [

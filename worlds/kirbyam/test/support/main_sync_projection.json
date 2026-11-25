@@ -1139,6 +1139,107 @@
               "main": []
             }
           ]
+        },
+        {
+          "label": "Random Starting Mirror integrated handshake",
+          "integrated_sha256": "751085c4ff84937f4c9c5d9e83696b7e8e2b0ab92574f4fc4d7beff0cfa0e35a",
+          "reverse_slices": [
+            {
+              "start": 36,
+              "stop": 37,
+              "current": [
+                "from .starting_mirror import STARTING_MIRROR_ITEM_ID, STARTING_MIRROR_MASK_BIT\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 2158,
+              "stop": 2159,
+              "current": [
+                "                     or 3860401 <= getattr(item, \"item\", 0) <= STARTING_MIRROR_ITEM_ID\n"
+              ],
+              "main": [
+                "                     or 3860401 <= getattr(item, \"item\", 0) <= 3860415\n"
+              ]
+            },
+            {
+              "start": 3501,
+              "stop": 3502,
+              "current": [
+                "            if door_index is not None and 1 <= door_index <= STARTING_MIRROR_MASK_BIT:\n"
+              ],
+              "main": [
+                "            if door_index is not None and 1 <= door_index <= 15:\n"
+              ]
+            },
+            {
+              "start": 5119,
+              "stop": 5120,
+              "current": [
+                "                    and getattr(ctx.items_received[pending_index], \"item\", None) in (3860300, CANDY_ITEM_ID, 3860027, STARTING_MIRROR_ITEM_ID)):\n"
+              ],
+              "main": [
+                "                    and getattr(ctx.items_received[pending_index], \"item\", None) in (3860300, CANDY_ITEM_ID, 3860027)):\n"
+              ]
+            },
+            {
+              "start": 5417,
+              "stop": 5420,
+              "current": [
+                "                if item_id == STARTING_MIRROR_ITEM_ID and native_auth is None:\n",
+                "                    return\n",
+                "                if durable_progress or item_id == STARTING_MIRROR_ITEM_ID:\n"
+              ],
+              "main": [
+                "                if durable_progress:\n"
+              ]
+            },
+            {
+              "start": 5421,
+              "stop": 5422,
+              "current": [
+                "                    read_size = 36 if item_id == STARTING_MIRROR_ITEM_ID else 12\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 5423,
+              "stop": 5424,
+              "current": [
+                "                        (COPY_ROOM_CONTEXT_ADDRESS, read_size, \"System Bus\"),\n"
+              ],
+              "main": [
+                "                        (COPY_ROOM_CONTEXT_ADDRESS, 12, \"System Bus\"),\n"
+              ]
+            },
+            {
+              "start": 5426,
+              "stop": 5432,
+              "current": [
+                "                    fence = bytes(native_file[:12])\n",
+                "                    valid_file = (decode_copy_room_snapshot(native_file, fence) is not None\n",
+                "                                  if item_id == STARTING_MIRROR_ITEM_ID else\n",
+                "                                  len(fence) == 12 and self._u32_le(fence[:4])\n",
+                "                                  and self._u32_le(fence[8:12]) <= 2)\n",
+                "                    if not valid_file or bytes(auth) != native_auth or not progress_offer_current():\n"
+              ],
+              "main": [
+                "                    if (len(native_file) != 12 or not self._u32_le(native_file[:4])\n",
+                "                            or self._u32_le(native_file[8:12]) > 2 or bytes(auth) != native_auth\n",
+                "                            or not progress_offer_current()):\n"
+              ]
+            },
+            {
+              "start": 5433,
+              "stop": 5434,
+              "current": [
+                "                    guards += [(COPY_ROOM_CONTEXT_ADDRESS, fence, \"System Bus\"),\n"
+              ],
+              "main": [
+                "                    guards += [(COPY_ROOM_CONTEXT_ADDRESS, bytes(native_file), \"System Bus\"),\n"
+              ]
+            }
+          ]
         }
       ]
     },

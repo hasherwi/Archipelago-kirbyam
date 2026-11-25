@@ -34,6 +34,7 @@ from .copy_room_protocol import (
     copy_room_slot_version, decode_copy_room_snapshot, sync_copy_room_ownership,
 )
 from .goal_game_protocol import GOAL_MARKER, GOAL_MARKER_OFFSET, goal_slot_version, poll_goal_games
+from .starting_mirror import STARTING_MIRROR_ITEM_ID, STARTING_MIRROR_MASK_BIT
 from .hub_protocol import HUB_MARKER, HUB_MARKER_OFFSET, hub_slot_version
 from .data import BASE_OFFSET, LocationCategory, data, format_room_region_label, load_json_data
 from .enemy_ability_data import ABILITY_SOURCES
@@ -2155,7 +2156,7 @@ class KirbyAmClient(BizHawkClient):
                 if bytes(marker) != HUB_MARKER:
                     raise ValueError("ROM and slot Hub versions differ")
             elif any(3860041 <= getattr(item, "item", 0) <= 3860055
-                     or 3860401 <= getattr(item, "item", 0) <= 3860415
+                     or 3860401 <= getattr(item, "item", 0) <= STARTING_MIRROR_ITEM_ID
                      for item in getattr(ctx, "items_received", ())):
                 raise ValueError("Hub items received without a compatible Hub slot")
             plan = resolve_vitality_plan(slot.get("minimum_health", 6),
@@ -3498,7 +3499,7 @@ class KirbyAmClient(BizHawkClient):
             if item_fields is None:
                 continue
             door_index = _HUB_CONNECTION_ITEM_ID_TO_DOOR_INDEX.get(item_fields[0])
-            if door_index is not None and 1 <= door_index <= 15:
+            if door_index is not None and 1 <= door_index <= STARTING_MIRROR_MASK_BIT:
                 item_mask |= 1 << door_index
 
         await bizhawk.write(
@@ -5116,7 +5117,7 @@ class KirbyAmClient(BizHawkClient):
             pending_index = self._delivery_pending_item_index
             if (timeout_triggered and flag == 1 and pending_index is not None
                     and 0 <= pending_index < len(ctx.items_received)
-                    and getattr(ctx.items_received[pending_index], "item", None) in (3860300, CANDY_ITEM_ID, 3860027)):
+                    and getattr(ctx.items_received[pending_index], "item", None) in (3860300, CANDY_ITEM_ID, 3860027, STARTING_MIRROR_ITEM_ID)):
                 return
 
             if timeout_triggered:
@@ -5414,17 +5415,23 @@ class KirbyAmClient(BizHawkClient):
                     )
 
                 guards = [(flag_addr, bytes(4), "System Bus")]
-                if durable_progress:
+                if item_id == STARTING_MIRROR_ITEM_ID and native_auth is None:
+                    return
+                if durable_progress or item_id == STARTING_MIRROR_ITEM_ID:
                     auth_addr = _normalize_gba_rom_address(data.rom_addresses["gArchipelagoInfo"])
+                    read_size = 36 if item_id == STARTING_MIRROR_ITEM_ID else 12
                     native_file, auth = await bizhawk.read(ctx.bizhawk_ctx, [
-                        (COPY_ROOM_CONTEXT_ADDRESS, 12, "System Bus"),
+                        (COPY_ROOM_CONTEXT_ADDRESS, read_size, "System Bus"),
                         (auth_addr, 16, "ROM"),
                     ])
-                    if (len(native_file) != 12 or not self._u32_le(native_file[:4])
-                            or self._u32_le(native_file[8:12]) > 2 or bytes(auth) != native_auth
-                            or not progress_offer_current()):
+                    fence = bytes(native_file[:12])
+                    valid_file = (decode_copy_room_snapshot(native_file, fence) is not None
+                                  if item_id == STARTING_MIRROR_ITEM_ID else
+                                  len(fence) == 12 and self._u32_le(fence[:4])
+                                  and self._u32_le(fence[8:12]) <= 2)
+                    if not valid_file or bytes(auth) != native_auth or not progress_offer_current():
                         return
-                    guards += [(COPY_ROOM_CONTEXT_ADDRESS, bytes(native_file), "System Bus"),
+                    guards += [(COPY_ROOM_CONTEXT_ADDRESS, fence, "System Bus"),
                                (auth_addr, bytes(auth), "ROM")]
                     progress_fence = guards[1:] + offer[:2]
                 if hub_door is not None:
