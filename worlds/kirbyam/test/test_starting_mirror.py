@@ -108,3 +108,29 @@ def test_board_only_object_preserves_the_native_central_list():
     rom[CENTRAL_OBJECT_LIST_INFO] ^= 1
     with pytest.raises(SystemExit, match="Unexpected Central Circle object-list pointers"):
         build_starting_mirror_object_writes(rom, address, reserved)
+
+
+@pytest.mark.parametrize("keys", [0, 1])
+def test_generated_archive_places_one_starting_route_without_precollect(tmp_path, keys):
+    from .support.integration_generation import generate_archive_from_fixture, load_multidata_from_archive
+
+    player = tmp_path / "player.yaml"
+    player.write_text(
+        "name: Starting Mirror\ngame: Kirby & The Amazing Mirror\nKirby & The Amazing Mirror:\n"
+        f"  random_starting_mirror: true\n  area_keys: {keys}\n  room_sanity: 0\n  shards: 2\n",
+        encoding="utf-8",
+    )
+    decoded = load_multidata_from_archive(
+        generate_archive_from_fixture(player, tmp_path / "output", seed=520 + keys)
+    )
+    slot = decoded["slot_data"][1]
+    assert slot["random_starting_mirror"]
+    reward = slot["tracker"]["starting_mirror_tutorial_item"]
+    assert reward in starting_mirror_candidates(bool(keys))
+    reward_id = KirbyAmWorld.item_name_to_id[reward]
+    locations = decoded["locations"][1]
+    assert locations[3960209][:2] == (reward_id, 1)
+    assert reward_id not in decoded["precollected_items"][1]
+    assert sum(item[0] == reward_id for item in locations.values()) == 1
+    assert sum(item[0] == KirbyAmWorld.item_name_to_id[STARTING_MIRROR_ITEM]
+               for item in locations.values()) == 1
