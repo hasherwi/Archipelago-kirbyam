@@ -686,6 +686,54 @@ class KirbyAmWorld(World):
             ])
             log_regions_created(self.player, len(regions_by_name), fillable_locations)
 
+    def _place_tutorial_hub_connection(self, locations_by_key: dict[str, KirbyAmLocation]) -> int | None:
+        from .starting_mirror import (
+            TUTORIAL_WORLD_MAP_KEY, random_starting_mirror_enabled, starting_mirror_candidates,
+        )
+        if not random_starting_mirror_enabled(self):
+            return None
+
+        location = locations_by_key.get(TUTORIAL_WORLD_MAP_KEY)
+        if location is None:
+            raise ValueError("Random Starting Mirror requires the tutorial World Map chest.")
+
+        candidates = starting_mirror_candidates(self._area_keys_enabled())
+        restored = getattr(self, "_starting_mirror_tutorial_item", None)
+        if restored is None:
+            configured_from_pool = getattr(getattr(self.options, "start_inventory_from_pool", None), "value", {})
+            draw = [name for name in candidates if not configured_from_pool.get(name, 0)]
+            if not draw:
+                raise ValueError("Random Starting Mirror needs a Central Circle connection outside start_inventory_from_pool.")
+            restored = self.random.choice(draw)
+            self._starting_mirror_tutorial_item = restored
+        if restored not in candidates:
+            raise ValueError("Invalid Random Starting Mirror tutorial Hub Connection.")
+        item = self.create_item(restored)
+        location.place_locked_item(item)
+        location.progress_type = LocationProgressType.DEFAULT
+        return self.item_name_to_id[restored]
+
+    def _verify_tutorial_hub_connection(self) -> None:
+        from .starting_mirror import (
+            TUTORIAL_WORLD_MAP_NAME, random_starting_mirror_enabled, starting_mirror_candidates,
+        )
+        if not random_starting_mirror_enabled(self):
+            return
+        chest = self.multiworld.get_location(TUTORIAL_WORLD_MAP_NAME, self.player)
+        item = chest.item
+        state = CollectionState(self.multiworld)
+        if item is None or not chest.can_reach(state):
+            raise ValueError("Random Starting Mirror tutorial reward is not reachable.")
+        edge = self.multiworld.get_entrance(starting_mirror_candidates(self._area_keys_enabled())[item.name], self.player)
+        state.collect(item, True, chest)
+        if not edge.can_reach(state):
+            raise ValueError(f"Random Starting Mirror tutorial reward {item.name!r} does not open its entrance.")
+        if not any(
+            loc.address is not None and loc.item is None and loc.can_reach(state)
+            for loc in self.multiworld.get_locations(self.player)
+        ):
+            raise ValueError(f"Random Starting Mirror tutorial reward {item.name!r} leaves no reachable randomized check.")
+
     def create_items(self) -> None:  # noqa: C901
         with generation_stage("create_items", self.player, self.player_name):
             # Create items for all fillable locations (address != None).
@@ -745,6 +793,7 @@ class KirbyAmWorld(World):
             area_visit_locations.sort(key=lambda loc: loc.key or "")
             goal_game_locations.sort(key=lambda loc: loc.key or "")
 
+            tutorial_hub_code = self._place_tutorial_hub_connection(location_by_key)
             locked_shard_count = 0
             randomized_item_codes: list[int] = []
             if (
@@ -844,6 +893,13 @@ class KirbyAmWorld(World):
                         not item.tags.intersection({"SprayPaint", "MusicSheet"})
                         or item.item_id in active_collection_item_codes
                     )
+                ]
+                from .starting_mirror import STARTING_MIRROR_ITEM_ID, random_starting_mirror_enabled
+
+                non_filler_item_codes = [
+                    code for code in non_filler_item_codes
+                    if code != tutorial_hub_code
+                    and (code != STARTING_MIRROR_ITEM_ID or random_starting_mirror_enabled(self))
                 ]
                 vitality_item_codes = getattr(self, "_vitality_item_codes", None)
                 if vitality_item_codes is None:
@@ -1099,6 +1155,7 @@ class KirbyAmWorld(World):
             world.set_rules()
         for world in worlds:
             world._ensure_starting_area_key()
+            world._verify_tutorial_hub_connection()
 
     # Rules are needed during item creation to evaluate real starting access.
     # The normal set_rules stage must not stack the same entrance predicates.
@@ -1247,6 +1304,7 @@ class KirbyAmWorld(World):
             "required_area_bosses",
             "shards",
             "start_with_all_maps",
+            "random_starting_mirror",
             "starting_kirby_color",
             "no_extra_lives",
             "ability_gating",

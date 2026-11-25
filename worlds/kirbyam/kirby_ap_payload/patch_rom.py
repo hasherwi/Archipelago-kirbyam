@@ -2134,6 +2134,53 @@ def build_hub_board_sprite_writes(rom: bytes | bytearray, address: int,
             HUB_BOARD_ATTR_POINTER: struct.pack("<I", address + 92)}
 
 
+STARTING_MIRROR_OBJECT_MARKER = b"APMIR01\0"
+STARTING_MIRROR_OBJECT_SIZE = 524
+CENTRAL_OBJECT_LIST_INFO = 0x8B4CC0
+CENTRAL_NATIVE_TEMPLATES = 0x8B4AD8
+CENTRAL_NATIVE_PRELOAD = 0x8B4CB8
+CENTRAL_TEMPLATE_SIZE = 0x24
+CENTRAL_NATIVE_TEMPLATE_COUNT = 13
+
+
+def build_starting_mirror_object_writes(rom: bytes | bytearray, address: int,
+                                       reserved: bytes) -> dict[int, bytes]:
+    """Attach an AreaDoor decoration to the verified native Central warp tile."""
+    if (address & 3 or not 0x09000028 <= address
+            or address + STARTING_MIRROR_OBJECT_SIZE > 0x0900FFC0):
+        raise SystemExit("Starting Mirror object metadata is outside its reserved extension")
+    if reserved != STARTING_MIRROR_OBJECT_MARKER + bytes(STARTING_MIRROR_OBJECT_SIZE - 8):
+        raise SystemExit("Starting Mirror object reservation mismatch")
+    base = 0x08000000
+    if rom[CENTRAL_OBJECT_LIST_INFO:CENTRAL_OBJECT_LIST_INFO + 8] != struct.pack(
+        "<II", base + CENTRAL_NATIVE_TEMPLATES, base + CENTRAL_NATIVE_PRELOAD,
+    ):
+        raise SystemExit("Unexpected Central Circle object-list pointers")
+    if rom[CENTRAL_NATIVE_PRELOAD:CENTRAL_NATIVE_PRELOAD + 5] != bytes((0x65, 0x8C, 0x8E, 0x98, 0xFF)):
+        raise SystemExit("Unexpected Central Circle object sprite preload list")
+    length = CENTRAL_NATIVE_TEMPLATE_COUNT * CENTRAL_TEMPLATE_SIZE
+    templates = rom[CENTRAL_NATIVE_TEMPLATES:CENTRAL_NATIVE_TEMPLATES + length]
+    if (not all(record[0] == 1 and record[1] == CENTRAL_TEMPLATE_SIZE
+                and record[3] == i for i, record in enumerate(
+                    templates[j:j + CENTRAL_TEMPLATE_SIZE] for j in range(0, length, CENTRAL_TEMPLATE_SIZE)))
+            or rom[CENTRAL_NATIVE_TEMPLATES + length:CENTRAL_NATIVE_TEMPLATES + length + 2] != b"\0\0"):
+        raise SystemExit("Unexpected Central Circle native object template list")
+    # OBJ_AREA_DOOR at the center of tile X=19, with foot Y=15. Native
+    # decoration reads (Y - 0xFFF) in tile units, selecting the 801->101
+    # trigger at (19, 14), not any of the nine nearby Hub Mirror objects.
+    door = bytearray(CENTRAL_TEMPLATE_SIZE)
+    door[:6] = bytes((1, CENTRAL_TEMPLATE_SIZE, 0, CENTRAL_NATIVE_TEMPLATE_COUNT, 0, 1))
+    struct.pack_into("<hh", door, 6, 312, 240)
+    door[10:14] = bytes((0xFF, 0xFF, 0x99, 0xFF))
+    object_list = templates + door + rom[CENTRAL_NATIVE_TEMPLATES + length:CENTRAL_NATIVE_PRELOAD]
+    preload = bytes((0x65, 0x8C, 0x8E, 0x98, 0x99, 0xFF, 0, 0))
+    assert len(object_list + preload) == STARTING_MIRROR_OBJECT_SIZE
+    return {
+        address - base: object_list + preload,
+        CENTRAL_OBJECT_LIST_INFO: struct.pack("<II", address, address + len(object_list)),
+    }
+
+
 def apply_color_extension(rom: bytearray, elf_path: Path) -> None:
     # This module also supports callers that import patch_rom.py by filename.
     import importlib.util
@@ -2152,6 +2199,10 @@ def apply_color_extension(rom: bytearray, elf_path: Path) -> None:
     board_offset = board_address - 0x09000000
     board_writes = build_hub_board_sprite_writes(
         rom, board_address, extension[board_offset:board_offset + HUB_BOARD_TABLE_SIZE])
+    start_address = resolve_elf_symbol_address(elf_path, "gApStartingMirrorObjectData")
+    start_offset = start_address - 0x09000000
+    starting_mirror_writes = build_starting_mirror_object_writes(
+        rom, start_address, extension[start_offset:start_offset + STARTING_MIRROR_OBJECT_SIZE])
     if (resolve_elf_symbol_address(elf_path, "gApEnemySourceConfig") != 0x0900FFDC
             or extension[0xFFDC:0x10000] != (0x41534500).to_bytes(4, "little") + bytes(32)):
         raise SystemExit("Error: missing versioned enemy source policy config")
@@ -2159,7 +2210,7 @@ def apply_color_extension(rom: bytearray, elf_path: Path) -> None:
         rom, extension,
         resolve_elf_symbol_address(elf_path, "ap_color_sprite_palette"),
         resolve_elf_symbol_address(elf_path, "ap_color_load_bg"))
-    for offset, replacement in {**writes, **board_writes}.items():
+    for offset, replacement in {**writes, **board_writes, **starting_mirror_writes}.items():
         rom[offset:offset + len(replacement)] = replacement
 
 

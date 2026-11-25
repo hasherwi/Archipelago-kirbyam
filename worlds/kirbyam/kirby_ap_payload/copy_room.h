@@ -10,7 +10,8 @@
 #define AP_COPY_TAG 0x43540000u
 #define AP_COPY_OWNED 1u
 #define AP_GOAL_FLAGS 0x0003FFFCu
-#define AP_ACCESS_MASK 3u
+#define AP_STARTING_MIRROR_OWNED (1u << 19)
+#define AP_ACCESS_MASK (3u | AP_STARTING_MIRROR_OWNED)
 AP_COPY_EXT void ap_copy_room_complete_goal(uint32_t bit);
 struct ApCopyContext {
     uint32_t epoch, serial, slot, dirty, loaded_slot, task, owned, cookie, retry;

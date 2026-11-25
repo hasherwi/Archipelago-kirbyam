@@ -1160,3 +1160,22 @@ and cue 3 starts `0x251` (trap). Trap wins over progression for mixed flags.
 The native mixer gate serializes AP cues and does not suppress vanilla effects.
 A chest's native sound followed by a genuine self-receipt may therefore be
 audible as two cues.
+
+
+### Random Starting Mirror
+
+With `random_starting_mirror` enabled, the tutorial World Map chest retains
+its native map unlock and also reports its original Archipelago check
+(3960209). That check holds one equally weighted, eligible Central Circle
+Hub Connection, including the new Starting Mirror (3860416). An alternate
+connection that also requires an Area Key is ineligible while keys are enabled.
+The selected copy is locked at the chest, not added to starting inventory or
+duplicated in the pool.
+
+The existing configuration word at ROM offset `0x15F688` uses bit 1 for this
+option; bit 0 continues to control Area Keys independently. Hub ownership
+mask bit 16 refers to Starting Mirror only, not a native WorldMapDoor index.
+The payload persists ownership in the authenticated native save file, and its
+transition and decoration hooks gate only Central Circle (801) to Room 1-01
+(101). With the option off that exit and the chest's reward pool behave as
+before.

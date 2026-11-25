@@ -34,6 +34,7 @@ from .copy_room_protocol import (
     copy_room_slot_version, decode_copy_room_snapshot, sync_copy_room_ownership,
 )
 from .goal_game_protocol import GOAL_MARKER, GOAL_MARKER_OFFSET, goal_slot_version, poll_goal_games
+from .starting_mirror import STARTING_MIRROR_MASK_BIT
 from .hub_protocol import HUB_MARKER, HUB_MARKER_OFFSET, hub_slot_version
 from .data import BASE_OFFSET, LocationCategory, data, format_room_region_label, load_json_data
 from .enemy_ability_data import ABILITY_SOURCES
@@ -3497,7 +3498,7 @@ class KirbyAmClient(BizHawkClient):
             if item_fields is None:
                 continue
             door_index = _HUB_CONNECTION_ITEM_ID_TO_DOOR_INDEX.get(item_fields[0])
-            if door_index is not None and 1 <= door_index <= 15:
+            if door_index is not None and 1 <= door_index <= STARTING_MIRROR_MASK_BIT:
                 item_mask |= 1 << door_index
 
         await bizhawk.write(
