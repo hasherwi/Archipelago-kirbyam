@@ -158,3 +158,32 @@ int main(void) {
     subprocess.run([cc, "-std=c99", "-Wall", "-Wextra", "-Werror", "-I",
                     str(WORLD / "kirby_ap_payload"), str(c), "-o", str(exe)], check=True)
     subprocess.run([str(exe)], check=True)
+
+
+def test_native_statue_frames_share_collectible_bank_without_overwriting_skin_or_markers():
+    dummy = runpy.run_path(str(WORLD / "tools" / "create_dummy_rom.py"))["build_dummy_rom"]()
+    assets = WORLD / "kirby_ap_payload"
+    collectible = runpy.run_path(str(assets / "collectible_art.py"))
+    statue = runpy.run_path(str(assets / "world_statue_assets.py"))
+    region = bytes(0x10000)
+    shared = collectible["build_collectible_art_table"](dummy, region)
+    offset, frames = next(iter(statue["build_statue_art_table"](dummy, region).items()))
+    start = offset - collectible["OFFSET"]
+    assert start >= len(collectible["MARKER"])
+    assert shared[start:] == frames
+    assert offset + len(frames) == 0x100ED08
+    assert offset + len(frames) <= 0x100ED10 < STATUE_CONFIG_ROM_OFFSET
+
+
+def test_boss_shard_and_world_statue_hooks_share_one_native_render_dispatch():
+    dummy = runpy.run_path(str(WORLD / "tools" / "create_dummy_rom.py"))["build_dummy_rom"]()
+    names = {name for group in (patch_rom.WORLD_STATUE_HOOK_GROUPS, patch_rom.BOSS_SHARD_ART_HOOK_GROUPS)
+             for name, _, _ in group}
+    targets = {name: 0x0815E800 + i * 8 for i, name in enumerate(sorted(names))}
+    statues = patch_rom.build_world_statue_hooks(dummy, targets)
+    bosses = patch_rom.build_boss_shard_art_hooks(dummy, targets)
+    shared = statues.keys() & bosses.keys()
+    assert shared == {0x09A884, 0x09A8B0, 0x09D868, 0x09A97E, 0x09D8B8}
+    assert all(statues[site] == bosses[site] for site in shared)
+    assert len(statues.keys() - bosses.keys()) == 3
+    assert len(bosses.keys() - statues.keys()) == 1

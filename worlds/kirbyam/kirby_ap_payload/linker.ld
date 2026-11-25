@@ -1,7 +1,7 @@
 ENTRY(ap_hook_entry)
 
 /*
- * Reserve the final twenty-four bytes in patch_rom.py's 0x1AA0-byte payload window
+ * Reserve the final twenty-four bytes in patch_rom.py's 0x1BA0-byte payload window
  * for per-seed Area Keys, Minny, health, starting color, ability gating, and statue-pool
  * configuration. Moving the
  * location counter here also makes the linker fail if code/data grows into the
@@ -12,7 +12,7 @@ AP_CONFIG_ADDR = 0x0815F688;
 SECTIONS
 {
   /* Extend backward within the retail zero-filled padding; config stays fixed. */
-  . = 0x0815DC00;
+  . = 0x0815DB00;
 
   .text : {
     /* Keep the Thumb tail entry within branch range of its C implementation. */
@@ -37,18 +37,24 @@ SECTIONS
     KEEP(*(.apconfig.statue))
   }
   /* Append beyond the clean 16 MiB ROM; never allocate presumed internal padding. */
-  .apcolors 0x09000000 : { KEEP(*(.apcolorinfo)) KEEP(*(.aphubinfo)) KEEP(*(.apgoalinfo)) KEEP(*(.apfullinfo)) KEEP(*(.apcueinfo)) color_payload.o(.text* .rodata*) *(.aphub)
+  .apcolors 0x09000000 : { KEEP(*(.apcolorinfo)) KEEP(*(.aphubinfo)) KEEP(*(.apgoalinfo)) KEEP(*(.apfullinfo)) KEEP(*(.apcueinfo)) KEEP(*(.apvisualinfo)) color_payload.o(.text* .rodata*) *(.aphub)
     KEEP(*(.aphubboards))
+    KEEP(*(.apchestart))
+    KEEP(*(.aprewardfx))
+    KEEP(*(.apvisitdata))
     KEEP(*(.aphubteleportdata))
     KEEP(*(.apstatuefx))
     KEEP(*(.apstatuefx_data))
-    ap_statue_code_end = .;
-    /* 19 extracted native statue frames occupy E388..ED07. */
+    ap_extension_code_end = .;
+    /* The shared pickup art table includes native statue frames at E388..ED07. */
     . = 0xED10;
     KEEP(*(.apstatueart))
     . = 0xEE00;
     KEEP(*(.apstatueconfig))
-    ap_extension_code_end = .;
+    . = 0xF000;
+    KEEP(*(.aprewardconfig))
+    . = 0xFFBC;
+    KEEP(*(.aproomvisitconfig))
     . = 0xFFC0;
     KEEP(*(.apnarcolepsyinfo))
     KEEP(*(.aprandomteleportinfo))
@@ -68,7 +74,9 @@ ASSERT(SIZEOF(.apcolors) <= 0x10000, "Curated palette extension exceeds 64 KiB")
 ASSERT(ADDR(.text) + SIZEOF(.text) <= AP_CONFIG_ADDR, "KirbyAM payload overlaps fixed configuration ABI")
 ASSERT(SIZEOF(.data) == 0 && SIZEOF(.bss) == 0, "KirbyAM ROM payload must not contain writable static storage")
 
-ASSERT(ap_extension_code_end <= 0x0900FFC0, "Fixed AP markers overlap extension code")
+ASSERT(ap_extension_code_end <= 0x09007000, "Animated shard art overlaps extension code")
+ASSERT(gApRewardArtConfig == 0x0900F000, "Reward art config address changed")
+ASSERT(gApVisitRoomArtConfig == 0x0900FFBC, "Room visit config address changed")
 ASSERT(gApNarcolepsyInfo == 0x0900FFC0, "Narcolepsy marker address changed")
 ASSERT(gApRandomTeleportInfo == 0x0900FFC4, "Random Teleport marker address changed")
 ASSERT(gApEnemySourceConfig == 0x0900FFDC, "Enemy source config address changed")
@@ -81,6 +89,6 @@ ASSERT(gApPhoneConfig == 0x0900FFC8, "Phone config address changed")
 
 ASSERT(gApReceiptCueInfo == 0x09000020, "Receipt cue marker address changed")
 
-ASSERT(ap_statue_code_end <= 0x0900E388, "World-statue tile table overlaps extension code")
 ASSERT(gApWorldStatueLogo == 0x0900ED10, "World-statue logo address changed")
 ASSERT(gApWorldStatueConfig == 0x0900EE00, "World-statue seed config address changed")
+ASSERT(gApReceiptVisualInfo == 0x09000028, "Receipt visual marker address changed")

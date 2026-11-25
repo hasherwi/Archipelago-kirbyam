@@ -50,7 +50,7 @@ except ImportError:
     shared_is_thumb_bl_instruction = _thumb_module.is_thumb_bl_instruction
     shared_thumb_bl_bytes = _thumb_module.thumb_bl_bytes
 
-PAYLOAD_OFFSET = 0x0015DC00
+PAYLOAD_OFFSET = 0x0015DB00
 PAYLOAD_LEGACY_OFFSET = 0x0015E000
 MAIN_HOOK_OFFSET = 0x00152696
 BOSS_COLLECT_SHARD_CALL_OFFSET = 0x001D952
@@ -128,6 +128,42 @@ ORIGINAL_CHEST_ROOM_COUNTER_ADDR = 0x080029F4
 CHEST_POPUP_FUNCTION_RANGE = (0x0000B97C, 0x0000BD4C)
 ORIGINAL_ABILITY_COMMIT_ADDR = 0x0805C618
 ABILITY_COMMIT_INSTALLER_RANGE = (0x0005C11C, 0x0005C618)
+
+
+# ChestItemPopup constructor in the native chest-open handler, followed by
+# the known static 16×16 art-only variant and stock pickup palette.
+CHEST_REWARD_ART_CALLSITE = 0xB3FE
+CHEST_REWARD_ART_NATIVE_FUNCTION = 0x0800B414
+BIG_SWITCH_REWARD_ART_CALLSITE = 0x1199F6
+BIG_SWITCH_REWARD_ART_NATIVE_FUNCTION = 0x08119B3C
+ROOM_VISIT_REWARD_ART_CALLSITE = 0x5655C
+ROOM_VISIT_REWARD_ART_NATIVE_FUNCTION = 0x08002A80
+BOSS_SHARD_ART_HOOK_GROUPS = (
+    ("ap_init_boss_shard_sprite_entry", 0x0809F3E0, (0x01B9CE,)),
+    ("ap_update_reward_or_statue_sprite_entry", 0x08155128, (0x09A884, 0x09A8B0, 0x09D868)),
+    ("ap_draw_reward_or_statue_sprite_entry", 0x0815604C, (0x09A97E, 0x09D8B8)),
+)
+BOSS_SHARD_NATIVE_SCRIPT_OFFSET = 0x422894
+BOSS_SHARD_NATIVE_SCRIPT = struct.pack(
+    "<49i", -2, 220, 16,
+    -1, 45779, 9, 3, 0, -1, 45788, 9, 5, 1, -1, 45797, 3, 5, 2,
+    -1, 45800, 9, 5, 3, -1, 45809, 9, 5, 4, -1, 45818, 9, 5, 5,
+    -1, 45827, 3, 5, 6, -1, 45830, 9, 5, 7, -1, 45839, 9, 2, 8, -4,
+)
+CHEST_REWARD_ART_NATIVE_SCRIPT = 0x4219A8
+CHEST_REWARD_ART_NATIVE_SCRIPT_DATA = struct.pack("<9i", -2, 159, 16, -1, 45113, 4, 1, 0, -4)
+# Six immediately following 16×16 variants share stock bank F, four tiles
+# each. Alongside variant zero, these are the seven native consumable frames.
+CHEST_REWARD_ART_CONSUMABLE_SCRIPTS = tuple(
+    (CHEST_REWARD_ART_NATIVE_SCRIPT + variant * 36,
+     struct.pack("<9i", -2, 159, 16, -1, 45113 + 4 * variant, 4, 1, variant, -4))
+    for variant in range(1, 7)
+)
+CHEST_REWARD_ART_NATIVE_PALETTE = 0x4BB0EC + 42 * 32
+CHEST_REWARD_ART_NATIVE_PALETTE_DATA = (
+    0x5EA0, 0x7E80, 0x00D2, 0x01B8, 0x02FE, 0x08BF, 0x025F, 0x0000,
+    0x6E9F, 0x7D40, 0x7FA0, 0x1C96, 0x393B, 0x1262, 0x7FFF, 0x03FF,
+)
 
 
 # Retail audio ABI used by the native receipt cue scheduler.
@@ -1011,8 +1047,8 @@ def load_payload_and_validate() -> tuple[bytes, Path]:
             "Error: payload.bin not found. Ensure your build produces payload.bin in the current directory."
         ) from e
 
-    if len(payload) > 0x1AA0:
-        raise SystemExit(f"payload.bin too large: {len(payload)} bytes (max 0x1AA0)")
+    if len(payload) > 0x1BA0:
+        raise SystemExit(f"payload.bin too large: {len(payload)} bytes (max 0x1BA0)")
 
     area_keys_offset = 0x15F688 - PAYLOAD_OFFSET
     if payload[area_keys_offset:area_keys_offset + 4] != (0x414B0101).to_bytes(4, "little"):
@@ -1248,7 +1284,7 @@ def build_battery_writes(rom: bytes | bytearray, targets: dict[str, int]) -> dic
     for name, (offset, original) in BATTERY_SITES.items():
         validate_expected_instruction_sequence(rom, offset, bytes.fromhex(original), name)
         target = targets[name]
-        if type(target) is not int or not 0x0815DC00 <= target < 0x0815F688 or target & 1:
+        if type(target) is not int or not 0x08000000 + PAYLOAD_OFFSET <= target < 0x0815F688 or target & 1:
             raise SystemExit("Battery trampoline outside guarded main payload")
         writes[offset] = thumb_bl_bytes(0x08000000 + offset, target)
     return writes
@@ -2174,8 +2210,8 @@ WORLD_STATUE_HOOK_GROUPS = (
     ("ap_init_world_statue_sprite_entry", 0x0809F3E0, (0x0AA4B0,)),
     ("ap_init_world_statue_grant_entry", 0x080AA4EC, (0x0AA4CE,)),
     ("ap_reload_world_statue_sprite_entry", 0x0809A630, (0x099E42,)),
-    ("ap_update_world_statue_sprite_entry", 0x08155128, (0x09A884, 0x09A8B0, 0x09D868)),
-    ("ap_draw_world_statue_sprite_entry", 0x0815604C, (0x09A97E, 0x09D8B8)),
+    ("ap_update_reward_or_statue_sprite_entry", 0x08155128, (0x09A884, 0x09A8B0, 0x09D868)),
+    ("ap_draw_reward_or_statue_sprite_entry", 0x0815604C, (0x09A97E, 0x09D8B8)),
 )
 
 
@@ -2189,6 +2225,61 @@ def build_world_statue_hooks(rom: bytes | bytearray, targets: dict[str, int]) ->
                 raise SystemExit("Unexpected native world statue call; refusing to patch")
             writes[callsite] = thumb_bl_bytes(address, targets[name])
     return writes
+
+
+def build_chest_reward_art_hook(rom: bytes | bytearray, target: int) -> dict[int, bytes]:
+    """Reject other popup/graphics ABIs before changing the rendering call."""
+    for offset, expected, label in (
+        (CHEST_REWARD_ART_CALLSITE, thumb_bl_bytes(0x08000000 + CHEST_REWARD_ART_CALLSITE,
+                                                  CHEST_REWARD_ART_NATIVE_FUNCTION), "constructor"),
+        (CHEST_REWARD_ART_NATIVE_SCRIPT, CHEST_REWARD_ART_NATIVE_SCRIPT_DATA, "tile script"),
+        *((offset, script, "consumable tile script") for offset, script in CHEST_REWARD_ART_CONSUMABLE_SCRIPTS),
+        (CHEST_REWARD_ART_NATIVE_PALETTE, struct.pack("<16H", *CHEST_REWARD_ART_NATIVE_PALETTE_DATA), "palette"),
+    ):
+        if rom[offset:offset + len(expected)] != expected:
+            raise SystemExit(f"Unexpected native chest reward art {label}; refusing to patch")
+    return {CHEST_REWARD_ART_CALLSITE: thumb_bl_bytes(0x08000000 + CHEST_REWARD_ART_CALLSITE, target)}
+
+
+def build_big_switch_reward_art_hook(rom: bytes | bytearray, target: int) -> dict[int, bytes]:
+    callsite = BIG_SWITCH_REWARD_ART_CALLSITE
+    expected = thumb_bl_bytes(0x08000000 + callsite, BIG_SWITCH_REWARD_ART_NATIVE_FUNCTION)
+    if rom[callsite:callsite + len(expected)] != expected:
+        raise SystemExit("Unexpected native Big Switch reward art dispatch; refusing to patch")
+    return {callsite: thumb_bl_bytes(0x08000000 + callsite, target)}
+
+
+def build_room_visit_reward_art_hook(rom: bytes | bytearray, target: int) -> dict[int, bytes]:
+    callsite = ROOM_VISIT_REWARD_ART_CALLSITE
+    expected = thumb_bl_bytes(0x08000000 + callsite, ROOM_VISIT_REWARD_ART_NATIVE_FUNCTION)
+    if rom[callsite:callsite + len(expected)] != expected:
+        raise SystemExit("Unexpected native room visit reward art dispatch; refusing to patch")
+    return {callsite: thumb_bl_bytes(0x08000000 + callsite, target)}
+
+
+def build_boss_shard_art_hooks(rom: bytes | bytearray, targets: dict[str, int]) -> dict[int, bytes]:
+    offset = BOSS_SHARD_NATIVE_SCRIPT_OFFSET
+    if rom[offset:offset + len(BOSS_SHARD_NATIVE_SCRIPT)] != BOSS_SHARD_NATIVE_SCRIPT:
+        raise SystemExit("Unexpected native boss shard animation script; refusing to patch")
+    writes: dict[int, bytes] = {}
+    for name, original, offsets in BOSS_SHARD_ART_HOOK_GROUPS:
+        for callsite in offsets:
+            address = 0x08000000 + callsite
+            expected = thumb_bl_bytes(address, original)
+            if rom[callsite:callsite + len(expected)] != expected:
+                raise SystemExit("Unexpected native boss shard render call; refusing to patch")
+            writes[callsite] = thumb_bl_bytes(address, targets[name])
+    return writes
+
+
+def build_collectible_art_extension(rom: bytes | bytearray, extension: bytes) -> dict[int, bytes]:
+    spec = importlib.util.spec_from_file_location(
+        "kirby_collectible_art", Path(__file__).with_name("collectible_art.py"))
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return {module.OFFSET: module.build_collectible_art_table(rom, extension),
+            module.SHARD_ANIM_OFFSET: module.build_shard_animation(rom, extension)}
 
 
 STARTING_MIRROR_OBJECT_MARKER = b"APMIR01\0"
@@ -2252,6 +2343,9 @@ def apply_color_extension(rom: bytearray, elf_path: Path) -> None:
     if (resolve_elf_symbol_address(elf_path, "gApReceiptCueInfo") != 0x09000020
             or extension[0x20:0x28] != b"APCUE01\0"):
         raise SystemExit("Error: missing versioned receipt cue marker")
+    if (resolve_elf_symbol_address(elf_path, "gApVisitRoomArtConfig") != 0x0900FFBC
+            or extension[0xFFBC:0xFFC0] != b"APR0"):
+        raise SystemExit("Error: missing versioned RoomSanity reward sprite config")
     board_address = resolve_elf_symbol_address(elf_path, "gApHubBoardSpriteData")
     board_offset = board_address - 0x09000000
     board_writes = build_hub_board_sprite_writes(
@@ -2280,7 +2374,28 @@ def apply_color_extension(rom: bytearray, elf_path: Path) -> None:
         asset_writes = statue_assets.build_statue_art_table(rom, extension)
     except ValueError as exc:
         raise SystemExit(str(exc)) from exc
-    for offset, replacement in {**writes, **board_writes, **starting_mirror_writes, **statue_writes, **asset_writes}.items():
+    chest_writes = build_chest_reward_art_hook(
+        rom, resolve_elf_symbol_address(elf_path, "ap_chest_reward_art_entry"))
+    switch_writes = build_big_switch_reward_art_hook(
+        rom, resolve_elf_symbol_address(elf_path, "ap_big_switch_reward_art_entry"))
+    visit_writes = build_room_visit_reward_art_hook(
+        rom, resolve_elf_symbol_address(elf_path, "ap_room_visit_reward_art_entry"))
+    boss_writes = build_boss_shard_art_hooks(
+        rom, {name: resolve_elf_symbol_address(elf_path, name) for name, _, _ in BOSS_SHARD_ART_HOOK_GROUPS})
+    if any(boss_writes[offset] != statue_writes[offset] for offset in boss_writes.keys() & statue_writes.keys()):
+        raise SystemExit("Native object reward and statue hooks disagree at a shared render call")
+    collectible_writes = build_collectible_art_extension(rom, extension)
+    # Both sprite paths use the same remapped native frames. Guard that shared
+    # ABI before writing exactly one copy of the larger collectible table.
+    collectible_offset, collectible_table = next(iter(collectible_writes.items()))
+    statue_offset, statue_table = next(iter(asset_writes.items()))
+    start = statue_offset - collectible_offset
+    if start < 0 or collectible_table[start:start + len(statue_table)] != statue_table:
+        raise SystemExit("World statue art does not match the shared collectible tile table")
+    for offset, replacement in {
+        **writes, **board_writes, **chest_writes, **switch_writes, **visit_writes, **boss_writes,
+        **collectible_writes, **starting_mirror_writes, **statue_writes,
+    }.items():
         rom[offset:offset + len(replacement)] = replacement
 
 

@@ -1337,7 +1337,7 @@ class KirbyAmWorld(World):
             # Create procedure patch
             patch = KirbyAmProcedurePatch(player=self.player, player_name=self.player_name)
             patch.write_file("base_patch.bsdiff4", patch_data)
-            write_tokens(self, patch)
+            write_tokens(self, patch, filled_locations=self.multiworld.get_locations(self.player))
 
             # Write the patch file
             out_file_name = self.multiworld.get_out_file_name_base(self.player)
@@ -1415,7 +1415,8 @@ class KirbyAmWorld(World):
         if self.options.goal.value == Goal.option_full_completion:
             slot_data["full_completion_version"] = 1
         slot_data["world_version"] = self.world_version.as_simple_string()
-        slot_data["physical_check_save_version"] = 1
+        from .completion import PHYSICAL_CHECK_SAVE_VERSION
+        slot_data["physical_check_save_version"] = PHYSICAL_CHECK_SAVE_VERSION
         slot_data["goal_game_protocol_version"] = 3
         slot_data["health_protocol_version"] = 2
         slot_data["hub_connection_protocol_version"] = 2

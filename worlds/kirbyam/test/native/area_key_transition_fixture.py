@@ -89,4 +89,4 @@ def populate_area_key_transition_fixture(rom: bytearray) -> None:
             offset = entry["rom_offset"]
             rom[offset:offset + len(expected)] = expected
     # Payload relocation reserves these bytes before the legacy payload area.
-    rom[patch_rom.PAYLOAD_OFFSET:patch_rom.PAYLOAD_LEGACY_OFFSET] = bytes(0x400)
+    rom[patch_rom.PAYLOAD_OFFSET:patch_rom.PAYLOAD_LEGACY_OFFSET] = bytes(patch_rom.PAYLOAD_LEGACY_OFFSET - patch_rom.PAYLOAD_OFFSET)

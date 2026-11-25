@@ -31,7 +31,7 @@ def main():
         u = Uc(UC_ARCH_ARM, UC_MODE_THUMB)
         u.mem_map(0x08000000, 0x02000000)
         u.mem_write(0x08000000, base)
-        u.mem_write(0x0815DC00, payload)
+        u.mem_write(0x0815DB00, payload)
         u.mem_write(0x09000000, extension)
         u.mem_map(0x02000000, 0x40000)
         u.mem_map(0x03000000, 0x8000)
