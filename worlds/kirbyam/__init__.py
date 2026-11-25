@@ -402,7 +402,7 @@ class KirbyAmWorld(World):
         trap_labels = self._active_trap_pool()
         if not trap_labels:
             raise ValueError(
-                "KirbyAM trap pool is empty. Add at least one trap item to worlds/kirbyam/data/items.json"
+                "KirbyAM trap pool is empty after player and automatic exclusions"
             )
         return self.random.choice(trap_labels)
 
@@ -413,7 +413,16 @@ class KirbyAmWorld(World):
                 raise ValueError(f"KirbyAM trap key missing from items.json: {item_key}")
             return kirby_data.items[item_id].label
 
-        excluded_traps: set[str] = set()
+        option = getattr(getattr(self, "options", None), "exclude_trap_types", None)
+        excluded_traps: set[str] = set(getattr(option, "value", ()))
+        from .narcolepsy import NARCOLEPSY_TRAP_CATALOG_VERSION
+        from .random_teleport import TRAP_CATALOG_VERSION
+
+        catalog_version = getattr(self, "_tracker_trap_catalog_version", TRAP_CATALOG_VERSION)
+        if catalog_version < NARCOLEPSY_TRAP_CATALOG_VERSION:
+            excluded_traps.add(_label_for_item_key("TRAP_NARCOLEPSY"))
+        if catalog_version < TRAP_CATALOG_VERSION:
+            excluded_traps.add(_label_for_item_key("TRAP_RANDOM_TELEPORT"))
         if self._no_extra_lives_enabled():
             excluded_traps.update(
                 {
@@ -922,15 +931,15 @@ class KirbyAmWorld(World):
                     )
 
                 eligible_filler_slots = needed_pool_size - len(non_filler_item_codes)
+                active_trap_labels = self._active_trap_pool()
                 trap_count = 0
-                if self._traps_enabled() and eligible_filler_slots > 0:
+                if self._traps_enabled() and active_trap_labels and eligible_filler_slots > 0:
                     trap_count = (eligible_filler_slots * self._trap_fill_percentage()) // 100
                 filler_needed = eligible_filler_slots - trap_count
                 active_filler_labels, active_filler_weights = self._active_filler_weighted_pool()
-                active_trap_labels = self._active_trap_pool()
                 randomized_item_codes.extend(non_filler_item_codes)
                 randomized_item_codes.extend(
-                    self.item_name_to_id[self.get_trap_item_name()]
+                    self.item_name_to_id[self.random.choice(active_trap_labels)]
                     for _ in range(trap_count)
                 )
                 randomized_item_codes.extend(

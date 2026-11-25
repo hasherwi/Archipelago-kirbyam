@@ -18,6 +18,11 @@ from worlds._bizhawk.client import BizHawkClient
 
 from .area_keys import AREA_KEY_AREA_ID_BY_LABEL, AREA_NAME_BY_ID
 from .candy import CANDY_ITEM_ID, candy_delivery_ready
+from .narcolepsy import NARCOLEPSY_ITEM_ID, NARCOLEPSY_ROM_MARKER, NARCOLEPSY_ROM_MARKER_OFFSET
+from .random_teleport import (
+    RANDOM_TELEPORT_CONNECTION_BITS, RANDOM_TELEPORT_EPOCH_ADDR, RANDOM_TELEPORT_ITEM_ID, RANDOM_TELEPORT_NONCE_ADDR,
+    RANDOM_TELEPORT_ROM_MARKER, RANDOM_TELEPORT_ROM_MARKER_OFFSET, teleport_nonce,
+)
 from .receipts import ReceiptJournal, TRANSIENT_ITEM_IDS, receipt_key, scope_key
 from .receipt_sounds import ReceiptSounds
 from .colors import choose_different_kirby_color, color_catalog_marker, color_catalog_max_id
@@ -5083,6 +5088,24 @@ class KirbyAmClient(BizHawkClient):
                     timeout_triggered = True
                     timeout_reason = f"time timeout ({elapsed_seconds:.1f}s >= {_MAILBOX_ACK_TIMEOUT_SECONDS}s)"
 
+            # A durable transient already has a write-ahead reservation. Clearing
+            # a live offer on elapsed time alone neither proves non-application nor
+            # releases that reservation. Keep the same offer for the hook to consume.
+            if timeout_triggered and flag == 1 and self._receipt_journal is not None:
+                index = self._delivery_pending_item_index
+                if (delivery_socket is not getattr(getattr(ctx, "server", None), "socket", None)
+                        or delivery_streams is not getattr(ctx.bizhawk_ctx, "streams", None)):
+                    return
+                try:
+                    if (index is None or index != self._delivered_item_index
+                            or receipt_key(ctx.items_received, index) != self._receipt_active):
+                        raise ValueError("in-flight item history changed")
+                except ValueError as exc:
+                    self._receipt_failure(f"{exc}; reconnect before continuing")
+                    return
+                if ctx.items_received[index].item in TRANSIENT_ITEM_IDS:
+                    return
+
             # Hub teleport, Candy and Battery deliberately leave the mailbox pending
             # through scripts, room transitions or a full/invalid battery epoch.
             # Clearing/reoffering it on a timer
@@ -5272,16 +5295,79 @@ class KirbyAmClient(BizHawkClient):
                 )
                 self._delivery_counter_ahead_resume_logged = True
 
-            if item_id == CANDY_ITEM_ID:
-                if not await self._invincibility_candy_ready(ctx):
-                    return  # Keep history order; do not reserve or consume this receipt yet.
-                # Readiness awaits the connector; reject a changed delivery session.
-                if (receipt_session != (self._authenticated_session_key(ctx), self._health_rom_auth)
-                        or delivery_socket is not getattr(getattr(ctx, "server", None), "socket", None)
-                        or delivery_streams is not getattr(ctx.bizhawk_ctx, "streams", None)
-                        or self._delivered_item_index >= len(ctx.items_received)
-                        or ctx.items_received[self._delivered_item_index] is not itm):
+            teleport_guards = None
+            teleport_request = None
+            if item_id in (CANDY_ITEM_ID, NARCOLEPSY_ITEM_ID, RANDOM_TELEPORT_ITEM_ID):
+                delivery_index = self._delivered_item_index
+
+                def special_offer_current() -> bool:
+                    return (
+                        receipt_session == (self._authenticated_session_key(ctx), self._health_rom_auth)
+                        and delivery_socket is getattr(getattr(ctx, "server", None), "socket", None)
+                        and delivery_streams is getattr(ctx.bizhawk_ctx, "streams", None)
+                        and self._delivered_item_index == delivery_index
+                        and delivery_index < len(ctx.items_received)
+                        and ctx.items_received[delivery_index] is itm
+                    )
+
+                if item_id == CANDY_ITEM_ID:
+                    if not await self._invincibility_candy_ready(ctx):
+                        return  # Keep history order; do not reserve or consume this receipt yet.
+                else:
+                    marker_offset, expected_marker, name = (
+                        (NARCOLEPSY_ROM_MARKER_OFFSET, NARCOLEPSY_ROM_MARKER, "Narcolepsy")
+                        if item_id == NARCOLEPSY_ITEM_ID else
+                        (RANDOM_TELEPORT_ROM_MARKER_OFFSET, RANDOM_TELEPORT_ROM_MARKER, "Random Teleport")
+                    )
+                    marker, = await bizhawk.read(ctx.bizhawk_ctx, [
+                        (marker_offset, len(expected_marker), "ROM"),
+                    ])
+                    if not special_offer_current():
+                        return
+                    if bytes(marker) != expected_marker:
+                        self._receipt_failure(f"this ROM does not support {name}; patch your seed with the current APWorld")
+                        return
+                if not special_offer_current():
                     return
+
+                if item_id == RANDOM_TELEPORT_ITEM_ID:
+                    auth = self._health_rom_auth
+                    auth_addr = data.rom_addresses.get("gArchipelagoInfo")
+                    mask_addr = self._transport_addr("hub_connection_item_mask")
+                    if self._receipt_journal is None or auth_addr is None or mask_addr is None:
+                        return  # A teleport always requires authenticated, durable authority.
+                    mask = await self._sync_hub_connection_item_ownership(ctx)
+                    if (mask is None or not special_offer_current()
+                            or not self._hub_connection_item_history_ready(ctx)):
+                        return
+                    raw_file, file_fence = await bizhawk.read(ctx.bizhawk_ctx, [
+                        (COPY_ROOM_CONTEXT_ADDRESS, 36, "System Bus"),
+                        (COPY_ROOM_CONTEXT_ADDRESS, 12, "System Bus"),
+                    ])
+                    native_file = decode_copy_room_snapshot(bytes(raw_file), bytes(file_fence))
+                    if (native_file is None or not special_offer_current()
+                            or not self._hub_connection_item_history_ready(ctx)):
+                        return
+                    prefix_mask = 0
+                    for received in ctx.items_received[:delivery_index]:
+                        fields = self._extract_delivery_item_fields(received)
+                        if fields and fields[0] in RANDOM_TELEPORT_CONNECTION_BITS:
+                            prefix_mask |= 1 << RANDOM_TELEPORT_CONNECTION_BITS[fields[0]]
+                    try:
+                        nonce = teleport_nonce(self._receipt_scope, receipt_key(ctx.items_received, delivery_index))
+                    except ValueError as exc:
+                        self._receipt_failure(f"could not identify Random Teleport receipt ({exc})")
+                        return
+                    teleport_request = [
+                        (RANDOM_TELEPORT_NONCE_ADDR, (nonce | prefix_mask).to_bytes(4, "little"), "System Bus"),
+                        (RANDOM_TELEPORT_EPOCH_ADDR, native_file.epoch.to_bytes(4, "little"), "System Bus"),
+                    ]
+                    teleport_guards = [
+                        (COPY_ROOM_CONTEXT_ADDRESS, bytes(file_fence), "System Bus"),
+                        (_normalize_gba_rom_address(auth_addr), auth, "ROM"),
+                        (mask_addr, mask.to_bytes(4, "little"), "System Bus"),
+                        (flag_addr, bytes(4), "System Bus"),
+                    ]
 
             self._log_verbose(
                 "info",
@@ -5350,6 +5436,18 @@ class KirbyAmClient(BizHawkClient):
                     return
                 if not progress_offer_current():
                     return  # An in-flight offer may have committed; reconcile by readback.
+            elif teleport_guards is not None and teleport_request is not None:
+                if not await bizhawk.guarded_write(ctx.bizhawk_ctx, [*teleport_request, *offer], teleport_guards):
+                    # False means a guard rejected the complete write, not a
+                    # successful or ambiguous offer. Transport exceptions keep
+                    # the durable reservation untouched for explicit recovery.
+                    try:
+                        self._receipt_journal.resolve(pending_receipt, "retry")
+                    except (OSError, sqlite3.Error, ValueError) as exc:
+                        self._receipt_failure(f"could not release rejected teleport offer ({exc})")
+                    return
+                if not special_offer_current():
+                    return
             else:
                 await bizhawk.write(ctx.bizhawk_ctx, offer)
             if receipt_session != (self._authenticated_session_key(ctx), getattr(self, "_health_rom_auth", None)):

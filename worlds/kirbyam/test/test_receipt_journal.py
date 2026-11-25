@@ -5,6 +5,7 @@ from unittest.mock import AsyncMock, patch
 import pytest
 from NetUtils import NetworkItem
 from ..client import KirbyAmClient, _build_kirbyam_command_processor
+from ..narcolepsy import NARCOLEPSY_ITEM_ID, NARCOLEPSY_ROM_MARKER_OFFSET
 from ..receipts import ReceiptJournal, TRANSIENT_ITEM_IDS, receipt_key, scope_key
 from .test_reset_counter_gaps import Mailbox
 
@@ -24,6 +25,8 @@ def make_client(ctx, auth=b'1234567890abcdef'):
     client.initialize_client()
     client._health_rom_auth = auth
     client._vitality_history_session = client._authenticated_session_key(ctx)
+    client._hub_connection_received_items_ready = True
+    client._hub_connection_received_items_socket = ctx.server.socket
     ctx.client_handler = client
     return client
 
@@ -31,6 +34,7 @@ def make_client(ctx, auth=b'1234567890abcdef'):
 async def tick(client, ctx, box, display, *, allow_new_writes=True):
     with patch('worlds.kirbyam.client.bizhawk.read', side_effect=box.read), \
          patch('worlds.kirbyam.client.bizhawk.write', side_effect=box.write), \
+         patch('worlds.kirbyam.client.bizhawk.guarded_write', side_effect=box.guarded_write), \
          patch('worlds.kirbyam.client.bizhawk.display_message', display):
         await client._deliver_items(ctx, allow_new_writes=allow_new_writes)
 
@@ -420,3 +424,69 @@ async def test_reused_history_index_does_not_suppress_a_different_receipt(receip
     await drain(client, ctx, box, display)
     assert box.applied == [3860027]
     assert display.await_count == 2
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize('item', sorted(TRANSIENT_ITEM_IDS))
+@pytest.mark.parametrize('timeout', ['wall', 'frame'])
+async def test_live_transient_offer_survives_timeout_and_resumes_in_order(receipt_env, item, timeout):
+    ctx = receipt_env
+    map_id = 3860003
+    ctx.items_received = [NetworkItem(item, 3960566, 1), NetworkItem(map_id, 3960567, 1)]
+    client = make_client(ctx)
+    box = Mailbox(client)
+    display = AsyncMock()
+    flag = client._transport_addr('incoming_item_flag')
+    await tick(client, ctx, box, display)
+    key = receipt_key(ctx.items_received, 0)
+    assert client._receipt_journal.pending() == [key]
+    if timeout == 'wall':
+        client._delivery_pending_time -= 2
+    else:
+        box.memory[client._transport_addr('frame_counter')] = (101).to_bytes(4, 'little')
+    for _ in range(3):
+        await tick(client, ctx, box, display, allow_new_writes=False)
+        assert box.memory[flag] == (1).to_bytes(4, 'little')
+        assert client._receipt_journal.pending() == [key]
+        assert not client._receipt_blocked
+    assert box.offers == [item]
+    box.consume()
+    await drain(client, ctx, box, display)
+    assert box.offers == box.applied == [item, map_id]
+    assert client._receipt_journal.acknowledged(key)
+    assert display.await_count == 2
+
+
+@pytest.mark.asyncio
+async def test_live_offer_timeout_does_not_release_changed_history(receipt_env):
+    ctx = receipt_env
+    ctx.items_received = [NetworkItem(3860034, 3960566, 1)]
+    client = make_client(ctx)
+    box = Mailbox(client)
+    display = AsyncMock()
+    await tick(client, ctx, box, display)
+    key = receipt_key(ctx.items_received, 0)
+    ctx.items_received[0] = NetworkItem(3860034, 3960567, 1)
+    client._delivery_pending_time -= 2
+    await tick(client, ctx, box, display)
+    assert box.memory[client._transport_addr('incoming_item_flag')] == (1).to_bytes(4, 'little')
+    assert client._receipt_journal.pending() == [key]
+    assert client._receipt_error == 'in-flight item history changed; reconnect before continuing'
+    box.consume()
+    await tick(client, ctx, box, display)
+    assert client._receipt_journal.pending() == [key]
+    assert display.await_count == 0
+
+
+@pytest.mark.asyncio
+async def test_narcolepsy_rejects_old_rom_before_reserving_receipt(receipt_env):
+    ctx = receipt_env
+    ctx.items_received = [NetworkItem(NARCOLEPSY_ITEM_ID, 3960566, 1, 4)]
+    client = make_client(ctx)
+    box = Mailbox(client)
+    box.memory.pop(NARCOLEPSY_ROM_MARKER_OFFSET)
+    await tick(client, ctx, box, AsyncMock())
+    assert not box.offers
+    assert not client._receipt_journal.pending()
+    assert not client._receipt_journal.acknowledged(receipt_key(ctx.items_received, 0))
+    assert "patch your seed with the current APWorld" in client._receipt_error

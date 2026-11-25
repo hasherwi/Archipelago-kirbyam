@@ -7,7 +7,9 @@ from Options import (
     Choice,
     DeathLink,
     DefaultOnToggle,
+    OptionError,
     OptionGroup,
+    OptionSet,
     PerGameCommonOptions,
     Range,
     Toggle,
@@ -19,6 +21,7 @@ from .colors import (
     kirby_color_names_for_docs,
     load_kirby_colors,
 )
+from .data import data as kirby_data
 from .enemy_health_scaling import (
     ENEMY_HEALTH_MULTIPLIER_DEFAULT,
     ENEMY_HEALTH_MULTIPLIER_MAX,
@@ -277,6 +280,23 @@ class TrapFillPercentage(Range):
     default = 25
 
 
+class ExcludeTrapTypes(OptionSet):
+    """
+    Choose trap item names to exclude from your randomized item pool when Enable Traps is on.
+    Leave the list empty to keep all otherwise eligible traps. No Extra Lives still removes Life
+    Down and Life Wipeout, and minimum health of 1 still removes Health Down. If no trap types
+    remain, eligible slots get ordinary filler instead, even with Trap Fill Percentage at 100.
+    """
+    display_name = "Exclude Trap Types"
+    valid_keys = kirby_data.available_trap_item_labels
+
+    def __init__(self, value, random_str=None):
+        names = tuple(value)
+        if not all(isinstance(name, str) for name in names):
+            raise OptionError("Exclude Trap Types expects trap names as strings.")
+        super().__init__(names, random_str)
+
+
 class EnemyHealthMultiplier(Range):
     """
     Scale regular-enemy, miniboss, and boss health as a percentage of native HP.
@@ -460,6 +480,8 @@ class KirbyAmOptions(PerGameCommonOptions):
 
     trap_fill_percentage: TrapFillPercentage
 
+    exclude_trap_types: ExcludeTrapTypes
+
     enemy_health_multiplier: EnemyHealthMultiplier
 
     minimum_health: MinimumHealth
@@ -507,6 +529,7 @@ OPTION_GROUPS = [
         AbilityGating,
         EnableTraps,
         TrapFillPercentage,
+        ExcludeTrapTypes,
         NoExtraLives,
         EnemyHealthMultiplier,
         KirbyAmDeathLink,

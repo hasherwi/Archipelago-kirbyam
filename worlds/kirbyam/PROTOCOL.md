@@ -947,6 +947,41 @@ The menu's always-available default swatch clears the marker, allowing the AP st
 
 HUD refresh uses the native color-specific HUD table and BG+backup loader, then sets the BG upload flag. It waits for the active single-player gameplay HUD, valid Kirby task/ability and completed hardware brightness fades. Native BG/OBJ RGB-transformation enables (`gMainFlags & 0x30000`) can persist during ordinary gameplay and do not defer a color request. The OBJ refresh retains native transformation behavior; the HUD keeps its raw resolved backup row and uses native `LoadBgPaletteWithTransformation` for its working row when BG transformation is enabled. It does not reinitialize HUD tasks or touch health, lives, battery counts, other players or paint ownership. Changes require a newly generated ROM patch; old ROMs retain their previous color behavior.
 
+### Random Teleport (item 3860302)
+
+The client checks `APR2` at ROM offset `0x0100FFC4`. It offers the item,
+request word at `0x0203B1C0`, and native Adventure epoch at `0x0203B1C4` in
+a guarded write bound to the loaded file/epoch, ROM identity, authenticated Hub
+mask, and empty mailbox. The same live native save context used for Copy
+Room must still be valid when the ROM takes the request. A file load or
+restart invalidates the offer without advancing the ACK counter; an
+unresolved journal entry uses the existing explicit receipt recovery. Request bits 29–31 authorize
+East/South/West connections from the already-delivered ReceivedItems prefix;
+bits 0–28 carry a nonzero lottery word derived from the durable receipt identity.
+An old ROM, missing ownership history or failed guard never offers the trap.
+The ROM clears the request on mailbox initialization, epoch invalidation, or completed consumption.
+
+The only remote destinations are the reciprocal Rainbow Route Hub mirrors:
+East 190 (9,3), South 194 (9,3), West 192 (13,3). The live Hub mask and native
+unlock entry must both still authorize the same destination. Central Circle
+(801,24,12) is the unconditional fallback if no different remote mirror is
+eligible; in Central Circle the fallback is an acknowledged no-op. No room
+visit bits participate. The same receipt chooses the same ordinal for the
+same eligible set. Movement, pause, death and ongoing transitions defer;
+special rooms/restricted ability bodies acknowledge without moving. The AP
+transition wrapper and retail transition routine still validate the warp and
+retain the native file, ability, and health rather than loading a new save.
+
+### Narcolepsy deferral (item 3860301)
+
+The client requires the ROM's `APN1` marker at ROM offset `0x0100FFC0` before
+reserving Narcolepsy. The native hook leaves the mailbox pending during
+transitions, death and other incompatible states, so the normal journal and
+native acknowledgment preserve delivery order. The local player's next
+eligible grounded state (or stable, dry UFO hover) starts the stock Sleep transition, without granting
+ability ownership or leaving a recovery star. An already sleeping player
+acknowledges an additional trap without restarting Sleep.
+
 ### Hub Teleport Trap deferral (item 3860300)
 
 This trap retains the existing incoming flag and receipt index until the main-thread scheduler wrapper observes native warp-star charge enter takeoff (or safely observes Kirby already in the hub). The input mailbox poll leaves it pending. Scripts, pause, death, demo, multiplayer and transition states defer it. Its client ACK timeout retains the flag instead of clearing/reoffering it; later receipts remain ordered behind it. It is transient/non-replayable after observed ACK, and uses the existing ambiguous-receipt recovery after process loss. No mailbox or native save layout changes. See [native evidence and emulator acceptance](dev-docs/hub-teleport-trap.md).

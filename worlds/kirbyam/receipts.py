@@ -12,11 +12,14 @@ from pathlib import Path
 from collections.abc import Sequence
 from typing import Any
 
+from .narcolepsy import NARCOLEPSY_ITEM_ID
+from .random_teleport import RANDOM_TELEPORT_ITEM_ID
+
 # Delivery semantics must not follow AP progression/filler classification.
 TRANSIENT_ITEM_IDS = frozenset({
     3860001,  # 1 Up
     3860026, 3860027, 3860028, 3860029, 3860030, 3860031,  # Consumables
-    3860032, 3860033, 3860034, 3860035, 3860036, 3860300,  # Transient traps
+    3860032, 3860033, 3860034, 3860035, 3860036, 3860300, NARCOLEPSY_ITEM_ID, RANDOM_TELEPORT_ITEM_ID,  # Transient traps
 })
 
 

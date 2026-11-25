@@ -91,6 +91,7 @@ def test_actual_payload_replay_preserves_saved_counts_and_dead_state(tmp_path):
     source = '''
 #define _GNU_SOURCE
 #include <stdint.h>
+#include <stdlib.h>
 #include <string.h>
 #include <sys/mman.h>
 #include "minor_chest_runtime_logic.h"
@@ -125,7 +126,15 @@ static uint32_t gApHealthConfigInitial=0xA9020A06u;
 static uint8_t KIRBY_SHARD_FLAGS;
 static uint32_t AP_IN_FLAG,AP_IN_ITEM_ID,AP_IN_PLAYER,AP_ITEM_RCVD_COUNTER;
 static uint32_t AP_DEBUG_LAST_ITEM_ID,AP_DEBUG_LAST_FROM;
+/* New traps are intentionally outside the isolated Vitality replay. */
+static uint32_t AP_RANDOM_TELEPORT_NONCE, AP_RANDOM_TELEPORT_EPOCH;
+static uint8_t ap_trap_narcolepsy(void) { abort(); }
+static uint8_t ap_trap_random_teleport(void) { abort(); }
 '''
+    for name in ['AP_NARCOLEPSY_ITEM', 'AP_RANDOM_TELEPORT_ITEM']:
+        definition = re.search(r'^#define ' + name + r' +[^\n]+', payload, re.MULTILINE)
+        assert definition is not None
+        source += definition.group() + '\n'
     for name in ['ap_grant_lives', 'ap_unlock_area_map', 'KIRBY_COLLECT_SOUND_PLAYER_FN',
                  'ap_collect_small_chest_native']:
         source += f'static void {name}(uint32_t x) {{(void)x;}}\n'

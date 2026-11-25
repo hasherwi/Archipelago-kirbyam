@@ -6,6 +6,9 @@ from MultiServer import Client, process_client_cmd
 from NetUtils import NetworkItem
 from ..client import KirbyAmClient
 from ..data import data
+from ..copy_room_protocol import COPY_ROOM_CONTEXT_ADDRESS
+from ..narcolepsy import NARCOLEPSY_ROM_MARKER, NARCOLEPSY_ROM_MARKER_OFFSET
+from ..random_teleport import RANDOM_TELEPORT_ROM_MARKER, RANDOM_TELEPORT_ROM_MARKER_OFFSET
 from ..phone_protocol import PHONE_CONFIG_BUS_ADDRESS
 
 
@@ -182,6 +185,7 @@ async def test_prefix_marker_waits_for_payload_init_and_atomic_guard(mock_bizhaw
 async def test_all_starting_item_ids_keep_mailbox_order_before_normal_history(
     mock_bizhawk_context,
     defer_starting_candy,
+    tmp_path,
 ):
     ctx = mock_bizhawk_context
     client = await validated_client(ctx)
@@ -191,16 +195,22 @@ async def test_all_starting_item_ids_keep_mailbox_order_before_normal_history(
     ctx.items_received = packet['items']
     client.on_package(ctx, 'ReceivedItems', packet)
     memory = mailbox(client)
+    memory.update({
+        NARCOLEPSY_ROM_MARKER_OFFSET: NARCOLEPSY_ROM_MARKER,
+        RANDOM_TELEPORT_ROM_MARKER_OFFSET: RANDOM_TELEPORT_ROM_MARKER,
+        COPY_ROOM_CONTEXT_ADDRESS: b"".join(word.to_bytes(4, "little") for word in
+                                             (1, 1, 0, 0, 0, 0x03001000, 0, 0x43504332, 0)),
+    })
 
     async def read(_ctx, requests):
-        return [memory.get(a, bytes(n)) for a, n, d in requests]
+        return [memory.get(a, bytes(n))[:n] for a, n, d in requests]
 
     async def write(_ctx, requests):
         for a, v, d in requests:
             memory[a] = v
 
     async def guarded(_ctx, requests, guards):
-        assert all((memory[a] == v for a, v, d in guards))
+        assert all((memory[a][:len(v)] == v for a, v, d in guards))
         await write(_ctx, requests)
         return True
     observed = []
@@ -210,6 +220,7 @@ async def test_all_starting_item_ids_keep_mailbox_order_before_normal_history(
         patch('worlds.kirbyam.client.bizhawk.write', side_effect=write),
         patch('worlds.kirbyam.client.bizhawk.guarded_write', side_effect=guarded),
         patch.object(client, '_emit_receive_notification', new_callable=AsyncMock),
+        patch('worlds.kirbyam.client.Utils.user_path', return_value=str(tmp_path / 'receipts.sqlite3')),
     ):
         for index in range(len(ctx.items_received)):
             if defer_starting_candy and ctx.items_received[index].item == 3860029:

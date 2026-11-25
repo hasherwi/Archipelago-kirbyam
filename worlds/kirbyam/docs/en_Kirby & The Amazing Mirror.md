@@ -78,6 +78,39 @@ Use exact item/location names from this world (or the item groups listed above) 
 
 See the [Kirby color palette gallery](https://github.com/hasherwi/Archipelago-kirbyam/blob/main/worlds/kirbyam/docs/color-palettes.md) to compare the original and additional KirbyAM starting colors. The `random_color_per_room` mode changes colors between rooms with a connected KirbyAM client on either BizHawk or mGBA. Without a connected client, the patched ROM applies only the initial color.
 
+### Choose which traps can appear
+
+Turn on `enable_traps` and use `trap_fill_percentage` to set the share of eligible
+filler slots replaced by traps. To keep only the trap types you want, list the
+others by exact item name in `exclude_trap_types`. For example:
+
+```yaml
+enable_traps: true
+trap_fill_percentage: 25
+exclude_trap_types:
+  - Health Down Trap
+  - Life Wipeout Trap
+```
+
+Valid names are Health Down Trap, Life Down Trap, Bomb Trap, Battery Drain Trap,
+Life Wipeout Trap, Hub Teleport Trap, Narcolepsy, and Random Teleport Trap. Omit the list or set it to `[]` to keep
+all otherwise eligible types. No Extra Lives still excludes Life Down and Life
+Wipeout, and minimum health of 1 still excludes Health Down. If nothing remains,
+the generator uses ordinary filler without re-enabling any excluded type.
+This controls the randomized items contributed by your KirbyAM slot, not traps
+sent by someone else's world or the effects of received traps.
+
+Narcolepsy replaces Kirby's equipped ability with Sleep even if Sleep is locked.
+The previous ability is lost without dropping a star, and the trap never unlocks
+Sleep. It waits for a safe moment to act; another Narcolepsy received while
+Kirby is asleep does not restart the nap.
+
+Random Teleport uses reviewed Rainbow Route hub rooms for connections you
+currently own. If no different connected hub is available, it can return you
+to Central Circle; if you are already there, it does nothing. It waits for safe
+grounded gameplay and does not send Kirby into locked areas or boss rooms.
+In a restricted room or ability state, it can be consumed without moving Kirby.
+
 ### Using Archipelago's built-in `random` choice
 
 `configured_area_boss` and `starting_kirby_color` are normal Archipelago `Choice` options. You can replace the entire generated weight mapping for either option with the scalar value `random`:
