@@ -36,14 +36,21 @@ def test_fixed_copy_sources_require_access_and_each_carry_item(target_id, target
 
 @pytest.mark.parametrize('target_id,target,ability', CASES)
 @pytest.mark.parametrize('mode', [1, 2])
-def test_copy_room_does_not_rewrite_bad_actual_statue_grants(target_id, target, ability, mode):
+def test_copy_room_keeps_native_statues_when_world_statues_roll_wrong_abilities(target_id, target, ability, mode):
     raw = build_enemy_copy_ability_policy(random.Random(73), mode, True, True,
                                           whitelist=('Stone',), no_ability_weight=100)
     before = deepcopy(raw)
     policy = SourcePolicy(raw, True)
     graph = room_traversal_graph(target_id, 'statues', True)
     owned = graph_items(graph) | {ability + ' Ability'}
-    assert not graph.evaluate(policy, owned, True, allow_documented_retries=True).reaches(target)
+    for retries in (False, True):
+        result = graph.evaluate(policy, owned, True, allow_documented_retries=retries)
+        assert result.reaches(target)
+        assert not result.retry_assumptions
+        assert not graph.evaluate(policy, owned - {ability + ' Ability'}, True,
+                                  allow_documented_retries=retries).reaches(target)
+        assert not graph.evaluate(policy, owned - {ITEM}, True,
+                                  allow_documented_retries=retries).reaches(target)
     assert raw == before
 
 

@@ -7,7 +7,10 @@ from time import monotonic
 
 import worlds._bizhawk as bizhawk
 
-from .reward_art_types import KIRBY_NATIVE_ART_BY_ITEM_CODE, RewardArt
+from .reward_art_types import (
+    CUSTOM_STATUE_ART_MARKER, CUSTOM_STATUE_ART_ROM_OFFSET, CUSTOM_STATUE_REWARDS,
+    KIRBY_NATIVE_ART_BY_ITEM_CODE, RewardArt,
+)
 
 VISUAL_ROM_OFFSET = 0x1000028
 VISUAL_ROM_MARKER = b"APVIS05\0"
@@ -16,6 +19,7 @@ VISUAL_GEM = RewardArt.GEM + 1
 VISUAL_TRAP = RewardArt.TRAP + 1
 VISUAL_ART_BITS = 7
 VISUAL_MAX_OPCODE = max(RewardArt) + 1
+VISUAL_VALID_OPCODES = frozenset(art + 1 for art in RewardArt)
 VISUAL_REJECTED = 1 << 31
 VISUAL_FRAME_MASK = (1 << 24) - 1
 VISUAL_LIMIT = 8
@@ -62,6 +66,7 @@ class ReceiptVisuals:
         self._in_flight_item: _PendingVisual | None = None
         self._last_token = 0
         self.supported: bool | None = None
+        self.custom_statue_art_supported: bool | None = None
 
     def matches(self, socket: object, session: tuple) -> bool:
         return (socket is not None and self.socket is socket and self.session == session
@@ -182,9 +187,25 @@ class ReceiptVisuals:
             return
         item = self.pending[0]
         opcode = item.opcode
-        if not 1 <= opcode <= VISUAL_MAX_OPCODE:
+        if opcode not in VISUAL_VALID_OPCODES:
             self.pending.popleft()
             return
+        custom_guards = []
+        if opcode - 1 in CUSTOM_STATUE_REWARDS:
+            if self.custom_statue_art_supported is None:
+                marker, = await bizhawk.read(transport, [
+                    (CUSTOM_STATUE_ART_ROM_OFFSET, len(CUSTOM_STATUE_ART_MARKER), "ROM"),
+                ])
+                if not current():
+                    return
+                self.custom_statue_art_supported = marker == CUSTOM_STATUE_ART_MARKER
+                self._expire(self._clock())
+                if not self.pending or self.pending[0] is not item:
+                    return
+            if self.custom_statue_art_supported:
+                custom_guards = [(CUSTOM_STATUE_ART_ROM_OFFSET, CUSTOM_STATUE_ART_MARKER, "ROM")]
+            else:
+                opcode = VISUAL_GEM
         frame, = unpack("<I", native_frame)
         token = ((frame & VISUAL_FRAME_MASK) << VISUAL_ART_BITS) | opcode
         if token == self._last_token or token == (result & ~VISUAL_REJECTED):
@@ -199,6 +220,7 @@ class ReceiptVisuals:
             (VISUAL_MAILBOX, pack("<I", token), BUS),
         ], [
             (auth_offset, auth, "ROM"),
+            *custom_guards,
             (VISUAL_MAILBOX, bytes(4), BUS),
         ])
         if not written and current():

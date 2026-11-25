@@ -27,7 +27,10 @@
 #define AP_REWARD_LEVER_WALL 47u
 #define AP_REWARD_STATUE_FIRST 48u
 #define AP_REWARD_STATUE_LAST 66u
-#define AP_REWARD_ART_COUNT 67u
+/* 67–76 are reserved for Area Key art (#1164). */
+#define AP_REWARD_CUSTOM_STATUE_FIRST 77u
+#define AP_REWARD_CUSTOM_STATUE_LAST 82u
+#define AP_REWARD_ART_COUNT 83u
 #define AP_COLLECTIBLE_ART_ROM_ADDRESS 0x0900D000u
 #define AP_COLLECTIBLE_ART_MARKER_FIRST 0x52415041u
 #define AP_COLLECTIBLE_ART_MARKER_LAST 0x00353054u
@@ -45,6 +48,11 @@
 #define AP_REWARD_LEVER 3u
 #define AP_REWARD_GOAL 4u
 #define AP_REWARD_KEY(kind, id) (((uint32_t)(kind) << 24) | (uint32_t)(id))
+
+static inline uint8_t ap_reward_art_value_valid(uint8_t art) {
+    return art <= AP_REWARD_STATUE_LAST
+        || (art >= AP_REWARD_CUSTOM_STATUE_FIRST && art <= AP_REWARD_CUSTOM_STATUE_LAST);
+}
 
 struct ApRewardArtConfig {
     uint32_t marker, count, keys[AP_REWARD_ART_CAPACITY];
@@ -68,7 +76,7 @@ static inline uint8_t ap_reward_art_from_config(
         uint32_t index = config->keys[mid];
         if (index == key) {
             uint8_t art = config->variants[mid];
-            return art < AP_REWARD_ART_COUNT ? art : AP_REWARD_GEM;
+            return ap_reward_art_value_valid(art) ? art : AP_REWARD_GEM;
         }
         if (index < key) first = mid + 1u;
         else past = mid;
@@ -80,7 +88,7 @@ static inline uint8_t ap_reward_art_from_config(
 static inline uint16_t ap_reward_pair_add(uint16_t pair, uint8_t art) {
     uint16_t value = (uint16_t)art + 1u;
     uint16_t first = pair & 0xFFu;
-    if (art >= AP_REWARD_ART_COUNT) return pair;
+    if (!ap_reward_art_value_valid(art)) return pair;
     if (!first) return value;
     if (first == value || pair >> 8) return pair;
     /* Give a trap, then any item over generic, the first chance to draw. */

@@ -162,7 +162,7 @@ def test_patch_installs_popup_and_spray_paint_hooks(monkeypatch: pytest.MonkeyPa
         native_file_selection[offset] = bytes.fromhex("fc912d08")
     for offset, native_bytes in native_file_selection.items():
         rom[offset:offset + len(native_bytes)] = native_bytes
-    rom[patch_rom.PAYLOAD_OFFSET:patch_rom.PAYLOAD_LEGACY_OFFSET] = bytes(0x400)
+    rom[patch_rom.PAYLOAD_OFFSET:patch_rom.PAYLOAD_LEGACY_OFFSET] = bytes(patch_rom.PAYLOAD_LEGACY_OFFSET - patch_rom.PAYLOAD_OFFSET)
     for offset in patch_rom.HEALTH_HUD_CALLSITES:
         rom[offset:offset + 4] = patch_rom.thumb_bl_bytes(0x08000000 + offset, 0x0803518C)
     rom[0x14406C:0x144070] = patch_rom.thumb_bl_bytes(0x0814406C, 0x081447E0)

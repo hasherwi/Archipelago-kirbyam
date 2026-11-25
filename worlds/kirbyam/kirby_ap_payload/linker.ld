@@ -1,7 +1,7 @@
 ENTRY(ap_hook_entry)
 
 /*
- * Reserve the final twenty-four bytes in patch_rom.py's 0x1AA0-byte payload window
+ * Reserve the final twenty-four bytes in patch_rom.py's 0x1BA0-byte payload window
  * for per-seed Area Keys, Minny, health, starting color, ability gating, and statue-pool
  * configuration. Moving the
  * location counter here also makes the linker fail if code/data grows into the
@@ -12,7 +12,7 @@ AP_CONFIG_ADDR = 0x0815F688;
 SECTIONS
 {
   /* Extend backward within the retail zero-filled padding; config stays fixed. */
-  . = 0x0815DC00;
+  . = 0x0815DB00;
 
   .text : {
     /* Keep the Thumb tail entry within branch range of its C implementation. */
@@ -43,7 +43,14 @@ SECTIONS
     KEEP(*(.aprewardfx))
     KEEP(*(.apvisitdata))
     KEEP(*(.aphubteleportdata))
+    KEEP(*(.apstatuefx))
+    KEEP(*(.apstatuefx_data))
     ap_extension_code_end = .;
+    /* The shared pickup art table includes native statue frames at E388..ED07. */
+    . = 0xED10;
+    KEEP(*(.apstatueart))
+    . = 0xEE00;
+    KEEP(*(.apstatueconfig))
     . = 0xF000;
     KEEP(*(.aprewardconfig))
     . = 0xFFBC;
@@ -82,4 +89,6 @@ ASSERT(gApPhoneConfig == 0x0900FFC8, "Phone config address changed")
 
 ASSERT(gApReceiptCueInfo == 0x09000020, "Receipt cue marker address changed")
 
+ASSERT(gApWorldStatueLogo == 0x0900ED10, "World-statue logo address changed")
+ASSERT(gApWorldStatueConfig == 0x0900EE00, "World-statue seed config address changed")
 ASSERT(gApReceiptVisualInfo == 0x09000028, "Receipt visual marker address changed")

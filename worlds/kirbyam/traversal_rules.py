@@ -88,12 +88,13 @@ def cabbage_source_is_progression(world: Any, ability: str) -> bool:
         return False
     graphs = [room_traversal_graph("bomb_517_chocolate", name)
               for name in ("hub2_entry", "hub2_statues_entry")]
-    sources = [source for graph in graphs for source in graph.placements]
-    for source in sources:
-        grant = policy.grant(source.source_key, lambda _: True)
-        if ability in grant.guaranteed or (
-                source.renewable and source.retry_evidence and grant.randomized and ability in grant.abilities):
-            return True
+    for graph in graphs:
+        rooms = {node.key: node.room for node in graph.nodes}
+        for source in graph.placements:
+            grant = policy.grant(source.source_key, lambda _: True, native_room=rooms[source.node])
+            if ability in grant.guaranteed or (
+                    source.renewable and source.retry_evidence and grant.randomized and ability in grant.abilities):
+                return True
     return False
 
 

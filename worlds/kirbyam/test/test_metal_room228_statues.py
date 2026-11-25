@@ -63,27 +63,23 @@ def test_only_real970_sources_are_present_with_original_outcomes_and_renewal() -
         assert not invalid.evaluate(resolver, owned, True).reaches(END)
 
 
-@pytest.mark.parametrize("mode,statues,pool,weight,guaranteed,retry", [
-    (0, False, None, 0, True, True), (1, False, ["Burning"], 0, True, True),
-    (1, True, ["Hammer"], 0, True, True), (1, True, ["Stone"], 0, False, False),
-    (2, False, ["Stone"], 100, True, True), (2, True, ["Hammer"], 100, True, True),
-    (2, True, ["Hammer", "Stone"], 0, False, True),
-    (2, True, ["Hammer", "Stone"], 100, False, True), (2, True, ["Stone"], 0, False, False),
+@pytest.mark.parametrize("mode,statues,pool,weight", [
+    (0, False, None, 0), (1, False, ["Burning"], 0), (1, True, ["Hammer"], 0),
+    (1, True, ["Stone"], 0), (2, False, ["Stone"], 100), (2, True, ["Hammer"], 100),
+    (2, True, ["Hammer", "Stone"], 0), (2, True, ["Hammer", "Stone"], 100),
+    (2, True, ["Stone"], 0),
 ])
-def test_mixed_renewable_outcomes_need_documented_retry_without_pool_pruning(
-    mode: int, statues: bool, pool: list[str] | None, weight: int, guaranteed: bool, retry: bool,
+def test_room970_native_hammer_never_depends_on_world_pool_or_retry(
+    mode: int, statues: bool, pool: list[str] | None, weight: int,
 ) -> None:
     graph = room_traversal_graph(TARGET, "copy_room_statues")
-    resolver = policy(mode, statues=statues, pool=pool, weight=weight)  # type: ignore[no-untyped-call]
+    resolver = policy(mode, statues=statues, pool=pool, weight=weight)
     owned = graph_items(graph) | {PERMISSION, "Stone Ability"}
-    assert graph.evaluate(resolver, owned, True).reaches(END) is guaranteed
-    result = graph.evaluate(resolver, owned, True, allow_documented_retries=True)
-    assert result.reaches(END) is retry
-    if retry and not guaranteed:
-        assert result.retry_assumptions
-        assert any(p.node == "metal_228:970" and p.equipped == "Stone" for p in result.positions)
-    assert not graph.evaluate(resolver, owned - {PERMISSION}, True,
-                              allow_documented_retries=True).reaches(END)
+    for retries in (False, True):
+        result = graph.evaluate(resolver, owned, True, allow_documented_retries=retries)
+        assert result.reaches(END) and not result.retry_assumptions
+        assert not graph.evaluate(resolver, owned - {PERMISSION}, True,
+                                  allow_documented_retries=retries).reaches(END)
 
 
 @pytest.mark.parametrize("access", [SOURCE_REGION, BONKERS_REGION, OWNER, None])
@@ -148,7 +144,7 @@ def test_full_live_miniboss_pool_retains_renewable_basis(statues: bool) -> None:
 
 
 @pytest.mark.parametrize("accessibility", ["full", "minimal"])
-def test_unsupported_source_policy_is_rejected_or_closed_without_legacy_fallback(
+def test_unsupported_outside_policy_keeps_only_the_independent_fixed_room_witness(
     monkeypatch: pytest.MonkeyPatch, accessibility: str,
 ) -> None:
     from Options import Accessibility
@@ -156,7 +152,7 @@ def test_unsupported_source_policy_is_rejected_or_closed_without_legacy_fallback
     row = row_for()
     monkeypatch.setattr(rules, "extra_traversal_targets", lambda: (row,))
     resolver = policy(1, statues=True, minibosses=True, pool=["Stone"])  # type: ignore[no-untyped-call]
-    assert not rules.static_extra_witness(resolver)
+    assert rules.static_extra_witness(resolver)
     location = SimpleNamespace(access_rule=lambda state: True)
     world = SimpleNamespace(
         player=1, _enemy_copy_ability_policy=resolver.policy, _ability_gating_enabled=lambda: False,
@@ -164,10 +160,13 @@ def test_unsupported_source_policy_is_rejected_or_closed_without_legacy_fallback
         options=SimpleNamespace(ability_randomization_statues=SimpleNamespace(value=True),
                                 accessibility=Accessibility.from_any(accessibility)),
         multiworld=SimpleNamespace(get_location=lambda name, player: location))
-    if accessibility == "full":
-        with pytest.raises(ValueError, match="No reviewed source witness for metal_228_chest"):
-            rules.install_extra_traversal_rules(world)
-    else:
-        rules.install_extra_traversal_rules(world)
-        assert not location.access_rule(SimpleNamespace(
-            has=lambda name, player: True, can_reach_region=lambda name, player: True))
+    rules.install_extra_traversal_rules(world)
+    def reaches(region: str, owns_access: bool) -> bool:
+        return location.access_rule(SimpleNamespace(
+            has=lambda name, player: name != ACCESS or owns_access,
+            can_reach_region=lambda name, player: name == region,
+        ))
+
+    assert reaches(SOURCE_REGION, True)
+    assert not reaches(SOURCE_REGION, False)
+    assert not reaches(BONKERS_REGION, True)

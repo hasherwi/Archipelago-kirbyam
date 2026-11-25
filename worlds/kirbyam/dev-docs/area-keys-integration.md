@@ -59,7 +59,7 @@ normal transition telemetry retains source/destination/method/decision/reason.
 - Area ownership/telemetry occupies `0x0203B0C0..0x0203B133`. Hub protocol 2
   ownership/scratch stays at `0x0203B134..0x0203B13B`. Physical switch/save
   behavior remains independent of item ownership.
-- The fixed payload starts at file offset `0x15DC00`. Its added 1 KiB must be
+- The fixed payload starts at file offset `0x15DB00`. Its added 1,280 bytes must be
   verified retail zero padding. Native code occupies `0x1958` bytes, ending at
   `0x0815F558`, leaving **304 bytes** before the new Area Keys word at `0x0815F688`.
   The five Minny/health/color/gate/statue words remain at `0x0815F68C..0x0815F69F`.

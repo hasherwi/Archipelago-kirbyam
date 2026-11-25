@@ -9,6 +9,8 @@ from .starting_mirror import starting_mirror_candidates
 from .narcolepsy import NARCOLEPSY_ITEM_NAME, NARCOLEPSY_TRAP_CATALOG_VERSION
 from .random_teleport import RANDOM_TELEPORT_ITEM_NAME, TRAP_CATALOG_VERSION
 
+TRACKER_SCHEMA_VERSION = 2
+
 TRACKER_OPTIONS = (*KirbyAmOptions.__annotations__, "accessibility", "exclude_locations")
 
 if TYPE_CHECKING:
@@ -17,12 +19,11 @@ if TYPE_CHECKING:
 
 def validate_tracker_data(slot_data: dict[str, Any]) -> dict[str, Any]:
     tracker = slot_data.get("tracker")
-    if not isinstance(tracker, dict) or tracker.get("version") != 1:
+    if (not isinstance(tracker, dict)
+            or type(version := tracker.get("version")) is not int or version != TRACKER_SCHEMA_VERSION):
         raise ValueError(
-            "This Kirby slot lacks supported Universal Tracker reconstruction data. "
-            "For older seeds use the matching older APWorld and a YAML with resolved "
-            "options; shuffled enemy policies may not track correctly. Generate a new "
-            "seed with tracker schema 1 for exact YAML-less tracking."
+            "This Kirby seed does not support tracking with the current rules. "
+            "Update the KirbyAM APWorld and generate a new seed for Universal Tracker."
         )
     required = set(TRACKER_OPTIONS) - {"exclude_trap_types", "random_starting_mirror"}  # Older schema-1 seeds used legacy behavior.
     options = tracker.get("options")
@@ -66,9 +67,10 @@ def export_tracker_data(world: "KirbyAmWorld", items: Iterable[Item]) -> dict[st
         value = getattr(world.options, name).value
         options[name] = sorted(value) if isinstance(value, (set, frozenset)) else deepcopy(value)
     return {
-        "version": 1,
+        "version": TRACKER_SCHEMA_VERSION,
         **({"trap_catalog_version": version} if
            (version := getattr(world, "_tracker_trap_catalog_version", TRAP_CATALOG_VERSION)) else {}),
+        # Keep original options separate from resolved client fields.
         "options": options,
         **({"starting_mirror_tutorial_item": reward}
            if (reward := getattr(world, "_starting_mirror_tutorial_item", None)) else {}),
