@@ -49,6 +49,11 @@ def build_dummy_rom() -> bytearray:
     def put_bl(offset: int, target: int) -> None:
         rom[offset:offset + 4] = patch_rom.thumb_bl_bytes(ROM_BASE + offset, target)
 
+    for offset, expected, _, _ in patch_rom.FILE_SELECTOR_EDITS:
+        rom[offset:offset + len(expected)] = expected
+    for offset in patch_rom.FILE_SELECTOR_DRAW_OFFSETS:
+        put_bl(offset, patch_rom.FILE_SELECTOR_DRAW_ADDR)
+
     # patch_rom.py requires exactly eight direct calls to the retail
     # boss-already-owned reward function.
     for index in range(patch_rom.EXPECTED_BOSS_ALREADY_OWNED_REWARD_CALLSITES):
