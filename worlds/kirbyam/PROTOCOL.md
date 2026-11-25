@@ -1177,5 +1177,6 @@ option; bit 0 continues to control Area Keys independently. Hub ownership
 mask bit 16 refers to Starting Mirror only, not a native WorldMapDoor index.
 The payload persists ownership in the authenticated native save file, and its
 transition and decoration hooks gate only Central Circle (801) to Room 1-01
-(101). With the option off that exit and the chest's reward pool behave as
+(101). The lock uses the same four-piece, boards-only overlay as PR #1101
+(animation `0x294`, variant 11); the original mirror frame is unchanged. With the option off that exit and the chest's reward pool behave as
 before.

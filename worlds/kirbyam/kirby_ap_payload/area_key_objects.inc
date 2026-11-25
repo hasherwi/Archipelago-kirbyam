@@ -118,9 +118,12 @@ AREA_OBJECT_EXT void ap_area_door_decoration(void *door) {
         OBJ_S32(obj, 0x40u) >> 12, (OBJ_S32(obj, 0x44u) - 0xFFF) >> 12);
     uint16_t source = OBJ_U16(obj, 0x60u);
     uint16_t dest = ap_transition_route_destination(source, OBJ_U16(tile, 8u), OBJ_U8(tile, 0xAu), OBJ_U8(tile, 0xBu));
+    uint8_t starting_mirror = OBJ_U32(obj, 0xB0u) == AP_STARTING_MIRROR_TEMPLATE;
+    /* #1101's boards-only overlay leaves Central Circle's native frame/glass intact. */
+    uint8_t board_variant = starting_mirror ? AP_HUB_BOARD_VARIANT : 6u;
     /* Our object only draws the board. Restoring access removes it and
      * leaves the original native background doorway exactly as it was. */
-    if (OBJ_U32(obj, 0xB0u) == AP_STARTING_MIRROR_TEMPLATE) {
+    if (starting_mirror) {
         uint32_t effect = OBJ_U32(obj, 0xB4u);
         if (source != 801u || dest != 101u || ap_transition_allowed(source, dest)) {
             if (effect) OBJ_U16(effect, 6u) |= 0x1000u;
@@ -145,12 +148,12 @@ AREA_OBJECT_EXT void ap_area_door_decoration(void *door) {
     } else {
         uint32_t effect = OBJ_U32(obj, 0xB4u);
         if (!effect) {
-            effect = (uint32_t)((void* (*)(void*, uint32_t, uint32_t, uint32_t, uint32_t))0x0808B62Du)(door, 0, 0x294, 6, 0);
+            effect = (uint32_t)((void* (*)(void*, uint32_t, uint32_t, uint32_t, uint32_t))0x0808B62Du)(door, 0, 0x294, board_variant, 0);
             OBJ_U32(obj, 0xB4u) = effect;
         }
-        if (OBJ_U16(effect, 0x18u) != 0x294u || OBJ_U8(effect, 0x26u) != 6u) {
+        if (OBJ_U16(effect, 0x18u) != 0x294u || OBJ_U8(effect, 0x26u) != board_variant) {
             OBJ_U16(effect, 0x18u) = 0x294u;
-            OBJ_U8(effect, 0x26u) = 6u;
+            OBJ_U8(effect, 0x26u) = board_variant;
             OBJ_U8(effect, 0x27u) = 0xFFu;
         }
         OBJ_U16(effect, 6u) &= ~1u;
