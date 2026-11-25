@@ -148,8 +148,8 @@ async def test_native_mailbox_accept_reject_ambiguous_reset_busy_and_distinct_ar
 async def test_high_collectible_opcode_and_frame_wrap_keep_the_reject_bit_free():
     q = ReceiptVisuals()
     opcode = max(RewardArt) + 1
-    assert opcode == VISUAL_MAX_OPCODE == 76
-    q._area_key_art_header = b"APKEY01\0\xff\x01\0\0"
+    assert opcode == VISUAL_MAX_OPCODE == 77
+    q._area_key_art_header = b"APKEY01\0\xff\x03\0\0"
     q._enqueue(opcode)
     q.supported = True
     read = AsyncMock(return_value=[pack("<IIII", 0, 0, 1, 0),
@@ -441,14 +441,20 @@ async def test_expired_paused_request_is_retracted_without_touching_other_mailbo
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize("header", [bytes(12), b"APKEY01\0" + bytes(4)])
-async def test_missing_area_key_art_uses_generic_gem_for_live_receipt(header):
+@pytest.mark.parametrize(("art", "mask", "expected"), [
+    (RewardArt.KEY_MOONLIGHT, None, VISUAL_GEM),
+    (RewardArt.KEY_MOONLIGHT, 0, VISUAL_GEM),
+    (RewardArt.KEY_COPY_ROOM, 0x1FF, VISUAL_GEM),  # Older ROM has the nine Area Keys only.
+    (RewardArt.KEY_COPY_ROOM, 0x3FF, RewardArt.KEY_COPY_ROOM + 1),
+])
+async def test_live_key_receipt_uses_custom_art_only_when_its_rom_tile_exists(art, mask, expected):
     q = ReceiptVisuals()
-    q._enqueue(RewardArt.KEY_MOONLIGHT + 1)
+    q._enqueue(art + 1)
+    header = bytes(12) if mask is None else b"APKEY01\0" + pack("<I", mask)
     q.supported = True
     read = AsyncMock(side_effect=[[pack("<IIII", 0, 0, 1, 0), pack("<I", 20)], [header]])
     write = AsyncMock(return_value=True)
     with patch("worlds.kirbyam.receipt_visuals.bizhawk.read", read), \
          patch("worlds.kirbyam.receipt_visuals.bizhawk.guarded_write", write):
         await q.pump(None, auth_offset=5, auth=b"id", frame_addr=8, session_current=lambda: True)
-    assert q.in_flight & 0x7f == VISUAL_GEM
+    assert q.in_flight & 0x7f == expected

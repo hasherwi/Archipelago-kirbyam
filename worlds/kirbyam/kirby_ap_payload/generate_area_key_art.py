@@ -1,4 +1,4 @@
-"""Convert Hunter's exact 16×16 source cell grid to shared GBA OBJ bank F.
+"""Convert exact 16×16 key source cell grids to shared GBA OBJ bank F.
 
 Usage (Pillow needed for this development-only regeneration step):
     python kirby_ap_payload/generate_area_key_art.py
@@ -14,7 +14,7 @@ from PIL import Image
 ASSET_NAMES = (
     "01-rainbow-route.png", "02-moonlight-mansion.png", "03-cabbage-cavern.png",
     "04-mustard-mountain.png", "05-carrot-castle.png", "06-olive-ocean.png",
-    "07-peppermint-palace.png", "08-radish-ruins.png", "09-candy-constellation.png",
+    "07-peppermint-palace.png", "08-radish-ruins.png", "09-candy-constellation.png", "10-copy-ability-room.png",
 )
 ART_DIR = Path(__file__).resolve().parents[1] / "dev-docs" / "assets" / "area-keys-1139"
 MARKER = b"APKEY01\0"
@@ -33,7 +33,12 @@ def key_tiles(path: Path) -> bytes:
         r, g, b, alpha = rgba
         if alpha < 128:
             return 0
-        return min(range(1, 16), key=lambda index: sum(
+        candidates: range | tuple[int, ...] = range(1, 16)
+        if path.name == "10-copy-ability-room.png" and r - b >= 24 and r >= g + 10:
+            # Preserve the gold shaft and rim as warm colors: unrestricted RGB
+            # distance selects the same pink used for lavender highlights.
+            candidates = (2, 3, 4, 6, 15)
+        return min(candidates, key=lambda index: sum(
             w * (c - p) ** 2 for c, p, w in zip((r, g, b), BANK_F_RGB888[index], (3, 4, 2))
         ))
     return _to_tiles([palette_index(pixel) for pixel in cells.getdata()])

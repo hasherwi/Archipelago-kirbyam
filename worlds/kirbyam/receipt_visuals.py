@@ -189,7 +189,7 @@ class ReceiptVisuals:
             self.pending.popleft()
             return
         area_key_guard = []
-        if RewardArt.KEY_RAINBOW + 1 <= opcode <= RewardArt.KEY_CANDY + 1:
+        if RewardArt.KEY_RAINBOW + 1 <= opcode <= RewardArt.KEY_COPY_ROOM + 1:
             if self._area_key_art_header is None:
                 header, = await bizhawk.read(transport, [(AREA_KEY_ART_HEADER_OFFSET, 12, "ROM")])
                 if not current():

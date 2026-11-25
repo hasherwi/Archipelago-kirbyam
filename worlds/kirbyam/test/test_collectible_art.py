@@ -24,9 +24,9 @@ def test_reserved_table_and_runtime_art_ids(art, rom):
     writes = patch_rom.build_collectible_art_extension(rom, bytes(65536))
     assert set(writes) == {0x1007000, 0x100C000, 0x100D000}
     keys = writes[0x100C000]
-    assert keys[:12] == b"APKEY01\0\xff\x01\0\0"
+    assert keys[:12] == b"APKEY01\0\xff\x03\0\0"
     sprites = [keys[i:i + 128] for i in range(12, len(keys), 128)]
-    assert len(sprites) == len(set(sprites)) == 9
+    assert len(sprites) == len(set(sprites)) == 10
     assert all(any(sprite) for sprite in sprites)
     assert 0x100C000 + len(keys) <= 0x100D000
     table = writes[0x100D000]

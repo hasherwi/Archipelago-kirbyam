@@ -1,6 +1,6 @@
 # Shared location reward art
 
-**Custom sprite artwork by Hunter.**
+**Custom sprite artwork by Aarcayne Art.**
 
 The supplied six-gem art is the fallback reward sprite for treasure chests,
 physical lever pulls, Archipelago Big Switches, Goal Games (even with no
@@ -21,9 +21,9 @@ Both panels are native mGBA frames from a cold Tutorial World Map Chest replay
 206 rendered pixels differ, all inside the 16×16 sprite at (104, 57).
 The compared runs recorded the same chest flags and reached Central Circle.
 
-## Area Key rewards
+## Custom key rewards
 
-**Custom Area Key artwork by Hunter.** Harrison supplied the nine
+**Custom Area Key artwork by Aarcayne Art.** Harrison supplied the nine
 [original PNGs](assets/area-keys-1139/) and confirmed their area assignments in
 [#1139](https://github.com/hasherwi/Archipelago-kirbyam/issues/1139). The originals
 are unchanged. Each 1600×1600 file is a uniform 100× nearest-neighbor enlargement
@@ -35,6 +35,13 @@ blue 3:4:2 and ties choose the earlier palette index. This preserves the
 silhouette, palette-bank isolation and simultaneous reward rendering.
 The result is four 8×8 4bpp tiles per key. Palette limits shift some shades,
 especially purple, toward the closest available color.
+
+The [Copy Ability Room key PNG](assets/area-keys-1139/10-copy-ability-room.png)
+is by **Aarcayne Art** (the `Area_Key_Rainbow2.png` sprite in the artist’s
+KaTAM Sprites bundle); the project owner supplied and selected it. It is converted
+using the same grid and palette, keeping the key’s warm highlights in the gold
+range rather than collapsing them into pink. It represents the existing Copy Ability Room
+Access item only and does not change the room, door, or unlock behavior.
 
 The ROM table at `0x0900C000` is independent of the native collectible
 table. A missing table/entry falls back to the AP gem. Your own location awards
@@ -56,6 +63,12 @@ Key. The sender's own chest showed the AP gem while the receiver displayed
 the key only after its acknowledgement. The native renderer uploaded the
 matching tile data for both. The precollected Rainbow key was present before
 connecting and did not produce a starting-history popup.
+
+The Copy Ability Room key was separately captured in mGBA for an [own
+tutorial chest award](assets/area-keys-1139/evidence/local-copy-room-key.png)
+and an [acknowledged incoming award](assets/area-keys-1139/evidence/incoming-copy-room-key.png)
+from a second world. The test seed's sender saw the AP gem; both receiver
+frames are unedited, with the packed tiles checked against native VRAM.
 
 ## Physical lever replay
 
@@ -338,8 +351,8 @@ Tornado, Wheel, Ice, Spark, Missile, Smash, Throw, Hammer, Sword, Cutter,
 Cupid, and Parasol. The payload uses their 16×16 native shapes with the
 existing popup palette; it will not spawn a statue or transform Kirby.
 
-The remaining ability unlocks (Sleep, Cook, UFO, Magic, Mini, and Crash),
-Master's separate stand, and Copy Ability Room access do not use statue
-art. These keep the generic gem, as do outgoing non-trap items and
+The remaining ability unlocks (Sleep, Cook, UFO, Magic, Mini, and Crash)
+and Master's separate stand do not use statue art. These keep the generic gem,
+as do outgoing non-trap items and
 unsupported placements. A live incoming statue award is still purely
 visual and happens only after its separate ROM delivery acknowledgment.

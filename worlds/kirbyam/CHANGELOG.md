@@ -21,7 +21,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ### Improvements
 - Allow only File 1 to be selected, preventing cross-save problems (Issue #1144).
-- Sprite Swapping (**custom sprite artwork by Hunter**): In-game item sprites now reflect the actual item awarded. When Area Keys are enabled, Kirby starts with the new Rainbow Route area key, so its area mirrors never need a separate unlock (this key exists for future proofing). The AP gem represents the copy ability room, outgoing non-traps and awards without their own artwork (PR #1137; Issue #1139).
+- Sprite Swapping (**custom sprite artwork by Aarcayne Art**): In-game item sprites now reflect the actual item awarded. When Area Keys are enabled, Kirby starts with the new Rainbow Route area key, so its area mirrors never need a separate unlock (this key exists for future proofing). The Copy Ability Room unlock has its own key sprite. The AP gem represents outgoing non-traps and awards without their own artwork (PR #1137; Issues #1139 and #1140).
 - Show boss defeat progress in `/goal` when using the boss-count goal (PR #1133).
 
 ### Bug Fixes
@@ -35,7 +35,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Phone charges can exceed three, but the battery display does not show the extra charges (PR #1086).
 - Ranged-attack coverage remains incomplete. Three targets retain older rules outside reviewed source assignments; broader physical outcomes still need review. See the [detailed coverage ledger](dev-docs/ranged-coverage-ledger.md) (PR #1052).
 - Only the North American ROM is supported; AP notifications are English.
-- The copy ability room unlock and six ability unlocks use the AP logo sprite because an asset, native or custom, does not yet exist that meets the canvas we are limited to.
+- Six ability unlocks use the AP logo sprite because an asset, native or custom, does not yet exist that meets the canvas we are limited to.
 - mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.
 - Testing covers selected gameplay scenarios, not a complete playthrough or every multiplayer setup.
 
