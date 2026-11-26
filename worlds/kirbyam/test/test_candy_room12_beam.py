@@ -71,7 +71,7 @@ def test_vanilla_source_seed_keeps_candy_chest_in_full_accessibility(tmp_path: P
 
 @pytest.mark.parametrize("mode", [1, 2])
 @pytest.mark.parametrize("gating", [False, True])
-@pytest.mark.parametrize("ability,item_code", [("UFO", 3860114), ("Spark", 3860115), ("Missile", 3860125), ("Sword", 3860118)])
+@pytest.mark.parametrize("ability,item_code", [("UFO", 3860114), ("Spark", 3860115), ("Missile", 3860125), ("Sword", 3860118), ("Smash", 3860122)])
 def test_local_ranged_requires_real_source_and_respects_permission(monkeypatch, mode, gating, ability, item_code):
     row = next(row for row in room_traversal_targets("block") if row["id"] == TARGET)
     graph = room_traversal_graph(TARGET, "local_" + ability.lower(), False)
@@ -168,3 +168,79 @@ def test_controlled_shuffled_source_full_fill_keeps_permission_outside_own_chest
     state.sweep_for_advancements()
     assert state.has(f"{ability} Ability", 1)
     assert multiworld.get_location(data.locations[LOCATION].label, 1).can_reach(state)
+
+
+@pytest.mark.parametrize("mode,pool,weight,minor_chests,want", [
+    (0, None, 0, True, False),
+    (1, ["Smash"], 0, True, False),
+    (1, ["Fire"], 0, True, True),
+    (2, ["Spark"], 0, True, False),
+    (2, ["Beam", "Smash"], 0, True, True),
+    (2, ["Beam"], 100, True, True),
+    (2, ["Beam"], 100, False, False),
+])
+def test_linked_fuse_policy_only_when_no_stock_witness(mode, pool, weight, minor_chests, want):
+    from .. import candy912_fuse
+    from ..traversal import SourcePolicy
+
+    original = policy(mode, pool=pool, weight=weight, minny=False).policy
+    configured = candy912_fuse.configure_policy(original, minor_chests=minor_chests)
+    assert {k: v for k, v in configured.items() if k != candy912_fuse.POLICY_KEY} == original
+    assert candy912_fuse.POLICY_KEY not in original
+    assert candy912_fuse.enabled(configured) is want
+    row = next(row for row in room_traversal_targets("block") if row["id"] == TARGET)
+    graphs = candy912_fuse.target_graphs(row, SourcePolicy(configured))
+    assert graphs == ((candy912_fuse.graph(),) if want else ())
+    assert candy912_fuse.config_bytes(configured) == (
+        candy912_fuse.LINKED_CONFIG if want else candy912_fuse.STOCK_CONFIG)
+    assert candy912_fuse.config_bytes(original) == candy912_fuse.STOCK_CONFIG
+    with pytest.raises(ValueError, match="linked fuse patch contract"):
+        candy912_fuse.config_bytes({**original, candy912_fuse.POLICY_KEY: 1})
+
+
+@pytest.mark.parametrize("mode,weight", [(0, 0), (1, 0), (2, 0), (2, 100)])
+@pytest.mark.parametrize("gating", [0, 1])
+def test_generated_full_seed_keeps_exact_chest_and_patch_intent(tmp_path, monkeypatch, mode, weight, gating):
+    import Main
+    from BaseClasses import CollectionState
+    from .. import candy912_fuse
+    from ..traversal import SourcePolicy
+
+    generated = []
+    main = Main.main
+
+    def capture(*args, **kwargs):
+        world = main(*args, **kwargs)
+        generated.append(world)
+        return world
+
+    monkeypatch.setattr(Main, "main", capture)
+    player = tmp_path / "player.yaml"
+    player.write_text(
+        "name: Candy\ngame: Kirby & The Amazing Mirror\nKirby & The Amazing Mirror:\n"
+        f"  ability_randomization_mode: {mode}\n  ability_randomization_no_ability_weight: {weight}\n"
+        f"  ability_gating: {gating}\n  room_sanity: 1\n"
+        "  accessibility: full\n  minimum_health: 6\n  maximum_health: 6\n",
+        encoding="utf-8",
+    )
+    archive = generate_archive_from_fixture(player, tmp_path / "out", seed=912)
+    multidata = load_multidata_from_archive(archive)
+    locations = multidata["locations"][1]
+    assert 3960575 in locations and 3961232 in locations
+    raw = multidata["slot_data"][1]["enemy_copy_ability_policy"]
+    row = next(row for row in room_traversal_targets("block") if row["id"] == TARGET)
+    assert candy912_fuse.enabled(raw) is not target_applies(row, SourcePolicy(raw))
+    multiworld, = generated
+    assert multiworld.fulfills_accessibility() and multiworld.can_beat_game()
+    chest = multiworld.get_location(data.locations[LOCATION].label, 1)
+    state = CollectionState(multiworld)
+    state.sweep_for_advancements()
+    assert chest.can_reach(state)
+    if candy912_fuse.enabled(raw):
+        assert not candy912_fuse.graph().placements
+        # A Normal-only route: no equipment permission needed once the room is reached.
+        monkeypatch.setattr(state, "has", lambda item, player: False)
+        monkeypatch.setattr(state, "can_reach_region", lambda name, player: name == ROOM)
+        assert chest.access_rule(state)
+        monkeypatch.setattr(state, "can_reach_region", lambda name, player: False)
+        assert not chest.access_rule(state)

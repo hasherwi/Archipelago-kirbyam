@@ -589,6 +589,10 @@ class KirbyAmWorld(World):
                 room16_for_completion=self.options.goal.value == Goal.option_full_completion,
                 allow_room16_shuffle_repair=True,
             )
+            from .candy912_fuse import configure_policy as configure_candy912_fuse
+            self._enemy_copy_ability_policy = configure_candy912_fuse(
+                self._enemy_copy_ability_policy, minor_chests=self.ENABLE_MINOR_CHESTS,
+            )
             validate_phone_profile(self)
             validate_mini_sources(self._enemy_copy_ability_policy, randomize_statues)
             if not peg_logic_enabled(self._enemy_copy_ability_policy):

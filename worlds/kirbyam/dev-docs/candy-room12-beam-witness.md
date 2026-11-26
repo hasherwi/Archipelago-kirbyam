@@ -48,14 +48,11 @@ the chest, preserving UFO and 6 HP, but did not prove a source from that side.
 The full local-source route was tested at 6 starting HP, not at 1 HP.
 Both routes stop at this check and export no door opening or equipment.
 
-The logic activates only when the raw effective Waddle Doo policy guarantees
-Beam, UFO, Spark, Missile, or Sword. A mixed live pool, an ordinary Shuffled type assignment outside
-these abilities, or a no-ability roll does not meet that condition. Such
-profiles still have the legacy AP access rule, which is **not** evidence that
-their native chest is reachable. Scope intentionally does not change ability
-randomization settings, source assignments, or instantiated check counts.
+The stock routes activate only when the raw effective Waddle Doo policy
+guarantees Beam, UFO, Spark, Missile, Sword, or Smash. Otherwise new seeds
+use the linked-fuse Normal route below.
 
-## Spark, Missile and Sword alternatives
+## Spark, Missile, Sword, and Smash alternatives
 
 The same private keyless checkpoint and controlled, guaranteed Waddle Doo
 assignments were used to witness these full routes. For each, native swallow
@@ -77,6 +74,14 @@ No room transitions, helper, or gameplay state writes occurred after setup.
   clear. Wait 24 frames after the landing/clear sequence, then return
   through the upper/east galleries and open the chest with Sword retained
   (native event at frame 2086, no damage at both 6 and fixed 1 HP).
+- **Smash:** Carry the naturally swallowed local grant to the center roof.
+  At about (391.06,375.14), use Up+B; the original fuse and its three seals
+  clear. Circle through the east gallery, then jump and hover left from
+  the lower east floor to reach the exact chest. The 6-HP controller replay
+  took one native hit after the fuse cleared, lost Smash and finished as
+  Normal at 5 HP (native chest event 1, template `0x088C5BA4`, frame 1689).
+  With Smash permission withheld, the same inhale/swallow leaves Kirby
+  Normal. A damage-free or 1-HP Smash finish was not verified.
 - **Master:** A player confirmed that Master can activate this chest.
   Master is not obtainable from the local enemy under the copy policy, and
   this work does not prove a Standard carrier or model it as required.
@@ -86,4 +91,17 @@ if this chest is enabled and the exact local source policy guarantees that
 ability (independent rules may also classify these items). Neither
 permission item itself equips Kirby.
 
-Follow-up: [#1161](https://github.com/hasherwi/Archipelago-kirbyam/issues/1161) tracks safe coverage for the remaining profiles.
+## Normal linked-fuse seeds (#1161)
+
+The seed records this patch only when minor chests are enabled and the final
+enemy policy does not guarantee one of the six stock routes. Strike the
+ordinary west Bomb Block at tile (7,18) with a slide. Its stock chain runs,
+and the original hidden chest fuse at (25,25) clears the three east seals
+through the native chain effect. Follow the regular lower gallery to the east
+of the opened seal and jump/hover left into the native chest chamber.
+
+The link is tied to an actual hit, not room entry or an item grant. It
+does not change enemy assignments, the chest identity/reward, any room visit
+or exit, or the number of locations. A saved same-seed tracker policy
+reuses the ROM's decision; old seeds that lack this field retain their
+original rules and unlinked fuse.

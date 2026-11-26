@@ -173,14 +173,14 @@ def test_no_copy_source_field_distinction_and_current_counts() -> None:
     # The frozen native record predates #1099's Room16 fail-closed rule.
     assert e['host']['policy_fallback_count'] == 4
     assert set(scope['policy_fallback_targets']) == {
-        'bomb_402_candy_chest', 'bomb_517_chocolate', 'bomb_733_yellow', 'switch_310_mustard_map'}
+        'bomb_517_chocolate', 'bomb_733_yellow', 'switch_310_mustard_map'}
     assert (e['host']['target_count'], e['host']['witness_count']) == (57, 146)
     counts = build_status()['counts']
-    assert counts['witnesses'] == e['host']['witness_count'] + 18  # Ice533, Normal617, Kibble310, four Mirra routes and both Normal534 entries and Normal815, plus Advanced generated Ice825 the shared Chocolate statue source, Advanced Fire825, and the five Candy 9-12 routes.
+    assert counts['witnesses'] == e['host']['witness_count'] + 19  # Ice533, Normal617, Kibble310, four Mirra routes and both Normal534 entries and Normal815, plus Advanced generated Ice825 the shared Chocolate statue source, Advanced Fire825, and the six Candy 9-12 stock-catalog routes.
     assert len(data.regions) == 386  # two lever compartments and their visit sinks
     ledger = (ROOT / 'dev-docs/ranged-coverage-ledger.md').read_text()
-    assert 'the four remaining permissive target-wide source-policy fallbacks' in ledger
-    assert 'definitions (164 witnesses)' in ledger
+    assert 'the three remaining permissive target-wide source-policy fallbacks' in ledger
+    assert 'definitions (165 stock-catalog witnesses)' in ledger
     assert 'the five current target-wide' not in ledger
 
 

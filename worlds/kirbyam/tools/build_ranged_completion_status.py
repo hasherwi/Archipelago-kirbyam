@@ -17,6 +17,7 @@ from ..ability_randomization import build_enemy_copy_ability_policy
 from ..enemy_ability_data import VALID_ENEMY_COPY_ABILITIES
 from ..traversal import SourcePolicy
 from ..traversal_data import _room_catalog
+from .. import candy912_fuse
 from ..traversal_rules import target_applies
 from .build_ranged_target_coverage import ROOT, build_coverage
 
@@ -28,10 +29,11 @@ def policy_profiles(*, synthetic: bool = False) -> dict[str, SourcePolicy]:
     def make(mode: int, weight: int = 0, *, passive: bool = True,
              pool: list[str] | None = None) -> SourcePolicy:
         kwargs: dict[str, Any] = {} if pool is None else {"whitelist": pool}
-        return SourcePolicy(build_enemy_copy_ability_policy(
+        raw = build_enemy_copy_ability_policy(
             random.Random(427), mode, True, True, include_passive_enemies=passive,
             no_ability_weight=weight, **kwargs,
-        ))
+        )
+        return SourcePolicy(raw if synthetic else candy912_fuse.configure_policy(raw, minor_chests=True))
 
     if synthetic:
         # These narrow pools are internal diagnostics. No public custom-whitelist
@@ -61,6 +63,11 @@ def source_conditions(row: dict[str, Any]) -> list[dict[str, Any]]:
     )
 
 
+def uses_legacy_fallback(row: dict[str, Any], policy: SourcePolicy) -> bool:
+    return (not row.get("fail_closed") and not target_applies(row, policy)
+            and not candy912_fuse.target_graphs(row, policy))
+
+
 def build_status() -> dict[str, Any]:
     contract = load_contract()
     coverage = build_coverage()
@@ -82,16 +89,18 @@ def build_status() -> dict[str, Any]:
             "surface": row.get("exit") or row["location"],
             "witnesses": list(row["graphs"]), "target_source_conditions": conditions,
             "coverage": "fail_closed_source_policy" if row.get("fail_closed") else
+                        "linked_fuse_or_source" if target_id == candy912_fuse.TARGET else
                         "partial_source_policy" if conditions else "bounded_installed",
-            "public_fallback_profiles": [name for name, policy in profiles.items() if not row.get("fail_closed") and not target_applies(row, policy)],
+            "public_fallback_profiles": [name for name, policy in profiles.items() if uses_legacy_fallback(row, policy)],
             "synthetic_applicable_profiles": [name for name, policy in diagnostics.items()
                                               if target_applies(row, policy)],
         })
-    actual_conditional = sorted(row["id"] for row in targets if source_conditions(row) and not row.get("fail_closed"))
+    actual_conditional = sorted(row["id"] for row in targets if source_conditions(row)
+                                and not row.get("fail_closed") and row["id"] != candy912_fuse.TARGET)
     if actual_conditional != sorted(contract["policy_fallback_targets"]):
         errors.append("Conditional target inventory changed; review and update the declared coverage.")
     actual_fallbacks = {
-        name: sorted(row["id"] for row in targets if not row.get("fail_closed") and not target_applies(row, policy))
+        name: sorted(row["id"] for row in targets if uses_legacy_fallback(row, policy))
         for name, policy in profiles.items()
     }
     if actual_fallbacks != contract["public_profile_fallbacks"]:
@@ -107,6 +116,7 @@ def build_status() -> dict[str, Any]:
         "tools/build_ranged_completion_status.py", "tools/build_ranged_target_coverage.py",
         "dev-docs/ranged-completion-scope.json", "dev-docs/ranged-static-target-census.json",
         "dev-docs/small-switch-inventory.json", "dev-docs/main-ranged-union-catalog.json",
+        "candy912_fuse.py", "data/candy912_normal_fuse_witness.json",
     ):
         inputs[name] = hashlib.sha256((ROOT / name).read_bytes()).hexdigest()
     fingerprint = hashlib.sha256(json.dumps(inputs, sort_keys=True).encode()).hexdigest()

@@ -194,7 +194,7 @@ def static_extra_witness(policy: SourcePolicy, *, advanced: bool = False) -> boo
 
 def install_extra_traversal_rules(world: Any) -> None:
     from worlds.generic.Rules import add_rule
-    from . import yellow_cupid, room16_timer
+    from . import candy912_fuse, yellow_cupid, room16_timer
 
     yellow_cupid.validate_profile(world, install=True)
     raw = getattr(world, "_enemy_copy_ability_policy", None)
@@ -218,7 +218,8 @@ def install_extra_traversal_rules(world: Any) -> None:
     policy = SourcePolicy(raw, bool(world.options.ability_randomization_statues.value))
     gating = world._ability_gating_enabled()
     for row in extra_traversal_targets():
-        profile_graphs = yellow_cupid.target_graphs(world, row) + room16_timer.target_graphs(row, policy)
+        profile_graphs = (yellow_cupid.target_graphs(world, row) + room16_timer.target_graphs(row, policy)
+                          + candy912_fuse.target_graphs(row, policy))
         applies = target_applies(row, policy)
         if not applies and not profile_graphs:
             if row.get("fail_closed"):
