@@ -112,8 +112,8 @@ static uint32_t ap_copy_room_owned(void) { return 0; }
 #define CHECK(x) do {if(!(x)) return __LINE__;} while(0)
 static uint32_t AP_DELIVERED_VITALITY_ITEM_BITS,AP_DELIVERED_SHARD_BITFIELD,AP_SHARD_BITFIELD,
     AP_ABILITY_UNLOCK_MASK,KIRBY_SPRAY_PAINT_FLAGS,KIRBY_MUSIC_PLAYER_AND_SHEETS_FLAGS;
-static uint32_t AP_HUB_CONNECTION_ITEM_MASK;
-#define AP_HUB_CONNECTION_ITEM_MASK_UNINITIALIZED 0xFFFFFFFFu
+static uint32_t AP_HUB_CONNECTION_ITEM_MASK, AP_AREA_KEY_BITFIELD_RUNTIME;
+static uint8_t ap_area_keys_enabled(void) { abort(); }
 static uint32_t ap_progress_owned(void){return 0;}
 static uint8_t ap_progress_receive(uint32_t i){(void)i;return 1;}
 static void ap_project_hub_doors(uint32_t i){(void)i;}
@@ -132,12 +132,12 @@ static uint8_t ap_trap_narcolepsy(void) { abort(); }
 static uint8_t ap_trap_random_teleport(void) { abort(); }
 /* Starting Mirror has a separate integration test. Do not let this replay
  * silently accept it as a Vitality operation. */
-static uint32_t AP_HUB_CONNECTION_ITEM_MASK;
 static uint8_t ap_random_starting_mirror_enabled(void) { return 0; }
 static uint8_t ap_copy_room_receive_starting_mirror(void) { abort(); }
 '''
     for name in ['AP_NARCOLEPSY_ITEM', 'AP_RANDOM_TELEPORT_ITEM', 'AP_STARTING_MIRROR_ITEM',
-                 'AP_HUB_CONNECTION_ITEM_MASK_UNINITIALIZED', 'AP_STARTING_MIRROR_ITEM_MASK']:
+                 'AP_HUB_CONNECTION_ITEM_MASK_UNINITIALIZED', 'AP_STARTING_MIRROR_ITEM_MASK',
+                 'AP_RAINBOW_ROUTE_KEY_ITEM', 'AP_RAINBOW_ROUTE_KEY_BIT']:
         native_source = ((world / "kirby_ap_payload/copy_room.h").read_text()
                          if name == 'AP_STARTING_MIRROR_ITEM' else payload)
         definition = re.search(r'^#define ' + name + r' +[^\n]+', native_source, re.MULTILINE)

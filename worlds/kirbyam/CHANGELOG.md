@@ -20,12 +20,19 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
   - Random Teleport moves Kirby to a safe room already in logic (Issue #696).
 
 ### Improvements
-- Shuffled ability statues show the ability they grant, including six new sprites by **Aarcayne Art** for Sleep, Cook, UFO, Magic, Mini, and Crash. Those sprites also appear when Kirby receives the matching ability unlock. Completely Random statues show Aarcayne Art's question mark (PR #1141).
+- When statues are included in Ability Randomization, Shuffled statues show the abilities they grant and Completely Random statues show a question mark. Six new sprites by **Aarcayne Art** appear for the Sleep, Cook, UFO, Magic, Mini, and Crash unlocks and on eligible Shuffled statues (PR #1141).
 - Ability Randomization no longer affects the Copy Ability Room: its statues always grant their original abilities once unlocked (PR #1141).
 - Allow only File 1 to be selected, preventing cross-save problems (Issue #1144).
-- Sprite Swapping (**custom sprite artwork by Hunter**): In-game item sprites now reflect the actual item awarded to the player. We use a variant of the Archipelago logo as an item sprite for all location checks that don't have an in-game asset or award items to other AP worlds (PR #1137).
+- Sprite Swapping (**custom sprite artwork by Aarcayne Art**): Local check rewards and incoming items show the item’s own sprite when available, including new sprites for Area Keys and the Copy Ability Room unlock. When Area Keys are enabled, Kirby starts with the Rainbow Route key, so its return mirrors don’t need a separate unlock. This key is for future use and isn’t in the randomized item pool. Outgoing non-trap rewards and awards without their own artwork still use the AP gem (PRs #1137 and #1164; Issues #1139 and #1140).
 - Show boss defeat progress in `/goal` when using the boss-count goal (PR #1133).
 - Improved Logic for Item Placement and Accessible Locations (PR #1141).
+
+### Known Limitations
+- Phone charges can exceed three, but the battery display does not show the extra charges (PR #1086).
+- Ranged-attack coverage remains incomplete. Four targets retain older rules outside reviewed source assignments; broader physical outcomes still need review. See the [detailed coverage ledger](dev-docs/ranged-coverage-ledger.md) (PR #1052).
+- Only the North American ROM is supported; AP notifications are English.
+- mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.
+- Testing covers selected gameplay scenarios, not a complete playthrough or every multiplayer setup.
 
 ### Bug Fixes
 - Keep pending traps and consumables from blocking item delivery after an emulator pause (PR #1142).
@@ -33,15 +40,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Area Keys now remain usable after restarting the game offline in the same seed and save file.
 - Hub Connections are saved when received, so restarting offline no longer loses newly opened routes.
 - Fixed an exhausted source search for Shuffled seeds that require Mustard Mountain Room 4-16.
-- Account for Beam, UFO, Spark, Missile, and Sword routes to Candy Constellation 9-12's Small Chest without gating the room or its exit (Issue #1059).
-
-### Known Limitations
-- Phone charges can exceed three, but the battery display does not show the extra charges (PR #1086).
-- Ranged-attack coverage remains incomplete. Four targets retain older rules outside reviewed source assignments; broader physical outcomes still need review. See the [detailed coverage ledger](dev-docs/ranged-coverage-ledger.md) (PR #1052).
-- Only the North American ROM is supported; AP notifications are English.
-- The Copy Ability Room unlock and Area Keys use the AP logo sprite pending separate artwork updates.
-- mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.
-- Testing covers selected gameplay scenarios, not a complete playthrough or every multiplayer setup.
+- Account for Beam, UFO, Spark, Missile, and Sword routes to Candy Constellation 9-12’s Small Chest when the local enemy is guaranteed to grant that ability. The room visit and exits are unchanged (PR #1160; Issue #1161 tracks remaining source policies).
 
 ## v0.6.0
 

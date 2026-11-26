@@ -76,6 +76,12 @@
     "item_id": 3860036,
     "tags": ["Trap"]
   },
+  "AREA_KEY_1": {
+    "label": "Rainbow Route - Area Key",
+    "classification": "PROGRESSION",
+    "item_id": 3860056,
+    "tags": ["AreaKeys", "Unique"]
+  },
   "AREA_KEY_2": {
     "label": "Moonlight Mansion - Area Key",
     "classification": "PROGRESSION",

@@ -4853,8 +4853,9 @@ class KirbyAmClient(BizHawkClient):
         try:
             for index in range(cursor):
                 item = getattr(history[index], "item", None)
-                if keys_enabled and item in _AREA_KEY_ITEM_ID_TO_AREA_ID:
-                    bit = item - 3860041
+                area = _AREA_KEY_ITEM_ID_TO_AREA_ID.get(item, 0)
+                if keys_enabled and 2 <= area <= 9:
+                    bit = area - 2
                 elif 1 <= (door := _HUB_CONNECTION_ITEM_ID_TO_DOOR_INDEX.get(item, 0)) <= 15:
                     bit = door + 7
                 else:
@@ -5162,7 +5163,7 @@ class KirbyAmClient(BizHawkClient):
                                 else None)
                 pending_progress = (bool(self._progress_receipt_fence)
                                     or isinstance(pending_item, int) and (
-                                        pending_item in _AREA_KEY_ITEM_ID_TO_AREA_ID
+                                        2 <= _AREA_KEY_ITEM_ID_TO_AREA_ID.get(pending_item, 0) <= 9
                                         or pending_item in _HUB_CONNECTION_ITEM_ID_TO_DOOR_INDEX))
                 if pending_progress:
                     # The native save can finish between our read and this clear.
@@ -5433,7 +5434,7 @@ class KirbyAmClient(BizHawkClient):
             native_auth = self._health_rom_auth
             durable_progress = (self._receipt_journal is not None and native_auth is not None
                                 and copy_room_slot_version(getattr(ctx, "slot_data", {}))
-                                and (hub_door is not None or item_id in _AREA_KEY_ITEM_ID_TO_AREA_ID))
+                                and (hub_door is not None or 2 <= _AREA_KEY_ITEM_ID_TO_AREA_ID.get(item_id, 0) <= 9))
             progress_fence: list[tuple[int, bytes, str]] = []
             if hub_door is not None or durable_progress:
                 delivery_index = self._delivered_item_index

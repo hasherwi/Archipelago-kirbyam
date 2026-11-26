@@ -1441,6 +1441,45 @@
               "main": []
             }
           ]
+        },
+        {
+          "label": "Area Key art: exclude the precollected Rainbow key from offline receipt fencing",
+          "integrated_sha256": "bff764184dafe9b30ad22829020bccdc5f1bd42ef2503b3b8618acb07acd6a01",
+          "reverse_slices": [
+            {
+              "start": 4855,
+              "stop": 4858,
+              "current": [
+                "                area = _AREA_KEY_ITEM_ID_TO_AREA_ID.get(item, 0)\n",
+                "                if keys_enabled and 2 <= area <= 9:\n",
+                "                    bit = area - 2\n"
+              ],
+              "main": [
+                "                if keys_enabled and item in _AREA_KEY_ITEM_ID_TO_AREA_ID:\n",
+                "                    bit = item - 3860041\n"
+              ]
+            },
+            {
+              "start": 5165,
+              "stop": 5166,
+              "current": [
+                "                                        2 <= _AREA_KEY_ITEM_ID_TO_AREA_ID.get(pending_item, 0) <= 9\n"
+              ],
+              "main": [
+                "                                        pending_item in _AREA_KEY_ITEM_ID_TO_AREA_ID\n"
+              ]
+            },
+            {
+              "start": 5436,
+              "stop": 5437,
+              "current": [
+                "                                and (hub_door is not None or 2 <= _AREA_KEY_ITEM_ID_TO_AREA_ID.get(item_id, 0) <= 9))\n"
+              ],
+              "main": [
+                "                                and (hub_door is not None or item_id in _AREA_KEY_ITEM_ID_TO_AREA_ID))\n"
+              ]
+            }
+          ]
         }
       ]
     },

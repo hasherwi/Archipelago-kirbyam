@@ -1,8 +1,9 @@
 """Area Key item and directed entrance contracts.
 
 Area Keys are keyed by the destination area's AP area ID.  Keeping the
-direction in this contract is important: returning to Rainbow Route is always
-free, while entering one of areas 2 through 9 requires that destination's key.
+direction in this contract is important: a cross-area entrance needs its
+destination key, but new seeds start with the Rainbow Route key. Tutorial,
+Dimension Mirror, boss and Goal Game returns do not acquire a new Rainbow gate.
 """
 
 from __future__ import annotations
@@ -15,10 +16,13 @@ from .data import data
 
 
 EARLY_REACHABLE_CHECK_THRESHOLD = 4
+RAINBOW_ROUTE_AREA_ID = 1
+RAINBOW_ROUTE_AREA_KEY_ID = 3860056
 FALLBACK_STARTING_AREA_ID = 2
 DIMENSION_MIRROR_AREA_ID = 10
 
 AREA_NAME_BY_ID: dict[int, str] = {
+    RAINBOW_ROUTE_AREA_ID: "Rainbow Route",
     2: "Moonlight Mansion",
     3: "Cabbage Cavern",
     4: "Mustard Mountain",
@@ -41,6 +45,7 @@ AREA_KEY_LABELS: tuple[str, ...] = tuple(
     for area_id in sorted(AREA_KEY_LABEL_BY_AREA_ID)
 )
 AREA_KEY_BITFIELD_MASK = sum(1 << area_id for area_id in AREA_KEY_LABEL_BY_AREA_ID)
+RAINBOW_ROUTE_AREA_KEY_LABEL = AREA_KEY_LABEL_BY_AREA_ID[RAINBOW_ROUTE_AREA_ID]
 FALLBACK_STARTING_AREA_KEY_LABEL = AREA_KEY_LABEL_BY_AREA_ID[FALLBACK_STARTING_AREA_ID]
 
 _REGION_AREA_TOKEN_PATTERN = re.compile(r"^REGION_([A-Z_]+)(?:/|$)")
@@ -69,7 +74,7 @@ def area_id_from_region_key(region_key: str) -> int | None:
 
 @lru_cache(maxsize=1)
 def area_key_entrance_area_ids() -> dict[str, int]:
-    """Map every directed cross-area entrance into areas 2..9 to its key ID."""
+    """Map keyed directed cross-area entrances to their destination key ID."""
     gated: dict[str, int] = {}
     for source_region, region_data in data.regions.items():
         source_area_id = area_id_from_region_key(source_region)
@@ -79,6 +84,11 @@ def area_key_entrance_area_ids() -> dict[str, int]:
                 continue
             if source_area_id == destination_area_id:
                 continue
+            if destination_area_id == RAINBOW_ROUTE_AREA_ID:
+                # Boss and Goal Game return stars aren't area mirrors.
+                source_room = source_region.split("/", 1)[-1]
+                if source_area_id not in range(2, 10) or "_BOSS" in source_room or "_GOAL" in source_room:
+                    continue
             gated[f"{source_region} -> {destination_region}"] = destination_area_id
     # Gate admission to forced wind lanes before a player can be stranded at
     # the later cross-area exit. Other room edges retain destination semantics.

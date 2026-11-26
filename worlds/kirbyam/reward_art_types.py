@@ -3,6 +3,7 @@ from enum import IntEnum
 
 from BaseClasses import Item, ItemClassification
 
+from .area_keys import RAINBOW_ROUTE_AREA_KEY_ID
 from .data import data
 from .vitality import VITALITY_ITEM_IDS
 
@@ -75,7 +76,16 @@ class RewardArt(IntEnum):
     ABILITY_CUTTER = 64
     ABILITY_CUPID = 65
     ABILITY_PARASOL = 66
-    # 67–76 are reserved for Area Key art (#1164).
+    KEY_RAINBOW = 67
+    KEY_MOONLIGHT = 68
+    KEY_CABBAGE = 69
+    KEY_MUSTARD = 70
+    KEY_CARROT = 71
+    KEY_OLIVE = 72
+    KEY_PEPPERMINT = 73
+    KEY_RADISH = 74
+    KEY_CANDY = 75
+    KEY_COPY_ROOM = 76
     ABILITY_SLEEP = 77
     ABILITY_COOK = 78
     ABILITY_UFO = 79
@@ -125,6 +135,13 @@ KIRBY_STATUE_ART_BY_ITEM_CODE = {
 }
 
 
+
+KIRBY_AREA_KEY_ART_BY_ITEM_CODE = {
+    RAINBOW_ROUTE_AREA_KEY_ID: RewardArt.KEY_RAINBOW,
+    **{3860041 + n: RewardArt(RewardArt.KEY_MOONLIGHT + n) for n in range(8)},
+}
+
+
 KIRBY_CUSTOM_STATUE_ART_BY_ITEM_CODE = {
     3860111: RewardArt.ABILITY_SLEEP,
     3860112: RewardArt.ABILITY_COOK,
@@ -138,6 +155,8 @@ KIRBY_CUSTOM_STATUE_ART_BY_ITEM_CODE = {
 KIRBY_NATIVE_ART_BY_ITEM_CODE = {
     **KIRBY_CONSUMABLE_ART_BY_ITEM_CODE,
     **KIRBY_STATUE_ART_BY_ITEM_CODE,
+    **KIRBY_AREA_KEY_ART_BY_ITEM_CODE,
+    3860500: RewardArt.KEY_COPY_ROOM,
     **KIRBY_CUSTOM_STATUE_ART_BY_ITEM_CODE,
     3860024: RewardArt.MAP_RAINBOW,
     3860011: RewardArt.MAP_MOONLIGHT,

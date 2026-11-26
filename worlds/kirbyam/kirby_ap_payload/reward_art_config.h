@@ -27,7 +27,11 @@
 #define AP_REWARD_LEVER_WALL 47u
 #define AP_REWARD_STATUE_FIRST 48u
 #define AP_REWARD_STATUE_LAST 66u
-/* 67–76 are reserved for Area Key art (#1164). */
+#define AP_REWARD_AREA_KEY_FIRST 67u
+#define AP_REWARD_AREA_KEY_LAST 76u
+#define AP_AREA_KEY_ART_ROM_ADDRESS 0x0900C000u
+#define AP_AREA_KEY_ART_MARKER_FIRST 0x454B5041u /* APKE */
+#define AP_AREA_KEY_ART_MARKER_LAST 0x00313059u /* Y01\0 */
 #define AP_REWARD_CUSTOM_STATUE_FIRST 77u
 #define AP_REWARD_CUSTOM_STATUE_LAST 82u
 #define AP_REWARD_ART_COUNT 83u
@@ -50,7 +54,7 @@
 #define AP_REWARD_KEY(kind, id) (((uint32_t)(kind) << 24) | (uint32_t)(id))
 
 static inline uint8_t ap_reward_art_value_valid(uint8_t art) {
-    return art <= AP_REWARD_STATUE_LAST
+    return art <= AP_REWARD_AREA_KEY_LAST
         || (art >= AP_REWARD_CUSTOM_STATUE_FIRST && art <= AP_REWARD_CUSTOM_STATUE_LAST);
 }
 

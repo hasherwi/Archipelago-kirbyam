@@ -70,7 +70,10 @@ distinct area bosses. An unknown command, a Dark Mind requirement or unavailable
 client/slot setup needs correcting before play. Updating only the generator or server does not update
 the player's client. A successful server connection alone does not establish compatibility.
 
-**Custom sprite artwork by Hunter.** ROM patches generated with the item-sprite update require the matching or newer KirbyAM
+**Custom sprite artwork by Aarcayne Art.** Area Keys and the Copy Ability Room
+unlock display their own key sprites. With Area Keys enabled, Kirby already owns the Rainbow Route key when
+the game starts; the other eight keys remain randomized. ROM patches generated
+with the item-sprite update require the matching or newer KirbyAM
 APWorld/client on every player's machine. Older clients cannot safely read the new
 physical-check save format and won't run with these patches. Updated clients can still
 play older seeds with their original patches.

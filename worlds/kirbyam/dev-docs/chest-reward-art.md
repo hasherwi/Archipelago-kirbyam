@@ -1,6 +1,6 @@
 # Shared location reward art
 
-**Custom sprite artwork by Hunter.**
+**Custom sprite artwork by Aarcayne Art.**
 
 The supplied six-gem art is the fallback reward sprite for treasure chests,
 physical lever pulls, Archipelago Big Switches, Goal Games (even with no
@@ -20,6 +20,55 @@ Both panels are native mGBA frames from a cold Tutorial World Map Chest replay
 (room 805, frame 18405), with identical input and no gameplay-RAM edits. Exactly
 206 rendered pixels differ, all inside the 16×16 sprite at (104, 57).
 The compared runs recorded the same chest flags and reached Central Circle.
+
+## Custom key rewards
+
+**Custom Area Key artwork by Aarcayne Art.** Harrison supplied the nine
+[original PNGs](assets/area-keys-1139/) and confirmed their area assignments in
+[#1139](https://github.com/hasherwi/Archipelago-kirbyam/issues/1139). The originals
+are unchanged. Each 1600×1600 file is a uniform 100× nearest-neighbor enlargement
+of a 16×16 sprite. The [converter](../kirby_ap_payload/generate_area_key_art.py)
+samples those exact cells (no redrawing or dithering), drops the translucent
+shadow at alpha <128, and maps opaque pixels to the nearest nontransparent
+entry in the existing GBA OBJ bank F. Color distances weight red, green and
+blue 3:4:2 and ties choose the earlier palette index. This preserves the
+silhouette, palette-bank isolation and simultaneous reward rendering.
+The result is four 8×8 4bpp tiles per key. Palette limits shift some shades,
+especially purple, toward the closest available color.
+
+The [Copy Ability Room key PNG](assets/area-keys-1139/10-copy-ability-room.png)
+is by **Aarcayne Art** (the `Area_Key_Rainbow2.png` sprite in the artist’s
+KaTAM Sprites bundle); the project owner supplied and selected it. It is converted
+using the same grid and palette, keeping the key’s warm highlights in the gold
+range rather than collapsing them into pink. It represents the existing Copy Ability Room
+Access item only and does not change the room, door, or unlock behavior.
+
+The ROM table at `0x0900C000` is independent of the native collectible
+table. A missing table/entry falls back to the AP gem. Your own location awards
+and live acknowledged rewards from another world use the matching key icon;
+outgoing non-traps, unknown items and starting history retain their existing
+behavior. Rainbow Route starts precollected only when Area Keys are enabled;
+nothing randomizes it into the pool. Its mirror rule is separate from the
+starting mirror to Room 1-01. Boss, Goal Game and Tutorial escape routes
+remain unchanged.
+
+| Your own Mustard Mountain Key | Incoming Cabbage Cavern Key |
+| --- | --- |
+| ![In-game Mustard Key above the tutorial chest](assets/area-keys-1139/evidence/local-mustard-key.png) | ![In-game Cabbage Key above Kirby after a live receipt](assets/area-keys-1139/evidence/incoming-cabbage-key.png) |
+
+Both frames were captured unedited in mGBA from the same generated two-player
+seed, using the production KirbyAM client and a private AP server. One player
+opened their own tutorial chest and later received the other player’s Cabbage
+Key. The sender's own chest showed the AP gem while the receiver displayed
+the key only after its acknowledgement. The native renderer uploaded the
+matching tile data for both. The precollected Rainbow key was present before
+connecting and did not produce a starting-history popup.
+
+The Copy Ability Room key was separately captured in mGBA for an [own
+tutorial chest award](assets/area-keys-1139/evidence/local-copy-room-key.png)
+and an [acknowledged incoming award](assets/area-keys-1139/evidence/incoming-copy-room-key.png)
+from a second world. The test seed's sender saw the AP gem; both receiver
+frames are unedited, with the packed tiles checked against native VRAM.
 
 ## Physical lever replay
 
@@ -296,17 +345,15 @@ non-trap items still use the generic gem.
 
 ### Copy-ability unlock awards
 
-Only unlocks with a verified native ability statue use statue art. The
+Unlocks with a verified native ability statue use its stock art. The
 nineteen stock frames are Beam, Burning, Laser, Fire, Stone, Fighter, Bomb,
 Tornado, Wheel, Ice, Spark, Missile, Smash, Throw, Hammer, Sword, Cutter,
 Cupid, and Parasol. The payload uses their 16×16 native shapes with the
 existing popup palette; it will not spawn a statue or transform Kirby.
 
-The remaining ability unlocks (Sleep, Cook, UFO, Magic, Mini, and Crash),
-Master's separate stand, and Copy Ability Room access do not use statue
-art. These keep the generic gem, as do outgoing non-trap items and
-unsupported placements. A live incoming statue award is still purely
-visual and happens only after its separate ROM delivery acknowledgment.
+Master's separate stand and unsupported or outgoing non-trap placements retain
+the generic gem. Live incoming statue awards are purely visual and follow
+their separate ROM delivery acknowledgment.
 
 ### Custom ability statue art
 

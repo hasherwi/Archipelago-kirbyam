@@ -331,16 +331,17 @@ async def test_file_restore_only_grants_confirmed_prior_permanent_receipts(
     ctx.items_received = [
         NetworkItem(3860401, 1, 1, 0), NetworkItem(3860041, 2, 1, 0),
         NetworkItem(3860027, 3, 1, 0), NetworkItem(3860402, 4, 1, 0),
-        NetworkItem(3860416, 5, 1, 0), NetworkItem(3860403, 6, 1, 0),
+        NetworkItem(3860416, 5, 1, 0), NetworkItem(3860056, -2, 0, 0),
+        NetworkItem(3860403, 6, 1, 0),
     ]
     client = KirbyAmClient()
     client.initialize_client()
     client.on_package(ctx, "ReceivedItems", {"index": 0})
     client._health_rom_auth = bytes(range(16))
-    client._delivered_item_index = 5
+    client._delivered_item_index = 6
     journal = ReceiptJournal(str(tmp_path / "receipts.sqlite3"), "test")
     client._receipt_journal = journal
-    for index in (0, 1, 2, 4, 5):
+    for index in (0, 1, 2, 4, 5, 6):
         journal.acknowledge(receipt_key(ctx.items_received, index))
     native = b"".join(x.to_bytes(4, "little") for x in
                       (2, 2, 1, 0, 1, 0x03000000, 0, 0x43504332, 0))
@@ -354,7 +355,7 @@ async def test_file_restore_only_grants_confirmed_prior_permanent_receipts(
             assert writes == [(0x0203B1F0, want.to_bytes(4, "little") + native[:4], "System Bus")]
             assert (COPY_ROOM_CONTEXT_ADDRESS, native[:12], "System Bus") in guards
             assert (0x0203B004, bytes(4), "System Bus") in guards
-            assert client._delivered_item_index == 5
+            assert client._delivered_item_index == 6
             assert (COPY_ROOM_MARKER_OFFSET, COPY_ROOM_MARKER, "ROM") in guards
             write.reset_mock()
             read[4] = b"APCPY03\0"

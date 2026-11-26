@@ -21,6 +21,8 @@ from .ability_randomization import (
 from .area_keys import (
     EARLY_REACHABLE_CHECK_THRESHOLD,
     FALLBACK_STARTING_AREA_KEY_LABEL,
+    RAINBOW_ROUTE_AREA_KEY_ID,
+    RAINBOW_ROUTE_AREA_KEY_LABEL,
     area_key_bitfield_from_items,
 )
 from .colors import COLOR_CATALOG_VERSION, STARTING_KIRBY_COLOR_RANDOM_PER_ROOM_OPTION, resolve_kirby_color
@@ -677,6 +679,14 @@ class KirbyAmWorld(World):
                 if explicit_starting.get(label, 0) <= 0:
                     self.push_precollected(self.create_item(label))
 
+            if self._area_keys_enabled():
+                # Rainbow Route is a guaranteed start, not a random placement.
+                # Treat explicit "from pool" copies as the same guaranteed start.
+                from_pool = getattr(getattr(self.options, "start_inventory_from_pool", None), "value", {})
+                from_pool.pop(RAINBOW_ROUTE_AREA_KEY_LABEL, None)
+                if explicit_starting.get(RAINBOW_ROUTE_AREA_KEY_LABEL, 0) <= 0:
+                    self.push_precollected(self.create_item(RAINBOW_ROUTE_AREA_KEY_LABEL))
+
             if self._start_with_all_maps_enabled():
                 map_items = [
                     item for item in kirby_data.items.values()
@@ -1049,6 +1059,9 @@ class KirbyAmWorld(World):
                     code for code in non_filler_item_codes if code not in starting_ability_codes
                 ]
 
+                non_filler_item_codes = [
+                    code for code in non_filler_item_codes if code != RAINBOW_ROUTE_AREA_KEY_ID
+                ]
                 if not self._area_keys_enabled():
                     non_filler_item_codes = [
                         code for code in non_filler_item_codes if "AreaKeys" not in kirby_data.items[code].tags

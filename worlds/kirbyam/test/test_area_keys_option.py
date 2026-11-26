@@ -8,7 +8,7 @@ from BaseClasses import CollectionState
 from Options import DefaultOnToggle
 from test.general import setup_multiworld
 from .. import KirbyAmWorld
-from ..area_keys import AREA_KEY_LABELS, FALLBACK_STARTING_AREA_KEY_LABEL
+from ..area_keys import AREA_KEY_LABELS, FALLBACK_STARTING_AREA_KEY_LABEL, RAINBOW_ROUTE_AREA_KEY_ID, RAINBOW_ROUTE_AREA_KEY_LABEL
 from ..options import AreaKeys, OPTION_GROUPS
 
 
@@ -34,7 +34,9 @@ def test_area_keys_off_rebalances_pool_without_losing_other_progression(room_san
         world = mw.worlds[1]
         keys = [item for item in mw.itempool if item.name in AREA_KEY_LABELS]
         owned = [item for item in mw.precollected_items[1] if item.name in AREA_KEY_LABELS]
-        assert len(keys) + len(owned) == (8 if enabled else 0)
+        assert len(keys) + len(owned) == (9 if enabled else 0)
+        assert not any(item.name == RAINBOW_ROUTE_AREA_KEY_LABEL for item in mw.itempool)
+        assert sum(item.name == RAINBOW_ROUTE_AREA_KEY_LABEL for item in owned) == int(enabled)
         assert len(mw.itempool) == len(mw.get_unfilled_locations(1))
         slot = world.fill_slot_data()
         assert slot["area_keys"] is enabled
@@ -103,4 +105,38 @@ def test_disabled_area_keys_generate_complete_archives(tmp_path, goal):
     decoded = load_multidata_from_archive(archive)
     assert decoded["slot_data"][1]["area_keys"] is False
     assert decoded["slot_data"][1]["starting_area_key_bitfield"] == 0
-    assert not any(3860041 <= item[0] <= 3860048 for item in decoded["locations"][1].values())
+    assert RAINBOW_ROUTE_AREA_KEY_ID not in decoded["precollected_items"][1]
+    assert not any(item[0] in {*range(3860041, 3860049), RAINBOW_ROUTE_AREA_KEY_ID}
+                   for item in decoded["locations"][1].values())
+
+
+@pytest.mark.parametrize("explicit", ["", "start_inventory", "start_inventory_from_pool"])
+def test_generated_seed_starts_with_one_rainbow_route_key_and_no_pool_copy(tmp_path, explicit):
+    from .support.integration_generation import generate_archive_from_fixture, load_multidata_from_archive
+
+    path = tmp_path / "player.yaml"
+    yaml = ("name: Rainbow start\ngame: Kirby & The Amazing Mirror\nKirby & The Amazing Mirror:\n"
+            "  area_keys: true\n  shards: 2\n")
+    if explicit:
+        yaml += f"  {explicit}:\n    Rainbow Route - Area Key: 1\n"
+    path.write_text(yaml)
+    decoded = load_multidata_from_archive(generate_archive_from_fixture(path, tmp_path / "output", seed=1139))
+    assert decoded["precollected_items"][1].count(RAINBOW_ROUTE_AREA_KEY_ID) == 1
+    assert decoded["slot_data"][1]["starting_area_key_bitfield"] & (1 << 1)
+    assert not any(item[0] == RAINBOW_ROUTE_AREA_KEY_ID for item in decoded["locations"][1].values())
+
+
+def test_rainbow_mirror_requires_key_without_changing_hub_connection():
+    mw = setup_multiworld(KirbyAmWorld, seed=1139, options={"area_keys": 1, "random_starting_mirror": 0})
+    world = mw.worlds[1]
+    entrance = mw.get_entrance(
+        "REGION_MOONLIGHT_MANSION/ROOM_2_HUB -> REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE", 1)
+    state = CollectionState(mw)
+    assert state.has(RAINBOW_ROUTE_AREA_KEY_LABEL, 1)
+    key = world.create_item(RAINBOW_ROUTE_AREA_KEY_LABEL)
+    state.remove(key)
+    assert not entrance.access_rule(state)
+    state.collect(world.create_item("Moonlight Mansion - Hub Connection"), True)
+    assert not entrance.access_rule(state)
+    state.collect(key, True)
+    assert entrance.access_rule(state)

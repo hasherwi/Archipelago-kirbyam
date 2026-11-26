@@ -19,6 +19,8 @@ VISUAL_GEM = RewardArt.GEM + 1
 VISUAL_TRAP = RewardArt.TRAP + 1
 VISUAL_ART_BITS = 7
 VISUAL_MAX_OPCODE = max(RewardArt) + 1
+AREA_KEY_ART_HEADER_OFFSET = 0x100C000
+AREA_KEY_ART_MARKER = b"APKEY01\0"
 VISUAL_VALID_OPCODES = frozenset(art + 1 for art in RewardArt)
 VISUAL_REJECTED = 1 << 31
 VISUAL_FRAME_MASK = (1 << 24) - 1
@@ -66,6 +68,7 @@ class ReceiptVisuals:
         self._in_flight_item: _PendingVisual | None = None
         self._last_token = 0
         self.supported: bool | None = None
+        self._area_key_art_header: bytes | None = None
         self.custom_statue_art_supported: bool | None = None
 
     def matches(self, socket: object, session: tuple) -> bool:
@@ -190,8 +193,28 @@ class ReceiptVisuals:
         if opcode not in VISUAL_VALID_OPCODES:
             self.pending.popleft()
             return
-        custom_guards = []
-        if opcode - 1 in CUSTOM_STATUE_REWARDS:
+        area_key_guard = []
+        if RewardArt.KEY_RAINBOW + 1 <= opcode <= RewardArt.KEY_COPY_ROOM + 1:
+            if self._area_key_art_header is None:
+                header, = await bizhawk.read(transport, [(AREA_KEY_ART_HEADER_OFFSET, 12, "ROM")])
+                if not current():
+                    return
+                self._area_key_art_header = bytes(header)
+                # The emulator's frame can stay frozen while this read stalls.
+                # Recheck wall-clock expiry before offering the original popup.
+                self._expire(self._clock())
+                if not self.pending or self.pending[0] is not item:
+                    return
+            header = self._area_key_art_header
+            key_index = opcode - (RewardArt.KEY_RAINBOW + 1)
+            if len(header) != 12 or header[:8] != AREA_KEY_ART_MARKER or not (
+                    int.from_bytes(header[8:], "little") & (1 << key_index)):
+                # v5 supports ordinary receipts, but cannot decode key opcodes
+                # without the new table. A generic gem is still safe to send.
+                opcode = VISUAL_GEM
+            else:
+                area_key_guard = [(AREA_KEY_ART_HEADER_OFFSET, header, "ROM")]
+        elif opcode - 1 in CUSTOM_STATUE_REWARDS:
             if self.custom_statue_art_supported is None:
                 marker, = await bizhawk.read(transport, [
                     (CUSTOM_STATUE_ART_ROM_OFFSET, len(CUSTOM_STATUE_ART_MARKER), "ROM"),
@@ -203,7 +226,7 @@ class ReceiptVisuals:
                 if not self.pending or self.pending[0] is not item:
                     return
             if self.custom_statue_art_supported:
-                custom_guards = [(CUSTOM_STATUE_ART_ROM_OFFSET, CUSTOM_STATUE_ART_MARKER, "ROM")]
+                area_key_guard = [(CUSTOM_STATUE_ART_ROM_OFFSET, CUSTOM_STATUE_ART_MARKER, "ROM")]
             else:
                 opcode = VISUAL_GEM
         frame, = unpack("<I", native_frame)
@@ -220,8 +243,8 @@ class ReceiptVisuals:
             (VISUAL_MAILBOX, pack("<I", token), BUS),
         ], [
             (auth_offset, auth, "ROM"),
-            *custom_guards,
             (VISUAL_MAILBOX, bytes(4), BUS),
+            *area_key_guard,
         ])
         if not written and current():
             # A false guard is known not to have published anything. Errors,

@@ -2279,7 +2279,8 @@ def build_collectible_art_extension(rom: bytes | bytearray, extension: bytes) ->
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return {module.OFFSET: module.build_collectible_art_table(rom, extension),
-            module.SHARD_ANIM_OFFSET: module.build_shard_animation(rom, extension)}
+            module.SHARD_ANIM_OFFSET: module.build_shard_animation(rom, extension),
+            module.AREA_KEY_ART_OFFSET: module.build_area_key_art_table(extension)}
 
 
 CUSTOM_STATUE_ART_OFFSET = 0x100C600
