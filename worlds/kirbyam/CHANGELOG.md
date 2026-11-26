@@ -25,11 +25,11 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Allow only File 1 to be selected, preventing cross-save problems (Issue #1144).
 - Sprite Swapping (**custom sprite artwork by Aarcayne Art**): Local check rewards and incoming items show the item’s own sprite when available, including new sprites for Area Keys and the Copy Ability Room unlock. When Area Keys are enabled, Kirby starts with the Rainbow Route key, so its return mirrors don’t need a separate unlock. This key is for future use and isn’t in the randomized item pool. Outgoing non-trap rewards and awards without their own artwork still use the AP gem (PRs #1137 and #1164; Issues #1139 and #1140).
 - Show boss defeat progress in `/goal` when using the boss-count goal (PR #1133).
-- Improved Logic for Item Placement and Accessible Locations (PR #1141).
+- Improved Logic for Item Placement and Accessible Locations, including a same-room Smash route and a supplemental Fire route for Candy Constellation 9-12’s Small Chest. If the seed does not guarantee a verified copy route, the western Bomb Block also opens the chest seal for Normal Kirby (PR #1141; Issue #1161).
 
 ### Known Limitations
 - Phone charges can exceed three, but the battery display does not show the extra charges (PR #1086).
-- Ranged-attack coverage remains incomplete. Four targets retain older rules outside reviewed source assignments; broader physical outcomes still need review. See the [detailed coverage ledger](dev-docs/ranged-coverage-ledger.md) (PR #1052).
+- Ranged-attack coverage remains incomplete. Three targets retain older rules outside reviewed source assignments; broader physical outcomes still need review. See the [detailed coverage ledger](dev-docs/ranged-coverage-ledger.md) (PR #1052).
 - Only the North American ROM is supported; AP notifications are English.
 - mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.
 - Testing covers selected gameplay scenarios, not a complete playthrough or every multiplayer setup.
@@ -40,7 +40,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Area Keys now remain usable after restarting the game offline in the same seed and save file.
 - Hub Connections are saved when received, so restarting offline no longer loses newly opened routes.
 - Fixed an exhausted source search for Shuffled seeds that require Mustard Mountain Room 4-16.
-- Account for Beam, UFO, Spark, Missile, and Sword routes to Candy Constellation 9-12’s Small Chest when the local enemy is guaranteed to grant that ability. The room visit and exits are unchanged (PR #1160; Issue #1161 tracks remaining source policies).
+- Account for Beam, UFO, Spark, Missile, and Sword routes to Candy Constellation 9-12’s Small Chest when the local enemy is guaranteed to grant that ability. The room visit and exits are unchanged (PR #1160).
 
 ## v0.6.0
 

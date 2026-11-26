@@ -1,5 +1,6 @@
 """The source-backed Bomb Block belongs to the Candy 9-12 chest only."""
 
+from copy import deepcopy
 from pathlib import Path
 
 import pytest
@@ -71,7 +72,7 @@ def test_vanilla_source_seed_keeps_candy_chest_in_full_accessibility(tmp_path: P
 
 @pytest.mark.parametrize("mode", [1, 2])
 @pytest.mark.parametrize("gating", [False, True])
-@pytest.mark.parametrize("ability,item_code", [("UFO", 3860114), ("Spark", 3860115), ("Missile", 3860125), ("Sword", 3860118)])
+@pytest.mark.parametrize("ability,item_code", [("UFO", 3860114), ("Spark", 3860115), ("Missile", 3860125), ("Sword", 3860118), ("Smash", 3860122)])
 def test_local_ranged_requires_real_source_and_respects_permission(monkeypatch, mode, gating, ability, item_code):
     row = next(row for row in room_traversal_targets("block") if row["id"] == TARGET)
     graph = room_traversal_graph(TARGET, "local_" + ability.lower(), False)
@@ -168,3 +169,109 @@ def test_controlled_shuffled_source_full_fill_keeps_permission_outside_own_chest
     state.sweep_for_advancements()
     assert state.has(f"{ability} Ability", 1)
     assert multiworld.get_location(data.locations[LOCATION].label, 1).can_reach(state)
+
+
+@pytest.mark.parametrize("mode,pool,weight,minor_chests,want", [
+    (0, None, 0, True, False),
+    (1, ["Smash"], 0, True, False),
+    (1, ["Fire"], 0, True, True),
+    (2, ["Spark"], 0, True, False),
+    (2, ["Beam", "Smash"], 0, True, True),
+    (2, ["Beam"], 100, True, True),
+    (2, ["Beam"], 100, False, False),
+])
+def test_linked_fuse_policy_only_when_no_stock_witness(mode, pool, weight, minor_chests, want):
+    from .. import candy912_fuse
+
+    original = policy(mode, pool=pool, weight=weight, minny=False).policy
+    baseline = deepcopy(original)
+    linked = candy912_fuse.needs_linked_fuse(original, minor_chests=minor_chests)
+    assert original == baseline and candy912_fuse.SLOT_KEY not in original
+    assert linked is want
+    row = next(row for row in room_traversal_targets("block") if row["id"] == TARGET)
+    graphs = candy912_fuse.target_graphs(row, linked, policy(mode, pool=pool, weight=weight, minny=False))
+    expected = (candy912_fuse.graph(),) if want else ()
+    if pool == ["Fire"] and want:
+        expected += (candy912_fuse.fire_graph(),)
+    assert graphs == expected
+    assert candy912_fuse.config_bytes(linked) == (
+        candy912_fuse.LINKED_CONFIG if want else candy912_fuse.STOCK_CONFIG)
+    assert not candy912_fuse.enabled({})
+    with pytest.raises(ValueError, match="linked fuse patch contract"):
+        candy912_fuse.enabled({candy912_fuse.SLOT_KEY: 1})
+
+
+@pytest.mark.parametrize("mode,weight", [(0, 0), (1, 0), (2, 0), (2, 100)])
+@pytest.mark.parametrize("gating", [0, 1])
+def test_generated_full_seed_keeps_exact_chest_and_patch_intent(tmp_path, monkeypatch, mode, weight, gating):
+    import Main
+    from BaseClasses import CollectionState
+    from .. import candy912_fuse
+    from ..traversal import SourcePolicy
+
+    generated = []
+    main = Main.main
+
+    def capture(*args, **kwargs):
+        world = main(*args, **kwargs)
+        generated.append(world)
+        return world
+
+    monkeypatch.setattr(Main, "main", capture)
+    player = tmp_path / "player.yaml"
+    player.write_text(
+        "name: Candy\ngame: Kirby & The Amazing Mirror\nKirby & The Amazing Mirror:\n"
+        f"  ability_randomization_mode: {mode}\n  ability_randomization_no_ability_weight: {weight}\n"
+        f"  ability_gating: {gating}\n  room_sanity: 1\n"
+        "  accessibility: full\n  minimum_health: 6\n  maximum_health: 6\n",
+        encoding="utf-8",
+    )
+    archive = generate_archive_from_fixture(player, tmp_path / "out", seed=912)
+    multidata = load_multidata_from_archive(archive)
+    locations = multidata["locations"][1]
+    assert 3960575 in locations and 3961232 in locations
+    slot_data = multidata["slot_data"][1]
+    raw = slot_data["enemy_copy_ability_policy"]
+    assert candy912_fuse.SLOT_KEY not in raw
+    row = next(row for row in room_traversal_targets("block") if row["id"] == TARGET)
+    assert candy912_fuse.enabled(slot_data) is not target_applies(row, SourcePolicy(raw))
+    multiworld, = generated
+    assert multiworld.fulfills_accessibility() and multiworld.can_beat_game()
+    chest = multiworld.get_location(data.locations[LOCATION].label, 1)
+    state = CollectionState(multiworld)
+    state.sweep_for_advancements()
+    assert chest.can_reach(state)
+    if candy912_fuse.enabled(slot_data):
+        assert not candy912_fuse.graph().placements
+        # A Normal-only route: no equipment permission needed once the room is reached.
+        monkeypatch.setattr(state, "has", lambda item, player: False)
+        monkeypatch.setattr(state, "can_reach_region", lambda name, player: name == ROOM)
+        assert chest.access_rule(state)
+        monkeypatch.setattr(state, "can_reach_region", lambda name, player: False)
+        assert not chest.access_rule(state)
+
+
+@pytest.mark.parametrize("mode", [1, 2])
+def test_supplemental_fire_exact_source_permission_and_linked_scope(mode):
+    from .. import candy912_fuse
+
+    row = {"id": TARGET}
+    fire = policy(mode, pool=["Fire"], weight=0, minny=False)
+    no_fire = policy(mode, pool=["Sword"], weight=0, minny=False)
+    mixed = policy(2, pool=["Fire", "Beam"], weight=0, minny=False)
+    fallible = policy(2, pool=["Fire"], weight=20, minny=False)
+    normal, graph = candy912_fuse.target_graphs(row, True, fire)
+    assert normal is candy912_fuse.graph()
+    assert not candy912_fuse.target_graphs(row, candy912_fuse.enabled({}), fire)
+    assert not candy912_fuse.target_graphs({"id": "other"}, True, fire)
+    for unsupported in (no_fire, mixed, fallible):
+        assert candy912_fuse.target_graphs(row, True, unsupported) == (normal,)
+    placement, = graph.placements
+    assert (placement.identity, placement.node, placement.source_key) == (
+        "0x088C5D0C", "candy912_fire:east_doo", "WADDLE_DOO")
+    target, = graph.required_targets
+    for gating in (False, True):
+        assert graph.evaluate(fire, frozenset(), gating).reaches(target) is (not gating)
+        assert graph.evaluate(fire, frozenset({"Fire Ability"}), gating).reaches(target)
+        assert not graph.evaluate(no_fire, frozenset({"Fire Ability"}), gating).reaches(target)
+    assert normal.evaluate(fire, frozenset(), True).reaches("candy912_normal:chest")

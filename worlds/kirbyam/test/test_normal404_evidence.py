@@ -209,12 +209,12 @@ def test_current_host_structure_preserves_404_and_tracks_master719_and_green138_
     contract = evidence()['host_contract']
     # Frozen404 remains 144; later Master, Green, Ice, Radish, Kibble and two Mirra witnesses add seven.
     assert contract['counts']['witnesses'] == 144
-    assert status['counts'] == {**contract['counts'], 'witnesses': 164,
+    assert status['counts'] == {**contract['counts'], 'witnesses': 165,
                                 'normalized_targets': 66, 'installed_target_definitions': 66,
                                 'locations': 401, 'surfaces': 1108,
                                 'regions': 386, 'mapped_native_definitions': 354}
     assert (len(data.regions), len(data.locations), len(coverage['surfaces']),
-            len(coverage['installed_targets']), status['counts']['witnesses']) == (386, 401, 1108, 66, 164)
+            len(coverage['installed_targets']), status['counts']['witnesses']) == (386, 401, 1108, 66, 165)
     # Project only the pinned feature surfaces, retaining the frozen native record.
     from .support.main_sync_history import main_surfaces
     assert digest(main_surfaces(coverage['surfaces'])) == contract['normalized_surface_sha256']
@@ -233,7 +233,7 @@ def test_current_host_structure_preserves_404_and_tracks_master719_and_green138_
     assert status['completion'] == 'partial' and not status['declaration_errors']
     scope = json.loads((ROOT / 'dev-docs/ranged-completion-scope.json').read_text(encoding='utf-8'))
     assert set(scope['policy_fallback_targets']) == {
-        'bomb_402_candy_chest', 'bomb_517_chocolate', 'bomb_733_yellow',
+        'bomb_517_chocolate', 'bomb_733_yellow',
         'switch_310_mustard_map',  # Room16 is now fail-closed under #1099.
     }
     for key in (ROOM, PREFIX + 'ROOM_9_02', PREFIX + 'ROOM_9_07', OWNER):

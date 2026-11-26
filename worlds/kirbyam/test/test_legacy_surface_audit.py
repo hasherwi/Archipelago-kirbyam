@@ -29,7 +29,7 @@ def test_saved_audit_matches_normalized_surfaces_without_declaring_completion():
     assert record['counts'] == {'installed_witness': 29, 'lever_item': 8, 'normal_movement': 218,
                                 'policy_scoped_witness': 2, 'declared_normal_alternative': 5,
                                 'unresolved_action_context': 143}
-    assert record['policy_fallback_targets'] == ['bomb_402_candy_chest', 'bomb_517_chocolate', 'bomb_733_yellow', 'switch_310_mustard_map']
+    assert record['policy_fallback_targets'] == ['bomb_517_chocolate', 'bomb_733_yellow', 'switch_310_mustard_map']
     assert 'switch_533_room16' not in record['policy_fallback_targets']
 
 

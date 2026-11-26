@@ -55,6 +55,10 @@ PAYLOAD_LEGACY_OFFSET = 0x0015E000
 MAIN_HOOK_OFFSET = 0x00152696
 BOSS_COLLECT_SHARD_CALL_OFFSET = 0x001D952
 MINOR_CHEST_COLLECT_CALL_OFFSET = 0x0000AFEC
+# ProcessAttackTileCollisions, only its Bomb Block chain call. Leave the two
+# separate native lever-wall calls untouched.
+BOMB_ATTACK_CHAIN_CALL_OFFSET = 0x00037180
+ORIGINAL_BOMB_CHAIN_ADDR = 0x0800E0E4
 # sub_0800B97C: first instruction after the delayed-pickup guard. The four
 # overwritten bytes load popup->unk4C and copy that Chest* to r0.
 MINOR_CHEST_REWARD_POPUP_HOOK_OFFSET = 0x0000B9A4
@@ -2345,6 +2349,15 @@ def build_starting_mirror_object_writes(rom: bytes | bytearray, address: int,
     }
 
 
+def apply_candy912_fuse_hook(rom: bytearray, target: int) -> None:
+    offset = BOMB_ATTACK_CHAIN_CALL_OFFSET
+    callsite = 0x08000000 + offset
+    validate_expected_instruction_sequence(
+        rom, offset, thumb_bl_bytes(callsite, ORIGINAL_BOMB_CHAIN_ADDR), "Bomb Block attack chain",
+    )
+    rom[offset:offset + 4] = thumb_bl_bytes(callsite, target)
+
+
 def apply_color_extension(rom: bytearray, elf_path: Path) -> None:
     # This module also supports callers that import patch_rom.py by filename.
     import importlib.util
@@ -2527,6 +2540,7 @@ def main() -> None:
 
         for offset, data in (area_object_writes | selector_writes).items():
             rom[offset:offset + len(data)] = data
+        apply_candy912_fuse_hook(rom, resolve_elf_symbol_address(payload_elf_path, "ap_candy912_bomb_chain"))
         apply_color_extension(rom, payload_elf_path)
 
         with open(INTERMEDIARY_ROM, "wb") as f:

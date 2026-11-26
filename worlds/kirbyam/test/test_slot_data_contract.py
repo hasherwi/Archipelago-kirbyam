@@ -9,6 +9,7 @@ from unittest.mock import Mock
 import pytest
 
 from .. import KirbyAmWorld
+from ..candy912_fuse import SLOT_KEY as CANDY912_FUSE_SLOT_KEY
 from ..options import Goal
 
 
@@ -32,7 +33,8 @@ def _documented_slot_data_keys() -> list[str]:
     return keys
 
 
-def _emit_slot_data_for_contract_test(goal: int = Goal.option_dark_mind) -> dict[str, object]:
+def _emit_slot_data_for_contract_test(
+        goal: int = Goal.option_dark_mind, *, linked_candy_fuse: bool = False) -> dict[str, object]:
     # Use a lightweight world stub so contract tests fail only on key drift,
     # not on full world-generation dependencies.
     world = KirbyAmWorld.__new__(KirbyAmWorld)
@@ -72,6 +74,7 @@ def _emit_slot_data_for_contract_test(goal: int = Goal.option_dark_mind) -> dict
         setattr(options, key, Mock(value=int(options.as_dict.return_value[key])))
     options.one_hit_mode = Mock(value=0)
     world.options = options
+    world._candy912_linked_west_fuse = linked_candy_fuse
     world._resolved_starting_kirby_color_id = 7
     world._resolved_starting_kirby_color_name = "Sapphire"
     world._resolved_configured_area_boss_goal_key = "BOSS_DEFEAT_3"
@@ -113,12 +116,18 @@ def _emit_slot_data_for_contract_test(goal: int = Goal.option_dark_mind) -> dict
 
 
 @pytest.mark.parametrize("goal", [Goal.option_dark_mind, Goal.option_full_completion])
-def test_protocol_slot_data_keys_match_emitted_slot_data_keys(goal: int) -> None:
+@pytest.mark.parametrize("linked_candy_fuse", [False, True])
+def test_protocol_slot_data_keys_match_emitted_slot_data_keys(goal: int, linked_candy_fuse: bool) -> None:
     keys = set(_documented_slot_data_keys())
     if goal != Goal.option_full_completion:
         keys.remove("full_completion_version")
+    if not linked_candy_fuse:
+        keys.remove(CANDY912_FUSE_SLOT_KEY)
+    slot_data = _emit_slot_data_for_contract_test(goal, linked_candy_fuse=linked_candy_fuse)
+    if linked_candy_fuse:
+        assert slot_data[CANDY912_FUSE_SLOT_KEY] is True
     documented = sorted(keys)
-    emitted = sorted(set(_emit_slot_data_for_contract_test(goal).keys()))
+    emitted = sorted(slot_data)
 
     assert emitted == documented, (
         "slot_data contract drift detected between emitted fields and PROTOCOL.md. "

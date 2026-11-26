@@ -18,6 +18,7 @@ from typing import TYPE_CHECKING
 from settings import get_settings
 from worlds.Files import APPatchExtension, APProcedurePatch, APTokenMixin, APTokenTypes
 
+from . import candy912_fuse
 from .colors import encode_color_config
 from .data import data
 from .enemy_ability_data import ABILITY_NAME_TO_ID, GATEABLE_ENEMY_COPY_ABILITIES
@@ -153,6 +154,13 @@ class KirbyAmPatchExtension(APPatchExtension):
         return rom
 
     @staticmethod
+    def validate_candy912_fuse_base(caller: APProcedurePatch, rom: bytes) -> bytes:
+        offset = candy912_fuse.ROM_OFFSET
+        if rom[offset:offset + 4] != candy912_fuse.STOCK_CONFIG:
+            raise ValueError("Candy 9-12 fuse marker missing from base patch; rebuild the base patch")
+        return rom
+
+    @staticmethod
     def validate_reward_art_base(caller: APProcedurePatch, rom: bytes) -> bytes:
         """Reject a stale base before seed tokens can conceal its missing marker."""
         offset = REWARD_ART_CONFIG_ROM_OFFSET
@@ -206,6 +214,7 @@ class KirbyAmProcedurePatch(APProcedurePatch, APTokenMixin):
         ("validate_room_visit_art_base", []),
         ("validate_reward_art_base", []),
         ("validate_statue_seed_base", []),
+        ("validate_candy912_fuse_base", []),
         ("apply_enemy_health_scaling", [ENEMY_HEALTH_MULTIPLIER_FILE]),
         ("apply_tokens", ["token_data.bin"]),
         ("finalize_health_header", []),
@@ -292,6 +301,9 @@ def write_tokens(world: "KirbyAmWorld", patch: KirbyAmProcedurePatch, *,
             "enemy_copy_ability_policy must be initialized before writing enemy "
             "copy-ability runtime patch tokens when ability randomization is enabled"
         )
+
+    patch.write_token(APTokenTypes.WRITE, candy912_fuse.ROM_OFFSET,
+                      candy912_fuse.config_bytes(getattr(world, "_candy912_linked_west_fuse", False)))
 
     from .room16_timer import ROM_OFFSET as ROOM16_TIMER_OFFSET, timer_bytes
     patch.write_token(APTokenTypes.WRITE, ROOM16_TIMER_OFFSET,

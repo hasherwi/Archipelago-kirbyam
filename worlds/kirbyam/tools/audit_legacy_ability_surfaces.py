@@ -3,6 +3,7 @@ from collections import Counter
 import json
 from pathlib import Path
 
+from ..candy912_fuse import TARGET as CANDY912_FUSE_TARGET
 from ..rules import (_NORMAL_MOVEMENT_REQUIREMENTS, _ROOM_LEVER_WALL_ITEMS,
                      normal_movement_satisfies_requirement)
 from ..traversal_data import _room_catalog
@@ -50,7 +51,7 @@ def classify(surfaces, targets):
                      'installed_targets': [target['id'] for target in matched]})
     fallbacks = [target['id'] for target in targets
                  if (target.get('requires_guaranteed_source') or target.get('requires_any_guaranteed_source'))
-                 and not target.get('fail_closed')]
+                 and not target.get('fail_closed') and target['id'] != CANDY912_FUSE_TARGET]
     return {'version': 1, 'issue': 1119, 'complete': False,
             'counts': dict(sorted(totals.items())), 'surfaces': rows,
             'policy_fallback_targets': sorted(fallbacks),

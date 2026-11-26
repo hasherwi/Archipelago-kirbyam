@@ -2,7 +2,7 @@
 
 This is the broad scope of PR #1052, not a claim that all ranged logic is
 implemented. [Reproducible completion status](ranged-completion-status.md) tracks
-the four remaining permissive target-wide source-policy fallbacks and the remaining evidence boundaries.
+the three remaining permissive target-wide source-policy fallbacks and the remaining evidence boundaries.
 The current source-backed subset includes:
 
 - Five Bomb Block targets described in `bounded-bomb-implementation.md`, including
@@ -45,7 +45,7 @@ ability, arbitrary range, collision equivalence or a complete route.
 
 ## AP ownership census
 
-`tools/build_ranged_target_coverage.py` reads production-normalized `data.regions` rather than a parallel raw-room loader. After integration with the source-aware metal traversal baseline it covers 386 regions, including 354 mapped native definitions, area/other connectivity and synthetic RoomSanity sinks. It records 401 uniquely owned locations, including 263 RoomSanity checks, and 1,108 location/exit surfaces. All 66 current traversal target definitions (164 witnesses) bind to exact normalized surfaces. The top-level room catalog has 62 targets; normalization adds `mini_321_right_lower`, `fuse_323`, `mirra_141_top_mustard` and `mirra_141_east_moonlight`. These counts describe AP structure, **not** the number of attack-dependent targets. Candy Constellation 9-12 retains the legacy rule outside guaranteed local Beam/UFO/Spark/Missile/Sword assignments; see #1161.
+`tools/build_ranged_target_coverage.py` reads production-normalized `data.regions` rather than a parallel raw-room loader. After integration with the source-aware metal traversal baseline it covers 386 regions, including 354 mapped native definitions, area/other connectivity and synthetic RoomSanity sinks. It records 401 uniquely owned locations, including 263 RoomSanity checks, and 1,108 location/exit surfaces. All 66 current traversal target definitions (165 stock-catalog witnesses) bind to exact normalized surfaces. The top-level room catalog has 62 targets; normalization adds `mini_321_right_lower`, `fuse_323`, `mirra_141_top_mustard` and `mirra_141_east_moonlight`. These counts describe AP structure, **not** the number of attack-dependent targets. Candy Constellation 9-12 uses a separately compiled, seed-specific Normal witness when the local enemy does not guarantee Beam, UFO, Spark, Missile, Sword, or Smash; see #1161.
 
 Generated JSON includes SHA-256 hashes of the normalizer, every data JSON and native mapping. Tests cover moved location ownership, nested Mustard Mini/Fuse targets, Carrot's overridden compartment entrance, area adjacency and RoomSanity sinks. RoomSanity is recorded separately and must not inherit a chest/exit attack gate.
 
