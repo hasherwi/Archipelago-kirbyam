@@ -406,7 +406,7 @@ __attribute__((used, section(".apconfig.statue")))
 volatile const uint32_t gApAbilityRandomizationStatueAllowedMask = 0u;
 
 
-// Issue #35: Set the boss-defeat flag for <boss_index> (0–7) in the transport register.
+// Issue #35: Set the boss-defeat flag for <boss_index> (0â€“7) in the transport register.
 // This function is the intended hook target for sub_0801D948 (ROM address 0x0801D948):
 //   intercept the CollectShard(var->unk218) call site, call this instead, and let AP
 //   item delivery (SHARD_N) grant the actual shard progression.
@@ -563,7 +563,7 @@ ap_reward_key_for_chest(const void *chest) {
 #define AP_REWARD_UPLOAD_RING ((volatile struct ApChestTileUpload*)0x03002EC0u)
 static inline uint16_t ap_reward_local_room(void);
 
-/* TitleStruct's previously unused word at +0x0C owns one native OBJ slot.
+/* TitleStruct's previously unused word at +0x0C owns a native OBJ tile allocation.
  * The title constructor clears it; the title destructor returns the slots.
  * Neither the retail logo nor any Press Start frame is replaced. */
 #define AP_TITLE_NATIVE_MAIN ((void (*)(void))0x08149DC1u)
@@ -572,7 +572,7 @@ static inline uint16_t ap_reward_local_room(void);
 #define AP_TITLE_VRAM_FREE ((void (*)(uint32_t))0x08157191u)
 #define AP_TITLE_OAM_ALLOC ((volatile uint16_t *(*)(uint8_t))0x08156D85u)
 #define AP_TITLE_BADGE_BANK 15u
-#define AP_TITLE_BADGE_X 216u
+#define AP_TITLE_BADGE_X 200u
 #define AP_TITLE_BADGE_Y 8u
 
 static inline uint8_t *ap_title_task_data(const void *task) {
@@ -589,8 +589,8 @@ AP_REWARD_FX __attribute__((used)) void ap_title_badge_main(void) {
         if (*badge_vram == 0u) {
             uint8_t head = *AP_REWARD_UPLOAD_HEAD;
             if (ap_reward_tile_queue_available(head, AP_REWARD_UPLOAD_TAIL)) {
-                uint32_t vram = AP_TITLE_VRAM_ALLOC(4u);
-                if (vram >= 0x06010000u && vram <= 0x06018000u - AP_CHEST_ART_SIZE) {
+                uint32_t vram = AP_TITLE_VRAM_ALLOC(sizeof(gApTitleBadgeArt) / 32u);
+                if (vram >= 0x06010000u && vram <= 0x06018000u - sizeof(gApTitleBadgeArt)) {
                     /* Same stock bank-F colors as generate_chest_reward_art.py.
                      * Title glyphs use OBJ bank 0; only the title owns this bank now. */
                     static const uint16_t colors[] __attribute__((section(".apstatuefx_data"))) = {
@@ -601,9 +601,9 @@ AP_REWARD_FX __attribute__((used)) void ap_title_badge_main(void) {
                     for (unsigned i = 0; i < 16; ++i)
                         palette[AP_TITLE_BADGE_BANK * 16u + i] = colors[i];
                     *(volatile uint32_t *)0x03002440u |= 1u << 1; /* OBJ palette sync */
-                    AP_REWARD_UPLOAD_RING[head].source = (uint32_t)(uintptr_t)gApChestRewardArt;
+                    AP_REWARD_UPLOAD_RING[head].source = (uint32_t)(uintptr_t)gApTitleBadgeArt;
                     AP_REWARD_UPLOAD_RING[head].destination = vram;
-                    AP_REWARD_UPLOAD_RING[head].size = AP_CHEST_ART_SIZE;
+                    AP_REWARD_UPLOAD_RING[head].size = sizeof(gApTitleBadgeArt);
                     *AP_REWARD_UPLOAD_HEAD = (head + 1u) & 63u;
                     *badge_vram = vram;
                 }
@@ -612,7 +612,7 @@ AP_REWARD_FX __attribute__((used)) void ap_title_badge_main(void) {
             volatile uint16_t *oam = AP_TITLE_OAM_ALLOC(0x0Bu);
             if ((uintptr_t)oam != 0x03008000u) {
                 oam[0] = AP_TITLE_BADGE_Y;
-                oam[1] = (1u << 14) | AP_TITLE_BADGE_X; /* 16x16 square */
+                oam[1] = (2u << 14) | AP_TITLE_BADGE_X; /* 32x32 square */
                 oam[2] = (AP_TITLE_BADGE_BANK << 12) | ((*badge_vram - 0x06010000u) >> 5);
             }
         }
@@ -638,7 +638,7 @@ static AP_REWARD_FX uint8_t ap_can_show_animated_shard(void) {
             AP_SHARD_AWARD_VRAM_TILES);
 }
 
-/* Prefer the native 16×16 chest slot (variant 0), even for no-bonus chests.
+/* Prefer the native 16Ã—16 chest slot (variant 0), even for no-bonus chests.
  * Without safe VRAM, use native 0x63: it starts the same popup timer but
  * reserves no sprite tiles. The native reward reads the parent Chest::unkE0. */
 __attribute__((used, noinline, long_call, section(".aphub")))
@@ -969,7 +969,7 @@ static AP_REWARD_FX void ap_draw_boss_shard_sprite(void *sprite) {
     }
     uint32_t flags = *draw_flags;
     uint8_t palette = data[0x1Fu];
-    /* Temporarily select the one centered 16×16 gem rendering frame.
+    /* Temporarily select the one centered 16Ã—16 gem rendering frame.
      * Original animation, timings and collision fields remain native. */
     *anim = AP_GEM_RENDER_ANIM;
     *frame = 0u;
