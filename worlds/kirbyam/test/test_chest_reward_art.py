@@ -35,26 +35,40 @@ def test_clean_guard_accepts_synthetic_contract_and_rejects_invalid_native_field
         dummy[offset] ^= 1
 
 
+def _decode_obj_tiles(header: str, symbol: str, width: int) -> list[int]:
+    initializers = re.findall(rf"\b{symbol}\[[^]]+\][^;{{]*=\s*{{([^}}]*)}};", header)
+    assert len(initializers) == 1, f"expected one initializer for {symbol}"
+    tiles = bytes(int(value, 16) for value in initializers[0].split(",") if value.strip())
+    assert len(tiles) == width * width // 2
+    decoded = []
+    for y in range(width):
+        for x in range(width):
+            tile = (y // 8) * (width // 8) + x // 8
+            decoded.append((tiles[tile * 32 + (y % 8) * 4 + (x % 8) // 2] >> (4 * (x % 2))) & 15)
+    return decoded
+
+
 def test_submitted_shape_and_generated_palette_conversion() -> None:
     image = pytest.importorskip("PIL.Image")
     art = runpy.run_path(str(PAYLOAD / "generate_chest_reward_art.py"))
     src = image.open(art["SOURCE"]).convert("RGBA")
     preview = image.open(art["PREVIEW"]).convert("RGBA")
     assert src.size == preview.size == (16, 16)
-    tiles = [int(x, 16) for x in re.findall(r"0x([\dA-F]{2})", art["HEADER"].read_text())]
-    assert len(tiles) == 128
-    decoded = [0] * 256
-    for q in range(4):
-        for y in range(8):
-            for x in range(8):
-                pixel = ((q // 2) * 8 + y) * 16 + (q % 2) * 8 + x
-                decoded[pixel] = (tiles[q * 32 + y * 4 + x // 2] >> ((x % 2) * 4)) & 15
+    header = art["HEADER"].read_text(encoding="utf-8")
+    decoded = _decode_obj_tiles(header, "gApChestRewardArt", 16)
     assert decoded == [art["palette_index"](src.getpixel((x, y))) for y in range(16) for x in range(16)]
     assert {5, 13, 9, 8, 6, 15, 14} <= set(decoded)
     assert art["NATIVE_COLORS"] == patch_rom.CHEST_REWARD_ART_NATIVE_PALETTE_DATA
     for j, value in enumerate(decoded):
         x, y = j % 16, j // 16
         assert bool(value) == bool(src.getpixel((x, y))[3]) == bool(preview.getpixel((x, y))[3])
+
+
+def test_title_badge_is_exact_double_scale_of_chest_badge() -> None:
+    header = (PAYLOAD / "chest_reward_art.h").read_text(encoding="utf-8")
+    chest = _decode_obj_tiles(header, "gApChestRewardArt", 16)
+    title = _decode_obj_tiles(header, "gApTitleBadgeArt", 32)
+    assert title == [chest[(y // 2) * 16 + x // 2] for y in range(32) for x in range(32)]
 
 
 def test_native_trap_tiles_use_owner_shape_and_shared_palette() -> None:

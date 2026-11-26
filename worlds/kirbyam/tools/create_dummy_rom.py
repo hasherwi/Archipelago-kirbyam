@@ -55,6 +55,8 @@ def build_dummy_rom() -> bytearray:
 
     for offset, expected, _, _ in patch_rom.FILE_SELECTOR_EDITS:
         rom[offset:offset + len(expected)] = expected
+    for offset, native, _ in patch_rom.TITLE_BADGE_CALLBACKS:
+        struct.pack_into("<I", rom, offset, native)
     for offset in patch_rom.FILE_SELECTOR_DRAW_OFFSETS:
         put_bl(offset, patch_rom.FILE_SELECTOR_DRAW_ADDR)
 

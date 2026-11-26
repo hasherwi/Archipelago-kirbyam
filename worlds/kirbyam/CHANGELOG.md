@@ -20,6 +20,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
   - Random Teleport moves Kirby to a safe room already in logic (Issue #696).
 
 ### Improvements
+- The title screen now shows **Aarcayne Art**’s Archipelago badge so you can tell you’re running the randomizer.
 - When statues are included in Ability Randomization, Shuffled statues show the abilities they grant and Completely Random statues show a question mark. Six new sprites by **Aarcayne Art** appear for the Sleep, Cook, UFO, Magic, Mini, and Crash unlocks and on eligible Shuffled statues (PR #1141).
 - Ability Randomization no longer affects the Copy Ability Room: its statues always grant their original abilities once unlocked (PR #1141).
 - Allow only File 1 to be selected, preventing cross-save problems (Issue #1144).
