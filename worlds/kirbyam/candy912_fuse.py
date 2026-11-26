@@ -42,5 +42,19 @@ def graph() -> TraversalGraph:
     return compile_traversal_graph(witness)
 
 
-def target_graphs(row: dict[str, Any], linked: bool) -> tuple[TraversalGraph, ...]:
-    return (graph(),) if row["id"] == TARGET and linked else ()
+@lru_cache(maxsize=1)
+def fire_graph() -> TraversalGraph:
+    witness = load_json_data("candy912_fire_fuse_witness.json")
+    if not isinstance(witness, dict):
+        raise ValueError("Invalid Candy 9-12 Fire fuse witness")
+    return compile_traversal_graph(witness)
+
+
+def target_graphs(row: dict[str, Any], linked: bool, policy: SourcePolicy) -> tuple[TraversalGraph, ...]:
+    if row["id"] != TARGET or not linked:
+        return ()
+    # Keep the independent Normal witness first, even for a fixed Fire grant.
+    # Do not infer a safe Fire route from random/mixed or zero-ability outcomes.
+    if policy.grant("WADDLE_DOO", lambda _: True).guaranteed == frozenset({"Fire"}):
+        return graph(), fire_graph()
+    return (graph(),)

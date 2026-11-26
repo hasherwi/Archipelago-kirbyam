@@ -219,7 +219,7 @@ def install_extra_traversal_rules(world: Any) -> None:
     gating = world._ability_gating_enabled()
     for row in extra_traversal_targets():
         profile_graphs = (yellow_cupid.target_graphs(world, row) + room16_timer.target_graphs(row, policy)
-                          + candy912_fuse.target_graphs(row, getattr(world, "_candy912_linked_west_fuse", False)))
+                          + candy912_fuse.target_graphs(row, getattr(world, "_candy912_linked_west_fuse", False), policy))
         applies = target_applies(row, policy)
         if not applies and not profile_graphs:
             if row.get("fail_closed"):

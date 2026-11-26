@@ -109,3 +109,23 @@ does not change enemy assignments, the chest identity/reward, any room visit
 or exit, or the number of locations. A saved same-seed tracker policy
 reuses the ROM's decision; old seeds that lack this field retain their
 original rules and unlinked fuse.
+
+
+### Supplemental Fire route (linked-fuse seeds)
+
+The original east Waddle Doo (room 402, template `0x088C5D0C`, spawn
+`504,296`) was naturally inhaled and swallowed with a fixed Fire assignment
+in isolated mGBA. With its Fire permission, Kirby acquired Fire; with the
+same inputs but no permission, Kirby stayed Normal. From this source, the
+east crossover and lower turnaround were traversed while carrying Fire.
+
+Separately, a prepared pose at approximately `470,439` proved that facing left
+and using Fire breath opens the original fuse at `25,25` and all three chest
+seals. The same inputs without Fire left them closed. The prepared Fire run
+collected native chest `0x088C5BA4`; at fixed 1 HP only the Fire ignition was
+verified. The continuous source-to-ignition replay was not reproduced. Fire
+is therefore a supplemental option for fixed-Fire, linked-fuse seeds, never
+the sole generation guarantee. The independently verified western Normal
+fuse is still present, with no Fire unlock required for the check. Older slots
+without the linked-fuse flag and mixed or fallible enemy grants do not add the
+Fire witness.

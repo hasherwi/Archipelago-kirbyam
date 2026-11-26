@@ -189,7 +189,11 @@ def test_linked_fuse_policy_only_when_no_stock_witness(mode, pool, weight, minor
     assert original == baseline and candy912_fuse.SLOT_KEY not in original
     assert linked is want
     row = next(row for row in room_traversal_targets("block") if row["id"] == TARGET)
-    assert candy912_fuse.target_graphs(row, linked) == ((candy912_fuse.graph(),) if want else ())
+    graphs = candy912_fuse.target_graphs(row, linked, policy(mode, pool=pool, weight=weight, minny=False))
+    expected = (candy912_fuse.graph(),) if want else ()
+    if pool == ["Fire"] and want:
+        expected += (candy912_fuse.fire_graph(),)
+    assert graphs == expected
     assert candy912_fuse.config_bytes(linked) == (
         candy912_fuse.LINKED_CONFIG if want else candy912_fuse.STOCK_CONFIG)
     assert not candy912_fuse.enabled({})
@@ -245,3 +249,29 @@ def test_generated_full_seed_keeps_exact_chest_and_patch_intent(tmp_path, monkey
         assert chest.access_rule(state)
         monkeypatch.setattr(state, "can_reach_region", lambda name, player: False)
         assert not chest.access_rule(state)
+
+
+@pytest.mark.parametrize("mode", [1, 2])
+def test_supplemental_fire_exact_source_permission_and_linked_scope(mode):
+    from .. import candy912_fuse
+
+    row = {"id": TARGET}
+    fire = policy(mode, pool=["Fire"], weight=0, minny=False)
+    no_fire = policy(mode, pool=["Sword"], weight=0, minny=False)
+    mixed = policy(2, pool=["Fire", "Beam"], weight=0, minny=False)
+    fallible = policy(2, pool=["Fire"], weight=20, minny=False)
+    normal, graph = candy912_fuse.target_graphs(row, True, fire)
+    assert normal is candy912_fuse.graph()
+    assert not candy912_fuse.target_graphs(row, candy912_fuse.enabled({}), fire)
+    assert not candy912_fuse.target_graphs({"id": "other"}, True, fire)
+    for unsupported in (no_fire, mixed, fallible):
+        assert candy912_fuse.target_graphs(row, True, unsupported) == (normal,)
+    placement, = graph.placements
+    assert (placement.identity, placement.node, placement.source_key) == (
+        "0x088C5D0C", "candy912_fire:east_doo", "WADDLE_DOO")
+    target, = graph.required_targets
+    for gating in (False, True):
+        assert graph.evaluate(fire, frozenset(), gating).reaches(target) is (not gating)
+        assert graph.evaluate(fire, frozenset({"Fire Ability"}), gating).reaches(target)
+        assert not graph.evaluate(no_fire, frozenset({"Fire Ability"}), gating).reaches(target)
+    assert normal.evaluate(fire, frozenset(), True).reaches("candy912_normal:chest")
