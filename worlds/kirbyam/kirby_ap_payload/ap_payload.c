@@ -563,6 +563,72 @@ ap_reward_key_for_chest(const void *chest) {
 #define AP_REWARD_UPLOAD_RING ((volatile struct ApChestTileUpload*)0x03002EC0u)
 static inline uint16_t ap_reward_local_room(void);
 
+/* TitleStruct's previously unused word at +0x0C owns one native OBJ slot.
+ * The title constructor clears it; the title destructor returns the slots.
+ * Neither the retail logo nor any Press Start frame is replaced. */
+#define AP_TITLE_NATIVE_MAIN ((void (*)(void))0x08149DC1u)
+#define AP_TITLE_NATIVE_DESTROY ((void (*)(void *))0x0814A1C9u)
+#define AP_TITLE_VRAM_ALLOC ((uint32_t (*)(uint32_t))0x081570B1u)
+#define AP_TITLE_VRAM_FREE ((void (*)(uint32_t))0x08157191u)
+#define AP_TITLE_OAM_ALLOC ((volatile uint16_t *(*)(uint8_t))0x08156D85u)
+#define AP_TITLE_BADGE_BANK 15u
+#define AP_TITLE_BADGE_X 216u
+#define AP_TITLE_BADGE_Y 8u
+
+static inline uint8_t *ap_title_task_data(const void *task) {
+    const uint16_t *native = (const uint16_t *)task;
+    return (uint8_t *)(uintptr_t)((native[9] & 0x10u)
+        ? 0x02000000u + ((uint32_t)native[3] << 2) : 0x03000000u + native[3]);
+}
+
+AP_REWARD_FX __attribute__((used)) void ap_title_badge_main(void) {
+    void *task = *(void *volatile *)0x030035D0u;
+    uint8_t *title = ap_title_task_data(task);
+    uint32_t *badge_vram = (uint32_t *)(title + 0x0Cu);
+    if (*(const uint32_t *)(title + 4u) != 0u) {
+        if (*badge_vram == 0u) {
+            uint8_t head = *AP_REWARD_UPLOAD_HEAD;
+            if (ap_reward_tile_queue_available(head, AP_REWARD_UPLOAD_TAIL)) {
+                uint32_t vram = AP_TITLE_VRAM_ALLOC(4u);
+                if (vram >= 0x06010000u && vram <= 0x06018000u - AP_CHEST_ART_SIZE) {
+                    /* Same stock bank-F colors as generate_chest_reward_art.py.
+                     * Title glyphs use OBJ bank 0; only the title owns this bank now. */
+                    static const uint16_t colors[] __attribute__((section(".apstatuefx_data"))) = {
+                        0x5EA0, 0x7E80, 0x00D2, 0x01B8, 0x02FE, 0x08BF, 0x025F, 0x0000,
+                        0x6E9F, 0x7D40, 0x7FA0, 0x1C96, 0x393B, 0x1262, 0x7FFF, 0x03FF,
+                    };
+                    volatile uint16_t *palette = (volatile uint16_t *)0x03002C60u;
+                    for (unsigned i = 0; i < 16; ++i)
+                        palette[AP_TITLE_BADGE_BANK * 16u + i] = colors[i];
+                    *(volatile uint32_t *)0x03002440u |= 1u << 1; /* OBJ palette sync */
+                    AP_REWARD_UPLOAD_RING[head].source = (uint32_t)(uintptr_t)gApChestRewardArt;
+                    AP_REWARD_UPLOAD_RING[head].destination = vram;
+                    AP_REWARD_UPLOAD_RING[head].size = AP_CHEST_ART_SIZE;
+                    *AP_REWARD_UPLOAD_HEAD = (head + 1u) & 63u;
+                    *badge_vram = vram;
+                }
+            }
+        } else {
+            volatile uint16_t *oam = AP_TITLE_OAM_ALLOC(0x0Bu);
+            if ((uintptr_t)oam != 0x03008000u) {
+                oam[0] = AP_TITLE_BADGE_Y;
+                oam[1] = (1u << 14) | AP_TITLE_BADGE_X; /* 16x16 square */
+                oam[2] = (AP_TITLE_BADGE_BANK << 12) | ((*badge_vram - 0x06010000u) >> 5);
+            }
+        }
+    }
+    AP_TITLE_NATIVE_MAIN();
+}
+
+AP_REWARD_FX __attribute__((used)) void ap_title_badge_destroy(void *task) {
+    uint32_t *badge_vram = (uint32_t *)(ap_title_task_data(task) + 0x0Cu);
+    if (*badge_vram != 0u) {
+        AP_TITLE_VRAM_FREE(*badge_vram);
+        *badge_vram = 0u;
+    }
+    AP_TITLE_NATIVE_DESTROY(task);
+}
+
 static AP_REWARD_FX uint8_t ap_can_show_animated_shard(void) {
     const volatile uint32_t *header = (const volatile uint32_t*)AP_SHARD_AWARD_ROM;
     return header[0] == AP_SHARD_AWARD_MAGIC_FIRST && header[1] == AP_SHARD_AWARD_MAGIC_LAST

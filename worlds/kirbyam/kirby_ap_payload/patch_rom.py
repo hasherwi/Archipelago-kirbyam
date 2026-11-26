@@ -1244,6 +1244,24 @@ FILE_SELECTOR_EDITS = (
 )
 
 
+# CreateTitleScreen's task-main and task-destructor literals, USA ROM.
+TITLE_BADGE_CALLBACKS = (
+    (0x149D7C, 0x08149DC1, "ap_title_badge_main"),
+    (0x149D80, 0x0814A1C9, "ap_title_badge_destroy"),
+)
+
+
+def build_title_badge_writes(rom: bytes | bytearray, targets: dict[str, int]) -> dict[int, bytes]:
+    writes = {}
+    for offset, native, symbol in TITLE_BADGE_CALLBACKS:
+        validate_exact_rom_bytes(rom, offset, native.to_bytes(4, "little"), symbol)
+        address = targets[symbol] & ~1
+        if not 0x09000030 <= address < 0x09006FF8:
+            raise SystemExit(f"{symbol}: title badge callback outside extension code")
+        writes[offset] = (address | 1).to_bytes(4, "little")
+    return writes
+
+
 def build_file_selector_writes(rom: bytes | bytearray, draw_target: int) -> dict[int, bytes]:
     writes = {}
     for offset, expected, replacement, label in FILE_SELECTOR_EDITS:
@@ -2403,6 +2421,10 @@ def apply_color_extension(rom: bytearray, elf_path: Path) -> None:
         asset_writes = statue_assets.build_statue_art_table(rom, extension)
     except ValueError as exc:
         raise SystemExit(str(exc)) from exc
+    title_writes = build_title_badge_writes(rom, {
+        symbol: resolve_elf_symbol_address(elf_path, symbol)
+        for _, _, symbol in TITLE_BADGE_CALLBACKS
+    })
     chest_writes = build_chest_reward_art_hook(
         rom, resolve_elf_symbol_address(elf_path, "ap_chest_reward_art_entry"))
     switch_writes = build_big_switch_reward_art_hook(
@@ -2424,7 +2446,7 @@ def apply_color_extension(rom: bytearray, elf_path: Path) -> None:
     for offset, replacement in {
         **writes, **board_writes, **chest_writes, **switch_writes, **visit_writes, **boss_writes,
         **collectible_writes, **build_custom_statue_art_extension(extension),
-        **starting_mirror_writes, **statue_writes,
+        **starting_mirror_writes, **statue_writes, **title_writes,
     }.items():
         rom[offset:offset + len(replacement)] = replacement
 
