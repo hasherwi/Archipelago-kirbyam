@@ -18,6 +18,7 @@ from Options import Accessibility
 from worlds.kirbyam import traversal_rules
 from worlds.kirbyam.tools import build_ranged_completion_status as status_tool
 from worlds.kirbyam.tools.build_ranged_target_coverage import ROOT
+from worlds.kirbyam import candy912_fuse
 from worlds.kirbyam.traversal import SourcePolicy
 from worlds.kirbyam.traversal_data import _room_catalog, graph_items
 from worlds.kirbyam.master_source import CENTRAL_REGION, CENTRAL_RETURN_EVENT
@@ -31,12 +32,13 @@ REPORT = status_tool.build_status()
 
 def installer_probe(row: dict[str, Any], policy: SourcePolicy, *,
                     gating: bool = True, area_keys: bool = False, owned: frozenset[str] = frozenset(),
-                    reachable: frozenset[str] = frozenset()) -> tuple[bool, bool]:
+                    reachable: frozenset[str] = frozenset(),
+                    linked_fuse: bool = False) -> tuple[bool, bool]:
     """Actual installation; defaults have no items or independent source access."""
     target = SimpleNamespace(access_rule=lambda state: state.base)
     original_rule = target.access_rule
     world = SimpleNamespace(
-        player=1, _enemy_copy_ability_policy=policy.policy,
+        player=1, _enemy_copy_ability_policy=policy.policy, _candy912_linked_west_fuse=linked_fuse,
         _ability_gating_enabled=lambda: gating, _area_keys_enabled=lambda: area_keys,
         options=SimpleNamespace(ability_randomization_statues=SimpleNamespace(value=False),
                                 accessibility=Accessibility(Accessibility.option_minimal)),
@@ -169,6 +171,7 @@ class TestPublicProfileInstaller(unittest.TestCase):
         self.assertEqual(self.profile in row["public_fallback_profiles"], expected_fallback)
         installed, base_true_result = installer_probe(
             TARGETS[self.target_id], PUBLIC[self.profile], area_keys=self.area_keys,
+            linked_fuse=candy912_fuse.needs_linked_fuse(PUBLIC[self.profile].policy, minor_chests=True),
         )
         self.assertIs(installed, not expected_fallback)
         self.assertIs(base_true_result, expected_fallback)

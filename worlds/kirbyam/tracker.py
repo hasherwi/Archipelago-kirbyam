@@ -4,6 +4,7 @@ from copy import deepcopy
 from typing import TYPE_CHECKING, Any, Iterable
 
 from BaseClasses import Item
+from . import candy912_fuse
 from .options import ExcludeTrapTypes, KirbyAmOptions
 from .starting_mirror import starting_mirror_candidates
 from .narcolepsy import NARCOLEPSY_ITEM_NAME, NARCOLEPSY_TRAP_CATALOG_VERSION
@@ -49,6 +50,7 @@ def validate_tracker_data(slot_data: dict[str, Any]) -> dict[str, Any]:
                 "starting_kirby_color", "starting_kirby_color_name"):
         if key not in slot_data:
             raise ValueError(f"Missing Kirby tracker field: {key}")
+    candy912_fuse.enabled(slot_data)  # Reject invalid explicit seed intent.
     if not isinstance(tracker.get("precollected_items"), dict):
         raise ValueError("Missing Kirby tracker starting inventory.")
     mirror = options.get("random_starting_mirror", 0)
@@ -89,6 +91,7 @@ def restore_tracker_data(world: "KirbyAmWorld", slot_data: dict[str, Any]) -> No
             setattr(world.options, name, option_type(set(value) if name in {"exclude_locations", "exclude_trap_types"} else value))
     world._starting_mirror_tutorial_item = tracker.get("starting_mirror_tutorial_item")
     world._enemy_copy_ability_policy = deepcopy(slot_data["enemy_copy_ability_policy"])
+    world._candy912_linked_west_fuse = candy912_fuse.enabled(slot_data)
     world._resolved_configured_area_boss_goal_key = slot_data["goal_configured_area_boss_key"]
     world._resolved_starting_kirby_color_id = slot_data["starting_kirby_color"]
     world._resolved_starting_kirby_color_name = slot_data["starting_kirby_color_name"]

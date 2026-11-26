@@ -50,6 +50,9 @@ def build_dummy_rom() -> bytearray:
     def put_bl(offset: int, target: int) -> None:
         rom[offset:offset + 4] = patch_rom.thumb_bl_bytes(ROM_BASE + offset, target)
 
+    # The Bomb Block chain hook validates the exact retail target.
+    put_bl(patch_rom.BOMB_ATTACK_CHAIN_CALL_OFFSET, patch_rom.ORIGINAL_BOMB_CHAIN_ADDR)
+
     for offset, expected, _, _ in patch_rom.FILE_SELECTOR_EDITS:
         rom[offset:offset + len(expected)] = expected
     for offset in patch_rom.FILE_SELECTOR_DRAW_OFFSETS:

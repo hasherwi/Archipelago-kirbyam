@@ -81,7 +81,11 @@ No room transitions, helper, or gameplay state writes occurred after setup.
   took one native hit after the fuse cleared, lost Smash and finished as
   Normal at 5 HP (native chest event 1, template `0x088C5BA4`, frame 1689).
   With Smash permission withheld, the same inhale/swallow leaves Kirby
-  Normal. A damage-free or 1-HP Smash finish was not verified.
+  Normal. A separate fixed-1-HP replay took no damage. After Up+B cleared
+  the fuse and all three seals at frame 524, immediately hover upward, use
+  forward Smash (Right+B) past the upper hazard, and drop the copy ability
+  with Select. The same chest opened as Normal at frame 1168, still at 1 HP.
+  No helper assistance or gameplay state writes were used after setup.
 - **Master:** A player confirmed that Master can activate this chest.
   Master is not obtainable from the local enemy under the copy policy, and
   this work does not prove a Standard carrier or model it as required.

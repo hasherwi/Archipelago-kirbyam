@@ -299,3 +299,28 @@ def test_phone_profile_and_ownership_roundtrip(qualified, starting_phone):
         assert mw.get_entrance(ENTRANCE, 1).can_reach(state)
         states.append({loc.name for loc in mw.get_reachable_locations(state, 1)})
     assert states[0] == states[1]
+
+
+def test_candy_linked_fuse_restores_separate_seed_intent_and_preserves_legacy_rule():
+    from .. import candy912_fuse
+    from ..data import data
+
+    original = setup_multiworld(KirbyAmWorld, seed=912, options={
+        "ability_randomization_mode": 2, "ability_randomization_no_ability_weight": 100,
+        "ability_gating": 1, "room_sanity": 1,
+    })
+    slot = json.loads(json.dumps(original.worlds[1].fill_slot_data()))
+    assert slot[candy912_fuse.SLOT_KEY] is True
+    assert candy912_fuse.SLOT_KEY not in slot["enemy_copy_ability_policy"]
+    linked = reconstruct(slot)
+    legacy = reconstruct({key: value for key, value in slot.items() if key != candy912_fuse.SLOT_KEY})
+    assert linked.worlds[1]._candy912_linked_west_fuse
+    assert not legacy.worlds[1]._candy912_linked_west_fuse
+    assert linked.worlds[1]._enemy_copy_ability_policy == legacy.worlds[1]._enemy_copy_ability_policy
+    for mw, expected in ((linked, False), (legacy, True)):
+        chest = mw.get_location(data.locations[candy912_fuse.LOCATION].label, 1)
+        state = CollectionState(mw)
+        with patch.object(state, "can_reach_region", return_value=False):
+            assert chest.access_rule(state) is expected
+    with pytest.raises(ValueError, match="linked fuse patch contract"):
+        reconstruct({**slot, candy912_fuse.SLOT_KEY: 1})

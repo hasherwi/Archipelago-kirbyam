@@ -40,5 +40,7 @@ def set_rule_test_policy(monkeypatch: pytest.MonkeyPatch, provider: Callable[...
             keep_historical_room16_assignment(scoped)
             original(world)
         world._enemy_copy_ability_policy = provider()
+        # Historical policy fixtures have no native Candy 9-12 seed-intent field.
+        world._candy912_linked_west_fuse = False
 
     monkeypatch.setattr(KirbyAmWorld, 'generate_early', generate_early)

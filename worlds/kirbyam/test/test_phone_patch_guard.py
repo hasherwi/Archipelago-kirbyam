@@ -22,6 +22,7 @@ from ..rom import (
     HEALTH_INITIAL_ROM_OFFSET, KirbyAmPatchExtension, KirbyAmProcedurePatch,
     ROOM_VISIT_ART_CONFIG_ROM_OFFSET, ROOM_VISIT_ART_CORE_ONLY,
 )
+from .. import candy912_fuse
 from ..statue_seed import STATUE_CONFIG_EMPTY, STATUE_CONFIG_ROM_OFFSET
 from ..vitality import HEALTH_CONFIG_MAGIC, HEALTH_ROM_TITLE
 
@@ -45,6 +46,7 @@ def synthetic_post_base() -> bytes:
     buffer = bytearray(max(ENEMY_SOURCE_CONFIG_ROM_OFFSET + 36, 0x008C270A))
     buffer[PHONE_CONFIG_OFFSET:PHONE_CONFIG_OFFSET + 12] = DISABLED_PHONE_CONFIG
     buffer[STATUE_CONFIG_ROM_OFFSET:STATUE_CONFIG_ROM_OFFSET + len(STATUE_CONFIG_EMPTY)] = STATUE_CONFIG_EMPTY
+    buffer[candy912_fuse.ROM_OFFSET:candy912_fuse.ROM_OFFSET + 4] = candy912_fuse.STOCK_CONFIG
     buffer[ROOM_VISIT_ART_CONFIG_ROM_OFFSET:ROOM_VISIT_ART_CONFIG_ROM_OFFSET + 4] = ROOM_VISIT_ART_CORE_ONLY
     reward_art_offset = REWARD_ART_CONFIG_ROM_OFFSET
     buffer[reward_art_offset:reward_art_offset + len(REWARD_ART_CONFIG_EMPTY)] = REWARD_ART_CONFIG_EMPTY
@@ -149,6 +151,7 @@ def test_phone_guard_procedure_order_is_serialized(tmp_path: Path, synthetic_bsd
     expected = [HISTORICAL_PROCEDURE[0], ("validate_production_phone_disabled", []),
                 *HISTORICAL_PROCEDURE[1:3], ("validate_room16_timer_base", []),
                 ("validate_room_visit_art_base", []), ("validate_reward_art_base", []), ("validate_statue_seed_base", []),
+                ("validate_candy912_fuse_base", []),
                 *HISTORICAL_PROCEDURE[3:], ("validate_phone_seed_config", [])]
     assert KirbyAmProcedurePatch.procedure == expected
     archive = _write_archive(_synthetic_patch(synthetic_bsdiffs["disabled"]), tmp_path)

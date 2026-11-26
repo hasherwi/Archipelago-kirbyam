@@ -303,7 +303,7 @@ def write_tokens(world: "KirbyAmWorld", patch: KirbyAmProcedurePatch, *,
         )
 
     patch.write_token(APTokenTypes.WRITE, candy912_fuse.ROM_OFFSET,
-                      candy912_fuse.config_bytes(policy if isinstance(policy, dict) else {}))
+                      candy912_fuse.config_bytes(getattr(world, "_candy912_linked_west_fuse", False)))
 
     from .room16_timer import ROM_OFFSET as ROOM16_TIMER_OFFSET, timer_bytes
     patch.write_token(APTokenTypes.WRITE, ROOM16_TIMER_OFFSET,

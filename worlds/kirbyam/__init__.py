@@ -143,6 +143,7 @@ class KirbyAmWorld(World):
     # Track generation timing
     _generation_start_time: float
     _enemy_copy_ability_policy: dict[str, Any]
+    _candy912_linked_west_fuse: bool = False
     _resolved_starting_kirby_color_id: int
     _resolved_starting_kirby_color_name: str
     _resolved_configured_area_boss_goal_key: str | None
@@ -589,8 +590,8 @@ class KirbyAmWorld(World):
                 room16_for_completion=self.options.goal.value == Goal.option_full_completion,
                 allow_room16_shuffle_repair=True,
             )
-            from .candy912_fuse import configure_policy as configure_candy912_fuse
-            self._enemy_copy_ability_policy = configure_candy912_fuse(
+            from .candy912_fuse import needs_linked_fuse
+            self._candy912_linked_west_fuse = needs_linked_fuse(
                 self._enemy_copy_ability_policy, minor_chests=self.ENABLE_MINOR_CHESTS,
             )
             validate_phone_profile(self)
@@ -1476,6 +1477,9 @@ class KirbyAmWorld(World):
         allowed_abilities = tuple(policy.get("allowed_abilities", ()))
         slot_data["enemy_copy_ability_whitelist"] = list(allowed_abilities)
         slot_data["enemy_copy_ability_policy"] = dict(policy)
+        if self._candy912_linked_west_fuse:
+            from .candy912_fuse import SLOT_KEY as CANDY912_FUSE_SLOT_KEY
+            slot_data[CANDY912_FUSE_SLOT_KEY] = True
 
         from .rules import get_stake_breaking_abilities, get_stake_gated_transition_entrance_names
 

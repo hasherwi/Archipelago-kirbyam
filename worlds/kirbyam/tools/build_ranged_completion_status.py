@@ -33,7 +33,7 @@ def policy_profiles(*, synthetic: bool = False) -> dict[str, SourcePolicy]:
             random.Random(427), mode, True, True, include_passive_enemies=passive,
             no_ability_weight=weight, **kwargs,
         )
-        return SourcePolicy(raw if synthetic else candy912_fuse.configure_policy(raw, minor_chests=True))
+        return SourcePolicy(raw)
 
     if synthetic:
         # These narrow pools are internal diagnostics. No public custom-whitelist
@@ -65,7 +65,7 @@ def source_conditions(row: dict[str, Any]) -> list[dict[str, Any]]:
 
 def uses_legacy_fallback(row: dict[str, Any], policy: SourcePolicy) -> bool:
     return (not row.get("fail_closed") and not target_applies(row, policy)
-            and not candy912_fuse.target_graphs(row, policy))
+            and row["id"] != candy912_fuse.TARGET)
 
 
 def build_status() -> dict[str, Any]:

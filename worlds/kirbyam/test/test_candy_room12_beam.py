@@ -1,5 +1,6 @@
 """The source-backed Bomb Block belongs to the Candy 9-12 chest only."""
 
+from copy import deepcopy
 from pathlib import Path
 
 import pytest
@@ -181,21 +182,19 @@ def test_controlled_shuffled_source_full_fill_keeps_permission_outside_own_chest
 ])
 def test_linked_fuse_policy_only_when_no_stock_witness(mode, pool, weight, minor_chests, want):
     from .. import candy912_fuse
-    from ..traversal import SourcePolicy
 
     original = policy(mode, pool=pool, weight=weight, minny=False).policy
-    configured = candy912_fuse.configure_policy(original, minor_chests=minor_chests)
-    assert {k: v for k, v in configured.items() if k != candy912_fuse.POLICY_KEY} == original
-    assert candy912_fuse.POLICY_KEY not in original
-    assert candy912_fuse.enabled(configured) is want
+    baseline = deepcopy(original)
+    linked = candy912_fuse.needs_linked_fuse(original, minor_chests=minor_chests)
+    assert original == baseline and candy912_fuse.SLOT_KEY not in original
+    assert linked is want
     row = next(row for row in room_traversal_targets("block") if row["id"] == TARGET)
-    graphs = candy912_fuse.target_graphs(row, SourcePolicy(configured))
-    assert graphs == ((candy912_fuse.graph(),) if want else ())
-    assert candy912_fuse.config_bytes(configured) == (
+    assert candy912_fuse.target_graphs(row, linked) == ((candy912_fuse.graph(),) if want else ())
+    assert candy912_fuse.config_bytes(linked) == (
         candy912_fuse.LINKED_CONFIG if want else candy912_fuse.STOCK_CONFIG)
-    assert candy912_fuse.config_bytes(original) == candy912_fuse.STOCK_CONFIG
+    assert not candy912_fuse.enabled({})
     with pytest.raises(ValueError, match="linked fuse patch contract"):
-        candy912_fuse.config_bytes({**original, candy912_fuse.POLICY_KEY: 1})
+        candy912_fuse.enabled({candy912_fuse.SLOT_KEY: 1})
 
 
 @pytest.mark.parametrize("mode,weight", [(0, 0), (1, 0), (2, 0), (2, 100)])
@@ -227,16 +226,18 @@ def test_generated_full_seed_keeps_exact_chest_and_patch_intent(tmp_path, monkey
     multidata = load_multidata_from_archive(archive)
     locations = multidata["locations"][1]
     assert 3960575 in locations and 3961232 in locations
-    raw = multidata["slot_data"][1]["enemy_copy_ability_policy"]
+    slot_data = multidata["slot_data"][1]
+    raw = slot_data["enemy_copy_ability_policy"]
+    assert candy912_fuse.SLOT_KEY not in raw
     row = next(row for row in room_traversal_targets("block") if row["id"] == TARGET)
-    assert candy912_fuse.enabled(raw) is not target_applies(row, SourcePolicy(raw))
+    assert candy912_fuse.enabled(slot_data) is not target_applies(row, SourcePolicy(raw))
     multiworld, = generated
     assert multiworld.fulfills_accessibility() and multiworld.can_beat_game()
     chest = multiworld.get_location(data.locations[LOCATION].label, 1)
     state = CollectionState(multiworld)
     state.sweep_for_advancements()
     assert chest.can_reach(state)
-    if candy912_fuse.enabled(raw):
+    if candy912_fuse.enabled(slot_data):
         assert not candy912_fuse.graph().placements
         # A Normal-only route: no equipment permission needed once the room is reached.
         monkeypatch.setattr(state, "has", lambda item, player: False)
