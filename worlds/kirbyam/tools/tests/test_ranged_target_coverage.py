@@ -14,7 +14,8 @@ class TestRangedTargetCoverage(unittest.TestCase):
 
     def test_all_production_regions(self):
         self.assertEqual({r['region'] for r in self.coverage['regions']}, set(data.regions))
-        self.assertEqual(len(data.regions), 386)
+        # The room topology audit split Candy 9-13 and Peppermint 7-10 into separate compartments.
+        self.assertEqual(len(data.regions), 388)
         self.assertEqual(self.coverage['counts']['mapped_native_definitions'], 354)
 
     def test_locations_owned_once_after_moves(self):
