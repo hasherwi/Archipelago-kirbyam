@@ -31,12 +31,16 @@ The native L-return path is independent of the Phone-a-Friend item and battery c
 
 Don't assume every room/state is eligible: the [native input path](https://github.com/jiangzhengwenjz/katam/blob/89a012c0d2e46a0ae87d9133c7a0435d95e348e8/src/kirby.c#L6968-L7126) checks room priority bit `0x40`, active encounter/session state and the eligible character state; the shown idle path excludes Mini. The [return sequence](https://github.com/jiangzhengwenjz/katam/blob/89a012c0d2e46a0ae87d9133c7a0435d95e348e8/src/kirby.c#L13124-L13401) leads to native 801, not an arbitrary Central Circle compartment. A source review found that all 24 direct entry call sites require the room bit, the encounter/session predicate and the global state gate. Which attack, movement, or ability states can take the branch still varies.
 
-The [local extraction tool](../tools/extract_phone_return_rooms.py) reads the room bit and the encounter-to-session-slot mapping from an exact SHA-1-matched USA image. The committed room map does not include those flags; the generated retail allowlist is not available from this checkout. A room with the bit set is only statically eligible, and encounter rooms are not permanently excluded solely because they have a session slot. A return never implies a reverse route or grants a Hub Connection. No Phone edges are installed by this pass.
+The [local extraction tool](../tools/extract_phone_return_rooms.py) reads the room bit and the encounter-to-session-slot mapping from an exact SHA-1-matched USA image. The pinned retail extraction is now in [the native room return inventory](phone-return-native-rooms.json): 262 populated rooms have the enable bit and 24 do not. Central Circle, the three tutorial rooms, Copy Ability Room, and the final-area or minigame rooms on the excluded list do not acquire return edges. A room with the bit set is only statically eligible, and encounter rooms are not permanently excluded solely because they have a session slot. A return never implies a reverse route or grants a Hub Connection. No Phone edges are installed by this pass.
 
 ### First native door crosswalk
 
 - **Rainbow 1-41 (141):** the pins cover four arrivals and their four outgoing doors. Native 543 (spawn 3,14) and 143 (43,19) enter the lower partition. Native 144 (43,9) enters `EAST_MOONLIGHT`; native 545 (34,4) enters `TOP_MUSTARD`. The existing normalized AP edges land in those exact partitions. The east-to-top flights and the Bomb Block routes between partitions are same-room logical moves, not four more doors; the observed one-way cap geometry is not grounds to add an opposite edge.
 - **Moonlight 2-14 / 2-15 (741/742):** there are two directed 741→742 records, with distinct spawns (19,8) and (30,29). Upper lands in `UPPER_RETURN`; lower lands in canonical 2-15. Native 742 exits to 741 upper (spawn 11,8) and 705 Warp (spawn 4,39). The native records prove their existence and landing, not a route from the upper return partition to either trigger. Current logic keeps the upper partition disconnected from the lower chest and Warp; the old permissive upper shortcut stays removed.
+
+### Full retail tile-door inventory
+
+[The decoded door catalog](native-tile-door-inventory.json) records 724 directed tile transitions from the SHA-1-matched USA image. It records each trigger and landing separately. Object-driven doors, start/configuration bridges and Phone/Goal returns are separate and must not be backfilled from a pair of native IDs.
 
 ## Next audit batch
 
