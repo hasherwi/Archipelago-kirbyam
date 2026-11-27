@@ -14,9 +14,10 @@ from Options import Accessibility
 
 from .ability_source_inventory import (generation_instance_suffix, inventory_alternative_group,
                                        resolve_inventory_source)
-from .data import LocationCategory, data, load_json_data
+from .data import LocationCategory, data
 from .enemy_ability_data import ABILITY_NAME_TO_ID, ABILITY_SOURCES
 from .traversal import TraversalGraph, compile_traversal_graph
+from .special_route_data import SOURCE_SCOPE_CATALOG
 
 
 HUB_SWITCH_LABELS = tuple(row.label for row in data.locations.values()
@@ -232,12 +233,6 @@ def _validate_graphs(row: Mapping[str, Any], source_sets: Mapping[str, Any], gra
             raise ValueError(f"Remote traversal witness needs independent access: {row['id']}")
 
 
-_SOURCE_SCOPE_CATALOG = load_json_data("traversal_source_scopes.json")
-if (not isinstance(_SOURCE_SCOPE_CATALOG, dict)
-        or type(_SOURCE_SCOPE_CATALOG.get("schema")) is not int or _SOURCE_SCOPE_CATALOG["schema"] != 1):
-    raise ValueError("Unsupported Kirby traversal source scopes schema")
-
-
 def _matches_scoped_target(row: Mapping[str, Any], target: Mapping[str, Any]) -> bool:
     return all(row.get(key) == target.get(key) for key in (
         "id", "kind", "native_room", "region", "exit", "location",
@@ -251,14 +246,14 @@ def _validate_scoped_sources(row: Mapping[str, Any]) -> None:
             raise ValueError("Guaranteed-source conditions are mutually exclusive")
         if not any(row["requires_any_guaranteed_source"] == scope["sources"]
                    and _matches_scoped_target(row, scope["target"])
-                   for scope in _SOURCE_SCOPE_CATALOG["alternative_source_scopes"]):
+                   for scope in SOURCE_SCOPE_CATALOG["alternative_source_scopes"]):
             raise ValueError("Unsupported target-specific guaranteed-source alternatives; reviewed chest target only")
-    for scope in _SOURCE_SCOPE_CATALOG["directed_source_scopes"]:
+    for scope in SOURCE_SCOPE_CATALOG["directed_source_scopes"]:
         if condition == scope["source"]:
             if not _matches_scoped_target(row, scope["target"]):
                 raise ValueError(f"Target-specific source applicability belongs only to {scope['error_context']}")
             return
-    for scope in _SOURCE_SCOPE_CATALOG["single_source_scopes"]:
+    for scope in SOURCE_SCOPE_CATALOG["single_source_scopes"]:
         if condition == scope["source"]:
             if not _matches_scoped_target(row, scope["target"]):
                 raise ValueError("Target-specific source applicability belongs only to its reviewed chest target")

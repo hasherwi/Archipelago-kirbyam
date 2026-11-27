@@ -50,6 +50,13 @@ The [Normal-only playthrough evidence](https://github.com/hasherwi/Archipelago-k
 
 The five declared Normal entrance alternatives are Boolean facts, not new physical proofs. The 134 no-direct-overlay entrances still require matching the exact side and direction to native evidence before changing solver behavior. An observed room visit does not prove every door leading into it. No predicates changed in this audit.
 
+### Step 1 acceptance boundary
+
+- The production compiler reads reviewed room/topology, capability providers, source requirements, mirror/key exceptions, progression promotions and goals from the data catalogs. The same evaluated rules are used during fill, final all-check validation, and Tracker reconstruction.
+- The [source scopes and profiles](../data/traversal_source_scopes.json) preserve the pinned Yellow option/assignment scope, the Candy linked-fuse alternatives, Room 4-16 timer selection, and the post-clear Master stand contract. Python still applies native protocol/ROM guards and validates the exact bounds of specialized historical evidence. These checks must not become authorable arbitrary executable expressions.
+- Final seed validation still uses a fresh progression sweep over actual placed items and events. An all-items state is only diagnostic. This guards against item self-locks and multiworld circular deliveries on modeled routes; it cannot certify unmodeled topology. Treat the unreviewed compact tokens as compatibility behavior, not evidence that those routes are open.
+- The remaining physical entrance, room/check ownership, and source-acquisition audits belong to Steps 2–5. Do not treat Step 1 as a claim that every native route or the global three-transition limit has already been demonstrated or implemented.
+
 ### Authoring conventions
 
 - Prefer a named game concept to a numeric ID or generic flag. For example, `goal_location` references a named location key; `all_of` makes it clear every listed condition is required. Keep identifiers stable and resolve their player-facing labels from the canonical catalogs.
@@ -76,7 +83,7 @@ Verify one canonical owner and exact physical action/side of each obstacle for e
 
 **Advanced:** waive the three-transition limit, not physical continuity. A source may be anywhere in the game provided it is actually obtainable at that point and the ability survives a viable route to the target. A global source-name match is not enough, and random rerolls at a source must not be represented as a guaranteed single draw. Master after Dark Mind is a reachable event source, not a gated unlock.
 
-**Phone:** model ownership separately from charges. The generator requires access to one repeatable Goal Game before a Phone-dependent check; it does not have to be available at spawn. A Goal Game behind the same Phone gate cannot supply the prerequisite. The [Phone JSON declaration](../data/phone_logic.json) currently binds the Chalk Spray route. Existing witness restrictions remain in place. Starting mirrors and their options are unchanged.
+**Phone:** model ownership separately from charges. For summoning helpers, the generator requires access to one repeatable Goal Game before a Phone-dependent check; it does not have to be available at spawn. A Goal Game behind the same Phone gate cannot supply the prerequisite. The separate Phone return to Central Circle requires no charge; verify its room/state restrictions and one-way arrival during the traversal review before installing any such edges. The [Phone JSON declaration](../data/phone_logic.json) currently binds the Chalk Spray route. Existing witness restrictions remain in place. Starting mirrors and their options are unchanged.
 
 The [native Goal Game battery-pickup hook](../kirby_ap_payload/battery_hook.s) calls the same pickup operation as field batteries. The [Goal Game acceptance record](goal-game-current-acceptance.md) also covers completion with no prizes; the placement rule relies on repeatability, not a guaranteed battery on every run. Individual batteries are Useful, not progression. They use their existing weighted slots during fill, then receive the Useful reward classification without reshuffling placements.
 

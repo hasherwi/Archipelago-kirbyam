@@ -12,25 +12,21 @@ import json
 from typing import Any
 
 from .data import load_json_data
+from .special_route_data import SPECIAL_ROUTE_PROFILES
 from .traversal import SourcePolicy, TraversalGraph, compile_traversal_graph
 
-TARGET = "bomb_733_yellow"
-LOCATION = "MINOR_CHEST_SPRAY_PAINT_02"
-OWNER = "REGION_CARROT_CASTLE/ROOM_5_16"
-SOURCE_REGION = "REGION_CARROT_CASTLE/ROOM_5_14"
-POLICY_SHA256 = "1b5321f57d0ed75ed938aaeda8889ab5c9d5439a3cac7c6df5a5b634bdb21ac0"
-PROFILE = {
-    "ability_randomization_mode": 1, "ability_gating": 0,
-    "ability_randomization_statues": 0, "minimum_health": 6,
-    "maximum_health": 6, "enemy_health_multiplier": 100,
-    "one_hit_mode": 0, "area_keys": 0, "room_sanity": 1,
-    "advanced_logic": 0,
-}
+_PROFILE = SPECIAL_ROUTE_PROFILES["carrot_yellow_cupid"]
+TARGET = _PROFILE["target"]
+LOCATION = _PROFILE["check"]
+OWNER = _PROFILE["target_region"]
+SOURCE_REGION = _PROFILE["source_region"]
+POLICY_SHA256 = _PROFILE["policy_sha256"]
+PROFILE = _PROFILE["fixture_options"]
 
-
-# PROFILE retains historical fixture settings; player health does not qualify routes.
+# Player health is recorded for the fixture; it does not qualify the route.
 _ROUTE_PROFILE = {name: value for name, value in PROFILE.items()
-                  if name not in ("minimum_health", "maximum_health", "one_hit_mode")}
+                  if name not in _PROFILE["fixture_only_options"]}
+
 
 def validate_profile(world: Any, *, install: bool = False) -> bool:
     """Refuse stale installed rules before validation, slot or ROM publication."""
@@ -40,11 +36,12 @@ def validate_profile(world: Any, *, install: bool = False) -> bool:
     raw = getattr(world, "_enemy_copy_ability_policy", None)
     serialized = json.dumps(raw, sort_keys=True, separators=(",", ":"))
     signature = (tuple((type(value).__name__, value) for value in values), serialized)
+    source = _PROFILE["guaranteed_source"]
     qualified = (bool(getattr(world, "ENABLE_MINOR_CHESTS", False))
-                 and all(type(value) is int and value in ((0, 1) if name in ("room_sanity", "ability_gating") else (expected,))
+                 and all(type(value) is int and value in ((0, 1) if name in _PROFILE["any_boolean_options"] else (expected,))
                          for name, value, expected in zip(_ROUTE_PROFILE, values, _ROUTE_PROFILE.values()))
                  and hashlib.sha256(serialized.encode()).hexdigest() == POLICY_SHA256
-                 and SourcePolicy(raw).grant("SPARKY", lambda _: True).guaranteed == frozenset({"Cupid"}))
+                 and SourcePolicy(raw).grant(source["source_key"], lambda _: True).guaranteed == frozenset({source["ability"]}))
     installed = getattr(world, "_yellow_cupid_signature", None)
     if installed is not None and (installed[0] or qualified) and installed != (qualified, signature):
         raise ValueError("Yellow Cupid profile changed after rule installation")
@@ -56,7 +53,7 @@ def validate_profile(world: Any, *, install: bool = False) -> bool:
 
 @lru_cache(maxsize=1)
 def graph() -> TraversalGraph:
-    payload = load_json_data("yellow_cupid_witness.json")
+    payload = load_json_data(_PROFILE["witness"])
     if not isinstance(payload, dict):
         raise ValueError("Yellow Cupid witness must be an object")
     return compile_traversal_graph(payload)
@@ -65,7 +62,7 @@ def graph() -> TraversalGraph:
 def target_graphs(world: Any, row: dict[str, Any]) -> tuple[TraversalGraph, ...]:
     """Join the existing target's OR witnesses, never install another AND gate."""
     if (row.get("id"), row.get("region"), row.get("native_room"), row.get("location")) != (
-        TARGET, OWNER, 733, LOCATION
+        TARGET, OWNER, _PROFILE["native_room"], LOCATION
     ) or row.get("exit") or not validate_profile(world):
         return ()
     return (graph(),)

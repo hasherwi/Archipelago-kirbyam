@@ -218,5 +218,102 @@
       },
       "error_context": "the reviewed Room16 exit"
     }
-  ]
+  ],
+  "special_route_profiles": {
+    "mustard_room_4_16_timer": {
+      "target": "switch_533_room16",
+      "ability_randomization_mode": 2,
+      "switch_timer_frames": 600,
+      "normal_witness": "room16_normal_timer_witness.json"
+    },
+    "candy_9_12_linked_fuse": {
+      "target": "bomb_402_candy_chest",
+      "check": "MINOR_CHEST_CANDY_CONSTELLATION_9_12",
+      "normal_witness": "candy912_normal_fuse_witness.json",
+      "alternate_witness": "candy912_fire_fuse_witness.json",
+      "guaranteed_alternate_source": {
+        "source_key": "WADDLE_DOO",
+        "ability": "Fire"
+      }
+    },
+    "carrot_yellow_cupid": {
+      "target": "bomb_733_yellow",
+      "check": "MINOR_CHEST_SPRAY_PAINT_02",
+      "target_region": "REGION_CARROT_CASTLE/ROOM_5_16",
+      "native_room": 733,
+      "source_region": "REGION_CARROT_CASTLE/ROOM_5_14",
+      "guaranteed_source": {
+        "source_key": "SPARKY",
+        "ability": "Cupid"
+      },
+      "policy_sha256": "1b5321f57d0ed75ed938aaeda8889ab5c9d5439a3cac7c6df5a5b634bdb21ac0",
+      "witness": "yellow_cupid_witness.json",
+      "fixture_options": {
+        "ability_randomization_mode": 1,
+        "ability_gating": 0,
+        "ability_randomization_statues": 0,
+        "minimum_health": 6,
+        "maximum_health": 6,
+        "enemy_health_multiplier": 100,
+        "one_hit_mode": 0,
+        "area_keys": 0,
+        "room_sanity": 1,
+        "advanced_logic": 0
+      },
+      "fixture_only_options": [
+        "minimum_health",
+        "maximum_health",
+        "one_hit_mode"
+      ],
+      "any_boolean_options": [
+        "room_sanity",
+        "ability_gating"
+      ]
+    },
+    "central_master_carrot_5_13": {
+      "central_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
+      "prerequisite_event": "Post-clear Central return available",
+      "source_key": "CENTRAL_MASTER_STAND:088B4C88",
+      "stand_identity": "0x088B4C88",
+      "charged_wave_capability": "bomb_719_master_charged_wave",
+      "node_prefix": "bomb_719_master:",
+      "ordered_compartments": [
+        {
+          "name": "central_entry",
+          "native_room": 801
+        },
+        {
+          "name": "stand",
+          "native_room": 801
+        },
+        {
+          "name": "west_hub",
+          "native_room": 192
+        },
+        {
+          "name": "carrot_hub",
+          "native_room": 193
+        },
+        {
+          "name": "room5",
+          "native_room": 170
+        },
+        {
+          "name": "arrival",
+          "native_room": 719
+        },
+        {
+          "name": "left_pose",
+          "native_room": 719
+        },
+        {
+          "name": "left_door",
+          "native_room": 719
+        }
+      ],
+      "west_hub_item": "Rainbow Route West - Hub Connection",
+      "carrot_hub_item": "Carrot Castle - Hub Connection",
+      "carrot_area_key": "Carrot Castle - Area Key"
+    }
+  }
 }
