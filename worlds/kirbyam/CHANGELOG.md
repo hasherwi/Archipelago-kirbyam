@@ -21,7 +21,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
   - Random Teleport moves Kirby to a safe room already in logic (Issue #696).
 
 ### Improvements
-- Keep randomly selected area bosses hidden unless the player uses `/goal reveal`.
+- Keep randomly selected area bosses hidden unless the player uses `/goal reveal` (PR #1175).
 - Show required check progress for **100% Game Completion** in `/goal`, with an alphabetical hint or the full list when ten or fewer remain (Issue #1174).
 - The title screen now shows **Aarcayne Art**’s Archipelago badge so you can tell you’re running the randomizer.
 - When statues are included in Ability Randomization, Shuffled statues show the abilities they grant and Completely Random statues show a question mark. Six new sprites by **Aarcayne Art** appear for the Sleep, Cook, UFO, Magic, Mini, and Crash unlocks and on eligible Shuffled statues (PR #1141).
