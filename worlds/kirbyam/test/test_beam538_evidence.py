@@ -263,7 +263,7 @@ def test_historical_ownership_snapshot_and_current_union_are_separate():
         'data/phone_logic.json', 'data/progression_permissions.json',
         'data/traversal_capabilities.json', 'data/traversal_source_scopes.json',
         'data/check_event_logic.json', 'data/room_visit_compartments.json',
-        'data/item_pool_policy.json'}
+        'data/item_pool_policy.json', 'data/phone_return.json'}
     assert set(snapshot['input_sha256']) <= set(current['input_sha256'])
     # Exact current target/part/source bytes are pinned against both reviewed
     # parents by test_main_ranged_union, not labeled as fresh native evidence.
