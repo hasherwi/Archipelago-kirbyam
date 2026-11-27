@@ -62,8 +62,8 @@ def test_retail_join_counts_candidates_not_verified_paths():
 def test_reconciliation_preserves_unresolved_routes_and_exact_landing_evidence():
     report = build_inventory()
     assert report["retail_door_reconciliation_counts"] == {
-        "multiple_landings": 28, "no_tile_evidence": 22, "pinned_tile_door": 13,
-        "shared_landing": 13, "single_tile_candidate": 459, "source_backed_boss_return": 8,
+        "multiple_landings": 28, "no_tile_evidence": 22, "pinned_tile_door": 16,
+        "shared_landing": 13, "single_tile_candidate": 456, "source_backed_boss_return": 8,
         "witnessed_non_tile": 18,
     }
     edges = {(row["from_region"].split("/")[-1], row["to_region"].split("/")[-1]): row
@@ -86,3 +86,32 @@ def test_reconciliation_preserves_unresolved_routes_and_exact_landing_evidence()
     assert reviewed("ROOM_5_12", "ROOM_5_13__LOGIC__ENTRY_FROM_5_12") == {"status": "no_tile_evidence"}
     assert len(edges["ROOM_5_06", "ROOM_5_05__LOGIC__CHUTE_SIDE"]["retail_tile_door_candidates"]) == 12
     assert reviewed("ROOM_5_06", "ROOM_5_05__LOGIC__CHUTE_SIDE") == {"status": "shared_landing"}
+
+def test_carrot_compartments_keep_separate_native_landings():
+    report = build_inventory()
+    edges = {(row["from_region"].split("/")[-1], row["to_region"].split("/")[-1]): row
+             for row in report["edges"] if row["kind"] == "cross_native_room_candidate"}
+    lower = "ROOM_5_13__LOGIC__ENTRY_FROM_5_07"
+    upper = "ROOM_5_13__LOGIC__ENTRY_FROM_5_14"
+    assert edges["ROOM_5_07", lower]["door_reconciliation"]["door"]["arrival_tile"] == [13, 14]
+    assert edges[lower, "ROOM_5_07"]["door_reconciliation"]["door"]["trigger_tile"] == [13, 13]
+    assert edges[upper, "ROOM_5_14"]["door_reconciliation"]["door"]["trigger_tile"] == [2, 4]
+    assert {tuple(door["arrival_tile"]) for door in
+            edges["ROOM_5_14", upper]["retail_tile_door_candidates"]} == {(14, 5)}
+
+
+def test_unresolved_object_shortlist_does_not_certify_a_destination():
+    report = build_inventory()
+    edges = {(row["from_region"].split("/")[-1], row["to_region"].split("/")[-1]): row
+             for row in report["edges"] if row["kind"] == "cross_native_room_candidate"}
+    warp = edges["ROOM_5_WARP", "ROOM_5_13__LOGIC__ENTRY_FROM_5_18_OR_5_WARP"]
+    assert warp["door_reconciliation"] == {"status": "no_tile_evidence"}
+    assert warp["source_transition_object_templates"] == [
+        {"mechanism": "mirror_door", "template_address": "0x088D510C", "position_pixels": [680, 456]},
+        {"mechanism": "warp_star", "template_address": "0x088D5178", "position_pixels": [104, 40]},
+    ]
+    unresolved = [edge for edge in edges.values()
+                  if edge["door_reconciliation"]["status"] == "no_tile_evidence"]
+    assert all("source_transition_object_templates" in edge for edge in unresolved)
+    assert "source_transition_object_templates" not in edges[
+        "ROOM_1_WARP", "ROOM_2_ENTRY"]

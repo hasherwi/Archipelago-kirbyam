@@ -170,6 +170,45 @@
         24
       ],
       "evidence": "ordinary-205-209-directed-checks.md"
+    },
+    {
+      "from_region": "REGION_CARROT_CASTLE/ROOM_5_07",
+      "to_region": "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_07",
+      "trigger_tile": [
+        1,
+        14
+      ],
+      "arrival_tile": [
+        13,
+        14
+      ],
+      "evidence": "carrot-topology-reconciliation.md"
+    },
+    {
+      "from_region": "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_07",
+      "to_region": "REGION_CARROT_CASTLE/ROOM_5_07",
+      "trigger_tile": [
+        13,
+        13
+      ],
+      "arrival_tile": [
+        6,
+        15
+      ],
+      "evidence": "carrot-topology-reconciliation.md"
+    },
+    {
+      "from_region": "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_14",
+      "to_region": "REGION_CARROT_CASTLE/ROOM_5_14",
+      "trigger_tile": [
+        2,
+        4
+      ],
+      "arrival_tile": [
+        11,
+        8
+      ],
+      "evidence": "carrot-topology-reconciliation.md"
     }
   ],
   "non_tile_witnesses": [

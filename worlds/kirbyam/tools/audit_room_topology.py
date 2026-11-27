@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import argparse
-from collections import Counter
+from collections import Counter, defaultdict
 import json
 from pathlib import Path
 from typing import Any
@@ -12,6 +12,7 @@ from ..traversal_data import _room_catalog, room_traversal_graph
 
 ROOT = Path(__file__).resolve().parents[1]
 DOOR_INVENTORY = ROOT / "dev-docs/native-tile-door-inventory.json"
+OBJECT_INVENTORY = ROOT / "data/ability_source_inventory.json"
 PHONE_INVENTORY = ROOT / "dev-docs/phone-return-native-rooms.json"
 MAIN = "REGION_RAINBOW_ROUTE/MAIN"
 CIRCLE = "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
@@ -108,6 +109,33 @@ def reconcile_doors(edges: list[dict[str, Any]], native: dict[str, int],
     return dict(sorted(counts.items()))
 
 
+# Native table-1 object constructors which may participate in a room change.
+# This is a shortlist, not an exhaustive inventory of non-tile mechanisms.
+TRANSITION_OBJECTS = {0x6F: "mirror_door", 0x84: "warp_star",
+                      0x97: "door_to_hub", 0x99: "area_door"}
+
+
+def add_object_evidence_queue(edges: list[dict[str, Any]], native: dict[str, int],
+                              rom_sha1: str) -> None:
+    """Show which known templates to inspect without inferring their targets."""
+    inventory = _read(OBJECT_INVENTORY)
+    if inventory["rom_sha1"] != rom_sha1:
+        raise ValueError("Kirby object evidence requires the same retail ROM")
+    by_room: dict[int, list[dict[str, Any]]] = defaultdict(list)
+    for placement in inventory["placements"]:
+        mechanism = TRANSITION_OBJECTS.get(placement["type_id"])
+        if placement["spawn_table"] == 1 and mechanism:
+            by_room[placement["native_room"]].append({
+                "mechanism": mechanism,
+                "template_address": placement["template_address"],
+                "position_pixels": placement["position_pixels"],
+            })
+    for edge in edges:
+        status = edge.get("door_reconciliation", {}).get("status")
+        if status == "no_tile_evidence":
+            edge["source_transition_object_templates"] = by_room.get(native[edge["from_region"]], [])
+
+
 def build_inventory() -> dict[str, Any]:
     catalog = json.loads((ROOT / "dev-docs/native-room-wikirby-map.json").read_text(encoding="utf-8"))
     native: dict[str, int] = {}
@@ -191,6 +219,8 @@ def build_inventory() -> dict[str, Any]:
                     else "multiple_tile_doors"] += 1
 
     reconciliation = reconcile_doors(edges, native, phone_data["encounter_session_slots_by_native_room"])
+
+    add_object_evidence_queue(edges, native, catalog["rom_sha1"])
 
     witnesses = []
     for row in _room_catalog()[0]:

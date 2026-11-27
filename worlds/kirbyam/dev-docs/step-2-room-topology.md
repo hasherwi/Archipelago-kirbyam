@@ -107,3 +107,37 @@ candidates, warp exits and a tutorial reverse candidate. Missing tile evidence
 does not prove that these edges are invalid, and no reverse edges are inferred
 from a matching forward pair. Resolve source objects and live arrival states
 before changing reachability.
+
+### Carrot 5-13 and the object-door queue
+
+The [Carrot room evidence](carrot-topology-reconciliation.md) now supplies
+three explicit pins: the lower 5-07 entry and return, and the upper return to
+5-14. Entering from 5-14 uses eleven distinct trigger cells which all land
+at upper tile (14,5) with flags 2. The lower arrival is (13,14), below the
+solid divider. Keep the upper and lower routes separate. The legacy
+5-12, 5-18 and Warp leads still lack a destination-matched native transition;
+they are not extra routes to either chest.
+
+Each unresolved edge now lists the relevant native object templates in its
+source room, using the same retail image's
+[object inventory](../data/ability_source_inventory.json). All 22 no-tile
+edges have entries in this shortlist. A template address and position are a
+place to start looking, not proof of the destination, state, or access from
+the named compartment. In particular:
+
+- The Carrot Warp room contains both a mirror and a Warp Star. Native
+  [Warp Star code](https://github.com/jiangzhengwenjz/katam/blob/89a012c0d2e46a0ae87d9133c7a0435d95e348e8/src/warp_star.c#L1719-L1743)
+  loads the destination and spawn from the template's separate fields, not
+  from the star's subtype. Decode those fields before assigning the flight
+  to an edge. Do not infer that both Carrot Warp edges use the star.
+- The Olive 6-04 → 6-05 edges share two raw door candidates. One lands at
+  (2,6) and the other at (3,18). Keep both in the report until their
+  compartments are verified; the destinations 6-06 and 6-07 use distinct
+  outgoing trigger cells within 6-05.
+- Ordinary [MirrorDoor code](https://github.com/jiangzhengwenjz/katam/blob/89a012c0d2e46a0ae87d9133c7a0435d95e348e8/src/mirror_door.c#L101-L126)
+  consults the tile-transition table. A mirror template in a source room
+  isn't independent evidence of a missing route. Inspect the source
+  collision/trigger and actual destination rather than counting two exits
+  from a mirror and its paired tile record.
+
+These annotations change no generated region, edge, or check rule.
