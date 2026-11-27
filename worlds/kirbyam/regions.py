@@ -86,9 +86,10 @@ def create_regions(world: "KirbyAmWorld") -> dict[str, Region]:
         source.connect(dest, entrance_name)
 
     # Area First Visit checks follow physical room reachability, including
-    # legitimate overland routes. Area summaries never bypass a Hub item gate.
+    # legitimate overland routes. Room-check sinks do not represent travel;
+    # only their actual source compartments may lead to an area summary.
     for name, region in regions.items():
-        if "/ROOM_" in name:
+        if "/ROOM_" in name and not name.endswith("__ROOM_CHECK"):
             area = regions.get(name.split("/", 1)[0] + "/MAIN")
             if area is not None:
                 region.connect(area, f"{name} -> {area.name}")

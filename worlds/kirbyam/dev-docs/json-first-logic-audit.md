@@ -65,6 +65,8 @@ The five declared Normal entrance alternatives are Boolean facts, not new physic
 
 ## 2. Room, subroom and region data
 
+The [compiled topology census](step-2-room-topology.md) now distinguishes physical candidates, same-room compartments, summary/sink links, and native Phone return evidence. It removes redundant Room Sanity sink fan-in; no new movement or Phone return rules are installed.
+
 Audit native room identity versus AP region and logical subroom, entrance/exit ports and direction, one-way mirrors, and automatic area-summary connections. Same-native-room subroom edges are not room transitions. Retain real one-way traversal; do not create reverse routes based on naming.
 
 ## 3. Check, goal and event placement
