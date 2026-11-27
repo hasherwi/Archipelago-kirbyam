@@ -68,7 +68,8 @@ can reach the trigger under every setting.
 | Multiple door records | Distinct landings or flags still need AP compartment review | 26 |
 | No matching tile record | Native controller witness, via a completion sequence, cannon or Warp Star | 18 |
 | No matching tile record | Native code supports a boss-shard return sequence, not a free exit | 8 |
-| No matching tile record | Mechanism or compartment remains unresolved | 22 |
+| No matching tile record | Native object target decoded; live arrival/state still unverified | 6 |
+| No matching tile record | Mechanism or compartment remains unresolved | 16 |
 
 Five single-candidate edges also have explicit compartment pins.
 The [explicit pins](native-door-reconciliation.json) include Moonlight's
@@ -103,8 +104,8 @@ cells are reachable from the same source compartment.
   ownership is rolled back **after** boarding. It does not prove unauthorized
   boarding or certify an exact arrival tile.
 
-The 22 unresolved edges include the legacy Carrot 5-13 and Olive 6-05 object-door
-candidates, warp exits and a tutorial reverse candidate. Missing tile evidence
+The 16 edges still without a destination match include the legacy Carrot 5-13 and Olive 6-05 object-door
+candidates and a tutorial reverse candidate. Missing tile evidence
 does not prove that these edges are invalid, and no reverse edges are inferred
 from a matching forward pair. Resolve source objects and live arrival states
 before changing reachability.
@@ -121,8 +122,8 @@ they are not extra routes to either chest.
 
 Each unresolved edge now lists the relevant native object templates in its
 source room, using the same retail image's
-[object inventory](../data/ability_source_inventory.json). All 22 no-tile
-edges have entries in this shortlist. A template address and position are a
+[object inventory](../data/ability_source_inventory.json). The original 22 no-tile
+edges all have indexed source templates. A template address and position are a
 place to start looking, not proof of the destination, state, or access from
 the named compartment. In particular:
 
@@ -133,7 +134,8 @@ the named compartment. In particular:
   to an edge. Do not infer that both Carrot Warp edges use the star.
 - The [Olive door crosswalk](olive-door-topology.md) pins both 6-04 → 6-05
   landings and their distinct exits to 6-06 and 6-07. The possible cannon
-  return is a separate mechanism and remains unverified in the audit.
+  return is a separate mechanism; its configured destination is verified
+  below, but live arrival and usable state are not.
 - Ordinary [MirrorDoor code](https://github.com/jiangzhengwenjz/katam/blob/89a012c0d2e46a0ae87d9133c7a0435d95e348e8/src/mirror_door.c#L101-L126)
   consults the tile-transition table. A mirror template in a source room
   isn't independent evidence of a missing route. Inspect the source
@@ -159,6 +161,10 @@ The output contains configured destinations and spawn arguments, not ROM
 bytes. Unpopulated targets are flagged, not treated as travel. Neither an
 object template nor a matching room pair can prove a boardable star, a
 lit and unoccupied cannon, a live landing compartment, or ability carry.
-The decoder is tested with synthetic records; this PR does not add an
-unverified retail extraction. Ordinary mirror, hub, and area-door
-shortlists still require their own mechanism-specific evidence.
+The decoder tests use synthetic records. The [scoped retail decode](native-object-transition-review.json)
+joins the known Rainbow cannon and Warp Star witnesses as controls, plus
+six previous no-tile candidates: the Olive cannon and five Warp Stars.
+The Carrot Warp Star goes to native room 222, not to 5-13; the separate
+same-area 5-13 candidate remains unresolved. Negative Warp Star arguments
+are retained as written and are not mapped to pixel positions. Ordinary
+mirror, hub, and area-door shortlists still need mechanism-specific evidence.

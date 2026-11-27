@@ -29,7 +29,7 @@ return from the verified forward doors. The existing 133 ↔ 800 (6-23)
 edges also have no matching tile record. The separate Area Door template
 at (184,24) in 133 is not a destination binding without further evidence.
 
-6-07 → 6-05 has a distinct fuse-cannon lead. The native object inventory
+6-07 → 6-05 uses a distinct fuse-cannon template. The native object inventory
 places a table-1 type 0x8A cannon at (656,272) and a type 0x78 fuse at
 (568,88) in 827. The [native cannon callback](https://github.com/jiangzhengwenjz/katam/blob/89a012c0d2e46a0ae87d9133c7a0435d95e348e8/src/kirby_cannon.c#L157-L184)
 launches Kirby, rather than serving as a freely reversible mirror. Its
@@ -40,7 +40,13 @@ halfword for horizontal spawn; the launch passes a nonzero flag from the
 [The receiver](https://github.com/jiangzhengwenjz/katam/blob/89a012c0d2e46a0ae87d9133c7a0435d95e348e8/src/kirby.c#L11242-L11265)
 stores those values in the destination state. The
 [retail room description](https://wikirby.com/wiki/Olive_Ocean_-_Room_7)
-is a lead for its return destination, not evidence of the exact 6-05
-landing or that the fuse/occupancy prerequisites are satisfied. Record those
-before trusting the unconditional legacy entrance for physical carry.
+agrees with the pinned retail decode: template 0x088CD65C targets room 133
+with configured spawn arguments (27,1). The
+[ordinary loader](https://github.com/jiangzhengwenjz/katam/blob/89a012c0d2e46a0ae87d9133c7a0435d95e348e8/src/kirby.c#L12855-L12915)
+maps those to (424, 8.996) pixels, above the surface path to 6-06.
+These are initial coordinates for that loader branch, not zero-based
+room tile coordinates or a live final landing. Rainbow's witnessed 126 →
+570 cannon independently matches decoded arguments (6,1). Verify the
+actual Olive landing, fuse/occupancy requirements and retained ability
+before trusting this legacy entrance for physical carry.
 The solver graph and all its current requirements are unchanged by this audit.

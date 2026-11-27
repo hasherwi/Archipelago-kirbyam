@@ -62,7 +62,7 @@ def test_retail_join_counts_candidates_not_verified_paths():
 def test_reconciliation_preserves_unresolved_routes_and_exact_landing_evidence():
     report = build_inventory()
     assert report["retail_door_reconciliation_counts"] == {
-        "multiple_landings": 26, "no_tile_evidence": 22, "pinned_tile_door": 20,
+        "configured_non_tile": 6, "multiple_landings": 26, "no_tile_evidence": 16, "pinned_tile_door": 20,
         "shared_landing": 13, "single_tile_candidate": 454, "source_backed_boss_return": 8,
         "witnessed_non_tile": 18,
     }
@@ -129,6 +129,10 @@ def test_olive_upper_and_lower_entries_keep_separate_destinations():
     assert edges[upper, "ROOM_6_07"]["door_reconciliation"]["door"]["trigger_tile"] == [14, 14]
     assert edges[lower, "ROOM_6_06"]["door_reconciliation"]["door"]["trigger_tile"] == [43, 2]
     cannon = edges["ROOM_6_07", "ROOM_6_05__LOGIC__ENTRY_FROM_6_07"]
-    assert cannon["door_reconciliation"] == {"status": "no_tile_evidence"}
-    assert {row["template_address"] for row in cannon["source_transition_object_templates"]
-            if row["mechanism"] == "fuse_cannon"} == {"0x088CD65C"}
+    assert cannon["door_reconciliation"]["status"] == "configured_non_tile"
+    assert cannon["configured_transition_object"]["template_address"] == "0x088CD65C"
+    assert cannon["configured_transition_object"]["configured_spawn_arguments"] == [27, 1]
+    assert edges["ROOM_5_WARP", "ROOM_7_04"]["configured_transition_object"]["destination_native_room"] == 222
+    control = edges["ROOM_1_32", "ROOM_1_33_LEFT"]
+    assert control["door_reconciliation"]["status"] == "witnessed_non_tile"
+    assert control["configured_transition_object"]["configured_spawn_arguments"] == [6, 1]

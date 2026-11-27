@@ -12,6 +12,7 @@ from ..traversal_data import _room_catalog, room_traversal_graph
 
 ROOT = Path(__file__).resolve().parents[1]
 DOOR_INVENTORY = ROOT / "dev-docs/native-tile-door-inventory.json"
+OBJECT_REVIEW = ROOT / "dev-docs/native-object-transition-review.json"
 OBJECT_INVENTORY = ROOT / "data/ability_source_inventory.json"
 PHONE_INVENTORY = ROOT / "dev-docs/phone-return-native-rooms.json"
 MAIN = "REGION_RAINBOW_ROUTE/MAIN"
@@ -23,7 +24,7 @@ def _read(path: Path) -> dict[str, Any]:
 
 
 def reconcile_doors(edges: list[dict[str, Any]], native: dict[str, int],
-                    encounter_slots: dict[str, list[int]]) -> dict[str, int]:
+                    encounter_slots: dict[str, list[int]], rom_sha1: str) -> dict[str, int]:
     """Keep retail tile candidates, pinned compartments and executed returns distinct."""
     review = _read(ROOT / "dev-docs/native-door-reconciliation.json")
     if review["schema"] != 1:
@@ -63,6 +64,23 @@ def reconcile_doors(edges: list[dict[str, Any]], native: dict[str, int],
     if goal_returns.keys() != goal_native.keys():
         raise ValueError("Incomplete native Goal Game return evidence")
 
+    object_review = _read(OBJECT_REVIEW)
+    placements = _read(OBJECT_INVENTORY)
+    if object_review["schema"] != 1 or object_review["rom_sha1"] != rom_sha1 or placements["rom_sha1"] != rom_sha1:
+        raise ValueError("Native object review must match the retail inventory")
+    objects = {(p["native_room"], p["template_address"]): p for p in placements["placements"]}
+    configured = {}
+    for row in object_review["transitions"]:
+        origin, destination = row["source_native_room"], row["destination_native_room"]
+        key = origin, destination
+        template = objects[origin, row["template_address"]]
+        if (key in configured or template["spawn_table"] != 1
+                or TRANSITION_OBJECTS.get(template["type_id"]) != row["mechanism"]
+                or template["position_pixels"] != row["position_pixels"]):
+            raise ValueError(f"Inconsistent native transition object: {key}")
+        configured[key] = row
+
+    consumed_configured = set()
     counts: Counter[str] = Counter()
     for edge in edges:
         if edge["kind"] != "cross_native_room_candidate":
@@ -70,6 +88,13 @@ def reconcile_doors(edges: list[dict[str, Any]], native: dict[str, int],
         source, target = edge["from_region"], edge["to_region"]
         pair = source, target
         matches = edge["retail_tile_door_candidates"]
+        native_pair = native[source], native[target]
+        object_row = configured.get(native_pair)
+        if object_row is not None:
+            if matches or native_pair in consumed_configured:
+                raise ValueError(f"Ambiguous configured object pairing: {native_pair}")
+            edge["configured_transition_object"] = object_row
+            consumed_configured.add(native_pair)
         if pair in pins:
             pin = pins.pop(pair)
             candidates = [door for door in matches if door["trigger_tile"] == pin["trigger_tile"]
@@ -95,6 +120,9 @@ def reconcile_doors(edges: list[dict[str, Any]], native: dict[str, int],
                 "mechanism": "native_shard_victory_sequence",
                 "evidence": "step-2-room-topology.md#completion-returns-and-the-cannon",
             }
+        elif object_row is not None:
+            result = {"status": "configured_non_tile", "mechanism": object_row["mechanism"],
+                      "evidence": OBJECT_REVIEW.name}
         elif not matches:
             result = {"status": "no_tile_evidence"}
         elif len(matches) == 1:
@@ -106,6 +134,8 @@ def reconcile_doors(edges: list[dict[str, Any]], native: dict[str, int],
         counts[result["status"]] += 1
     if pins or non_tile:
         raise ValueError("Native door review references missing AP edges")
+    if consumed_configured != configured.keys():
+        raise ValueError("Native object review references missing AP edges")
     return dict(sorted(counts.items()))
 
 
@@ -218,7 +248,8 @@ def build_inventory() -> dict[str, Any]:
         pair_counts["no_tile_match" if not matches else "matching_room_pair" if len(matches) == 1
                     else "multiple_tile_doors"] += 1
 
-    reconciliation = reconcile_doors(edges, native, phone_data["encounter_session_slots_by_native_room"])
+    reconciliation = reconcile_doors(edges, native, phone_data["encounter_session_slots_by_native_room"],
+                                     catalog["rom_sha1"])
 
     add_object_evidence_queue(edges, native, catalog["rom_sha1"])
 
