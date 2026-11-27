@@ -1480,6 +1480,491 @@
               ]
             }
           ]
+        },
+        {
+          "label": "Capture the Flag, authenticated boss proof and /goal progress",
+          "integrated_sha256": "c0eae1aada5990fbb61d3df348719df46b47c079d09a998dd96d2ad8c068327f",
+          "reverse_slices": [
+            {
+              "start": 54,
+              "stop": 55,
+              "current": [
+                "from .options import Goal, OneHitMode, RANDOM_AREA_BOSS_SLOT_KEY\n"
+              ],
+              "main": [
+                "from .options import Goal, OneHitMode\n"
+              ]
+            },
+            {
+              "start": 306,
+              "stop": 308,
+              "current": [
+                "    def _cmd_goal(self, *arguments: str) -> bool:\n",
+                "        \"\"\"Show your victory condition. Use /goal reveal to spoil a hidden target.\"\"\"\n"
+              ],
+              "main": [
+                "    def _cmd_goal(self) -> bool:\n",
+                "        \"\"\"Show the current KirbyAM seed's victory condition without revealing hidden targets.\"\"\"\n"
+              ]
+            },
+            {
+              "start": 322,
+              "stop": 358,
+              "current": [
+                "        hidden_boss = (goal == _LEGACY_GOAL_DEFEAT_RANDOM_HIDDEN_AREA_BOSS\n",
+                "                       or (goal == Goal.option_defeat_area_boss\n",
+                "                           and slot_data.get(RANDOM_AREA_BOSS_SLOT_KEY) is True))\n",
+                "        flag_goal = goal == Goal.option_capture_the_flag\n",
+                "        if arguments:\n",
+                "            if arguments != (\"reveal\",) or not (flag_goal or hidden_boss):\n",
+                "                self.output(\"Usage: /goal (use /goal reveal only for a hidden target).\")\n",
+                "                return False\n",
+                "            if not KirbyAmClient._goal_slot_authenticated(self.ctx):\n",
+                "                self.output(\"Spoiler unavailable: waiting for the current KirbyAM slot to connect.\")\n",
+                "                return False\n",
+                "            if flag_goal:\n",
+                "                from .capture_the_flag import LOCATION_NAMES, flag_location_id\n",
+                "                target = flag_location_id(slot_data)\n",
+                "                checked = KirbyAmClient._synced_server_checks(self.ctx)\n",
+                "                if target is None or checked is None or target not in self.ctx.server_locations:\n",
+                "                    self.output(\"Flag location unavailable: waiting for valid Capture the Flag data from the server.\")\n",
+                "                    return False\n",
+                "                self.output(f\"Capture the Flag location: {LOCATION_NAMES[target]}\")\n",
+                "                return True\n",
+                "            key = slot_data.get(\"goal_hidden_area_boss_key\" if goal == _LEGACY_GOAL_DEFEAT_RANDOM_HIDDEN_AREA_BOSS\n",
+                "                                else \"goal_configured_area_boss_key\")\n",
+                "            boss = _GOAL_BOSS_NAMES.get(key) if isinstance(key, str) else None\n",
+                "            if boss is None:\n",
+                "                self.output(\"Boss target unavailable: missing or unsupported in slot data.\")\n",
+                "                return False\n",
+                "            self.output(f\"Goal: Defeat {boss}.\")\n",
+                "            return True\n",
+                "        if flag_goal:\n",
+                "            self.output(\"Goal: Capture the Flag. Complete one hidden check in your world. \"\n",
+                "                        \"Use /goal reveal to see the exact location (spoiler).\")\n",
+                "            return True\n",
+                "        if hidden_boss:\n",
+                "            self.output(\"Goal: Defeat the randomly selected hidden area boss. \"\n",
+                "                        \"Use /goal reveal to see which boss (spoiler).\")\n",
+                "            return True\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 361,
+              "stop": 374,
+              "current": [
+                "            from .completion import PHYSICAL_CHECK_NAMES, PHYSICAL_IDS\n",
+                "            checked = KirbyAmClient._synced_server_checks(self.ctx)\n",
+                "            if checked is not None and PHYSICAL_IDS <= self.ctx.server_locations:\n",
+                "                missing = sorted((PHYSICAL_CHECK_NAMES[location] for location in PHYSICAL_IDS - checked),\n",
+                "                                 key=str.casefold)\n",
+                "                message = f\"{len(PHYSICAL_IDS) - len(missing)}/{len(PHYSICAL_IDS)} checks done.\"\n",
+                "                if len(missing) > 10:\n",
+                "                    message += f\" Have you checked {missing[0]}?\"\n",
+                "                elif missing:\n",
+                "                    message += \" Here's what's left: \" + \", \".join(missing)\n",
+                "                self.output(message)\n",
+                "                return True\n",
+                "            # Older clients/seeds or a still-syncing server can still explain the goal.\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 395,
+              "stop": 395,
+              "current": [],
+              "main": [
+                "        elif goal == _LEGACY_GOAL_DEFEAT_RANDOM_HIDDEN_AREA_BOSS:\n",
+                "            description = \"Defeat the randomly selected hidden area boss (target hidden).\"\n"
+              ]
+            },
+            {
+              "start": 587,
+              "stop": 589,
+              "current": [
+                "        self._captured_flag_key = None\n",
+                "        self._loaded_flag_key = None\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 836,
+              "stop": 860,
+              "current": [
+                "\n",
+                "    @staticmethod\n",
+                "    def _goal_slot_authenticated(ctx: \"BizHawkClientContext\") -> bool:\n",
+                "        from worlds._bizhawk.context import AuthStatus\n",
+                "\n",
+                "        seed = getattr(ctx, \"server_seed_name\", None)\n",
+                "        team, slot = getattr(ctx, \"team\", None), getattr(ctx, \"slot\", None)\n",
+                "        return (KirbyAmClient._server_session_ready(ctx)\n",
+                "                and getattr(ctx, \"auth_status\", None) == AuthStatus.AUTHENTICATED\n",
+                "                and isinstance(seed, str) and bool(seed) and type(team) is int and type(slot) is int\n",
+                "                and getattr(ctx, \"connected_identity\", (seed, team, slot)) == (seed, team, slot))\n",
+                "\n",
+                "    @staticmethod\n",
+                "    def _synced_server_checks(ctx: \"BizHawkClientContext\") -> set[int] | None:\n",
+                "        \"\"\"Use server acknowledgements, never local pending checks or slot catalog guesses.\"\"\"\n",
+                "        if not KirbyAmClient._goal_slot_authenticated(ctx):\n",
+                "            return None\n",
+                "        checked = getattr(ctx, \"checked_locations\", None)\n",
+                "        missing = getattr(ctx, \"missing_locations\", None)\n",
+                "        active = getattr(ctx, \"server_locations\", None)\n",
+                "        if (not isinstance(checked, set) or not isinstance(missing, set) or not isinstance(active, set)\n",
+                "                or not active or checked & missing or (checked | missing) != active):\n",
+                "            return None\n",
+                "        return checked\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 2475,
+              "stop": 2479,
+              "current": [
+                "            flag_session = self._flag_observation_session(ctx)\n",
+                "            goal_game_checks = await poll_goal_games(ctx)\n",
+                "            if goal_game_checks:\n",
+                "                await self._observe_capture_flag(ctx, goal_game_checks, flag_session)\n"
+              ],
+              "main": [
+                "            await poll_goal_games(ctx)\n"
+              ]
+            },
+            {
+              "start": 3695,
+              "stop": 3721,
+              "current": [
+                "    async def _recover_saved_boss_flag(self, ctx, flag_session) -> int | None:\n",
+                "        from .capture_the_flag import BOSS_FLAG_CONFIG_ROM_OFFSET, boss_flag_config\n",
+                "        from .completion import PHYSICAL_SAVE_ADDRESS, SAVE_ID_ADDRESS, saved_boss_flag\n",
+                "\n",
+                "        if flag_session is None:\n",
+                "            return None\n",
+                "        proof = self._capture_flag_key(ctx)\n",
+                "        if proof is None or self._captured_flag_key == proof:\n",
+                "            return None\n",
+                "        target = proof[1]\n",
+                "        config = boss_flag_config(target)\n",
+                "        cookie = self._transport_addr(\"mailbox_init_cookie\")\n",
+                "        auth = self._health_rom_auth\n",
+                "        if config is None or cookie is None:\n",
+                "            return None\n",
+                "        auth_addr = _normalize_gba_rom_address(data.rom_addresses[\"gArchipelagoInfo\"])\n",
+                "        record = await bizhawk.guarded_read(ctx.bizhawk_ctx,\n",
+                "            [(PHYSICAL_SAVE_ADDRESS, 20, \"System Bus\"), (SAVE_ID_ADDRESS, 2, \"System Bus\")],\n",
+                "            [(auth_addr, auth, \"ROM\"), (BOSS_FLAG_CONFIG_ROM_OFFSET, config, \"ROM\"),\n",
+                "             (cookie, (0x4B41504D).to_bytes(4, \"little\"), \"System Bus\")])\n",
+                "        if (flag_session != self._flag_observation_session(ctx) or record is None or len(record) != 2\n",
+                "                or len(record[1]) != 2 or int.from_bytes(record[1], \"little\") > 2\n",
+                "                or not saved_boss_flag(record[0], auth)):\n",
+                "            return None\n",
+                "        return target\n",
+                "\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 3728,
+              "stop": 3729,
+              "current": [
+                "        flag_session = self._flag_observation_session(ctx)\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 3741,
+              "stop": 3744,
+              "current": [
+                "        if (saved := await self._recover_saved_boss_flag(ctx, flag_session)) is not None:\n",
+                "            mapped_checked_locations.add(saved)\n",
+                "        await self._observe_capture_flag(ctx, mapped_checked_locations, flag_session)\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 3790,
+              "stop": 3791,
+              "current": [
+                "        flag_session = self._flag_observation_session(ctx)\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 3804,
+              "stop": 3805,
+              "current": [
+                "        await self._observe_capture_flag(ctx, mapped_checked_locations, flag_session)\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 3840,
+              "stop": 3841,
+              "current": [
+                "        flag_session = self._flag_observation_session(ctx)\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 3853,
+              "stop": 3854,
+              "current": [
+                "        await self._observe_capture_flag(ctx, mapped_checked_locations, flag_session)\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 3892,
+              "stop": 3893,
+              "current": [
+                "        flag_session = self._flag_observation_session(ctx)\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 3907,
+              "stop": 3908,
+              "current": [
+                "        await self._observe_capture_flag(ctx, checks, flag_session)\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 4040,
+              "stop": 4041,
+              "current": [
+                "        flag_session = self._flag_observation_session(ctx)\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 4136,
+              "stop": 4137,
+              "current": [
+                "        await self._observe_capture_flag(ctx, exact_checked_locations, flag_session)\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 4154,
+              "stop": 4155,
+              "current": [
+                "        flag_session = self._flag_observation_session(ctx)\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 4167,
+              "stop": 4168,
+              "current": [
+                "        await self._observe_capture_flag(ctx, mapped_checked_locations, flag_session)\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 4203,
+              "stop": 4204,
+              "current": [
+                "        flag_session = self._flag_observation_session(ctx)\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 4247,
+              "stop": 4248,
+              "current": [
+                "        await self._observe_capture_flag(ctx, mapped_checked_locations, flag_session)\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 4293,
+              "stop": 4295,
+              "current": [
+                "        from .capture_the_flag import active_flag_location_id\n",
+                "        flag = active_flag_location_id(ctx.slot_data)\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 4297,
+              "stop": 4301,
+              "current": [
+                "            # Server acknowledgements can come from !collect / !release. Never\n",
+                "            # synthesize the native signal for the selected flag from an AP ACK.\n",
+                "            if flag in locations:\n",
+                "                continue\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 4368,
+              "stop": 4369,
+              "current": [
+                "        flag_session = self._flag_observation_session(ctx)\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 4387,
+              "stop": 4388,
+              "current": [
+                "        await self._observe_capture_flag(ctx, mapped_checked_locations, flag_session)\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 4683,
+              "stop": 4684,
+              "current": [
+                "        flag_session = self._flag_observation_session(ctx)\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 4737,
+              "stop": 4738,
+              "current": [
+                "        await self._observe_capture_flag(ctx, mapped_checked_locations, flag_session)\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 4773,
+              "stop": 4774,
+              "current": [
+                "        flag_session = self._flag_observation_session(ctx)\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 4794,
+              "stop": 4795,
+              "current": [
+                "        await self._observe_capture_flag(ctx, mapped_checked_locations, flag_session)\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 5783,
+              "stop": 5882,
+              "current": [
+                "    def _capture_flag_key(self, ctx):\n",
+                "        import base64\n",
+                "        from .capture_the_flag import active_flag_location_id\n",
+                "\n",
+                "        if not self._goal_slot_authenticated(ctx):\n",
+                "            return None\n",
+                "        target = active_flag_location_id(ctx.slot_data)\n",
+                "        auth = self._health_rom_auth\n",
+                "        if target is None or not isinstance(auth, bytes) or len(auth) != _AUTH_TOKEN_SIZE:\n",
+                "            return None\n",
+                "        if base64.b64encode(auth).decode() != ctx.auth:\n",
+                "            return None\n",
+                "        return scope_key(ctx.server_seed_name, auth, ctx.team, ctx.slot), target\n",
+                "\n",
+                "    def _capture_flag_journal(self, key):\n",
+                "        scope, _target = key\n",
+                "        return ReceiptJournal(Utils.user_path(\"kirbyam\", \"flag_proofs.sqlite3\"), scope)\n",
+                "\n",
+                "    def _restore_capture_flag_proof(self, key) -> None:\n",
+                "        if self._loaded_flag_key == key or self._captured_flag_key == key:\n",
+                "            return\n",
+                "        self._loaded_flag_key = key\n",
+                "        try:\n",
+                "            journal = self._capture_flag_journal(key)\n",
+                "            try:\n",
+                "                if journal.acknowledged(str(key[1])):\n",
+                "                    self._captured_flag_key = key\n",
+                "            finally:\n",
+                "                journal.close()\n",
+                "        except (OSError, sqlite3.Error):\n",
+                "            self._log_verbose(\"warning\", \"KirbyAM: Could not read saved Capture the Flag proof.\")\n",
+                "\n",
+                "    def _flag_observation_session(self, ctx):\n",
+                "        from .capture_the_flag import active_flag_location_id\n",
+                "        if active_flag_location_id(getattr(ctx, \"slot_data\", None)) is None or not self._goal_slot_authenticated(ctx):\n",
+                "            return None\n",
+                "        return (self._authenticated_session_key(ctx), id(ctx.server.socket), id(ctx.bizhawk_ctx), id(ctx.slot_data))\n",
+                "\n",
+                "    async def _observe_capture_flag(self, ctx, observed: set[int], flag_session) -> None:\n",
+                "        # Most observations need no host or emulator I/O. For the selected\n",
+                "        # flag, verify the current ROM and its initialized connector before\n",
+                "        # saving a local observation, independently of the server check state.\n",
+                "        if not observed or flag_session is None or flag_session != self._flag_observation_session(ctx):\n",
+                "            return\n",
+                "        from .capture_the_flag import active_flag_location_id\n",
+                "        target = active_flag_location_id(getattr(ctx, \"slot_data\", None))\n",
+                "        if target not in observed:\n",
+                "            return\n",
+                "        key = self._capture_flag_key(ctx)\n",
+                "        if key is None:\n",
+                "            return\n",
+                "        self._restore_capture_flag_proof(key)\n",
+                "        if self._captured_flag_key == key:\n",
+                "            return\n",
+                "\n",
+                "        cookie = self._transport_addr(\"mailbox_init_cookie\")\n",
+                "        if cookie is None:\n",
+                "            return\n",
+                "        auth_addr = _normalize_gba_rom_address(data.rom_addresses[\"gArchipelagoInfo\"])\n",
+                "        server, socket, connector, slot_data = ctx.server, ctx.server.socket, ctx.bizhawk_ctx, ctx.slot_data\n",
+                "        valid = await bizhawk.guarded_read(connector, [], [\n",
+                "            (auth_addr, self._health_rom_auth, \"ROM\"),\n",
+                "            (cookie, (0x4B41504D).to_bytes(4, \"little\"), \"System Bus\"),\n",
+                "        ])\n",
+                "        if (valid is None or self._capture_flag_key(ctx) != key or ctx.server is not server\n",
+                "                or server.socket is not socket or ctx.bizhawk_ctx is not connector or ctx.slot_data is not slot_data):\n",
+                "            return\n",
+                "\n",
+                "        self._captured_flag_key = key\n",
+                "        try:\n",
+                "            journal = self._capture_flag_journal(key)\n",
+                "            try:\n",
+                "                journal.acknowledge(str(target))\n",
+                "            finally:\n",
+                "                journal.close()\n",
+                "        except (OSError, sqlite3.Error):\n",
+                "            self._log_client(\"warning\", \"KirbyAM: Capture the Flag proof could not be saved; \"\n",
+                "                             \"keep this client open until the goal is reported.\")\n",
+                "\n",
+                "    async def _maybe_report_capture_the_flag(self, ctx: KirbyAmBizHawkClientContext) -> None:\n",
+                "        from NetUtils import ClientStatus\n",
+                "\n",
+                "        key = self._capture_flag_key(ctx)\n",
+                "        checked = self._synced_server_checks(ctx)\n",
+                "        if key is None or checked is None or key[1] not in checked or ctx.finished_game:\n",
+                "            return\n",
+                "\n",
+                "        # Archipelago can register a location through a collect or release.\n",
+                "        # Only combine its ACK with physical proof from this authenticated game.\n",
+                "        self._restore_capture_flag_proof(key)\n",
+                "        if self._captured_flag_key != key:\n",
+                "            return\n",
+                "        server, socket, slot_data = ctx.server, ctx.server.socket, ctx.slot_data\n",
+                "        await ctx.send_msgs([{\"cmd\": \"StatusUpdate\", \"status\": ClientStatus.CLIENT_GOAL}])\n",
+                "        if (self._capture_flag_key(ctx) == key and ctx.server is server and server.socket is socket\n",
+                "                and ctx.slot_data is slot_data):\n",
+                "            ctx.finished_game = True\n",
+                "            await self._display_client_message(ctx, \"Goal complete\")\n",
+                "\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 5901,
+              "stop": 5905,
+              "current": [
+                "        if (isinstance(slot_data, dict) and type(slot_data.get(\"goal\")) is int\n",
+                "                and slot_data[\"goal\"] == Goal.option_capture_the_flag):\n",
+                "            await self._maybe_report_capture_the_flag(ctx)\n",
+                "            return\n"
+              ],
+              "main": []
+            }
+          ]
         }
       ]
     },
