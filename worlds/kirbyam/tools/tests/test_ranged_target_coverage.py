@@ -1,6 +1,7 @@
 """Production-normalized coverage must not omit compartments or synthetic sinks."""
 import hashlib
 import unittest
+from collections import Counter
 from pathlib import PurePosixPath, PureWindowsPath
 
 from worlds.kirbyam.data import data
@@ -14,8 +15,9 @@ class TestRangedTargetCoverage(unittest.TestCase):
 
     def test_all_production_regions(self):
         self.assertEqual({r['region'] for r in self.coverage['regions']}, set(data.regions))
-        # The room topology audit split Candy 9-13 and Peppermint 7-10 into separate compartments.
-        self.assertEqual(len(data.regions), 388)
+        kinds = Counter(r['kind'] for r in self.coverage['regions'])
+        # Step 3 adds 30 visit-only sinks, no new physical room compartments.
+        self.assertEqual(kinds, {'native_room': 354, 'area_or_other': 11, 'room_sanity_sink': 53})
         self.assertEqual(self.coverage['counts']['mapped_native_definitions'], 354)
 
     def test_locations_owned_once_after_moves(self):
@@ -67,8 +69,7 @@ class TestRangedTargetCoverage(unittest.TestCase):
     def test_room_sanity_is_separate(self):
         self.assertEqual(self.coverage['counts']['room_sanity_locations'], 263)
         sinks = [r for r in self.coverage['regions'] if r['kind'] == 'room_sanity_sink']
-        self.assertTrue(sinks)
-        self.assertTrue(all(r['native_room'] is not None for r in sinks))
+        self.assertTrue(all(r['native_room'] is not None and not r['exits'] for r in sinks))
 
     def test_exits_match_normalized_adjacency(self):
         actual = {(s['owner'], s['target']) for s in self.coverage['surfaces'] if s['kind'] == 'exit'}
@@ -95,7 +96,8 @@ class TestRangedTargetCoverage(unittest.TestCase):
     def test_provenance_hashes_cover_normalizer_and_region_inputs(self):
         hashes = self.coverage['input_sha256']
         for name in ('data.py', 'data/regions/rooms.json', 'data/regions/areas.json',
-                     'data/locations.json', 'dev-docs/native-room-wikirby-map.json'):
+                     'data/locations.json', 'data/room_visit_compartments.json',
+                     'dev-docs/native-room-wikirby-map.json'):
             self.assertEqual(len(hashes[name]), 64)
             self.assertEqual(hashes[name], hashlib.sha256((ROOT / name).read_bytes()).hexdigest())
 
