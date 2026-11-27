@@ -362,7 +362,7 @@ def test_stock_peg_short_sources_are_real_and_standard(target_id, ability, trans
     from ..peg_traversal import short_peg_graphs
     from ..traversal_data import graph_items
 
-    graph, = short_peg_graphs(target_id, area_keys=True)
+    graph = short_peg_graphs(target_id, area_keys=True)[0]
     source, = graph.placements
     rooms = {node.key: node.room for node in graph.nodes}
     after_source = graph.routes[next(i for i, edge in enumerate(graph.routes) if edge.source == source.node):]
@@ -385,7 +385,7 @@ def test_stock_short_peg_graph_is_an_or_with_independent_access(target_id):
 
     world = make_world(0, False, area_keys=0)
     row = next(row for row in PEG_ROUTES if row["id"] == target_id)
-    witness, = short_peg_graphs(target_id, area_keys=False)
+    witness = short_peg_graphs(target_id, area_keys=False)[0]
     target = (world.multiworld.get_entrance(f"{row['region']} -> {row['exit']}", 1) if row["exit"]
               else world.multiworld.get_location(data.locations[row["location"]].label, 1))
     state = CollectionState(world.multiworld)
@@ -393,3 +393,31 @@ def test_stock_short_peg_graph_is_an_or_with_independent_access(target_id):
         assert target.access_rule(state)
     with patch.object(state, "can_reach_region", return_value=False):
         assert not target.access_rule(state)
+
+
+def test_radish_bonkers_is_an_independent_standard_wheel_then_hammer_route():
+    from dataclasses import replace
+    from unittest.mock import patch
+    from ..peg_traversal import short_peg_graphs
+    from ..traversal_data import graph_items
+
+    target_id = "peg_605_12_24"
+    stone, hammer = short_peg_graphs(target_id, area_keys=True)
+    assert stone.access_region != hammer.access_region
+    assert [source.identity for source in hammer.placements] == [
+        "room:604/template:0x088CF704", "room:623/template:0x088D0330"]
+    keys = graph_items(hammer)
+    policy = SourcePolicy({"mode": 0})
+    assert hammer.evaluate(policy, keys, gating=False, advanced_logic=False).reaches("target")
+    unlocks = frozenset({"Wheel Ability", "Hammer Ability"})
+    for kept in (hammer.placements[:1], hammer.placements[1:]):
+        assert not replace(hammer, placements=kept).evaluate(
+            policy, keys | unlocks, gating=False, advanced_logic=False).reaches("target")
+    world = make_world(0, False, area_keys=0)
+    row = next(row for row in PEG_ROUTES if row["id"] == target_id)
+    entry = world.multiworld.get_entrance(f"{row['region']} -> {row['exit']}", 1)
+    state = CollectionState(world.multiworld)
+    with patch.object(state, "can_reach_region", side_effect=lambda name, _: name == hammer.access_region):
+        assert entry.access_rule(state)
+    with patch.object(state, "can_reach_region", side_effect=lambda name, _: name == stone.access_region):
+        assert entry.access_rule(state)

@@ -32,8 +32,8 @@ def short_peg_graphs(target_id: str, area_keys: bool) -> tuple[TraversalGraph, .
     record = SPECIAL_ROUTE_PROFILES["short_peg_witnesses"].get(target_id)
     if record is None:
         return ()
-    graph = compile_room_graph(record["witness"], {}, area_keys=area_keys, require_inventory=True)
-    return (graph,)
+    return tuple(compile_room_graph(entry["witness"], {}, area_keys=area_keys, require_inventory=True)
+                 for entry in (record, *record.get("alternatives", ())))
 
 
 def carry_graphs(row: dict[str, Any], area_keys: bool) -> tuple[TraversalGraph, ...]:

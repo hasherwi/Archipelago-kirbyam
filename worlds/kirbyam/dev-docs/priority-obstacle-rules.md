@@ -96,8 +96,10 @@ in the shared traversal profile catalog: Cabbage n528 Rocky (three carries to
 the chest), Peppermint n210 Bonkers (two carries to the peg, three to the Happy
 Notes chest), and Radish n592 Stone statue (three carries to the peg, followed
 by Normal to the room and Vitality chest). Longer existing alternatives are
-not yet globally excluded by generation. The separate Radish Bonkers route
-remains a test lead, not a substitute for the statue proof.
+not yet globally excluded by generation. The independent Radish Bonkers route is
+also proven and admitted: wheel open in n604 without a room carry, defeat
+Bonkers as Normal, carry Hammer two rooms and strike the same peg. It does
+not make Hammer alone sufficient and does not gate the Stone route.
 
 The remaining lead batches, not yet accepted for Standard, are:
 - Rainbow Music Sheet #1: original n543 Flamer `0x088B62EC` at (568,40),

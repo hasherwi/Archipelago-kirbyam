@@ -454,6 +454,152 @@
         }
       },
       "peg_605_12_24": {
+        "alternatives": [
+          {
+            "verified_checks": [
+              3961206,
+              3960302
+            ],
+            "controller_trace_sha256": "98806987b7d5d79a5ff6e27b2aa893218251e9f4d1674032bc6da987af8389be",
+            "witness": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RADISH_RUINS/ROOM_8_09__LOGIC__ENTRY_FROM_8_08"
+              },
+              "nodes": [
+                {
+                  "id": "lower_604_arrival",
+                  "native_room": 604
+                },
+                {
+                  "id": "wheelie",
+                  "native_room": 604
+                },
+                {
+                  "id": "concealed_door_open",
+                  "native_room": 604
+                },
+                {
+                  "id": "upper_623",
+                  "native_room": 623
+                },
+                {
+                  "id": "bonkers",
+                  "native_room": 623
+                },
+                {
+                  "id": "west_606",
+                  "native_room": 606
+                },
+                {
+                  "id": "west_605",
+                  "native_room": 605
+                },
+                {
+                  "id": "target",
+                  "native_room": 605
+                }
+              ],
+              "starts": [
+                "lower_604_arrival"
+              ],
+              "required_targets": [
+                "target"
+              ],
+              "sources": [
+                {
+                  "node": "wheelie",
+                  "inventory_id": "room:604/template:0x088CF704",
+                  "renewable": false,
+                  "acquisition_evidence": "Actual west Wheelie at (1168,136), swallowed from x1206. The stock eastern Wheelie remained untouched."
+                },
+                {
+                  "node": "bonkers",
+                  "inventory_id": "room:623/template:0x088D0330",
+                  "renewable": false,
+                  "acquisition_evidence": "Original Bonkers HP 40→0 via real coconut spits, then natural swallow; no helper."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "lower_604_arrival",
+                  "to": "wheelie",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "Start at the n606 (2,4) verified lower-right arrival in n604 (78,9); approach the stock lower-west Wheelie."
+                },
+                {
+                  "from": "wheelie",
+                  "to": "concealed_door_open",
+                  "required_equipment": [
+                    "Wheel"
+                  ],
+                  "evidence": "Copy the original lower-west Wheelie, ride Wheel through the F4 and concealed F1 (49,8) on the n604 approach, and reveal the real door."
+                },
+                {
+                  "from": "concealed_door_open",
+                  "to": "upper_623",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "Discard Wheel before the n604 (48,8) mirror; normal entry in n623 upper (3,3), not n623 lower.",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "Observed native room change, no artificial respawn.",
+                  "area_key_items": [
+                    "Radish Ruins - Area Key"
+                  ]
+                },
+                {
+                  "from": "upper_623",
+                  "to": "bonkers",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "Defeat original Bonkers as Normal using four native coconut spit attacks; no forced defeat or borrowed grant."
+                },
+                {
+                  "from": "bonkers",
+                  "to": "west_606",
+                  "required_equipment": [
+                    "Hammer"
+                  ],
+                  "evidence": "Acquired Hammer retained through n623 (34,7)→n606 (2,28), the proved lower-west arrival.",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "Observed native room change, no artificial respawn.",
+                  "area_key_items": [
+                    "Radish Ruins - Area Key"
+                  ]
+                },
+                {
+                  "from": "west_606",
+                  "to": "west_605",
+                  "required_equipment": [
+                    "Hammer"
+                  ],
+                  "evidence": "Retain Hammer through n606 (16,43)→n605 (7,17) into the west approach.",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "Observed native room change, no artificial respawn.",
+                  "area_key_items": [
+                    "Radish Ruins - Area Key"
+                  ]
+                },
+                {
+                  "from": "west_605",
+                  "to": "target",
+                  "required_equipment": [
+                    "Hammer"
+                  ],
+                  "evidence": "Let the floor crumble and face right at (186,393) for the grounded Hammer strike on peg 0x088CF8B8. Separate Normal suffix opens exact n610 visit and Vitality chest after discarding Hammer."
+                }
+              ]
+            }
+          }
+        ],
         "verified_checks": [
           3961206,
           3960302
