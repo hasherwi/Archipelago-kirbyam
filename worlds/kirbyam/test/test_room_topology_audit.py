@@ -57,3 +57,32 @@ def test_retail_join_counts_candidates_not_verified_paths():
     assert [door["arrival_tile"] for door in candidates[0]["retail_tile_door_candidates"]] == [[19, 8], [30, 29]]
     assert not report["nodes"][CIRCLE]["phone_return_room_flag"]
     assert report["nodes"]["REGION_RAINBOW_ROUTE/ROOM_1_08"]["phone_return_room_flag"]
+
+
+def test_reconciliation_preserves_unresolved_routes_and_exact_landing_evidence():
+    report = build_inventory()
+    assert report["retail_door_reconciliation_counts"] == {
+        "multiple_landings": 28, "no_tile_evidence": 22, "pinned_tile_door": 13,
+        "shared_landing": 13, "single_tile_candidate": 459, "source_backed_boss_return": 8,
+        "witnessed_non_tile": 18,
+    }
+    edges = {(row["from_region"].split("/")[-1], row["to_region"].split("/")[-1]): row
+             for row in report["edges"] if row["kind"] == "cross_native_room_candidate"}
+
+    def reviewed(source, target):
+        return edges[source, target]["door_reconciliation"]
+
+    assert reviewed("ROOM_2_14_UPPER", "ROOM_2_15__LOGIC__UPPER_RETURN")["door"]["arrival_tile"] == [19, 8]
+    assert reviewed("ROOM_2_14", "ROOM_2_15")["door"]["arrival_tile"] == [30, 29]
+    assert reviewed("ROOM_2_01_BOTTOM_RIGHT", "ROOM_2_11_DEAD_END")["door"]["trigger_tile"] == [28, 28]
+    assert reviewed("ROOM_3_03__LOGIC__UPPER_LEFT", "ROOM_3_04_SUB")["door"]["trigger_tile"] == [5, 2]
+    assert reviewed("ROOM_1_32", "ROOM_1_33_LEFT")["mechanism"] == "fuse_cannon"
+    assert reviewed("ROOM_1_WARP", "ROOM_2_ENTRY")["mechanism"] == "warp_star"
+    assert "arrival_tile" not in reviewed("ROOM_1_WARP", "ROOM_2_ENTRY")
+    assert reviewed("ROOM_1_GOAL_2", "ROOM_1_CENTRAL_CIRCLE")["via_native_room"] == 980
+    assert reviewed("ROOM_1_GOAL_2", "ROOM_1_CENTRAL_CIRCLE")["evidence"] == "goal-game-phone-successor.json"
+    assert reviewed("ROOM_2_BOSS", "ROOM_1_CENTRAL_CIRCLE")["status"] == "source_backed_boss_return"
+    assert reviewed("ROOM_0_02", "ROOM_0_01") == {"status": "no_tile_evidence"}
+    assert reviewed("ROOM_5_12", "ROOM_5_13__LOGIC__ENTRY_FROM_5_12") == {"status": "no_tile_evidence"}
+    assert len(edges["ROOM_5_06", "ROOM_5_05__LOGIC__CHUTE_SIDE"]["retail_tile_door_candidates"]) == 12
+    assert reviewed("ROOM_5_06", "ROOM_5_05__LOGIC__CHUTE_SIDE") == {"status": "shared_landing"}

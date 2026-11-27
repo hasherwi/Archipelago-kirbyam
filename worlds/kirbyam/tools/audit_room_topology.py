@@ -17,6 +17,97 @@ MAIN = "REGION_RAINBOW_ROUTE/MAIN"
 CIRCLE = "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
 
 
+def _read(path: Path) -> dict[str, Any]:
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def reconcile_doors(edges: list[dict[str, Any]], native: dict[str, int],
+                    encounter_slots: dict[str, list[int]]) -> dict[str, int]:
+    """Keep retail tile candidates, pinned compartments and executed returns distinct."""
+    review = _read(ROOT / "dev-docs/native-door-reconciliation.json")
+    if review["schema"] != 1:
+        raise ValueError("Unsupported native door reconciliation schema")
+    pins = {(row["from_region"], row["to_region"]): row for row in review["tile_pins"]}
+    non_tile = {(row["from_region"], row["to_region"]): row for row in review["non_tile_witnesses"]}
+    if len(pins) != len(review["tile_pins"]) or len(non_tile) != len(review["non_tile_witnesses"]):
+        raise ValueError("Duplicate native door review")
+    if pins.keys() & non_tile.keys():
+        raise ValueError("Conflicting tile and non-tile review")
+
+    main_goal_source = "goal-game-all-sources-successor.json"
+    prior_goal_source = "goal-game-phone-successor.json"
+    goal_fixtures = _read(ROOT / "dev-docs" / main_goal_source)["rows"]
+    prior_goal = _read(ROOT / "dev-docs" / prior_goal_source)
+    prior_entry = prior_goal["setup"]["physical_entrance"]
+    goal_native = {row["source_room"]: row
+                   for row in _read(ROOT / "data/goal_game_doors.json")["goals"]}
+    goal_returns = {}
+    for row in goal_fixtures:
+        source, via = row["source_room"], row["destination_room"]
+        evidence = main_goal_source
+        if row.get("return_room") != 801:
+            if not (row.get("evidence") == prior_goal_source
+                    and (source, via, row["bit"]) == (prior_entry["source_room"],
+                                                     prior_entry["destination_room"], prior_entry["goal_bit"])
+                    and prior_goal["results"]["board"]["return_to_801_frame"] > 0):
+                raise ValueError(f"No recorded Goal Game return for native {source}")
+            evidence = prior_goal_source
+        entry = goal_native[source]
+        if (entry["bit_index"] != row["bit"]
+                or {door["destination_room"] for door in entry["doors"]} != {via}
+                or source in goal_returns):
+            raise ValueError(f"Goal Game fixture/native entry mismatch for native {source}")
+        goal_returns[source] = {"mechanism": "goal_game_completion", "via_native_room": via,
+                                "evidence": evidence}
+    if goal_returns.keys() != goal_native.keys():
+        raise ValueError("Incomplete native Goal Game return evidence")
+
+    counts: Counter[str] = Counter()
+    for edge in edges:
+        if edge["kind"] != "cross_native_room_candidate":
+            continue
+        source, target = edge["from_region"], edge["to_region"]
+        pair = source, target
+        matches = edge["retail_tile_door_candidates"]
+        if pair in pins:
+            pin = pins.pop(pair)
+            candidates = [door for door in matches if door["trigger_tile"] == pin["trigger_tile"]
+                          and door["arrival_tile"] == pin["arrival_tile"]]
+            if len(candidates) != 1:
+                raise ValueError(f"Compartment pin must select exactly one tile door: {pair}")
+            result = {"status": "pinned_tile_door", "door": candidates[0],
+                      "evidence": pin["evidence"]}
+        elif pair in non_tile:
+            if matches:
+                raise ValueError(f"Non-tile witness has a tile candidate: {pair}")
+            witness = non_tile.pop(pair)
+            result = {"status": "witnessed_non_tile", "mechanism": witness["mechanism"],
+                      "evidence": witness["evidence"]}
+            if "arrival_tile" in witness:
+                result["arrival_tile"] = witness["arrival_tile"]
+        elif target == CIRCLE and not matches and native[source] in goal_returns:
+            result = {"status": "witnessed_non_tile", **goal_returns[native[source]]}
+        elif (target == CIRCLE and not matches and source.endswith("_BOSS")
+              and any(1 <= slot <= 8 for slot in encounter_slots.get(str(native[source]), []))):
+            result = {
+                "status": "source_backed_boss_return",
+                "mechanism": "native_shard_victory_sequence",
+                "evidence": "step-2-room-topology.md#completion-returns-and-the-cannon",
+            }
+        elif not matches:
+            result = {"status": "no_tile_evidence"}
+        elif len(matches) == 1:
+            result = {"status": "single_tile_candidate"}
+        else:
+            arrivals = {(tuple(door["arrival_tile"]), door["transition_flags"]) for door in matches}
+            result = {"status": "shared_landing" if len(arrivals) == 1 else "multiple_landings"}
+        edge["door_reconciliation"] = result
+        counts[result["status"]] += 1
+    if pins or non_tile:
+        raise ValueError("Native door review references missing AP edges")
+    return dict(sorted(counts.items()))
+
+
 def build_inventory() -> dict[str, Any]:
     catalog = json.loads((ROOT / "dev-docs/native-room-wikirby-map.json").read_text(encoding="utf-8"))
     native: dict[str, int] = {}
@@ -99,6 +190,8 @@ def build_inventory() -> dict[str, Any]:
         pair_counts["no_tile_match" if not matches else "matching_room_pair" if len(matches) == 1
                     else "multiple_tile_doors"] += 1
 
+    reconciliation = reconcile_doors(edges, native, phone_data["encounter_session_slots_by_native_room"])
+
     witnesses = []
     for row in _room_catalog()[0]:
         for name in sorted(row["graphs"]):
@@ -126,6 +219,7 @@ def build_inventory() -> dict[str, Any]:
             if edge["to_region"] == MAIN and nodes[edge["from_region"]]["kind"] == "native_compartment"),
         "rainbow_summary_has_central_bridge": (MAIN, CIRCLE) in authored,
         "retail_cross_room_pair_counts": dict(sorted(pair_counts.items())),
+        "retail_door_reconciliation_counts": reconciliation,
         "nodes": nodes,
         "edges": edges,
         "reviewed_witnesses": witnesses,

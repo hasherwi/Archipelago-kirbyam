@@ -1,0 +1,193 @@
+{
+  "schema": 1,
+  "note": "Audit evidence only; no access rules. Tile pins select recorded trigger and landing for named compartments. Non-tile witnesses certify a specific mechanism, not unconditional passage.",
+  "tile_pins": [
+    {
+      "from_region": "REGION_CABBAGE_CAVERN/ROOM_3_03",
+      "to_region": "REGION_CABBAGE_CAVERN/ROOM_3_04",
+      "trigger_tile": [
+        24,
+        2
+      ],
+      "arrival_tile": [
+        23,
+        19
+      ],
+      "evidence": "ordinary-529-directional-topology.md"
+    },
+    {
+      "from_region": "REGION_CABBAGE_CAVERN/ROOM_3_03__LOGIC__UPPER_LEFT",
+      "to_region": "REGION_CABBAGE_CAVERN/ROOM_3_04_SUB",
+      "trigger_tile": [
+        5,
+        2
+      ],
+      "arrival_tile": [
+        10,
+        19
+      ],
+      "evidence": "ordinary-529-directional-topology.md"
+    },
+    {
+      "from_region": "REGION_CABBAGE_CAVERN/ROOM_3_04",
+      "to_region": "REGION_CABBAGE_CAVERN/ROOM_3_03",
+      "trigger_tile": [
+        23,
+        18
+      ],
+      "arrival_tile": [
+        24,
+        3
+      ],
+      "evidence": "ordinary-529-directional-topology.md"
+    },
+    {
+      "from_region": "REGION_CABBAGE_CAVERN/ROOM_3_04_SUB",
+      "to_region": "REGION_CABBAGE_CAVERN/ROOM_3_03__LOGIC__UPPER_LEFT",
+      "trigger_tile": [
+        10,
+        18
+      ],
+      "arrival_tile": [
+        7,
+        3
+      ],
+      "evidence": "ordinary-529-directional-topology.md"
+    },
+    {
+      "from_region": "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_LEFT",
+      "to_region": "REGION_MOONLIGHT_MANSION/ROOM_2_11",
+      "trigger_tile": [
+        22,
+        28
+      ],
+      "arrival_tile": [
+        6,
+        3
+      ],
+      "evidence": "bomb-chain-route-audit.md"
+    },
+    {
+      "from_region": "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_RIGHT",
+      "to_region": "REGION_MOONLIGHT_MANSION/ROOM_2_11_DEAD_END",
+      "trigger_tile": [
+        28,
+        28
+      ],
+      "arrival_tile": [
+        12,
+        3
+      ],
+      "evidence": "bomb-chain-route-audit.md"
+    },
+    {
+      "from_region": "REGION_MOONLIGHT_MANSION/ROOM_2_11",
+      "to_region": "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_LEFT",
+      "trigger_tile": [
+        6,
+        2
+      ],
+      "arrival_tile": [
+        23,
+        29
+      ],
+      "evidence": "bomb-chain-route-audit.md"
+    },
+    {
+      "from_region": "REGION_MOONLIGHT_MANSION/ROOM_2_11_DEAD_END",
+      "to_region": "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_RIGHT",
+      "trigger_tile": [
+        10,
+        2
+      ],
+      "arrival_tile": [
+        30,
+        29
+      ],
+      "evidence": "bomb-chain-route-audit.md"
+    },
+    {
+      "from_region": "REGION_MOONLIGHT_MANSION/ROOM_2_14",
+      "to_region": "REGION_MOONLIGHT_MANSION/ROOM_2_15",
+      "trigger_tile": [
+        1,
+        17
+      ],
+      "arrival_tile": [
+        30,
+        29
+      ],
+      "evidence": "ordinary-742-door-topology.json"
+    },
+    {
+      "from_region": "REGION_MOONLIGHT_MANSION/ROOM_2_14_UPPER",
+      "to_region": "REGION_MOONLIGHT_MANSION/ROOM_2_15__LOGIC__UPPER_RETURN",
+      "trigger_tile": [
+        3,
+        2
+      ],
+      "arrival_tile": [
+        19,
+        8
+      ],
+      "evidence": "ordinary-742-door-topology.json"
+    },
+    {
+      "from_region": "REGION_PEPPERMINT_PALACE/ROOM_7_05",
+      "to_region": "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST__LOGIC__UPPER_ENTRY",
+      "trigger_tile": [
+        29,
+        14
+      ],
+      "arrival_tile": [
+        2,
+        9
+      ],
+      "evidence": "ordinary-205-209-directed-checks.md"
+    },
+    {
+      "from_region": "REGION_PEPPERMINT_PALACE/ROOM_7_05__LOGIC__SNOW_HALL",
+      "to_region": "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST__LOGIC__LOWER_MAP",
+      "trigger_tile": [
+        29,
+        28
+      ],
+      "arrival_tile": [
+        2,
+        20
+      ],
+      "evidence": "ordinary-205-209-directed-checks.md"
+    },
+    {
+      "from_region": "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST__LOGIC__UPPER_ENTRY",
+      "to_region": "REGION_PEPPERMINT_PALACE/ROOM_7_05__LOGIC__SNOW_HALL",
+      "trigger_tile": [
+        1,
+        13
+      ],
+      "arrival_tile": [
+        30,
+        24
+      ],
+      "evidence": "ordinary-205-209-directed-checks.md"
+    }
+  ],
+  "non_tile_witnesses": [
+    {
+      "from_region": "REGION_RAINBOW_ROUTE/ROOM_1_32",
+      "to_region": "REGION_RAINBOW_ROUTE/ROOM_1_33_LEFT",
+      "mechanism": "fuse_cannon",
+      "arrival_tile": [
+        6,
+        1
+      ],
+      "evidence": "rainbow-room32-crash-source-witness.md"
+    },
+    {
+      "from_region": "REGION_RAINBOW_ROUTE/ROOM_1_WARP",
+      "to_region": "REGION_MOONLIGHT_MANSION/ROOM_2_ENTRY",
+      "mechanism": "warp_star",
+      "evidence": "area-key-native-evidence.json"
+    }
+  ]
+}

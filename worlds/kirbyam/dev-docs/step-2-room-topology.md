@@ -53,3 +53,57 @@ Reproduce the full JSON inventory from the repository root:
 ```sh
 python -m worlds.kirbyam.tools.audit_room_topology --output /tmp/kirby-room-topology.json
 ```
+
+## Reconciling the tile-door exceptions
+
+The audit preserves the raw candidates and adds a separate evidence status per
+directed edge. A tile pin identifies the correct trigger and landing for the
+named compartments; it does not install a new requirement or prove that Kirby
+can reach the trigger under every setting.
+
+| Raw exception | Evidence status | AP edges |
+| --- | --- | ---: |
+| Multiple door records | Exact trigger and landing pinned to the named compartments | 13 |
+| Multiple door records | All candidates land on the same tile with the same flags; keep all triggers | 13 |
+| Multiple door records | Distinct landings or flags still need AP compartment review | 28 |
+| No matching tile record | Native controller witness, via a completion sequence, cannon or Warp Star | 18 |
+| No matching tile record | Native code supports a boss-shard return sequence, not a free exit | 8 |
+| No matching tile record | Mechanism or compartment remains unresolved | 22 |
+
+The [explicit pins](native-door-reconciliation.json) include Moonlight's
+2-01/2-11 and 2-14/2-15 splits, Cabbage's 3-03/3-04 split, and the
+Bonkers-side and Snow Hall connections between Peppermint 7-05 and its Chest Room.
+A shared landing only settles arrival tile and flags, not whether separate trigger
+cells are reachable from the same source compartment.
+
+### Completion returns and the cannon
+
+- All 16 Goal Game sources have a recorded Central Circle return. These are
+  **source room → native Goal Game 980/981/982 → native 801**, not direct tile
+  doors or charge-free Phone returns. The audit joins source ID, Goal bit and
+  minigame destination against the actual [entry table](../data/goal_game_doors.json).
+  Fifteen fixtures record the return in the [rollup](goal-game-all-sources-successor.json);
+  Rainbow Goal 2 links to its [original fixture](goal-game-phone-successor.json).
+  This does not prove that the source-room entrance is reachable or that an
+  equipped ability survives the full sequence.
+- The eight area-boss rooms map to native encounter slots 1–8. The native
+  [shard sequence](https://github.com/jiangzhengwenjz/katam/blob/89a012c0d2e46a0ae87d9133c7a0435d95e348e8/src/shard.c#L231-L255)
+  starts the victory handler, which [loads Central Circle after the sequence](https://github.com/jiangzhengwenjz/katam/blob/89a012c0d2e46a0ae87d9133c7a0435d95e348e8/src/kirby.c#L9464-L9479).
+  This supports the mechanism; it does not verify every fresh/revisited boss
+  room, early exit, or post-defeat ability state. The audit does not promote
+  these edges to unconditional physical exits.
+- Rainbow 1-32 → 1-33 Left is a [witnessed fuse-cannon launch](rainbow-room32-crash-source-witness.md),
+  from native 126 to native 570 at (6,1). The cited run entered the cannon as
+  Normal after consuming Crash. Do not count it as proof of carrying Crash.
+
+- Rainbow Warp → Moonlight entry (142 → 195) is a
+  [witnessed Warp Star flight](area-key-native-evidence.json). The fixture
+  verifies the room change with the destination key, including a branch where
+  ownership is rolled back **after** boarding. It does not prove unauthorized
+  boarding or certify an exact arrival tile.
+
+The 22 unresolved edges include the legacy Carrot 5-13 and Olive 6-05 object-door
+candidates, warp exits and a tutorial reverse candidate. Missing tile evidence
+does not prove that these edges are invalid, and no reverse edges are inferred
+from a matching forward pair. Resolve source objects and live arrival states
+before changing reachability.
