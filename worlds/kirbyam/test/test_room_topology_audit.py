@@ -21,7 +21,7 @@ def test_summary_and_check_sinks_do_not_count_as_native_crossings():
     native = report["nodes"]
     assert native["REGION_COPY_ABILITY_ROOM/MAIN"]["native_room"] == 970
     assert native[CIRCLE]["native_room"] == 801
-    assert report["rainbow_summary_has_central_bridge"]
+    assert not report["rainbow_summary_has_central_bridge"]
     assert report["rainbow_summary_incoming_physical_compartments"]
     for row in report["edges"]:
         source, target = row["from_region"], row["to_region"]
@@ -30,8 +30,7 @@ def test_summary_and_check_sinks_do_not_count_as_native_crossings():
             assert a is not None and b is not None and a != b
         elif row["kind"] == "same_native_room_candidate":
             assert a is not None and a == b
-        if source == MAIN and target == CIRCLE:
-            assert row["kind"] == "area_summary_bridge"
+        assert source != MAIN, f"Rainbow area summary must be a sink, not a route to {target}"
         assert native[source]["kind"] != "room_check_sink"
 
 

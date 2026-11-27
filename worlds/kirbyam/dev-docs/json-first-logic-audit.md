@@ -61,11 +61,11 @@ The five declared Normal entrance alternatives are Boolean facts, not new physic
 
 - Prefer a named game concept to a numeric ID or generic flag. For example, `goal_location` references a named location key; `all_of` makes it clear every listed condition is required. Keep identifiers stable and resolve their player-facing labels from the canonical catalogs.
 - Keep a route's facts together: `allowed_abilities`, `native_room`, `attack_medium`, and `consumed_abilities` live in the same capability row, rather than in parallel dictionaries. Leave room and water off a genuinely reusable capability. Use a short `note` to explain a non-obvious limit, not to encode a second rule.
-- Use explicit alternatives and units. A Phone check names its directed entrance with `from_region` and `to_region`; it identifies the repeatable refill source separately from the reward classification of a battery item. Unknown or misspelled keys that affect logic should fail validation rather than silently falling back to open access.
+- Use explicit alternatives and units. A Phone check names its directed entrance with `from_region` and `to_region`, and follows `check_route` to the check’s declared owner. It identifies the repeatable refill source independently of the item catalog. Unknown or misspelled keys that affect logic should fail validation rather than silently falling back to open access.
 
 ## 2. Room, subroom and region data
 
-The [compiled topology census](step-2-room-topology.md) now distinguishes physical candidates, same-room compartments, summary/sink links, and native Phone return evidence. It removes redundant Room Sanity sink fan-in; no new movement or Phone return rules are installed.
+The [compiled topology census](step-2-room-topology.md) now distinguishes physical candidates, same-room compartments, summary/sink links, and native Phone return evidence. It removes redundant exits from Room Sanity sinks and keeps area summaries terminal. Initial access and the shard gate are anchored to Central Circle without installing a Phone return route.
 
 Audit native room identity versus AP region and logical subroom, entrance/exit ports and direction, one-way mirrors, and automatic area-summary connections. Same-native-room subroom edges are not room transitions. Retain real one-way traversal; do not create reverse routes based on naming.
 
@@ -87,7 +87,7 @@ Verify one canonical owner and exact physical action/side of each obstacle for e
 
 **Phone:** model ownership separately from charges. For summoning helpers, the generator requires access to one repeatable Goal Game before a Phone-dependent check; it does not have to be available at spawn. A Goal Game behind the same Phone gate cannot supply the prerequisite. The separate Phone return to Central Circle requires no charge; verify its room/state restrictions and one-way arrival during the traversal review before installing any such edges. The [Phone JSON declaration](../data/phone_logic.json) currently binds the Chalk Spray route. Existing witness restrictions remain in place. Starting mirrors and their options are unchanged.
 
-The [native Goal Game battery-pickup hook](../kirby_ap_payload/battery_hook.s) calls the same pickup operation as field batteries. The [Goal Game acceptance record](goal-game-current-acceptance.md) also covers completion with no prizes; the placement rule relies on repeatability, not a guaranteed battery on every run. Individual batteries are Useful, not progression. They use their existing weighted slots during fill, then receive the Useful reward classification without reshuffling placements.
+The [native Goal Game battery-pickup hook](../kirby_ap_payload/battery_hook.s) calls the same pickup operation as field batteries. The [Goal Game acceptance record](goal-game-current-acceptance.md) also covers completion with no prizes; the placement rule relies on repeatability, not a guaranteed battery on every run. Individual batteries are Useful, not progression. They still draw from the existing weighted consumable slots, but are Useful at creation, including in starting inventory. Excluded checks cannot receive them.
 
 ## Verification boundary
 

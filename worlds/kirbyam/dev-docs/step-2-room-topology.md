@@ -10,14 +10,20 @@ Join the production-normalized AP graph to the pinned [native room inventory](na
 | Same native room ID | 82 | Compartments of one room; don't assume either direction is open or count an ordinary boundary as a crossing |
 | Area summary fan-in | 350 | Bookkeeping, never a physical crossing or shortcut |
 | Room Sanity sink links | 61 | Check ownership, never travel |
-| Area-summary bridges | 3 | Aggregate topology; no physical carry credit |
+| Area-summary bridges | 1 | Shard-gated final-goal entry from Central Circle; no physical carry credit |
 | Menu/start/tutorial bookkeeping bridges | 3 | Initial/spawn or tutorial state; not automatic physical return routes |
 
 Of the 548 directed cross-room candidates, 242 have no exact reverse AP edge. An existing reverse edge is also not native evidence; two mirrors between the same IDs may use different compartments or spawn points. Preserve doors that are truly one-way. The 134 unpaired generic-block entries from Step 1 are a separate audit queue, not a count of confirmed missing doors.
 
-### Existing synthetic route to watch
+### Area summaries are not travel
 
-71 physical Rainbow compartments feed the Rainbow area summary. The area summary points to Central Circle and to the shard-gated aggregate Dimension Mirror. These are AP reachability edges, not player movement. In particular, do not count `Rainbow room → Rainbow MAIN → Central Circle` as a physical return, a portable ability source, or proof that a locked mirror can be exited. The start currently reaches Central Circle via the same summary, so removing the bridge without moving start setup would change generation. This pass leaves the start and the three area-summary bridges unchanged.
+Physical Rainbow compartments feed the terminal Rainbow area summary for area
+checks and goals. The start enters Central Circle directly, preserving the
+existing initial reachability; Circle still feeds the area summary. The
+shard-gated Dimension Mirror entry is on Central Circle itself, not on the
+Rainbow summary. No synthetic return from the Dimension Mirror summary or
+any Rainbow compartment is inferred. Charge-free Phone returns remain a
+separate state-specific review.
 
 The split-room check sink can be reached from multiple compartments to award a shared Room Sanity check. The area-summary builder used to give all 21 sinks a redundant outgoing summary link because their names contain `/ROOM_`. This pass removes those links. Each real feeder compartment already connects to the same area summary, so area visits still work; a sink no longer has an outgoing travel edge. Do not connect a sink back to the canonical room, which could leak other doors from the wrong compartment.
 

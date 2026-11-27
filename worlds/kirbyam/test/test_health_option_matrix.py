@@ -57,7 +57,7 @@ def test_health_pool_all_percentages_and_modifiers(minimum, maximum, shards, no_
         assert Counter(item.code for item in pool if item.code in vitality) == Counter(
             sorted(vitality)[:maximum - minimum]
         ), context
-        filler = [item for item in pool if item.classification == ItemClassification.filler]
+        filler = [item for item in pool if "Filler" in item.tags]
         trap_items = [item for item in pool if item.classification == ItemClassification.trap]
         disposable_count = len(filler) + len(trap_items)
         assert len(trap_items) == (disposable_count * percentage // 100 if traps else 0), context

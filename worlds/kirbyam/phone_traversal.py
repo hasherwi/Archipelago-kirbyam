@@ -24,7 +24,7 @@ SOURCE_REGION = "REGION_RAINBOW_ROUTE/ROOM_1_42"
 
 
 @cache
-def _charge_data() -> tuple[str, LocationCategory, str, str, str, ItemClassification]:
+def _charge_data() -> tuple[str, LocationCategory, str, str, str]:
     raw = load_json_data("phone_logic.json")
     if not isinstance(raw, dict) or type(raw.get("schema")) is not int or raw["schema"] != 1:
         raise ValueError("Unsupported Phone charge logic data")
@@ -33,23 +33,36 @@ def _charge_data() -> tuple[str, LocationCategory, str, str, str, ItemClassifica
     if not isinstance(rows, list) or len(rows) != 1:
         raise ValueError("Phone charge schema 1 requires exactly one check")
     row = rows[0]
-    if not isinstance(row, dict) or row.keys() != {"from_region", "to_region", "check"}:
+    if not isinstance(row, dict) or row.keys() != {"from_region", "to_region", "check", "check_route"}:
         raise ValueError("Invalid Phone check and entrance declaration")
     battery = raw["battery_item"]
-    if battery not in {item.label for item in data.items.values() if "Battery" in item.tags}:
-        raise ValueError("Phone charge item must be a declared battery")
+    if battery not in {item.label for item in data.items.values()
+                       if "Battery" in item.tags and item.classification == ItemClassification.useful}:
+        raise ValueError("Phone charge item must be a Useful battery in the item catalog")
     if raw.get("repeatable_refill_category") != "GOAL_GAME":
         raise ValueError("Phone refill category must be GOAL_GAME")
     main, pocket, check = row["from_region"], row["to_region"], row["check"]
-    if (main not in data.regions or pocket not in data.regions[main].exits
-            or check not in data.locations):
-        raise ValueError("Phone charge data refers to an unknown entrance or check")
-    if raw.get("battery_reward_classification") != "USEFUL":
-        raise ValueError("Phone batteries must be Useful, not progression")
-    return battery, LocationCategory.GOAL_GAME, main, pocket, check, ItemClassification.useful
+    if main not in data.regions or pocket not in data.regions[main].exits:
+        raise ValueError("Phone charge data refers to an unknown entrance")
+    route = row["check_route"]
+    if not isinstance(route, list) or any(not isinstance(region, str) for region in route):
+        raise ValueError("Phone-required check route must list region keys")
+    # The Phone is needed at the gate, not when opening the downstream chest.
+    # Verify its directed exit sequence without moving the gate onto the award.
+    owner = pocket
+    visited = {main, pocket}
+    for region in route:
+        if region in visited or region not in data.regions[owner].exits:
+            raise ValueError("Phone-required check route must follow directed exits from the gate")
+        visited.add(region)
+        owner = region
+    location = data.locations.get(check)
+    if location is None or location.parent_region != owner or check not in data.regions[owner].locations:
+        raise ValueError("Phone-required check must belong to the end of its declared route")
+    return battery, LocationCategory.GOAL_GAME, main, pocket, check
 
 
-BATTERY, _REFILL_CATEGORY, MAIN, POCKET, PHONE_CHECK, BATTERY_REWARD_CLASSIFICATION = _charge_data()
+BATTERY, _REFILL_CATEGORY, MAIN, POCKET, PHONE_CHECK = _charge_data()
 ENTRANCE = f"{MAIN} -> {POCKET}"
 
 

@@ -265,17 +265,6 @@ class KirbyAmWorld(World):
             early[stone] = 1
 
     @classmethod
-    def stage_post_fill(cls, multiworld: MultiWorld) -> None:
-        from .phone_traversal import BATTERY, BATTERY_REWARD_CLASSIFICATION
-
-        # Batteries occupy the existing weighted filler slots during fill.
-        # The emitted item is Useful, never progression or a Phone prerequisite.
-        for location in multiworld.get_filled_locations():
-            item = location.item
-            if item is not None and item.game == cls.game and item.name == BATTERY:
-                item.classification = BATTERY_REWARD_CLASSIFICATION
-
-    @classmethod
     def stage_pre_output(cls, multiworld: MultiWorld) -> None:
         # Main calls this after all worlds finalize placements and after
         # progression balancing, including skip-output generation.
@@ -999,10 +988,13 @@ class KirbyAmWorld(World):
                     kirby_data.locations[loc.key].default_item
                     for loc in minor_chest_locations if loc.key is not None
                 }
+                # Weighted-slot eligibility is independent of AP classification.
+                weighted_item_codes = {item.item_id for item in kirby_data.items.values()
+                                       if "Filler" in item.tags or item.classification == ItemClassification.trap}
                 non_filler_item_codes = [
                     item.item_id
                     for item in kirby_data.items.values()
-                    if item.classification not in (ItemClassification.filler, ItemClassification.trap)
+                    if item.item_id not in weighted_item_codes
                     and (
                         not item.tags.intersection({"SprayPaint", "MusicSheet"})
                         or item.item_id in active_collection_item_codes
@@ -1123,7 +1115,7 @@ class KirbyAmWorld(World):
                 non_filler_pool_codes = [
                     code
                     for code in randomized_item_codes
-                    if get_item_classification(code) not in (ItemClassification.filler, ItemClassification.trap)
+                    if code not in weighted_item_codes
                 ]
                 if sorted(non_filler_pool_codes) != sorted(non_filler_item_codes):
                     raise ValueError(

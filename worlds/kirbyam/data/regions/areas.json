@@ -3,7 +3,7 @@
     "locations": [],
     "events": [],
     "exits": [
-      "REGION_RAINBOW_ROUTE/MAIN"
+      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
     ]
   },
   "REGION_MUSTARD_MOUNTAIN/MAIN": {
@@ -95,10 +95,7 @@
       "Activate Big Switch - Rainbow Route South",
       "Activate Big Switch - Rainbow Route West"
     ],
-    "exits": [
-      "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-      "REGION_DIMENSION_MIRROR/MAIN"
-    ]
+    "exits": []
   },
   "REGION_DIMENSION_MIRROR/MAIN": {
     "locations": [
@@ -107,8 +104,6 @@
     "events": [
       "Defeat Dark Meta Knight (Dimension Mirror)"
     ],
-    "exits": [
-      "REGION_RAINBOW_ROUTE/MAIN"
-    ]
+    "exits": []
   }
 }

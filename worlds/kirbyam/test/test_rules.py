@@ -252,7 +252,7 @@ def test_set_rules_applies_shard_gate_to_dimension_mirror_and_goal_events() -> N
         set_rules(world)
 
     applied_names = [call.args[0].name for call in mock_add_rule.call_args_list]
-    assert "REGION_RAINBOW_ROUTE/MAIN -> REGION_DIMENSION_MIRROR/MAIN" in applied_names
+    assert "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE -> REGION_DIMENSION_MIRROR/MAIN" in applied_names
     assert "Defeat Dark Mind" in [call.args[0].name for call in mock_set_rule.call_args_list]
 
 
@@ -341,30 +341,24 @@ def test_every_dimension_mirror_ingress_preserves_the_all_shards_gate() -> None:
     set_rules(world)
 
     entrance_names = dimension_mirror_entrance_names()
-    assert "REGION_RAINBOW_ROUTE/MAIN -> REGION_DIMENSION_MIRROR/MAIN" in entrance_names
-    assert entrance_names == ("REGION_RAINBOW_ROUTE/MAIN -> REGION_DIMENSION_MIRROR/MAIN",)
+    assert "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE -> REGION_DIMENSION_MIRROR/MAIN" in entrance_names
+    assert entrance_names == ("REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE -> REGION_DIMENSION_MIRROR/MAIN",)
     for entrance_name in entrance_names:
         entrance = world.multiworld.get_entrance(entrance_name, world.player)
         assert not entrance.access_rule(_FakeState()), entrance_name
         assert entrance.access_rule(_FakeState(ALL_SHARDS)), entrance_name
 
 
-def test_area_topology_routes_start_through_rainbow_route_anchor() -> None:
-    from ..data import load_json_data
+def test_area_summaries_cannot_provide_travel() -> None:
+    from ..data import data, load_json_data
 
-    regions = load_json_data("regions/areas.json")
-
-    assert regions["REGION_GAME_START"]["exits"] == ["REGION_RAINBOW_ROUTE/MAIN"]
-
-    # Summary regions cannot fabricate traversal between physical areas.
-    assert set(regions["REGION_RAINBOW_ROUTE/MAIN"]["exits"]) == {
-        "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-        "REGION_DIMENSION_MIRROR/MAIN",
-    }
-    for name, region in regions.items():
-        if name not in {"REGION_GAME_START", "REGION_RAINBOW_ROUTE/MAIN",
-                        "REGION_DIMENSION_MIRROR/MAIN"}:
-            assert region["exits"] == []
+    areas = load_json_data("regions/areas.json")
+    circle = "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+    assert areas["REGION_GAME_START"]["exits"] == [circle]
+    assert "REGION_DIMENSION_MIRROR/MAIN" in data.regions[circle].exits
+    for name, region in areas.items():
+        if name != "REGION_GAME_START":
+            assert region["exits"] == [], name
 
 
 def test_room_subareas_pure_topology_with_all_rooms() -> None:
@@ -512,7 +506,8 @@ def test_room_reachability_from_start() -> None:
     assert "REGION_RADISH_RUINS/ROOM_8_12__ROOM_CHECK" in reachable
     assert "REGION_CARROT_CASTLE/ROOM_5_05__LOGIC__CHUTE_SIDE" in reachable
     assert "REGION_CARROT_CASTLE/ROOM_5_05__ROOM_CHECK" in reachable
-    assert len(reachable) == 366  # Two Peppermint channels and their shared visit sink.
+    assert "REGION_DIMENSION_MIRROR/MAIN" in reachable  # Structural only; still shard-gated.
+    assert len(reachable) == 367
     assert "REGION_MOONLIGHT_MANSION/ROOM_2_15__LOGIC__UPPER_RETURN" in reachable
     assert "REGION_MOONLIGHT_MANSION/ROOM_2_15__ROOM_CHECK" in reachable
     assert "REGION_COPY_ABILITY_ROOM/MAIN" in reachable

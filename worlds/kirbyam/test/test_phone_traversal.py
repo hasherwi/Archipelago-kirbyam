@@ -206,7 +206,6 @@ def test_actual_graph_does_not_credit_battery_or_goal_game_behind_the_phone_gate
     chalk = next(loc for loc in mw.get_locations(1) if loc.key == p.PHONE_CHECK)
     battery = w.create_item(p.BATTERY)
     chalk.place_locked_item(battery)
-    KirbyAmWorld.stage_post_fill(mw)
     assert battery.useful and not battery.advancement
 
     def fresh():
@@ -230,17 +229,64 @@ def test_actual_graph_does_not_credit_battery_or_goal_game_behind_the_phone_gate
 
 
 def test_battery_rewards_are_useful_without_becoming_fill_progression():
+    from BaseClasses import CollectionState, LocationProgressType
     from test.general import setup_multiworld
     from .. import KirbyAmWorld
     mw = setup_multiworld(KirbyAmWorld, seed=1086, options={"ability_randomization_mode": 0})
-    battery = mw.worlds[1].create_item(p.BATTERY)
-    assert battery.filler and not battery.advancement
-    mw.get_unfilled_locations(1)[0].place_locked_item(battery)
-    KirbyAmWorld.stage_post_fill(mw)
+    world = mw.worlds[1]
+    battery = world.create_item(p.BATTERY)
+    mw.push_precollected(battery)
     assert battery.useful and not battery.advancement
+    batteries = [item for item in mw.itempool if item.name == p.BATTERY]
+    assert batteries and all(item.useful and not item.advancement for item in batteries)
+    excluded = mw.get_unfilled_locations(1)[0]
+    excluded.progress_type = LocationProgressType.EXCLUDED
+    assert not excluded.can_fill(CollectionState(mw), battery, check_access=False)
 
     trapped = setup_multiworld(KirbyAmWorld, seed=1086, options={
         "ability_randomization_mode": 0, "enable_traps": 1, "trap_fill_percentage": 100,
     })
     assert any(item.trap for item in trapped.itempool)
     assert not any(item.name == p.BATTERY for item in trapped.itempool)
+
+
+def test_phone_data_rejects_a_check_in_another_compartment(monkeypatch):
+    source = p.load_json_data("phone_logic.json")
+    bad = {**source, "phone_required_checks": [
+        {**source["phone_required_checks"][0], "check": "SOUND_PLAYER_CHEST"}
+    ]}
+    p._charge_data.cache_clear()
+    with monkeypatch.context() as scope:
+        scope.setattr(p, "load_json_data", lambda _: bad)
+        with pytest.raises(ValueError, match="must belong"):
+            p._charge_data()
+    assert p._charge_data()[-1] == "MINOR_CHEST_SPRAY_PAINT_14"
+
+
+def test_phone_data_rejects_a_route_hop_without_a_door(monkeypatch):
+    source = p.load_json_data("phone_logic.json")
+    bad = {**source, "phone_required_checks": [
+        {**source["phone_required_checks"][0],
+         "check_route": ["REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_1"]}
+    ]}
+    p._charge_data.cache_clear()
+    with monkeypatch.context() as scope:
+        scope.setattr(p, "load_json_data", lambda _: bad)
+        with pytest.raises(ValueError, match="directed exits"):
+            p._charge_data()
+    assert p._charge_data()[-1] == p.PHONE_CHECK
+
+
+def test_seed_respects_excluded_locations_with_useful_batteries():
+    from Fill import distribute_items_restrictive
+    from test.general import setup_multiworld
+    from worlds.generic.Rules import exclusion_rules
+    from .. import KirbyAmWorld
+
+    mw = setup_multiworld(KirbyAmWorld, seed=1000, options={"ability_randomization_mode": 0})
+    excluded = [loc for loc in mw.get_unfilled_locations(1) if loc.address is not None][:12]
+    assert len(excluded) == 12
+    exclusion_rules(mw, 1, {loc.name for loc in excluded})
+    distribute_items_restrictive(mw)
+    assert all(loc.item is not None and not (loc.item.useful or loc.item.advancement) for loc in excluded)
+    assert any(loc.item.name == p.BATTERY and loc.item.useful for loc in mw.get_filled_locations(1))

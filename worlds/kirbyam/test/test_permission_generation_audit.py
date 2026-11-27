@@ -191,7 +191,7 @@ def test_seed105101_is_now_safe_after_source_backed_goal_reconstruction(
     monkeypatch: pytest.MonkeyPatch, tmp_path: Path,
 ) -> None:
     # Retain this exact old refusal as an accepted-output regression. The Goal
-    # Game slots change the old hub-item placement here into ordinary filler.
+    # Game slots change the old hub-item placement here into a consumable with no progression effect.
     options = {
         "random_starting_mirror": 0,
         "ability_randomization_mode": 1, "ability_gating": 0, "accessibility": "minimal",
@@ -201,7 +201,7 @@ def test_seed105101_is_now_safe_after_source_backed_goal_reconstruction(
     }
     multiworld, decoded, archive = _generate(monkeypatch, tmp_path, 105101, [options])
     location = multiworld.get_location("Room 2-05", 1)
-    assert location.item and location.item.name == "Max Tomato"
+    assert location.item and "Consumable" in location.item.tags and not location.item.advancement
     audit, _ = assert_generation_contract(multiworld, decoded, archive, 1)
     assert audit.inventory_unreachable == audit.progression_unreachable == ()
 
@@ -237,7 +237,7 @@ def test_seed105100_refuses_original_and_controlled_smash_lock(
 
     def inspect_dependency(multiworld: MultiWorld, players: Iterable[int]) -> None:
         location = multiworld.get_location("Moonlight Mansion 2-20 - Small Chest", 1)
-        assert location.item and location.item.name == "Spray Paint #8"
+        assert location.item and not location.item.advancement
         if not controlled_smash_lock:
             # Chocolate statue progression changes fill; pin the four remaining strands.
             actual = audit_local_checks(multiworld, 1)

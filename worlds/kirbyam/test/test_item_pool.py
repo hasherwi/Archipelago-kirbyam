@@ -127,7 +127,7 @@ def test_sound_player_chest_default_item_is_useful_sound_player() -> None:
 
 
 def test_filler_catalog_includes_current_filler_set() -> None:
-    filler_items = [item for item in data.items.values() if item.classification == ItemClassification.filler]
+    filler_items = [item for item in data.items.values() if "Filler" in item.tags]
     filler_by_label = {item.label: item for item in filler_items}
     filler_labels = set(filler_by_label)
 
@@ -147,6 +147,7 @@ def test_filler_catalog_includes_current_filler_set() -> None:
     assert "Health" in filler_by_label["Energy Drink"].tags
     assert "Health" in filler_by_label["Hunk of Meat"].tags
     assert "Battery" in filler_by_label["Cell Phone Battery"].tags
+    assert filler_by_label["Cell Phone Battery"].classification == ItemClassification.useful
     assert "Health" in filler_by_label["Max Tomato"].tags
     assert "Invincibility" in filler_by_label["Invincibility Candy"].tags
 
@@ -720,7 +721,7 @@ def test_completely_random_pool_contains_each_non_filler_item_exactly_once() -> 
     expected_non_filler_codes = {
         item.item_id
         for item in data.items.values()
-        if item.classification not in (ItemClassification.filler, ItemClassification.trap)
+        if "Filler" not in item.tags and item.classification != ItemClassification.trap
     }
     expected_non_filler_codes -= {world.item_name_to_id[f"{name} Ability"] for name in starting_copy_abilities(0)}
     expected_non_filler_codes.discard(STARTING_MIRROR_ITEM_ID)  # Fixture has Random Starting Mirror off.
@@ -728,7 +729,9 @@ def test_completely_random_pool_contains_each_non_filler_item_exactly_once() -> 
     expected_non_filler_codes -= set(range(3860224, 3860229))  # Default 6..10 uses four identities.
     assert 3860501 in expected_non_filler_codes  # Phone is a standard item.
     pool_codes = [item.code for item in world.multiworld.itempool if item.code is not None]
-    pool_non_filler_codes = [code for code in pool_codes if get_item_classification(code) != ItemClassification.filler]
+    pool_non_filler_codes = [code for code in pool_codes
+                             if "Filler" not in data.items[code].tags
+                             and get_item_classification(code) != ItemClassification.trap]
 
     assert set(pool_non_filler_codes) == expected_non_filler_codes
     assert len(pool_non_filler_codes) == len(expected_non_filler_codes)
@@ -747,7 +750,7 @@ def test_vanilla_pool_contains_each_non_shard_non_filler_item_exactly_once() -> 
         item.item_id
         for item in data.items.values()
         if (
-            item.classification not in (ItemClassification.filler, ItemClassification.trap)
+            "Filler" not in item.tags and item.classification != ItemClassification.trap
             and item.item_id not in shard_codes
         )
     }
@@ -757,7 +760,9 @@ def test_vanilla_pool_contains_each_non_shard_non_filler_item_exactly_once() -> 
     expected_non_filler_codes -= set(range(3860224, 3860229))  # Default 6..10 uses four identities.
     assert 3860501 in expected_non_filler_codes  # Phone is a standard item.
     pool_codes = [item.code for item in world.multiworld.itempool if item.code is not None]
-    pool_non_filler_codes = [code for code in pool_codes if get_item_classification(code) != ItemClassification.filler]
+    pool_non_filler_codes = [code for code in pool_codes
+                             if "Filler" not in data.items[code].tags
+                             and get_item_classification(code) != ItemClassification.trap]
 
     assert set(pool_non_filler_codes) == expected_non_filler_codes
     assert len(pool_non_filler_codes) == len(expected_non_filler_codes)

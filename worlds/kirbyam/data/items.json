@@ -25,7 +25,7 @@
   },
   "BATTERY": {
     "label": "Cell Phone Battery",
-    "classification": "FILLER",
+    "classification": "USEFUL",
     "item_id": 3860027,
     "tags": ["Filler", "Consumable", "Battery"]
   },

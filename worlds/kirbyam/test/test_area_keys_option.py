@@ -83,7 +83,7 @@ def test_area_keys_off_removes_destination_gate_and_keeps_hub_and_dimension_gate
     assert not lever.access_rule(state)
     state.collect(world.create_item("Moonlight Mansion 2-11 - Lever Wall"), True)
     assert lever.access_rule(state)
-    dimension = mw.get_entrance("REGION_RAINBOW_ROUTE/MAIN -> REGION_DIMENSION_MIRROR/MAIN", 1)
+    dimension = mw.get_entrance("REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE -> REGION_DIMENSION_MIRROR/MAIN", 1)
     assert not dimension.access_rule(state)
     for item in mw.itempool:
         if "Mirror Shard" in item.name:
