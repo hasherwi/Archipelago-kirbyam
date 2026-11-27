@@ -40,7 +40,7 @@ The [local extraction tool](../tools/extract_phone_return_rooms.py) reads the ro
 
 ### Full retail tile-door inventory
 
-[The decoded door catalog](native-tile-door-inventory.json) records 724 directed tile transitions from the SHA-1-matched USA image. It records each trigger and landing separately. Object-driven doors, start/configuration bridges and Phone/Goal returns are separate and must not be backfilled from a pair of native IDs.
+[The decoded door catalog](native-tile-door-inventory.json) records 724 directed tile transitions from the SHA-1-matched USA image. It records each trigger and landing separately. Of the 561 cross-room AP edges, 459 match exactly one directed native room pair, 54 match multiple candidate doors, and 48 have no tile match. The last group includes known non-tile paths such as boss/Goal returns, portals and object-driven doors; it is not 48 confirmed errors. A one-door match still does not prove that an AP source compartment can reach the trigger or that the landing is assigned to the right compartment. The audit command reports all candidates per edge without installing new logic.
 
 ## Next audit batch
 

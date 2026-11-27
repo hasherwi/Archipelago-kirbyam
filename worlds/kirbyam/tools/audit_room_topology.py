@@ -11,6 +11,8 @@ from ..data import data
 from ..traversal_data import _room_catalog, room_traversal_graph
 
 ROOT = Path(__file__).resolve().parents[1]
+DOOR_INVENTORY = ROOT / "dev-docs/native-tile-door-inventory.json"
+PHONE_INVENTORY = ROOT / "dev-docs/phone-return-native-rooms.json"
 MAIN = "REGION_RAINBOW_ROUTE/MAIN"
 CIRCLE = "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
 
@@ -70,6 +72,33 @@ def build_inventory() -> dict[str, Any]:
         # A reverse AP edge is catalog metadata, not proof of a physical reverse door.
         edge["authored_reverse"] = (edge["to_region"], edge["from_region"]) in authored
 
+    door_data = json.loads(DOOR_INVENTORY.read_text(encoding="utf-8"))
+    phone_data = json.loads(PHONE_INVENTORY.read_text(encoding="utf-8"))
+    for evidence in (door_data, phone_data):
+        if evidence["rom_sha1"] != catalog["rom_sha1"]:
+            raise ValueError("Kirby topology joins require the same retail ROM")
+    eligible = set(phone_data["eligible_native_rooms"])
+    ineligible = set(phone_data["room_flag_disallows_return"])
+    populated = {room["native_id"] for room in catalog["rooms"]}
+    if eligible & ineligible or eligible | ineligible != populated:
+        raise ValueError("Incomplete or contradictory native Phone flag catalog")
+    for node in nodes.values():
+        room_id = node["native_room"]
+        if room_id is not None:
+            node["phone_return_room_flag"] = room_id in eligible
+            node["phone_encounter_slots"] = phone_data["encounter_session_slots_by_native_room"].get(str(room_id), [])
+
+    pair_counts: Counter[str] = Counter()
+    for edge in edges:
+        if edge["kind"] != "cross_native_room_candidate":
+            continue
+        origin, target = native[edge["from_region"]], native[edge["to_region"]]
+        matches = [door for door in door_data["doors_by_source_native_room"].get(str(origin), [])
+                   if door["to_native_room"] == target]
+        edge["retail_tile_door_candidates"] = matches
+        pair_counts["no_tile_match" if not matches else "matching_room_pair" if len(matches) == 1
+                    else "multiple_tile_doors"] += 1
+
     witnesses = []
     for row in _room_catalog()[0]:
         for name in sorted(row["graphs"]):
@@ -96,6 +125,7 @@ def build_inventory() -> dict[str, Any]:
             edge["from_region"] for edge in edges
             if edge["to_region"] == MAIN and nodes[edge["from_region"]]["kind"] == "native_compartment"),
         "rainbow_summary_has_central_bridge": (MAIN, CIRCLE) in authored,
+        "retail_cross_room_pair_counts": dict(sorted(pair_counts.items())),
         "nodes": nodes,
         "edges": edges,
         "reviewed_witnesses": witnesses,

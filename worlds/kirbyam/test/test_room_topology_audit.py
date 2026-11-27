@@ -44,3 +44,16 @@ def test_room_check_feeders_keep_their_own_area_summary_link():
         if row["kind"] == "room_check_sink_link":
             source = row["from_region"]
             assert (source, source.split("/", 1)[0] + "/MAIN") in fan_in
+
+
+def test_retail_join_counts_candidates_not_verified_paths():
+    report = build_inventory()
+    assert report["retail_cross_room_pair_counts"] == {
+        "matching_room_pair": 459, "multiple_tile_doors": 54, "no_tile_match": 48,
+    }
+    candidates = [edge for edge in report["edges"]
+                  if edge["from_region"] == "REGION_MOONLIGHT_MANSION/ROOM_2_14_UPPER"
+                  and edge["to_region"].endswith("ROOM_2_15__LOGIC__UPPER_RETURN")]
+    assert [door["arrival_tile"] for door in candidates[0]["retail_tile_door_candidates"]] == [[19, 8], [30, 29]]
+    assert not report["nodes"][CIRCLE]["phone_return_room_flag"]
+    assert report["nodes"]["REGION_RAINBOW_ROUTE/ROOM_1_08"]["phone_return_room_flag"]
