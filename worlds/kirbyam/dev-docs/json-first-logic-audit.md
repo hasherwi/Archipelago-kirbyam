@@ -34,6 +34,18 @@ The [door and check inventory](priority-obstacle-rules.md) traces **17 explicit 
 - **Ropes, metal, and fuses:** `install_extra_traversal_rules` adds reviewed witness graphs to the existing directed edge or the exact location. A missing optional check does not create a gate elsewhere. For Peppermint, the rope target is **7-20 → 7-21**, not a new rule on the downstream Goal Room's chest or minigame. For Candy 9-12, the linked-fuse fallback is a profile-specific graph on the **chest's block-family target**, not a second universal fuse gate. Advanced-only graphs remain opt-in.
 - **Next migration:** keep the reviewed graphs authoritative; do not turn the redundant compact aliases into a second family-wide ability grant or gate. Before removing any alias, compare generated reachability and confirm its full `all`/`any` expression, optional settings, and reverse paths. The broader unmatched generic-block and floating-block sites stay unresolved until traced to native behavior or a proven bypass.
 
+### Generic and floating block labels
+
+The [generic block inventory](generic-block-rules.md) identifies **154 distinct surfaces**: six with exact catalog overlays (five directed exits and Mustard Map), five exits with declared Normal alternatives, and **143 without either** (134 exits, nine checks). This is a per-surface count, not a count of individual token occurrences. Exact overlays include metal walls, a fuse and a switch, so the generic token is not a trustworthy identifier for one ability class.
+
+The [Normal-only playthrough evidence](https://github.com/hasherwi/Archipelago-kirbyam/issues/1059) resolves the physical capability question for the nine no-direct-overlay checks in the observed build:
+
+- **Normal worked:** Rainbow Goal Games 1–3 (3960700–3960702), Cabbage Goal Game (3960705), Mustard Goal Game 2 (3960707), Olive Goal Game 2 (3960709), and Peppermint Goal Game 1 (3960710). These are exact native completions in the legacy test seed, not new AP Goal Game receipts. Ordinary star blocks, Normal attacks and existing bypasses vary by route; do not substitute one global block predicate.
+- **Normal worked with an AP receipt:** Cabbage Map (3960200), separate from that room's Goal Game. Normal puff opened the upper branch after the correct approach in the Area Keys-off test.
+- **Not a local block requirement:** Moonlight Goal Game 2 (3960704) was not accessible with Normal alone in the tested topology. Its upstream eastern approaches are gated at Rainbow 1-41 (metal) and Rainbow 1-42 (rope). Preserve those directed gates; the check's local floating-block token is not proof of an additional Copy Ability restriction.
+
+The five declared Normal entrance alternatives are Boolean facts, not new physical proofs. The 134 no-direct-overlay entrances still require matching the exact side and direction to native evidence before changing solver behavior. An observed room visit does not prove every door leading into it. No predicates changed in this audit.
+
 ### Authoring conventions
 
 - Prefer a named game concept to a numeric ID or generic flag. For example, `goal_location` references a named location key; `all_of` makes it clear every listed condition is required. Keep identifiers stable and resolve their player-facing labels from the canonical catalogs.

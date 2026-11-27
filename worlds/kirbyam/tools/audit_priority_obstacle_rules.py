@@ -2,11 +2,13 @@
 from __future__ import annotations
 
 import argparse
+import json
 from collections import Counter, defaultdict
 from pathlib import Path
 
 from ..candy912_fuse import TARGET as CANDY_FUSE_FALLBACK
 from ..data import data
+from ..rules import normal_movement_satisfies_requirement
 from ..traversal_data import _room_catalog
 from .audit_legacy_ability_surfaces import tokens
 
@@ -99,11 +101,64 @@ def audit() -> str:
     return "\n".join(output) + "\n"
 
 
+def audit_generic_blocks() -> str:
+    aliases = {"CanBreakBlocks", "can_break_block", "can_break_floating_block"}
+    overlay_by_target = defaultdict(list)
+    for row in _room_catalog()[0]:
+        overlay_by_target[_target_identity(row)].append(row["id"])
+    buckets = {
+        "Exact catalog overlay": [],
+        "Declared Normal alternative (not physical proof)": [],
+        "No direct overlay or declared Normal alternative": [],
+    }
+    for owner, region in data.regions.items():
+        for kind, rules in (("exit", region.exit_requirements), ("location", region.location_requirements)):
+            for destination, requirement in rules.items():
+                if not aliases.intersection(tokens(requirement)):
+                    continue
+                identity = owner, kind, destination
+                overlays = overlay_by_target.get(identity, [])
+                if overlays:
+                    bucket = "Exact catalog overlay"
+                elif normal_movement_satisfies_requirement(requirement):
+                    bucket = "Declared Normal alternative (not physical proof)"
+                else:
+                    bucket = "No direct overlay or declared Normal alternative"
+                buckets[bucket].append((identity, requirement, overlays))
+
+    output = [
+        "# Generic block labels: door and check inventory",
+        "",
+        "One row per compiled solver surface using a generic or floating block token.",
+        "The arrow is directional; room keys omit `REGION_`. The exact compact expression is preserved.",
+        "A matching overlay may enforce a different obstacle or be conditional. A missing direct",
+        "overlay does not rule out an upstream gate, a verified Normal route, or a bypass.",
+        "",
+        "| Classification | Entrances | Checks |",
+        "| --- | ---: | ---: |",
+    ]
+    for heading, rows in buckets.items():
+        counts = Counter(identity[1] for identity, _, _ in rows)
+        output.append(f"| {heading} | {counts['exit']} | {counts['location']} |")
+
+    for heading, rows in buckets.items():
+        output.extend(["", f"## {heading}", "",
+                       "| Door / check | Compact expression | Exact overlay |",
+                       "| --- | --- | --- |"])
+        for identity, requirement, overlays in sorted(rows, key=lambda row: (row[0][1] != "location", row[0])):
+            expression = json.dumps(requirement, separators=(",", ": "))
+            names = ", ".join(f"`{name}`" for name in overlays) or "—"
+            output.append(f"| {_target_name(identity)} | `{expression}` | {names} |")
+    return "\n".join(output) + "\n"
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", required=True, type=Path)
+    parser.add_argument("--generic-blocks", action="store_true", help="Audit generic and floating block labels")
     args = parser.parse_args()
-    args.output.write_text(audit(), encoding="utf-8")
+    report = audit_generic_blocks() if args.generic_blocks else audit()
+    args.output.write_text(report, encoding="utf-8")
 
 
 if __name__ == "__main__":
