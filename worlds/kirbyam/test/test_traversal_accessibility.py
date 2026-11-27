@@ -319,15 +319,12 @@ def test_exact_fuzz_69_phone_goal_fill_refuses_and_preserves_source_policy(
     from .support.check_accessibility import audit_local_checks
     audit = audit_local_checks(multiworld, 1)
     assert audit.unfilled == audit.inventory_unreachable == ()
+    # The verified right-side Moonlight route reduces the rejection set,
+    # but the same seed still cannot pass the all-check progression guard.
     assert audit.progression_unreachable == (
         'Candy Constellation Sound Player - Big Chest',
         'Candy Constellation Vitality - Big Chest',
-        'Moonlight Mansion - Goal Game 1',
-        'Moonlight Mansion 2-15 - Small Chest #1',
-        'Moonlight Mansion 2-GOAL-2 - Spray Paint #14 Chest',
-        'Peppermint Palace - Goal Game 2',
-        'Peppermint Palace 7-22 - Spray Paint #1 Chest',
-        'Peppermint Palace Goal 2 - Small Chest #1')
+        'Moonlight Mansion 2-GOAL-2 - Spray Paint #14 Chest')
     world = cast(KirbyAmWorld, multiworld.worlds[1])
     assert world.options.accessibility.value == Accessibility.option_minimal
     assert multiworld.can_beat_game() and multiworld.fulfills_accessibility()

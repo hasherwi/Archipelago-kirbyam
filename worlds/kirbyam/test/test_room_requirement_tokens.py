@@ -90,6 +90,7 @@ def test_every_compiled_lever_edge_keeps_its_existing_wall_item() -> None:
         "mm_lever": [
             ("MOONLIGHT_MANSION/ROOM_2_11", "MOONLIGHT_MANSION/ROOM_2_11_AFTER_LEVER"),
             ("MOONLIGHT_MANSION/ROOM_2_11_AFTER_LEVER", "MOONLIGHT_MANSION/ROOM_2_11"),
+            ("MOONLIGHT_MANSION/ROOM_2_11_AFTER_LEVER", "MOONLIGHT_MANSION/ROOM_2_11_DEAD_END"),
         ],
         "oo_lever": [
             ("OLIVE_OCEAN/ROOM_6_13", "MOONLIGHT_MANSION/ROOM_2_12_RIGHT"),

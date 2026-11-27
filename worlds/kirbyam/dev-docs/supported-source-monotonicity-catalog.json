@@ -2,7 +2,7 @@
   "schema": 2,
   "scope": "Current supported public generation, not custom narrowed policy safety or native gameplay. All compiled targets including logical subregions, both area-key modes. The always-on Phone 146 ownership rule and its separately profile-qualified witness are described in phone-progression-admission.md; neither is a compiled attack-provider graph, and the implementation is pinned here.",
   "source_sha256": {
-    "worlds/kirbyam/__init__.py": "bf586fce10267cdec19c801984df364db2302264537b86dff9dd862d5a4bc256",
+    "worlds/kirbyam/__init__.py": "efb6551a65cdfc9979d6e951f1cfae659761431f318125ac61cadcd5e30abab1",
     "worlds/kirbyam/ability_randomization.py": "0ede749f3cfe63dde9747c9f31184731b21c2b0d173501f8e94e090861979aaf",
     "worlds/kirbyam/enemy_ability_data.py": "2628ef29f2a00091639460ee356fc97d72800070914d862e6908c0f73521e06c",
     "worlds/kirbyam/enemy_ability_runtime_patch.py": "3023bf9d06a923ea760f513fee1f9516e42b7f455f49640876e6f93c0e66141c",
@@ -10,8 +10,8 @@
     "worlds/kirbyam/traversal.py": "9ec0ca5d5ffe2dc35977a127891f30dd87971d38553c3b309e96bddf738d9e31",
     "worlds/kirbyam/traversal_data.py": "04224b5a43040a12a16f0cc7eaae867f9055c9469679959617ce89cd5550192a",
     "worlds/kirbyam/master_source.py": "888ed2ca9f23edb5571ef09e149903b4df1621d694045e4d4cf5983699caf770",
-    "worlds/kirbyam/data/regions/rooms.json": "8ec385e4b01184ac0cdf20735a2cb2117b7b7a19b5dcae133b5969b2307eb767",
-    "worlds/kirbyam/phone_traversal.py": "d4fcfafa5da6741920f3fe66d678c3ecebb298f5eee6e60d1f1092e8a31b6f44",
+    "worlds/kirbyam/data/regions/rooms.json": "be566103bdda373840fe8c8f7362460d967aeb41ff8b2b5b6d2c281a26b1cbf6",
+    "worlds/kirbyam/phone_traversal.py": "2ca0753f419103a105ba3b564c23204a4208ab14052d92de841d77cce71b9233",
     "worlds/kirbyam/rules.py": "f6f245d910b3423c6d397af9ce9b011632ecd2071f9bfd30731545b357f2b6bd",
     "worlds/kirbyam/ability_source_inventory.py": "333a5ffcaf2d7896f62a13f627ce0f956b20fcb3655359744b5a0af378b5ee55",
     "worlds/kirbyam/data/ability_source_inventory.json": "34870b87f1a3f257b7a282af139f6da121a1d1d6d600a21babbd3804b74b0bc3"
