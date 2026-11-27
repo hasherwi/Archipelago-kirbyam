@@ -6,6 +6,7 @@ from typing import TYPE_CHECKING, Any
 from BaseClasses import CollectionState, Location, LocationProgressType
 
 from .data import LocationCategory, data
+from .options import Goal
 
 if TYPE_CHECKING:
     from . import KirbyAmWorld
@@ -19,6 +20,12 @@ LOCATION_NAMES = {entry.location_id: entry.label for entry in data.locations.val
 def flag_location_id(slot_data: dict[str, Any]) -> int | None:
     location_id = slot_data.get(FLAG_SLOT_KEY)
     return location_id if type(location_id) is int and location_id in LOCATION_NAMES else None
+
+
+def active_flag_location_id(slot_data: Any) -> int | None:
+    if not isinstance(slot_data, dict) or type(slot_data.get("goal")) is not int:
+        return None
+    return flag_location_id(slot_data) if slot_data["goal"] == Goal.option_capture_the_flag else None
 
 
 def eligible_locations(world: KirbyAmWorld) -> tuple[Location, ...]:

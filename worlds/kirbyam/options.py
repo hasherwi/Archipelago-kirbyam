@@ -2,6 +2,7 @@
 Option definitions for Kirby & The Amazing Mirror
 """
 from dataclasses import dataclass
+from typing import Self, cast
 
 from Options import (
     Choice,
@@ -70,6 +71,9 @@ class Goal(Choice):
         return super().get_option_name(value)
 
 
+RANDOM_AREA_BOSS_SLOT_KEY = "goal_configured_area_boss_random"
+
+
 class ConfiguredAreaBoss(Choice):
     """
     Selects which area boss is used when the goal is set to Defeat Area Boss.
@@ -92,6 +96,16 @@ class ConfiguredAreaBoss(Choice):
     option_wiz = 5
     option_dark_meta_knight = 6
     option_master_hand_crazy_hand_pair = 7
+
+    was_random: bool = False
+
+    @classmethod
+    def from_text(cls, text: str) -> Self:
+        # Keep Archipelago's ordinary draw and seed behavior. Only remember
+        # whether the result came from the literal 'random' option.
+        choice = cast(Self, super().from_text(text))
+        choice.was_random = text.lower() == "random"
+        return choice
 
 
 class RequiredAreaBosses(Range):

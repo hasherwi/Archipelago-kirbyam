@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Any, Iterable
 from BaseClasses import Item
 from . import candy912_fuse
 from .capture_the_flag import flag_location_id
-from .options import ExcludeTrapTypes, Goal, KirbyAmOptions
+from .options import ExcludeTrapTypes, Goal, KirbyAmOptions, RANDOM_AREA_BOSS_SLOT_KEY
 from .starting_mirror import starting_mirror_candidates
 from .narcolepsy import NARCOLEPSY_ITEM_NAME, NARCOLEPSY_TRAP_CATALOG_VERSION
 from .random_teleport import RANDOM_TELEPORT_ITEM_NAME, TRAP_CATALOG_VERSION
@@ -96,6 +96,7 @@ def restore_tracker_data(world: "KirbyAmWorld", slot_data: dict[str, Any]) -> No
     world._enemy_copy_ability_policy = deepcopy(slot_data["enemy_copy_ability_policy"])
     world._candy912_linked_west_fuse = candy912_fuse.enabled(slot_data)
     world._resolved_configured_area_boss_goal_key = slot_data["goal_configured_area_boss_key"]
+    world.options.configured_area_boss.was_random = slot_data.get(RANDOM_AREA_BOSS_SLOT_KEY) is True
     if world.options.goal.value == Goal.option_capture_the_flag:
         target = flag_location_id(slot_data)
         assert target is not None  # validate_tracker_data checked this field above.

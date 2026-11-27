@@ -1,21 +1,25 @@
 """Capture the Flag generation and the actual Kirby client command entry point."""
 from __future__ import annotations
 
+from base64 import b64encode
 from types import SimpleNamespace
 from unittest.mock import AsyncMock, patch
 
 import pytest
 from BaseClasses import CollectionState
-from worlds._bizhawk.context import BizHawkClientCommandProcessor
+from worlds._bizhawk.context import AuthStatus, BizHawkClientCommandProcessor
 from NetUtils import ClientStatus, decode, encode
 
 from .. import KirbyAmWorld
 from ..capture_the_flag import FLAG_SLOT_KEY, GOAL_EVENT, LOCATION_NAMES, eligible_locations, resolve_flag
 from ..client import KirbyAmClient, _build_kirbyam_command_processor
 from ..completion import PHYSICAL_CHECK_NAMES, PHYSICAL_IDS
-from ..options import Goal
+from ..options import Goal, RANDOM_AREA_BOSS_SLOT_KEY
 from ..tracker import validate_tracker_data
 from .support.integration_generation import generate_archive_from_fixture, load_multidata_from_archive
+
+
+ROM_AUTH = b"test-rom-auth456"
 
 
 def make_context(goal: int, active: set[int], checked: set[int], **slot_fields):
@@ -23,7 +27,9 @@ def make_context(goal: int, active: set[int], checked: set[int], **slot_fields):
         game=KirbyAmClient.game, slot_data={"goal": goal, **slot_fields},
         server=SimpleNamespace(socket=SimpleNamespace(closed=False)),
         checked_locations=checked, missing_locations=active - checked, server_locations=active,
-        auth="slot-auth", team=0, slot=1, finished_game=False, send_msgs=AsyncMock(), items_received=[],
+        auth=b64encode(ROM_AUTH).decode(), team=0, slot=1, finished_game=False, send_msgs=AsyncMock(), items_received=[],
+        server_seed_name="current-seed", connected_identity=("current-seed", 0, 1),
+        auth_status=AuthStatus.AUTHENTICATED, bizhawk_ctx=object(),
     )
 
 
@@ -59,6 +65,9 @@ def test_full_completion_does_not_use_stale_checks_after_disconnect() -> None:
     assert run_command(ctx)[0].startswith("1/99 checks done.")
     ctx.server.socket.closed = True
     assert "checks done" not in run_command(ctx)[0]
+    ctx.server = SimpleNamespace(socket=SimpleNamespace(closed=False))
+    ctx.auth_status = AuthStatus.PENDING
+    assert "checks done" not in run_command(ctx)[0]
     reconnected = make_context(Goal.option_full_completion, set(PHYSICAL_IDS), set())
     assert run_command(reconnected)[0].startswith("0/99 checks done.")
     reconnected.missing_locations.remove(target)  # incomplete server snapshot
@@ -68,31 +77,101 @@ def test_full_completion_does_not_use_stale_checks_after_disconnect() -> None:
 def test_flag_reveal_is_explicit_and_local() -> None:
     target = min(LOCATION_NAMES)
     ctx = make_context(Goal.option_capture_the_flag, {target}, set(), **{FLAG_SLOT_KEY: target})
-    assert LOCATION_NAMES[target] not in run_command(ctx)[0]
+    plain = run_command(ctx)[0]
+    assert LOCATION_NAMES[target] not in plain and "/goal reveal" in plain and "spoiler" in plain
     assert run_command(ctx, "/goal reveal") == [f"Capture the Flag location: {LOCATION_NAMES[target]}"]
     assert LOCATION_NAMES[target] not in run_command(ctx, "/goal yes", False)[0]
+    ctx.auth_status = AuthStatus.PENDING
+    assert "waiting" in run_command(ctx, "/goal reveal", False)[0]
+    ctx.auth_status = AuthStatus.AUTHENTICATED
+    ctx.connected_identity = ("old-seed", 0, 1)
+    assert "waiting" in run_command(ctx, "/goal reveal", False)[0]
+    ctx.connected_identity = ("current-seed", 0, 1)
     ctx.slot_data[FLAG_SLOT_KEY] = True
     assert "unavailable" in run_command(ctx, "/goal reveal", False)[0]
 
 
+@pytest.mark.parametrize("legacy", [False, True])
+def test_random_boss_spoiler_requires_explicit_command(legacy) -> None:
+    fields = ({"goal_hidden_area_boss_key": "BOSS_DEFEAT_5"} if legacy else
+              {RANDOM_AREA_BOSS_SLOT_KEY: True, "goal_configured_area_boss_key": "BOSS_DEFEAT_5"})
+    ctx = make_context(3 if legacy else Goal.option_defeat_area_boss, {3960004}, set(), **fields)
+    plain = run_command(ctx)[0]
+    assert "Wiz" not in plain and "Peppermint Palace" not in plain
+    assert "/goal reveal" in plain and "spoiler" in plain
+    assert run_command(ctx, "/goal reveal") == ["Goal: Defeat Wiz (Peppermint Palace)."]
+    ctx.slot = None
+    assert "waiting" in run_command(ctx, "/goal reveal", False)[0]
+
+
+def test_fixed_boss_still_named_without_reveal() -> None:
+    ctx = make_context(Goal.option_defeat_area_boss, {3960004}, set(),
+                       goal_configured_area_boss_key="BOSS_DEFEAT_5")
+    assert run_command(ctx) == ["Goal: Defeat Wiz (Peppermint Palace)."]
+    assert "Usage:" in run_command(ctx, "/goal reveal", False)[0]
+
+
 @pytest.mark.asyncio
-async def test_only_server_acknowledgement_of_flag_finishes_goal() -> None:
-    target, unrelated = sorted(LOCATION_NAMES)[:2]
-    ctx = make_context(Goal.option_capture_the_flag, {target, unrelated}, {unrelated}, **{FLAG_SLOT_KEY: target})
+async def test_flag_requires_physical_proof_in_addition_to_server_ack(tmp_path, monkeypatch) -> None:
+    import Utils
+    monkeypatch.setattr(Utils.user_path, "cached_path", str(tmp_path), raising=False)
+    # A real map poll decoding a native hook bit, not a delivery receipt.
+    from ..data import LocationCategory, data
+    location = next(loc for loc in data.locations.values()
+                    if loc.category == LocationCategory.MAP_CHEST and loc.bit_index is not None)
+    target = location.location_id
+    unrelated = next(key for key in LOCATION_NAMES if key != target)
+    assert location.bit_index is not None
+    ctx = make_context(Goal.option_capture_the_flag, {target, unrelated}, {target}, **{FLAG_SLOT_KEY: target})
     ctx.items_received = [(100, target, 2, 0)]
-    ctx.locations_checked = {target}  # client sent a check, but AP has not acknowledged it yet
+    ctx.locations_checked = {target}
     client = KirbyAmClient()
     client.initialize_client()
+    client._health_rom_auth = ROM_AUTH
     with patch.object(client, "_display_client_message", new_callable=AsyncMock):
+        # !collect / !release provides exactly this AP state, including ACK.
         await client._maybe_report_goal(ctx, ai_state_override=10000)
         ctx.send_msgs.assert_not_awaited()
         assert not ctx.finished_game
-        # A fresh connection sees the acknowledged flag even if the item was sent remotely.
+        with patch("worlds.kirbyam.client.bizhawk.read", new_callable=AsyncMock) as read, patch(
+                "worlds.kirbyam.client.bizhawk.guarded_read", new_callable=AsyncMock) as guard:
+            read.return_value = [(1 << location.bit_index).to_bytes(4, "little")]
+            guard.return_value = None  # a foreign ROM may not record this proof
+            await client._poll_major_chest_locations(ctx)
+            await client._maybe_report_goal(ctx)
+            ctx.send_msgs.assert_not_awaited()
+            guard.return_value = []
+            await client._poll_major_chest_locations(ctx)
+            await client._maybe_report_goal(ctx)
+
+        assert ctx.finished_game
+        ctx.send_msgs.assert_awaited_once_with([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
+        await client._maybe_report_goal(ctx)
+        assert ctx.send_msgs.await_count == 1
+
+    # Proof survives a fresh client/reconnect but cannot cross seeds.
+    for seed, complete in [("different-seed", False), ("current-seed", True)]:
         fresh = make_context(Goal.option_capture_the_flag, {target, unrelated}, {target}, **{FLAG_SLOT_KEY: target})
-        for _ in range(2):
+        fresh.server_seed_name = seed
+        fresh.connected_identity = (seed, 0, 1)
+        client = KirbyAmClient()
+        client.initialize_client()
+        client._health_rom_auth = ROM_AUTH
+        with patch.object(client, "_display_client_message", new_callable=AsyncMock):
             await client._maybe_report_goal(fresh)
-        fresh.send_msgs.assert_awaited_once_with([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
-        assert fresh.finished_game
+        assert fresh.finished_game is complete
+
+
+def test_generated_random_boss_keeps_hidden_intent_in_slot_data(tmp_path) -> None:
+    fixture = tmp_path / "boss.yaml"
+    fixture.write_text("name: BossTest\ngame: Kirby & The Amazing Mirror\nKirby & The Amazing Mirror:\n"
+                       "  goal: defeat_area_boss\n  configured_area_boss: random\n", encoding="utf-8")
+    archive = generate_archive_from_fixture(fixture, tmp_path / "boss-out", seed=367)
+    slot_data = decode(encode(load_multidata_from_archive(archive)["slot_data"][1]))
+    assert slot_data[RANDOM_AREA_BOSS_SLOT_KEY] is True
+    key = slot_data["goal_configured_area_boss_key"]
+    assert key.startswith("BOSS_DEFEAT_")
+    assert type(slot_data["configured_area_boss"]) is int
 
 
 def test_fixed_seed_archive_persists_a_reachable_enabled_flag(tmp_path) -> None:
@@ -166,3 +245,19 @@ def test_resolve_flag_ignores_self_locked_and_excluded_candidates(tmp_path) -> N
 
     with patch.object(KirbyAmWorld, "finalize_multiworld", test_then_finalize):
         generate_archive_from_fixture(yaml, tmp_path / "out", seed=367)
+
+
+@pytest.mark.asyncio
+async def test_acknowledged_flag_does_not_synthesize_its_lever_pull() -> None:
+    from ..data import LocationCategory, data
+    target = next(loc.location_id for loc in data.locations.values() if loc.category == LocationCategory.LEVER)
+    ctx = make_context(Goal.option_capture_the_flag, {target}, {target}, **{FLAG_SLOT_KEY: target})
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._health_rom_auth = ROM_AUTH
+    client._lever_checked_session = client._authenticated_session_key(ctx)
+    with patch("worlds.kirbyam.client.bizhawk.read", new_callable=AsyncMock) as read, patch(
+            "worlds.kirbyam.client.bizhawk.guarded_write", new_callable=AsyncMock) as write:
+        await client._reconcile_lever_activations(ctx)
+        read.assert_not_awaited()
+        write.assert_not_awaited()

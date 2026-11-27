@@ -53,6 +53,7 @@ from .locations import KirbyAmLocation, create_location_label_to_id_map
 from .options import (
     Goal,
     OPTION_GROUPS,
+    RANDOM_AREA_BOSS_SLOT_KEY,
     AbilityRandomizationMode,
     ConfiguredAreaBoss,
     KirbyAmOptions,
@@ -1453,6 +1454,9 @@ class KirbyAmWorld(World):
             self._starting_kirby_color_randomize_on_room_transition_enabled()
         )
         slot_data["goal_configured_area_boss_key"] = self._get_resolved_configured_area_boss_goal_key()
+        if (self.options.goal.value == Goal.option_defeat_area_boss
+                and getattr(self.options.configured_area_boss, "was_random", False) is True):
+            slot_data[RANDOM_AREA_BOSS_SLOT_KEY] = True
         if self.options.goal.value == Goal.option_capture_the_flag:
             from .capture_the_flag import FLAG_SLOT_KEY
             if self._flag_location_id is None:

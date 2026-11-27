@@ -80,7 +80,7 @@ def _run_goal_command(slot_data: Any, game: str | None = KirbyAmClient.game, exp
 @pytest.mark.parametrize("goal,message", [
     (0, "Defeat Dark Mind."),
     (1, "Defeat any one area boss."),
-    (3, "Defeat the randomly selected hidden area boss (target hidden)."),
+    (3, "Defeat the randomly selected hidden area boss. Use /goal reveal to see which boss (spoiler)."),
 ])
 def test_goal_command_modes(goal, message):
     assert _run_goal_command({"goal": goal}) == [f"Goal: {message}"]
@@ -123,7 +123,7 @@ def test_goal_command_prefers_authoritative_target_over_option():
 def test_goal_command_does_not_disclose_legacy_hidden_boss(option, key, boss):
     assert _run_goal_command({"goal": 3, "goal_hidden_area_boss_key": key,
                               "goal_configured_area_boss_key": key, "configured_area_boss": option}) == [
-        "Goal: Defeat the randomly selected hidden area boss (target hidden).",
+        "Goal: Defeat the randomly selected hidden area boss. Use /goal reveal to see which boss (spoiler).",
     ]
 
 

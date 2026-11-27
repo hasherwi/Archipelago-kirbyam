@@ -43,8 +43,7 @@ below using your selected emulator and its connector.
 ## Checking Your Goal
 
 After connecting your KirbyAM slot, enter `/goal` in the client to display the seed's victory condition.
-For an area-boss goal it names the resolved boss and area, including when the generator chose a random boss.
-Legacy hidden-boss seeds keep their target hidden. If slot data or the target is unavailable, the command says so.
+A specifically configured area boss is named right away. For Capture the Flag or a randomly chosen area boss, `/goal` explains the objective without naming it and tells you that `/goal reveal` will show the spoiler. `/goal reveal` only displays the exact name in your client. If your current slot has not connected or lacks a valid target, the client does not reveal it.
 This command only displays information; it does not change progress or report completion. It is also listed in `/help`.
 
 For a shorter multi-boss seed, use:

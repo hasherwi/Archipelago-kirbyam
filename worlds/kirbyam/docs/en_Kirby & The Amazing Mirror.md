@@ -76,7 +76,7 @@ Use exact item/location names from this world (or the item groups listed above) 
   - `dark_mind`: Defeat Dark Mind to complete the seed.
   - `defeat_any_area_boss`: Defeat any one `* - Boss Defeat` location (Mustard Mountain, Moonlight Mansion, Candy Constellation, Olive Ocean, Peppermint Palace, Cabbage Cavern, Carrot Castle, or Radish Ruins). In this mode, collecting all Mirror Shards is not required by the goal mode itself.
     - Candy Constellation's Master Hand + Crazy Hand fight is treated as one pooled boss target (`BOSS_DEFEAT_3`).
-  - `defeat_area_boss`: Defeat the area boss selected by `configured_area_boss`. The default is Master Hand + Crazy Hand (`BOSS_DEFEAT_3`). Set `configured_area_boss` to `random` to have Archipelago choose one of the eight area bosses during option parsing. The old name `defeat_configured_area_boss` remains accepted as a compatibility alias. Replace the removed `defeat_random_hidden_area_boss` with `goal: defeat_area_boss` plus `configured_area_boss: random`.
+  - `defeat_area_boss`: Defeat the area boss selected by `configured_area_boss`. The default is Master Hand + Crazy Hand (`BOSS_DEFEAT_3`). Set `configured_area_boss` to `random` to have Archipelago choose one of the eight area bosses. The client keeps the random target hidden until you enter `/goal reveal`. The old name `defeat_configured_area_boss` remains accepted as a compatibility alias. Replace the removed `defeat_random_hidden_area_boss` with `goal: defeat_area_boss` plus `configured_area_boss: random`.
 
 See the [Kirby color palette gallery](https://github.com/hasherwi/Archipelago-kirbyam/blob/main/worlds/kirbyam/docs/color-palettes.md) to compare the original and additional KirbyAM starting colors. The `random_color_per_room` mode changes colors between rooms with a connected KirbyAM client on either BizHawk or mGBA. Without a connected client, the patched ROM applies only the initial color.
 
@@ -194,7 +194,7 @@ and follow the maintained [installation and support instructions](https://github
 See the [setup guide's PopTracker section](https://github.com/hasherwi/Archipelago-kirbyam/blob/main/worlds/kirbyam/docs/setup_en.md#optional-poptracker)
 for connection details and version requirements.
 
-Enter `/goal` in the connected client to see your seed's victory condition or progress. Capture the Flag's target stays hidden unless you enter `/goal reveal`; legacy hidden boss targets are never revealed by this command.
+Enter `/goal` in the connected client to see your seed's victory condition or progress. For Capture the Flag and randomly selected area bosses, it tells you to use `/goal reveal` if you want the exact target spoiled.
 
 
 
