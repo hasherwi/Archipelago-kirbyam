@@ -7,11 +7,15 @@ slot. The race itself has a Wheel emulator witness from110 arrival34,19.
 """
 from __future__ import annotations
 
+from functools import cache
 from typing import Any
+
+from .special_route_data import SPECIAL_ROUTE_PROFILES
 
 from .traversal import SourcePolicy, TraversalGraph
 from .traversal_data import (
     HUB_SWITCH_LABELS as HUB_SWITCH_LABELS,
+    compile_room_graph,
     graph_access_regions, graph_items, has_graph_access, requires_all_traversal_witnesses,
     room_traversal_graph, room_traversal_targets,
 )
@@ -38,6 +42,22 @@ def static_wheel_witness(policy: SourcePolicy) -> bool:
     )
 
 
+@cache
+def missile_graph() -> TraversalGraph:
+    """The independent, stock Bang-Bang carry and named Advanced exception."""
+    profile = SPECIAL_ROUTE_PROFILES["rainbow_wheel_race_missile"]
+    return compile_room_graph(profile["witness"], {}, advanced=True, require_inventory=True)
+
+
+def missile_allowed(world: Any, policy: SourcePolicy) -> bool:
+    from .traversal_rules import advanced_traversal_enabled
+
+    profile = SPECIAL_ROUTE_PROFILES["rainbow_wheel_race_missile"]
+    return (advanced_traversal_enabled(world) and policy.mode == profile["mode"]
+            and world._area_keys_enabled() is profile["area_keys"]
+            and world._ability_gating_enabled() is profile["ability_gating"])
+
+
 def install_wheel_rules(world: Any) -> None:
     from worlds.generic.Rules import add_rule
     from .enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES
@@ -47,11 +67,14 @@ def install_wheel_rules(world: Any) -> None:
         return
     policy = SourcePolicy(raw, bool(world.options.ability_randomization_statues.value))
     graphs = tuple(room_traversal_graph(RACE["id"], witness, world._area_keys_enabled()) for witness in RACE["graphs"])
+    if missile_allowed(world, policy):
+        graphs += (missile_graph(),)
     gating = world._ability_gating_enabled()
     all_items = frozenset(f"{name} Ability" for name in GATEABLE_ENEMY_COPY_ABILITIES)
     all_items |= frozenset(item for graph in graphs for item in graph_items(graph))
     if requires_all_traversal_witnesses(world) and not any(
-        graph.evaluate(policy, all_items, gating, allow_documented_retries=True).reaches("chest")
+        graph.required_targets <= {p.node for p in graph.evaluate(
+            policy, all_items, gating, allow_documented_retries=True).positions}
         for graph in graphs
     ):
         raise ValueError(
@@ -67,7 +90,8 @@ def install_wheel_rules(world: Any) -> None:
                 continue
             items = owned | frozenset(item for item in graph_items(graph)
                                       if state.has(item, world.player))
-            if graph.evaluate(policy, items, gating, allow_documented_retries=True).reaches("chest"):
+            result = graph.evaluate(policy, items, gating, allow_documented_retries=True)
+            if all(result.reaches(target) for target in graph.required_targets):
                 return True
         return False
 

@@ -220,6 +220,107 @@
     }
   ],
   "special_route_profiles": {
+    "rainbow_wheel_race_missile": {
+      "mode": 0,
+      "area_keys": true,
+      "ability_gating": false,
+      "check": "MINOR_CHEST_RAINBOW_ROUTE_1_06_UPPER",
+      "location_id": 3960567,
+      "replay_sha256": "3d24ad6ac18b1e9744b66ab9034a53a8b6427ae8e44f52b866c0cb410ac7c99a",
+      "negative_control_sha256": "f4db1e1e33995ee715416a016c5f449124423391298e162cab0dc37cb930f277",
+      "witness": {
+        "version": 1,
+        "status": "reviewed",
+        "access": {
+          "region": "REGION_RAINBOW_ROUTE/ROOM_1_13"
+        },
+        "nodes": [
+          {
+            "id": "wheel_race_missile:east_507",
+            "native_room": 507
+          },
+          {
+            "id": "wheel_race_missile:lower_503",
+            "native_room": 503
+          },
+          {
+            "id": "wheel_race_missile:bang_bang",
+            "native_room": 503
+          },
+          {
+            "id": "wheel_race_missile:lower_110",
+            "native_room": 110
+          },
+          {
+            "id": "wheel_race_missile:race_arrival",
+            "native_room": 108
+          },
+          {
+            "id": "wheel_race_missile:chest",
+            "native_room": 108
+          }
+        ],
+        "starts": [
+          "wheel_race_missile:east_507"
+        ],
+        "required_targets": [
+          "wheel_race_missile:chest"
+        ],
+        "sources": [
+          {
+            "node": "wheel_race_missile:bang_bang",
+            "inventory_id": "room:503/template:0x088B8E64",
+            "renewable": false,
+            "acquisition_evidence": "Original Bang-Bang swallowed naturally at replay frame 119, exact static template. No grant, timer or encounter change."
+          }
+        ],
+        "routes": [
+          {
+            "from": "wheel_race_missile:east_507",
+            "to": "wheel_race_missile:lower_503",
+            "evidence": "Take 507 east mirror (66,2) to 503 lower-right arrival (14,48); start before the cannon approach.",
+            "room_transition": true,
+            "room_instance": "reset",
+            "reset_evidence": "Observed directed room change in stock native replay; no artificial respawn claimed."
+          },
+          {
+            "from": "wheel_race_missile:lower_503",
+            "to": "wheel_race_missile:bang_bang",
+            "evidence": "Normal puff clears lower F1, then original cannon and shaft reach the original Bang-Bang above the lower-right approach. No other copy ability."
+          },
+          {
+            "from": "wheel_race_missile:bang_bang",
+            "to": "wheel_race_missile:lower_110",
+            "evidence": "Natural Missile retained through actual n503 mirror (7,2), landing n110 bottom-left (4,69).",
+            "required_equipment": [
+              "Missile"
+            ],
+            "room_transition": true,
+            "room_instance": "reset",
+            "reset_evidence": "Observed directed room change in stock native replay; no artificial respawn claimed."
+          },
+          {
+            "from": "wheel_race_missile:lower_110",
+            "to": "wheel_race_missile:race_arrival",
+            "evidence": "Retain Missile; cross original n110 shaft with air puffs and flight. Take real door (7,7) to n108 (34,19), the lower race-side arrival, not the upper mirror.",
+            "required_equipment": [
+              "Missile"
+            ],
+            "room_transition": true,
+            "room_instance": "reset",
+            "reset_evidence": "Observed directed room change in stock native replay; no artificial respawn claimed."
+          },
+          {
+            "from": "wheel_race_missile:race_arrival",
+            "to": "wheel_race_missile:chest",
+            "evidence": "From (486,268), begin Missile airborne facing right, then steer left. Cross native F1 (29,16), both linked barriers, and closing lane before cancelling rocket and opening exact 0x088B7288. Wrong-vertical-steering control opened the gate but did not award.",
+            "required_equipment": [
+              "Missile"
+            ]
+          }
+        ]
+      }
+    },
     "mustard_room_4_16_timer": {
       "target": "switch_533_room16",
       "ability_randomization_mode": 2,
