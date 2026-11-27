@@ -32,7 +32,14 @@ class TestRangedTargetCoverage(unittest.TestCase):
 
     def test_nested_targets_are_present(self):
         targets = {r['target']['id']: r for r in self.coverage['installed_targets']}
-        self.assertEqual(len(targets), 66)
+        self.assertEqual(len(targets), 68)
+        for target_id, suffix in (('bomb_708_right_c_main', ''),
+                                  ('bomb_708_right_c_dead_end', '_DEAD_END')):
+            row = targets[target_id]
+            self.assertEqual(row['owner'], 'REGION_MOONLIGHT_MANSION/ROOM_2_01__LOGIC__RIGHT_TOP')
+            self.assertEqual(row['target']['exit'], 'REGION_MOONLIGHT_MANSION/ROOM_2_11' + suffix)
+            self.assertTrue(row['target']['new_connection'])
+            self.assertFalse(row['target']['required_for_generation'])
         self.assertEqual(targets["mirra_141_top_mustard"]["owner"],
                          "REGION_RAINBOW_ROUTE/ROOM_1_41__LOGIC__TOP_MUSTARD")
         self.assertTrue(targets['mini_321_right_lower']['owner'].endswith('__LOGIC__RIGHT_ENTRY'))
