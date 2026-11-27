@@ -107,6 +107,24 @@ def test_encounter_type_requires_advanced_graph_even_without_inventory_reference
     assert not compiled.evaluate(policy(), frozenset(), False).reaches('post')
 
 
+def test_bombar_projectiles_are_advanced_only_even_without_a_room_crossing():
+    enemy = 'room:539/template:0x088C2914'
+    payload_sources = {'generation_evidence': 'fixture spawn', 'lifetime_evidence': 'fixture lifetime'}
+    missiles = [record for record in source_inventory().values()
+                if record.get('parent_placement') == enemy and record['source_key'] == 'BOMBAR_MISSILE']
+    assert len(missiles) == 2  # Separate native launch call sites.
+    for missile in missiles:
+        witness = {**payload_sources, 'inventory_id': missile['id']}
+        with pytest.raises(ValueError, match='Advanced Logic'):
+            resolve_inventory_source(witness, 539, require_inventory=True)
+        assert resolve_inventory_source(witness, 539, advanced=True,
+                                        require_inventory=True)['source_key'] == 'BOMBAR_MISSILE'
+
+    # The direct swallow after defeat is a separately reviewable Standard source.
+    assert resolve_inventory_source({'inventory_id': enemy}, 539,
+                                    require_inventory=True)['source_key'] == 'BOMBAR'
+
+
 def test_join_does_not_mutate_witness_or_invent_renewability():
     original = payload()
     snapshot = deepcopy(original)
