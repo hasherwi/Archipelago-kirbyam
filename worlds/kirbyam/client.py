@@ -41,7 +41,10 @@ from .data import BASE_OFFSET, LocationCategory, data, format_room_region_label,
 from .enemy_ability_data import ABILITY_SOURCES
 from .enemy_ability_data import ABILITY_NAME_TO_ID
 from .enemy_ability_data import STARTING_COPY_ABILITIES, resolve_slot_gateable_abilities, starting_copy_abilities
-from .generated_hub_switch_contract import HUB_SWITCH_COMPATIBILITY_AP_BITS_BY_LOCATION_KEY
+from .generated_hub_switch_contract import (
+    HUB_SWITCH_COMPATIBILITY_AP_BITS_BY_LOCATION_KEY,
+    HUB_SWITCH_RUNTIME_AP_BIT_BY_LOCATION_KEY,
+)
 from .health import (
     MAXIMUM_HEALTH_DEFAULT,
     MINIMUM_HEALTH_DEFAULT,
@@ -612,25 +615,14 @@ class KirbyAmClient(BizHawkClient):
         # Sound Player chest bitfield -> location IDs (SOUND_PLAYER_CHEST category).
         self._sound_player_chest_location_ids_by_bit = self._build_location_ids_by_bit(LocationCategory.SOUND_PLAYER_CHEST)
 
-        # Hub switch bitfield -> location IDs (HUB_SWITCH category).
-        self._hub_switch_location_ids_by_bit = self._build_location_ids_by_bit(LocationCategory.HUB_SWITCH)
-
-        # Compatibility aliases sourced from the generated hub-switch contract.
-        # This keeps fallback bits synchronized with payload/client mapping rules.
-        for location_key, compatibility_bits in HUB_SWITCH_COMPATIBILITY_AP_BITS_BY_LOCATION_KEY.items():
-            location = data.locations.get(location_key)
-            if location is None:
-                self._log_verbose(
-                    "warning",
-                    "KirbyAM: hub-switch compatibility mapping references unknown location key '%s'; alias bits=%s",
-                    location_key,
-                    list(compatibility_bits),
-                )
-                continue
-            for compatibility_bit in compatibility_bits:
-                fallback_ids = self._hub_switch_location_ids_by_bit.setdefault(compatibility_bit, [])
-                if location.location_id not in fallback_ids:
-                    fallback_ids.append(location.location_id)
+        # Decode the ROM's physical-switch bits, not the catalog indices.
+        # Keep the persisted ROM bits and Archipelago location IDs unchanged.
+        self._hub_switch_location_ids_by_bit = {}
+        for location_key, runtime_bit in HUB_SWITCH_RUNTIME_AP_BIT_BY_LOCATION_KEY.items():
+            location_id = data.locations[location_key].location_id
+            self._hub_switch_location_ids_by_bit[runtime_bit] = [location_id]
+            for compatibility_bit in HUB_SWITCH_COMPATIBILITY_AP_BITS_BY_LOCATION_KEY.get(location_key, ()):
+                self._hub_switch_location_ids_by_bit[compatibility_bit] = [location_id]
         self._hub_switch_location_ids_all: set[int] = {
             location_id
             for location_ids in self._hub_switch_location_ids_by_bit.values()

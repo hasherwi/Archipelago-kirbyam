@@ -36,6 +36,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Testing covers selected gameplay scenarios, not a complete playthrough or every multiplayer setup.
 
 ### Bug Fixes
+- The Moonlight Mansion and Rainbow Route East Big Switches now report their own checks and display the correct reward sprites in newly generated seeds.
 - Keep pending traps and consumables from blocking item delivery after an emulator pause (PR #1142).
 - Restored previously received Area Keys and Hub Connections when switching Adventure files without restarting the emulator.
 - Area Keys now remain usable after restarting the game offline in the same seed and save file.
