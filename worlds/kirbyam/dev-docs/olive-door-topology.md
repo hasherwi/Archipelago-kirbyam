@@ -26,8 +26,8 @@ current ability requirement on access to either trigger.
 
 There is no 133 → 132 or 134 → 133 retail tile record. Do not infer either
 return from the verified forward doors. The existing 133 ↔ 800 (6-23)
-edges also have no matching tile record. The separate Area Door template
-at (184,24) in 133 is not a destination binding without further evidence.
+edges also have no matching tile record. The object at (184,24) in 133 is
+a consumable (table-1 type 0x63), not an Area Door (0x99).
 
 6-07 → 6-05 uses a distinct fuse-cannon template. The native object inventory
 places a table-1 type 0x8A cannon at (656,272) and a type 0x78 fuse at

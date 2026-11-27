@@ -49,7 +49,7 @@ def test_room_check_feeders_keep_their_own_area_summary_link():
 def test_retail_join_counts_candidates_not_verified_paths():
     report = build_inventory()
     assert report["retail_cross_room_pair_counts"] == {
-        "matching_room_pair": 459, "multiple_tile_doors": 54, "no_tile_match": 48,
+        "matching_room_pair": 459, "multiple_tile_doors": 55, "no_tile_match": 48,
     }
     candidates = [edge for edge in report["edges"]
                   if edge["from_region"] == "REGION_MOONLIGHT_MANSION/ROOM_2_14_UPPER"
@@ -62,7 +62,7 @@ def test_retail_join_counts_candidates_not_verified_paths():
 def test_reconciliation_preserves_unresolved_routes_and_exact_landing_evidence():
     report = build_inventory()
     assert report["retail_door_reconciliation_counts"] == {
-        "configured_non_tile": 6, "multiple_landings": 14, "no_tile_evidence": 16, "pinned_tile_door": 31, "pinned_tile_group": 1,
+        "configured_non_tile": 6, "multiple_landings": 13, "no_tile_evidence": 16, "pinned_tile_door": 33, "pinned_tile_group": 1,
         "shared_landing": 13, "single_tile_candidate": 454, "source_backed_boss_return": 8,
         "witnessed_non_tile": 18,
     }
@@ -161,3 +161,23 @@ def test_distinct_compartment_pins_preserve_current_directions():
     assert {tuple(door["trigger_tile"]) for door in water["doors"]} == {
         (x, y) for x in (0, 1) for y in range(26, 30)}
     assert {tuple(door["arrival_tile"]) for door in water["doors"]} == {(60, 19)}
+
+
+def test_candy_13_arrivals_do_not_borrow_each_others_exit():
+    report = build_inventory()
+    prefix = "REGION_CANDY_CONSTELLATION/ROOM_9_"
+    lower = prefix + "13"
+    upper = lower + "__LOGIC__UPPER_WARP"
+    sink = lower + "__ROOM_CHECK"
+    assert report["nodes"][lower]["native_room"] == report["nodes"][upper]["native_room"] == 419
+    edges = {(row["from_region"], row["to_region"]): row for row in report["edges"]}
+    for comp, arrival, own_exit, other_exit in (
+        (lower, [3, 15], prefix + "CHEST_3", prefix + "WARP"),
+        (upper, [3, 4], prefix + "WARP", prefix + "CHEST_3"),
+    ):
+        assert edges[prefix + "12", comp]["door_reconciliation"]["door"]["arrival_tile"] == arrival
+        assert (comp, own_exit) in edges
+        assert (comp, other_exit) not in edges
+        assert (comp, sink) in edges
+    assert (lower, upper) not in edges and (upper, lower) not in edges
+    assert not any(source == sink for source, _ in edges)

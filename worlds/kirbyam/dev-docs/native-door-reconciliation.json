@@ -447,6 +447,32 @@
         ]
       ],
       "evidence": "split-door-topology.md#rainbow-and-moonlight"
+    },
+    {
+      "from_region": "REGION_CANDY_CONSTELLATION/ROOM_9_12",
+      "to_region": "REGION_CANDY_CONSTELLATION/ROOM_9_13__LOGIC__UPPER_WARP",
+      "trigger_tile": [
+        40,
+        3
+      ],
+      "arrival_tile": [
+        3,
+        4
+      ],
+      "evidence": "split-door-topology.md#candy-constellation-room-13"
+    },
+    {
+      "from_region": "REGION_CANDY_CONSTELLATION/ROOM_9_12",
+      "to_region": "REGION_CANDY_CONSTELLATION/ROOM_9_13",
+      "trigger_tile": [
+        40,
+        28
+      ],
+      "arrival_tile": [
+        3,
+        15
+      ],
+      "evidence": "split-door-topology.md#candy-constellation-room-13"
     }
   ],
   "non_tile_witnesses": [

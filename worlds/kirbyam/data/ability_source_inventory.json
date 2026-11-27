@@ -7138,7 +7138,8 @@
     {
       "native_room": 419,
       "ap_room_keys": [
-        "REGION_CANDY_CONSTELLATION/ROOM_9_13"
+        "REGION_CANDY_CONSTELLATION/ROOM_9_13",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_13__LOGIC__UPPER_WARP"
       ],
       "object_list_index": 160,
       "placements": [
@@ -17498,6 +17499,15 @@
         419
       ],
       "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_CANDY_CONSTELLATION/ROOM_9_13__LOGIC__UPPER_WARP",
+      "parent_region": "REGION_CANDY_CONSTELLATION/ROOM_9_13",
+      "native_rooms": [
+        419
+      ],
+      "mapping_evidence": "declared_logical_parent_door_alias",
       "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
     },
     {

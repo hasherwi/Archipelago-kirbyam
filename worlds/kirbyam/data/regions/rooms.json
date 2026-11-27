@@ -17914,7 +17914,8 @@
       }
     },
     "exits": {
-      "REGION_CANDY_CONSTELLATION/ROOM_9_13": null
+      "REGION_CANDY_CONSTELLATION/ROOM_9_13": null,
+      "REGION_CANDY_CONSTELLATION/ROOM_9_13__LOGIC__UPPER_WARP": null
     },
     "traversal": {
       "version": 1,
@@ -18262,8 +18263,15 @@
       }
     },
     "exits": {
-      "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3": null,
-      "REGION_CANDY_CONSTELLATION/ROOM_9_WARP": null
+      "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3": null
+    },
+    "logical_subregions": {
+      "UPPER_WARP": {
+        "exits": {
+          "REGION_CANDY_CONSTELLATION/ROOM_9_WARP": null
+        },
+        "evidence": "Retail native room 419 upper arrival (3,4) leads to Warp only. Lower arrival (3,15) reaches Chest 3. See dev-docs/split-door-topology.md."
+      }
     }
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_14": {

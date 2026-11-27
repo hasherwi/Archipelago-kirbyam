@@ -38,3 +38,16 @@ by generation.
   identifies the cannon as a separate, fuse-gated approach; this audit
   does not use the ordinary mirror as evidence for carrying an ability
   along the cannon route.
+
+## Candy Constellation Room 13
+
+Two 9-12 (402) doors reached a single AP region for native 419, so either
+arrival could appear to grant the other route. The
+[room layout](https://wikirby.com/wiki/Candy_Constellation_-_Room_13)
+separates the upper corridor to Warp from the lower corridor to Chest 3.
+The native upper trigger (40,3) arrives at (3,4), with the Warp door
+at (73,2). The lower trigger (40,28) arrives at (3,15), with the Chest 3
+door at (73,15). The solver now has one AP region per corridor with no
+link between them. Both can award the same Room Sanity bit via a
+terminal shared check; neither gains the other's exit. The separate
+9-12 chest rule is unchanged. No new native transition is installed.
