@@ -313,6 +313,7 @@ class LocationData(NamedTuple):
 class EventData(NamedTuple):
     name: str
     parent_region: str
+    source_check: str | None = None
 
 
 @dataclass
@@ -826,9 +827,11 @@ def _init() -> None:  # noqa: C901
             )
         room_sanity_by_region.setdefault(loc.parent_region, []).append(loc_key)
 
+    visit_aliases = _load_room_visit_aliases(room_sanity_by_region.keys(), merged_regions.keys())
     for region_name, loc_keys in sorted(room_sanity_by_region.items()):
         region = data.regions[region_name]
-        if region_name in logical_subregions_by_parent:
+        extra = visit_aliases.get(region_name, [])
+        if region_name in logical_subregions_by_parent or extra:
             # A visit to any compartment sets the same native physical-room bit.
             # Put the singleton check in a sink: never connect compartments to
             # the canonical room, whose exits could permit unintended traversal.
@@ -839,10 +842,11 @@ def _init() -> None:  # noqa: C901
             data.regions[check_region_name] = region
             sources = [region_name, *(
                 logical_region_names[(region_name, key)]
-                for key in logical_subregions_by_parent[region_name]
-            )]
+                for key in logical_subregions_by_parent.get(region_name, {})
+            ), *extra]
             for source in sources:
-                data.regions[source].exits.append(check_region_name)
+                if check_region_name not in data.regions[source].exits:
+                    data.regions[source].exits.append(check_region_name)
         for loc_key in sorted(
             loc_keys,
             key=lambda key: (
@@ -852,6 +856,76 @@ def _init() -> None:  # noqa: C901
         ):
             region.locations.append(loc_key)
             claimed_locations.add(loc_key)
+    _bind_check_events(load_json_data("check_event_logic.json"))
+    validate_check_placement(data)
+
+
+def _load_room_visit_aliases(visit_owners: Iterable[str], authored_regions: Iterable[str]) -> dict[str, list[str]]:
+    """Top-level compartments explicitly verified to share the native room bit."""
+    payload = load_json_data("room_visit_compartments.json")
+    if (not isinstance(payload, dict) or type(payload.get("schema")) is not int or payload["schema"] != 1
+            or not isinstance(payload.get("additional_compartments"), dict)):
+        raise ValueError("Invalid Kirby room visit compartments schema")
+    mapping = payload["additional_compartments"]
+    canonical = set(visit_owners)
+    authored = set(authored_regions)
+    seen = set(canonical)
+    for owner, aliases in mapping.items():
+        if owner not in canonical or not isinstance(aliases, list) or not aliases:
+            raise ValueError(f"Invalid Kirby room visit owner: {owner}")
+        for alias in aliases:
+            if (not isinstance(alias, str) or alias in seen or alias not in authored
+                    or not alias.startswith(owner.split("/")[0] + "/ROOM_")):
+                raise ValueError(f"Invalid or duplicate Kirby visit compartment: {owner} → {alias}")
+            seen.add(alias)
+    return mapping
+
+
+def _bind_check_events(payload: Any) -> None:
+    """Bind addressless switch facts to their physical check rather than an area visit."""
+    if (not isinstance(payload, dict) or set(payload) != {"schema", "hub_switches"}
+            or type(payload["schema"]) is not int or payload["schema"] != 1
+            or not isinstance(payload["hub_switches"], dict)):
+        raise ValueError("Invalid Kirby check-event schema")
+    hub_switches = payload["hub_switches"]
+    expected = {key for key, loc in data.locations.items() if loc.category == LocationCategory.HUB_SWITCH}
+    if hub_switches.keys() != expected:
+        raise ValueError("Kirby check-events must bind every physical Big Switch exactly once")
+    for key, name in hub_switches.items():
+        if not isinstance(name, str) or not name.startswith("Activate Big Switch - "):
+            raise ValueError(f"Invalid Kirby Big Switch event name for {key}: {name!r}")
+        region = data.regions[data.locations[key].parent_region]
+        region.events.append(EventData(name, region.name, key))
+
+
+def validate_check_placement(catalog: KirbyAmData) -> None:
+    """Fail closed on duplicate ownership instead of picking a region by iteration order."""
+    owners: dict[str, str] = {}
+    ids: set[int] = set()
+    names: set[str] = set()
+    for key, loc in catalog.locations.items():
+        if loc.location_id in ids or loc.label in names:
+            raise ValueError(f"Duplicate Kirby location ID or label: {key}")
+        ids.add(loc.location_id)
+        names.add(loc.label)
+    for region in catalog.regions.values():
+        for key in region.locations:
+            if key in owners:
+                raise ValueError(f"Kirby location {key} has multiple owners: {owners[key]}, {region.name}")
+            loc = catalog.locations[key]
+            parent = loc.parent_region
+            if (region.name != parent and not (
+                    loc.category == LocationCategory.ROOM_SANITY and region.name == f"{parent}__ROOM_CHECK")):
+                raise ValueError(f"Kirby location {key} owner {region.name} differs from {parent}")
+            owners[key] = region.name
+        for event in region.events:
+            if event.parent_region != region.name or event.name in names:
+                raise ValueError(f"Duplicate or misplaced Kirby event: {event.name} in {region.name}")
+            if event.source_check is not None and event.source_check not in region.locations:
+                raise ValueError(f"Kirby event {event.name} is not in the region of {event.source_check}")
+            names.add(event.name)
+    if missing := catalog.locations.keys() - owners.keys():
+        raise ValueError(f"Kirby locations without an owner: {sorted(missing)}")
 
 
 data = KirbyAmData()

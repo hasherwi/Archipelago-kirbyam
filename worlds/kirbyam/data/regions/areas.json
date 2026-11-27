@@ -10,18 +10,11 @@
     "locations": [
       "AREA_VISIT_4_MUSTARD_MOUNTAIN"
     ],
-    "events": [
-      "Activate Big Switch - Mustard Mountain"
-    ],
     "exits": []
   },
   "REGION_MOONLIGHT_MANSION/MAIN": {
     "locations": [
       "AREA_VISIT_2_MOONLIGHT_MANSION"
-    ],
-    "events": [
-      "Activate Big Switch - Moonlight Mansion",
-      "Activate Big Switch - Rainbow Route East"
     ],
     "exits": []
   },
@@ -29,17 +22,11 @@
     "locations": [
       "AREA_VISIT_9_CANDY_CONSTELLATION"
     ],
-    "events": [
-      "Activate Big Switch - Candy Constellation"
-    ],
     "exits": []
   },
   "REGION_OLIVE_OCEAN/MAIN": {
     "locations": [
       "AREA_VISIT_6_OLIVE_OCEAN"
-    ],
-    "events": [
-      "Activate Big Switch - Olive Ocean"
     ],
     "exits": []
   },
@@ -47,20 +34,11 @@
     "locations": [
       "AREA_VISIT_7_PEPPERMINT_PALACE"
     ],
-    "events": [
-      "Activate Big Switch - Peppermint Palace East",
-      "Activate Big Switch - Peppermint Palace West"
-    ],
     "exits": []
   },
   "REGION_CABBAGE_CAVERN/MAIN": {
     "locations": [
       "AREA_VISIT_3_CABBAGE_CAVERN"
-    ],
-    "events": [
-      "Activate Big Switch - Cabbage Cavern Center",
-      "Activate Big Switch - Cabbage Cavern East",
-      "Activate Big Switch - Cabbage Cavern West"
     ],
     "exits": []
   },
@@ -68,17 +46,11 @@
     "locations": [
       "AREA_VISIT_5_CARROT_CASTLE"
     ],
-    "events": [
-      "Activate Big Switch - Carrot Castle"
-    ],
     "exits": []
   },
   "REGION_RADISH_RUINS/MAIN": {
     "locations": [
       "AREA_VISIT_8_RADISH_RUINS"
-    ],
-    "events": [
-      "Activate Big Switch - Radish Ruins"
     ],
     "exits": []
   },
@@ -89,11 +61,6 @@
       "GOAL_CONFIGURED_AREA_BOSS",
       "GOAL_AREA_BOSS_COUNT",
       "GOAL_100_PERCENT"
-    ],
-    "events": [
-      "Activate Big Switch - Rainbow Route North",
-      "Activate Big Switch - Rainbow Route South",
-      "Activate Big Switch - Rainbow Route West"
     ],
     "exits": []
   },

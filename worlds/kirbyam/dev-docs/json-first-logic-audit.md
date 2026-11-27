@@ -71,7 +71,7 @@ Audit native room identity versus AP region and logical subroom, entrance/exit p
 
 ## 3. Check, goal and event placement
 
-Verify one canonical owner and exact physical action/side of each obstacle for every check, goal and event. Separate AP delivery from a native action or a logical AP event. Confirm optional locations only disappear when declared out of scope, and verify the final goal/event sequence independently of check counts.
+The [compiled placement audit](step-3-check-placement.md) verifies canonical ownership and distinguishes the 395 addressable native checks, six goal definitions and 21 addressless events. Big Switch annotations now inherit the physical press rule; shared native room visits use terminal sinks across all verified compartments, including the 100% goal when RoomSanity is off. The audit preserves exact chest and Goal Game sides and flags other shared-room actions for separate traversal evidence rather than treating a room match as physical reachability.
 
 ## 4. Accessibility from playthroughs
 

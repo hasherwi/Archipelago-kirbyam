@@ -507,7 +507,7 @@ def test_room_reachability_from_start() -> None:
     assert "REGION_CARROT_CASTLE/ROOM_5_05__LOGIC__CHUTE_SIDE" in reachable
     assert "REGION_CARROT_CASTLE/ROOM_5_05__ROOM_CHECK" in reachable
     assert "REGION_DIMENSION_MIRROR/MAIN" in reachable  # Structural only; still shard-gated.
-    assert len(reachable) == 367
+    assert len([name for name in reachable if not name.endswith("__ROOM_CHECK")]) == 344
     assert "REGION_MOONLIGHT_MANSION/ROOM_2_15__LOGIC__UPPER_RETURN" in reachable
     assert "REGION_MOONLIGHT_MANSION/ROOM_2_15__ROOM_CHECK" in reachable
     assert "REGION_COPY_ABILITY_ROOM/MAIN" in reachable
@@ -828,11 +828,12 @@ def test_legacy_split_rooms_define_logical_subregion_metadata() -> None:
 def test_area_two_split_rooms_are_first_class_regions() -> None:
     from ..data import data as kirby_data
 
-    assert kirby_data.regions["REGION_MOONLIGHT_MANSION/ROOM_2_05"].exits[-1] == (
-        "REGION_MOONLIGHT_MANSION/ROOM_2_07_LOWER"
+    assert "REGION_MOONLIGHT_MANSION/ROOM_2_07_LOWER" in (
+        kirby_data.regions["REGION_MOONLIGHT_MANSION/ROOM_2_05"].exits
     )
     assert kirby_data.regions["REGION_MOONLIGHT_MANSION/ROOM_2_07_LOWER"].exits == [
-        "REGION_MOONLIGHT_MANSION/ROOM_2_05"
+        "REGION_MOONLIGHT_MANSION/ROOM_2_05",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_07_UPPER_LEFT__ROOM_CHECK",
     ]
     assert "REGION_MOONLIGHT_MANSION/ROOM_2_12_LEFT" in (
         kirby_data.regions["REGION_MOONLIGHT_MANSION/ROOM_2_11_AFTER_LEVER"].exits
@@ -1004,46 +1005,17 @@ def test_lever_rooms_define_four_lever_events() -> None:
 def test_hub_switch_locations_have_matching_big_switch_events() -> None:
     from ..data import load_json_data
 
+    from ..data import data
+
     areas = load_json_data("regions/areas.json")
-    locations = load_json_data("locations.json")
-
-    expected_events_by_hub_switch = {
-        "HUB_SWITCH_MUSTARD": "Activate Big Switch - Mustard Mountain",
-        "HUB_SWITCH_MOONLIGHT": "Activate Big Switch - Moonlight Mansion",
-        "HUB_SWITCH_CANDY": "Activate Big Switch - Candy Constellation",
-        "HUB_SWITCH_OLIVE": "Activate Big Switch - Olive Ocean",
-        "HUB_SWITCH_PEPPERMINT_EAST": "Activate Big Switch - Peppermint Palace East",
-        "HUB_SWITCH_PEPPERMINT_WEST": "Activate Big Switch - Peppermint Palace West",
-        "HUB_SWITCH_CABBAGE_CAVERN_CENTER": "Activate Big Switch - Cabbage Cavern Center",
-        "HUB_SWITCH_CABBAGE_CAVERN_EAST": "Activate Big Switch - Cabbage Cavern East",
-        "HUB_SWITCH_CABBAGE_CAVERN_WEST": "Activate Big Switch - Cabbage Cavern West",
-        "HUB_SWITCH_CARROT": "Activate Big Switch - Carrot Castle",
-        "HUB_SWITCH_RADISH": "Activate Big Switch - Radish Ruins",
-        "HUB_SWITCH_RAINBOW_ROUTE_EAST": "Activate Big Switch - Rainbow Route East",
-        "HUB_SWITCH_RAINBOW_ROUTE_NORTH": "Activate Big Switch - Rainbow Route North",
-        "HUB_SWITCH_RAINBOW_ROUTE_SOUTH": "Activate Big Switch - Rainbow Route South",
-        "HUB_SWITCH_RAINBOW_ROUTE_WEST": "Activate Big Switch - Rainbow Route West",
-    }
-
-    found_events: set[str] = set()
-    for hub_switch_key, expected_event in expected_events_by_hub_switch.items():
-        loc_meta = locations.get(hub_switch_key)
-        assert isinstance(loc_meta, dict), f"Missing location metadata for {hub_switch_key}"
-        parent_region = str(loc_meta.get("parent_region", ""))
-        assert "/" in parent_region, f"Invalid parent region for {hub_switch_key}: {parent_region}"
-
-        area_region = parent_region.split("/", 1)[0] + "/MAIN"
-        area_data = areas.get(area_region)
-        assert isinstance(area_data, dict), f"Missing area region {area_region} for {hub_switch_key}"
-
-        events = area_data.get("events", [])
-        assert isinstance(events, list), f"Invalid events list for area {area_region}"
-        event_set = {event for event in events if isinstance(event, str)}
-
-        assert expected_event in event_set
-        found_events.add(expected_event)
-
-    assert found_events == set(expected_events_by_hub_switch.values())
+    assert not any(event.startswith("Activate Big Switch - ")
+                   for area in areas.values() for event in area.get("events", []))
+    expected = load_json_data("check_event_logic.json")["hub_switches"]
+    assert len(expected) == 15
+    for key, name in expected.items():
+        parent = data.locations[key].parent_region
+        event, = [event for event in data.regions[parent].events if event.name == name]
+        assert event.parent_region == parent and event.source_check == key
 
 
 def test_lever_locations_have_matching_lever_events() -> None:

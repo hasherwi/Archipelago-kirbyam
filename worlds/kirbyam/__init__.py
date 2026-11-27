@@ -1232,20 +1232,6 @@ class KirbyAmWorld(World):
                 trap_count,
             )
 
-            goal_event_count = 0
-            for location in self.multiworld.get_locations(self.player):
-                if not isinstance(location, KirbyAmLocation) or location.key is None:
-                    continue
-                loc_meta = kirby_data.locations.get(location.key)
-                if loc_meta and loc_meta.category == LocationCategory.GOAL:
-                    location.place_locked_item(self.create_event(location.name))
-                    location.progress_type = LocationProgressType.DEFAULT
-                    # Goal checks are runtime events, not host-fillable AP locations.
-                    # Keep address=None so multidata does not serialize a None item
-                    # for a numeric location entry (host LocationStore requires ints).
-                    location.address = None
-                    goal_event_count += 1
-
             # Log item creation (randomized pool + fixed shard placements)
             log_items_created(
                 self.player,
@@ -1253,7 +1239,6 @@ class KirbyAmWorld(World):
                 locked_shard_count + pool_shard_count,
                 len(itempool) - pool_shard_count,
             )
-            logger.debug(f"[P{self.player}] Converted {goal_event_count} goal locations to locked events")
 
     @classmethod
     def stage_create_items(cls, multiworld: MultiWorld) -> None:

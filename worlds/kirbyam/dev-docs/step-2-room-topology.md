@@ -2,6 +2,9 @@
 
 ## Compiled inventory
 
+Counts below pin the Step 2 graph. [Step 3](step-3-check-placement.md)
+adds terminal visit links only; it does not change the physical door sets.
+
 Join the production-normalized AP graph to the pinned [native room inventory](native-room-wikirby-map.md). The join accounts for all 354 physical AP compartment keys, including Copy Ability Room `/MAIN` (native 970), which is a physical room despite its suffix. The native table contains 286 populated records; not all are represented by an AP region. The other AP nodes are ten area summaries, 23 Room Sanity sinks, and two start nodes including Menu.
 
 | Link type | Count | Treatment in a physical carry route |

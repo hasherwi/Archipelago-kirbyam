@@ -8,7 +8,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, Iterable
 
-from .data import data, load_json_data
+from .data import LocationCategory, data, load_json_data
 from .starting_mirror import STARTING_MIRROR_ITEM_ID
 
 FULL_COMPLETION_VERSION = 1
@@ -25,7 +25,18 @@ LEGACY_HUB_SAVE_TAG = 0x48530000
 LEGACY_HUB_SAVE_MASK = 0x7FFF
 MANIFEST: dict[str, Any] = dict(load_json_data("full_completion.json"))
 ROOM_INDICES = tuple(room["doors_idx"] for room in MANIFEST["rooms"])
-ROOM_REGIONS = tuple(tuple(room["region_keys"]) for room in MANIFEST["rooms"] if room["region_keys"])
+# Resolve the same physical visit owner used by RoomSanity, including every
+# compartment of a shared native room. The owner region exists even when the
+# optional AP check itself is disabled. The ten final-encounter rooms are
+# handled by the separate Dark Mind sequence obligation.
+_VISIT_OWNER_BY_BIT = {
+    data.locations[key].bit_index: region.name
+    for region in data.regions.values()
+    for key in region.locations
+    if data.locations[key].category == LocationCategory.ROOM_SANITY
+}
+ROOM_REGIONS = tuple((_VISIT_OWNER_BY_BIT[room["doors_idx"]],)
+                     for room in MANIFEST["rooms"] if room["region_keys"])
 PHYSICAL_KEYS = tuple(MANIFEST["physical_location_keys"])
 PHYSICAL_IDS = frozenset(data.locations[key].location_id for key in PHYSICAL_KEYS)
 # The optional starting mirror has no native switch. Its route can gate a
