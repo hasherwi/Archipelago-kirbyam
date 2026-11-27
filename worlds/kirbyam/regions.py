@@ -9,6 +9,7 @@ from BaseClasses import ItemClassification, Region
 from .data import LocationCategory, data
 from .items import KirbyAmItem
 from .locations import KirbyAmLocation
+from .phone_return import phone_return
 
 if TYPE_CHECKING:
     from . import KirbyAmWorld
@@ -95,6 +96,12 @@ def create_regions(world: "KirbyAmWorld") -> dict[str, Region]:
             area = regions.get(name.split("/", 1)[0] + "/MAIN")
             if area is not None:
                 region.connect(area, f"{name} -> {area.name}")
+
+    # Native L is free movement once Kirby can settle as Normal. It is not
+    # a summon, an ability-carry edge, or a replacement for a physical exit.
+    return_routes = phone_return()
+    for source in return_routes.sources:
+        regions[source].connect(regions[return_routes.destination], f"{source} -> Central Circle (Phone L)")
 
     # 3) Add Menu region and start connection
     menu = Region("Menu", world.player, world.multiworld)

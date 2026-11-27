@@ -12,7 +12,8 @@ def test_room_inventory_matches_generated_regions_and_edges():
     world = setup_solo_multiworld(KirbyAmWorld, seed=914)
     assert set(report["nodes"]) == {region.name for region in world.regions}
     actual = Counter((region.name, exit.connected_region.name)
-                     for region in world.regions for exit in region.exits)
+                     for region in world.regions for exit in region.exits
+                     if not exit.name.endswith("(Phone L)"))
     assert actual == Counter((row["from_region"], row["to_region"]) for row in report["edges"])
 
 

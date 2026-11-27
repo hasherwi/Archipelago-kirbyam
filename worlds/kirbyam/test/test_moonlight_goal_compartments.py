@@ -224,6 +224,7 @@ def test_built_regions_and_slot_data_keep_correct_compartments(
     assert door.access_rule(CollectionState(multiworld))
     assert {exit.connected_region.name for exit in upper_left.exits if exit.connected_region} == {
         BOTTOM_RIGHT, GOAL_VISIT, "REGION_MOONLIGHT_MANSION/MAIN",
+        "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
     }
     with pytest.raises(KeyError):
         multiworld.get_entrance(f"{UPPER_LEFT} -> {ROOM_18}", 1)
