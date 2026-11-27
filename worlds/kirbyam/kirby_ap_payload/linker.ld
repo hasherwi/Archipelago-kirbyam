@@ -46,6 +46,8 @@ SECTIONS
     KEEP(*(.apstatuefx))
     KEEP(*(.apstatuefx_data))
     ap_extension_code_end = .;
+    . = 0x6FF4;
+    KEEP(*(.apbossflagconfig))
     . = 0x6FF8;
     KEEP(*(.apcandy912config))
     /* The shared pickup art table includes native statue frames at E388..ED07. */
@@ -76,8 +78,9 @@ ASSERT(SIZEOF(.apcolors) <= 0x10000, "Curated palette extension exceeds 64 KiB")
 ASSERT(ADDR(.text) + SIZEOF(.text) <= AP_CONFIG_ADDR, "KirbyAM payload overlaps fixed configuration ABI")
 ASSERT(SIZEOF(.data) == 0 && SIZEOF(.bss) == 0, "KirbyAM ROM payload must not contain writable static storage")
 
-ASSERT(ap_extension_code_end <= 0x09006FF8, "Candy 9-12 config overlaps extension code")
+ASSERT(ap_extension_code_end <= 0x09006FF4, "Capture the Flag config overlaps extension code")
 ASSERT(gApCandy912Fuse == 0x09006FF8, "Candy 9-12 fuse config address changed")
+ASSERT(gApBossFlagConfig == 0x09006FF4, "Capture the Flag boss config address changed")
 ASSERT(gApRewardArtConfig == 0x0900F000, "Reward art config address changed")
 ASSERT(gApVisitRoomArtConfig == 0x0900FFBC, "Room visit config address changed")
 ASSERT(gApNarcolepsyInfo == 0x0900FFC0, "Narcolepsy marker address changed")

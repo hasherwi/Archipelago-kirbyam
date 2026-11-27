@@ -3693,6 +3693,32 @@ class KirbyAmClient(BizHawkClient):
         """Mirror shard bits are progression state only; they no longer emit AP location checks."""
         return
 
+    async def _recover_saved_boss_flag(self, ctx, flag_session) -> int | None:
+        from .capture_the_flag import BOSS_FLAG_CONFIG_ROM_OFFSET, boss_flag_config
+        from .completion import PHYSICAL_SAVE_ADDRESS, SAVE_ID_ADDRESS, saved_boss_flag
+
+        if flag_session is None:
+            return None
+        proof = self._capture_flag_key(ctx)
+        if proof is None or self._captured_flag_key == proof:
+            return None
+        target = proof[1]
+        config = boss_flag_config(target)
+        cookie = self._transport_addr("mailbox_init_cookie")
+        auth = self._health_rom_auth
+        if config is None or cookie is None:
+            return None
+        auth_addr = _normalize_gba_rom_address(data.rom_addresses["gArchipelagoInfo"])
+        record = await bizhawk.guarded_read(ctx.bizhawk_ctx,
+            [(PHYSICAL_SAVE_ADDRESS, 20, "System Bus"), (SAVE_ID_ADDRESS, 2, "System Bus")],
+            [(auth_addr, auth, "ROM"), (BOSS_FLAG_CONFIG_ROM_OFFSET, config, "ROM"),
+             (cookie, (0x4B41504D).to_bytes(4, "little"), "System Bus")])
+        if (flag_session != self._flag_observation_session(ctx) or record is None or len(record) != 2
+                or len(record[1]) != 2 or int.from_bytes(record[1], "little") > 2
+                or not saved_boss_flag(record[0], auth)):
+            return None
+        return target
+
     async def _poll_boss_defeat_locations(self, ctx: KirbyAmBizHawkClientContext) -> None:
         """
         Read boss_defeat_flags transport bitfield and map set bits to boss-defeat locations.
@@ -3713,6 +3739,8 @@ class KirbyAmClient(BizHawkClient):
             if (boss_bits >> bit) & 1:
                 mapped_checked_locations.update(self._boss_location_ids_by_bit.get(bit, []))
 
+        if (saved := await self._recover_saved_boss_flag(ctx, flag_session)) is not None:
+            mapped_checked_locations.add(saved)
         await self._observe_capture_flag(ctx, mapped_checked_locations, flag_session)
         missing_on_server = sorted(mapped_checked_locations - ctx.checked_locations)
         already_acknowledged = sorted(mapped_checked_locations & ctx.checked_locations)

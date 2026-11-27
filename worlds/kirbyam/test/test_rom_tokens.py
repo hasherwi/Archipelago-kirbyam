@@ -322,3 +322,22 @@ def test_write_tokens_runtime_config_words_are_each_written_once() -> None:
             address == config_address
             for _, address, _ in patch.token_writes
         ) == 1
+
+
+def test_only_selected_boss_flag_writes_native_seed_config() -> None:
+    from ..capture_the_flag import BOSS_FLAG_CONFIG_ROM_OFFSET
+    from ..data import data
+
+    world = _make_world(AbilityRandomizationMode.option_off)
+    for location_key in (None, "MINOR_CHEST_MUSIC_NOTE_06", *(f"BOSS_DEFEAT_{n}" for n in range(1, 9))):
+        location = data.locations[location_key] if location_key else None
+        world._flag_location_id = location.location_id if location else None
+        patch = _DummyPatch()
+        write_tokens(cast(Any, world), cast(Any, patch))
+        tokens = [(kind, content) for kind, address, content in patch.token_writes
+                  if address == BOSS_FLAG_CONFIG_ROM_OFFSET]
+        if location_key and location_key.startswith("BOSS_DEFEAT_"):
+            assert location is not None and location.bit_index is not None
+            assert tokens == [(APTokenTypes.WRITE, b"CFB" + bytes([location.bit_index]))]
+        else:
+            assert tokens == []

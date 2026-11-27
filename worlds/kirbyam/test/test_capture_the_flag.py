@@ -261,3 +261,55 @@ async def test_acknowledged_flag_does_not_synthesize_its_lever_pull() -> None:
         await client._reconcile_lever_activations(ctx)
         read.assert_not_awaited()
         write.assert_not_awaited()
+
+
+@pytest.mark.asyncio
+async def test_cold_reload_recovers_native_boss_flag_without_offline_client(tmp_path, monkeypatch) -> None:
+    import Utils
+    from ..capture_the_flag import BOSS_FLAG_CONFIG_ROM_OFFSET, boss_flag_config
+    from ..completion import (PHYSICAL_SAVE_ADDRESS, PHYSICAL_SAVE_BOSS_FLAG_TAG, PHYSICAL_SAVE_V3_TAG,
+                              SAVE_ID_ADDRESS, merge_acknowledged_levers, saved_boss_flag)
+    from ..data import data
+    monkeypatch.setattr(Utils.user_path, "cached_path", str(tmp_path), raising=False)
+    location = data.locations["BOSS_DEFEAT_2"]
+    target = location.location_id
+    config = boss_flag_config(target)
+    assert config == b"CFB" + bytes([location.bit_index])
+    ctx = make_context(Goal.option_capture_the_flag, {target}, set(), **{FLAG_SLOT_KEY: target})
+    client = KirbyAmClient()
+    client.initialize_client()
+    client._health_rom_auth = ROM_AUTH
+    client._display_client_message = AsyncMock()
+
+    # Offline battle followed by an ordinary native save and a cold boot:
+    # volatile hook bits and the local proof journal both start empty.
+    selected = ROM_AUTH + (PHYSICAL_SAVE_BOSS_FLAG_TAG | (1 << 20)).to_bytes(4, "little")
+    restored = merge_acknowledged_levers(selected, ROM_AUTH, 4)
+    assert saved_boss_flag(restored, ROM_AUTH)
+    cosmetic_only = ROM_AUTH + (PHYSICAL_SAVE_V3_TAG | (1 << 20)).to_bytes(4, "little")
+    foreign = b"other-rom-auth16" + selected[16:]
+    cases = [(cosmetic_only, bytes(2), config), (foreign, bytes(2), config),
+             (restored, bytes(2), b"CFB\xff"), (restored, b"\x03\x00", config),
+             (restored, bytes(2), config)]
+    for record, save_id, rom_config in cases:
+        async def guard(_emu, reads, guards):
+            if reads:
+                assert reads == [(PHYSICAL_SAVE_ADDRESS, 20, "System Bus"), (SAVE_ID_ADDRESS, 2, "System Bus")]
+                assert (BOSS_FLAG_CONFIG_ROM_OFFSET, config, "ROM") in guards
+                return [record, save_id] if rom_config == config else None
+            return []
+
+        with patch("worlds.kirbyam.client.bizhawk.read", new_callable=AsyncMock, return_value=[bytes(4)]), patch(
+                "worlds.kirbyam.client.bizhawk.guarded_read", side_effect=guard):
+            await client._poll_boss_defeat_locations(ctx)
+            await client._maybe_report_goal(ctx)
+        if (record, save_id, rom_config) != cases[-1]:
+            ctx.send_msgs.assert_not_awaited()
+    # Recovered physical proof sends the real check; goal still waits for AP.
+    ctx.send_msgs.assert_awaited_once_with([{"cmd": "LocationChecks", "locations": [target]}])
+    assert not ctx.finished_game
+    ctx.checked_locations.add(target)
+    ctx.missing_locations.remove(target)
+    await client._maybe_report_goal(ctx)
+    assert ctx.finished_game
+    assert ctx.send_msgs.await_args.args[0] == [{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}]

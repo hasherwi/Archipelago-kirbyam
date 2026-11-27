@@ -21,6 +21,7 @@ PHYSICAL_SAVE_TAG = 0x48400000
 PHYSICAL_SAVE_MASK = 0x7FFFF
 PHYSICAL_SAVE_V3_TAG = 0x50000000
 PHYSICAL_SAVE_V3_MASK = 0x07FFFFFF
+PHYSICAL_SAVE_BOSS_FLAG_TAG = 0x58000000
 LEGACY_HUB_SAVE_TAG = 0x48530000
 LEGACY_HUB_SAVE_MASK = 0x7FFF
 MANIFEST: dict[str, Any] = dict(load_json_data("full_completion.json"))
@@ -55,7 +56,7 @@ def _saved_physical_bits(raw: bytes, auth: bytes) -> int | None:
     if len(raw) != 20 or len(auth) != 16 or raw[:16] != auth:
         return None
     word = int.from_bytes(raw[16:], "little")
-    if word & ~PHYSICAL_SAVE_V3_MASK == PHYSICAL_SAVE_V3_TAG:
+    if word & ~PHYSICAL_SAVE_V3_MASK in (PHYSICAL_SAVE_V3_TAG, PHYSICAL_SAVE_BOSS_FLAG_TAG):
         return word & PHYSICAL_SAVE_V3_MASK
     if word & ~PHYSICAL_SAVE_MASK == PHYSICAL_SAVE_TAG:
         return word & PHYSICAL_SAVE_MASK
@@ -70,10 +71,18 @@ def saved_physical_mask(raw: bytes, auth: bytes) -> int | None:
     return bits & PHYSICAL_SAVE_MASK if bits is not None else None
 
 
+def saved_boss_flag(raw: bytes, auth: bytes) -> bool:
+    return (_saved_physical_bits(raw, auth) is not None
+            and int.from_bytes(raw[16:], "little") & ~PHYSICAL_SAVE_V3_MASK == PHYSICAL_SAVE_BOSS_FLAG_TAG)
+
+
 def merge_acknowledged_levers(raw: bytes, auth: bytes, levers: int) -> bytes:
     """Merge server-confirmed pulls into native RAM; native code owns save timing."""
     existing = _saved_physical_bits(raw, auth) or 0
-    tag = PHYSICAL_SAVE_V3_TAG if existing & ~PHYSICAL_SAVE_MASK else PHYSICAL_SAVE_TAG
+    if saved_boss_flag(raw, auth):
+        tag = PHYSICAL_SAVE_BOSS_FLAG_TAG
+    else:
+        tag = PHYSICAL_SAVE_V3_TAG if existing & ~PHYSICAL_SAVE_MASK else PHYSICAL_SAVE_TAG
     return auth + (tag | existing | ((levers & 15) << 15)).to_bytes(4, "little")
 
 

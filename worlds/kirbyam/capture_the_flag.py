@@ -13,6 +13,16 @@ if TYPE_CHECKING:
 
 GOAL_EVENT = "Capture the Flag"
 FLAG_SLOT_KEY = "goal_flag_location_id"
+BOSS_FLAG_CONFIG_ROM_OFFSET = 0x1006FF4
+_BOSS_FLAG_INDEX = {entry.location_id: entry.bit_index for entry in data.locations.values()
+                    if entry.category == LocationCategory.BOSS_DEFEAT and entry.bit_index is not None}
+
+
+def boss_flag_config(location_id: int | None) -> bytes | None:
+    """Only the seed's selected boss, never item ownership, can claim this flag."""
+    index = _BOSS_FLAG_INDEX.get(location_id) if location_id is not None else None
+    return b"CFB" + bytes([index]) if index is not None and 0 <= index < 8 else None
+
 LOCATION_NAMES = {entry.location_id: entry.label for entry in data.locations.values()
                   if entry.category != LocationCategory.GOAL and type(entry.location_id) is int}
 
