@@ -244,6 +244,8 @@ Every new seed includes one **Phone a Friend** progression item; there is no
 Phone option. Receiving it unlocks new local single-player **R** calls. **L**
 return/escape and tutorial calls are not locked. Ownership persists with the
 authenticated native save. Cell Phone Batteries remain ordinary consumables.
+For item placement, a Phone-dependent check needs a reachable Cell Phone Battery
+or at least one reachable Goal Game that can be replayed for batteries.
 Before you receive Phone, its battery display is empty but charges are retained.
 You start with three charges and can receive more than three; the display has
 only three segments, so extra charges have no additional visual indicator.

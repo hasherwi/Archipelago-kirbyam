@@ -314,7 +314,7 @@ def test_exact_fuzz_69_phone_goal_fill_refuses_and_preserves_source_policy(
 ) -> None:
     from ..rules import _BOSS_DEFEAT_LOCATION_LABELS
 
-    # The combined Phone/Goal pool now safely refuses the same exact seed.
+    # The revised Phone/Goal pool still rejects this selected-goal-beatable seed.
     multiworld = replay_rejected_fuzz_case(monkeypatch, tmp_path, 69)
     from .support.check_accessibility import audit_local_checks
     audit = audit_local_checks(multiworld, 1)
@@ -322,9 +322,6 @@ def test_exact_fuzz_69_phone_goal_fill_refuses_and_preserves_source_policy(
     assert audit.progression_unreachable == (
         'Candy Constellation Sound Player - Big Chest',
         'Candy Constellation Vitality - Big Chest',
-        'Moonlight Mansion - Goal Game 1',
-        'Moonlight Mansion 2-15 - Small Chest #1',
-        'Moonlight Mansion 2-GOAL-2 - Spray Paint #14 Chest',
         'Peppermint Palace - Goal Game 2',
         'Peppermint Palace 7-22 - Spray Paint #1 Chest',
         'Peppermint Palace Goal 2 - Small Chest #1')
@@ -448,6 +445,20 @@ def test_historical_ci_fuzz_1_placement_strands_before_room16_gate(
         *expected["beam_only_stranded_checks"], "Carrot Castle 5-13 - Small Chest #2",
     ])
     use_historical_room16_fallback(monkeypatch)
+    # Recreate the older item pool and ownership-only Phone rule for this
+    # placement fingerprint. The final validator is still the real one.
+    from .. import phone_traversal
+    from BaseClasses import ItemClassification
+    monkeypatch.setattr(phone_traversal, "BATTERY_COST", 0)
+    create_item_by_code = KirbyAmWorld.create_item_by_code
+
+    def historical_item(world, code):
+        item = create_item_by_code(world, code)
+        if item.name == phone_traversal.BATTERY:
+            item.classification = ItemClassification.filler
+        return item
+
+    monkeypatch.setattr(KirbyAmWorld, "create_item_by_code", historical_item)
     multiworld = replay_rejected_fuzz_case(monkeypatch, tmp_path, 1)
     assert multiworld.worlds[1].options.accessibility.value == Accessibility.option_minimal
     assert multiworld.can_beat_game() and multiworld.fulfills_accessibility()

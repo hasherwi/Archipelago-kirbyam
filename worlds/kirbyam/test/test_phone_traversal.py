@@ -7,7 +7,7 @@ from .. import phone_traversal as p
 from .test_traversal import policy
 
 
-def world(keys=True):
+def world(keys=True, goal_games=()):
     options = dict(ability_randomization_mode=0,
                    ability_gating=0, minimum_health=6, maximum_health=10,
                    enemy_health_multiplier=100, room_sanity=0, one_hit_mode=0)
@@ -16,17 +16,25 @@ def world(keys=True):
     indirect = []
     w = NS(player=1, options=NS(**{k: NS(value=v) for k,v in options.items()}),
            _enemy_copy_ability_policy=policy().policy, _area_keys_enabled=lambda: keys)
+    source = RegionRef(p.SOURCE_REGION)
     def get_entrance(name, player):
         assert player == 1
         assert name == p.ENTRANCE
         return edge
-    w.multiworld = NS(get_entrance=get_entrance, get_region=lambda name, player: name,
+    w.multiworld = NS(get_entrance=get_entrance, get_region=lambda name, player: source,
+                      get_locations=lambda player: goal_games,
                       register_indirect_condition=lambda region, entrance: indirect.append((region, entrance)))
     return w, edge, other, indirect
 
 
-def state(items=(), source=True):
-    return NS(has=lambda name, player: name in items,
+class RegionRef:
+    def __init__(self, name):
+        self.name = name
+
+
+def state(items=(), source=True, goal=False):
+    return NS(has=lambda name, player, count=1: list(items).count(name) >= count,
+              goal_reachable=goal,
               can_reach_region=lambda name, player: source and name == p.SOURCE_REGION)
 
 
@@ -34,19 +42,19 @@ def state(items=(), source=True):
 def test_installed_witness_and_each_missing_resource(keys):
     w, edge, other, indirect = world(keys=keys)
     p.install_phone_rules(w)
-    items = {p.PHONE, p.EAST_HUB} | ({p.MOONLIGHT_KEY} if keys else set())
+    items = {p.PHONE, p.EAST_HUB, p.BATTERY} | ({p.MOONLIGHT_KEY} if keys else set())
     assert edge.access_rule(state(items))
     for item in items:
         assert not edge.access_rule(state(items - {item}))
     assert not edge.access_rule(state(items, source=False))
     assert not edge.access_rule(state({'Cutter Ability', 'Sword Ability', 'Beam Ability'}))
     assert other.access_rule(state())  # No companion compartment/return rewrite.
-    assert indirect == [(p.SOURCE_REGION, edge)]
+    assert [(r.name, e) for r, e in indirect] == [(p.SOURCE_REGION, edge)]
 
 
 @pytest.mark.parametrize('field,value', [('ability_randomization_mode',1),('ability_gating',1),
     ('enemy_health_multiplier',101)])
-def test_unsupported_profile_gets_only_ownership_constraint(field,value):
+def test_unsupported_profile_keeps_ownership_and_charge_constraint(field,value):
     w, edge, other, indirect = world()
     getattr(w.options,field).value=value
     if field == 'ability_randomization_mode':
@@ -54,7 +62,8 @@ def test_unsupported_profile_gets_only_ownership_constraint(field,value):
     assert not p.validate_phone_profile(w)
     p.install_phone_rules(w)
     assert not edge.access_rule(state())
-    assert edge.access_rule(state({p.PHONE}, source=False))
+    assert not edge.access_rule(state({p.PHONE}, source=False))
+    assert edge.access_rule(state({p.PHONE, p.BATTERY}, source=False))
     assert other.access_rule(state()) and not indirect
 
 
@@ -78,7 +87,7 @@ def test_only_declared_146_edge_is_installed_and_source_is_independent():
                           'REGION_MOONLIGHT_MANSION/ROOM_2_18_BOTTOM_RIGHT')
     w, edge,*_=world()
     p.install_phone_rules(w)  # fixture rejects every other entrance name
-    assert edge.access_rule(state({p.PHONE,p.EAST_HUB,p.MOONLIGHT_KEY}))
+    assert edge.access_rule(state({p.PHONE,p.EAST_HUB,p.MOONLIGHT_KEY,p.BATTERY}))
 
 @pytest.mark.parametrize('keys', [0, 1])
 @pytest.mark.parametrize('room_sanity', [0, 1])
@@ -121,7 +130,7 @@ def test_existing_constraint_is_not_overwritten_by_phone_witness():
     w, edge, *_ = world()
     edge.access_rule = lambda state: False
     p.install_phone_rules(w)
-    assert not edge.access_rule(state({p.PHONE,p.EAST_HUB,p.MOONLIGHT_KEY}))
+    assert not edge.access_rule(state({p.PHONE,p.EAST_HUB,p.MOONLIGHT_KEY,p.BATTERY}))
 
 
 @pytest.mark.parametrize('qualified', [False, True])
@@ -130,7 +139,7 @@ def test_prior_constraint_survives_ownership_and_qualified_rules(qualified):
     w.options.ability_gating.value = int(not qualified)
     edge.access_rule = lambda state: False
     p.install_phone_rules(w)
-    assert not edge.access_rule(state({p.PHONE,p.EAST_HUB,p.MOONLIGHT_KEY}))
+    assert not edge.access_rule(state({p.PHONE,p.EAST_HUB,p.MOONLIGHT_KEY,p.BATTERY}))
 
 
 @pytest.mark.parametrize('field,value', [('ability_gating',1),('enemy_health_multiplier',500),('room_sanity',1)])
@@ -151,7 +160,76 @@ def test_player_health_does_not_replace_physical_phone_resources(minimum, maximu
     w.options.one_hit_mode.value = one_hit
     assert p.validate_phone_profile(w, require_policy=True)
     items = {p.PHONE, p.EAST_HUB, p.MOONLIGHT_KEY}
+    items.add(p.BATTERY)
     assert edge.access_rule(state(items))
     assert not edge.access_rule(state(items, source=False))
     for item in items:
         assert not edge.access_rule(state(items - {item}))
+
+
+def test_repeatable_goal_game_replaces_item_but_not_phone_or_route_requirements():
+    game = NS(key="GOAL_GAME_1_GOAL_1", parent_region=RegionRef("Goal Room"),
+              can_reach=lambda state: state.goal_reachable)
+    other_location = NS(key=p.PHONE_CHECK, parent_region=RegionRef("Unrelated room"),
+                        can_reach=lambda state: True)
+    w, edge, _, indirect = world(goal_games=(game, other_location))
+    p.install_phone_rules(w)
+    items = {p.PHONE, p.EAST_HUB, p.MOONLIGHT_KEY}
+    assert edge.access_rule(state(items, goal=True))
+    assert not edge.access_rule(state(items, goal=False))
+    assert not edge.access_rule(state(items - {p.PHONE}, goal=True))
+    assert not edge.access_rule(state(items, source=False, goal=True))
+    assert [region.name for region, _ in indirect] == ["Goal Room", p.SOURCE_REGION]
+
+
+def test_actual_graph_does_not_credit_battery_or_goal_game_behind_the_phone_gate():
+    from BaseClasses import CollectionState
+    from test.general import setup_multiworld
+    from worlds.generic.Rules import set_rule
+    from .. import KirbyAmWorld
+    mw = setup_multiworld(KirbyAmWorld, seed=1086, options={
+        "ability_gating": 0, "area_keys": 0,
+        "ability_randomization_mode": 0, "enemy_health_multiplier": 100,
+    })
+    w = mw.worlds[1]
+    games = [loc for loc in mw.get_locations(1) if "Goal Game" in loc.name]
+    assert games
+    for game in games:
+        set_rule(game, lambda state: False)
+    # Deliberately make one refill candidate depend on the Phone pocket.
+    set_rule(games[0], lambda state: state.can_reach_region(p.POCKET, 1))
+    chalk = next(loc for loc in mw.get_locations(1) if loc.key == p.PHONE_CHECK)
+    battery = w.create_item(p.BATTERY)
+    assert battery.advancement
+    chalk.place_locked_item(battery)
+
+    def fresh():
+        state = CollectionState(mw)
+        for item in mw.itempool:
+            if item.name != p.BATTERY:
+                state.collect(item, prevent_sweep=True)
+        state.sweep_for_advancements()
+        return state
+
+    state = fresh()
+    assert state.can_reach_region(p.MAIN, 1)
+    assert not state.has(p.BATTERY, 1)
+    assert not chalk.can_reach(state)
+    state.collect(w.create_item(p.BATTERY), prevent_sweep=True)
+    assert chalk.can_reach(state)
+    set_rule(games[0], lambda state: True)
+    state = fresh()
+    assert games[0].can_reach(state)
+    assert chalk.can_reach(state)
+
+
+def test_actual_pool_reserves_progression_battery_at_full_trap_fill():
+    from test.general import setup_multiworld
+    from .. import KirbyAmWorld
+    mw = setup_multiworld(KirbyAmWorld, seed=1086, options={
+        "ability_randomization_mode": 0, "enable_traps": 1, "trap_fill_percentage": 100,
+    })
+    assert any(item.trap for item in mw.itempool)
+    batteries = [item for item in mw.itempool if item.name == p.BATTERY]
+    assert len(batteries) == 1
+    assert batteries[0].advancement

@@ -1,6 +1,6 @@
 # JSON-first logic audit
 
-Baseline: `03195ea8ed6179994e908ad597c510649f052f3a`. Step 1 is a source audit; this branch does not change generation, runtime behavior, or the playthrough record.
+Baseline: `03195ea8ed6179994e908ad597c510649f052f3a`. The source audit below describes baseline behavior. The first follow-on commit changes Phone charge logic only; it does not change native gameplay or the playthrough record.
 
 ## 1. Where logic lives today
 
@@ -38,10 +38,10 @@ Verify one canonical owner and exact physical action/side of each obstacle for e
 
 **Advanced:** waive the three-transition limit, not physical continuity. A source may be anywhere in the game provided it is actually obtainable at that point and the ability survives a viable route to the target. A global source-name match is not enough, and random rerolls at a source must not be represented as a guaranteed single draw. Master after Dark Mind is a reachable event source, not a gated unlock.
 
-**Phone:** model ownership separately from usable charges at the obstacle. Start/reload behavior and charge pickups are runtime facts, not ordinary ability unlocks. The exact current [Phone predicate](../phone_traversal.py) has a qualified two-call witness starting with three charges; other profiles use an ownership-only fallback, not a demonstrated helper route or a general charge model. Do not credit helpers with non-Normal attacks in ordinary Phone checks.
+**Phone:** model ownership separately from charges. This branch requires one reachable battery item per Phone-dependent check, or access to at least one repeatable Goal Game as a renewable source. The first JSON schema has one configured check, Chalk Spray; it rejects additional rows until finite battery allocation across checks is modeled. Existing physical witness restrictions remain in place. The native route witness used two calls from three starting charges; the generation rule is deliberately a one-item-per-check abstraction, not exact call accounting.
 
-**Goal Games can supply a charge, but completing one does not guarantee it.** The [native Goal Game battery-pickup hook](../kirby_ap_payload/battery_hook.s) calls the same pickup operation as field batteries; the [pickup logic](../kirby_ap_payload/battery_runtime_logic.h) adds one below three. The [Goal Game acceptance record](goal-game-current-acceptance.md) also covers completion with no prizes. Therefore distinguish access to the minigame, completing it, and a verified outcome that awards a battery. Count it for Standard only if the required prize pickup and onwards route are demonstrated without already needing those charges. Prefer guaranteed start, reachable fixed pickups, or a verified refill route over assuming a random AP battery: [items.json](../data/items.json) classifies Cell Phone Battery as filler.
+The [native Goal Game battery-pickup hook](../kirby_ap_payload/battery_hook.s) calls the same pickup operation as field batteries; the [pickup logic](../kirby_ap_payload/battery_runtime_logic.h) adds one charge below three. The [Goal Game acceptance record](goal-game-current-acceptance.md) also covers completion with no prizes. The logic relies on repeatability, not a guaranteed battery on every run. A Goal Game blocked by that same Phone gate cannot supply its own unlock. Generation reserves a battery item even when the replacement trap percentage is 100%; actual batteries are visible to the progression sweep without participating in progression balancing.
 
 ## Verification boundary
 
-Static source and JSON inventory review only. No generator or emulator results are claimed for this branch. The focused test attempt in the review checkout could not start because pytest is not installed there. Use the project’s test environment for the first behavior-preserving migration; include both a known accepted seed and an expected rejected seed.
+The topology and rule inventory is a static audit. Phone regression tests cover reachable and unreachable refill routes, a self-locked battery, and item pool capacity. No new emulator result is claimed on this branch.

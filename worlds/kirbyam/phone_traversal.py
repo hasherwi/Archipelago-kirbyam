@@ -1,22 +1,52 @@
 """One qualified Phone cooperation witness, not a generic helper capability.
 
-All seeds require Phone ownership on the 146 lower-pocket edge; only the
-qualified profile adds the reviewed cooperation witness. This does not assert Phone necessity: unqualified solo/ambient-helper
-histories remain unmodeled, not physically impossible. The witness uses a
-post-tutorial same-file reset (three batteries), two calls, native Sir Kibble
-Cutter for the approach, then human Normal and collective inhale. Helpers do
-not supply attacks, equipment or discarded-star sources to this rule.
+All seeds require Phone and a charge source on the 146 lower-pocket edge.
+Only the qualified profile adds the reviewed cooperation witness. This does not
+assert Phone necessity: unqualified solo/ambient-helper histories remain
+unmodeled, not physically impossible. The native witness made two calls from
+three starting charges; generation instead models one battery item per check.
+Helpers do not supply attacks, equipment or discarded-star sources to this
+rule.
 """
 from __future__ import annotations
 
+from functools import cache
 from typing import Any
+
+from .data import LocationCategory, data, load_json_data
 
 PHONE = "Phone a Friend"
 EAST_HUB = "Rainbow Route East - Hub Connection"
 MOONLIGHT_KEY = "Moonlight Mansion - Area Key"
 SOURCE_REGION = "REGION_RAINBOW_ROUTE/ROOM_1_42"
-MAIN = "REGION_MOONLIGHT_MANSION/ROOM_2_18"
-POCKET = "REGION_MOONLIGHT_MANSION/ROOM_2_18_BOTTOM_RIGHT"
+
+
+@cache
+def _charge_data() -> tuple[str, LocationCategory, str, str, str, int]:
+    raw = load_json_data("phone_logic.json")
+    if not isinstance(raw, dict) or type(raw.get("schema")) is not int or raw["schema"] != 1:
+        raise ValueError("Unsupported Phone charge logic data")
+    rows = raw.get("requirements")
+    # A single current Phone check only. A future multi-check schema must
+    # allocate finite charges across checks rather than reuse one arbitrarily.
+    if not isinstance(rows, list) or len(rows) != 1:
+        raise ValueError("Phone charge schema 1 requires exactly one check")
+    row = rows[0]
+    if not isinstance(row, dict) or type(row.get("battery_items")) is not int or row["battery_items"] != 1:
+        raise ValueError("Phone charge schema 1 requires one battery per check")
+    battery = raw["battery_item"]
+    if battery not in {item.label for item in data.items.values() if "Battery" in item.tags}:
+        raise ValueError("Phone charge item must be a declared battery")
+    if raw.get("repeatable_refill_category") != "GOAL_GAME":
+        raise ValueError("Phone refill category must be GOAL_GAME")
+    main, pocket, check = row["from_region"], row["to_region"], row["check"]
+    if (main not in data.regions or pocket not in data.regions[main].exits
+            or check not in data.locations):
+        raise ValueError("Phone charge data refers to an unknown entrance or check")
+    return battery, LocationCategory.GOAL_GAME, main, pocket, check, row["battery_items"]
+
+
+BATTERY, _REFILL_CATEGORY, MAIN, POCKET, PHONE_CHECK, BATTERY_COST = _charge_data()
 ENTRANCE = f"{MAIN} -> {POCKET}"
 
 
@@ -73,19 +103,31 @@ def install_phone_rules(world: Any) -> None:
               for name in (*_PROFILE, "room_sanity")}
     world._phone_route_signature = (tuple(values.items()), json.dumps(
         world._enemy_copy_ability_policy, sort_keys=True, separators=(",", ":")))
-    entrance = world.multiworld.get_entrance(ENTRANCE, world.player)
-
-    if not qualified:
-        # Ownership-only conservative constraint, not a physical helper witness.
-        add_rule(entrance, lambda state: state.has(PHONE, world.player))
-        return
+    mw, player = world.multiworld, world.player
+    entrance = mw.get_entrance(ENTRANCE, player)
+    # Ask whether the actually instantiated Goal Game location is reachable,
+    # not merely its room. The AP region search computes a least fixed point
+    # and retries this gate when a relevant parent region becomes reachable.
+    goal_games = tuple(
+        location for location in mw.get_locations(player)
+        if (meta := data.locations.get(getattr(location, "key", None))) is not None
+        and meta.category == _REFILL_CATEGORY
+    )
 
     def rule(state: Any) -> bool:
-        return (state.has(PHONE, world.player)
-                and state.has(EAST_HUB, world.player)
-                and (not world._area_keys_enabled() or state.has(MOONLIGHT_KEY, world.player))
-                and state.can_reach_region(SOURCE_REGION, world.player))
+        if not state.has(PHONE, player):
+            return False
+        if qualified and not (
+                state.has(EAST_HUB, player)
+                and (not world._area_keys_enabled() or state.has(MOONLIGHT_KEY, player))
+                and state.can_reach_region(SOURCE_REGION, player)):
+            return False
+        return (state.has(BATTERY, player, BATTERY_COST)
+                or any(game.can_reach(state) for game in goal_games))
 
     add_rule(entrance, rule)
-    world.multiworld.register_indirect_condition(
-        world.multiworld.get_region(SOURCE_REGION, world.player), entrance)
+    dependencies = {game.parent_region for game in goal_games}
+    if qualified:
+        dependencies.add(mw.get_region(SOURCE_REGION, player))
+    for region in sorted(dependencies, key=lambda region: region.name):
+        mw.register_indirect_condition(region, entrance)

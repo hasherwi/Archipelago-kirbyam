@@ -1092,13 +1092,20 @@ class KirbyAmWorld(World):
                     )
 
                 eligible_filler_slots = needed_pool_size - len(non_filler_item_codes)
+                from .phone_traversal import BATTERY, BATTERY_COST, PHONE_CHECK
+                reserved_batteries = BATTERY_COST if PHONE_CHECK in location_by_key else 0
+                if eligible_filler_slots < reserved_batteries:
+                    raise ValueError("KirbyAM item pool has no room for the Phone logic battery")
+                # A battery route must remain possible even with 100% trap fill.
+                trap_eligible_slots = eligible_filler_slots - reserved_batteries
                 active_trap_labels = self._active_trap_pool()
                 trap_count = 0
-                if self._traps_enabled() and active_trap_labels and eligible_filler_slots > 0:
-                    trap_count = (eligible_filler_slots * self._trap_fill_percentage()) // 100
-                filler_needed = eligible_filler_slots - trap_count
+                if self._traps_enabled() and active_trap_labels and trap_eligible_slots > 0:
+                    trap_count = (trap_eligible_slots * self._trap_fill_percentage()) // 100
+                filler_needed = trap_eligible_slots - trap_count
                 active_filler_labels, active_filler_weights = self._active_filler_weighted_pool()
                 randomized_item_codes.extend(non_filler_item_codes)
+                randomized_item_codes.extend([self.item_name_to_id[BATTERY]] * reserved_batteries)
                 randomized_item_codes.extend(
                     self.item_name_to_id[self.random.choice(active_trap_labels)]
                     for _ in range(trap_count)
@@ -1576,6 +1583,11 @@ class KirbyAmWorld(World):
                                       mustard_magic_is_progression)
 
         classification = get_item_classification(item_code)
+        from .phone_traversal import BATTERY
+        if self.item_id_to_name[item_code] == BATTERY:
+            # All copies count so the filler/receipt order cannot decide whether
+            # a reachable battery is visible to restrictive fill or the tracker.
+            classification = ItemClassification.progression_skip_balancing
         if self.item_id_to_name[item_code] == "Ice Ability":
             from .traversal_rules import goal2_ice_is_progression, mustard_ice_is_progression
             if (goal2_ice_is_progression(self) or cabbage_element_is_progression(self, "Ice")
