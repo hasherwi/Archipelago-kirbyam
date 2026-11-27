@@ -1127,9 +1127,9 @@ def test_json_goal_contract_rejects_invalid_references(monkeypatch, invalid):
     if invalid == "missing_mode":
         del payload["goals"]["dark_mind"]
     elif invalid == "non_goal":
-        payload["goals"]["dark_mind"]["goal"] = "BOSS_DEFEAT_1"
+        payload["goals"]["dark_mind"]["goal_location"] = "BOSS_DEFEAT_1"
     elif invalid == "unknown_operator":
-        payload["goals"]["dark_mind"]["require"] = ["unreviewed_requirement"]
+        payload["goals"]["dark_mind"]["all_of"] = ["unreviewed_requirement"]
     else:
         payload["dark_mind_prerequisite_event"] = "Not a real event"
     monkeypatch.setattr(rules, "load_json_data", lambda _: payload)

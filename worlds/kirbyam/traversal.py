@@ -54,12 +54,14 @@ def load_capability_catalog(payload: Any) -> tuple[
     consumed: dict[str, frozenset[str]] = {}
     for name, raw in rows.items():
         if (not isinstance(name, str) or not name or not isinstance(raw, dict)
-                or "abilities" not in raw
-                or raw.keys() - {"abilities", "consumed_abilities", "native_room", "water", "note"}):
+                or "allowed_abilities" not in raw
+                or raw.keys() - {"allowed_abilities", "consumed_abilities", "native_room", "attack_medium", "note"}):
             raise ValueError(f"Invalid traversal capability: {name!r}")
-        providers[name] = abilities(raw["abilities"], name)
-        if "native_room" in raw or "water" in raw:
-            room, medium = raw.get("native_room"), raw.get("water")
+        if "note" in raw and (not isinstance(raw["note"], str) or not raw["note"].strip()):
+            raise ValueError(f"{name} has an invalid capability note")
+        providers[name] = abilities(raw["allowed_abilities"], name)
+        if "native_room" in raw or "attack_medium" in raw:
+            room, medium = raw.get("native_room"), raw.get("attack_medium")
             if type(room) is not int or room < 0 or medium not in ("dry", "swimming"):
                 raise ValueError(f"{name} requires both a native room and attack medium")
             rooms[name], water[name] = room, medium

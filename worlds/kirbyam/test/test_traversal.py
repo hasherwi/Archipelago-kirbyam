@@ -360,11 +360,11 @@ def test_json_capability_catalog_rejects_invalid_facts(invalid):
     payload = load_json_data("traversal_capabilities.json")
     row = payload["capabilities"]["switch_533_crash_viewport"]
     if invalid == "duplicate_ability":
-        row["abilities"] = ["Crash", "Crash"]
+        row["allowed_abilities"] = ["Crash", "Crash"]
     elif invalid == "wait":
-        row["abilities"] = ["Wait"]
+        row["allowed_abilities"] = ["Wait"]
     elif invalid == "missing_water":
-        del row["water"]
+        del row["attack_medium"]
     elif invalid == "bad_room":
         row["native_room"] = True
     else:

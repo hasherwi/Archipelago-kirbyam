@@ -68,12 +68,12 @@ def _load_goal_logic():
     modes = {}
     for value, name in Goal.name_lookup.items():
         row = goals[name]
-        if not isinstance(row, dict) or set(row) != {"goal", "require"}:
+        if not isinstance(row, dict) or set(row) != {"goal_location", "all_of"}:
             raise ValueError(f"Invalid Kirby goal declaration: {name}")
-        location = data.locations.get(row["goal"])
+        location = data.locations.get(row["goal_location"])
         if location is None or location.category != LocationCategory.GOAL:
             raise ValueError(f"Kirby goal declaration must name a goal location: {name}")
-        requirements = row["require"]
+        requirements = row["all_of"]
         if not isinstance(requirements, list) or not requirements:
             raise ValueError(f"Kirby goal must declare requirements: {name}")
         clauses = []

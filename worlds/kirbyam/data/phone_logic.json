@@ -1,13 +1,13 @@
 {
   "schema": 1,
   "battery_item": "Cell Phone Battery",
+  "battery_reward_classification": "USEFUL",
   "repeatable_refill_category": "GOAL_GAME",
-  "requirements": [
+  "phone_required_checks": [
     {
       "from_region": "REGION_MOONLIGHT_MANSION/ROOM_2_18",
       "to_region": "REGION_MOONLIGHT_MANSION/ROOM_2_18_BOTTOM_RIGHT",
-      "check": "MINOR_CHEST_SPRAY_PAINT_14",
-      "battery_items": 1
+      "check": "MINOR_CHEST_SPRAY_PAINT_14"
     }
   ]
 }
