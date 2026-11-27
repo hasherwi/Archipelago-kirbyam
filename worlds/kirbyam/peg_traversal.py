@@ -7,12 +7,14 @@ never credit a source behind its own peg. Other peg routes await a reviewed carr
 
 from __future__ import annotations
 
+from functools import lru_cache
 from typing import Any, Callable
 
 from .data import data
+from .special_route_data import SPECIAL_ROUTE_PROFILES
 from .traversal import SourcePolicy, TraversalGraph
 from .traversal_data import (
-    graph_access_regions, graph_items, has_graph_access, requires_all_traversal_witnesses,
+    compile_room_graph, graph_access_regions, graph_items, has_graph_access, requires_all_traversal_witnesses,
     room_traversal_graph, room_traversal_targets,
 )
 
@@ -25,9 +27,18 @@ def stone_carry_graph(row: dict[str, Any], area_keys: bool, statue_room: bool = 
     return room_traversal_graph(row["id"], "statues" if statue_room else "carry", area_keys)
 
 
+@lru_cache(maxsize=None)
+def short_peg_graphs(target_id: str, area_keys: bool) -> tuple[TraversalGraph, ...]:
+    record = SPECIAL_ROUTE_PROFILES["short_peg_witnesses"].get(target_id)
+    if record is None:
+        return ()
+    graph = compile_room_graph(record["witness"], {}, area_keys=area_keys, require_inventory=True)
+    return (graph,)
+
+
 def carry_graphs(row: dict[str, Any], area_keys: bool) -> tuple[TraversalGraph, ...]:
     return tuple(room_traversal_graph(row["id"], name, area_keys)
-                 for name in row["graphs"] if name != "local")
+                 for name in row["graphs"] if name != "local") + short_peg_graphs(row["id"], area_keys)
 
 
 def carrier_reachable(world: Any, state: Any, policy: SourcePolicy, graph: TraversalGraph,

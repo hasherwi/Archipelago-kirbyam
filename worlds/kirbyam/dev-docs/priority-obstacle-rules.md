@@ -86,16 +86,33 @@ Advanced route and no reviewed Standard route:
 
 | Target | Reviewed Standard evidence needed |
 | --- | --- |
-| Cabbage 3-09 chest | Verify original n528 Rocky and the three-transition suffix |
-| Peppermint 7-06 Happy Notes entry | Verify n210 Bonkers across two transitions, or closer n203 Rocky |
-| Radish Chest 1 | Verify n623 Bonkers across two doors or n592 Stone across three |
 | Beginning Music Notes (`metal_537_beginning_notes`) | Local or shorter metal-breaking route |
 | Moonlight past-metal and both 2-01 entries (`metal_708_*`) | Local or shorter metal-breaking routes for each landing |
 | Moonlight 2-13 (`metal_707_to_712`) | Local or shorter metal-breaking route |
 | Peppermint 7-09 chest and 7-10 left 1-Up | Alternatives to the reviewed long metal-breaking carriers |
 
-The three peg leads above come from the native inventory and directed doors,
-not yet verified individual acquisition or arrival on the correct side.
+Three peg cases from the original audit now have verified short source paths
+in the shared traversal profile catalog: Cabbage n528 Rocky (three carries to
+the chest), Peppermint n210 Bonkers (two carries to the peg, three to the Happy
+Notes chest), and Radish n592 Stone statue (three carries to the peg, followed
+by Normal to the room and Vitality chest). Longer existing alternatives are
+not yet globally excluded by generation. The separate Radish Bonkers route
+remains a test lead, not a substitute for the statue proof.
+
+The remaining lead batches, not yet accepted for Standard, are:
+- Rainbow Music Sheet #1: original n543 Flamer `0x088B62EC` at (568,40),
+  then 543→542→536→537 to the prior Stone witness side. Test Burning on the
+  exact gate and chest.
+- Moonlight 2-01: original n702 Flamers `0x088BDE80` and `0x088BDF34`;
+  702→706→708 gives a potential two-transition Burning feeder, but arrives
+  through a different native door from the n740 proof. Test the forward route
+  plus the two separate n743 destinations from the same exact imported side.
+- Moonlight 2-13: same n702 Burning feeder, following 702→706→707; test joining
+  the proven left n707 timed route and the actual n712 entry.
+- Peppermint 7-09 and 7-10: original n210 Bonkers Hammer from the now verified
+  stock encounter, then 210→205→228 (two) or →229 (three). Check whether the
+  matching 205→228 lane is reachable without the previous 209→205 detour and
+  prove each exact chest separately.
 These are gaps in reviewed data, not proof of impossibility in the game.
 Do not make a long route Standard solely to satisfy seed validation, and do
 not enable a hard gate before the affected Standard generation profiles can

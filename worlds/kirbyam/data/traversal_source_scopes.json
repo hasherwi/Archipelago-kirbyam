@@ -220,6 +220,344 @@
     }
   ],
   "special_route_profiles": {
+    "short_peg_witnesses": {
+      "peg_510_7_7": {
+        "verified_checks": [
+          3960576
+        ],
+        "controller_trace_sha256": "5250525db2a340fda97f5eda947ac72cfd4aa346dc3ab5ca5991993f2190666f",
+        "witness": {
+          "version": 1,
+          "status": "reviewed",
+          "access": {
+            "region": "REGION_CABBAGE_CAVERN/ROOM_3_13"
+          },
+          "nodes": [
+            {
+              "id": "north_513",
+              "native_room": 513
+            },
+            {
+              "id": "east_528_arrival",
+              "native_room": 528
+            },
+            {
+              "id": "rocky",
+              "native_room": 528
+            },
+            {
+              "id": "west_513_return",
+              "native_room": 513
+            },
+            {
+              "id": "east_509",
+              "native_room": 509
+            },
+            {
+              "id": "west_510",
+              "native_room": 510
+            },
+            {
+              "id": "target",
+              "native_room": 510
+            }
+          ],
+          "starts": [
+            "north_513"
+          ],
+          "required_targets": [
+            "target"
+          ],
+          "sources": [
+            {
+              "node": "rocky",
+              "inventory_id": "room:528/template:0x088C93A0",
+              "renewable": false,
+              "acquisition_evidence": "Exact original physical source acquired before the obstacle in the stock controller trace."
+            }
+          ],
+          "routes": [
+            {
+              "from": "north_513",
+              "to": "east_528_arrival",
+              "evidence": "Normal takes n513 west (2,5) to n528 (21,32), arrival (328,505).",
+              "room_transition": true,
+              "room_instance": "reset",
+              "reset_evidence": "Observed native entry in the controller trace.",
+              "area_key_items": [
+                "Cabbage Cavern - Area Key"
+              ]
+            },
+            {
+              "from": "east_528_arrival",
+              "to": "rocky",
+              "evidence": "Reach the stock Rocky in the n528 east shaft through the witnessed ordinary block approach."
+            },
+            {
+              "from": "rocky",
+              "to": "west_513_return",
+              "evidence": "Copy the original Rocky, retain Stone and take n528 (21,31) to n513 (4,6).",
+              "required_equipment": [
+                "Stone"
+              ],
+              "room_transition": true,
+              "room_instance": "reset",
+              "reset_evidence": "Observed native entry in the controller trace.",
+              "area_key_items": [
+                "Cabbage Cavern - Area Key"
+              ]
+            },
+            {
+              "from": "west_513_return",
+              "to": "east_509",
+              "evidence": "Keep Stone past original upper Bang-Bang and take n513 (8,2) to n509 (43,17).",
+              "required_equipment": [
+                "Stone"
+              ],
+              "room_transition": true,
+              "room_instance": "reset",
+              "reset_evidence": "Observed native entry in the controller trace.",
+              "area_key_items": [
+                "Cabbage Cavern - Area Key"
+              ]
+            },
+            {
+              "from": "east_509",
+              "to": "west_510",
+              "evidence": "Retain Stone across n509 (41,3) into n510 (4,6), on the exact peg side.",
+              "required_equipment": [
+                "Stone"
+              ],
+              "room_transition": true,
+              "room_instance": "reset",
+              "reset_evidence": "Observed native entry in the controller trace.",
+              "area_key_items": [
+                "Cabbage Cavern - Area Key"
+              ]
+            },
+            {
+              "from": "west_510",
+              "to": "target",
+              "evidence": "Drive exact peg (7,7) 0x088C90F0 with Stone and reach the chest 0x088C9114; native event rises.",
+              "required_equipment": [
+                "Stone"
+              ]
+            }
+          ]
+        }
+      },
+      "peg_204_62_4": {
+        "verified_checks": [
+          3960515
+        ],
+        "controller_trace_sha256": "48a0fc660ebd1a19b9d603b6982f40799584e39641eed37678ebc0c066926840",
+        "witness": {
+          "version": 1,
+          "status": "reviewed",
+          "access": {
+            "region": "REGION_PEPPERMINT_PALACE/ROOM_7_07"
+          },
+          "nodes": [
+            {
+              "id": "upper_205",
+              "native_room": 205
+            },
+            {
+              "id": "upper_210",
+              "native_room": 210
+            },
+            {
+              "id": "bonkers",
+              "native_room": 210
+            },
+            {
+              "id": "lower_227",
+              "native_room": 227
+            },
+            {
+              "id": "peg_204",
+              "native_room": 204
+            },
+            {
+              "id": "target",
+              "native_room": 204
+            }
+          ],
+          "starts": [
+            "upper_205"
+          ],
+          "required_targets": [
+            "target"
+          ],
+          "sources": [
+            {
+              "node": "bonkers",
+              "inventory_id": "room:210/template:0x088BF730",
+              "renewable": false,
+              "acquisition_evidence": "Exact original physical source acquired before the obstacle in the stock controller trace."
+            }
+          ],
+          "routes": [
+            {
+              "from": "upper_205",
+              "to": "upper_210",
+              "evidence": "Native n205 (10,18) leads to n210 upper (17,3), Normal and 9 HP in the controller journal.",
+              "room_transition": true,
+              "room_instance": "reset",
+              "reset_evidence": "Observed native entry in the controller trace.",
+              "area_key_items": [
+                "Peppermint Palace - Area Key"
+              ]
+            },
+            {
+              "from": "upper_210",
+              "to": "bonkers",
+              "evidence": "Normal reaches and defeats original Bonkers with native coconut catches/spits. Swallow the defeated original to copy Hammer."
+            },
+            {
+              "from": "bonkers",
+              "to": "lower_227",
+              "evidence": "Keep Hammer through the lower LEFT n210 (1,23) mirror to n227 (58,17), not the upper arrival.",
+              "required_equipment": [
+                "Hammer"
+              ],
+              "room_transition": true,
+              "room_instance": "reset",
+              "reset_evidence": "Observed native entry in the controller trace.",
+              "area_key_items": [
+                "Peppermint Palace - Area Key"
+              ]
+            },
+            {
+              "from": "lower_227",
+              "to": "peg_204",
+              "evidence": "Retain Hammer across n227 (16,2) to n204 (56,9).",
+              "required_equipment": [
+                "Hammer"
+              ],
+              "room_transition": true,
+              "room_instance": "reset",
+              "reset_evidence": "Observed native entry in the controller trace.",
+              "area_key_items": [
+                "Peppermint Palace - Area Key"
+              ]
+            },
+            {
+              "from": "peg_204",
+              "to": "target",
+              "evidence": "Drive exact n204 peg 0x088BEA24 with an aerial Hammer attack, opening the return mirror. The separate n204→n227 upper continuation preserves Hammer and awards exact 0x088C026C.",
+              "required_equipment": [
+                "Hammer"
+              ]
+            }
+          ]
+        }
+      },
+      "peg_605_12_24": {
+        "verified_checks": [
+          3961206,
+          3960302
+        ],
+        "controller_trace_sha256": "73ca8c157abf7bb2b4ac79eacb91fe9714ac58aaef07d02def3a6f59ebdca087",
+        "witness": {
+          "version": 1,
+          "status": "reviewed",
+          "access": {
+            "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3"
+          },
+          "nodes": [
+            {
+              "id": "stone_statue",
+              "native_room": 592
+            },
+            {
+              "id": "east_620",
+              "native_room": 620
+            },
+            {
+              "id": "east_621",
+              "native_room": 621
+            },
+            {
+              "id": "east_605",
+              "native_room": 605
+            },
+            {
+              "id": "target",
+              "native_room": 605
+            }
+          ],
+          "starts": [
+            "stone_statue"
+          ],
+          "required_targets": [
+            "target"
+          ],
+          "sources": [
+            {
+              "node": "stone_statue",
+              "inventory_id": "room:592/template:0x088CEFEC",
+              "renewable": true,
+              "acquisition_evidence": "Exact original physical source acquired before the obstacle in the stock controller trace.",
+              "renewable_evidence": "The permanent hub statue remains interactable after discarding its grant.",
+              "retry_evidence": "Original reachable hub-statue retouch without consumption, as in the existing n592 source set."
+            }
+          ],
+          "routes": [
+            {
+              "from": "stone_statue",
+              "to": "east_620",
+              "evidence": "Retain Stone through ordinary n592 (1,6) to n620 (44,9). No hub-switch warp used.",
+              "required_equipment": [
+                "Stone"
+              ],
+              "room_transition": true,
+              "room_instance": "reset",
+              "reset_evidence": "Observed native entry in the controller trace.",
+              "area_key_items": [
+                "Radish Ruins - Area Key"
+              ]
+            },
+            {
+              "from": "east_620",
+              "to": "east_621",
+              "evidence": "Slide left at n620 (262,137) to hit F1 (15,8) while retaining Stone, then take n620 (7,8) to n621 (73,3).",
+              "required_equipment": [
+                "Stone"
+              ],
+              "room_transition": true,
+              "room_instance": "reset",
+              "reset_evidence": "Observed native entry in the controller trace.",
+              "area_key_items": [
+                "Radish Ruins - Area Key"
+              ]
+            },
+            {
+              "from": "east_621",
+              "to": "east_605",
+              "evidence": "Crumble the bridge, use Stone on the lower bank and ordinary puff for the upper F1 (19,12), then swim to n621 (2,17) and n605 (44,5).",
+              "required_equipment": [
+                "Stone"
+              ],
+              "room_transition": true,
+              "room_instance": "reset",
+              "reset_evidence": "Observed native entry in the controller trace.",
+              "area_key_items": [
+                "Radish Ruins - Area Key"
+              ]
+            },
+            {
+              "from": "east_605",
+              "to": "target",
+              "evidence": "Follow witnessed east n605 serpentine and drive exact peg 0x088CF8B8 with Stone. Discard before n605→n610; independently proved visit bit and Vitality 0x088CFD64.",
+              "required_equipment": [
+                "Stone"
+              ]
+            }
+          ]
+        }
+      }
+    },
     "rainbow_wheel_race_missile": {
       "mode": 0,
       "area_keys": true,

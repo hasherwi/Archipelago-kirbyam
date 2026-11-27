@@ -350,3 +350,46 @@ def test_default_joint_search_preserves_stream_beyond_old_budget(
     assert all(actual is expected for actual, expected in zip(policy_inputs, candidates))
     assert len(policy_inputs) == first_valid_attempt
     assert candidates == original
+
+
+@pytest.mark.parametrize(("target_id", "ability", "transitions"), [
+    ("peg_510_7_7", "Stone", 3),
+    ("peg_204_62_4", "Hammer", 2),
+    ("peg_605_12_24", "Stone", 3),
+])
+def test_stock_peg_short_sources_are_real_and_standard(target_id, ability, transitions):
+    from dataclasses import replace
+    from ..peg_traversal import short_peg_graphs
+    from ..traversal_data import graph_items
+
+    graph, = short_peg_graphs(target_id, area_keys=True)
+    source, = graph.placements
+    rooms = {node.key: node.room for node in graph.nodes}
+    after_source = graph.routes[next(i for i, edge in enumerate(graph.routes) if edge.source == source.node):]
+    assert sum(rooms[edge.source] != rooms[edge.target] for edge in after_source) == transitions
+    policy = SourcePolicy({"mode": 0})
+    keys = graph_items(graph)
+    target, = graph.required_targets
+    assert graph.evaluate(policy, keys, gating=False, advanced_logic=False).reaches(target)
+    assert not graph.evaluate(policy, frozenset(), gating=False, advanced_logic=False).reaches(target)
+    unlock = frozenset({f"{ability} Ability"})
+    assert not replace(graph, placements=()).evaluate(
+        policy, keys | unlock, gating=False, advanced_logic=False).reaches(target)
+
+
+@pytest.mark.parametrize("target_id", ["peg_510_7_7", "peg_204_62_4", "peg_605_12_24"])
+def test_stock_short_peg_graph_is_an_or_with_independent_access(target_id):
+    from unittest.mock import patch
+    from ..data import data
+    from ..peg_traversal import short_peg_graphs
+
+    world = make_world(0, False, area_keys=0)
+    row = next(row for row in PEG_ROUTES if row["id"] == target_id)
+    witness, = short_peg_graphs(target_id, area_keys=False)
+    target = (world.multiworld.get_entrance(f"{row['region']} -> {row['exit']}", 1) if row["exit"]
+              else world.multiworld.get_location(data.locations[row["location"]].label, 1))
+    state = CollectionState(world.multiworld)
+    with patch.object(state, "can_reach_region", side_effect=lambda name, _: name == witness.access_region):
+        assert target.access_rule(state)
+    with patch.object(state, "can_reach_region", return_value=False):
+        assert not target.access_rule(state)

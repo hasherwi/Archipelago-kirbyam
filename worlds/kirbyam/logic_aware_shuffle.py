@@ -65,6 +65,7 @@ def _graph_constraint(
 
 
 def _constraints(initial: SourcePolicy, require_all: bool, room16: bool, area_keys: bool) -> tuple[Constraint, ...]:
+    from .peg_traversal import short_peg_graphs
     from .traversal_rules import extra_traversal_targets, target_applies, target_graphs
 
     results: list[Constraint] = []
@@ -81,7 +82,7 @@ def _constraints(initial: SourcePolicy, require_all: bool, room16: bool, area_ke
             condition = row.get("requires_guaranteed_source")
             alternatives = row.get("requires_any_guaranteed_source", (condition,) if condition else ())
             keys = frozenset(source["source_key"] for source in alternatives)
-            graphs = target_graphs(row, area_keys, advanced=False)
+            graphs = target_graphs(row, area_keys, advanced=False) + short_peg_graphs(row["id"], area_keys)
             applies = lambda policy, target=row: target_applies(target, policy)
             probe = _graph_constraint(row["id"], graphs, applies, keys)
             # Once a bounded, source-backed target works, never deliberately
