@@ -2,6 +2,7 @@
 from copy import deepcopy
 
 from .kibble310_history import digest
+from .stock_short_carrier_history import before_stock_short_catalog
 
 TARGET = 'bomb_402_candy_chest'
 
@@ -18,7 +19,7 @@ def before_candy912_targets(rows):
 
 
 def before_candy912_catalog(catalog):
-    result = deepcopy(catalog)
+    result = before_stock_short_catalog(catalog)
     assert (result['witnesses'], result['variants']) == (165, 330)
     added = [row for row in result['graphs'] if row['target'] == TARGET]
     smash = [row for row in added if row['witness'] == 'local_smash']

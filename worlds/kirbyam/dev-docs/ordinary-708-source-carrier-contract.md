@@ -114,6 +114,26 @@ terminal, with no persistent opened flag, new source, dropped-star recovery or
 implicit reset. Each graph has 19 nodes, 33 routes and 30 real renewable statues.
 No kernel, cache, source-outcome, option or starting-inventory change is needed.
 
+## Independent west Flamer route via right-top arrival
+
+A separate stock-source controller witness (SHA-256
+`ade29938d68606f4a9f5506f9090683d7b27af961ae5b89385372ad98039d404`)
+swallows the west Flamer at native 702 template `0x088BDE80` (168,288).
+It retains Burning and 9 HP through the west 702 mirror (2,11) to lower
+706 (25,19), then the 706 mirror (1,18) to 708 right-top (43,3).
+From that exact arrival, it descends the right shaft to (697.996,456.996).
+Two independent continuations hit Bomb C with Burning, respectively crossing
+the closing divider to the (22,28) doorway into 743 main, and staying on
+its right to take (28,28) into the dead end. Neither continuation breaks
+the F5 metal barrier. These are separate terminal optional traversal graphs,
+not proof of repeatable acquisition, a shared open state, or a new F5 bypass.
+
+The same carrier also returns up the right shaft and uses (43,2) to 706
+lower. The existing right-top-to-706 adjacency already covers this endpoint
+and remains available without Burning; the certified detached climb gives
+no new Metal or 707 route. No generic RIGHT_TOP descent or bottom-side join
+is granted.
+
 ## Remaining qualifications
 
 Fresh right-to-left metal passage, RIGHT_TOP descent, bottom-return ascent and

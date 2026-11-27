@@ -40,7 +40,7 @@ PROFILES = (
 # Classify every retained minimal sample explicitly: neither outcome is optional,
 # and no seed is replaced.
 EXPECTED_REFUSED_MINIMAL_ARCHIVES = frozenset({
-    (0, 1, 1), (0, 2, 1), (1, 0, 1), (2, 2, 1),
+    (0, 1, 1), (0, 2, 1), (2, 2, 1),
 })
 REQUIRED_MINIMAL_ARCHIVES = frozenset(
     (profile, mode, gating)
@@ -160,16 +160,6 @@ def test_generated_all_check_smoke_matrix(
         # not by changing the option or silently treating the selected goal as all checks.
         assert accessibility == "minimal"
         assert (profile, mode, gating) in EXPECTED_REFUSED_MINIMAL_ARCHIVES, "Known safe minimal archive regressed"
-        if (profile, mode, gating) == (1, 0, 1):
-            # Native Spark/Fighter progression changes deterministic minimal fill,
-            # not physical feasibility. Pin the new strand and preserve refusal.
-            assert audit_local_checks(audited_worlds[-1], 1) == LocalCheckAudit((), (
-                'Cabbage Cavern 3-09 - Small Chest', 'Cabbage Cavern 3-14 - Spray Paint #8 Chest',
-                'Cabbage Cavern 3-15 - Small Chest', 'Candy Constellation Sound Player - Big Chest',
-                'Candy Constellation Vitality - Big Chest', 'Peppermint Palace 7-06 - Music Sheet #2 Chest',
-                'Peppermint Palace 7-22 - Spray Paint #1 Chest', 'Radish Ruins Vitality - Big Chest',
-                'Rainbow Route 1-39 - Music Sheet #1 Chest', 'Room 8-CHEST_1', 'Room 9-09',
-                'Room 9-CHEST_1'), ())
         assert "Try full accessibility" in str(error)
         assert "unreachable from placed progression=" in str(error)
         assert "unfilled=[]; unavailable even with all inventory=[]" in str(error)
@@ -185,6 +175,15 @@ def test_generated_all_check_smoke_matrix(
     record_property("inventory_unreachable", audit.inventory_unreachable)
     record_property("progression_unreachable", audit.progression_unreachable)
     assert audit.inventory_unreachable == audit.progression_unreachable == ()
+    if (profile, mode, gating, accessibility) == (1, 0, 1, "minimal"):
+        # Regression: this exact archive used to fail closed. Independently
+        # replay AP's placed-item spheres and verify every serialized location.
+        reached = set()
+        for sphere in multiworld.get_spheres():
+            if not sphere:  # AP next emits the remainder as an unreachable set.
+                break
+            reached.update(loc.address for loc in sphere if loc.player == 1 and loc.address is not None)
+        assert reached == set(decoded["locations"][1])
 
 
 def test_seed105101_is_now_safe_after_source_backed_goal_reconstruction(

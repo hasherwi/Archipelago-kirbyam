@@ -87,9 +87,8 @@ Advanced route and no reviewed Standard route:
 | Target | Reviewed Standard evidence needed |
 | --- | --- |
 | Beginning Music Notes (`metal_537_beginning_notes`) | Local or shorter metal-breaking route |
-| Moonlight past-metal and both 2-01 entries (`metal_708_*`) | Local or shorter metal-breaking routes for each landing |
+| Moonlight past-metal (`metal_708_*`) | Verified forward metal crossing; right-side C portals are separate |
 | Moonlight 2-13 (`metal_707_to_712`) | Local or shorter metal-breaking route |
-| Peppermint 7-09 chest and 7-10 left 1-Up | Alternatives to the reviewed long metal-breaking carriers |
 
 Three peg cases from the original audit now have verified short source paths
 in the shared traversal profile catalog: Cabbage n528 Rocky (three carries to
@@ -101,20 +100,34 @@ also proven and admitted: wheel open in n604 without a room carry, defeat
 Bonkers as Normal, carry Hammer two rooms and strike the same peg. It does
 not make Hammer alone sufficient and does not gate the Stone route.
 
-The remaining lead batches, not yet accepted for Standard, are:
-- Rainbow Music Sheet #1: original n543 Flamer `0x088B62EC` at (568,40),
-  then 543→542→536→537 to the prior Stone witness side. Test Burning on the
-  exact gate and chest.
-- Moonlight 2-01: original n702 Flamers `0x088BDE80` and `0x088BDF34`;
-  702→706→708 gives a potential two-transition Burning feeder, but arrives
-  through a different native door from the n740 proof. Test the forward route
-  plus the two separate n743 destinations from the same exact imported side.
-- Moonlight 2-13: same n702 Burning feeder, following 702→706→707; test joining
-  the proven left n707 timed route and the actual n712 entry.
-- Peppermint 7-09 and 7-10: original n210 Bonkers Hammer from the now verified
-  stock encounter, then 210→205→228 (two) or →229 (three). Check whether the
-  matching 205→228 lane is reachable without the previous 209→205 detour and
-  prove each exact chest separately.
+New stock Standard witnesses in this batch:
+
+- **Peppermint 7-09 and 7-10 left 1-Up:** original n210 Bonkers gives
+  Hammer after the Normal fight. The stock n205 bypass reaches n228 in two
+  carried crossings; the exact left n229 suffix reaches the second chest
+  in three. Witness SHA-256
+  `4fbd43e33801e1f10da5b2b55ad1c0d1e95b67da6612b0a52f7dff56a024a65e`.
+  Only AP checks 3960571 and 3960593 are admitted. The long Bonkers and
+  imported statue witnesses remain separate.
+- **Moonlight 2-01 right-side C portals:** exact west n702 Flamer
+  `0x088BDE80` → n706 lower → n708 RIGHT_TOP; descend from the right and
+  use Burning at C. Two carries to the action, with the original separate
+  doors to n743 Main and Dead End. Witness SHA-256
+  `ade29938d68606f4a9f5506f9090683d7b27af961ae5b89385372ad98039d404`.
+  F5 stays intact. The proven return to n706 already has a directed edge.
+
+Remaining leads, not yet accepted for Standard:
+
+- **Rainbow Music Sheet #1:** original n543 Flamer `0x088B62EC` and all
+  three carries to n537 are proven. Two Burning approaches left the F5
+  floor and the exact chest untouched, so the carrier does not prove the
+  award. Retain the existing Stone rule.
+- **Moonlight 2-01 past-metal:** the right-side routes do not prove a
+  left-to-right F5 crossing.
+- **Moonlight 2-13:** n706's lower arrival cannot pass the east divider;
+  the tested n709 alternate lands below the ceiling that separates its
+  upper-left exit. The n707→712 approach remains unresolved.
+
 These are gaps in reviewed data, not proof of impossibility in the game.
 Do not make a long route Standard solely to satisfy seed validation, and do
 not enable a hard gate before the affected Standard generation profiles can

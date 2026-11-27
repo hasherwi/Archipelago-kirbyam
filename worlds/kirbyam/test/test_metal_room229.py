@@ -30,7 +30,7 @@ def row_for() -> dict[str, Any]:
 def test_exact_left_target_does_not_regate_other_channels() -> None:
     row = row_for()
     assert row["location"] == LOCATION and row["region"] == OWNER and row["native_room"] == 229
-    assert set(row["graphs"]) == set(WITNESSES) and "requires_guaranteed_source" not in row
+    assert set(row["graphs"]) == {*WITNESSES, "bonkers_stock_short"} and "requires_guaranteed_source" not in row
     region = data.regions[OWNER]
     assert data.locations[LOCATION].location_id == 3960593
     assert data.locations["MINOR_CHEST_SPRAY_PAINT_09"].location_id == 3960508

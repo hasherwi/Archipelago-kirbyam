@@ -21,7 +21,7 @@ def joint_graph() -> TraversalGraph:
 
 def test_one_fail_closed_target_leaves_rope_check_and_ordinary_exits_unchanged() -> None:
     row, = (row for row in room_traversal_targets("metal") if row["id"] == "metal_228_chest")
-    assert set(row["graphs"]) == {"bonkers_joint", "copy_room_statues"}
+    assert set(row["graphs"]) == {"bonkers_joint", "copy_room_statues", "bonkers_stock_short"}
     assert row["location"] == LOCATION and "requires_guaranteed_source" not in row
     assert LOCATION in data.regions[OWNER].locations
     assert "MINOR_CHEST_PEPPERMINT_PALACE_7_09_OBJECT_02" in data.regions[OWNER].locations
@@ -101,3 +101,24 @@ def test_finite_hammer_pool_gate_filter_does_not_credit_mixed_equipment() -> Non
     assert not graph.evaluate(resolver, frozenset({'Hammer Ability'}), True).reaches(END)
     assert not graph.evaluate(resolver, frozenset({'Hammer Ability', 'Stone Ability'}), True).reaches(END)
     assert not graph.evaluate(resolver, frozenset({'Stone Ability'}), True).reaches(END)
+
+
+@pytest.mark.parametrize("target,end,crossings", [
+    ("metal_228_chest", "metal_228:chest", 2),
+    ("metal_229_left1up", "metal_229:left_chest", 3),
+])
+@pytest.mark.parametrize("area_keys", [False, True])
+def test_stock_bonkers_routes_meet_standard_carry_without_the_209_detour(target, end, crossings, area_keys):
+    graph = room_traversal_graph(target, "bonkers_stock_short", area_keys)
+    hammer = frozenset({"Hammer Ability"})
+    stock = SourcePolicy({"mode": 0})
+    result = graph.evaluate(stock, hammer, True, advanced_logic=False)
+    arrivals = [pos for pos in result.positions if pos.node == end and pos.equipped == "Hammer"]
+    assert arrivals and {pos.carried_room_transitions for pos in arrivals} == {crossings}
+    assert all(not pos.opened for pos in arrivals)
+    assert not any(node.room == 209 for node in graph.nodes)
+    assert not graph.evaluate(stock, frozenset(), True, advanced_logic=False).reaches(end)
+    assert not replace(graph, placements=()).evaluate(stock, hammer, True, advanced_logic=False).reaches(end)
+    wrong = policy(1, minibosses=True, pool=["Stone"], weight=0)
+    assert not graph.evaluate(wrong, hammer | {"Stone Ability"}, True, advanced_logic=False).reaches(end)
+    assert not any(route.source == end for route in graph.routes)

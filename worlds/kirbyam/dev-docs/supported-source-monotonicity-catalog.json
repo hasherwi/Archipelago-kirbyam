@@ -2,22 +2,22 @@
   "schema": 2,
   "scope": "Current supported public generation, not custom narrowed policy safety or native gameplay. All compiled targets including logical subregions, both area-key modes. The always-on Phone 146 ownership rule and its separately profile-qualified witness are described in phone-progression-admission.md; neither is a compiled attack-provider graph, and the implementation is pinned here.",
   "source_sha256": {
-    "worlds/kirbyam/__init__.py": "243735d0e7a300c6cb1a813778aeee02dd25c35c8c467c1586bf507ac776c584",
+    "worlds/kirbyam/__init__.py": "814aededf9d91cf75a7632ef29c57ff5bbc00b1f303ba63bb34a8d3458ddec4d",
     "worlds/kirbyam/ability_randomization.py": "0ede749f3cfe63dde9747c9f31184731b21c2b0d173501f8e94e090861979aaf",
     "worlds/kirbyam/enemy_ability_data.py": "2628ef29f2a00091639460ee356fc97d72800070914d862e6908c0f73521e06c",
-    "worlds/kirbyam/enemy_ability_runtime_patch.py": "3023bf9d06a923ea760f513fee1f9516e42b7f455f49640876e6f93c0e66141c",
+    "worlds/kirbyam/enemy_ability_runtime_patch.py": "1310fdcf159e861733c65e0a7577efa807914def5e30d54e7e85cbf7ff46b7de",
     "worlds/kirbyam/data/abilities.json": "d180e496d17544579aefca6714716f27e7d0c8fdbfcc40196a72ef441a5c5f22",
-    "worlds/kirbyam/traversal.py": "9ec0ca5d5ffe2dc35977a127891f30dd87971d38553c3b309e96bddf738d9e31",
+    "worlds/kirbyam/traversal.py": "0b50a2d75a51d1c4b7394af215e3afb73837e848634006c229b5196f4c2340bb",
     "worlds/kirbyam/traversal_data.py": "04224b5a43040a12a16f0cc7eaae867f9055c9469679959617ce89cd5550192a",
     "worlds/kirbyam/master_source.py": "888ed2ca9f23edb5571ef09e149903b4df1621d694045e4d4cf5983699caf770",
-    "worlds/kirbyam/data/regions/rooms.json": "be566103bdda373840fe8c8f7362460d967aeb41ff8b2b5b6d2c281a26b1cbf6",
+    "worlds/kirbyam/data/regions/rooms.json": "7f7e003939d8f770f49e8923c8fed5e4e3b7cb6437caa6f8d5f50011f9d67239",
     "worlds/kirbyam/phone_traversal.py": "2ca0753f419103a105ba3b564c23204a4208ab14052d92de841d77cce71b9233",
     "worlds/kirbyam/rules.py": "f6f245d910b3423c6d397af9ce9b011632ecd2071f9bfd30731545b357f2b6bd",
     "worlds/kirbyam/ability_source_inventory.py": "333a5ffcaf2d7896f62a13f627ce0f956b20fcb3655359744b5a0af378b5ee55",
     "worlds/kirbyam/data/ability_source_inventory.json": "34870b87f1a3f257b7a282af139f6da121a1d1d6d600a21babbd3804b74b0bc3"
   },
-  "witnesses": 165,
-  "variants": 330,
+  "witnesses": 169,
+  "variants": 338,
   "valid_pool": [
     "Beam",
     "Bomb",
@@ -49,6 +49,9 @@
     "Beam"
   ],
   "capability_providers": {
+    "bomb_708_right_c_burning": [
+      "Burning"
+    ],
     "peg": [
       "Hammer",
       "Master",
@@ -1180,6 +1183,14 @@
       {
         "source_key": "WADDLE_DOO",
         "identity": "0x088C5BC8",
+        "renewable": false,
+        "documented_retry": false
+      }
+    ],
+    "FLAMER@0x088BDE80": [
+      {
+        "source_key": "FLAMER",
+        "identity": "0x088BDE80",
         "renewable": false,
         "documented_retry": false
       }
@@ -16799,6 +16810,322 @@
           ]
         }
       ]
+    },
+    {
+      "target": "metal_228_chest",
+      "witness": "bonkers_stock_short",
+      "area_keys": false,
+      "source_ids": [
+        "BONKERS@0x088BF730"
+      ],
+      "capability_routes": [
+        {
+          "from": "metal_228:228_lower_arrival",
+          "to": "metal_228:chest",
+          "capability": "metal",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Hammer"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "metal_205:defeated_bonkers_arena",
+          "to": "metal_228:205_stock_floor_launch",
+          "required_equipment": [
+            "Hammer"
+          ]
+        },
+        {
+          "from": "metal_228:205_stock_floor_launch",
+          "to": "metal_228:228_lower_arrival",
+          "required_equipment": [
+            "Hammer"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "metal_228_chest",
+      "witness": "bonkers_stock_short",
+      "area_keys": true,
+      "source_ids": [
+        "BONKERS@0x088BF730"
+      ],
+      "capability_routes": [
+        {
+          "from": "metal_228:228_lower_arrival",
+          "to": "metal_228:chest",
+          "capability": "metal",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Hammer"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "metal_205:defeated_bonkers_arena",
+          "to": "metal_228:205_stock_floor_launch",
+          "required_equipment": [
+            "Hammer"
+          ]
+        },
+        {
+          "from": "metal_228:205_stock_floor_launch",
+          "to": "metal_228:228_lower_arrival",
+          "required_equipment": [
+            "Hammer"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "metal_229_left1up",
+      "witness": "bonkers_stock_short",
+      "area_keys": false,
+      "source_ids": [
+        "BONKERS@0x088BF730"
+      ],
+      "capability_routes": [
+        {
+          "from": "metal_228:228_lower_arrival",
+          "to": "metal_228:chest",
+          "capability": "metal",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Hammer"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        },
+        {
+          "from": "metal_229:left_arrival",
+          "to": "metal_229:left_chest",
+          "capability": "metal",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Hammer"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "metal_205:defeated_bonkers_arena",
+          "to": "metal_228:205_stock_floor_launch",
+          "required_equipment": [
+            "Hammer"
+          ]
+        },
+        {
+          "from": "metal_228:205_stock_floor_launch",
+          "to": "metal_228:228_lower_arrival",
+          "required_equipment": [
+            "Hammer"
+          ]
+        },
+        {
+          "from": "metal_228:chest",
+          "to": "metal_229:left_arrival",
+          "required_equipment": [
+            "Hammer"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "metal_229_left1up",
+      "witness": "bonkers_stock_short",
+      "area_keys": true,
+      "source_ids": [
+        "BONKERS@0x088BF730"
+      ],
+      "capability_routes": [
+        {
+          "from": "metal_228:228_lower_arrival",
+          "to": "metal_228:chest",
+          "capability": "metal",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Hammer"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        },
+        {
+          "from": "metal_229:left_arrival",
+          "to": "metal_229:left_chest",
+          "capability": "metal",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Hammer"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": [
+        {
+          "from": "metal_205:defeated_bonkers_arena",
+          "to": "metal_228:205_stock_floor_launch",
+          "required_equipment": [
+            "Hammer"
+          ]
+        },
+        {
+          "from": "metal_228:205_stock_floor_launch",
+          "to": "metal_228:228_lower_arrival",
+          "required_equipment": [
+            "Hammer"
+          ]
+        },
+        {
+          "from": "metal_228:chest",
+          "to": "metal_229:left_arrival",
+          "required_equipment": [
+            "Hammer"
+          ]
+        }
+      ]
+    },
+    {
+      "target": "bomb_708_right_c_main",
+      "witness": "stock_west_flamer",
+      "area_keys": false,
+      "source_ids": [
+        "FLAMER@0x088BDE80"
+      ],
+      "capability_routes": [
+        {
+          "from": "bomb_708_right_c_main:right_top708",
+          "to": "bomb_708_right_c_main:c_door",
+          "capability": "bomb_708_right_c_burning",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Burning"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": []
+    },
+    {
+      "target": "bomb_708_right_c_main",
+      "witness": "stock_west_flamer",
+      "area_keys": true,
+      "source_ids": [
+        "FLAMER@0x088BDE80"
+      ],
+      "capability_routes": [
+        {
+          "from": "bomb_708_right_c_main:right_top708",
+          "to": "bomb_708_right_c_main:c_door",
+          "capability": "bomb_708_right_c_burning",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Burning"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": []
+    },
+    {
+      "target": "bomb_708_right_c_dead_end",
+      "witness": "stock_west_flamer",
+      "area_keys": false,
+      "source_ids": [
+        "FLAMER@0x088BDE80"
+      ],
+      "capability_routes": [
+        {
+          "from": "bomb_708_right_c_dead_end:right_top708",
+          "to": "bomb_708_right_c_dead_end:c_door",
+          "capability": "bomb_708_right_c_burning",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Burning"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": []
+    },
+    {
+      "target": "bomb_708_right_c_dead_end",
+      "witness": "stock_west_flamer",
+      "area_keys": true,
+      "source_ids": [
+        "FLAMER@0x088BDE80"
+      ],
+      "capability_routes": [
+        {
+          "from": "bomb_708_right_c_dead_end:right_top708",
+          "to": "bomb_708_right_c_dead_end:c_door",
+          "capability": "bomb_708_right_c_burning",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Burning"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": null,
+      "graph_source_condition": null,
+      "equipment_routes": []
     }
   ],
   "previous_source_head": "e91dd1732225a69711b46e8ea6c2e6446b7fb0a1",

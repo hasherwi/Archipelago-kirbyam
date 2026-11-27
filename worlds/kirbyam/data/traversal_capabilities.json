@@ -11,6 +11,12 @@
     "Sword"
   ],
   "capabilities": {
+    "bomb_708_right_c_burning": {
+      "native_room": 708,
+      "attack_medium": "dry",
+      "allowed_abilities": ["Burning"],
+      "note": "Right-top 708 arrival, descent, C from right bank, and one exact C portal. F5 stays intact."
+    },
     "peg": {
       "allowed_abilities": [
         "Hammer",

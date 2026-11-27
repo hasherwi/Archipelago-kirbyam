@@ -55,6 +55,32 @@
       "evidence": "ordinary-529-directional-topology.md"
     },
     {
+      "from_region": "REGION_MOONLIGHT_MANSION/ROOM_2_01__LOGIC__RIGHT_TOP",
+      "to_region": "REGION_MOONLIGHT_MANSION/ROOM_2_11",
+      "trigger_tile": [
+        22,
+        28
+      ],
+      "arrival_tile": [
+        6,
+        3
+      ],
+      "evidence": "ordinary-708-source-carrier-contract.md"
+    },
+    {
+      "from_region": "REGION_MOONLIGHT_MANSION/ROOM_2_01__LOGIC__RIGHT_TOP",
+      "to_region": "REGION_MOONLIGHT_MANSION/ROOM_2_11_DEAD_END",
+      "trigger_tile": [
+        28,
+        28
+      ],
+      "arrival_tile": [
+        12,
+        3
+      ],
+      "evidence": "ordinary-708-source-carrier-contract.md"
+    },
+    {
       "from_region": "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_LEFT",
       "to_region": "REGION_MOONLIGHT_MANSION/ROOM_2_11",
       "trigger_tile": [

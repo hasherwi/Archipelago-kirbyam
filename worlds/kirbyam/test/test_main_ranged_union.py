@@ -149,6 +149,10 @@ def test_all_catalog_entries_match_the_two_reviewed_parents() -> None:
             # These unchanged pins describe the reviewed parents before the later
             # additions. Strict projections pin each complete added graph.
             from .support.kibble310_history import before_kibble310
+            from .support.stock_short_carrier_history import before_stock_short_target
+            row = before_stock_short_target(row)
+            if row is None:
+                continue
             row = before_kibble310(row)
             catalogs['targets'][row['id']] = before_normal110(
                 before_master719(before_green138(before_advanced_crash({'region': region, **row}))))

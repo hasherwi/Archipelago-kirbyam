@@ -49,7 +49,7 @@ def test_room_check_feeders_keep_their_own_area_summary_link():
 def test_retail_join_counts_candidates_not_verified_paths():
     report = build_inventory()
     assert report["retail_cross_room_pair_counts"] == {
-        "matching_room_pair": 459, "multiple_tile_doors": 57, "no_tile_match": 32,
+        "matching_room_pair": 459, "multiple_tile_doors": 59, "no_tile_match": 32,
     }
     candidates = [edge for edge in report["edges"]
                   if edge["from_region"] == "REGION_MOONLIGHT_MANSION/ROOM_2_14_UPPER"
@@ -62,7 +62,7 @@ def test_retail_join_counts_candidates_not_verified_paths():
 def test_reconciliation_preserves_unresolved_routes_and_exact_landing_evidence():
     report = build_inventory()
     assert report["retail_door_reconciliation_counts"] == {
-        "configured_non_tile": 7, "reviewed_parallel_ports": 12, "object_and_tile_candidates": 1, "pinned_tile_door": 36, "pinned_tile_group": 1,
+        "configured_non_tile": 7, "reviewed_parallel_ports": 12, "object_and_tile_candidates": 1, "pinned_tile_door": 38, "pinned_tile_group": 1,
         "shared_landing": 13, "single_tile_candidate": 452, "source_backed_boss_return": 8,
         "witnessed_non_tile": 18,
     }
@@ -74,6 +74,8 @@ def test_reconciliation_preserves_unresolved_routes_and_exact_landing_evidence()
 
     assert reviewed("ROOM_2_14_UPPER", "ROOM_2_15__LOGIC__UPPER_RETURN")["door"]["arrival_tile"] == [19, 8]
     assert reviewed("ROOM_2_14", "ROOM_2_15")["door"]["arrival_tile"] == [30, 29]
+    assert reviewed("ROOM_2_01__LOGIC__RIGHT_TOP", "ROOM_2_11")["door"]["trigger_tile"] == [22, 28]
+    assert reviewed("ROOM_2_01__LOGIC__RIGHT_TOP", "ROOM_2_11_DEAD_END")["door"]["trigger_tile"] == [28, 28]
     assert reviewed("ROOM_2_01_BOTTOM_RIGHT", "ROOM_2_11_DEAD_END")["door"]["trigger_tile"] == [28, 28]
     assert reviewed("ROOM_3_03__LOGIC__UPPER_LEFT", "ROOM_3_04_SUB")["door"]["trigger_tile"] == [5, 2]
     assert reviewed("ROOM_1_32", "ROOM_1_33_LEFT")["mechanism"] == "fuse_cannon"

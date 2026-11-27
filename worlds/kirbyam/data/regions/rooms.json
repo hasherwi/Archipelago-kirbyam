@@ -4890,9 +4890,156 @@
       "RIGHT_TOP": {
         "locations": [],
         "exits": {
-          "REGION_MOONLIGHT_MANSION/ROOM_2_03_LOWER": null
+          "REGION_MOONLIGHT_MANSION/ROOM_2_03_LOWER": null,
+          "REGION_MOONLIGHT_MANSION/ROOM_2_11": null,
+          "REGION_MOONLIGHT_MANSION/ROOM_2_11_DEAD_END": null
         },
-        "evidence": "dev-docs/ordinary-708-source-carrier-contract.md: native 706 lower door 0x88356E enters 708 stored (43, 3) beside its own return door (43, 2). This door-local arrival does not grant a descent, fresh reverse metal attack, lower 743 passage or canonical-left access. Return adjacency is source/geometry level, not a new controller replay."
+        "evidence": "dev-docs/ordinary-708-source-carrier-contract.md: native 706 lower door 0x88356E enters 708 stored (43, 3) beside its own return door (43, 2). This door-local arrival does not grant a descent, fresh reverse metal attack, lower 743 passage or canonical-left access. Return adjacency is source/geometry level, not a new controller replay. The optional C exits below require a separately witnessed retained-Burning carrier; ordinary adjacency is unchanged.",
+        "traversal": {
+          "version": 1,
+          "targets": [
+            {
+              "id": "bomb_708_right_c_main",
+              "kind": "block",
+              "native_room": 708,
+              "exit": "REGION_MOONLIGHT_MANSION/ROOM_2_11",
+              "new_connection": true,
+              "required_for_generation": false,
+              "optional_route_evidence": "Additional approach only. Independent west/C carriers and all existing checks and approaches remain. This edge owns no exclusive check.",
+              "graphs": {
+                "stock_west_flamer": {
+                  "version": 1,
+                  "status": "reviewed",
+                  "access": {
+                    "region": "REGION_MOONLIGHT_MANSION/ROOM_2_05"
+                  },
+                  "nodes": [
+                    {
+                      "id": "bomb_708_right_c_main:west_flamer",
+                      "native_room": 702
+                    },
+                    {
+                      "id": "bomb_708_right_c_main:west706",
+                      "native_room": 706
+                    },
+                    {
+                      "id": "bomb_708_right_c_main:right_top708",
+                      "native_room": 708
+                    },
+                    {
+                      "id": "bomb_708_right_c_main:c_door",
+                      "native_room": 708
+                    }
+                  ],
+                  "starts": [
+                    "bomb_708_right_c_main:west_flamer"
+                  ],
+                  "required_targets": [
+                    "bomb_708_right_c_main:c_door"
+                  ],
+                  "sources": [
+                    {
+                      "id": "0x088BDE80",
+                      "inventory_id": "room:702/template:0x088BDE80",
+                      "node": "bomb_708_right_c_main:west_flamer",
+                      "acquisition_evidence": "Controller witness SHA-256 ade29938d68606f4a9f5506f9090683d7b27af961ae5b89385372ad98039d404: Normal acquires the native west Flamer at (168,288); no editing equipment, helper, or repeat/reset assumption."
+                    }
+                  ],
+                  "routes": [
+                    {
+                      "from": "bomb_708_right_c_main:west_flamer",
+                      "to": "bomb_708_right_c_main:west706",
+                      "room_transition": true,
+                      "evidence": "Controller witness SHA-256 ade29938d68606f4a9f5506f9090683d7b27af961ae5b89385372ad98039d404: retain Burning through 702 west mirror (2,11) to lower-west 706 at (25,19)."
+                    },
+                    {
+                      "from": "bomb_708_right_c_main:west706",
+                      "to": "bomb_708_right_c_main:right_top708",
+                      "room_transition": true,
+                      "evidence": "Controller witness SHA-256 ade29938d68606f4a9f5506f9090683d7b27af961ae5b89385372ad98039d404: retained Burning through 706 mirror (1,18) to 708 right-top (43,3)."
+                    },
+                    {
+                      "from": "bomb_708_right_c_main:right_top708",
+                      "to": "bomb_708_right_c_main:c_door",
+                      "capability": "bomb_708_right_c_burning",
+                      "evidence": "Controller witness SHA-256 ade29938d68606f4a9f5506f9090683d7b27af961ae5b89385372ad98039d404: descend 708 right shaft to (697.996,456.996) at 9 HP; Open C from the right bank and rush left through the divider while it closes. Take 708 mirror (22,28). F5 stays intact; branch is terminal."
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "id": "bomb_708_right_c_dead_end",
+              "kind": "block",
+              "native_room": 708,
+              "exit": "REGION_MOONLIGHT_MANSION/ROOM_2_11_DEAD_END",
+              "new_connection": true,
+              "required_for_generation": false,
+              "optional_route_evidence": "Additional approach only. Independent west/C carriers and all existing checks and approaches remain. This edge owns no exclusive check.",
+              "graphs": {
+                "stock_west_flamer": {
+                  "version": 1,
+                  "status": "reviewed",
+                  "access": {
+                    "region": "REGION_MOONLIGHT_MANSION/ROOM_2_05"
+                  },
+                  "nodes": [
+                    {
+                      "id": "bomb_708_right_c_dead_end:west_flamer",
+                      "native_room": 702
+                    },
+                    {
+                      "id": "bomb_708_right_c_dead_end:west706",
+                      "native_room": 706
+                    },
+                    {
+                      "id": "bomb_708_right_c_dead_end:right_top708",
+                      "native_room": 708
+                    },
+                    {
+                      "id": "bomb_708_right_c_dead_end:c_door",
+                      "native_room": 708
+                    }
+                  ],
+                  "starts": [
+                    "bomb_708_right_c_dead_end:west_flamer"
+                  ],
+                  "required_targets": [
+                    "bomb_708_right_c_dead_end:c_door"
+                  ],
+                  "sources": [
+                    {
+                      "id": "0x088BDE80",
+                      "inventory_id": "room:702/template:0x088BDE80",
+                      "node": "bomb_708_right_c_dead_end:west_flamer",
+                      "acquisition_evidence": "Controller witness SHA-256 ade29938d68606f4a9f5506f9090683d7b27af961ae5b89385372ad98039d404: Normal acquires the native west Flamer at (168,288); no editing equipment, helper, or repeat/reset assumption."
+                    }
+                  ],
+                  "routes": [
+                    {
+                      "from": "bomb_708_right_c_dead_end:west_flamer",
+                      "to": "bomb_708_right_c_dead_end:west706",
+                      "room_transition": true,
+                      "evidence": "Controller witness SHA-256 ade29938d68606f4a9f5506f9090683d7b27af961ae5b89385372ad98039d404: retain Burning through 702 west mirror (2,11) to lower-west 706 at (25,19)."
+                    },
+                    {
+                      "from": "bomb_708_right_c_dead_end:west706",
+                      "to": "bomb_708_right_c_dead_end:right_top708",
+                      "room_transition": true,
+                      "evidence": "Controller witness SHA-256 ade29938d68606f4a9f5506f9090683d7b27af961ae5b89385372ad98039d404: retained Burning through 706 mirror (1,18) to 708 right-top (43,3)."
+                    },
+                    {
+                      "from": "bomb_708_right_c_dead_end:right_top708",
+                      "to": "bomb_708_right_c_dead_end:c_door",
+                      "capability": "bomb_708_right_c_burning",
+                      "evidence": "Controller witness SHA-256 ade29938d68606f4a9f5506f9090683d7b27af961ae5b89385372ad98039d404: descend 708 right shaft to (697.996,456.996) at 9 HP; Open C from the right bank and stay right of the divider. Take 708 mirror (28,28). F5 stays intact; branch is terminal."
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
       }
     },
     "traversal": {
@@ -15043,6 +15190,55 @@
           "native_room": 228,
           "location": "MINOR_CHEST_PEPPERMINT_PALACE_7_09",
           "graphs": {
+            "bonkers_stock_short": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "metal_228:205_stock_floor_launch",
+                  "native_room": 205
+                }
+              ],
+              "routes": [
+                {
+                  "from": "metal_205:defeated_bonkers_arena",
+                  "to": "metal_228:205_stock_floor_launch",
+                  "required_equipment": [
+                    "Hammer"
+                  ],
+                  "room_transition": true,
+                  "evidence": "Stock controller witness 4fbd43e33801e1f10da5b2b55ad1c0d1e95b67da6612b0a52f7dff56a024a65e: Normal defeats original Bonkers template 0x088BF730, swallows it, retains Hammer through n210 (15,2) to n205 (10,19), then the stock western climb and icy bypass."
+                },
+                {
+                  "from": "metal_228:205_stock_floor_launch",
+                  "to": "metal_228:228_lower_arrival",
+                  "required_equipment": [
+                    "Hammer"
+                  ],
+                  "room_transition": true,
+                  "evidence": "From that n205 dry approach, ordinary mid-height hover and ceiling approach reach native n205 (44,2) to n228 (26,29). Carry Hammer and enter the stock lower gate at 9 HP. No n209 detour, door reset assumption, or other n228 entrance."
+                }
+              ],
+              "starts": [
+                "metal_205:outer"
+              ],
+              "required_targets": [
+                "metal_228:chest"
+              ],
+              "graph_parts": [
+                "metal_205_bonkers_approach",
+                "metal_228_hammer_continuation"
+              ],
+              "access": {
+                "region": "REGION_PEPPERMINT_PALACE/ROOM_7_07"
+              },
+              "source_sets": [
+                {
+                  "id": "metal_210_bonkers",
+                  "node": "metal_205:defeated_bonkers_arena"
+                }
+              ]
+            },
             "bonkers_joint": {
               "version": 1,
               "status": "reviewed",
@@ -15264,6 +15460,65 @@
           "native_room": 229,
           "location": "MINOR_CHEST_PEPPERMINT_PALACE_7_10_OBJECT_02",
           "graphs": {
+            "bonkers_stock_short": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "metal_228:205_stock_floor_launch",
+                  "native_room": 205
+                }
+              ],
+              "routes": [
+                {
+                  "from": "metal_205:defeated_bonkers_arena",
+                  "to": "metal_228:205_stock_floor_launch",
+                  "required_equipment": [
+                    "Hammer"
+                  ],
+                  "room_transition": true,
+                  "evidence": "Stock controller witness 4fbd43e33801e1f10da5b2b55ad1c0d1e95b67da6612b0a52f7dff56a024a65e: Normal defeats original Bonkers template 0x088BF730, swallows it, retains Hammer through n210 (15,2) to n205 (10,19), then the stock western climb and icy bypass."
+                },
+                {
+                  "from": "metal_228:205_stock_floor_launch",
+                  "to": "metal_228:228_lower_arrival",
+                  "required_equipment": [
+                    "Hammer"
+                  ],
+                  "room_transition": true,
+                  "evidence": "From that n205 dry approach, ordinary mid-height hover and ceiling approach reach native n205 (44,2) to n228 (26,29). Carry Hammer and enter the stock lower gate at 9 HP. No n209 detour, door reset assumption, or other n228 entrance."
+                },
+                {
+                  "from": "metal_228:chest",
+                  "to": "metal_229:left_arrival",
+                  "required_equipment": [
+                    "Hammer"
+                  ],
+                  "room_transition": true,
+                  "evidence": "Same stock Bonkers controller witness: after actual n228 chest 0x088C046C, use the original timed switch and Bomb approach, then native n228 (16,4) to n229 (17,29), x264. Carry the original Hammer into the left lane and recover the exact left 1-Up. No generic n229 entry or persistent opened state."
+                }
+              ],
+              "starts": [
+                "metal_205:outer"
+              ],
+              "required_targets": [
+                "metal_229:left_chest"
+              ],
+              "graph_parts": [
+                "metal_205_bonkers_approach",
+                "metal_228_hammer_continuation",
+                "metal_229_hammer_continuation"
+              ],
+              "access": {
+                "region": "REGION_PEPPERMINT_PALACE/ROOM_7_07"
+              },
+              "source_sets": [
+                {
+                  "id": "metal_210_bonkers",
+                  "node": "metal_205:defeated_bonkers_arena"
+                }
+              ]
+            },
             "bonkers_joint": {
               "version": 1,
               "status": "reviewed",
