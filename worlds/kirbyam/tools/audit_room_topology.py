@@ -97,12 +97,20 @@ def reconcile_doors(edges: list[dict[str, Any]], native: dict[str, int],
             consumed_configured.add(native_pair)
         if pair in pins:
             pin = pins.pop(pair)
-            candidates = [door for door in matches if door["trigger_tile"] == pin["trigger_tile"]
+            grouped = "trigger_tiles" in pin
+            if grouped == ("trigger_tile" in pin):
+                raise ValueError(f"Compartment pin must select individual or grouped triggers: {pair}")
+            triggers = pin["trigger_tiles"] if grouped else [pin["trigger_tile"]]
+            candidates = [door for door in matches if door["trigger_tile"] in triggers
                           and door["arrival_tile"] == pin["arrival_tile"]]
-            if len(candidates) != 1:
-                raise ValueError(f"Compartment pin must select exactly one tile door: {pair}")
-            result = {"status": "pinned_tile_door", "door": candidates[0],
-                      "evidence": pin["evidence"]}
+            if (len(candidates) != len(triggers) or not candidates
+                    or {tuple(door["trigger_tile"]) for door in candidates} != set(map(tuple, triggers))
+                    or len({(door["transition_flags"], door["collision_attribute"])
+                            for door in candidates}) != 1):
+                raise ValueError(f"Compartment pin does not identify its exact tile records: {pair}")
+            result = ({"status": "pinned_tile_group", "doors": candidates, "evidence": pin["evidence"]}
+                      if grouped else {"status": "pinned_tile_door", "door": candidates[0],
+                                       "evidence": pin["evidence"]})
         elif pair in non_tile:
             if matches:
                 raise ValueError(f"Non-tile witness has a tile candidate: {pair}")

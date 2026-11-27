@@ -62,7 +62,7 @@ def test_retail_join_counts_candidates_not_verified_paths():
 def test_reconciliation_preserves_unresolved_routes_and_exact_landing_evidence():
     report = build_inventory()
     assert report["retail_door_reconciliation_counts"] == {
-        "configured_non_tile": 6, "multiple_landings": 26, "no_tile_evidence": 16, "pinned_tile_door": 20,
+        "configured_non_tile": 6, "multiple_landings": 14, "no_tile_evidence": 16, "pinned_tile_door": 31, "pinned_tile_group": 1,
         "shared_landing": 13, "single_tile_candidate": 454, "source_backed_boss_return": 8,
         "witnessed_non_tile": 18,
     }
@@ -136,3 +136,28 @@ def test_olive_upper_and_lower_entries_keep_separate_destinations():
     control = edges["ROOM_1_32", "ROOM_1_33_LEFT"]
     assert control["door_reconciliation"]["status"] == "witnessed_non_tile"
     assert control["configured_transition_object"]["configured_spawn_arguments"] == [6, 1]
+
+def test_distinct_compartment_pins_preserve_current_directions():
+    report = build_inventory()
+    edges = {(row["from_region"].split("/")[-1], row["to_region"].split("/")[-1]): row
+             for row in report["edges"] if row["kind"] == "cross_native_room_candidate"}
+
+    def result(source, target):
+        return edges[source, target]["door_reconciliation"]
+
+    assert result("ROOM_1_02", "ROOM_1_03_UPPER")["door"]["arrival_tile"] == [4, 4]
+    assert result("ROOM_1_02", "ROOM_1_03_LOWER")["door"]["arrival_tile"] == [4, 9]
+    assert result("ROOM_3_14", "ROOM_3_15_LOWER_ENTRY")["door"]["trigger_tile"] == [69, 17]
+    assert result("ROOM_3_14", "ROOM_3_15_UPPER_ENTRY")["door"]["trigger_tile"] == [69, 5]
+    assert result("ROOM_4_12", "ROOM_4_13")["door"]["arrival_tile"] == [30, 39]
+    assert result("ROOM_4_12", "ROOM_4_13__LOGIC__CANNON_LEFT")["door"]["arrival_tile"] == [13, 36]
+    assert result("ROOM_4_14", "ROOM_4_BOSS")["door"]["trigger_tile"] == [12, 2]
+    assert result("ROOM_4_14__LOGIC__CANNON_LEFT", "ROOM_4_BOSS")["door"]["trigger_tile"] == [3, 2]
+    assert result("ROOM_7_12", "ROOM_7_06")["door"]["arrival_tile"] == [18, 3]
+    assert result("ROOM_7_12", "ROOM_7_06__LOGIC__HAPPY_NOTES_ENTRY")["door"]["arrival_tile"] == [27, 2]
+    assert result("ROOM_2_20", "ROOM_2_GOAL_2")["door"]["arrival_tile"] == [59, 13]
+    water = result("ROOM_2_20", "ROOM_2_GOAL_2_BOTTOM_RIGHT")
+    assert water["status"] == "pinned_tile_group"
+    assert {tuple(door["trigger_tile"]) for door in water["doors"]} == {
+        (x, y) for x in (0, 1) for y in range(26, 30)}
+    assert {tuple(door["arrival_tile"]) for door in water["doors"]} == {(60, 19)}

@@ -261,6 +261,192 @@
         7
       ],
       "evidence": "olive-door-topology.md"
+    },
+    {
+      "from_region": "REGION_CABBAGE_CAVERN/ROOM_3_14",
+      "to_region": "REGION_CABBAGE_CAVERN/ROOM_3_15_UPPER_ENTRY",
+      "trigger_tile": [
+        69,
+        5
+      ],
+      "arrival_tile": [
+        2,
+        3
+      ],
+      "evidence": "../docs/traversal-logic.md#peg_527_56_16"
+    },
+    {
+      "from_region": "REGION_CABBAGE_CAVERN/ROOM_3_14",
+      "to_region": "REGION_CABBAGE_CAVERN/ROOM_3_15_LOWER_ENTRY",
+      "trigger_tile": [
+        69,
+        17
+      ],
+      "arrival_tile": [
+        5,
+        24
+      ],
+      "evidence": "../docs/traversal-logic.md#peg_527_56_16"
+    },
+    {
+      "from_region": "REGION_RAINBOW_ROUTE/ROOM_1_02",
+      "to_region": "REGION_RAINBOW_ROUTE/ROOM_1_03_UPPER",
+      "trigger_tile": [
+        76,
+        3
+      ],
+      "arrival_tile": [
+        4,
+        4
+      ],
+      "evidence": "split-door-topology.md#rainbow-and-moonlight"
+    },
+    {
+      "from_region": "REGION_RAINBOW_ROUTE/ROOM_1_02",
+      "to_region": "REGION_RAINBOW_ROUTE/ROOM_1_03_LOWER",
+      "trigger_tile": [
+        76,
+        7
+      ],
+      "arrival_tile": [
+        4,
+        9
+      ],
+      "evidence": "split-door-topology.md#rainbow-and-moonlight"
+    },
+    {
+      "from_region": "REGION_MOONLIGHT_MANSION/ROOM_2_20",
+      "to_region": "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2",
+      "trigger_tile": [
+        2,
+        18
+      ],
+      "arrival_tile": [
+        59,
+        13
+      ],
+      "evidence": "split-door-topology.md#rainbow-and-moonlight"
+    },
+    {
+      "from_region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_12",
+      "to_region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_13",
+      "trigger_tile": [
+        6,
+        15
+      ],
+      "arrival_tile": [
+        30,
+        39
+      ],
+      "evidence": "phone-mustard12-lower-evidence.json"
+    },
+    {
+      "from_region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_12",
+      "to_region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_13__LOGIC__CANNON_LEFT",
+      "trigger_tile": [
+        1,
+        8
+      ],
+      "arrival_tile": [
+        13,
+        36
+      ],
+      "evidence": "split-door-topology.md#mustard-cannon-and-batafire"
+    },
+    {
+      "from_region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_14",
+      "to_region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_BOSS",
+      "trigger_tile": [
+        12,
+        2
+      ],
+      "arrival_tile": [
+        11,
+        19
+      ],
+      "evidence": "split-door-topology.md#mustard-cannon-and-batafire"
+    },
+    {
+      "from_region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_14__LOGIC__CANNON_LEFT",
+      "to_region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_BOSS",
+      "trigger_tile": [
+        3,
+        2
+      ],
+      "arrival_tile": [
+        4,
+        19
+      ],
+      "evidence": "split-door-topology.md#mustard-cannon-and-batafire"
+    },
+    {
+      "from_region": "REGION_PEPPERMINT_PALACE/ROOM_7_12",
+      "to_region": "REGION_PEPPERMINT_PALACE/ROOM_7_06",
+      "trigger_tile": [
+        56,
+        8
+      ],
+      "arrival_tile": [
+        18,
+        3
+      ],
+      "evidence": "../docs/traversal-logic.md#peg_204_62_4"
+    },
+    {
+      "from_region": "REGION_PEPPERMINT_PALACE/ROOM_7_12",
+      "to_region": "REGION_PEPPERMINT_PALACE/ROOM_7_06__LOGIC__HAPPY_NOTES_ENTRY",
+      "trigger_tile": [
+        64,
+        8
+      ],
+      "arrival_tile": [
+        27,
+        2
+      ],
+      "evidence": "../docs/traversal-logic.md#peg_204_62_4"
+    },
+    {
+      "from_region": "REGION_MOONLIGHT_MANSION/ROOM_2_20",
+      "to_region": "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_BOTTOM_RIGHT",
+      "arrival_tile": [
+        60,
+        19
+      ],
+      "trigger_tiles": [
+        [
+          0,
+          26
+        ],
+        [
+          1,
+          26
+        ],
+        [
+          0,
+          27
+        ],
+        [
+          1,
+          27
+        ],
+        [
+          0,
+          28
+        ],
+        [
+          1,
+          28
+        ],
+        [
+          0,
+          29
+        ],
+        [
+          1,
+          29
+        ]
+      ],
+      "evidence": "split-door-topology.md#rainbow-and-moonlight"
     }
   ],
   "non_tile_witnesses": [

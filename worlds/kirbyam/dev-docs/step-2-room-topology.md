@@ -63,9 +63,10 @@ can reach the trigger under every setting.
 
 | Raw exception | Evidence status | AP edges |
 | --- | --- | ---: |
-| Multiple door records | Exact trigger and landing pinned to the named compartments | 15 |
+| Multiple door records | Exact trigger and landing pinned to the named compartments | 26 |
+| Multiple door records | Exact multi-cell trigger group pinned to a single landing | 1 |
 | Multiple door records | All candidates land on the same tile with the same flags; keep all triggers | 13 |
-| Multiple door records | Distinct landings or flags still need AP compartment review | 26 |
+| Multiple door records | Distinct landings or flags still need AP compartment review | 14 |
 | No matching tile record | Native controller witness, via a completion sequence, cannon or Warp Star | 18 |
 | No matching tile record | Native code supports a boss-shard return sequence, not a free exit | 8 |
 | No matching tile record | Native object target decoded; live arrival/state still unverified | 6 |
@@ -168,3 +169,8 @@ The Carrot Warp Star goes to native room 222, not to 5-13; the separate
 same-area 5-13 candidate remains unresolved. Negative Warp Star arguments
 are retained as written and are not mapped to pixel positions. Ordinary
 mirror, hub, and area-door shortlists still need mechanism-specific evidence.
+
+The [split-door crosswalk](split-door-topology.md) provides additional
+compartment pins in Rainbow, Moonlight and Mustard. The existing Cabbage
+peg and Peppermint Happy Notes collision evidence supplies another four
+pins. These facts preserve the raw records and do not change solver rules.
