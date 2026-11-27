@@ -440,11 +440,17 @@ class RoomSanity(Toggle):
 
 
 class AdvancedLogic(Toggle):
-    """Off by default. Enable reviewed Crash- and Magic-dependent traversal routes, including
-    their physical source and one-use timing requirements. Disabled logic excludes
-    these routes, but does not remove Crash or Magic from the ability pool.
+    """Off by default. When enabled, generation can require these verified routes:
+    - Using Crash or Magic to clear an obstacle.
+    - Copying an ability from an enemy projectile, including boss and miniboss projectiles.
+    - Carrying a needed ability through more than three room transitions, regardless of
+      ability randomization mode, where the route has been verified and modeled.
+    - Specific exceptions, such as using Missile for the Wheel Race and its lower chest
+      when its alternate route is supported by your settings.
 
-    This does not assume helper combat or enable unreviewed routes.
+    A verified Standard route to the same check is still valid. This option does not add
+    or remove copy abilities, assume other Kirbys will use copy attacks, or allow
+    unverified routes. Use false if you do not want these techniques required.
     """
     display_name = "Advanced Logic"
     default = 0
