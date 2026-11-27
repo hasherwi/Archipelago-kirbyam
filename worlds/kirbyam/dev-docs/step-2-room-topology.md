@@ -141,3 +141,24 @@ the named compartment. In particular:
   from a mirror and its paired tile record.
 
 These annotations change no generated region, edge, or check rule.
+
+### Decode the object destinations locally
+
+The [object destination decoder](../tools/extract_object_transition_destinations.py)
+uses the pinned US image and the existing object placement index. Run it
+where the original image is already available:
+
+```sh
+python -m worlds.kirbyam.tools.extract_object_transition_destinations \
+  --rom <local-usa-rom> --output /tmp/native-object-transition-destinations.json
+```
+
+It decodes Warp Stars and ordinary fuse cannons, keeping each native
+source and object address separate even if a room shares an object list.
+The output contains configured destinations and spawn arguments, not ROM
+bytes. Unpopulated targets are flagged, not treated as travel. Neither an
+object template nor a matching room pair can prove a boardable star, a
+lit and unoccupied cannon, a live landing compartment, or ability carry.
+The decoder is tested with synthetic records; this PR does not add an
+unverified retail extraction. Ordinary mirror, hub, and area-door
+shortlists still require their own mechanism-specific evidence.
