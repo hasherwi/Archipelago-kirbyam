@@ -2768,6 +2768,28 @@
             ]
           }
         ]
+      },
+      {
+        "integrated_sha256": "91c62006c860b5e93636c7c9006f43caa64da8147a280c9152dc46c019c5ca46",
+        "previous_sha256": "b0b2f1a2d5d97b8995353816056400153b344d81d1ff72833622d4679a825094",
+        "reverse_slices": [
+          {
+            "start": 320,
+            "stop": 321,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_RIGHT\",\"requirement\":\"can_fly\",\"room_sanity\":false,\"target\":\"REGION_MOONLIGHT_MANSION/ROOM_2_01__LOGIC__RIGHT_TOP\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 397,
+            "stop": 398,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_11_AFTER_LEVER\",\"requirement\":{\"all\":[\"mm_lever\",\"can_fly\"]},\"room_sanity\":false,\"target\":\"REGION_MOONLIGHT_MANSION/ROOM_2_11_DEAD_END\"}"
+            ],
+            "main": []
+          }
+        ]
       }
     ]
   },

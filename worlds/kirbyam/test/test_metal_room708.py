@@ -149,6 +149,8 @@ def test_room_check_sink_cannot_restore_closed_or_unreviewed_routes(start: str) 
     mw.get_region("Menu", 1).connect(mw.get_region(start, 1))
     state = CollectionState(mw)
     expected = {LEFT, UPPER, CHECK} if start in {LEFT, UPPER} else {start, CHECK}
+    if start == BOTTOM_RIGHT:
+        expected.add(RIGHT_TOP)  # independent Normal ascent, never an exit from the check sink
     assert {name for name in SIDES if state.can_reach_region(name, 1)} == expected
     check, = (loc for loc in mw.get_locations(1) if loc.address == 3961062)
     assert check.can_reach(state) and check.parent_region.name == CHECK
@@ -162,7 +164,7 @@ def test_exact_arrival_and_return_edges_do_not_cross_c_divider() -> None:
     assert RIGHT_TOP in data.regions[LOWER706].exits and LEFT not in data.regions[LOWER706].exits
     assert set(data.regions[RIGHT_TOP].exits) == {LOWER706, CHECK}
     assert set(data.regions[BOTTOM_LEFT].exits) == {MAIN743, CHECK}
-    assert set(data.regions[BOTTOM_RIGHT].exits) == {DEAD743, CHECK}
+    assert set(data.regions[BOTTOM_RIGHT].exits) == {DEAD743, RIGHT_TOP, CHECK}
     assert BOTTOM_LEFT in data.regions[MAIN743].exits
     assert BOTTOM_RIGHT in data.regions[DEAD743].exits
     # The new native join uses retained Burning. Do not export it as a generic

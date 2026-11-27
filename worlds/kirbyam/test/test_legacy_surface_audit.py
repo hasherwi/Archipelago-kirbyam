@@ -26,7 +26,7 @@ def test_saved_audit_matches_normalized_surfaces_without_declaring_completion():
                          / 'dev-docs/legacy-ability-surface-audit.json').read_text())
     assert record == build_audit()
     assert not record['complete']
-    assert record['counts'] == {'installed_witness': 29, 'lever_item': 8, 'normal_movement': 222,
+    assert record['counts'] == {'installed_witness': 29, 'lever_item': 9, 'normal_movement': 224,
                                 'policy_scoped_witness': 2, 'declared_normal_alternative': 5,
                                 'unresolved_action_context': 145}
     assert record['policy_fallback_targets'] == ['bomb_517_chocolate', 'bomb_733_yellow', 'switch_310_mustard_map']

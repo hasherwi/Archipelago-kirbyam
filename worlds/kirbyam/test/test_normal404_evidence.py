@@ -211,10 +211,10 @@ def test_current_host_structure_preserves_404_and_tracks_master719_and_green138_
     assert contract['counts']['witnesses'] == 144
     assert status['counts'] == {**contract['counts'], 'witnesses': 165,
                                 'normalized_targets': 66, 'installed_target_definitions': 66,
-                                'locations': 401, 'surfaces': 1174,
+                                'locations': 401, 'surfaces': 1176,
                                 'regions': 418, 'mapped_native_definitions': 354}
     assert (len(data.regions), len(data.locations), len(coverage['surfaces']),
-            len(coverage['installed_targets']), status['counts']['witnesses']) == (418, 401, 1174, 66, 165)
+            len(coverage['installed_targets']), status['counts']['witnesses']) == (418, 401, 1176, 66, 165)
     # Project only the pinned feature surfaces, retaining the frozen native record.
     from .support.main_sync_history import main_surfaces
     assert digest(main_surfaces(coverage['surfaces'])) == contract['normalized_surface_sha256']

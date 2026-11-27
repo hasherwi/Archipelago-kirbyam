@@ -55,8 +55,8 @@ def test_surface_projection_rejects_undeclared_changes(mutation: str) -> None:
 
 def test_topology_projection_cannot_silently_modify_predecessor(monkeypatch: pytest.MonkeyPatch) -> None:
     record = history.record()
-    layer = record['surfaces']['reviewed_successors'][-1]
-    change = next(change for change in layer['reverse_slices'] if change['main'])
+    change = next(change for layer in reversed(record['surfaces']['reviewed_successors'])
+                  for change in layer['reverse_slices'] if change['main'])
     row = change['main'][0]
     assert '"owner":' in row
     change['main'][0] = row.replace('"owner":', '"altered_owner":', 1)

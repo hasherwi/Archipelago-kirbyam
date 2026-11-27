@@ -5240,6 +5240,7 @@
     "locations": {},
     "exits": {
       "REGION_MOONLIGHT_MANSION/ROOM_2_11_DEAD_END": null,
+      "REGION_MOONLIGHT_MANSION/ROOM_2_01__LOGIC__RIGHT_TOP": "can_fly",
       "REGION_MOONLIGHT_MANSION/ROOM_2_01__ROOM_CHECK": null
     }
   },
@@ -5592,7 +5593,13 @@
     "locations": {},
     "exits": {
       "REGION_MOONLIGHT_MANSION/ROOM_2_12_LEFT": null,
-      "REGION_MOONLIGHT_MANSION/ROOM_2_11": "mm_lever"
+      "REGION_MOONLIGHT_MANSION/ROOM_2_11": "mm_lever",
+      "REGION_MOONLIGHT_MANSION/ROOM_2_11_DEAD_END": {
+        "all": [
+          "mm_lever",
+          "can_fly"
+        ]
+      }
     }
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_12_LEFT": {

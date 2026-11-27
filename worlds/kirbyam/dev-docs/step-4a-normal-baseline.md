@@ -48,3 +48,22 @@ rule when no AP copy item was collected.
   It, Rainbow 1-06 Lower, and Peppermint Chest #1 stay **No, Unproven** in
   this evidence set; no rules or publication status change based on the
   probe alone.
+
+## Moonlight correction
+
+The restricted keyless run (seed 1197, Normal, no Phone or helpers) rode the
+2-12 right current into 2-11. AP accepted the 2-11 lever check (3960415) at
+frame 368968. Kirby slid into the right-side fuse, used the upper mirror
+(743 tile 10,2; retail record 0x885CB6), entered 708 at x472/y456.996
+(frame 369347), and climbed the right shaft without breaking its metal.
+The high east mirror (tile 43,2; record 0x883C72) reached lower 706 at
+frame 370857. The directed suffix uses 706 tile 25,18 to 702, 702 tile
+43,17 to 744, and 744 tile 3,58 to Goal Room 1. AP acknowledged all three
+room visit IDs. Native Goal Game entry and play were observed; the Goal
+Game server receipt was not.
+
+The two new same-room edges join the post-lever side to the existing right
+door only with the lever-wall item, and join the bottom-right arrival in
+708 to its high east exit by flight. They do not grant either reverse edge,
+the canonical left side, or passage through the metal divider. All eligible
+positive IDs are reachable in the four audit profiles after this correction.
