@@ -10,14 +10,19 @@ from ..ability_source_inventory import source_inventory
 from ..data import data
 from ..traversal import SourcePolicy
 
-WITNESS = Path(__file__).parents[1] / "dev-docs" / "carrot-yellow-stock-cupid.json"
+CATALOG = Path(__file__).parents[1] / "dev-docs" / "carrot-yellow-cupid-admission.json"
 LOCATION = "MINOR_CHEST_SPRAY_PAINT_02"
 STOCK = SourcePolicy({"mode": 0})
 
 
 @pytest.fixture
-def packet():
-    return json.loads(WITNESS.read_text(encoding="utf-8"))
+def catalog():
+    return json.loads(CATALOG.read_text(encoding="utf-8"))
+
+
+@pytest.fixture
+def packet(catalog):
+    return catalog["stock_witness"]
 
 
 @pytest.fixture
@@ -25,13 +30,15 @@ def graph(packet):
     return traversal_data.compile_room_graph(packet["graph"], {}, advanced=True, require_inventory=True)
 
 
-def test_exact_award_and_native_source(packet, graph):
+def test_exact_award_and_native_source(catalog, packet, graph):
     evidence = packet["evidence"]
     location = data.locations[LOCATION]
-    assert location.location_id == evidence["location_id"]
-    assert location.source_rom_offset == int(evidence["native_template"], 16) - 0x08000000
+    award = catalog["target"]
+    assert award["location"] == LOCATION
+    assert location.location_id == award["id"]
+    assert location.source_rom_offset == int(award["chest_template"], 16) - 0x08000000
     assert location.label == "Carrot Castle 5-16 - Spray Paint #2 Chest"
-    assert (evidence["native_template"], evidence["native_flag"]) == ("0x088D3DD0", 80)
+    assert (award["chest_template"], award["chest_flag"]) == ("0x088D3DD0", 80)
     assert evidence["native_award_confirmed"] and not evidence["ap_acknowledgment"]
     source, = graph.placements
     record = source_inventory()[source.identity]
