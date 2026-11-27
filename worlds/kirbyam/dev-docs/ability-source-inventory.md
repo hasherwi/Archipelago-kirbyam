@@ -99,6 +99,30 @@ The extractor checks the ROM size/SHA-1, bounds, table namespace, record sizes,
 and terminators. It does not start an emulator or read/write any playthrough
 save. The #1059 playthrough remains paused.
 
+## Step 5 acquisition backlog (#1170)
+
+Build a room-by-room review queue from the existing inventory and traversal
+references, without a ROM, emulator, or new playthrough results:
+
+```sh
+python worlds/kirbyam/tools/audit_ability_source_coverage.py \
+  --output /tmp/kirby-ability-source-coverage.json \
+  --acquisition-backlog /tmp/kirby-ability-acquisition-backlog.json
+```
+
+The backlog separates static placements, generated statue slots, spawner
+children and encounter outputs, including potential randomized sources whose
+stock grant is Normal. Existing inventory references, including alternatives
+and legacy bindings, are excluded; that does not certify all uses of a
+referenced source. Known outside-Adventure candidates are counted but not
+queued. AP region names are candidate aliases only, not source access in
+every subroom. Empty aliases mean no known mapping in the inventory.
+
+Review each candidate's exact acquisition compartment, activation, lifetime,
+and directed route separately. This report does not add routes, prove
+three-room carry, certify a dynamic spawn, or affect generation. It is a
+physical-source backlog, not a count of remaining playthrough checks.
+
 ## Remaining acceptance gaps
 
 This draft does **not** complete #1114. The machine-readable coverage report
