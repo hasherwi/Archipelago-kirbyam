@@ -1,8 +1,9 @@
 # Step 4A: Normal-only evidence baseline
 
 [Playthrough #1059](https://github.com/hasherwi/Archipelago-kirbyam/issues/1059)
-recorded 336 positive addressed checks, 56 ruled out in the reviewed layouts,
-and three **No, Unproven** across 395 current AP locations. The
+and its follow-up stock-timing replays classify 336 addressed checks as
+positive and 59 as **No** for Normal-only in the reviewed layouts, across
+395 current AP locations. The
 [versioned baseline](normal-baseline-1059.json) partitions those IDs and
 requires separate patch qualifications for Candy 9-12 (linked west fuse)
 and Mustard 4-16 (the 600-frame timer). It does not make runtime rules from
@@ -45,9 +46,23 @@ rule when no AP copy item was collected.
   and post-clear Master routes in this probe. These ability paths do not
   contradict the restricted playthrough's negative results.
 - Mustard Map can appear reachable in the Completely Random solver probe.
-  It, Rainbow 1-06 Lower, and Peppermint Chest #1 stay **No, Unproven** in
-  this evidence set; no rules or publication status change based on the
-  probe alone.
+  This probe is not a held-Normal run and does not override the stock-timing
+  baseline classification below.
+
+## Stock-timing Normal follow-up
+
+No copy abilities or helpers were used. All three checks are classified
+**No** for the reviewed Normal-only setup; none awarded the target chest
+or produced an AP check report. These are baseline decisions, not claims
+that every conceivable setup is impossible.
+
+- Mustard Mountain Map (3960205): held the switch 62 frames, then used the
+  dry jump and hover; the gate closed before Kirby arrived. The stock
+  Chip-shot timing and reversal were also tried.
+- Rainbow Route 1-06 Lower (3960567): the dry-shelf slide was about 84
+  pixels short on the last frame the gate was open.
+- Peppermint Palace Chest #1 (3960587): trying the secondary fuse first
+  with a spat Sparky star did not light either fuse or open the roof.
 
 ## Moonlight correction
 
