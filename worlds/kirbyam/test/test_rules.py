@@ -1117,3 +1117,21 @@ def test_lever_locations_have_matching_lever_events() -> None:
         event_set = {event for event in events if isinstance(event, str)}
 
         assert expected_event in event_set
+
+
+@pytest.mark.parametrize("invalid", ["missing_mode", "non_goal", "unknown_operator", "unknown_event"])
+def test_json_goal_contract_rejects_invalid_references(monkeypatch, invalid):
+    from .. import rules
+
+    payload = rules.load_json_data("goal_logic.json")
+    if invalid == "missing_mode":
+        del payload["goals"]["dark_mind"]
+    elif invalid == "non_goal":
+        payload["goals"]["dark_mind"]["goal"] = "BOSS_DEFEAT_1"
+    elif invalid == "unknown_operator":
+        payload["goals"]["dark_mind"]["require"] = ["unreviewed_requirement"]
+    else:
+        payload["dark_mind_prerequisite_event"] = "Not a real event"
+    monkeypatch.setattr(rules, "load_json_data", lambda _: payload)
+    with pytest.raises(ValueError):
+        rules._load_goal_logic()

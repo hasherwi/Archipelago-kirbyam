@@ -108,8 +108,9 @@ def install_phone_rules(world: Any) -> None:
     # Ask whether the actually instantiated Goal Game location is reachable,
     # not merely its room. The AP region search computes a least fixed point
     # and retries this gate when a relevant parent region becomes reachable.
+    locations = getattr(mw, "get_locations", None)
     goal_games = tuple(
-        location for location in mw.get_locations(player)
+        location for location in (locations(player) if callable(locations) else ())
         if (meta := data.locations.get(getattr(location, "key", None))) is not None
         and meta.category == _REFILL_CATEGORY
     )
@@ -127,7 +128,9 @@ def install_phone_rules(world: Any) -> None:
 
     add_rule(entrance, rule)
     dependencies = {game.parent_region for game in goal_games}
-    if qualified:
-        dependencies.add(mw.get_region(SOURCE_REGION, player))
     for region in sorted(dependencies, key=lambda region: region.name):
         mw.register_indirect_condition(region, entrance)
+    if qualified:
+        source = mw.get_region(SOURCE_REGION, player)
+        if source not in dependencies:
+            mw.register_indirect_condition(source, entrance)

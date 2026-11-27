@@ -51,40 +51,64 @@ if TYPE_CHECKING:
     from . import KirbyAmWorld
 
 
-_SHARD_ITEM_LABELS = [
-    "Mustard Mountain - Mirror Shard",
-    "Moonlight Mansion - Mirror Shard",
-    "Candy Constellation - Mirror Shard",
-    "Olive Ocean - Mirror Shard",
-    "Peppermint Palace - Mirror Shard",
-    "Cabbage Cavern - Mirror Shard",
-    "Carrot Castle - Mirror Shard",
-    "Radish Ruins - Mirror Shard",
-]
+def _load_goal_logic():
+    payload = load_json_data("goal_logic.json")
+    if not isinstance(payload, dict) or type(payload.get("schema")) is not int or payload["schema"] != 1:
+        raise ValueError("Unsupported Kirby goal logic schema")
+    goals = payload.get("goals")
+    if not isinstance(goals, dict) or goals.keys() != set(Goal.name_lookup.values()):
+        raise ValueError("Kirby goal logic must declare every supported mode")
+    if payload.get("default_goal") not in goals:
+        raise ValueError("Unknown default Kirby goal")
+    event = payload["dark_mind_prerequisite_event"]
+    event_regions = [region.name for region in data.regions.values()
+                     if any(item.name == event for item in region.events)]
+    if len(event_regions) != 1:
+        raise ValueError("Dark Mind prerequisite must name a unique region event")
+    modes = {}
+    for value, name in Goal.name_lookup.items():
+        row = goals[name]
+        if not isinstance(row, dict) or set(row) != {"goal", "require"}:
+            raise ValueError(f"Invalid Kirby goal declaration: {name}")
+        location = data.locations.get(row["goal"])
+        if location is None or location.category != LocationCategory.GOAL:
+            raise ValueError(f"Kirby goal declaration must name a goal location: {name}")
+        requirements = row["require"]
+        if not isinstance(requirements, list) or not requirements:
+            raise ValueError(f"Kirby goal must declare requirements: {name}")
+        clauses = []
+        for requirement in requirements:
+            if isinstance(requirement, str) and requirement in {
+                "all_shards", "dark_mind_prerequisite_event", "configured_boss",
+                "completion_items", "completion_rooms", "completion_checks",
+            }:
+                clauses.append((requirement, None))
+                continue
+            if isinstance(requirement, dict) and set(requirement) == {"reachable_bosses"}:
+                count = requirement["reachable_bosses"]
+                if type(count) is int and 1 <= count <= len(_BOSS_DEFEAT_LOCATION_LABELS):
+                    clauses.append(("reachable_bosses", count))
+                    continue
+                if count == {"option": "required_area_bosses"}:
+                    clauses.append(("reachable_bosses", "required_area_bosses"))
+                    continue
+            raise ValueError(f"Unknown or invalid Kirby goal requirement: {requirement!r}")
+        modes[value] = (location.label, tuple(clauses))
+    if len({label for label, _ in modes.values()}) != len(modes):
+        raise ValueError("Kirby goal modes must bind distinct goal locations")
+    return modes, Goal.options[payload["default_goal"]], event, event_regions[0]
 
-_GOAL_LOCATION_LABELS = {
-    Goal.option_dark_mind: "Defeat Dark Mind",
-    Goal.option_full_completion: "100% Game Completion",
-    Goal.option_defeat_any_area_boss: "Defeat Any Area Boss",
-    Goal.option_defeat_area_boss: "Defeat Area Boss",
-    Goal.option_defeat_area_boss_count: "Defeat a Number of Area Bosses",
-}
-_DARK_MIND_GOAL_LABEL = _GOAL_LOCATION_LABELS[Goal.option_dark_mind]
-_ANY_AREA_BOSS_GOAL_LABEL = _GOAL_LOCATION_LABELS[Goal.option_defeat_any_area_boss]
-_AREA_BOSS_GOAL_LABEL = _GOAL_LOCATION_LABELS[Goal.option_defeat_area_boss]
 
+# Stable order matches canonical boss bit indices and shard item identity.
+_SHARD_ITEM_LABELS = [item.label for item in sorted(data.items.values(), key=lambda item: item.item_id)
+                      if "Shards" in item.tags]
 _BOSS_DEFEAT_LOCATION_LABELS = [
-    "Mustard Mountain - Boss Defeat",
-    "Moonlight Mansion - Boss Defeat",
-    "Candy Constellation - Boss Defeat",
-    "Olive Ocean - Boss Defeat",
-    "Peppermint Palace - Boss Defeat",
-    "Cabbage Cavern - Boss Defeat",
-    "Carrot Castle - Boss Defeat",
-    "Radish Ruins - Boss Defeat",
+    loc.label for loc in sorted(data.locations.values(), key=lambda loc: loc.location_id)
+    if loc.category == LocationCategory.BOSS_DEFEAT
 ]
+_GOAL_LOGIC, _DEFAULT_GOAL, _DMK_DIMENSION_MIRROR_EVENT, _DMK_EVENT_REGION = _load_goal_logic()
+_GOAL_LOCATION_LABELS = {value: label for value, (label, _) in _GOAL_LOGIC.items()}
 
-_DMK_DIMENSION_MIRROR_EVENT = "Defeat Dark Meta Knight (Dimension Mirror)"
 _ABILITY_GATE_STATUS_VALUES = frozenset({"confirmed", "semantic_candidate", "unconfirmed"})
 
 # Room-specific traversal installers enforce reviewed source witnesses. These
@@ -132,7 +156,7 @@ def can_complete_dark_mind_sequence(state: CollectionState, player: int) -> bool
     predicate models the opportunity, not a client receipt or equipped Master.
     """
     return (_has_all_shards(state, player)
-            and state.can_reach_region("REGION_DIMENSION_MIRROR/MAIN", player)
+            and state.can_reach_region(_DMK_EVENT_REGION, player)
             and state.has(_DMK_DIMENSION_MIRROR_EVENT, player))
 
 
@@ -311,6 +335,44 @@ def get_stake_gated_transition_entrance_names() -> tuple[str, ...]:
     return tuple(sorted(entrance_names))
 
 
+def _compile_goal_requirements(world: KirbyAmWorld, goal_value: int):
+    player = world.player
+    label, clauses = _GOAL_LOGIC[goal_value]
+    compiled = []
+    for kind, argument in clauses:
+        if kind == "all_shards":
+            compiled.append(lambda state: _has_all_shards(state, player))
+        elif kind == "dark_mind_prerequisite_event":
+            compiled.append(lambda state: state.has(_DMK_DIMENSION_MIRROR_EVENT, player))
+        elif kind == "completion_items":
+            compiled.append(lambda state: all(state.has(item.label, player) for item in REQUIRED_ITEMS))
+        elif kind == "completion_rooms":
+            compiled.append(lambda state: all(any(state.can_reach_region(region, player) for region in regions)
+                                              for regions in ROOM_REGIONS))
+        elif kind == "completion_checks":
+            compiled.append(lambda state: all(state.can_reach_location(data.locations[key].label, player)
+                                              for key in PHYSICAL_KEYS))
+        elif kind == "reachable_bosses":
+            count = getattr(world.options, argument).value if isinstance(argument, str) else argument
+            if count == 1:
+                compiled.append(lambda state: any(state.can_reach_location(boss, player)
+                                                  for boss in _BOSS_DEFEAT_LOCATION_LABELS))
+            else:
+                compiled.append(lambda state, required=count: sum(state.can_reach_location(boss, player)
+                                                                 for boss in _BOSS_DEFEAT_LOCATION_LABELS)
+                                >= required)
+        elif kind == "configured_boss":
+            key = getattr(world, "_resolved_configured_area_boss_goal_key", None)
+            target = data.locations.get(key) if isinstance(key, str) else None
+            if target is None or target.category != LocationCategory.BOSS_DEFEAT:
+                raise ValueError(f"[P{player}] Configured area-boss goal target was not resolved "
+                                 f"for goal location {label!r}")
+            compiled.append(lambda state, boss=target.label: state.can_reach_location(boss, player))
+        else:
+            raise ValueError(f"Uncompiled Kirby goal requirement: {kind!r}")
+    return lambda state: all(pred(state) for pred in compiled)
+
+
 def set_rules(world: KirbyAmWorld) -> None:  # noqa: C901
     def shard_gate_rule(state):
         return _has_all_shards(state, world.player)
@@ -330,7 +392,7 @@ def set_rules(world: KirbyAmWorld) -> None:  # noqa: C901
 
     # Completion condition
     goal_value = world.options.goal.value
-    goal_label = _GOAL_LOCATION_LABELS.get(goal_value, "Defeat Dark Mind")
+    goal_label = _GOAL_LOCATION_LABELS.get(goal_value, _GOAL_LOCATION_LABELS[_DEFAULT_GOAL])
 
     if goal_value not in _GOAL_LOCATION_LABELS:
         logger.warning(
@@ -516,64 +578,8 @@ def set_rules(world: KirbyAmWorld) -> None:  # noqa: C901
                 set_rule(goal_location, lambda _state: True)
                 continue
 
-            if goal_value == Goal.option_full_completion:
-                # Physical visits are independent of whether Room Sanity awards items.
-                # Ten native final-sequence rooms use the existing Dark Mind model.
-                def full_completion_rule(state):
-                    return (
-                        state.has(_DMK_DIMENSION_MIRROR_EVENT, world.player)
-                        and all(state.has(item.label, world.player) for item in REQUIRED_ITEMS)
-                        and all(any(state.can_reach_region(region, world.player) for region in regions)
-                                for regions in ROOM_REGIONS)
-                        and all(state.can_reach_location(data.locations[key].label, world.player)
-                                for key in PHYSICAL_KEYS)
-                    )
-                set_rule(goal_location, full_completion_rule)
-            elif goal_location_name == _DARK_MIND_GOAL_LABEL:
-                # Sequenced after Dark Meta Knight within the Dimension Mirror.
-                def dmk_rule(state):
-                    return (
-                        _has_all_shards(state, world.player)
-                        and state.has(_DMK_DIMENSION_MIRROR_EVENT, world.player)
-                    )
-                set_rule(goal_location, dmk_rule)
-            elif goal_location_name == _ANY_AREA_BOSS_GOAL_LABEL:
-                def any_area_boss_rule(state):
-                    return any(
-                        state.can_reach_location(location_name, world.player)
-                        for location_name in _BOSS_DEFEAT_LOCATION_LABELS
-                    )
-                set_rule(goal_location, any_area_boss_rule)
-            elif goal_value == Goal.option_defeat_area_boss_count:
-                required_bosses = world.options.required_area_bosses.value
-
-                def area_boss_count_rule(state):
-                    return sum(
-                        state.can_reach_location(location_name, world.player)
-                        for location_name in _BOSS_DEFEAT_LOCATION_LABELS
-                    ) >= required_bosses
-                set_rule(goal_location, area_boss_count_rule)
-            elif goal_location_name == _AREA_BOSS_GOAL_LABEL:
-                configured_goal_key = getattr(
-                    world,
-                    "_resolved_configured_area_boss_goal_key",
-                    None,
-                )
-                configured_goal = (
-                    data.locations.get(configured_goal_key)
-                    if isinstance(configured_goal_key, str)
-                    else None
-                )
-                if configured_goal is None or not isinstance(configured_goal.label, str):
-                    raise ValueError(
-                        f"[P{world.player}] Configured area-boss goal target was not resolved "
-                        f"for goal location {goal_location_name!r}"
-                    )
-
-                def configured_area_boss_rule(state):
-                    return state.can_reach_location(configured_goal.label, world.player)
-
-                set_rule(goal_location, configured_area_boss_rule)
+            selected_goal = goal_value if goal_value in _GOAL_LOGIC else _DEFAULT_GOAL
+            set_rule(goal_location, _compile_goal_requirements(world, selected_goal))
         except KeyError:
             logger.warning(
                 "[P%s] Goal location %s not found; goal-specific rule was not applied",
