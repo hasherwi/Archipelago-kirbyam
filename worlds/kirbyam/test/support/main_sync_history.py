@@ -45,11 +45,20 @@ def main_surfaces(surfaces: list[dict[str, Any]]) -> list[dict[str, Any]]:
     # its grouping cannot conceal an undeclared order mutation. Within-owner
     # order remains protected by the lever fixture and full historical hash.
     assert surfaces == sorted(surfaces, key=lambda row: row['owner']), 'Unreviewed surface order'
+    entry = record()['surfaces']
+    # Reverse precisely the audited topology and placement changes before the
+    # older route projections. No new edge may hide in the historical comparison.
+    for successor in reversed(entry.get('reviewed_successors', [])):
+        raw = json.dumps(surfaces, sort_keys=True, separators=(',', ':')).encode()
+        assert _sha(raw) == successor['integrated_sha256'], 'Unreviewed successor surface change'
+        rows = [json.dumps(row, sort_keys=True, separators=(',', ':')) for row in surfaces]
+        surfaces = [json.loads(row) for row in _reverse(rows, successor)]
+        raw = json.dumps(surfaces, sort_keys=True, separators=(',', ':')).encode()
+        assert _sha(raw) == successor['previous_sha256'], 'Invalid predecessor surface projection'
     from .radish617_history import before_radish617_surfaces
     surfaces = before_radish617_surfaces(surfaces)
     from .lever_history import before_lever_compartments
     surfaces = before_lever_compartments(surfaces)
-    entry = record()['surfaces']
     rows = [json.dumps(row, sort_keys=True, separators=(',', ':')) for row in surfaces]
     raw = json.dumps(surfaces, sort_keys=True, separators=(',', ':')).encode()
     assert _sha(raw) == entry['integrated_sha256'], 'Unreviewed integrated surface change'

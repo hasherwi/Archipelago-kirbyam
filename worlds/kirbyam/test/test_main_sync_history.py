@@ -53,6 +53,19 @@ def test_surface_projection_rejects_undeclared_changes(mutation: str) -> None:
         history.main_surfaces(rows)
 
 
+def test_topology_projection_cannot_silently_modify_predecessor(monkeypatch: pytest.MonkeyPatch) -> None:
+    record = history.record()
+    layer = record['surfaces']['reviewed_successors'][-1]
+    change = next(change for change in layer['reverse_slices'] if change['main'])
+    row = change['main'][0]
+    assert '"owner":' in row
+    change['main'][0] = row.replace('"owner":', '"altered_owner":', 1)
+    monkeypatch.setattr(history, 'record', lambda: record)
+    with pytest.raises(AssertionError, match='Invalid predecessor surface projection'):
+        history.main_surfaces(build_coverage()['surfaces'])
+
+
+
 def test_projection_record_cannot_change_restored_main(monkeypatch: pytest.MonkeyPatch) -> None:
     record = history.record()
     change = record['files']['client.py']['reverse_slices'][0]

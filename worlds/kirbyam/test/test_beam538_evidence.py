@@ -158,7 +158,9 @@ def test_exact_owner_native_rooms_and_unchanged_neighbor_contracts():
     assert 'requires_guaranteed_source' not in row and 'requires_any_guaranteed_source' not in row
     assert row['region'] == OWNER and row['exit'] == DESTINATION
     assert set(data.regions[OWNER].exits) == {
-        DESTINATION, 'REGION_RAINBOW_ROUTE/ROOM_1_35', 'REGION_RAINBOW_ROUTE/ROOM_1_37'}
+        DESTINATION, 'REGION_RAINBOW_ROUTE/ROOM_1_35', 'REGION_RAINBOW_ROUTE/ROOM_1_37',
+        OWNER + '__ROOM_CHECK'}
+    assert not data.regions[OWNER + '__ROOM_CHECK'].exits
 
 
 def test_all_positive_and_matched_omission_boundaries():
@@ -248,8 +250,8 @@ def test_historical_ownership_snapshot_and_current_union_are_separate():
         'regions': 366, 'mapped_native_definitions': 343, 'locations': 384,
         'surfaces': 1059, 'room_sanity_locations': 263, 'installed_target_definitions': 38}
     assert current['counts'] == {
-        'regions': 386, 'mapped_native_definitions': 354, 'locations': 401,
-        'surfaces': 1108, 'room_sanity_locations': 263, 'installed_target_definitions': 66}
+        'regions': 418, 'mapped_native_definitions': 354, 'locations': 401,
+        'surfaces': 1174, 'room_sanity_locations': 263, 'installed_target_definitions': 66}
     # Later host data (including the placement census) is not Beam native evidence.
     assert set(current['input_sha256']) - set(snapshot['input_sha256']) == {
         'data/yellow_cupid_witness.json', 'data/full_completion.json',
@@ -259,7 +261,8 @@ def test_historical_ownership_snapshot_and_current_union_are_separate():
         'data/ability_permission_defaults.json', 'data/compact_room_logic.json',
         'data/goal_logic.json', 'data/lever_wall_logic.json', 'data/mirror_access.json',
         'data/phone_logic.json', 'data/progression_permissions.json',
-        'data/traversal_capabilities.json', 'data/traversal_source_scopes.json'}
+        'data/traversal_capabilities.json', 'data/traversal_source_scopes.json',
+        'data/check_event_logic.json', 'data/room_visit_compartments.json'}
     assert set(snapshot['input_sha256']) <= set(current['input_sha256'])
     # Exact current target/part/source bytes are pinned against both reviewed
     # parents by test_main_ranged_union, not labeled as fresh native evidence.

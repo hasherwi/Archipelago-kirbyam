@@ -177,7 +177,7 @@ def test_no_copy_source_field_distinction_and_current_counts() -> None:
     assert (e['host']['target_count'], e['host']['witness_count']) == (57, 146)
     counts = build_status()['counts']
     assert counts['witnesses'] == e['host']['witness_count'] + 19  # Ice533, Normal617, Kibble310, four Mirra routes and both Normal534 entries and Normal815, plus Advanced generated Ice825 the shared Chocolate statue source, Advanced Fire825, and the six Candy 9-12 stock-catalog routes.
-    assert len(data.regions) == 386  # two lever compartments and their visit sinks
+    assert len(data.regions) == 418  # audited physical graph and terminal RoomSanity sinks
     ledger = (ROOT / 'dev-docs/ranged-coverage-ledger.md').read_text()
     assert 'the three remaining permissive target-wide source-policy fallbacks' in ledger
     assert 'definitions (165 stock-catalog witnesses)' in ledger

@@ -1536,6 +1536,59 @@
               ]
             }
           ]
+        },
+        {
+          "integrated_sha256": "a7d47a6dd771ec5f3c8d533509c552b2c0f635e5e2dbbd4071f3c13567347f9a",
+          "reverse_slices": [
+            {
+              "start": 43,
+              "stop": 47,
+              "current": [
+                "from .generated_hub_switch_contract import (\n",
+                "    HUB_SWITCH_COMPATIBILITY_AP_BITS_BY_LOCATION_KEY,\n",
+                "    HUB_SWITCH_RUNTIME_AP_BIT_BY_LOCATION_KEY,\n",
+                ")\n"
+              ],
+              "main": [
+                "from .generated_hub_switch_contract import HUB_SWITCH_COMPATIBILITY_AP_BITS_BY_LOCATION_KEY\n"
+              ]
+            },
+            {
+              "start": 617,
+              "stop": 625,
+              "current": [
+                "        # Decode the ROM's physical-switch bits, not the catalog indices.\n",
+                "        # Keep the persisted ROM bits and Archipelago location IDs unchanged.\n",
+                "        self._hub_switch_location_ids_by_bit = {}\n",
+                "        for location_key, runtime_bit in HUB_SWITCH_RUNTIME_AP_BIT_BY_LOCATION_KEY.items():\n",
+                "            location_id = data.locations[location_key].location_id\n",
+                "            self._hub_switch_location_ids_by_bit[runtime_bit] = [location_id]\n",
+                "            for compatibility_bit in HUB_SWITCH_COMPATIBILITY_AP_BITS_BY_LOCATION_KEY.get(location_key, ()):\n",
+                "                self._hub_switch_location_ids_by_bit[compatibility_bit] = [location_id]\n"
+              ],
+              "main": [
+                "        # Hub switch bitfield -> location IDs (HUB_SWITCH category).\n",
+                "        self._hub_switch_location_ids_by_bit = self._build_location_ids_by_bit(LocationCategory.HUB_SWITCH)\n",
+                "\n",
+                "        # Compatibility aliases sourced from the generated hub-switch contract.\n",
+                "        # This keeps fallback bits synchronized with payload/client mapping rules.\n",
+                "        for location_key, compatibility_bits in HUB_SWITCH_COMPATIBILITY_AP_BITS_BY_LOCATION_KEY.items():\n",
+                "            location = data.locations.get(location_key)\n",
+                "            if location is None:\n",
+                "                self._log_verbose(\n",
+                "                    \"warning\",\n",
+                "                    \"KirbyAM: hub-switch compatibility mapping references unknown location key '%s'; alias bits=%s\",\n",
+                "                    location_key,\n",
+                "                    list(compatibility_bits),\n",
+                "                )\n",
+                "                continue\n",
+                "            for compatibility_bit in compatibility_bits:\n",
+                "                fallback_ids = self._hub_switch_location_ids_by_bit.setdefault(compatibility_bit, [])\n",
+                "                if location.location_id not in fallback_ids:\n",
+                "                    fallback_ids.append(location.location_id)\n"
+              ]
+            }
+          ]
         }
       ]
     },
@@ -1753,6 +1806,968 @@
           "{\"kind\":\"location\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_GOAL_3\",\"requirement\":\"can_break_block\",\"room_sanity\":false,\"target\":\"GOAL_GAME_1_GOAL_3\"}"
         ],
         "main": []
+      }
+    ],
+    "reviewed_successors": [
+      {
+        "integrated_sha256": "b0b2f1a2d5d97b8995353816056400153b344d81d1ff72833622d4679a825094",
+        "previous_sha256": "a861baedad809f47558935bbbdda6bc42a7c0d23fde049539e88944c7d1dc6e0",
+        "reverse_slices": [
+          {
+            "start": 17,
+            "stop": 18,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_CABBAGE_CAVERN/ROOM_3_04\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_CABBAGE_CAVERN/ROOM_3_04__ROOM_CHECK\"}"
+            ],
+            "main": [
+              "{\"kind\":\"location\",\"owner\":\"REGION_CABBAGE_CAVERN/ROOM_3_04\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_3_04\"}"
+            ]
+          },
+          {
+            "start": 20,
+            "stop": 22,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_CABBAGE_CAVERN/ROOM_3_04_SUB\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_CABBAGE_CAVERN/ROOM_3_04__ROOM_CHECK\"}",
+              "{\"kind\":\"location\",\"owner\":\"REGION_CABBAGE_CAVERN/ROOM_3_04__ROOM_CHECK\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_3_04\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 35,
+            "stop": 36,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_CABBAGE_CAVERN/ROOM_3_08\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_CABBAGE_CAVERN/ROOM_3_08__ROOM_CHECK\"}"
+            ],
+            "main": [
+              "{\"kind\":\"location\",\"owner\":\"REGION_CABBAGE_CAVERN/ROOM_3_08\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_3_08\"}"
+            ]
+          },
+          {
+            "start": 38,
+            "stop": 40,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_CABBAGE_CAVERN/ROOM_3_08_RIGHT\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_CABBAGE_CAVERN/ROOM_3_08__ROOM_CHECK\"}",
+              "{\"kind\":\"location\",\"owner\":\"REGION_CABBAGE_CAVERN/ROOM_3_08__ROOM_CHECK\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_3_08\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 47,
+            "stop": 48,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_CABBAGE_CAVERN/ROOM_3_10\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_CABBAGE_CAVERN/ROOM_3_10__ROOM_CHECK\"}"
+            ],
+            "main": [
+              "{\"kind\":\"location\",\"owner\":\"REGION_CABBAGE_CAVERN/ROOM_3_10\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_3_10\"}"
+            ]
+          },
+          {
+            "start": 50,
+            "stop": 51,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_CABBAGE_CAVERN/ROOM_3_10_LEFT\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_CABBAGE_CAVERN/ROOM_3_10__ROOM_CHECK\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 52,
+            "stop": 53,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_CABBAGE_CAVERN/ROOM_3_10_LOWER_RIGHT\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_CABBAGE_CAVERN/ROOM_3_10__ROOM_CHECK\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 55,
+            "stop": 57,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_CABBAGE_CAVERN/ROOM_3_10_RIGHT\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_CABBAGE_CAVERN/ROOM_3_10__ROOM_CHECK\"}",
+              "{\"kind\":\"location\",\"owner\":\"REGION_CABBAGE_CAVERN/ROOM_3_10__ROOM_CHECK\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_3_10\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 63,
+            "stop": 64,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_CABBAGE_CAVERN/ROOM_3_12\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_CABBAGE_CAVERN/ROOM_3_12__ROOM_CHECK\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 65,
+            "stop": 65,
+            "current": [],
+            "main": [
+              "{\"kind\":\"location\",\"owner\":\"REGION_CABBAGE_CAVERN/ROOM_3_12\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_3_12\"}"
+            ]
+          },
+          {
+            "start": 68,
+            "stop": 69,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_CABBAGE_CAVERN/ROOM_3_12_LOWER\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_CABBAGE_CAVERN/ROOM_3_12__ROOM_CHECK\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 70,
+            "stop": 72,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_CABBAGE_CAVERN/ROOM_3_12_UPPER\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_CABBAGE_CAVERN/ROOM_3_12__ROOM_CHECK\"}",
+              "{\"kind\":\"location\",\"owner\":\"REGION_CABBAGE_CAVERN/ROOM_3_12__ROOM_CHECK\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_3_12\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 76,
+            "stop": 77,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_CABBAGE_CAVERN/ROOM_3_13\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_CABBAGE_CAVERN/ROOM_3_13__ROOM_CHECK\"}"
+            ],
+            "main": [
+              "{\"kind\":\"location\",\"owner\":\"REGION_CABBAGE_CAVERN/ROOM_3_13\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_3_13\"}"
+            ]
+          },
+          {
+            "start": 79,
+            "stop": 81,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_CABBAGE_CAVERN/ROOM_3_13_LOWER\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_CABBAGE_CAVERN/ROOM_3_13__ROOM_CHECK\"}",
+              "{\"kind\":\"location\",\"owner\":\"REGION_CABBAGE_CAVERN/ROOM_3_13__ROOM_CHECK\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_3_13\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 91,
+            "stop": 92,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_CABBAGE_CAVERN/ROOM_3_15_LOWER_ENTRY\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_CABBAGE_CAVERN/ROOM_3_15__ROOM_CHECK\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 93,
+            "stop": 94,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_CABBAGE_CAVERN/ROOM_3_15_UPPER_ENTRY\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_CABBAGE_CAVERN/ROOM_3_15__ROOM_CHECK\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 169,
+            "stop": 170,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_CANDY_CONSTELLATION/ROOM_9_12\",\"requirement\":null,\"room_sanity\":false,\"target\":\"REGION_CANDY_CONSTELLATION/ROOM_9_13__LOGIC__UPPER_WARP\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 173,
+            "stop": 177,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_CANDY_CONSTELLATION/ROOM_9_13\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_CANDY_CONSTELLATION/ROOM_9_13__ROOM_CHECK\"}",
+              "{\"kind\":\"exit\",\"owner\":\"REGION_CANDY_CONSTELLATION/ROOM_9_13__LOGIC__UPPER_WARP\",\"requirement\":null,\"room_sanity\":false,\"target\":\"REGION_CANDY_CONSTELLATION/ROOM_9_WARP\"}",
+              "{\"kind\":\"exit\",\"owner\":\"REGION_CANDY_CONSTELLATION/ROOM_9_13__LOGIC__UPPER_WARP\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_CANDY_CONSTELLATION/ROOM_9_13__ROOM_CHECK\"}",
+              "{\"kind\":\"location\",\"owner\":\"REGION_CANDY_CONSTELLATION/ROOM_9_13__ROOM_CHECK\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_9_13\"}"
+            ],
+            "main": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_CANDY_CONSTELLATION/ROOM_9_13\",\"requirement\":null,\"room_sanity\":false,\"target\":\"REGION_CANDY_CONSTELLATION/ROOM_9_WARP\"}",
+              "{\"kind\":\"location\",\"owner\":\"REGION_CANDY_CONSTELLATION/ROOM_9_13\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_9_13\"}"
+            ]
+          },
+          {
+            "start": 268,
+            "stop": 268,
+            "current": [],
+            "main": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_CARROT_CASTLE/ROOM_5_12\",\"requirement\":null,\"room_sanity\":false,\"target\":\"REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_12\"}"
+            ]
+          },
+          {
+            "start": 269,
+            "stop": 269,
+            "current": [],
+            "main": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_CARROT_CASTLE/ROOM_5_13\",\"requirement\":null,\"room_sanity\":false,\"target\":\"REGION_CARROT_CASTLE/ROOM_5_12\"}",
+              "{\"kind\":\"exit\",\"owner\":\"REGION_CARROT_CASTLE/ROOM_5_13\",\"requirement\":null,\"room_sanity\":false,\"target\":\"REGION_CARROT_CASTLE/ROOM_5_18\"}",
+              "{\"kind\":\"exit\",\"owner\":\"REGION_CARROT_CASTLE/ROOM_5_13\",\"requirement\":null,\"room_sanity\":false,\"target\":\"REGION_CARROT_CASTLE/ROOM_5_WARP\"}"
+            ]
+          },
+          {
+            "start": 271,
+            "stop": 272,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_CARROT_CASTLE/ROOM_5_13_UPPER\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_CARROT_CASTLE/ROOM_5_13__ROOM_CHECK\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 275,
+            "stop": 275,
+            "current": [],
+            "main": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_12\",\"requirement\":null,\"room_sanity\":false,\"target\":\"REGION_CARROT_CASTLE/ROOM_5_12\"}",
+              "{\"kind\":\"exit\",\"owner\":\"REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_12\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_CARROT_CASTLE/ROOM_5_13__ROOM_CHECK\"}"
+            ]
+          },
+          {
+            "start": 278,
+            "stop": 278,
+            "current": [],
+            "main": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_18_OR_5_WARP\",\"requirement\":null,\"room_sanity\":false,\"target\":\"REGION_CARROT_CASTLE/ROOM_5_18\"}",
+              "{\"kind\":\"exit\",\"owner\":\"REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_18_OR_5_WARP\",\"requirement\":null,\"room_sanity\":false,\"target\":\"REGION_CARROT_CASTLE/ROOM_5_WARP\"}",
+              "{\"kind\":\"exit\",\"owner\":\"REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_18_OR_5_WARP\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_CARROT_CASTLE/ROOM_5_13__ROOM_CHECK\"}"
+            ]
+          },
+          {
+            "start": 291,
+            "stop": 291,
+            "current": [],
+            "main": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_CARROT_CASTLE/ROOM_5_18\",\"requirement\":null,\"room_sanity\":false,\"target\":\"REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_18_OR_5_WARP\"}"
+            ]
+          },
+          {
+            "start": 308,
+            "stop": 308,
+            "current": [],
+            "main": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_CARROT_CASTLE/ROOM_5_WARP\",\"requirement\":null,\"room_sanity\":false,\"target\":\"REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_18_OR_5_WARP\"}"
+            ]
+          },
+          {
+            "start": 310,
+            "stop": 310,
+            "current": [],
+            "main": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_DIMENSION_MIRROR/MAIN\",\"requirement\":null,\"room_sanity\":false,\"target\":\"REGION_RAINBOW_ROUTE/MAIN\"}"
+            ]
+          },
+          {
+            "start": 311,
+            "stop": 312,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_GAME_START\",\"requirement\":null,\"room_sanity\":false,\"target\":\"REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE\"}"
+            ],
+            "main": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_GAME_START\",\"requirement\":null,\"room_sanity\":false,\"target\":\"REGION_RAINBOW_ROUTE/MAIN\"}"
+            ]
+          },
+          {
+            "start": 333,
+            "stop": 334,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_02\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_MOONLIGHT_MANSION/ROOM_2_02__ROOM_CHECK\"}"
+            ],
+            "main": [
+              "{\"kind\":\"location\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_02\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_2_02\"}"
+            ]
+          },
+          {
+            "start": 336,
+            "stop": 337,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_02_ENTRY\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_MOONLIGHT_MANSION/ROOM_2_02__ROOM_CHECK\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 339,
+            "stop": 341,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_02_RIGHT\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_MOONLIGHT_MANSION/ROOM_2_02__ROOM_CHECK\"}",
+              "{\"kind\":\"location\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_02__ROOM_CHECK\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_2_02\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 342,
+            "stop": 343,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_03\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_MOONLIGHT_MANSION/ROOM_2_03__ROOM_CHECK\"}"
+            ],
+            "main": [
+              "{\"kind\":\"location\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_03\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_2_03\"}"
+            ]
+          },
+          {
+            "start": 345,
+            "stop": 347,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_03_LOWER\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_MOONLIGHT_MANSION/ROOM_2_03__ROOM_CHECK\"}",
+              "{\"kind\":\"location\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_03__ROOM_CHECK\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_2_03\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 349,
+            "stop": 350,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_04\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_MOONLIGHT_MANSION/ROOM_2_04__ROOM_CHECK\"}"
+            ],
+            "main": [
+              "{\"kind\":\"location\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_04\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_2_04\"}"
+            ]
+          },
+          {
+            "start": 351,
+            "stop": 352,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_04_FROM_2_07\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_MOONLIGHT_MANSION/ROOM_2_04__ROOM_CHECK\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 354,
+            "stop": 356,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_04_PAST_SWITCH_WALL\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_MOONLIGHT_MANSION/ROOM_2_04__ROOM_CHECK\"}",
+              "{\"kind\":\"location\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_04__ROOM_CHECK\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_2_04\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 360,
+            "stop": 361,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_05\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_MOONLIGHT_MANSION/ROOM_2_05__ROOM_CHECK\"}"
+            ],
+            "main": [
+              "{\"kind\":\"location\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_05\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_2_05\"}"
+            ]
+          },
+          {
+            "start": 363,
+            "stop": 364,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_05_LOWER\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_MOONLIGHT_MANSION/ROOM_2_05__ROOM_CHECK\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 366,
+            "stop": 368,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_05_UPPER_LEDGE\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_MOONLIGHT_MANSION/ROOM_2_05__ROOM_CHECK\"}",
+              "{\"kind\":\"location\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_05__ROOM_CHECK\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_2_05\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 371,
+            "stop": 372,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_07_LOWER\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_MOONLIGHT_MANSION/ROOM_2_07_UPPER_LEFT__ROOM_CHECK\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 373,
+            "stop": 374,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_07_UPPER_LEFT\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_MOONLIGHT_MANSION/ROOM_2_07_UPPER_LEFT__ROOM_CHECK\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 375,
+            "stop": 376,
+            "current": [
+              "{\"kind\":\"location\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_07_UPPER_LEFT__ROOM_CHECK\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_2_07_UPPER_LEFT\"}"
+            ],
+            "main": [
+              "{\"kind\":\"location\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_07_UPPER_LEFT\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_2_07_UPPER_LEFT\"}"
+            ]
+          },
+          {
+            "start": 377,
+            "stop": 378,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_07_UPPER_RIGHT\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_MOONLIGHT_MANSION/ROOM_2_07_UPPER_LEFT__ROOM_CHECK\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 380,
+            "stop": 381,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_08\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_MOONLIGHT_MANSION/ROOM_2_08__ROOM_CHECK\"}"
+            ],
+            "main": [
+              "{\"kind\":\"location\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_08\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_2_08\"}"
+            ]
+          },
+          {
+            "start": 383,
+            "stop": 385,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_08_BOMB_ROOM\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_MOONLIGHT_MANSION/ROOM_2_08__ROOM_CHECK\"}",
+              "{\"kind\":\"location\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_08__ROOM_CHECK\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_2_08\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 392,
+            "stop": 393,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_11\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_MOONLIGHT_MANSION/ROOM_2_11__ROOM_CHECK\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 394,
+            "stop": 394,
+            "current": [],
+            "main": [
+              "{\"kind\":\"location\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_11\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_2_11\"}"
+            ]
+          },
+          {
+            "start": 396,
+            "stop": 397,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_11_AFTER_LEVER\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_MOONLIGHT_MANSION/ROOM_2_11__ROOM_CHECK\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 398,
+            "stop": 400,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_11_DEAD_END\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_MOONLIGHT_MANSION/ROOM_2_11__ROOM_CHECK\"}",
+              "{\"kind\":\"location\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_11__ROOM_CHECK\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_2_11\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 401,
+            "stop": 403,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_12_LEFT\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_MOONLIGHT_MANSION/ROOM_2_12_LEFT__ROOM_CHECK\"}",
+              "{\"kind\":\"location\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_12_LEFT__ROOM_CHECK\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_2_12_LEFT\"}"
+            ],
+            "main": [
+              "{\"kind\":\"location\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_12_LEFT\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_2_12_LEFT\"}"
+            ]
+          },
+          {
+            "start": 404,
+            "stop": 405,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_12_RIGHT\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_MOONLIGHT_MANSION/ROOM_2_12_LEFT__ROOM_CHECK\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 408,
+            "stop": 409,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_14\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_MOONLIGHT_MANSION/ROOM_2_14__ROOM_CHECK\"}"
+            ],
+            "main": [
+              "{\"kind\":\"location\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_14\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_2_14\"}"
+            ]
+          },
+          {
+            "start": 410,
+            "stop": 412,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_14_UPPER\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_MOONLIGHT_MANSION/ROOM_2_14__ROOM_CHECK\"}",
+              "{\"kind\":\"location\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_14__ROOM_CHECK\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_2_14\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 429,
+            "stop": 430,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_18\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_MOONLIGHT_MANSION/ROOM_2_18__ROOM_CHECK\"}"
+            ],
+            "main": [
+              "{\"kind\":\"location\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_18\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_2_18\"}"
+            ]
+          },
+          {
+            "start": 432,
+            "stop": 433,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_18_BOTTOM_RIGHT\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_MOONLIGHT_MANSION/ROOM_2_18__ROOM_CHECK\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 435,
+            "stop": 437,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_18_UPPER_LEFT\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_MOONLIGHT_MANSION/ROOM_2_18__ROOM_CHECK\"}",
+              "{\"kind\":\"location\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_18__ROOM_CHECK\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_2_18\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 454,
+            "stop": 455,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2__ROOM_CHECK\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 457,
+            "stop": 457,
+            "current": [],
+            "main": [
+              "{\"kind\":\"location\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_2_GOAL_2\"}"
+            ]
+          },
+          {
+            "start": 458,
+            "stop": 459,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_BOTTOM_RIGHT\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2__ROOM_CHECK\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 460,
+            "stop": 461,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_UPPER_LEFT\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2__ROOM_CHECK\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 463,
+            "stop": 465,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_UPPER_RIGHT\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2__ROOM_CHECK\"}",
+              "{\"kind\":\"location\",\"owner\":\"REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2__ROOM_CHECK\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_2_GOAL_2\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 531,
+            "stop": 532,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_MUSTARD_MOUNTAIN/ROOM_4_17\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_MUSTARD_MOUNTAIN/ROOM_4_17__ROOM_CHECK\"}"
+            ],
+            "main": [
+              "{\"kind\":\"location\",\"owner\":\"REGION_MUSTARD_MOUNTAIN/ROOM_4_17\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_4_17\"}"
+            ]
+          },
+          {
+            "start": 533,
+            "stop": 535,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_MUSTARD_MOUNTAIN/ROOM_4_17_LEFT\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_MUSTARD_MOUNTAIN/ROOM_4_17__ROOM_CHECK\"}",
+              "{\"kind\":\"location\",\"owner\":\"REGION_MUSTARD_MOUNTAIN/ROOM_4_17__ROOM_CHECK\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_4_17\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 574,
+            "stop": 574,
+            "current": [],
+            "main": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_OLIVE_OCEAN/ROOM_6_05\",\"requirement\":null,\"room_sanity\":false,\"target\":\"REGION_OLIVE_OCEAN/ROOM_6_04\"}"
+            ]
+          },
+          {
+            "start": 576,
+            "stop": 576,
+            "current": [],
+            "main": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_OLIVE_OCEAN/ROOM_6_05\",\"requirement\":null,\"room_sanity\":false,\"target\":\"REGION_OLIVE_OCEAN/ROOM_6_23\"}"
+            ]
+          },
+          {
+            "start": 578,
+            "stop": 579,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_OLIVE_OCEAN/ROOM_6_05_SUBROOM\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_OLIVE_OCEAN/ROOM_6_05__ROOM_CHECK\"}"
+            ],
+            "main": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_OLIVE_OCEAN/ROOM_6_05__LOGIC__ENTRY_FROM_6_04_OR_6_06\",\"requirement\":null,\"room_sanity\":false,\"target\":\"REGION_OLIVE_OCEAN/ROOM_6_04\"}"
+            ]
+          },
+          {
+            "start": 583,
+            "stop": 583,
+            "current": [],
+            "main": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_OLIVE_OCEAN/ROOM_6_05__LOGIC__ENTRY_FROM_6_23\",\"requirement\":null,\"room_sanity\":false,\"target\":\"REGION_OLIVE_OCEAN/ROOM_6_23\"}",
+              "{\"kind\":\"exit\",\"owner\":\"REGION_OLIVE_OCEAN/ROOM_6_05__LOGIC__ENTRY_FROM_6_23\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_OLIVE_OCEAN/ROOM_6_05__ROOM_CHECK\"}"
+            ]
+          },
+          {
+            "start": 585,
+            "stop": 585,
+            "current": [],
+            "main": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_OLIVE_OCEAN/ROOM_6_06\",\"requirement\":null,\"room_sanity\":false,\"target\":\"REGION_OLIVE_OCEAN/ROOM_6_05__LOGIC__ENTRY_FROM_6_04_OR_6_06\"}"
+            ]
+          },
+          {
+            "start": 642,
+            "stop": 642,
+            "current": [],
+            "main": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_OLIVE_OCEAN/ROOM_6_23\",\"requirement\":null,\"room_sanity\":false,\"target\":\"REGION_OLIVE_OCEAN/ROOM_6_05__LOGIC__ENTRY_FROM_6_23\"}"
+            ]
+          },
+          {
+            "start": 711,
+            "stop": 713,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_PEPPERMINT_PALACE/ROOM_7_09\",\"requirement\":{\"all\":[\"can_break_block\",{\"any\":[\"can_fly\",\"can_climb\"]}]},\"room_sanity\":false,\"target\":\"REGION_PEPPERMINT_PALACE/ROOM_7_10__LOGIC__CENTER_WARP\"}",
+              "{\"kind\":\"exit\",\"owner\":\"REGION_PEPPERMINT_PALACE/ROOM_7_09\",\"requirement\":{\"all\":[\"can_break_block\",{\"any\":[\"can_fly\",\"can_climb\"]}]},\"room_sanity\":false,\"target\":\"REGION_PEPPERMINT_PALACE/ROOM_7_10__LOGIC__RIGHT_SPRAY\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 716,
+            "stop": 717,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_PEPPERMINT_PALACE/ROOM_7_10\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_PEPPERMINT_PALACE/ROOM_7_10__ROOM_CHECK\"}"
+            ],
+            "main": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_PEPPERMINT_PALACE/ROOM_7_10\",\"requirement\":\"can_fly\",\"room_sanity\":false,\"target\":\"REGION_PEPPERMINT_PALACE/ROOM_7_WARP\"}"
+            ]
+          },
+          {
+            "start": 719,
+            "stop": 724,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_PEPPERMINT_PALACE/ROOM_7_10__LOGIC__CENTER_WARP\",\"requirement\":\"can_fly\",\"room_sanity\":false,\"target\":\"REGION_PEPPERMINT_PALACE/ROOM_7_WARP\"}",
+              "{\"kind\":\"exit\",\"owner\":\"REGION_PEPPERMINT_PALACE/ROOM_7_10__LOGIC__CENTER_WARP\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_PEPPERMINT_PALACE/ROOM_7_10__ROOM_CHECK\"}",
+              "{\"kind\":\"exit\",\"owner\":\"REGION_PEPPERMINT_PALACE/ROOM_7_10__LOGIC__RIGHT_SPRAY\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_PEPPERMINT_PALACE/ROOM_7_10__ROOM_CHECK\"}",
+              "{\"kind\":\"location\",\"owner\":\"REGION_PEPPERMINT_PALACE/ROOM_7_10__LOGIC__RIGHT_SPRAY\",\"requirement\":null,\"room_sanity\":false,\"target\":\"MINOR_CHEST_SPRAY_PAINT_09\"}",
+              "{\"kind\":\"location\",\"owner\":\"REGION_PEPPERMINT_PALACE/ROOM_7_10__ROOM_CHECK\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_7_10\"}"
+            ],
+            "main": [
+              "{\"kind\":\"location\",\"owner\":\"REGION_PEPPERMINT_PALACE/ROOM_7_10\",\"requirement\":null,\"room_sanity\":false,\"target\":\"MINOR_CHEST_SPRAY_PAINT_09\"}",
+              "{\"kind\":\"location\",\"owner\":\"REGION_PEPPERMINT_PALACE/ROOM_7_10\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_7_10\"}"
+            ]
+          },
+          {
+            "start": 906,
+            "stop": 906,
+            "current": [],
+            "main": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_RAINBOW_ROUTE/MAIN\",\"requirement\":null,\"room_sanity\":false,\"target\":\"REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE\"}",
+              "{\"kind\":\"exit\",\"owner\":\"REGION_RAINBOW_ROUTE/MAIN\",\"requirement\":null,\"room_sanity\":false,\"target\":\"REGION_DIMENSION_MIRROR/MAIN\"}"
+            ]
+          },
+          {
+            "start": 919,
+            "stop": 920,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_03_LOWER\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_RAINBOW_ROUTE/ROOM_1_03_UPPER__ROOM_CHECK\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 921,
+            "stop": 923,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_03_UPPER\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_RAINBOW_ROUTE/ROOM_1_03_UPPER__ROOM_CHECK\"}",
+              "{\"kind\":\"location\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_03_UPPER__ROOM_CHECK\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_1_03_UPPER\"}"
+            ],
+            "main": [
+              "{\"kind\":\"location\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_03_UPPER\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_1_03_UPPER\"}"
+            ]
+          },
+          {
+            "start": 928,
+            "stop": 929,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_CHEST\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_RAINBOW_ROUTE/ROOM_1_06_UPPER__ROOM_CHECK\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 934,
+            "stop": 935,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_MID\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_RAINBOW_ROUTE/ROOM_1_06_UPPER__ROOM_CHECK\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 937,
+            "stop": 938,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_06_LOWER_RIGHT\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_RAINBOW_ROUTE/ROOM_1_06_UPPER__ROOM_CHECK\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 939,
+            "stop": 941,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_06_UPPER\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_RAINBOW_ROUTE/ROOM_1_06_UPPER__ROOM_CHECK\"}",
+              "{\"kind\":\"location\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_06_UPPER__ROOM_CHECK\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_1_06_UPPER\"}"
+            ],
+            "main": [
+              "{\"kind\":\"location\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_06_UPPER\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_1_06_UPPER\"}"
+            ]
+          },
+          {
+            "start": 961,
+            "stop": 962,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_13\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_RAINBOW_ROUTE/ROOM_1_13__ROOM_CHECK\"}"
+            ],
+            "main": [
+              "{\"kind\":\"location\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_13\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_1_13\"}"
+            ]
+          },
+          {
+            "start": 964,
+            "stop": 966,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_13_LOWER\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_RAINBOW_ROUTE/ROOM_1_13__ROOM_CHECK\"}",
+              "{\"kind\":\"location\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_13__ROOM_CHECK\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_1_13\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 973,
+            "stop": 974,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_15\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_RAINBOW_ROUTE/ROOM_1_15__ROOM_CHECK\"}"
+            ],
+            "main": [
+              "{\"kind\":\"location\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_15\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_1_15\"}"
+            ]
+          },
+          {
+            "start": 976,
+            "stop": 978,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_15_LOWER\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_RAINBOW_ROUTE/ROOM_1_15__ROOM_CHECK\"}",
+              "{\"kind\":\"location\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_15__ROOM_CHECK\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_1_15\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 980,
+            "stop": 981,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_16\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_RAINBOW_ROUTE/ROOM_1_16__ROOM_CHECK\"}"
+            ],
+            "main": [
+              "{\"kind\":\"location\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_16\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_1_16\"}"
+            ]
+          },
+          {
+            "start": 984,
+            "stop": 985,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_16_MID\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_RAINBOW_ROUTE/ROOM_1_16__ROOM_CHECK\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 987,
+            "stop": 989,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_16_UPPER\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_RAINBOW_ROUTE/ROOM_1_16__ROOM_CHECK\"}",
+              "{\"kind\":\"location\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_16__ROOM_CHECK\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_1_16\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 994,
+            "stop": 995,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_18\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_RAINBOW_ROUTE/ROOM_1_18__ROOM_CHECK\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 996,
+            "stop": 996,
+            "current": [],
+            "main": [
+              "{\"kind\":\"location\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_18\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_1_18\"}"
+            ]
+          },
+          {
+            "start": 998,
+            "stop": 1000,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_18_UPPER\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_RAINBOW_ROUTE/ROOM_1_18__ROOM_CHECK\"}",
+              "{\"kind\":\"location\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_18__ROOM_CHECK\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_1_18\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 1017,
+            "stop": 1018,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_24\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_RAINBOW_ROUTE/ROOM_1_24__ROOM_CHECK\"}"
+            ],
+            "main": [
+              "{\"kind\":\"location\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_24\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_1_24\"}"
+            ]
+          },
+          {
+            "start": 1020,
+            "stop": 1022,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_24_UPPER\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_RAINBOW_ROUTE/ROOM_1_24__ROOM_CHECK\"}",
+              "{\"kind\":\"location\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_24__ROOM_CHECK\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_1_24\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 1027,
+            "stop": 1028,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_26\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_RAINBOW_ROUTE/ROOM_1_26__ROOM_CHECK\"}"
+            ],
+            "main": [
+              "{\"kind\":\"location\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_26\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_1_26\"}"
+            ]
+          },
+          {
+            "start": 1030,
+            "stop": 1032,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_26_UPPER_RIGHT\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_RAINBOW_ROUTE/ROOM_1_26__ROOM_CHECK\"}",
+              "{\"kind\":\"location\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_26__ROOM_CHECK\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_1_26\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 1035,
+            "stop": 1036,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_27\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_RAINBOW_ROUTE/ROOM_1_27__ROOM_CHECK\"}"
+            ],
+            "main": [
+              "{\"kind\":\"location\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_27\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_1_27\"}"
+            ]
+          },
+          {
+            "start": 1038,
+            "stop": 1039,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_27_UPPER_LEFT\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_RAINBOW_ROUTE/ROOM_1_27__ROOM_CHECK\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 1041,
+            "stop": 1043,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_27_UPPER_RIGHT\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_RAINBOW_ROUTE/ROOM_1_27__ROOM_CHECK\"}",
+              "{\"kind\":\"location\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_27__ROOM_CHECK\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_1_27\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 1057,
+            "stop": 1058,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_33\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_RAINBOW_ROUTE/ROOM_1_33__ROOM_CHECK\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 1059,
+            "stop": 1059,
+            "current": [],
+            "main": [
+              "{\"kind\":\"location\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_33\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_1_33\"}"
+            ]
+          },
+          {
+            "start": 1061,
+            "stop": 1063,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_33_LEFT\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_RAINBOW_ROUTE/ROOM_1_33__ROOM_CHECK\"}",
+              "{\"kind\":\"location\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_33__ROOM_CHECK\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_1_33\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 1073,
+            "stop": 1074,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_36_HORIZONTAL\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_RAINBOW_ROUTE/ROOM_1_36_VERTICAL__ROOM_CHECK\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 1077,
+            "stop": 1079,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_36_VERTICAL\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_RAINBOW_ROUTE/ROOM_1_36_VERTICAL__ROOM_CHECK\"}",
+              "{\"kind\":\"location\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_36_VERTICAL__ROOM_CHECK\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_1_36_VERTICAL\"}"
+            ],
+            "main": [
+              "{\"kind\":\"location\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_36_VERTICAL\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_1_36_VERTICAL\"}"
+            ]
+          },
+          {
+            "start": 1111,
+            "stop": 1112,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_42\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_RAINBOW_ROUTE/ROOM_1_42__ROOM_CHECK\"}"
+            ],
+            "main": [
+              "{\"kind\":\"location\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_42\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_1_42\"}"
+            ]
+          },
+          {
+            "start": 1114,
+            "stop": 1116,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_42_CUT\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_RAINBOW_ROUTE/ROOM_1_42__ROOM_CHECK\"}",
+              "{\"kind\":\"location\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_42__ROOM_CHECK\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_1_42\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 1117,
+            "stop": 1118,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE\",\"requirement\":null,\"room_sanity\":false,\"target\":\"REGION_DIMENSION_MIRROR/MAIN\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 1127,
+            "stop": 1128,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE__ROOM_CHECK\"}"
+            ],
+            "main": [
+              "{\"kind\":\"location\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_1_CENTRAL_CIRCLE\"}"
+            ]
+          },
+          {
+            "start": 1131,
+            "stop": 1133,
+            "current": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE_UPPER_PLATFORMS\",\"requirement\":null,\"room_sanity\":true,\"target\":\"REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE__ROOM_CHECK\"}",
+              "{\"kind\":\"location\",\"owner\":\"REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE__ROOM_CHECK\",\"requirement\":null,\"room_sanity\":true,\"target\":\"ROOM_SANITY_1_CENTRAL_CIRCLE\"}"
+            ],
+            "main": []
+          },
+          {
+            "start": 1171,
+            "stop": 1171,
+            "current": [],
+            "main": [
+              "{\"kind\":\"exit\",\"owner\":\"REGION_TUTORIAL/ROOM_0_02\",\"requirement\":null,\"room_sanity\":false,\"target\":\"REGION_TUTORIAL/ROOM_0_01\"}"
+            ]
+          }
+        ]
       }
     ]
   },
