@@ -28,6 +28,15 @@ Neither possession of a permission nor an inventory row equips Kirby. Gating off
 still requires physical acquisition. Moving a source behind its own barrier
 cannot justify reaching it.
 
+Obtaining a copy ability by swallowing an enemy projectile is **Advanced
+only**, including boss and miniboss projectiles. This applies in Off, Shuffle,
+and Completely Random, even when no room transition is needed. A projectile
+is not the same source as the enemy that launches it: swallowing the defeated
+enemy may still qualify for Standard if that acquisition and carry route are
+verified. For example, Bombar itself and Bombar’s spawned missiles are separate
+source records. The projectile’s presence does not establish that Kirby can
+leave the encounter with its ability or complete a downstream check.
+
 Encounter source types are rejected from standard room graphs, including when
 introduced through reusable graph parts or source sets. Advanced graphs still
 need an explicit acquisition witness. The encounter census records 126
