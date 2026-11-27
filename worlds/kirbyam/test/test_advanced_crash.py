@@ -56,6 +56,10 @@ def test_generated_yaml_keeps_advanced_off_by_default(monkeypatch, tmp_path):
     assert 'traversal_logic' not in options
     harder = text.split('# Make the game harder #', 1)[1].split('# Ability Randomization #', 1)[0]
     assert 'advanced_logic:' in harder
+    comments = harder.split('advanced_logic:', 1)[1].split("'false':", 1)[0]
+    for technique in ('Using Crash or Magic', 'an enemy projectile',
+                      'more than three room transitions', 'Missile for the Wheel Race'):
+        assert technique in comments
     assert AdvancedLogic.from_any(False).value == AdvancedLogic.default == 0
     assert AdvancedLogic.from_any(True).value == 1
 
