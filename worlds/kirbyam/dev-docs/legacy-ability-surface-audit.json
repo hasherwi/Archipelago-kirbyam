@@ -6,9 +6,9 @@
     "declared_normal_alternative": 5,
     "installed_witness": 29,
     "lever_item": 8,
-    "normal_movement": 218,
+    "normal_movement": 222,
     "policy_scoped_witness": 2,
-    "unresolved_action_context": 143
+    "unresolved_action_context": 145
   },
   "surfaces": [
     {
@@ -3476,7 +3476,71 @@
       "installed_targets": []
     },
     {
-      "owner": "REGION_PEPPERMINT_PALACE/ROOM_7_10",
+      "owner": "REGION_PEPPERMINT_PALACE/ROOM_7_09",
+      "kind": "exit",
+      "target": "REGION_PEPPERMINT_PALACE/ROOM_7_10__LOGIC__CENTER_WARP",
+      "requirement": {
+        "all": [
+          "can_break_block",
+          {
+            "any": [
+              "can_fly",
+              "can_climb"
+            ]
+          }
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        },
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_climb",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_PEPPERMINT_PALACE/ROOM_7_09",
+      "kind": "exit",
+      "target": "REGION_PEPPERMINT_PALACE/ROOM_7_10__LOGIC__RIGHT_SPRAY",
+      "requirement": {
+        "all": [
+          "can_break_block",
+          {
+            "any": [
+              "can_fly",
+              "can_climb"
+            ]
+          }
+        ]
+      },
+      "room_sanity": false,
+      "tokens": [
+        {
+          "token": "can_break_block",
+          "category": "unresolved_action_context"
+        },
+        {
+          "token": "can_fly",
+          "category": "normal_movement"
+        },
+        {
+          "token": "can_climb",
+          "category": "normal_movement"
+        }
+      ],
+      "installed_targets": []
+    },
+    {
+      "owner": "REGION_PEPPERMINT_PALACE/ROOM_7_10__LOGIC__CENTER_WARP",
       "kind": "exit",
       "target": "REGION_PEPPERMINT_PALACE/ROOM_7_WARP",
       "requirement": "can_fly",

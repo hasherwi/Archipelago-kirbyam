@@ -588,42 +588,17 @@ def test_payload_supports_consumable_and_life_fillers() -> None:
     assert "KIRBY_ITEM_ID_BASE_OFFSET + 23u" not in payload
 
 
-def test_goal_locations_are_converted_to_addressless_events() -> None:
-    goal_key, goal_meta = next(
-        (key, meta) for key, meta in data.locations.items() if meta.category == LocationCategory.GOAL
-    )
-    goal_location = KirbyAmLocation(
-        1,
-        goal_meta.label,
-        goal_meta.location_id,
-        None,
-        key=goal_key,
-        default_item_code=goal_meta.default_item,
-    )
+def test_goal_locations_remain_locked_addressless_events_after_item_creation() -> None:
+    from test.general import setup_multiworld
 
-    class _DummyMultiWorld:
-        def __init__(self, locations):
-            self._locations = locations
-            self.itempool = []
-
-        def get_locations(self, player):
-            return self._locations
-
-        def get_player_name(self, player):
-            return "KirbyAM-Test"
-
-    world = KirbyAmWorld.__new__(KirbyAmWorld)
-    world.player = 1
-    world.multiworld = _DummyMultiWorld([goal_location])
-    world.options = SimpleNamespace(
-        shards=SimpleNamespace(value=RandomizeShards.option_completely_random)
-    )
-
-    world.create_items()
-
-    assert goal_location.item is not None
-    assert goal_location.item.code is None
-    assert goal_location.address is None
+    mw = setup_multiworld(KirbyAmWorld, steps=("generate_early", "create_regions", "create_items"))
+    goals = [mw.get_location(meta.label, 1) for meta in data.locations.values()
+             if meta.category == LocationCategory.GOAL]
+    assert goals
+    for goal in goals:
+        assert goal.locked and goal.address is None
+        assert goal.item is not None and goal.item.name == goal.name and goal.item.code is None
+        assert all(item is not goal.item for item in mw.itempool)
 
 
 def test_vanilla_shards_are_locked_to_boss_defeats() -> None:

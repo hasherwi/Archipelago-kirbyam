@@ -237,8 +237,8 @@ def test_real_pool_builder_with_shipping_format2_catalog( minimum, maximum, shar
         pool = world.multiworld.itempool
         assert len(pool) == sum(location.item is None for location in locations)
         assert Counter(item.code for item in pool if item.code in VITALITY_ITEM_IDS) == Counter(plan.item_ids)
-        disposable = [item for item in pool if item.classification in
-                      (ItemClassification.filler, ItemClassification.trap)]
+        # Useful batteries are still eligible for weighted consumable selection.
+        disposable = [item for item in pool if "Filler" in item.tags or item.classification == ItemClassification.trap]
         assert sum(item.classification == ItemClassification.trap for item in disposable) == len(disposable) * 25 // 100
         if maps:
             assert all("Maps" not in item.tags for item in pool)

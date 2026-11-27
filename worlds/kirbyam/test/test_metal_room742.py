@@ -224,8 +224,10 @@ def test_actual_native_arrivals_and_absent_unproved_upper_exit() -> None:
     rooms = load_json_data("regions/rooms.json")
     assert isinstance(rooms, dict)
     assert rooms[RETURN_SOURCE]["logical_exit_overrides"][LOWER] == "UPPER_RETURN"
-    assert data.regions[SOURCE].exits == [LOWER]
-    assert data.regions[RETURN_SOURCE].exits == [UPPER]
+    visit = SOURCE + "__ROOM_CHECK"
+    assert set(data.regions[SOURCE].exits) == {LOWER, visit}
+    assert set(data.regions[RETURN_SOURCE].exits) == {UPPER, visit}
+    assert not data.regions[visit].exits
     assert LOWER + "_UPPER_LEDGE_SPAWN" not in data.regions
     assert WARP not in data.regions[UPPER].exits
     assert LOWER not in data.regions[UPPER].exits

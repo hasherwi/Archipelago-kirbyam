@@ -127,7 +127,12 @@ def test_actual_normalized_edge_preserves_corridors_checks_keys_and_classificati
     assert right.access_rule(state)
     checks = [loc for loc in mw.get_locations(1) if loc.address == 3961006]
     assert len(checks) == int(not disabled)
-    assert all(loc.parent_region.name == OWNER and loc.access_rule(state) for loc in checks)
+    if checks:
+        visit = OWNER + '__ROOM_CHECK'
+        assert checks[0].parent_region.name == visit and checks[0].access_rule(state)
+        for compartment in (OWNER, HORIZONTAL):
+            assert mw.get_entrance(f'{compartment} -> {visit}', 1).access_rule(state)
+        assert not mw.get_region(visit, 1).exits
     assert not mw.get_region(HORIZONTAL, 1).locations
 
 

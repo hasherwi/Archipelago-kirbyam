@@ -25,7 +25,10 @@ def test_one_fail_closed_target_leaves_rope_check_and_ordinary_exits_unchanged()
     assert row["location"] == LOCATION and "requires_guaranteed_source" not in row
     assert LOCATION in data.regions[OWNER].locations
     assert "MINOR_CHEST_PEPPERMINT_PALACE_7_09_OBJECT_02" in data.regions[OWNER].locations
-    assert set(data.regions[OWNER].exits) == {"REGION_PEPPERMINT_PALACE/ROOM_7_10"}
+    room_710 = "REGION_PEPPERMINT_PALACE/ROOM_7_10"
+    assert set(data.regions[OWNER].exits) == {
+        room_710, room_710 + "__LOGIC__CENTER_WARP", room_710 + "__LOGIC__RIGHT_SPRAY",
+    }
 
 
 def test_joint_graph_reuses_exact205_prefix_and_one_finite_source() -> None:
