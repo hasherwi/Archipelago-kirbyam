@@ -209,6 +209,58 @@
         8
       ],
       "evidence": "carrot-topology-reconciliation.md"
+    },
+    {
+      "from_region": "REGION_OLIVE_OCEAN/ROOM_6_04",
+      "to_region": "REGION_OLIVE_OCEAN/ROOM_6_05_SUBROOM",
+      "trigger_tile": [
+        73,
+        6
+      ],
+      "arrival_tile": [
+        2,
+        6
+      ],
+      "evidence": "olive-door-topology.md"
+    },
+    {
+      "from_region": "REGION_OLIVE_OCEAN/ROOM_6_04",
+      "to_region": "REGION_OLIVE_OCEAN/ROOM_6_05__LOGIC__ENTRY_FROM_6_04_OR_6_06",
+      "trigger_tile": [
+        73,
+        18
+      ],
+      "arrival_tile": [
+        3,
+        18
+      ],
+      "evidence": "olive-door-topology.md"
+    },
+    {
+      "from_region": "REGION_OLIVE_OCEAN/ROOM_6_05_SUBROOM",
+      "to_region": "REGION_OLIVE_OCEAN/ROOM_6_07",
+      "trigger_tile": [
+        14,
+        14
+      ],
+      "arrival_tile": [
+        3,
+        4
+      ],
+      "evidence": "olive-door-topology.md"
+    },
+    {
+      "from_region": "REGION_OLIVE_OCEAN/ROOM_6_05__LOGIC__ENTRY_FROM_6_04_OR_6_06",
+      "to_region": "REGION_OLIVE_OCEAN/ROOM_6_06",
+      "trigger_tile": [
+        43,
+        2
+      ],
+      "arrival_tile": [
+        2,
+        7
+      ],
+      "evidence": "olive-door-topology.md"
     }
   ],
   "non_tile_witnesses": [

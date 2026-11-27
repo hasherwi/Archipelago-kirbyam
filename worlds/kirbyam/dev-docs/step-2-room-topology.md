@@ -63,13 +63,14 @@ can reach the trigger under every setting.
 
 | Raw exception | Evidence status | AP edges |
 | --- | --- | ---: |
-| Multiple door records | Exact trigger and landing pinned to the named compartments | 13 |
+| Multiple door records | Exact trigger and landing pinned to the named compartments | 15 |
 | Multiple door records | All candidates land on the same tile with the same flags; keep all triggers | 13 |
-| Multiple door records | Distinct landings or flags still need AP compartment review | 28 |
+| Multiple door records | Distinct landings or flags still need AP compartment review | 26 |
 | No matching tile record | Native controller witness, via a completion sequence, cannon or Warp Star | 18 |
 | No matching tile record | Native code supports a boss-shard return sequence, not a free exit | 8 |
 | No matching tile record | Mechanism or compartment remains unresolved | 22 |
 
+Five single-candidate edges also have explicit compartment pins.
 The [explicit pins](native-door-reconciliation.json) include Moonlight's
 2-01/2-11 and 2-14/2-15 splits, Cabbage's 3-03/3-04 split, and the
 Bonkers-side and Snow Hall connections between Peppermint 7-05 and its Chest Room.
@@ -130,10 +131,9 @@ the named compartment. In particular:
   loads the destination and spawn from the template's separate fields, not
   from the star's subtype. Decode those fields before assigning the flight
   to an edge. Do not infer that both Carrot Warp edges use the star.
-- The Olive 6-04 → 6-05 edges share two raw door candidates. One lands at
-  (2,6) and the other at (3,18). Keep both in the report until their
-  compartments are verified; the destinations 6-06 and 6-07 use distinct
-  outgoing trigger cells within 6-05.
+- The [Olive door crosswalk](olive-door-topology.md) pins both 6-04 → 6-05
+  landings and their distinct exits to 6-06 and 6-07. The possible cannon
+  return is a separate mechanism and remains unverified in the audit.
 - Ordinary [MirrorDoor code](https://github.com/jiangzhengwenjz/katam/blob/89a012c0d2e46a0ae87d9133c7a0435d95e348e8/src/mirror_door.c#L101-L126)
   consults the tile-transition table. A mirror template in a source room
   isn't independent evidence of a missing route. Inspect the source

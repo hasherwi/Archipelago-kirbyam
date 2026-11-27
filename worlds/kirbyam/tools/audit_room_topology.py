@@ -112,7 +112,7 @@ def reconcile_doors(edges: list[dict[str, Any]], native: dict[str, int],
 # Native table-1 object constructors which may participate in a room change.
 # This is a shortlist, not an exhaustive inventory of non-tile mechanisms.
 TRANSITION_OBJECTS = {0x6F: "mirror_door", 0x84: "warp_star",
-                      0x97: "door_to_hub", 0x99: "area_door"}
+                      0x8A: "fuse_cannon", 0x97: "door_to_hub", 0x99: "area_door"}
 
 
 def add_object_evidence_queue(edges: list[dict[str, Any]], native: dict[str, int],

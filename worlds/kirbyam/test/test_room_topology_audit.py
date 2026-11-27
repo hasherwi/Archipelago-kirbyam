@@ -62,8 +62,8 @@ def test_retail_join_counts_candidates_not_verified_paths():
 def test_reconciliation_preserves_unresolved_routes_and_exact_landing_evidence():
     report = build_inventory()
     assert report["retail_door_reconciliation_counts"] == {
-        "multiple_landings": 28, "no_tile_evidence": 22, "pinned_tile_door": 16,
-        "shared_landing": 13, "single_tile_candidate": 456, "source_backed_boss_return": 8,
+        "multiple_landings": 26, "no_tile_evidence": 22, "pinned_tile_door": 20,
+        "shared_landing": 13, "single_tile_candidate": 454, "source_backed_boss_return": 8,
         "witnessed_non_tile": 18,
     }
     edges = {(row["from_region"].split("/")[-1], row["to_region"].split("/")[-1]): row
@@ -115,3 +115,20 @@ def test_unresolved_object_shortlist_does_not_certify_a_destination():
     assert all("source_transition_object_templates" in edge for edge in unresolved)
     assert "source_transition_object_templates" not in edges[
         "ROOM_1_WARP", "ROOM_2_ENTRY"]
+
+def test_olive_upper_and_lower_entries_keep_separate_destinations():
+    report = build_inventory()
+    edges = {(row["from_region"].split("/")[-1], row["to_region"].split("/")[-1]): row
+             for row in report["edges"] if row["kind"] == "cross_native_room_candidate"}
+    upper = "ROOM_6_05_SUBROOM"
+    lower = "ROOM_6_05__LOGIC__ENTRY_FROM_6_04_OR_6_06"
+    assert edges["ROOM_6_04", upper]["door_reconciliation"]["door"]["trigger_tile"] == [73, 6]
+    assert edges["ROOM_6_04", upper]["door_reconciliation"]["door"]["arrival_tile"] == [2, 6]
+    assert edges["ROOM_6_04", lower]["door_reconciliation"]["door"]["trigger_tile"] == [73, 18]
+    assert edges["ROOM_6_04", lower]["door_reconciliation"]["door"]["arrival_tile"] == [3, 18]
+    assert edges[upper, "ROOM_6_07"]["door_reconciliation"]["door"]["trigger_tile"] == [14, 14]
+    assert edges[lower, "ROOM_6_06"]["door_reconciliation"]["door"]["trigger_tile"] == [43, 2]
+    cannon = edges["ROOM_6_07", "ROOM_6_05__LOGIC__ENTRY_FROM_6_07"]
+    assert cannon["door_reconciliation"] == {"status": "no_tile_evidence"}
+    assert {row["template_address"] for row in cannon["source_transition_object_templates"]
+            if row["mechanism"] == "fuse_cannon"} == {"0x088CD65C"}
