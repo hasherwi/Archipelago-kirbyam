@@ -185,7 +185,8 @@ class AbilityRandomizationNoAbilityWeight(Range):
     - 55: 55% of included randomized enemies grant no ability, 45% grant a copy ability.
             Default. This matches the in-game percentage when enemies that normally
             grant no ability are included in the randomization pool.
-    - 100: Included randomized enemies always grant no ability.
+    - 100: Included randomized enemies always grant no ability. With Completely Random,
+       this is not supported for the 100% Game Completion goal.
 
     This only affects enemies already included by the ability randomization mode and
     the boss/miniboss/passive-enemy toggles.
@@ -516,6 +517,20 @@ class KirbyAmOptions(PerGameCommonOptions):
     room_sanity: RoomSanity
 
     death_link: KirbyAmDeathLink
+
+
+def validate_generation_options(options: KirbyAmOptions, player_name: str) -> None:
+    """Reject unsupported combinations for new seeds after options are rolled."""
+    if (options.goal.value == Goal.option_full_completion
+            and options.ability_randomization_mode.value == AbilityRandomizationMode.option_completely_random
+            and options.ability_randomization_no_ability_weight.value == 100):
+        raise OptionError(
+            f"KirbyAM ({player_name}): 100% Game Completion (goal: full_completion) is not supported with "
+            "Completely Random (ability_randomization_mode: completely_random) and No Ability Weight 100 "
+            "(ability_randomization_no_ability_weight: 100). Generation cannot establish a route to the "
+            "required Mustard Mountain Map. Lower No Ability Weight below 100, choose a different "
+            "ability randomization mode, or choose a different goal."
+        )
 
 
 OPTION_GROUPS = [

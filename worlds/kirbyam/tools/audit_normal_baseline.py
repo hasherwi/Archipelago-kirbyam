@@ -46,7 +46,7 @@ def compare(*, area_keys: bool, randomize: int) -> dict:
     areas = raw["addressed_checks"]
     mw = setup_multiworld(KirbyAmWorld, steps=("generate_early", "create_regions", "set_rules"), seed=1197,
                           options={"room_sanity": True, "area_keys": area_keys, "ability_gating": True,
-                                   "random_starting_mirror": False, "goal": "full_completion",
+                                   "random_starting_mirror": False, "goal": "dark_mind",
                                    "ability_randomization_mode": randomize,
                                    "ability_randomization_no_ability_weight": 100})
     world = mw.worlds[1]

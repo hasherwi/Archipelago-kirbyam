@@ -58,6 +58,7 @@ from .options import (
     KirbyAmOptions,
     RandomizeShards,
     TrapFillPercentage,
+    validate_generation_options,
 )
 from .rom import KirbyAmProcedurePatch, write_tokens
 
@@ -408,6 +409,7 @@ class KirbyAmWorld(World):
             validate_phone_profile(self, require_policy=True)
             self._generation_start_time = time.time()
             return
+        validate_generation_options(self.options, self.player_name)
         validate_phone_profile(self)
         # Reject unsupported health pairs before producing regions/items or a patch.
         health_range = self._health_range()
