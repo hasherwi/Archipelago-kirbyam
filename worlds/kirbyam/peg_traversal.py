@@ -91,7 +91,7 @@ def validate_peg_assignment(
     initial: dict[str, Any], factory: Callable[[], dict[str, Any]], include_statues: bool,
     max_attempts: int = 8192, *, require_all_witnesses: bool = True, advanced: bool = False,
     require_room16: bool = False, room16_for_completion: bool = False,
-    allow_room16_shuffle_repair: bool = False,
+    allow_room16_shuffle_repair: bool = False, logic_aware_shuffle: bool = False, area_keys: bool = False,
 ) -> dict[str, Any]:
     """Select a valid deterministic assignment without rerolling generation.
 
@@ -125,6 +125,14 @@ def validate_peg_assignment(
             and not static_room16_witness(SourcePolicy(initial, include_statues), advanced=advanced)):
         raise KirbyAmRoom16SourceError(
             ROOM16_COMPLETION_WEIGHT_REJECTION if room16_for_completion else ROOM16_WEIGHT_REJECTION
+        )
+
+    if initial.get("mode") == 1 and logic_aware_shuffle and not advanced:
+        from .logic_aware_shuffle import constrain_shuffled_abilities
+
+        return constrain_shuffled_abilities(
+            initial, include_statues=include_statues, require_all=validate_static,
+            room16=require_room16, area_keys=area_keys,
         )
 
     repair_candidates: list[dict[str, Any]] | None = (

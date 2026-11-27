@@ -101,3 +101,27 @@ Do not make a long route Standard solely to satisfy seed validation, and do
 not enable a hard gate before the affected Standard generation profiles can
 still succeed. The Missile Wheel Race exception separately needs a verified
 directed source path connected to the race and exact chest.
+
+### Standard Shuffled source assignment (#1170)
+
+With Advanced Logic **off**, check the initial deterministic enemy and world
+statue assignment against the existing required acquisition graphs. If a
+source cannot supply a legal action, try bounded swaps of existing grants in
+the same enabled pool, preferring assignments that leave the other verified
+targets satisfied. Do not consume another world RNG draw. Off, Completely
+Random and Advanced Shuffled continue using their previous assignment path.
+
+For Standard Shuffled with randomized world statues and enemy No Ability
+Weight 100 only, a needed ability can be absent from the initial world
+statue roster: there are more eligible abilities than slots. If swaps alone
+fail, reserve the missing grant in an existing statue slot before applying the
+swap plan. Do not add slots, add starting items, change enemy grants, or
+randomize the Copy Ability Room. Preserve all counts in the resulting roster
+when moving grants. Other settings do not reserve an absent grant; a bounded
+failure with the available multiset is diagnostic, not a claim no other seed
+or route can work.
+
+The persisted plan drives ROM tokens, tracker reconstruction and the
+spoiler; the same underlying witness predicates and final all-check audit
+still run. The separate world-wide three-transition migration remains gated
+on the Standard evidence gaps above.

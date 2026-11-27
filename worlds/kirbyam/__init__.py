@@ -168,7 +168,7 @@ class KirbyAmWorld(World):
 
     @classmethod
     def stage_pre_fill(cls, multiworld: MultiWorld) -> None:
-        from .enemy_ability_runtime_patch import ROOM16_FOLEY_SWAP
+        from .enemy_ability_runtime_patch import ROOM16_FOLEY_SWAP, SHUFFLE_SOURCE_SWAPS, SHUFFLE_STATUE_RESERVATIONS
 
         stone = "Stone Ability"
         stone_by_owner = {item.player: item for item in multiworld.itempool if item.name == stone and item.advancement}
@@ -177,7 +177,8 @@ class KirbyAmWorld(World):
             if (not isinstance(world, cls) or player not in stone_by_owner
                     or world.options.accessibility != Accessibility.option_minimal
                     or not world._ability_gating_enabled()
-                    or ROOM16_FOLEY_SWAP not in getattr(world, "_enemy_copy_ability_policy", {})):
+                    or not {ROOM16_FOLEY_SWAP, SHUFFLE_SOURCE_SWAPS, SHUFFLE_STATUE_RESERVATIONS}.intersection(
+                        getattr(world, "_enemy_copy_ability_policy", {}))):
                 continue
             if any(item.name == stone for item in multiworld.precollected_items[player]) or any(
                 location.item is not None and location.item.player == player and location.item.name == stone
@@ -469,8 +470,8 @@ class KirbyAmWorld(World):
             )
             from .room16_timer import configure_policy
             self._enemy_copy_ability_policy = configure_policy(self._enemy_copy_ability_policy)
-            # All checks need feasible sources even under minimal accessibility.
-            # Keep whole-policy resampling bounded and preserve the selected option.
+            # Standard Shuffled repairs the initial assignment without drawing a
+            # new seed. Other modes and Advanced retain their existing policy.
             self._enemy_copy_ability_policy = validate_peg_assignment(
                 self._enemy_copy_ability_policy,
                 lambda: build_enemy_copy_ability_policy(
@@ -487,6 +488,9 @@ class KirbyAmWorld(World):
                 require_room16=bool(self.options.room_sanity.value),
                 room16_for_completion=self.options.goal.value == Goal.option_full_completion,
                 allow_room16_shuffle_repair=True,
+                logic_aware_shuffle=(mode == AbilityRandomizationMode.option_shuffled
+                                     and not self.options.advanced_logic.value),
+                area_keys=self._area_keys_enabled(),
             )
             from .candy912_fuse import needs_linked_fuse
             self._candy912_linked_west_fuse = needs_linked_fuse(
