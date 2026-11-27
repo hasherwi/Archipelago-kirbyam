@@ -1,6 +1,5 @@
 """Explicit Completely Random room patch; historical slots keep native timing."""
 from functools import lru_cache
-from .data import load_json_data
 from .special_route_data import SPECIAL_ROUTE_PROFILES
 from .traversal import SourcePolicy, compile_traversal_graph
 
@@ -31,7 +30,7 @@ def timer_bytes(raw: dict) -> bytes:
 
 @lru_cache(maxsize=1)
 def graph():
-    return compile_traversal_graph(load_json_data(_PROFILE["normal_witness"]))
+    return compile_traversal_graph(_PROFILE["normal_witness"])
 
 
 def target_graphs(row: dict, policy: SourcePolicy) -> tuple:

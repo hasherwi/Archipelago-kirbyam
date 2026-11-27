@@ -116,7 +116,7 @@ def build_status() -> dict[str, Any]:
         "tools/build_ranged_completion_status.py", "tools/build_ranged_target_coverage.py",
         "dev-docs/ranged-completion-scope.json", "dev-docs/ranged-static-target-census.json",
         "dev-docs/small-switch-inventory.json", "dev-docs/main-ranged-union-catalog.json",
-        "candy912_fuse.py", "data/candy912_normal_fuse_witness.json",
+        "candy912_fuse.py", "data/traversal_source_scopes.json",
     ):
         inputs[name] = hashlib.sha256((ROOT / name).read_bytes()).hexdigest()
     fingerprint = hashlib.sha256(json.dumps(inputs, sort_keys=True).encode()).hexdigest()

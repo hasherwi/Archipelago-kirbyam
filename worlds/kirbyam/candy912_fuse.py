@@ -2,7 +2,7 @@
 from functools import lru_cache
 from typing import Any
 
-from .data import data, load_json_data
+from .data import data
 from .special_route_data import SPECIAL_ROUTE_PROFILES
 from .traversal import SourcePolicy, TraversalGraph, compile_traversal_graph
 from .traversal_data import room_traversal_targets
@@ -38,7 +38,7 @@ def config_bytes(linked: bool) -> bytes:
 
 @lru_cache(maxsize=1)
 def graph() -> TraversalGraph:
-    witness = load_json_data(_PROFILE["normal_witness"])
+    witness = _PROFILE["normal_witness"]
     if not isinstance(witness, dict):
         raise ValueError("Invalid Candy 9-12 linked fuse witness")
     return compile_traversal_graph(witness)
@@ -46,7 +46,7 @@ def graph() -> TraversalGraph:
 
 @lru_cache(maxsize=1)
 def fire_graph() -> TraversalGraph:
-    witness = load_json_data(_PROFILE["alternate_witness"])
+    witness = _PROFILE["alternate_witness"]
     if not isinstance(witness, dict):
         raise ValueError("Invalid Candy 9-12 Fire fuse witness")
     return compile_traversal_graph(witness)

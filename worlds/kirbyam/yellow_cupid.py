@@ -11,7 +11,6 @@ import hashlib
 import json
 from typing import Any
 
-from .data import load_json_data
 from .special_route_data import SPECIAL_ROUTE_PROFILES
 from .traversal import SourcePolicy, TraversalGraph, compile_traversal_graph
 
@@ -53,7 +52,7 @@ def validate_profile(world: Any, *, install: bool = False) -> bool:
 
 @lru_cache(maxsize=1)
 def graph() -> TraversalGraph:
-    payload = load_json_data(_PROFILE["witness"])
+    payload = _PROFILE["witness"]
     if not isinstance(payload, dict):
         raise ValueError("Yellow Cupid witness must be an object")
     return compile_traversal_graph(payload)
