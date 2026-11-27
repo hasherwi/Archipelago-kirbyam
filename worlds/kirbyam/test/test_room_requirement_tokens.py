@@ -10,7 +10,10 @@ import pytest
 
 from .. import KirbyAmWorld
 from ..data import data
-from ..rules import evaluate_room_logic_requirement, _NORMAL_MOVEMENT_REQUIREMENTS
+from ..rules import (
+    _NORMAL_MOVEMENT_REQUIREMENTS, _ROOM_LEVER_WALL_ITEMS, _load_lever_wall_items,
+    evaluate_room_logic_requirement,
+)
 from .test_rules import _FakeState
 
 
@@ -80,6 +83,51 @@ def test_lever_lookup_uses_requested_player(token: str) -> None:
 
     assert not evaluate_room_logic_requirement(token, cast(CollectionState, State()), 1)
     assert evaluate_room_logic_requirement(token, cast(CollectionState, State()), 2)
+
+
+def test_every_compiled_lever_edge_keeps_its_existing_wall_item() -> None:
+    expected = {
+        "mm_lever": [
+            ("MOONLIGHT_MANSION/ROOM_2_11", "MOONLIGHT_MANSION/ROOM_2_11_AFTER_LEVER"),
+            ("MOONLIGHT_MANSION/ROOM_2_11_AFTER_LEVER", "MOONLIGHT_MANSION/ROOM_2_11"),
+        ],
+        "oo_lever": [
+            ("OLIVE_OCEAN/ROOM_6_13", "MOONLIGHT_MANSION/ROOM_2_12_RIGHT"),
+            ("OLIVE_OCEAN/ROOM_6_13__LOGIC__ENTRY_FROM_MOONLIGHT", "OLIVE_OCEAN/ROOM_6_13"),
+        ],
+        "cc_lever": [
+            ("CARROT_CASTLE/ROOM_5_05", "CARROT_CASTLE/ROOM_5_05__LOGIC__CHUTE_SIDE"),
+            ("CARROT_CASTLE/ROOM_5_05__LOGIC__CHUTE_SIDE", "CARROT_CASTLE/ROOM_5_05"),
+        ],
+        "rr_lever": [
+            ("RADISH_RUINS/ROOM_8_12", "RADISH_RUINS/ROOM_8_12__LOGIC__CARROT_SIDE"),
+            ("RADISH_RUINS/ROOM_8_12__LOGIC__CARROT_SIDE", "RADISH_RUINS/ROOM_8_12"),
+        ],
+    }
+    assert _ROOM_LEVER_WALL_ITEMS == {token: label for token, (_, label) in LEVER_ITEMS.items()}
+    for token, edges in expected.items():
+        actual = {
+            (source, target)
+            for source, region in data.regions.items()
+            for target, requirement in region.exit_requirements.items()
+            if token in _tokens(requirement)
+        }
+        assert actual == {("REGION_" + source, "REGION_" + target) for source, target in edges}
+
+
+@pytest.mark.parametrize(("payload", "message"), [
+    ({"schema": True}, "Unsupported"),
+    ({"schema": 1, "required_item_by_wall_token": {}}, "must declare"),
+    ({"schema": 1, "required_item_by_wall_token": {"can_fly": "not_a_key"}}, "Invalid"),
+    ({"schema": 1, "required_item_by_wall_token": {"mm_lever": "not_a_key"}}, "catalog Lever Wall"),
+    ({"schema": 1, "required_item_by_wall_token": {"mm_lever": "SPRAY_PAINT_01"}}, "catalog Lever Wall"),
+    ({"schema": 1, "required_item_by_wall_token": dict.fromkeys(
+        ["mm_lever", "oo_lever"], "LEVER_WALL_MOONLIGHT_MANSION_2_11")}, "Duplicate"),
+])
+def test_lever_wall_loader_rejects_invalid_metadata(payload: dict, message: str) -> None:
+    with patch("worlds.kirbyam.rules.load_json_data", return_value=payload):
+        with pytest.raises(ValueError, match=message):
+            _load_lever_wall_items()
 
 
 def test_unknown_tokens_still_fail_closed() -> None:

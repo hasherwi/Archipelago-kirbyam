@@ -123,14 +123,31 @@ _ABILITY_GATE_PLACEHOLDER_SOURCES = {
 }
 
 _STAKE_TRANSITION_GATE_NAME = "CanPoundPegs"
-# Catalog/native item order is Moonlight, Olive, Carrot, Radish (IDs 3860037..40).
-# Physical lever events report checks; only these AP items own the wall unlocks.
-_ROOM_LEVER_WALL_ITEMS = {
-    "mm_lever": "Moonlight Mansion 2-11 - Lever Wall",
-    "oo_lever": "Olive Ocean 6-13 - Lever Wall",
-    "cc_lever": "Carrot Castle 5-05 - Lever Wall",
-    "rr_lever": "Radish Ruins 8-12 - Lever Wall",
-}
+
+
+def _load_lever_wall_items() -> dict[str, str]:
+    payload = load_json_data("lever_wall_logic.json")
+    if not isinstance(payload, dict) or type(payload.get("schema")) is not int or payload["schema"] != 1:
+        raise ValueError("Unsupported Kirby lever wall logic schema")
+    mapping = payload.get("required_item_by_wall_token")
+    if not isinstance(mapping, dict) or not mapping:
+        raise ValueError("Kirby lever wall logic must declare required items")
+    labels = {}
+    for token, item_key in mapping.items():
+        if not isinstance(token, str) or not token.endswith("_lever") or not isinstance(item_key, str):
+            raise ValueError(f"Invalid Kirby lever wall requirement: {token!r}")
+        item_id = data.item_key_to_id.get(item_key)
+        item = data.items.get(item_id) if item_id is not None else None
+        if item is None or "Levers" not in item.tags:
+            raise ValueError(f"Kirby lever wall requirement must name a catalog Lever Wall item: {item_key!r}")
+        if item.label in labels.values():
+            raise ValueError(f"Duplicate Kirby Lever Wall item: {item_key!r}")
+        labels[token] = item.label
+    return labels
+
+
+# Physical lever events report checks; only received AP items unlock walls.
+_ROOM_LEVER_WALL_ITEMS = _load_lever_wall_items()
 # Normal Kirby can fly, swim and climb without acquiring a Copy Ability. These
 # are movement predicates, not pending equipment sources. Carry restrictions
 # remain on the reviewed compartment routes that actually carry equipment.
