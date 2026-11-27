@@ -92,3 +92,18 @@ The [native Goal Game battery-pickup hook](../kirby_ap_payload/battery_hook.s) c
 ## Verification boundary
 
 The topology and rule inventory is a static audit. Phone regression tests cover reachable and unreachable refill routes, a refill route behind the Phone gate, and the non-progression battery classification. No new emulator result is claimed on this branch.
+
+### Item catalog boundary
+
+`data/items.json` defines every AP item with its own explicit ID, display
+label, classification, and tags. The eight Mirror Shards retain IDs
+3860002–3860009; their IDs no longer depend on source order or the remaining
+unclaimed integers. The loader rejects malformed records and duplicate IDs
+or labels rather than silently omitting or relabeling them.
+
+This is the identity catalog, not a complete pool or native behavior
+specification. Option-specific pool assembly and the weighted filler policy
+still live in the generator, and runtime item effects live in the client and
+ROM code. In particular, the Cell Phone Battery is Useful for AP placement
+but remains selectable by the weighted filler policy; it is not a
+progression requirement.

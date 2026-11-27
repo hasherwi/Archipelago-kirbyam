@@ -52,8 +52,8 @@ collisions instead of hiding them via first-owner iteration order.
 
 **Compatibility boundary.** The two existing Moonlight Mansion / Rainbow East
 raw Big Switch transport-bit overrides are explicit in the audit output and
-the [contract](../data/hub_switch_contract.json). This change does not
-reinterpret the saved bits or claim an independently replayed mapping of both
-individual physical presses to their outgoing AP packets. Review of any
+the [contract](../data/hub_switch_contract.json). The client and generated reward art use those released ROM transport bits
+without changing saved bits or AP location IDs. An independently replayed
+in-game press and matching AP receipt for each switch is still unverified. Review of any
 remaining gate-side reachability and ability acquisition belongs to the
 separate next steps; these checks do not alter playthrough evidence.

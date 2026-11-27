@@ -55,6 +55,11 @@ RAINBOW_AREA_KEY_CATALOG_INSERTION = b'''  "AREA_KEY_1": {
 def items_before_phone(raw: bytes) -> bytes:
     """Reverse the reviewed battery classification, then the exact prior catalog additions."""
     raw = raw.replace(b'\r\n', b'\n')
+    assert hashlib.sha256(raw).hexdigest() == 'ec3fdad4a43eb9ef0a3bf0c5f2ab73d17ca0682287e392f5d9d73a37965a23c1'
+    for item_id in range(3860002, 3860010):
+        explicit_id = f'    "item_id": {item_id},\n'.encode()
+        assert raw.count(explicit_id) == 1
+        raw = raw.replace(explicit_id, b'', 1)
     assert hashlib.sha256(raw).hexdigest() == 'a780255a758f82dc1f158343b339203b3f1cc35aa823ba63c001fc7278c17738'
     battery = b'"classification": "USEFUL",\n    "item_id": 3860027'
     assert raw.count(battery) == 1
