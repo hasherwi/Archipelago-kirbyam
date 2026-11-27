@@ -288,7 +288,7 @@ Then it builds the item pool according to shard mode.
 
 #### Vanilla shard mode
 
-If `RandomizeShards` is `vanilla`, shard items are locked onto the ordered boss-defeat locations using `_BOSS_DEFEAT_KEY_ORDER` and `_SHARD_ITEM_LABEL_ORDER`.
+If `RandomizeShards` is `vanilla`, the explicit boss-check and shard-item pairs in [item_pool_policy.json](../data/item_pool_policy.json) lock each shard onto its own boss check. Bindings are validated as a one-to-one mapping.
 
 This is a very important contract in this repo. Boss-defeat ordering is authoritative for vanilla shard placement.
 

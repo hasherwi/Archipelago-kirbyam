@@ -1,6 +1,11 @@
 {
   "schema": 1,
-  "battery_item": "Cell Phone Battery",
+  "phone_item": "PHONE_A_FRIEND",
+  "battery_item": "BATTERY",
+  "cooperation_witness_items": {
+    "hub_connection": "HUB_CONNECTION_RAINBOW_ROUTE_EAST",
+    "area_key": "AREA_KEY_2"
+  },
   "repeatable_refill_category": "GOAL_GAME",
   "phone_required_checks": [
     {

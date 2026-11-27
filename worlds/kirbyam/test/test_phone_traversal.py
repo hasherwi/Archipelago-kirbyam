@@ -250,6 +250,21 @@ def test_battery_rewards_are_useful_without_becoming_fill_progression():
     assert not any(item.name == p.BATTERY for item in trapped.itempool)
 
 
+@pytest.mark.parametrize(("field", "bad_key", "tag"), [
+    ("phone_item", "Phone a Friend", "Phone"),
+    ("battery_item", "Cell Phone Battery", "Battery"),
+    ("battery_item", "PHONE_A_FRIEND", "Battery"),
+])
+def test_phone_data_rejects_display_names_and_wrong_item_kinds(monkeypatch, field, bad_key, tag):
+    source = p.load_json_data("phone_logic.json")
+    p._charge_data.cache_clear()
+    with monkeypatch.context() as scope:
+        scope.setattr(p, "load_json_data", lambda _: {**source, field: bad_key})
+        with pytest.raises(ValueError, match=tag):
+            p._charge_data()
+    assert p._charge_data()[-1] == p.PHONE_CHECK
+
+
 def test_phone_data_rejects_a_check_in_another_compartment(monkeypatch):
     source = p.load_json_data("phone_logic.json")
     bad = {**source, "phone_required_checks": [

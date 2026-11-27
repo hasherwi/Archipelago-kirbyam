@@ -17,14 +17,11 @@ from BaseClasses import ItemClassification
 
 from .data import LocationCategory, data, load_json_data
 
-PHONE = "Phone a Friend"
-EAST_HUB = "Rainbow Route East - Hub Connection"
-MOONLIGHT_KEY = "Moonlight Mansion - Area Key"
 SOURCE_REGION = "REGION_RAINBOW_ROUTE/ROOM_1_42"
 
 
 @cache
-def _charge_data() -> tuple[str, LocationCategory, str, str, str]:
+def _charge_data() -> tuple[str, str, str, str, LocationCategory, str, str, str]:
     raw = load_json_data("phone_logic.json")
     if not isinstance(raw, dict) or type(raw.get("schema")) is not int or raw["schema"] != 1:
         raise ValueError("Unsupported Phone charge logic data")
@@ -35,10 +32,20 @@ def _charge_data() -> tuple[str, LocationCategory, str, str, str]:
     row = rows[0]
     if not isinstance(row, dict) or row.keys() != {"from_region", "to_region", "check", "check_route"}:
         raise ValueError("Invalid Phone check and entrance declaration")
-    battery = raw["battery_item"]
-    if battery not in {item.label for item in data.items.values()
-                       if "Battery" in item.tags and item.classification == ItemClassification.useful}:
-        raise ValueError("Phone charge item must be a Useful battery in the item catalog")
+    def item_label(key: object, tag: str, classification: ItemClassification) -> str:
+        code = data.item_key_to_id.get(key) if isinstance(key, str) else None
+        item = data.items.get(code) if code is not None else None
+        if item is None or tag not in item.tags or item.classification != classification:
+            raise ValueError(f"Phone logic item {key!r} must resolve to a {tag} {classification.name} item")
+        return item.label
+
+    phone = item_label(raw.get("phone_item"), "Phone", ItemClassification.progression)
+    battery = item_label(raw.get("battery_item"), "Battery", ItemClassification.useful)
+    witness = raw.get("cooperation_witness_items")
+    if not isinstance(witness, dict) or witness.keys() != {"hub_connection", "area_key"}:
+        raise ValueError("Phone cooperation witness must declare hub connection and area key item keys")
+    hub = item_label(witness["hub_connection"], "HubConnections", ItemClassification.progression)
+    area_key = item_label(witness["area_key"], "AreaKeys", ItemClassification.progression)
     if raw.get("repeatable_refill_category") != "GOAL_GAME":
         raise ValueError("Phone refill category must be GOAL_GAME")
     main, pocket, check = row["from_region"], row["to_region"], row["check"]
@@ -59,10 +66,10 @@ def _charge_data() -> tuple[str, LocationCategory, str, str, str]:
     location = data.locations.get(check)
     if location is None or location.parent_region != owner or check not in data.regions[owner].locations:
         raise ValueError("Phone-required check must belong to the end of its declared route")
-    return battery, LocationCategory.GOAL_GAME, main, pocket, check
+    return phone, battery, hub, area_key, LocationCategory.GOAL_GAME, main, pocket, check
 
 
-BATTERY, _REFILL_CATEGORY, MAIN, POCKET, PHONE_CHECK = _charge_data()
+PHONE, BATTERY, EAST_HUB, MOONLIGHT_KEY, _REFILL_CATEGORY, MAIN, POCKET, PHONE_CHECK = _charge_data()
 ENTRANCE = f"{MAIN} -> {POCKET}"
 
 

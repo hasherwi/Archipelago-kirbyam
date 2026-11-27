@@ -610,7 +610,7 @@ def test_vanilla_shards_are_locked_to_boss_defeats() -> None:
     chest_locations = [loc for loc in locations if data.locations[loc.key].category == LocationCategory.MAP_CHEST]
 
     key_to_boss_location = {loc.key: loc for loc in boss_locations}
-    ordered_boss_locations = [key_to_boss_location[key] for key in KirbyAmWorld._BOSS_DEFEAT_KEY_ORDER]
+    ordered_boss_locations = [key_to_boss_location[f"BOSS_DEFEAT_{n}"] for n in range(1, 9)]
     locked_boss_shards = [loc.item.name for loc in ordered_boss_locations if loc.item is not None]
     assert len(locked_boss_shards) == 8
     assert all("Mirror Shard" in item_name for item_name in locked_boss_shards)

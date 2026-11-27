@@ -21,7 +21,6 @@ from .ability_randomization import (
 from .area_keys import (
     EARLY_REACHABLE_CHECK_THRESHOLD,
     FALLBACK_STARTING_AREA_KEY_LABEL,
-    RAINBOW_ROUTE_AREA_KEY_ID,
     RAINBOW_ROUTE_AREA_KEY_LABEL,
     area_key_bitfield_from_items,
 )
@@ -48,6 +47,7 @@ from .generation_logging import (
 )
 from .groups import ITEM_GROUPS, LOCATION_GROUPS, resolve_item_group
 from .health import HealthRange, MAXIMUM_HEALTH_DEFAULT, MINIMUM_HEALTH_DEFAULT, resolve_health_range
+from .item_pool_policy import ITEM_POOL_POLICY
 from .items import KirbyAmItem, create_item_label_to_code_map, get_item_classification
 from .locations import KirbyAmLocation, create_location_label_to_id_map
 from .options import (
@@ -149,72 +149,10 @@ class KirbyAmWorld(World):
     _resolved_configured_area_boss_goal_key: str | None
 
     # Generation stages
-    # Active filler pool for random selection.
-    ACTIVE_FILLER_POOL: ClassVar[tuple[str, ...]] = (
-        "1 Up",
-        "Small Food",
-        "Energy Drink",
-        "Hunk of Meat",
-        "Cell Phone Battery",
-        "Max Tomato",
-        "Invincibility Candy",
-    )
-    # Issue #688: weighted filler distribution tuned from native frequency research,
-    # with whole-number percentages for easier balancing.
-    ACTIVE_FILLER_WEIGHTS: ClassVar[dict[str, int]] = {
-        "1 Up": 15,
-        "Small Food": 14,
-        "Energy Drink": 17,
-        "Hunk of Meat": 9,
-        "Cell Phone Battery": 25,
-        "Max Tomato": 15,
-        "Invincibility Candy": 5,
-    }
-    ACTIVE_FILLER_POOL_NO_HEALING: ClassVar[tuple[str, ...]] = tuple(
-        item_name
-        for item_name in ACTIVE_FILLER_POOL
-        if item_name not in {"Small Food", "Energy Drink", "Hunk of Meat", "Max Tomato"}
-    )
-    ACTIVE_FILLER_POOL_NO_1UP: ClassVar[tuple[str, ...]] = tuple(
-        item_name for item_name in ACTIVE_FILLER_POOL if item_name != "1 Up"
-    )
-    _HEALTH_DOWN_TRAP_KEY: ClassVar[str] = "TRAP_HEALTH_DOWN"
-    _LIFE_DOWN_TRAP_KEY: ClassVar[str] = "TRAP_LIFE_DOWN"
-    _LIFE_WIPEOUT_TRAP_KEY: ClassVar[str] = "TRAP_LIFE_WIPEOUT"
-    _SHARD_CHEST_KEY_ORDER: ClassVar[tuple[str, ...]] = (
-        "MAJOR_CHEST_MUSTARD_MOUNTAIN",
-        "MAJOR_CHEST_MOONLIGHT_MANSION",
-        "MAJOR_CHEST_CANDY_CONSTELLATION",
-        "MAJOR_CHEST_OLIVE_OCEAN",
-        "MAJOR_CHEST_PEPPERMINT_PALACE",
-        "MAJOR_CHEST_CABBAGE_CAVERN",
-        "MAJOR_CHEST_CARROT_CASTLE",
-        "MAJOR_CHEST_RADISH_RUINS",
-    )
-    _BOSS_DEFEAT_KEY_ORDER: ClassVar[tuple[str, ...]] = (
-        "BOSS_DEFEAT_1",
-        "BOSS_DEFEAT_2",
-        "BOSS_DEFEAT_3",
-        "BOSS_DEFEAT_4",
-        "BOSS_DEFEAT_5",
-        "BOSS_DEFEAT_6",
-        "BOSS_DEFEAT_7",
-        "BOSS_DEFEAT_8",
-    )
-    # Shard item labels in the same positional order as _BOSS_DEFEAT_KEY_ORDER.
-    # Vanilla placement follows boss-defeat index -> shard label. This order also
-    # matches the legacy shard-chest ordering, but boss-defeat ordering is the
-    # authoritative mapping for the current contract.
-    _SHARD_ITEM_LABEL_ORDER: ClassVar[tuple[str, ...]] = (
-        "Mustard Mountain - Mirror Shard",
-        "Moonlight Mansion - Mirror Shard",
-        "Candy Constellation - Mirror Shard",
-        "Olive Ocean - Mirror Shard",
-        "Peppermint Palace - Mirror Shard",
-        "Cabbage Cavern - Mirror Shard",
-        "Carrot Castle - Mirror Shard",
-        "Radish Ruins - Mirror Shard",
-    )
+    # Keep the historical public test-facing views derived from the policy.
+    ACTIVE_FILLER_POOL: ClassVar[tuple[str, ...]] = ITEM_POOL_POLICY.filler_labels
+    ACTIVE_FILLER_WEIGHTS: ClassVar[dict[str, int]] = dict(ITEM_POOL_POLICY.filler_weights_by_label)
+    _SHARD_ITEM_LABEL_ORDER: ClassVar[tuple[str, ...]] = ITEM_POOL_POLICY.shard_labels
     # Activate the verified exact-source minor chest rollout. The older
     # collection-name placeholder rows remain dormant until they have unique
     # physical chest mappings.
@@ -421,18 +359,13 @@ class KirbyAmWorld(World):
         return resolved
 
     def _active_filler_pool(self) -> tuple[str, ...]:
-        pool = self.ACTIVE_FILLER_POOL
-        if self._health_range().maximum == 1:
-            pool = self.ACTIVE_FILLER_POOL_NO_HEALING
-        if self._no_extra_lives_enabled():
-            pool = tuple(item_name for item_name in pool if item_name != "1 Up")
-        return pool
+        return self._active_filler_weighted_pool()[0]
 
     def _active_filler_weighted_pool(self) -> tuple[tuple[str, ...], tuple[int, ...]]:
-        pool = self._active_filler_pool()
-        if not pool:
-            raise ValueError("KirbyAM active filler pool resolved empty")
-        return pool, tuple(self.ACTIVE_FILLER_WEIGHTS[item_name] for item_name in pool)
+        return ITEM_POOL_POLICY.filler_for(
+            maximum_health_is_one=self._health_range().maximum == 1,
+            no_extra_lives=self._no_extra_lives_enabled(),
+        )
 
     # Filler item name
     def get_filler_item_name(self) -> str:
@@ -448,52 +381,15 @@ class KirbyAmWorld(World):
         return self.random.choice(trap_labels)
 
     def _active_trap_pool(self) -> tuple[str, ...]:
-        def _label_for_item_key(item_key: str) -> str:
-            item_id = kirby_data.item_key_to_id.get(item_key)
-            if item_id is None:
-                raise ValueError(f"KirbyAM trap key missing from items.json: {item_key}")
-            return kirby_data.items[item_id].label
-
-        option = getattr(getattr(self, "options", None), "exclude_trap_types", None)
-        excluded_traps: set[str] = set(getattr(option, "value", ()))
-        from .narcolepsy import NARCOLEPSY_TRAP_CATALOG_VERSION
         from .random_teleport import TRAP_CATALOG_VERSION
 
-        catalog_version = getattr(self, "_tracker_trap_catalog_version", TRAP_CATALOG_VERSION)
-        if catalog_version < NARCOLEPSY_TRAP_CATALOG_VERSION:
-            excluded_traps.add(_label_for_item_key("TRAP_NARCOLEPSY"))
-        if catalog_version < TRAP_CATALOG_VERSION:
-            excluded_traps.add(_label_for_item_key("TRAP_RANDOM_TELEPORT"))
-        if self._no_extra_lives_enabled():
-            excluded_traps.update(
-                {
-                    _label_for_item_key(self._LIFE_DOWN_TRAP_KEY),
-                    _label_for_item_key(self._LIFE_WIPEOUT_TRAP_KEY),
-                }
-            )
-        if self._health_range().minimum == 1:
-            excluded_traps.add(_label_for_item_key(self._HEALTH_DOWN_TRAP_KEY))
-
-        if not excluded_traps:
-            return kirby_data.available_trap_item_labels
-
-        return tuple(
-            trap_label
-            for trap_label in kirby_data.available_trap_item_labels
-            if trap_label not in excluded_traps
+        option = getattr(getattr(self, "options", None), "exclude_trap_types", None)
+        return ITEM_POOL_POLICY.traps_for(
+            minimum_health_is_one=self._health_range().minimum == 1,
+            no_extra_lives=self._no_extra_lives_enabled(),
+            catalog_version=getattr(self, "_tracker_trap_catalog_version", TRAP_CATALOG_VERSION),
+            player_excluded_labels=set(getattr(option, "value", ())),
         )
-
-    def _ordered_boss_defeat_locations(self, boss_locations: list[KirbyAmLocation]) -> list[KirbyAmLocation]:
-        boss_locations_by_key = {
-            loc.key: loc for loc in boss_locations if loc.key is not None
-        }
-        ordered_boss_locations: list[KirbyAmLocation] = []
-        for boss_key in self._BOSS_DEFEAT_KEY_ORDER:
-            boss_loc = boss_locations_by_key.get(boss_key)
-            if boss_loc is None:
-                raise ValueError(f"KirbyAM boss-defeat location missing from region graph: {boss_key}")
-            ordered_boss_locations.append(boss_loc)
-        return ordered_boss_locations
 
     @staticmethod
     def interpret_slot_data(slot_data: dict[str, Any]) -> dict[str, Any]:
@@ -907,25 +803,7 @@ class KirbyAmWorld(World):
                 or area_visit_locations
                 or goal_game_locations
             ):
-                shard_label_to_code = {
-                    item.label: item.item_id
-                    for item in kirby_data.items.values()
-                    if "Shards" in item.tags
-                }
-                missing_shard_labels = [
-                    label for label in self._SHARD_ITEM_LABEL_ORDER
-                    if label not in shard_label_to_code
-                ]
-                if missing_shard_labels:
-                    available_labels = sorted(shard_label_to_code.keys())
-                    raise ValueError(
-                        "KirbyAM shard item configuration error: missing shard labels in items data: "
-                        f"{missing_shard_labels}. "
-                        f"Available shard-tagged item labels: {available_labels}"
-                    )
-                shard_item_codes = [
-                    shard_label_to_code[label] for label in self._SHARD_ITEM_LABEL_ORDER
-                ]
+                shard_item_codes = ITEM_POOL_POLICY.shard_codes
 
                 expected_boss_defeat_count = sum(
                     1 for m in kirby_data.locations.values()
@@ -940,14 +818,11 @@ class KirbyAmWorld(World):
                 # In vanilla shard mode, each area's boss defeat location awards
                 # that area's matching shard (fixed AP placement).
                 if self.options.shards.value == RandomizeShards.option_vanilla:
-                    ordered_boss_locations = self._ordered_boss_defeat_locations(boss_locations)
-
-                    if len(ordered_boss_locations) != len(shard_item_codes):
-                        raise ValueError(
-                            "KirbyAM shard placement mismatch: %d ordered boss locations vs %d shard items"
-                            % (len(ordered_boss_locations), len(shard_item_codes))
-                        )
-                    for boss_loc, shard_code in zip(ordered_boss_locations, shard_item_codes):
+                    boss_by_key = {loc.key: loc for loc in boss_locations}
+                    for boss_key, shard_code in ITEM_POOL_POLICY.vanilla_boss_shards:
+                        boss_loc = boss_by_key.get(boss_key)
+                        if boss_loc is None:
+                            raise ValueError(f"KirbyAM boss-defeat location missing from region graph: {boss_key}")
                         boss_loc.place_locked_item(self.create_item_by_code(shard_code))
                         boss_loc.progress_type = LocationProgressType.DEFAULT
                         locked_shard_count += 1
@@ -989,8 +864,7 @@ class KirbyAmWorld(World):
                     for loc in minor_chest_locations if loc.key is not None
                 }
                 # Weighted-slot eligibility is independent of AP classification.
-                weighted_item_codes = {item.item_id for item in kirby_data.items.values()
-                                       if "Filler" in item.tags or item.classification == ItemClassification.trap}
+                weighted_item_codes = ITEM_POOL_POLICY.weighted_item_codes
                 non_filler_item_codes = [
                     item.item_id
                     for item in kirby_data.items.values()
@@ -1000,12 +874,15 @@ class KirbyAmWorld(World):
                         or item.item_id in active_collection_item_codes
                     )
                 ]
-                from .starting_mirror import STARTING_MIRROR_ITEM_ID, random_starting_mirror_enabled
+                from .starting_mirror import random_starting_mirror_enabled
 
+                excluded_mirror = (
+                    frozenset() if random_starting_mirror_enabled(self)
+                    else ITEM_POOL_POLICY.pool_exclusions["random_starting_mirror_off"]
+                )
                 non_filler_item_codes = [
                     code for code in non_filler_item_codes
-                    if code != tutorial_hub_code
-                    and (code != STARTING_MIRROR_ITEM_ID or random_starting_mirror_enabled(self))
+                    if code != tutorial_hub_code and code not in excluded_mirror
                 ]
                 vitality_item_codes = getattr(self, "_vitality_item_codes", None)
                 if vitality_item_codes is None:
@@ -1015,14 +892,7 @@ class KirbyAmWorld(World):
                         if "Vitality" in item.tags
                     }
                     self._vitality_item_codes = vitality_item_codes
-                map_item_codes = getattr(self, "_map_item_codes", None)
-                if map_item_codes is None:
-                    map_item_codes = {
-                        item.item_id
-                        for item in kirby_data.items.values()
-                        if "Maps" in item.tags
-                    }
-                    self._map_item_codes = map_item_codes
+                map_item_codes = ITEM_POOL_POLICY.pool_exclusions["start_with_all_maps"]
                 if self.options.shards.value == RandomizeShards.option_vanilla:
                     shard_code_set = set(shard_item_codes)
                     non_filler_item_codes = [
@@ -1068,19 +938,19 @@ class KirbyAmWorld(World):
                 ]
 
                 non_filler_item_codes = [
-                    code for code in non_filler_item_codes if code != RAINBOW_ROUTE_AREA_KEY_ID
+                    code for code in non_filler_item_codes if code not in ITEM_POOL_POLICY.pool_exclusions["always"]
                 ]
                 if not self._area_keys_enabled():
-                    non_filler_item_codes = [
-                        code for code in non_filler_item_codes if "AreaKeys" not in kirby_data.items[code].tags
-                    ]
+                    excluded_key_codes = ITEM_POOL_POLICY.pool_exclusions["area_keys_off"]
+                    non_filler_item_codes = [code for code in non_filler_item_codes if code not in excluded_key_codes]
 
                 if not self._ability_gating_enabled():
+                    excluded_ability_codes = ITEM_POOL_POLICY.pool_exclusions["ability_gating_off"]
                     excluded_ability_count = sum(
-                        1 for code in non_filler_item_codes if "Abilities" in kirby_data.items[code].tags
+                        1 for code in non_filler_item_codes if code in excluded_ability_codes
                     )
                     non_filler_item_codes = [
-                        code for code in non_filler_item_codes if "Abilities" not in kirby_data.items[code].tags
+                        code for code in non_filler_item_codes if code not in excluded_ability_codes
                     ]
                     logger.info(
                         "[P%s] ability_gating: removed %s ability unlock item(s) from non-filler pool",
