@@ -473,6 +473,45 @@
         15
       ],
       "evidence": "split-door-topology.md#candy-constellation-room-13"
+    },
+    {
+      "from_region": "REGION_PEPPERMINT_PALACE/ROOM_7_09",
+      "to_region": "REGION_PEPPERMINT_PALACE/ROOM_7_10",
+      "trigger_tile": [
+        16,
+        4
+      ],
+      "arrival_tile": [
+        17,
+        29
+      ],
+      "evidence": "ordinary-229-source-carrier-contract.md#independent-normal-approaches-common-boundary"
+    },
+    {
+      "from_region": "REGION_PEPPERMINT_PALACE/ROOM_7_09",
+      "to_region": "REGION_PEPPERMINT_PALACE/ROOM_7_10__LOGIC__CENTER_WARP",
+      "trigger_tile": [
+        22,
+        4
+      ],
+      "arrival_tile": [
+        23,
+        29
+      ],
+      "evidence": "ordinary-229-source-carrier-contract.md#independent-normal-approaches-common-boundary"
+    },
+    {
+      "from_region": "REGION_PEPPERMINT_PALACE/ROOM_7_09",
+      "to_region": "REGION_PEPPERMINT_PALACE/ROOM_7_10__LOGIC__RIGHT_SPRAY",
+      "trigger_tile": [
+        28,
+        4
+      ],
+      "arrival_tile": [
+        29,
+        29
+      ],
+      "evidence": "ordinary-229-source-carrier-contract.md#independent-normal-approaches-common-boundary"
     }
   ],
   "non_tile_witnesses": [

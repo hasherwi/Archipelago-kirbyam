@@ -78,3 +78,13 @@ for an individual pair.
 
 This removes solver paths only; it changes no retail door, location ID,
 or check ownership. The supported forward directions remain.
+
+## Peppermint Palace Room 10
+
+The [three existing native witnesses](ordinary-229-source-carrier-contract.md#independent-normal-approaches-common-boundary)
+justify separate ingress channels. Left trigger (16,4) arrives at (17,29)
+for the left food and 1-Up pockets; middle (22,4) arrives at (23,29) for
+the Warp; right (28,4) arrives at (29,29) for the Spray Paint chest.
+The same physical visit check is available from all three via a sink.
+An arrival does not inherit a shortcut or the other channel's checks.
+No claim is made that a different route between channels is impossible.

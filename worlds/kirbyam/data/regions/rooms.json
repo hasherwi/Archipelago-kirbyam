@@ -14816,6 +14816,28 @@
             ]
           }
         ]
+      },
+      "REGION_PEPPERMINT_PALACE/ROOM_7_10__LOGIC__CENTER_WARP": {
+        "all": [
+          "can_break_block",
+          {
+            "any": [
+              "can_fly",
+              "can_climb"
+            ]
+          }
+        ]
+      },
+      "REGION_PEPPERMINT_PALACE/ROOM_7_10__LOGIC__RIGHT_SPRAY": {
+        "all": [
+          "can_break_block",
+          {
+            "any": [
+              "can_fly",
+              "can_climb"
+            ]
+          }
+        ]
       }
     },
     "traversal": {
@@ -15218,16 +15240,13 @@
     "locations": {
       "MINOR_CHEST_PEPPERMINT_PALACE_7_10_OBJECT_02": null,
       "MINOR_CHEST_PEPPERMINT_PALACE_7_10_OBJECT_03": null,
-      "MINOR_CHEST_SPRAY_PAINT_09": null,
       "room_sanity": {
         "included": true,
         "location_id": 3961185,
         "bit_index": 100
       }
     },
-    "exits": {
-      "REGION_PEPPERMINT_PALACE/ROOM_7_WARP": "can_fly"
-    },
+    "exits": {},
     "traversal": {
       "version": 1,
       "targets": [
@@ -15354,6 +15373,20 @@
             }
           ]
         }
+      }
+    },
+    "logical_subregions": {
+      "CENTER_WARP": {
+        "exits": {
+          "REGION_PEPPERMINT_PALACE/ROOM_7_WARP": "can_fly"
+        },
+        "evidence": "Reviewed native 228 middle door to 229 Warp route."
+      },
+      "RIGHT_SPRAY": {
+        "locations": [
+          "MINOR_CHEST_SPRAY_PAINT_09"
+        ],
+        "evidence": "Reviewed native 228 right door to 229 Spray Paint route."
       }
     }
   },

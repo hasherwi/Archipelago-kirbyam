@@ -27,7 +27,7 @@ def row_for() -> dict[str, Any]:
     return next(row for row in room_traversal_targets("metal") if row["id"] == TARGET)
 
 
-def test_exact_left_target_does_not_regate_other_checks_or_create_compartments() -> None:
+def test_exact_left_target_does_not_regate_other_channels() -> None:
     row = row_for()
     assert row["location"] == LOCATION and row["region"] == OWNER and row["native_room"] == 229
     assert set(row["graphs"]) == set(WITNESSES) and "requires_guaranteed_source" not in row
@@ -35,13 +35,16 @@ def test_exact_left_target_does_not_regate_other_checks_or_create_compartments()
     assert data.locations[LOCATION].location_id == 3960593
     assert data.locations["MINOR_CHEST_SPRAY_PAINT_09"].location_id == 3960508
     assert data.locations["MINOR_CHEST_PEPPERMINT_PALACE_7_10_OBJECT_03"].location_id == 3960594
-    assert set(region.exits) == {"REGION_PEPPERMINT_PALACE/ROOM_7_WARP"}
-    assert not any(name.startswith(OWNER + "__") for name in data.regions)
-    # This assertion preserves existing topology, not a new native cross-channel acceptance.
+    sink = OWNER + "__ROOM_CHECK"
+    middle = data.regions[OWNER + "__LOGIC__CENTER_WARP"]
+    right = data.regions[OWNER + "__LOGIC__RIGHT_SPRAY"]
+    assert set(region.exits) == {sink}
+    assert set(middle.exits) == {sink, "REGION_PEPPERMINT_PALACE/ROOM_7_WARP"}
+    assert set(right.exits) == {sink}
     assert region.location_requirements.get(LOCATION) is None
-    assert region.location_requirements.get("MINOR_CHEST_SPRAY_PAINT_09") is None
+    assert right.location_requirements.get("MINOR_CHEST_SPRAY_PAINT_09") is None
     assert region.location_requirements.get("MINOR_CHEST_PEPPERMINT_PALACE_7_10_OBJECT_03") is None
-    assert len(region.locations) == 4
+    assert len(region.locations) == 2
     assert not any(r.get("location") in {"MINOR_CHEST_SPRAY_PAINT_09",
                    "MINOR_CHEST_PEPPERMINT_PALACE_7_10_OBJECT_03"}
                    or r.get("exit") == "REGION_PEPPERMINT_PALACE/ROOM_7_WARP"

@@ -1267,7 +1267,9 @@
       "completion_index": 100,
       "object_list_index": 100,
       "ap_keys": [
-        "REGION_PEPPERMINT_PALACE/ROOM_7_10"
+        "REGION_PEPPERMINT_PALACE/ROOM_7_10",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_10__LOGIC__CENTER_WARP",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_10__LOGIC__RIGHT_SPRAY"
       ],
       "wiki_title": "Peppermint Palace - Room 10",
       "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Room_10",

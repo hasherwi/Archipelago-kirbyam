@@ -4180,7 +4180,9 @@
     {
       "native_room": 229,
       "ap_room_keys": [
-        "REGION_PEPPERMINT_PALACE/ROOM_7_10"
+        "REGION_PEPPERMINT_PALACE/ROOM_7_10",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_10__LOGIC__CENTER_WARP",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_10__LOGIC__RIGHT_SPRAY"
       ],
       "object_list_index": 100,
       "placements": [
@@ -19002,6 +19004,24 @@
         229
       ],
       "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_PEPPERMINT_PALACE/ROOM_7_10__LOGIC__CENTER_WARP",
+      "parent_region": "REGION_PEPPERMINT_PALACE/ROOM_7_10",
+      "native_rooms": [
+        229
+      ],
+      "mapping_evidence": "declared_logical_parent_door_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_PEPPERMINT_PALACE/ROOM_7_10__LOGIC__RIGHT_SPRAY",
+      "parent_region": "REGION_PEPPERMINT_PALACE/ROOM_7_10",
+      "native_rooms": [
+        229
+      ],
+      "mapping_evidence": "declared_logical_parent_door_alias",
       "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
     },
     {

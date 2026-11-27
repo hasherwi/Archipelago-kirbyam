@@ -49,7 +49,7 @@ def test_room_check_feeders_keep_their_own_area_summary_link():
 def test_retail_join_counts_candidates_not_verified_paths():
     report = build_inventory()
     assert report["retail_cross_room_pair_counts"] == {
-        "matching_room_pair": 459, "multiple_tile_doors": 55, "no_tile_match": 32,
+        "matching_room_pair": 459, "multiple_tile_doors": 57, "no_tile_match": 32,
     }
     candidates = [edge for edge in report["edges"]
                   if edge["from_region"] == "REGION_MOONLIGHT_MANSION/ROOM_2_14_UPPER"
@@ -62,7 +62,7 @@ def test_retail_join_counts_candidates_not_verified_paths():
 def test_reconciliation_preserves_unresolved_routes_and_exact_landing_evidence():
     report = build_inventory()
     assert report["retail_door_reconciliation_counts"] == {
-        "configured_non_tile": 6, "multiple_landings": 13, "pinned_tile_door": 33, "pinned_tile_group": 1,
+        "configured_non_tile": 6, "multiple_landings": 12, "pinned_tile_door": 36, "pinned_tile_group": 1,
         "shared_landing": 13, "single_tile_candidate": 454, "source_backed_boss_return": 8,
         "witnessed_non_tile": 18,
     }
@@ -178,3 +178,22 @@ def test_candy_13_arrivals_do_not_borrow_each_others_exit():
         assert (comp, sink) in edges
     assert (lower, upper) not in edges and (upper, lower) not in edges
     assert not any(source == sink for source, _ in edges)
+
+
+def test_peppermint_10_channels_own_only_their_reviewed_objectives():
+    prefix = "REGION_PEPPERMINT_PALACE/ROOM_7_"
+    left = prefix + "10"
+    middle = left + "__LOGIC__CENTER_WARP"
+    right = left + "__LOGIC__RIGHT_SPRAY"
+    sink = left + "__ROOM_CHECK"
+    report = build_inventory()
+    edges = {(row["from_region"], row["to_region"]): row for row in report["edges"]}
+    from ..data import data
+    for comp, arrival in ((left, [17, 29]), (middle, [23, 29]), (right, [29, 29])):
+        assert edges[prefix + "09", comp]["door_reconciliation"]["door"]["arrival_tile"] == arrival
+        assert set(data.regions[comp].exits) == ({sink, prefix + "WARP"} if comp == middle else {sink})
+    assert set(data.regions[left].locations) == {
+        "MINOR_CHEST_PEPPERMINT_PALACE_7_10_OBJECT_02", "MINOR_CHEST_PEPPERMINT_PALACE_7_10_OBJECT_03"}
+    assert data.regions[right].locations == ["MINOR_CHEST_SPRAY_PAINT_09"]
+    assert not data.regions[middle].locations
+    assert data.regions[sink].locations == ["ROOM_SANITY_7_10"]

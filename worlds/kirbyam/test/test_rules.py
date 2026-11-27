@@ -512,7 +512,7 @@ def test_room_reachability_from_start() -> None:
     assert "REGION_RADISH_RUINS/ROOM_8_12__ROOM_CHECK" in reachable
     assert "REGION_CARROT_CASTLE/ROOM_5_05__LOGIC__CHUTE_SIDE" in reachable
     assert "REGION_CARROT_CASTLE/ROOM_5_05__ROOM_CHECK" in reachable
-    assert len(reachable) == 363  # Candy split adds two regions; three legacy aliases were retired.
+    assert len(reachable) == 366  # Two Peppermint channels and their shared visit sink.
     assert "REGION_MOONLIGHT_MANSION/ROOM_2_15__LOGIC__UPPER_RETURN" in reachable
     assert "REGION_MOONLIGHT_MANSION/ROOM_2_15__ROOM_CHECK" in reachable
     assert "REGION_COPY_ABILITY_ROOM/MAIN" in reachable

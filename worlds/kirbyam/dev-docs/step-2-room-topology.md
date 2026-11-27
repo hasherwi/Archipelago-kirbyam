@@ -2,18 +2,18 @@
 
 ## Compiled inventory
 
-Join the production-normalized AP graph to the pinned [native room inventory](native-room-wikirby-map.md). The join accounts for all 352 physical AP compartment keys, including Copy Ability Room `/MAIN` (native 970), which is a physical room despite its suffix. The native table contains 286 populated records; not all are represented by an AP region. The other AP nodes are ten area summaries, 22 Room Sanity sinks, and two start nodes including Menu.
+Join the production-normalized AP graph to the pinned [native room inventory](native-room-wikirby-map.md). The join accounts for all 354 physical AP compartment keys, including Copy Ability Room `/MAIN` (native 970), which is a physical room despite its suffix. The native table contains 286 populated records; not all are represented by an AP region. The other AP nodes are ten area summaries, 23 Room Sanity sinks, and two start nodes including Menu.
 
 | Link type | Count | Treatment in a physical carry route |
 | --- | ---: | --- |
-| Different native room IDs | 546 | Directed candidates only; verify the actual door/arrival and state restrictions |
+| Different native room IDs | 548 | Directed candidates only; verify the actual door/arrival and state restrictions |
 | Same native room ID | 82 | Compartments of one room; don't assume either direction is open or count an ordinary boundary as a crossing |
-| Area summary fan-in | 348 | Bookkeeping, never a physical crossing or shortcut |
-| Room Sanity sink links | 58 | Check ownership, never travel |
+| Area summary fan-in | 350 | Bookkeeping, never a physical crossing or shortcut |
+| Room Sanity sink links | 61 | Check ownership, never travel |
 | Area-summary bridges | 3 | Aggregate topology; no physical carry credit |
 | Menu/start/tutorial bookkeeping bridges | 3 | Initial/spawn or tutorial state; not automatic physical return routes |
 
-Of the 546 directed cross-room candidates, 240 have no exact reverse AP edge. An existing reverse edge is also not native evidence; two mirrors between the same IDs may use different compartments or spawn points. Preserve doors that are truly one-way. The 134 unpaired generic-block entries from Step 1 are a separate audit queue, not a count of confirmed missing doors.
+Of the 548 directed cross-room candidates, 242 have no exact reverse AP edge. An existing reverse edge is also not native evidence; two mirrors between the same IDs may use different compartments or spawn points. Preserve doors that are truly one-way. The 134 unpaired generic-block entries from Step 1 are a separate audit queue, not a count of confirmed missing doors.
 
 ### Existing synthetic route to watch
 
@@ -40,7 +40,7 @@ The [local extraction tool](../tools/extract_phone_return_rooms.py) reads the ro
 
 ### Full retail tile-door inventory
 
-[The decoded door catalog](native-tile-door-inventory.json) records 724 directed tile transitions from the SHA-1-matched USA image. It records each trigger and landing separately. Of the 546 cross-room AP edges, 459 match exactly one directed native room pair, 55 match multiple candidate doors, and 32 have no tile match. The last group includes known non-tile paths such as boss/Goal returns, portals and object-driven doors; it is not 48 confirmed errors. A one-door match still does not prove that an AP source compartment can reach the trigger or that the landing is assigned to the right compartment. The audit command reports all candidates per edge without installing new logic.
+[The decoded door catalog](native-tile-door-inventory.json) records 724 directed tile transitions from the SHA-1-matched USA image. It records each trigger and landing separately. Of the 548 cross-room AP edges, 459 match exactly one directed native room pair, 57 match multiple candidate doors, and 32 have no tile match. The last group includes known non-tile paths such as boss/Goal returns, portals and object-driven doors; it is not 48 confirmed errors. A one-door match still does not prove that an AP source compartment can reach the trigger or that the landing is assigned to the right compartment. The audit command reports all candidates per edge without installing new logic.
 
 ## Next audit batch
 
@@ -63,10 +63,10 @@ can reach the trigger under every setting.
 
 | Raw exception | Evidence status | AP edges |
 | --- | --- | ---: |
-| Multiple door records | Exact trigger and landing pinned to the named compartments | 28 |
+| Multiple door records | Exact trigger and landing pinned to the named compartments | 31 |
 | Multiple door records | Exact multi-cell trigger group pinned to a single landing | 1 |
 | Multiple door records | All candidates land on the same tile with the same flags; keep all triggers | 13 |
-| Multiple door records | Distinct landings or flags still need AP compartment review | 13 |
+| Multiple door records | Distinct landings or flags still need AP compartment review | 12 |
 | No matching tile record | Native controller witness, via a completion sequence, cannon or Warp Star | 18 |
 | No matching tile record | Native code supports a boss-shard return sequence, not a free exit | 8 |
 | No matching tile record | Native object target decoded; live arrival/state still unverified | 6 |

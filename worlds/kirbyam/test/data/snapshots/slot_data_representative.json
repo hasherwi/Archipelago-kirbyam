@@ -5265,16 +5265,16 @@
     },
     "REGION_PEPPERMINT_PALACE/ROOM_7_09": {
       "exits": [
-        "REGION_PEPPERMINT_PALACE/ROOM_7_10"
+        "REGION_PEPPERMINT_PALACE/ROOM_7_10",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_10__LOGIC__CENTER_WARP",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_10__LOGIC__RIGHT_SPRAY"
       ],
       "label": "REGION_PEPPERMINT_PALACE/ROOM_7_09",
       "parent_region": "REGION_PEPPERMINT_PALACE",
       "room_sanity_location_id": 3961184
     },
     "REGION_PEPPERMINT_PALACE/ROOM_7_10": {
-      "exits": [
-        "REGION_PEPPERMINT_PALACE/ROOM_7_WARP"
-      ],
+      "exits": [],
       "label": "REGION_PEPPERMINT_PALACE/ROOM_7_10",
       "parent_region": "REGION_PEPPERMINT_PALACE",
       "room_sanity_location_id": 3961185

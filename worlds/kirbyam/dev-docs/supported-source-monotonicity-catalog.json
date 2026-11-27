@@ -10,11 +10,11 @@
     "worlds/kirbyam/traversal.py": "9ec0ca5d5ffe2dc35977a127891f30dd87971d38553c3b309e96bddf738d9e31",
     "worlds/kirbyam/traversal_data.py": "04224b5a43040a12a16f0cc7eaae867f9055c9469679959617ce89cd5550192a",
     "worlds/kirbyam/master_source.py": "888ed2ca9f23edb5571ef09e149903b4df1621d694045e4d4cf5983699caf770",
-    "worlds/kirbyam/data/regions/rooms.json": "76259b3f2d6dc9075883cae130b8c1c9f26140c2d55069384b1ca8b792a8ed56",
+    "worlds/kirbyam/data/regions/rooms.json": "14f4d2ad75f77f244ee8359ebe8e0c399003c02eac843357c72ad430583d3023",
     "worlds/kirbyam/phone_traversal.py": "2c1c72f1f76c9c4b9c192979951ceacc6df0207cf10a0d32c578e248ee273038",
     "worlds/kirbyam/rules.py": "f6f245d910b3423c6d397af9ce9b011632ecd2071f9bfd30731545b357f2b6bd",
     "worlds/kirbyam/ability_source_inventory.py": "333a5ffcaf2d7896f62a13f627ce0f956b20fcb3655359744b5a0af378b5ee55",
-    "worlds/kirbyam/data/ability_source_inventory.json": "259baf76a45da3d69e660b8aa20fcd4412c2f1538814dd5bdadbc1725d36952d"
+    "worlds/kirbyam/data/ability_source_inventory.json": "34870b87f1a3f257b7a282af139f6da121a1d1d6d600a21babbd3804b74b0bc3"
   },
   "witnesses": 165,
   "variants": 330,
