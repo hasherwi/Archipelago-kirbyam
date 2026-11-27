@@ -147,6 +147,7 @@ class KirbyAmWorld(World):
     _resolved_starting_kirby_color_id: int
     _resolved_starting_kirby_color_name: str
     _resolved_configured_area_boss_goal_key: str | None
+    _flag_location_id: int | None = None
 
     # Generation stages
     # Active filler pool for random selection.
@@ -1374,6 +1375,11 @@ class KirbyAmWorld(World):
         connect_names = multidata["connect_names"]
         connect_names[key] = connect_names[self.player_name]
 
+    def finalize_multiworld(self) -> None:
+        if self.options.goal.value == Goal.option_capture_the_flag and self._flag_location_id is None:
+            from .capture_the_flag import resolve_flag
+            self._flag_location_id = resolve_flag(self)
+
     def write_spoiler(self, spoiler_handle: TextIO) -> None:
         mode = int(self.options.ability_randomization_mode.value)
         if mode != AbilityRandomizationMode.option_shuffled:
@@ -1447,6 +1453,11 @@ class KirbyAmWorld(World):
             self._starting_kirby_color_randomize_on_room_transition_enabled()
         )
         slot_data["goal_configured_area_boss_key"] = self._get_resolved_configured_area_boss_goal_key()
+        if self.options.goal.value == Goal.option_capture_the_flag:
+            from .capture_the_flag import FLAG_SLOT_KEY
+            if self._flag_location_id is None:
+                raise ValueError("KirbyAM: Capture the Flag target was not resolved.")
+            slot_data[FLAG_SLOT_KEY] = self._flag_location_id
         multiworld = getattr(self, "multiworld", None)
         precollected_items: tuple[Item, ...] | list[Item] = ()
         if multiworld is not None:

@@ -304,8 +304,8 @@ def _build_kirbyam_command_processor(base_command_processor: type) -> type:
             return
         return _base_toggle_text(self, category, toggle)
 
-    def _cmd_goal(self) -> bool:
-        """Show the current KirbyAM seed's victory condition without revealing hidden targets."""
+    def _cmd_goal(self, *arguments: str) -> bool:
+        """Show your victory condition. Use /goal reveal to confirm a Capture the Flag spoiler."""
         if getattr(self.ctx, "game", None) != KirbyAmClient.game:
             self.output("Goal unavailable: no KirbyAM slot is active.")
             return False
@@ -320,9 +320,38 @@ def _build_kirbyam_command_processor(base_command_processor: type) -> type:
         if type(goal) is not int:
             self.output("Goal unavailable: unsupported or malformed KirbyAM goal data.")
             return False
+        if arguments:
+            if goal != Goal.option_capture_the_flag or arguments != ("reveal",):
+                self.output("Usage: /goal (use /goal reveal only for Capture the Flag).")
+                return False
+            from .capture_the_flag import LOCATION_NAMES, flag_location_id
+            target = flag_location_id(slot_data)
+            checked = KirbyAmClient._synced_server_checks(self.ctx)
+            if target is None or checked is None or target not in self.ctx.server_locations:
+                self.output("Flag location unavailable: waiting for valid Capture the Flag data from the server.")
+                return False
+            self.output(f"Capture the Flag location: {LOCATION_NAMES[target]}")
+            return True
+        if goal == Goal.option_capture_the_flag:
+            self.output("Goal: Capture the Flag. Complete one hidden check in your world. "
+                        "Use /goal reveal to confirm you want the exact location spoiled.")
+            return True
         if goal == Goal.option_dark_mind:
             description = "Defeat Dark Mind."
         elif goal == Goal.option_full_completion:
+            from .completion import PHYSICAL_CHECK_NAMES, PHYSICAL_IDS
+            checked = KirbyAmClient._synced_server_checks(self.ctx)
+            if checked is not None and PHYSICAL_IDS <= self.ctx.server_locations:
+                missing = sorted((PHYSICAL_CHECK_NAMES[location] for location in PHYSICAL_IDS - checked),
+                                 key=str.casefold)
+                message = f"{len(PHYSICAL_IDS) - len(missing)}/{len(PHYSICAL_IDS)} checks done."
+                if len(missing) > 10:
+                    message += f" Have you checked {missing[0]}?"
+                elif missing:
+                    message += " Here's what's left: " + ", ".join(missing)
+                self.output(message)
+                return True
+            # Older clients/seeds or a still-syncing server can still explain the goal.
             description = ("100% Game Completion: explore all 272 native rooms, open every chest, "
                            "activate all levers and Big Switches, obtain all shards and native unlocks, "
                            "and finish Dark Mind. Vitality ownership and Goal Games are not required.")
@@ -785,6 +814,19 @@ class KirbyAmClient(BizHawkClient):
             return False
 
         return getattr(ctx, "slot_data", None) is not None
+
+    @staticmethod
+    def _synced_server_checks(ctx: "BizHawkClientContext") -> set[int] | None:
+        """Use server acknowledgements, never local pending checks or slot catalog guesses."""
+        if not KirbyAmClient._server_session_ready(ctx):
+            return None
+        checked = getattr(ctx, "checked_locations", None)
+        missing = getattr(ctx, "missing_locations", None)
+        active = getattr(ctx, "server_locations", None)
+        if (not isinstance(checked, set) or not isinstance(missing, set) or not isinstance(active, set)
+                or not active or checked & missing or (checked | missing) != active):
+            return None
+        return checked
 
     @staticmethod
     def _slot_location_id_set(ctx: "BizHawkClientContext") -> set[int] | None:
@@ -5651,6 +5693,25 @@ class KirbyAmClient(BizHawkClient):
         self._full_completion_reported_scope = scope
         await self._display_client_message(ctx, "Goal complete")
 
+    async def _maybe_report_capture_the_flag(self, ctx: KirbyAmBizHawkClientContext) -> None:
+        from NetUtils import ClientStatus
+        from .capture_the_flag import flag_location_id
+
+        target = flag_location_id(ctx.slot_data)
+        checked = self._synced_server_checks(ctx)
+        if target is None or checked is None or target not in checked or ctx.finished_game:
+            return
+
+        # Each slot's server-confirmed target is authoritative, including on
+        # reconnect. Neither a received item nor a native boss/credits latch counts.
+        session = self._authenticated_session_key(ctx)
+        server, socket, slot_data = ctx.server, ctx.server.socket, ctx.slot_data
+        await ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
+        if (self._server_session_ready(ctx) and ctx.server is server and server.socket is socket
+                and ctx.slot_data is slot_data and self._authenticated_session_key(ctx) == session):
+            ctx.finished_game = True
+            await self._display_client_message(ctx, "Goal complete")
+
     async def _maybe_report_goal(
         self,
         ctx: KirbyAmBizHawkClientContext,
@@ -5670,6 +5731,10 @@ class KirbyAmClient(BizHawkClient):
             await self._maybe_report_full_completion(ctx)
             return
         self._full_completion_reported_scope = None
+        if (isinstance(slot_data, dict) and type(slot_data.get("goal")) is int
+                and slot_data["goal"] == Goal.option_capture_the_flag):
+            await self._maybe_report_capture_the_flag(ctx)
+            return
         if self._goal_reported:
             return
 

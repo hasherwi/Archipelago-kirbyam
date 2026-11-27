@@ -28,6 +28,7 @@ ROOM_INDICES = tuple(room["doors_idx"] for room in MANIFEST["rooms"])
 ROOM_REGIONS = tuple(tuple(room["region_keys"]) for room in MANIFEST["rooms"] if room["region_keys"])
 PHYSICAL_KEYS = tuple(MANIFEST["physical_location_keys"])
 PHYSICAL_IDS = frozenset(data.locations[key].location_id for key in PHYSICAL_KEYS)
+PHYSICAL_CHECK_NAMES = {data.locations[key].location_id: data.locations[key].label for key in PHYSICAL_KEYS}
 # The optional starting mirror has no native switch. Its route can gate a
 # required room, but it must not expand the fixed native completion catalog.
 REQUIRED_ITEMS = tuple(item for item in data.items.values()

@@ -5,7 +5,8 @@ from typing import TYPE_CHECKING, Any, Iterable
 
 from BaseClasses import Item
 from . import candy912_fuse
-from .options import ExcludeTrapTypes, KirbyAmOptions
+from .capture_the_flag import flag_location_id
+from .options import ExcludeTrapTypes, Goal, KirbyAmOptions
 from .starting_mirror import starting_mirror_candidates
 from .narcolepsy import NARCOLEPSY_ITEM_NAME, NARCOLEPSY_TRAP_CATALOG_VERSION
 from .random_teleport import RANDOM_TELEPORT_ITEM_NAME, TRAP_CATALOG_VERSION
@@ -50,6 +51,8 @@ def validate_tracker_data(slot_data: dict[str, Any]) -> dict[str, Any]:
                 "starting_kirby_color", "starting_kirby_color_name"):
         if key not in slot_data:
             raise ValueError(f"Missing Kirby tracker field: {key}")
+    if options["goal"] == Goal.option_capture_the_flag and flag_location_id(slot_data) is None:
+        raise ValueError("Missing or invalid Kirby tracker Capture the Flag target.")
     candy912_fuse.enabled(slot_data)  # Reject invalid explicit seed intent.
     if not isinstance(tracker.get("precollected_items"), dict):
         raise ValueError("Missing Kirby tracker starting inventory.")
@@ -93,6 +96,10 @@ def restore_tracker_data(world: "KirbyAmWorld", slot_data: dict[str, Any]) -> No
     world._enemy_copy_ability_policy = deepcopy(slot_data["enemy_copy_ability_policy"])
     world._candy912_linked_west_fuse = candy912_fuse.enabled(slot_data)
     world._resolved_configured_area_boss_goal_key = slot_data["goal_configured_area_boss_key"]
+    if world.options.goal.value == Goal.option_capture_the_flag:
+        target = flag_location_id(slot_data)
+        assert target is not None  # validate_tracker_data checked this field above.
+        world._flag_location_id = target
     world._resolved_starting_kirby_color_id = slot_data["starting_kirby_color"]
     world._resolved_starting_kirby_color_name = slot_data["starting_kirby_color_name"]
     # Needed while building conditional permission rules. UT removes coded
