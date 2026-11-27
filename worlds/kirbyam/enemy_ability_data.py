@@ -39,17 +39,25 @@ def _parse_address(value: Any) -> int:
     raise ValueError(f"unsupported address value type: {type(value).__name__}")
 
 
-# Historical starting permissions retained for old seed receipt handling.
-# New seeds use starting_copy_abilities() instead.
-STARTING_COPY_ABILITIES: tuple[str, ...] = ("Beam", "Burning", "Cutter", "Mini", "Stone", "Wheel")
+_ABILITY_DATA = _load_json_file("abilities.json")
+_PERMISSION_DEFAULTS = _load_json_file("ability_permission_defaults.json")
+if type(_PERMISSION_DEFAULTS.get("schema")) is not int or _PERMISSION_DEFAULTS["schema"] != 1:
+    raise ValueError("Unsupported Kirby ability permission defaults schema")
 
 
-# Seeds without an explicit nonempty gate list used this exact catalog. Keep it
-# independent of current gateability and starting permissions as those evolve.
-LEGACY_SLOT_GATEABLE_ABILITIES: tuple[str, ...] = (
-    "Bomb", "Cook", "Crash", "Cutter", "Cupid", "Fighter", "Fire", "Hammer", "Ice", "Laser", "Magic",
-    "Mini", "Missile", "Parasol", "Smash", "Sleep", "Spark", "Sword", "Throw", "Tornado", "UFO", "Wheel",
-)
+def _permission_list(field: str) -> tuple[str, ...]:
+    names = _PERMISSION_DEFAULTS[field]
+    if (not isinstance(names, list) or not names
+            or any(not isinstance(name, str) or name not in _ABILITY_DATA for name in names)
+            or len(set(names)) != len(names)):
+        raise ValueError(f"Invalid Kirby ability permission list: {field}")
+    return tuple(names)
+
+
+# Keep historical seed receipt handling independent of current generation.
+STARTING_COPY_ABILITIES = _permission_list("legacy_starting_abilities")
+LEGACY_SLOT_GATEABLE_ABILITIES = _permission_list("legacy_gateable_abilities")
+_CURRENT_STARTING_ABILITIES = _permission_list("starting_abilities")
 
 
 def resolve_slot_gateable_abilities(value: object) -> tuple[str, ...]:
@@ -62,10 +70,7 @@ def resolve_slot_gateable_abilities(value: object) -> tuple[str, ...]:
 
 def starting_copy_abilities(mode: int) -> tuple[str, ...]:
     """Keep Beam and Ice available at the start while traversal work continues."""
-    return ("Beam", "Ice")
-
-
-_ABILITY_DATA = _load_json_file("abilities.json")
+    return _CURRENT_STARTING_ABILITIES
 
 _runtime_ability_name_to_id: dict[str, int] = {}
 _valid_enemy_copy_abilities: list[str] = []

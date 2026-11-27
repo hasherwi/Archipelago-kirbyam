@@ -1,0 +1,222 @@
+{
+  "schema": 1,
+  "single_source_scopes": [
+    {
+      "target": {
+        "id": "bomb_402_candy_chest",
+        "kind": "block",
+        "native_room": 402,
+        "region": "REGION_CANDY_CONSTELLATION/ROOM_9_12",
+        "location": "MINOR_CHEST_CANDY_CONSTELLATION_9_12"
+      },
+      "source": {
+        "source_key": "WADDLE_DOO",
+        "abilities": [
+          "Beam",
+          "UFO",
+          "Spark",
+          "Missile",
+          "Sword",
+          "Smash"
+        ]
+      }
+    },
+    {
+      "target": {
+        "id": "switch_310_mustard_map",
+        "kind": "switch",
+        "native_room": 310,
+        "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST",
+        "location": "MAJOR_CHEST_MUSTARD_MOUNTAIN"
+      },
+      "source": {
+        "source_key": "TWISTER",
+        "abilities": [
+          "UFO",
+          "Crash",
+          "Cupid",
+          "Cutter"
+        ]
+      }
+    },
+    {
+      "target": {
+        "id": "bomb_517_chocolate",
+        "kind": "block",
+        "native_room": 517,
+        "region": "REGION_CABBAGE_CAVERN/ROOM_3_06",
+        "location": "MINOR_CHEST_SPRAY_PAINT_12"
+      },
+      "source": {
+        "source_key": "WADDLE_DOO",
+        "abilities": [
+          "Beam",
+          "Smash",
+          "Fire",
+          "Missile",
+          "Parasol",
+          "Spark",
+          "Ice",
+          "Sword",
+          "Fighter",
+          "UFO"
+        ]
+      }
+    },
+    {
+      "target": {
+        "id": "bomb_733_yellow",
+        "kind": "block",
+        "native_room": 733,
+        "region": "REGION_CARROT_CASTLE/ROOM_5_16",
+        "location": "MINOR_CHEST_SPRAY_PAINT_02"
+      },
+      "source": {
+        "source_key": "SPARKY",
+        "ability": "UFO"
+      }
+    }
+  ],
+  "alternative_source_scopes": [
+    {
+      "target": {
+        "id": "bomb_110_room9",
+        "kind": "block",
+        "native_room": 110,
+        "region": "REGION_RAINBOW_ROUTE/ROOM_1_08",
+        "exit": "REGION_RAINBOW_ROUTE/ROOM_1_09"
+      },
+      "sources": [
+        {
+          "source_key": "SPARKY",
+          "ability": "Spark"
+        },
+        {
+          "source_key": "SWORD_KNIGHT",
+          "ability": "Sword"
+        }
+      ]
+    },
+    {
+      "target": {
+        "id": "switch_310_mustard_map",
+        "kind": "switch",
+        "native_room": 310,
+        "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST",
+        "location": "MAJOR_CHEST_MUSTARD_MOUNTAIN"
+      },
+      "sources": [
+        {
+          "source_key": "TWISTER",
+          "abilities": [
+            "UFO",
+            "Crash",
+            "Cupid",
+            "Cutter"
+          ]
+        },
+        {
+          "source_key": "SIR_KIBBLE",
+          "ability": "Cutter"
+        }
+      ]
+    },
+    {
+      "target": {
+        "id": "bomb_517_chocolate",
+        "kind": "block",
+        "native_room": 517,
+        "region": "REGION_CABBAGE_CAVERN/ROOM_3_06",
+        "location": "MINOR_CHEST_SPRAY_PAINT_12"
+      },
+      "sources": [
+        {
+          "source_key": "WADDLE_DOO",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353906",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353901",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        }
+      ]
+    }
+  ],
+  "directed_source_scopes": [
+    {
+      "target": {
+        "id": "bomb_719_room13",
+        "kind": "block",
+        "native_room": 719,
+        "region": "REGION_CARROT_CASTLE/ROOM_5_07",
+        "exit": "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_07"
+      },
+      "source": {
+        "source_key": "WADDLE_DOO",
+        "abilities": [
+          "Beam",
+          "Fighter",
+          "Sword",
+          "Fire"
+        ]
+      },
+      "error_context": "the reviewed Carrot entry"
+    },
+    {
+      "target": {
+        "id": "switch_533_room16",
+        "kind": "switch",
+        "native_room": 533,
+        "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_15",
+        "exit": "REGION_MUSTARD_MOUNTAIN/ROOM_4_16"
+      },
+      "source": {
+        "source_key": "FOLEY",
+        "abilities": [
+          "Bomb",
+          "UFO",
+          "Crash",
+          "Magic",
+          "Ice"
+        ]
+      },
+      "error_context": "the reviewed Room16 exit"
+    }
+  ]
+}

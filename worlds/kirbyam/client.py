@@ -53,6 +53,10 @@ from .vitality import (VITALITY_ITEM_BITS, VITALITY_MASK, HEALTH_CONFIG_OFFSET,
                        validate_health_protocol)
 from .kirby_ap_payload.thumb_branch import is_thumb_bl_instruction
 from .options import Goal, OneHitMode
+from .goal_reporting_data import (
+    LEGACY_HIDDEN_BOSS_GOAL_OPTION as _LEGACY_GOAL_DEFEAT_RANDOM_HIDDEN_AREA_BOSS,
+    goal_location_ids_by_option,
+)
 from .types import KirbyAmBizHawkClientContext
 
 if TYPE_CHECKING:
@@ -75,7 +79,6 @@ _GOAL_STATE_FULL_CLEAR = 10000
 # Legacy v0.2/v0.3 slot-data value retained only so newer clients can finish
 # already-generated defeat_random_hidden_area_boss seeds. New generation never
 # emits goal value 3 after Issue #872.
-_LEGACY_GOAL_DEFEAT_RANDOM_HIDDEN_AREA_BOSS = 3
 _GOAL_BOSS_NAMES: dict[str, str] = {
     "BOSS_DEFEAT_1": "Kracko (Mustard Mountain)",
     "BOSS_DEFEAT_2": "King Golem (Moonlight Mansion)",
@@ -559,24 +562,11 @@ class KirbyAmClient(BizHawkClient):
         self._all_location_ids_sorted: list[int] = [
             loc.location_id for loc in sorted(data.locations.values(), key=lambda l: l.location_id)
         ]
-        self._goal_location_ids_by_option: dict[int, int] = {}
-        self._non_goal_location_ids_sorted: list[int] = []
-        for loc in sorted(data.locations.values(), key=lambda l: l.location_id):
-            if loc.category.name == "GOAL":
-                if loc.name == "GOAL_DARK_MIND":
-                    self._goal_location_ids_by_option[Goal.option_dark_mind] = loc.location_id
-                elif loc.name == "GOAL_ANY_AREA_BOSS":
-                    self._goal_location_ids_by_option[Goal.option_defeat_any_area_boss] = loc.location_id
-                elif loc.name == "GOAL_CONFIGURED_AREA_BOSS":
-                    self._goal_location_ids_by_option[Goal.option_defeat_area_boss] = loc.location_id
-                elif loc.name == "GOAL_100_PERCENT":
-                    self._goal_location_ids_by_option[Goal.option_full_completion] = loc.location_id
-                elif loc.name == "GOAL_AREA_BOSS_COUNT":
-                    self._goal_location_ids_by_option[Goal.option_defeat_area_boss_count] = loc.location_id
-                elif loc.name == "GOAL_HIDDEN_AREA_BOSS":
-                    self._goal_location_ids_by_option[_LEGACY_GOAL_DEFEAT_RANDOM_HIDDEN_AREA_BOSS] = loc.location_id
-            else:
-                self._non_goal_location_ids_sorted.append(loc.location_id)
+        self._goal_location_ids_by_option = goal_location_ids_by_option()
+        self._non_goal_location_ids_sorted = [
+            loc.location_id for loc in sorted(data.locations.values(), key=lambda loc: loc.location_id)
+            if loc.category != LocationCategory.GOAL
+        ]
         # Boss defeat bitfield -> location IDs (BOSS_DEFEAT category; polled from boss_defeat_flags)
         self._boss_location_ids_by_bit = self._build_location_ids_by_bit(LocationCategory.BOSS_DEFEAT)
         self._boss_location_ids_all: set[int] = {

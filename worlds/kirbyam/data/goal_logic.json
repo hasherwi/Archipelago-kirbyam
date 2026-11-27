@@ -2,6 +2,9 @@
   "schema": 1,
   "default_goal": "dark_mind",
   "dark_mind_prerequisite_event": "Defeat Dark Meta Knight (Dimension Mirror)",
+  "legacy_reporting_only_goals": [
+    {"slot_option": 3, "goal_location": "GOAL_HIDDEN_AREA_BOSS"}
+  ],
   "goals": {
     "dark_mind": {
       "goal_location": "GOAL_DARK_MIND",

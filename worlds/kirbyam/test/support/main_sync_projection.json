@@ -1480,6 +1480,62 @@
               ]
             }
           ]
+        },
+        {
+          "label": "JSON-first goal location binding",
+          "integrated_sha256": "6a10678bfe25c002cd45f470de26a4b3d97e10c95732918d90422cf9775ae643",
+          "reverse_slices": [
+            {
+              "start": 55,
+              "stop": 59,
+              "current": [
+                "from .goal_reporting_data import (\n",
+                "    LEGACY_HIDDEN_BOSS_GOAL_OPTION as _LEGACY_GOAL_DEFEAT_RANDOM_HIDDEN_AREA_BOSS,\n",
+                "    goal_location_ids_by_option,\n",
+                ")\n"
+              ],
+              "main": []
+            },
+            {
+              "start": 81,
+              "stop": 81,
+              "current": [],
+              "main": [
+                "_LEGACY_GOAL_DEFEAT_RANDOM_HIDDEN_AREA_BOSS = 3\n"
+              ]
+            },
+            {
+              "start": 564,
+              "stop": 569,
+              "current": [
+                "        self._goal_location_ids_by_option = goal_location_ids_by_option()\n",
+                "        self._non_goal_location_ids_sorted = [\n",
+                "            loc.location_id for loc in sorted(data.locations.values(), key=lambda loc: loc.location_id)\n",
+                "            if loc.category != LocationCategory.GOAL\n",
+                "        ]\n"
+              ],
+              "main": [
+                "        self._goal_location_ids_by_option: dict[int, int] = {}\n",
+                "        self._non_goal_location_ids_sorted: list[int] = []\n",
+                "        for loc in sorted(data.locations.values(), key=lambda l: l.location_id):\n",
+                "            if loc.category.name == \"GOAL\":\n",
+                "                if loc.name == \"GOAL_DARK_MIND\":\n",
+                "                    self._goal_location_ids_by_option[Goal.option_dark_mind] = loc.location_id\n",
+                "                elif loc.name == \"GOAL_ANY_AREA_BOSS\":\n",
+                "                    self._goal_location_ids_by_option[Goal.option_defeat_any_area_boss] = loc.location_id\n",
+                "                elif loc.name == \"GOAL_CONFIGURED_AREA_BOSS\":\n",
+                "                    self._goal_location_ids_by_option[Goal.option_defeat_area_boss] = loc.location_id\n",
+                "                elif loc.name == \"GOAL_100_PERCENT\":\n",
+                "                    self._goal_location_ids_by_option[Goal.option_full_completion] = loc.location_id\n",
+                "                elif loc.name == \"GOAL_AREA_BOSS_COUNT\":\n",
+                "                    self._goal_location_ids_by_option[Goal.option_defeat_area_boss_count] = loc.location_id\n",
+                "                elif loc.name == \"GOAL_HIDDEN_AREA_BOSS\":\n",
+                "                    self._goal_location_ids_by_option[_LEGACY_GOAL_DEFEAT_RANDOM_HIDDEN_AREA_BOSS] = loc.location_id\n",
+                "            else:\n",
+                "                self._non_goal_location_ids_sorted.append(loc.location_id)\n"
+              ]
+            }
+          ]
         }
       ]
     },

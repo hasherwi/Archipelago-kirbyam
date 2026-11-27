@@ -1,0 +1,9 @@
+{
+  "schema": 1,
+  "starting_abilities": ["Beam", "Ice"],
+  "legacy_starting_abilities": ["Beam", "Burning", "Cutter", "Mini", "Stone", "Wheel"],
+  "legacy_gateable_abilities": [
+    "Bomb", "Cook", "Crash", "Cutter", "Cupid", "Fighter", "Fire", "Hammer", "Ice", "Laser",
+    "Magic", "Mini", "Missile", "Parasol", "Smash", "Sleep", "Spark", "Sword", "Throw", "Tornado", "UFO", "Wheel"
+  ]
+}

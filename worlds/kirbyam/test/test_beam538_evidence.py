@@ -255,7 +255,11 @@ def test_historical_ownership_snapshot_and_current_union_are_separate():
         'data/yellow_cupid_witness.json', 'data/full_completion.json',
         'data/goal_game_doors.json', 'data/locations_goal_games.json',
         'data/ability_source_inventory.json', 'data/room16_normal_timer_witness.json',
-        'data/candy912_normal_fuse_witness.json', 'data/candy912_fire_fuse_witness.json'}
+        'data/candy912_normal_fuse_witness.json', 'data/candy912_fire_fuse_witness.json',
+        'data/ability_permission_defaults.json', 'data/compact_room_logic.json',
+        'data/goal_logic.json', 'data/lever_wall_logic.json', 'data/mirror_access.json',
+        'data/phone_logic.json', 'data/progression_permissions.json',
+        'data/traversal_capabilities.json', 'data/traversal_source_scopes.json'}
     assert set(snapshot['input_sha256']) <= set(current['input_sha256'])
     # Exact current target/part/source bytes are pinned against both reviewed
     # parents by test_main_ranged_union, not labeled as fresh native evidence.
