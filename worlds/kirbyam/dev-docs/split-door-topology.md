@@ -51,3 +51,30 @@ door at (73,15). The solver now has one AP region per corridor with no
 link between them. Both can award the same Room Sanity bit via a
 terminal shared check; neither gains the other's exit. The separate
 9-12 chest rule is unchanged. No new native transition is installed.
+
+## Retired legacy shortcuts
+
+The old region data included 16 compiled cross-room edges that did not
+have a corresponding directed native destination. Nine came from the
+Carrot 5-13 legacy placeholders, six from Olive 6-05 placeholders, and
+one from the tutorial. The decision uses both positive native exits
+and the known transition objects, not just the absence of a candidate
+for an individual pair.
+
+- Native 734's ordinary mirrors link to 719 (5-07) and 720 (5-14).
+  The tile/object review and the [room layout](https://wikirby.com/wiki/Carrot_Castle_-_Room_13)
+  agree. Native 600 heads to its boss, 716 heads to Warp, and 731 has
+  the chest-room mirror and the Warp Star to 222. Those rooms still
+  have separate ingress from 5-11, 5-17, or 5-18 respectively. Preserve
+  both real arrivals and their current checks.
+- Native 132 has two doors into 133; 133 has no reciprocal door into
+  132. Its surface exit to 134 is one-way, and the two known mirrors
+  go to 134 or 827. Native 800 is entered via 821 and exits to 822,
+  not room 133. Preserve the separate 827 cannon return and its rule.
+- Tutorial native 803 goes forward to 804 with no return door into 803.
+  The [tutorial layout](https://wikirby.com/wiki/Labyrinth_Entrance_Stage)
+  also separates the one-way first room from the interconnected
+  second and third rooms. Keep both directions between the latter.
+
+This removes solver paths only; it changes no retail door, location ID,
+or check ownership. The supported forward directions remain.

@@ -2,18 +2,18 @@
 
 ## Compiled inventory
 
-Join the production-normalized AP graph to the pinned [native room inventory](native-room-wikirby-map.md). The join accounts for all 355 physical AP compartment keys, including Copy Ability Room `/MAIN` (native 970), which is a physical room despite its suffix. The native table contains 286 populated records; not all are represented by an AP region. The other AP nodes are ten area summaries, 22 Room Sanity sinks, and two start nodes including Menu.
+Join the production-normalized AP graph to the pinned [native room inventory](native-room-wikirby-map.md). The join accounts for all 352 physical AP compartment keys, including Copy Ability Room `/MAIN` (native 970), which is a physical room despite its suffix. The native table contains 286 populated records; not all are represented by an AP region. The other AP nodes are ten area summaries, 22 Room Sanity sinks, and two start nodes including Menu.
 
 | Link type | Count | Treatment in a physical carry route |
 | --- | ---: | --- |
-| Different native room IDs | 562 | Directed candidates only; verify the actual door/arrival and state restrictions |
+| Different native room IDs | 546 | Directed candidates only; verify the actual door/arrival and state restrictions |
 | Same native room ID | 82 | Compartments of one room; don't assume either direction is open or count an ordinary boundary as a crossing |
-| Area summary fan-in | 351 | Bookkeeping, never a physical crossing or shortcut |
-| Room Sanity sink links | 61 | Check ownership, never travel |
+| Area summary fan-in | 348 | Bookkeeping, never a physical crossing or shortcut |
+| Room Sanity sink links | 58 | Check ownership, never travel |
 | Area-summary bridges | 3 | Aggregate topology; no physical carry credit |
 | Menu/start/tutorial bookkeeping bridges | 3 | Initial/spawn or tutorial state; not automatic physical return routes |
 
-Of the 562 directed cross-room candidates, 242 have no exact reverse AP edge. An existing reverse edge is also not native evidence; two mirrors between the same IDs may use different compartments or spawn points. Preserve doors that are truly one-way. The 134 unpaired generic-block entries from Step 1 are a separate audit queue, not a count of confirmed missing doors.
+Of the 546 directed cross-room candidates, 240 have no exact reverse AP edge. An existing reverse edge is also not native evidence; two mirrors between the same IDs may use different compartments or spawn points. Preserve doors that are truly one-way. The 134 unpaired generic-block entries from Step 1 are a separate audit queue, not a count of confirmed missing doors.
 
 ### Existing synthetic route to watch
 
@@ -40,7 +40,7 @@ The [local extraction tool](../tools/extract_phone_return_rooms.py) reads the ro
 
 ### Full retail tile-door inventory
 
-[The decoded door catalog](native-tile-door-inventory.json) records 724 directed tile transitions from the SHA-1-matched USA image. It records each trigger and landing separately. Of the 562 cross-room AP edges, 459 match exactly one directed native room pair, 55 match multiple candidate doors, and 48 have no tile match. The last group includes known non-tile paths such as boss/Goal returns, portals and object-driven doors; it is not 48 confirmed errors. A one-door match still does not prove that an AP source compartment can reach the trigger or that the landing is assigned to the right compartment. The audit command reports all candidates per edge without installing new logic.
+[The decoded door catalog](native-tile-door-inventory.json) records 724 directed tile transitions from the SHA-1-matched USA image. It records each trigger and landing separately. Of the 546 cross-room AP edges, 459 match exactly one directed native room pair, 55 match multiple candidate doors, and 32 have no tile match. The last group includes known non-tile paths such as boss/Goal returns, portals and object-driven doors; it is not 48 confirmed errors. A one-door match still does not prove that an AP source compartment can reach the trigger or that the landing is assigned to the right compartment. The audit command reports all candidates per edge without installing new logic.
 
 ## Next audit batch
 
@@ -70,7 +70,7 @@ can reach the trigger under every setting.
 | No matching tile record | Native controller witness, via a completion sequence, cannon or Warp Star | 18 |
 | No matching tile record | Native code supports a boss-shard return sequence, not a free exit | 8 |
 | No matching tile record | Native object target decoded; live arrival/state still unverified | 6 |
-| No matching tile record | Mechanism or compartment remains unresolved | 16 |
+
 
 Five single-candidate edges also have explicit compartment pins.
 The [explicit pins](native-door-reconciliation.json) include Moonlight's
@@ -105,11 +105,11 @@ cells are reachable from the same source compartment.
   ownership is rolled back **after** boarding. It does not prove unauthorized
   boarding or certify an exact arrival tile.
 
-The 16 edges still without a destination match include the legacy Carrot 5-13 and Olive 6-05 object-door
-candidates and a tutorial reverse candidate. Missing tile evidence
-does not prove that these edges are invalid, and no reverse edges are inferred
-from a matching forward pair. Resolve source objects and live arrival states
-before changing reachability.
+The [legacy edge review](split-door-topology.md#retired-legacy-shortcuts)
+removed 16 generated shortcuts with no matching tile or supported native
+object destination. The active graph no longer has an unclassified
+no-tile destination. The physical carry or final arrival of a
+source-backed object transition is still a separate claim.
 
 ### Carrot 5-13 and the object-door queue
 
@@ -117,9 +117,9 @@ The [Carrot room evidence](carrot-topology-reconciliation.md) now supplies
 three explicit pins: the lower 5-07 entry and return, and the upper return to
 5-14. Entering from 5-14 uses eleven distinct trigger cells which all land
 at upper tile (14,5) with flags 2. The lower arrival is (13,14), below the
-solid divider. Keep the upper and lower routes separate. The legacy
-5-12, 5-18 and Warp leads still lack a destination-matched native transition;
-they are not extra routes to either chest.
+solid divider. Keep the upper and lower routes separate. The historical
+5-12, 5-18 and Warp leads have been removed from the generated graph;
+only 5-07 and 5-14 feed the two real chest compartments.
 
 Each unresolved edge now lists the relevant native object templates in its
 source room, using the same retail image's
@@ -165,8 +165,8 @@ lit and unoccupied cannon, a live landing compartment, or ability carry.
 The decoder tests use synthetic records. The [scoped retail decode](native-object-transition-review.json)
 joins the known Rainbow cannon and Warp Star witnesses as controls, plus
 six previous no-tile candidates: the Olive cannon and five Warp Stars.
-The Carrot Warp Star goes to native room 222, not to 5-13; the separate
-same-area 5-13 candidate remains unresolved. Negative Warp Star arguments
+The Carrot Warp Star goes to native room 222, not to 5-13; the unsupported
+same-area 5-13 shortcut is no longer generated. Negative Warp Star arguments
 are retained as written and are not mapped to pixel positions. Ordinary
 mirror, hub, and area-door shortlists still need mechanism-specific evidence.
 

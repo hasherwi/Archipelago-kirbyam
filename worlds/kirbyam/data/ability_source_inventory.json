@@ -17806,25 +17806,7 @@
       "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
     },
     {
-      "region": "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_12",
-      "parent_region": "REGION_CARROT_CASTLE/ROOM_5_13",
-      "native_rooms": [
-        734
-      ],
-      "mapping_evidence": "declared_logical_parent_door_alias",
-      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
-    },
-    {
       "region": "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_14",
-      "parent_region": "REGION_CARROT_CASTLE/ROOM_5_13",
-      "native_rooms": [
-        734
-      ],
-      "mapping_evidence": "declared_logical_parent_door_alias",
-      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
-    },
-    {
-      "region": "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_18_OR_5_WARP",
       "parent_region": "REGION_CARROT_CASTLE/ROOM_5_13",
       "native_rooms": [
         734
@@ -18664,15 +18646,6 @@
     },
     {
       "region": "REGION_OLIVE_OCEAN/ROOM_6_05__LOGIC__ENTRY_FROM_6_07",
-      "parent_region": "REGION_OLIVE_OCEAN/ROOM_6_05",
-      "native_rooms": [
-        133
-      ],
-      "mapping_evidence": "declared_logical_parent_door_alias",
-      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
-    },
-    {
-      "region": "REGION_OLIVE_OCEAN/ROOM_6_05__LOGIC__ENTRY_FROM_6_23",
       "parent_region": "REGION_OLIVE_OCEAN/ROOM_6_05",
       "native_rooms": [
         133

@@ -49,7 +49,7 @@ def test_room_check_feeders_keep_their_own_area_summary_link():
 def test_retail_join_counts_candidates_not_verified_paths():
     report = build_inventory()
     assert report["retail_cross_room_pair_counts"] == {
-        "matching_room_pair": 459, "multiple_tile_doors": 55, "no_tile_match": 48,
+        "matching_room_pair": 459, "multiple_tile_doors": 55, "no_tile_match": 32,
     }
     candidates = [edge for edge in report["edges"]
                   if edge["from_region"] == "REGION_MOONLIGHT_MANSION/ROOM_2_14_UPPER"
@@ -62,7 +62,7 @@ def test_retail_join_counts_candidates_not_verified_paths():
 def test_reconciliation_preserves_unresolved_routes_and_exact_landing_evidence():
     report = build_inventory()
     assert report["retail_door_reconciliation_counts"] == {
-        "configured_non_tile": 6, "multiple_landings": 13, "no_tile_evidence": 16, "pinned_tile_door": 33, "pinned_tile_group": 1,
+        "configured_non_tile": 6, "multiple_landings": 13, "pinned_tile_door": 33, "pinned_tile_group": 1,
         "shared_landing": 13, "single_tile_candidate": 454, "source_backed_boss_return": 8,
         "witnessed_non_tile": 18,
     }
@@ -82,8 +82,6 @@ def test_reconciliation_preserves_unresolved_routes_and_exact_landing_evidence()
     assert reviewed("ROOM_1_GOAL_2", "ROOM_1_CENTRAL_CIRCLE")["via_native_room"] == 980
     assert reviewed("ROOM_1_GOAL_2", "ROOM_1_CENTRAL_CIRCLE")["evidence"] == "goal-game-phone-successor.json"
     assert reviewed("ROOM_2_BOSS", "ROOM_1_CENTRAL_CIRCLE")["status"] == "source_backed_boss_return"
-    assert reviewed("ROOM_0_02", "ROOM_0_01") == {"status": "no_tile_evidence"}
-    assert reviewed("ROOM_5_12", "ROOM_5_13__LOGIC__ENTRY_FROM_5_12") == {"status": "no_tile_evidence"}
     assert len(edges["ROOM_5_06", "ROOM_5_05__LOGIC__CHUTE_SIDE"]["retail_tile_door_candidates"]) == 12
     assert reviewed("ROOM_5_06", "ROOM_5_05__LOGIC__CHUTE_SIDE") == {"status": "shared_landing"}
 
@@ -100,21 +98,20 @@ def test_carrot_compartments_keep_separate_native_landings():
             edges["ROOM_5_14", upper]["retail_tile_door_candidates"]} == {(14, 5)}
 
 
-def test_unresolved_object_shortlist_does_not_certify_a_destination():
+def test_unsubstantiated_legacy_room_pairs_cannot_create_shortcuts():
     report = build_inventory()
-    edges = {(row["from_region"].split("/")[-1], row["to_region"].split("/")[-1]): row
-             for row in report["edges"] if row["kind"] == "cross_native_room_candidate"}
-    warp = edges["ROOM_5_WARP", "ROOM_5_13__LOGIC__ENTRY_FROM_5_18_OR_5_WARP"]
-    assert warp["door_reconciliation"] == {"status": "no_tile_evidence"}
-    assert warp["source_transition_object_templates"] == [
-        {"mechanism": "mirror_door", "template_address": "0x088D510C", "position_pixels": [680, 456]},
-        {"mechanism": "warp_star", "template_address": "0x088D5178", "position_pixels": [104, 40]},
-    ]
-    unresolved = [edge for edge in edges.values()
-                  if edge["door_reconciliation"]["status"] == "no_tile_evidence"]
-    assert all("source_transition_object_templates" in edge for edge in unresolved)
-    assert "source_transition_object_templates" not in edges[
-        "ROOM_1_WARP", "ROOM_2_ENTRY"]
+    edges = [(row["from_region"], row["to_region"]) for row in report["edges"]]
+    def has(source, target):
+        return any(a.split("/")[-1] == source and b.split("/")[-1] == target for a, b in edges)
+    assert not has("ROOM_0_02", "ROOM_0_01")
+    assert not has("ROOM_6_06", "ROOM_6_05__LOGIC__ENTRY_FROM_6_04_OR_6_06")
+    assert not has("ROOM_6_05__LOGIC__ENTRY_FROM_6_04_OR_6_06", "ROOM_6_04")
+    assert not has("ROOM_6_23", "ROOM_6_05__LOGIC__ENTRY_FROM_6_23")
+    assert not has("ROOM_5_WARP", "ROOM_5_13__LOGIC__ENTRY_FROM_5_18_OR_5_WARP")
+    assert has("ROOM_5_WARP", "ROOM_7_04")
+    assert has("ROOM_5_07", "ROOM_5_13__LOGIC__ENTRY_FROM_5_07")
+    assert has("ROOM_5_14", "ROOM_5_13__LOGIC__ENTRY_FROM_5_14")
+
 
 def test_olive_upper_and_lower_entries_keep_separate_destinations():
     report = build_inventory()

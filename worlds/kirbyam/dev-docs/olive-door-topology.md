@@ -22,12 +22,13 @@ door. The pins apply only to the exact four directed edges in the table.
 Static topology does not prove all traversal states or validate the
 current ability requirement on access to either trigger.
 
-## Unmatched directions to investigate next
+## Retired directions and separate cannon return
 
 There is no 133 → 132 or 134 → 133 retail tile record. Do not infer either
 return from the verified forward doors. The existing 133 ↔ 800 (6-23)
 edges also have no matching tile record. The object at (184,24) in 133 is
-a consumable (table-1 type 0x63), not an Area Door (0x99).
+a 1-Up (table-1 type 0x63), not an Area Door (0x99). Those unmatched
+legacy reverse links are no longer generated.
 
 6-07 → 6-05 uses a distinct fuse-cannon template. The native object inventory
 places a table-1 type 0x8A cannon at (656,272) and a type 0x78 fuse at
@@ -49,4 +50,5 @@ room tile coordinates or a live final landing. Rainbow's witnessed 126 →
 570 cannon independently matches decoded arguments (6,1). Verify the
 actual Olive landing, fuse/occupancy requirements and retained ability
 before trusting this legacy entrance for physical carry.
-The solver graph and all its current requirements are unchanged by this audit.
+The two physical arrivals from 6-04 and the separate gated cannon route
+remain in the solver graph.

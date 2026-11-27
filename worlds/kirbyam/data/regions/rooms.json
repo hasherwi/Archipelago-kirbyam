@@ -10633,11 +10633,7 @@
           "can_fly",
           "can_climb"
         ]
-      },
-      "REGION_CARROT_CASTLE/ROOM_5_13": null
-    },
-    "logical_exit_overrides": {
-      "REGION_CARROT_CASTLE/ROOM_5_13": "ENTRY_FROM_5_18_OR_5_WARP"
+      }
     }
   },
   "REGION_CARROT_CASTLE/ROOM_5_BOSS": {
@@ -11350,21 +11346,13 @@
       }
     },
     "exits": {
-      "REGION_CARROT_CASTLE/ROOM_5_BOSS": null,
-      "REGION_CARROT_CASTLE/ROOM_5_13": null
+      "REGION_CARROT_CASTLE/ROOM_5_BOSS": null
     },
-    "events": [],
-    "logical_exit_overrides": {
-      "REGION_CARROT_CASTLE/ROOM_5_13": "ENTRY_FROM_5_12"
-    }
+    "events": []
   },
   "REGION_CARROT_CASTLE/ROOM_5_13": {
     "events": [],
-    "exits": [
-      "REGION_CARROT_CASTLE/ROOM_5_12",
-      "REGION_CARROT_CASTLE/ROOM_5_18",
-      "REGION_CARROT_CASTLE/ROOM_5_WARP"
-    ],
+    "exits": [],
     "logical_subregions": {
       "ENTRY_FROM_5_07": {
         "exits": [
@@ -11383,19 +11371,6 @@
         "locations": [
           "MINOR_CHEST_MUSIC_NOTE_06"
         ]
-      },
-      "ENTRY_FROM_5_12": {
-        "exits": [
-          "REGION_CARROT_CASTLE/ROOM_5_12"
-        ],
-        "events": []
-      },
-      "ENTRY_FROM_5_18_OR_5_WARP": {
-        "exits": [
-          "REGION_CARROT_CASTLE/ROOM_5_18",
-          "REGION_CARROT_CASTLE/ROOM_5_WARP"
-        ],
-        "events": []
       }
     },
     "room_sanity": {
@@ -11654,11 +11629,7 @@
             ]
           }
         ]
-      },
-      "REGION_CARROT_CASTLE/ROOM_5_13": null
-    },
-    "logical_exit_overrides": {
-      "REGION_CARROT_CASTLE/ROOM_5_13": "ENTRY_FROM_5_18_OR_5_WARP"
+      }
     }
   },
   "REGION_OLIVE_OCEAN/ROOM_6_HUB": {
@@ -12674,22 +12645,13 @@
   "REGION_OLIVE_OCEAN/ROOM_6_05": {
     "events": [],
     "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_04",
       "REGION_OLIVE_OCEAN/ROOM_6_06",
-      "REGION_OLIVE_OCEAN/ROOM_6_07",
-      "REGION_OLIVE_OCEAN/ROOM_6_23"
+      "REGION_OLIVE_OCEAN/ROOM_6_07"
     ],
     "logical_subregions": {
       "ENTRY_FROM_6_04_OR_6_06": {
         "exits": [
-          "REGION_OLIVE_OCEAN/ROOM_6_04",
           "REGION_OLIVE_OCEAN/ROOM_6_06"
-        ],
-        "events": []
-      },
-      "ENTRY_FROM_6_23": {
-        "exits": [
-          "REGION_OLIVE_OCEAN/ROOM_6_23"
         ],
         "events": []
       },
@@ -12727,11 +12689,7 @@
           "can_break_block",
           "can_fly"
         ]
-      },
-      "REGION_OLIVE_OCEAN/ROOM_6_05": null
-    },
-    "logical_exit_overrides": {
-      "REGION_OLIVE_OCEAN/ROOM_6_05": "ENTRY_FROM_6_04_OR_6_06"
+      }
     },
     "traversal": {
       "version": 1,
@@ -13883,11 +13841,7 @@
       }
     },
     "exits": {
-      "REGION_OLIVE_OCEAN/ROOM_6_BOSS": null,
-      "REGION_OLIVE_OCEAN/ROOM_6_05": null
-    },
-    "logical_exit_overrides": {
-      "REGION_OLIVE_OCEAN/ROOM_6_05": "ENTRY_FROM_6_23"
+      "REGION_OLIVE_OCEAN/ROOM_6_BOSS": null
     }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_1": {
@@ -18381,7 +18335,6 @@
       }
     },
     "exits": {
-      "REGION_TUTORIAL/ROOM_0_01": null,
       "REGION_TUTORIAL/ROOM_0_03": null
     }
   },
