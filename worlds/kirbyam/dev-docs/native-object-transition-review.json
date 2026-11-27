@@ -60,6 +60,23 @@
       ]
     },
     {
+      "source_native_room": 323,
+      "destination_native_room": 300,
+      "mechanism": "fuse_cannon",
+      "template_address": "0x088C5124",
+      "position_pixels": [
+        128,
+        384
+      ],
+      "configured_spawn_arguments": [
+        2,
+        1
+      ],
+      "from_region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_13__LOGIC__CANNON_LEFT",
+      "to_region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_14__LOGIC__CANNON_LEFT",
+      "tile_relationship": "separate_cannon_compartment"
+    },
+    {
       "source_native_room": 412,
       "mechanism": "warp_star",
       "template_address": "0x088C6BC8",
@@ -72,6 +89,23 @@
         5,
         15
       ]
+    },
+    {
+      "source_native_room": 502,
+      "destination_native_room": 525,
+      "mechanism": "fuse_cannon",
+      "template_address": "0x088D1608",
+      "position_pixels": [
+        1104,
+        144
+      ],
+      "configured_spawn_arguments": [
+        2,
+        1
+      ],
+      "from_region": "REGION_RADISH_RUINS/ROOM_8_16",
+      "to_region": "REGION_RADISH_RUINS/ROOM_8_17",
+      "tile_relationship": "parallel_cannon"
     },
     {
       "source_native_room": 705,

@@ -12,6 +12,7 @@ from ..traversal_data import _room_catalog, room_traversal_graph
 
 ROOT = Path(__file__).resolve().parents[1]
 DOOR_INVENTORY = ROOT / "dev-docs/native-tile-door-inventory.json"
+PARALLEL_GEOMETRY = ROOT / "dev-docs/parallel-door-geometry.json"
 OBJECT_REVIEW = ROOT / "dev-docs/native-object-transition-review.json"
 OBJECT_INVENTORY = ROOT / "data/ability_source_inventory.json"
 PHONE_INVENTORY = ROOT / "dev-docs/phone-return-native-rooms.json"
@@ -70,17 +71,35 @@ def reconcile_doors(edges: list[dict[str, Any]], native: dict[str, int],
         raise ValueError("Native object review must match the retail inventory")
     objects = {(p["native_room"], p["template_address"]): p for p in placements["placements"]}
     configured = {}
+    explicit_objects = {}
     for row in object_review["transitions"]:
         origin, destination = row["source_native_room"], row["destination_native_room"]
         key = origin, destination
         template = objects[origin, row["template_address"]]
-        if (key in configured or template["spawn_table"] != 1
+        if (template["spawn_table"] != 1
                 or TRANSITION_OBJECTS.get(template["type_id"]) != row["mechanism"]
                 or template["position_pixels"] != row["position_pixels"]):
             raise ValueError(f"Inconsistent native transition object: {key}")
-        configured[key] = row
+        if "tile_relationship" in row:
+            ap_pair = row["from_region"], row["to_region"]
+            if (ap_pair in explicit_objects or (native[ap_pair[0]], native[ap_pair[1]]) != key
+                    or row["tile_relationship"] not in {"separate_cannon_compartment", "parallel_cannon"}):
+                raise ValueError(f"Inconsistent native object compartment binding: {ap_pair}")
+            explicit_objects[ap_pair] = row
+        else:
+            if key in configured:
+                raise ValueError(f"Ambiguous native object pair: {key}")
+            configured[key] = row
 
+    geometry = _read(PARALLEL_GEOMETRY)
+    if geometry["schema"] != 1 or geometry["rom_sha1"] != rom_sha1:
+        raise ValueError("Native port geometry must match the retail inventory")
+    parallel = {(row["source_native_room"], row["destination_native_room"]): row["arrivals"]
+                for row in geometry["room_pairs"]}
+    if len(parallel) != len(geometry["room_pairs"]):
+        raise ValueError("Duplicate native connector geometry")
     consumed_configured = set()
+    consumed_parallel = set()
     counts: Counter[str] = Counter()
     for edge in edges:
         if edge["kind"] != "cross_native_room_candidate":
@@ -89,12 +108,17 @@ def reconcile_doors(edges: list[dict[str, Any]], native: dict[str, int],
         pair = source, target
         matches = edge["retail_tile_door_candidates"]
         native_pair = native[source], native[target]
-        object_row = configured.get(native_pair)
+        explicit_object = explicit_objects.pop(pair, None)
+        object_row = explicit_object or configured.get(native_pair)
         if object_row is not None:
-            if matches or native_pair in consumed_configured:
-                raise ValueError(f"Ambiguous configured object pairing: {native_pair}")
+            if explicit_object is not None:
+                if not matches:
+                    raise ValueError(f"Expected a separate tile record at {pair}")
+            else:
+                if matches or native_pair in consumed_configured:
+                    raise ValueError(f"Ambiguous configured object pairing: {native_pair}")
+                consumed_configured.add(native_pair)
             edge["configured_transition_object"] = object_row
-            consumed_configured.add(native_pair)
         if pair in pins:
             pin = pins.pop(pair)
             grouped = "trigger_tiles" in pin
@@ -129,21 +153,36 @@ def reconcile_doors(edges: list[dict[str, Any]], native: dict[str, int],
                 "evidence": "step-2-room-topology.md#completion-returns-and-the-cannon",
             }
         elif object_row is not None:
-            result = {"status": "configured_non_tile", "mechanism": object_row["mechanism"],
-                      "evidence": OBJECT_REVIEW.name}
+            result = {"status": ("object_and_tile_candidates"
+                                 if object_row.get("tile_relationship") == "parallel_cannon"
+                                 else "configured_non_tile"),
+                      "mechanism": object_row["mechanism"], "evidence": OBJECT_REVIEW.name}
         elif not matches:
             result = {"status": "no_tile_evidence"}
         elif len(matches) == 1:
             result = {"status": "single_tile_candidate"}
         else:
             arrivals = {(tuple(door["arrival_tile"]), door["transition_flags"]) for door in matches}
-            result = {"status": "shared_landing" if len(arrivals) == 1 else "multiple_landings"}
+            if len(arrivals) == 1:
+                result = {"status": "shared_landing"}
+            elif native_pair in parallel:
+                profiles = parallel[native_pair]
+                if {tuple(row["spawn_arguments"]) for row in profiles} != {
+                        spawn for spawn, _flags in arrivals}:
+                    raise ValueError(f"Port geometry must cover each distinct landing: {native_pair}")
+                result = {"status": "reviewed_parallel_ports", "arrival_geometry": profiles,
+                          "evidence": PARALLEL_GEOMETRY.name}
+                consumed_parallel.add(native_pair)
+            else:
+                result = {"status": "multiple_landings"}
         edge["door_reconciliation"] = result
         counts[result["status"]] += 1
     if pins or non_tile:
         raise ValueError("Native door review references missing AP edges")
-    if consumed_configured != configured.keys():
+    if consumed_configured != configured.keys() or explicit_objects:
         raise ValueError("Native object review references missing AP edges")
+    if consumed_parallel != parallel.keys():
+        raise ValueError("Port geometry references missing AP edges")
     return dict(sorted(counts.items()))
 
 

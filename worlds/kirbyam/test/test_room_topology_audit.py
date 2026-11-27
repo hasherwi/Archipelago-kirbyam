@@ -62,8 +62,8 @@ def test_retail_join_counts_candidates_not_verified_paths():
 def test_reconciliation_preserves_unresolved_routes_and_exact_landing_evidence():
     report = build_inventory()
     assert report["retail_door_reconciliation_counts"] == {
-        "configured_non_tile": 6, "multiple_landings": 12, "pinned_tile_door": 36, "pinned_tile_group": 1,
-        "shared_landing": 13, "single_tile_candidate": 454, "source_backed_boss_return": 8,
+        "configured_non_tile": 7, "reviewed_parallel_ports": 12, "object_and_tile_candidates": 1, "pinned_tile_door": 36, "pinned_tile_group": 1,
+        "shared_landing": 13, "single_tile_candidate": 452, "source_backed_boss_return": 8,
         "witnessed_non_tile": 18,
     }
     edges = {(row["from_region"].split("/")[-1], row["to_region"].split("/")[-1]): row
@@ -197,3 +197,25 @@ def test_peppermint_10_channels_own_only_their_reviewed_objectives():
     assert data.regions[right].locations == ["MINOR_CHEST_SPRAY_PAINT_09"]
     assert not data.regions[middle].locations
     assert data.regions[sink].locations == ["ROOM_SANITY_7_10"]
+
+def test_parallel_ports_keep_both_native_directions_and_state_limits():
+    edges = {(row["from_region"].split("/")[-1], row["to_region"].split("/")[-1]): row
+             for row in build_inventory()["edges"] if row["kind"] == "cross_native_room_candidate"}
+    water = edges["ROOM_7_14", "ROOM_7_16"]
+    assert len(water["retail_tile_door_candidates"]) == 16
+    assert water["door_reconciliation"]["status"] == "reviewed_parallel_ports"
+    assert len(water["door_reconciliation"]["arrival_geometry"]) == 4
+    # An optimistic join does not make the strict sets equal.
+    rainbow = edges["ROOM_1_17", "ROOM_1_18"]["door_reconciliation"]["arrival_geometry"]
+    assert rainbow[0]["strict"]["exits"] == [172]
+    assert rainbow[1]["strict"]["exits"] == [175, 508]
+    assert rainbow[0]["optimistic"]["exits"] == rainbow[1]["optimistic"]["exits"]
+    cannon = edges["ROOM_4_13__LOGIC__CANNON_LEFT", "ROOM_4_14__LOGIC__CANNON_LEFT"]
+    assert cannon["door_reconciliation"]["status"] == "configured_non_tile"
+    assert cannon["configured_transition_object"]["configured_spawn_arguments"] == [2, 1]
+    mirror = edges["ROOM_4_13", "ROOM_4_14"]
+    assert mirror["door_reconciliation"]["status"] == "single_tile_candidate"
+    assert "configured_transition_object" not in mirror
+    radish = edges["ROOM_8_16", "ROOM_8_17"]
+    assert radish["door_reconciliation"]["status"] == "object_and_tile_candidates"
+    assert radish["retail_tile_door_candidates"] and radish["configured_transition_object"]

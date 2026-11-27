@@ -66,13 +66,14 @@ can reach the trigger under every setting.
 | Multiple door records | Exact trigger and landing pinned to the named compartments | 31 |
 | Multiple door records | Exact multi-cell trigger group pinned to a single landing | 1 |
 | Multiple door records | All candidates land on the same tile with the same flags; keep all triggers | 13 |
-| Multiple door records | Distinct landings or flags still need AP compartment review | 12 |
+| Multiple door records | Reviewed parallel ports with individual landing profiles | 12 |
 | No matching tile record | Native controller witness, via a completion sequence, cannon or Warp Star | 18 |
 | No matching tile record | Native code supports a boss-shard return sequence, not a free exit | 8 |
 | No matching tile record | Native object target decoded; live arrival/state still unverified | 6 |
 
 
-Five single-candidate edges also have explicit compartment pins.
+Five single-tile-candidate edges also have explicit compartment pins; two
+other single-tile pairs also have separately decoded cannon evidence.
 The [explicit pins](native-door-reconciliation.json) include Moonlight's
 2-01/2-11 and 2-14/2-15 splits, Cabbage's 3-03/3-04 split, and the
 Bonkers-side and Snow Hall connections between Peppermint 7-05 and its Chest Room.
@@ -174,3 +175,48 @@ The [split-door crosswalk](split-door-topology.md) provides additional
 compartment pins in Rainbow, Moonlight and Mustard. The existing Cabbage
 peg and Peppermint Happy Notes collision evidence supplies another four
 pins. These facts preserve the raw records and do not change solver rules.
+
+## Parallel ports and validation boundary
+
+The remaining 12 multi-landing AP edges (11 native room pairs) are now
+reviewed as **parallel native ports**, not interchangeable arrivals.
+The [retail geometry report](parallel-door-geometry.json) records separate
+profiles from the configured spawn of every arrival. A coarse cell
+comparison, over raw retail terrain at 16 pixels per cell, answers whether
+two arrivals are connected under each stated tile model. Use the room
+loader's spawn convention: (x,y) arguments start in cell (x−1,y−1) in
+the ordinary branch. Do not treat the report as an emulator replay.
+
+- Peppermint 7-02 → 7-03 and Radish 8-04 → 8-05 have matching connected
+  clear-cell regions even in the strict model.
+- The two Mustard 4-05 edges → 4-09, Mustard 4-07 → 4-08, and the
+  Peppermint 7-14 → 7-16 current have documented merging routes.
+  Preserve actual trigger coordinates and the conditional movement
+  between each arrival and the shared onward path.
+- Peppermint 7-03 → 7-02, 7-05 → 7-06, 7-13 → 7-14, Radish 8-04 → 8-03,
+  Rainbow 1-17 → 1-18 and 1-19 → Goal 2 have different strict arrival
+  profiles. All converge only in the optimistic tile model. This is
+  not permission to treat them as interchangeable for access or carry.
+  Keep those profiles for the Step 4/5 approach and equipment tests.
+- Native 323 → 300 has both an ordinary mirror and a fuse cannon. The
+  cannon belongs to the left AP compartments and uses spawn (2,1);
+  the Batafire-side mirror reaches the opposite side at (13,18).
+  Native 502 → 525 also has the ordinary mirror and a cannon with
+  spawn (2,1), both retained as candidates for the same compiled edge.
+  No fuse, live landing, or equipment retention is inferred.
+
+The room topology audit now accounts for every raw no-tile and
+multiple-tile exception: unsupported legacy links were retired, known
+objects/returns and explicit compartments have evidence, and parallel
+ports retain separately identified landings. This closes the static
+room/subroom/region crosswalk. It does not certify the playability of every
+directed port, an ability condition, or what location a landing grants.
+Those are intentionally enumerated with the Step 3, 4, and 5 work.
+
+To verify the recorded profiles with the original local game file, run:
+
+```sh
+python -m worlds.kirbyam.tools.review_parallel_door_geometry \
+  --rom <local-usa-rom> \
+  --review worlds/kirbyam/dev-docs/parallel-door-geometry.json
+```
