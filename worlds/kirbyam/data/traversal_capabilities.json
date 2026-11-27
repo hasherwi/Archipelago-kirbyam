@@ -1,5 +1,9 @@
 {
   "schema": 1,
+  "logic_tiers": {
+    "standard_max_carried_room_transitions": 3,
+    "advanced_only_abilities": ["Crash", "Magic"]
+  },
   "underwater_attack_abilities": [
     "Hammer",
     "Master",

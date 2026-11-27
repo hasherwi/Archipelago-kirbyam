@@ -32,7 +32,8 @@ def load_capability_catalog(payload: Any) -> tuple[
 ]:
     """Validate authored capability facts without inferring unstated equipment."""
     if (not isinstance(payload, dict)
-            or set(payload) != {"schema", "underwater_attack_abilities", "capabilities"}
+            or set(payload) - {"schema", "underwater_attack_abilities", "capabilities", "logic_tiers"}
+            or not {"schema", "underwater_attack_abilities", "capabilities"} <= payload.keys()
             or type(payload["schema"]) is not int or payload["schema"] != 1):
         raise ValueError("Unsupported traversal capability catalog")
     equipment = {name for name, value in ABILITY_NAME_TO_ID.items()
@@ -75,10 +76,25 @@ def load_capability_catalog(payload: Any) -> tuple[
     return providers, rooms, water, consumed, underwater
 
 
+_CAPABILITY_CATALOG = load_json_data("traversal_capabilities.json")
 (CAPABILITY_ABILITIES, ROOM_SCOPED_CAPABILITIES, ROOM_SCOPED_ATTACK_WATER_STATES,
- CAPABILITY_CONSUMED_ABILITIES, UNDERWATER_ATTACK_ABILITIES) = load_capability_catalog(
-    load_json_data("traversal_capabilities.json")
-)
+ CAPABILITY_CONSUMED_ABILITIES, UNDERWATER_ATTACK_ABILITIES) = load_capability_catalog(_CAPABILITY_CATALOG)
+
+
+def _load_logic_tiers(raw: Any) -> tuple[int, frozenset[str]]:
+    if (not isinstance(raw, dict)
+            or set(raw) != {"standard_max_carried_room_transitions", "advanced_only_abilities"}):
+        raise ValueError("Invalid traversal logic tiers")
+    limit, abilities = raw["standard_max_carried_room_transitions"], raw["advanced_only_abilities"]
+    if (type(limit) is not int or limit < 0 or not isinstance(abilities, list) or not abilities
+            or any(not isinstance(name, str) or name not in ABILITY_NAME_TO_ID
+                   or name in {"Normal", "Wait"} for name in abilities)
+            or len(set(abilities)) != len(abilities)):
+        raise ValueError("Invalid Standard carry limit or Advanced-only abilities")
+    return limit, frozenset(abilities)
+
+
+STANDARD_CARRY_LIMIT, ADVANCED_ONLY_ABILITIES = _load_logic_tiers(_CAPABILITY_CATALOG["logic_tiers"])
 METAL_BREAKING_ABILITIES = CAPABILITY_ABILITIES["metal"] | CAPABILITY_ABILITIES["metal_throw"]
 
 
@@ -287,6 +303,7 @@ class Position:
     consumed: frozenset[str] = frozenset()
     expired: frozenset[str] = frozenset()
     active: frozenset[str] = frozenset()
+    carried_room_transitions: int = 0
 
     @property
     def equipment_outcomes(self) -> frozenset[str]:
@@ -355,6 +372,7 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
     owned: frozenset[str] = frozenset(),
     gating: bool = True,
     allow_documented_retries: bool = False,
+    *, advanced_logic: bool = True,
 ) -> TraversalResult:
     """Compute a finite fixed point without consulting AP region reachability.
 
@@ -647,11 +665,14 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
                     # Player receives one of these, not all of them. Retain the
                     # uncertainty: a subsequent edge must work for EVERY outcome.
                     queue.append(Position(position.node, grant.abilities, position.opened, consumed, position.expired, position.active))
+        equipment = position.equipment_outcomes
+        stale = position.carried_room_transitions > STANDARD_CARRY_LIMIT
         for route in outgoing[position.node]:
             if not route.items <= owned:
                 continue
             if route.required_equipment is not None and (
-                not position.equipment_outcomes or not position.equipment_outcomes <= route.required_equipment
+                not equipment or not equipment <= route.required_equipment
+                or (not advanced_logic and (equipment & ADVANCED_ONLY_ABILITIES or (stale and equipment - {"Normal"})))
             ):
                 continue
             opened = position.opened
@@ -668,6 +689,8 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
                 attacks = frozenset(attack_provider(ability, route.water_state)
                                     for ability in position.equipment_outcomes)
                 if not attacks or not attacks <= abilities:
+                    continue
+                if not advanced_logic and (attacks & ADVANCED_ONLY_ABILITIES or (stale and attacks - {"Normal"})):
                     continue
             if not already_open and route.uses_object is not None:
                 if (route.uses_object in position.consumed
@@ -735,7 +758,13 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
             # A revived controller is eligible to activate again, not already spawned.
             active = ((active - route.ends_lifetimes - route.revives_lifetimes)
                       | (route.activates_lifetimes - expired))
-            queue.append(Position(route.target, ability, opened, consumed, expired, active))
+            carry = 0
+            if not advanced_logic and ability not in ("Normal", frozenset({"Normal"})):
+                # Cap at one past the limit so directed cycles stay finite.
+                # Same-room mirrors may reset room objects, but add no carry.
+                carry = min(STANDARD_CARRY_LIMIT + 1, position.carried_room_transitions
+                            + (node_by_key[position.node].room != node_by_key[route.target].room))
+            queue.append(Position(route.target, ability, opened, consumed, expired, active, carry))
     return TraversalResult(frozenset(visited), frozenset(assumptions))
 
 
@@ -754,7 +783,7 @@ class TraversalGraph:
     required_guaranteed_source: tuple[str, str] | None = None
 
     def evaluate(self, policy: SourcePolicy, owned: frozenset[str], gating: bool,
-                 allow_documented_retries: bool = False) -> TraversalResult:
+                 allow_documented_retries: bool = False, *, advanced_logic: bool = True) -> TraversalResult:
         if _has_central_master(self.placements, self.routes):
             if (self.access_region != CENTRAL_REGION or self.requires_all_hub_switches
                     or self.unavailable_reason is not None or self.required_guaranteed_source is not None
@@ -770,7 +799,7 @@ class TraversalGraph:
                 return TraversalResult(frozenset(), frozenset())
         return reachable_positions(
             self.nodes, self.routes, self.placements, self.starts, policy, owned, gating,
-            allow_documented_retries,
+            allow_documented_retries, advanced_logic=advanced_logic,
         )
 
 

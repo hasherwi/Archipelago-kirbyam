@@ -68,3 +68,36 @@ An exact match uses the same obstacle family, AP owner, and exit or location—n
 | `PEPPERMINT_PALACE/ROOM_7_09` → Peppermint Palace 7-09 - Small Chest #2 (3960592) | `rope_228_11_21` | — |
 | `MUSTARD_MOUNTAIN/ROOM_4_10` → Mustard Mountain 4-10 - Small Chest #1 (3960597) | `rope_316_35_5` | — |
 | `OLIVE_OCEAN/ROOM_6_16` → Olive Ocean 6-16 - Small Chest (3960578) | `rope_553_26_7` | — |
+
+### Standard and Advanced route classification (#1170)
+
+
+A reviewed route can be evaluated under Standard rules from the shared
+traversal capability catalog. Count directed native room transitions since
+the equipment was acquired, not screen sections or same-room mirrors. A
+fresh physical acquisition restarts the count. Standard allows a copy
+action after at most three transitions and never requires Crash or Magic.
+Advanced removes those two restrictions; named exceptions still require
+their own reviewed graph and actual source.
+
+The generator does not opt all targets into the new carry limit yet. A
+stock-assignment comparison found these targets with at least one reviewed
+Advanced route and no reviewed Standard route:
+
+| Target | Reviewed Standard evidence needed |
+| --- | --- |
+| Cabbage 3-09 chest | Verify original n528 Rocky and the three-transition suffix |
+| Peppermint 7-06 Happy Notes entry | Verify n210 Bonkers across two transitions, or closer n203 Rocky |
+| Radish Chest 1 | Verify n623 Bonkers across two doors or n592 Stone across three |
+| Beginning Music Notes (`metal_537_beginning_notes`) | Local or shorter metal-breaking route |
+| Moonlight past-metal and both 2-01 entries (`metal_708_*`) | Local or shorter metal-breaking routes for each landing |
+| Moonlight 2-13 (`metal_707_to_712`) | Local or shorter metal-breaking route |
+| Peppermint 7-09 chest and 7-10 left 1-Up | Alternatives to the reviewed long metal-breaking carriers |
+
+The three peg leads above come from the native inventory and directed doors,
+not yet verified individual acquisition or arrival on the correct side.
+These are gaps in reviewed data, not proof of impossibility in the game.
+Do not make a long route Standard solely to satisfy seed validation, and do
+not enable a hard gate before the affected Standard generation profiles can
+still succeed. The Missile Wheel Race exception separately needs a verified
+directed source path connected to the race and exact chest.

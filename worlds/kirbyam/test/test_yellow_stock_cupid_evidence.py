@@ -84,3 +84,9 @@ def test_interrupted_carry_is_not_a_valid_route(graph):
     routes = tuple(replace(route, loses_equipment=True) if route.target.endswith(":entry_730") else route
                    for route in graph.routes)
     assert not replace(graph, routes=routes).evaluate(STOCK, frozenset(), gating=False).reaches(target)
+
+
+def test_stock_witness_requires_advanced_carry(graph):
+    target, = graph.required_targets
+    assert graph.evaluate(STOCK, frozenset(), gating=False, advanced_logic=True).reaches(target)
+    assert not graph.evaluate(STOCK, frozenset(), gating=False, advanced_logic=False).reaches(target)
