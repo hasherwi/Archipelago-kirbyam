@@ -11,6 +11,7 @@ from collections import defaultdict, deque
 from dataclasses import dataclass
 from typing import Any, Callable, Iterable, Mapping
 
+from .data import load_json_data
 from .master_source import (
     CARROT_HUB, CARROT_KEY, CENTRAL_MASTER_IDENTITY, CENTRAL_MASTER_SOURCE, CENTRAL_REGION,
     CENTRAL_RETURN_EVENT, MASTER719_CAPABILITY, MASTER719_NODES, MASTER719_PREFIX, RAINBOW_WEST_HUB,
@@ -25,156 +26,58 @@ from .enemy_ability_runtime_patch import (
 )
 
 
-METAL_BREAKING_ABILITIES = frozenset({
-    "Hammer", "Stone", "Throw", "Burning", "Missile", "UFO", "Smash", "Master",
-})
+def load_capability_catalog(payload: Any) -> tuple[
+    dict[str, frozenset[str]], dict[str, int], dict[str, str],
+    dict[str, frozenset[str]], frozenset[str],
+]:
+    """Validate authored capability facts without inferring unstated equipment."""
+    if (not isinstance(payload, dict)
+            or set(payload) != {"schema", "underwater_attack_abilities", "capabilities"}
+            or type(payload["schema"]) is not int or payload["schema"] != 1):
+        raise ValueError("Unsupported traversal capability catalog")
+    equipment = {name for name, value in ABILITY_NAME_TO_ID.items()
+                 if 0 <= value <= ABILITY_NAME_TO_ID["Master"]}
+
+    def abilities(raw: Any, where: str) -> frozenset[str]:
+        if (not isinstance(raw, list) or not raw
+                or any(not isinstance(name, str) or name not in equipment for name in raw)
+                or len(set(raw)) != len(raw)):
+            raise ValueError(f"{where} must name unique native equipment")
+        return frozenset(raw)
+
+    rows = payload["capabilities"]
+    if not isinstance(rows, dict) or not {"metal", "metal_throw"} <= rows.keys():
+        raise ValueError("Missing core traversal capability definitions")
+    providers: dict[str, frozenset[str]] = {}
+    rooms: dict[str, int] = {}
+    water: dict[str, str] = {}
+    consumed: dict[str, frozenset[str]] = {}
+    for name, raw in rows.items():
+        if (not isinstance(name, str) or not name or not isinstance(raw, dict)
+                or "abilities" not in raw
+                or raw.keys() - {"abilities", "consumed_abilities", "native_room", "water", "note"}):
+            raise ValueError(f"Invalid traversal capability: {name!r}")
+        providers[name] = abilities(raw["abilities"], name)
+        if "native_room" in raw or "water" in raw:
+            room, medium = raw.get("native_room"), raw.get("water")
+            if type(room) is not int or room < 0 or medium not in ("dry", "swimming"):
+                raise ValueError(f"{name} requires both a native room and attack medium")
+            rooms[name], water[name] = room, medium
+        if "consumed_abilities" in raw:
+            spent = abilities(raw["consumed_abilities"], name)
+            if not spent <= providers[name]:
+                raise ValueError(f"{name} cannot consume equipment it does not accept")
+            consumed[name] = spent
+
+    underwater = abilities(payload["underwater_attack_abilities"], "Underwater attacks")
+    return providers, rooms, water, consumed, underwater
 
 
-CAPABILITY_ABILITIES: Mapping[str, frozenset[str]] = {
-    "peg": frozenset({"Stone", "Hammer", "Smash", "Master"}),
-    "fuse": frozenset({"Fire", "Burning", "Bomb", "Laser", "UFO", "Master", "Hammer", "Crash"}),
-    "rope": frozenset({"Cutter", "Sword", "Cupid", "Smash", "Master"}),
-    "mini_corridor": frozenset({"Mini"}),
-    # These are attack classes, not permission-to-equip shortcuts. Room data
-    # must still establish direction, reach, source and water state.
-    "metal": METAL_BREAKING_ABILITIES - {"Throw"},
-    # Throw is a physical capture-and-release sequence, never an unarmed attack.
-    "metal_throw": frozenset({"Throw"}),
-    # A reviewed dry ordinary-block attack/carry, not a metal crossing. Only
-    # Burning has an accepted provider witness for this class so far.
-    "ordinary_block_hit": frozenset({"Burning"}),
-    "frozen_enemy_hit": frozenset({"Ice"}),
-    # Normal suction moves an existing Heave-Ho into a reviewed disposal path.
-    # This is not an attack against metal or an inventory-granted ability.
-    "heave_ho_pull": frozenset({"Normal"}),
-    "underwater_block_hit": frozenset({"Normal", "Parasol", "Hammer", "Sword", "Master"}),
-    # Target-specific native witnesses, NOT a general wall-piercing class.
-    "bomb_110_room9": frozenset({"Spark"}),
-    "bomb_110_room9_underwater_sword": frozenset({"Sword"}),
-    # Exact finite mouth payload and lower spray; not generic Normal ammunition.
-    "bomb_110_upper_normal_spit": frozenset({"Normal"}),
-    "bomb_110_room9_underwater_normal_spray": frozenset({"Normal"}),
-    # Select only lower F1, leaving the upper blocking-chain trigger intact.
-    "bomb_617_normal_puff_slide": frozenset({"Normal"}),
-    "mirra_141_top_normal_puff": frozenset({"Normal"}),
-    "mirra_141_east_normal_puff": frozenset({"Normal"}),
-    "mirra_117_upper_payload": frozenset({"Normal"}),
-    "mirra_117_lower_payload": frozenset({"Normal"}),
-    "mirra_117_normal_clearance": frozenset({"Normal"}),
-    "mirra_811_normal_puff": frozenset({"Normal"}),
-    "normal_815_vitality_sequence": frozenset({"Normal"}),
-    "normal_534_twister_payload": frozenset({"Normal"}),
-    "normal_534_dee_payload": frozenset({"Normal"}),
-
-    "bomb_138_green": frozenset({"Spark"}),
-    "bomb_138_green_normal_lower_slide": frozenset({"Normal"}),
-    # Grounded left-ledge sweep and completed chain crossing, not Beam range.
-    "bomb_402_candy_chest": frozenset({"Beam"}),
-    "bomb_402_candy_chest_ufo": frozenset({"UFO"}),
-    "bomb_402_candy_chest_spark": frozenset({"Spark"}),
-    "bomb_402_candy_chest_missile": frozenset({"Missile"}),
-    "bomb_402_candy_chest_sword": frozenset({"Sword"}),
-    "bomb_402_candy_chest_smash": frozenset({"Smash"}),
-    "bomb_538_beam_left_crossover": frozenset({"Beam"}),
-    "bomb_733_yellow_ufo_top_charge": frozenset({"UFO"}),
-    "bomb_733_cupid_upper_from_below": frozenset({"Cupid"}),
-    "bomb_733_cupid_lower_from_corridor": frozenset({"Cupid"}),
-    "bomb_517_chocolate": frozenset({"Beam", "Spark", "Ice", "Smash"}),
-    "bomb_517_fire_breath": frozenset({"Fire"}),
-    "bomb_517_missile_blast": frozenset({"Missile"}),
-    "bomb_517_parasol_swing": frozenset({"Parasol"}),
-    "bomb_517_sword_first_slash": frozenset({"Sword"}),
-    "bomb_517_fighter_first_combo": frozenset({"Fighter"}),
-    "bomb_517_ufo_top_charge": frozenset({"UFO"}),
-    "bomb_719_room13": frozenset({"Beam"}),
-    "bomb_719_fighter_first_combo": frozenset({"Fighter"}),
-    "bomb_719_sword_repeated_slash": frozenset({"Sword"}),
-    "bomb_719_fire_breath": frozenset({"Fire"}),
-    MASTER719_CAPABILITY: frozenset({"Master"}),
-    "switch_533_bomb_placement": frozenset({"Bomb"}),
-    "switch_533_ufo_top_charge": frozenset({"UFO"}),
-    # Exact camera-valid room533 pose and timed crossing, not whole-room damage.
-    "switch_533_crash_viewport": frozenset({"Crash"}),
-    # Ordinary-mode visible roulette selection, exact pose and timed crossing.
-    "switch_533_magic_meta_knight": frozenset({"Magic"}),
-    "switch_310_ufo_top_charge": frozenset({"UFO"}),
-    "switch_310_crash_viewport": frozenset({"Crash"}),
-    "switch_310_cupid_up_left_q0": frozenset({"Cupid"}),
-    # Five roof returns, enemy-aware setup and timed crossing, not any Cutter shot.
-    "switch_310_cutter_five_roof_returns": frozenset({"Cutter"}),
-    "switch_310_kibble_cutter_roof_returns": frozenset({"Cutter"}),
-    "switch_825_ufo_top_charge": frozenset({"UFO"}),
-    "switch_825_fire_breath": frozenset({"Fire"}),
-    # Only attach to a route whose timing has actually been established.
-    "wheel_race": frozenset({"Wheel"}),
-}
-# Each target effect keeps its reviewed room and attack medium. The underwater
-# Sword spin and Normal spray remain separate from the dry Spark effect.
-ROOM_SCOPED_CAPABILITIES: Mapping[str, int] = {
-    "bomb_110_room9": 110,
-    "bomb_110_room9_underwater_sword": 110,
-    "bomb_110_upper_normal_spit": 110,
-    "bomb_110_room9_underwater_normal_spray": 110,
-    "bomb_617_normal_puff_slide": 617,
-    "mirra_141_top_normal_puff": 141,
-    "mirra_141_east_normal_puff": 141,
-    "mirra_117_upper_payload": 117,
-    "mirra_117_lower_payload": 117,
-    "mirra_117_normal_clearance": 117,
-    "mirra_811_normal_puff": 811,
-    "normal_815_vitality_sequence": 815,
-    "normal_534_twister_payload": 534,
-    "normal_534_dee_payload": 534,
-
-    "bomb_138_green": 138,
-    "bomb_138_green_normal_lower_slide": 138,
-    "bomb_402_candy_chest": 402,
-    "bomb_402_candy_chest_ufo": 402,
-    "bomb_402_candy_chest_spark": 402,
-    "bomb_402_candy_chest_missile": 402,
-    "bomb_402_candy_chest_sword": 402,
-    "bomb_402_candy_chest_smash": 402,
-    "bomb_538_beam_left_crossover": 538,
-    "bomb_733_yellow_ufo_top_charge": 733,
-    "bomb_733_cupid_upper_from_below": 733,
-    "bomb_733_cupid_lower_from_corridor": 733,
-    "bomb_517_chocolate": 517,
-    "bomb_517_fire_breath": 517,
-    "bomb_517_missile_blast": 517,
-    "bomb_517_parasol_swing": 517,
-    "bomb_517_sword_first_slash": 517,
-    "bomb_517_fighter_first_combo": 517,
-    "bomb_517_ufo_top_charge": 517,
-    "bomb_719_room13": 719,
-    "bomb_719_fighter_first_combo": 719,
-    "bomb_719_sword_repeated_slash": 719,
-    "bomb_719_fire_breath": 719,
-    MASTER719_CAPABILITY: 719,
-    "switch_533_bomb_placement": 533,
-    "switch_533_ufo_top_charge": 533,
-    "switch_533_crash_viewport": 533,
-    "switch_533_magic_meta_knight": 533,
-    "switch_310_ufo_top_charge": 310,
-    "switch_310_crash_viewport": 310,
-    "switch_310_cupid_up_left_q0": 310,
-    "switch_310_cutter_five_roof_returns": 310,
-    "switch_310_kibble_cutter_roof_returns": 310,
-    "switch_825_ufo_top_charge": 825,
-    "switch_825_fire_breath": 825,
-}
-
-ROOM_SCOPED_ATTACK_WATER_STATES: Mapping[str, str] = {
-    capability: "swimming" if capability in {
-        "bomb_110_room9_underwater_sword", "bomb_110_room9_underwater_normal_spray",
-    } else "dry"
-    for capability in ROOM_SCOPED_CAPABILITIES
-}
-
-# Native kirby.c swimming B dispatch. Other equipment uses Normal Water Gun
-# without replacing the carried ability. In particular, swimming cannot start
-# Stone or use Smash's hammer. A pre-transformed Stone descent is a separate
-# geometric sequence and must not be inferred from a swimming attack.
-UNDERWATER_ATTACK_ABILITIES = frozenset({"Parasol", "Hammer", "Sword", "Master"})
+(CAPABILITY_ABILITIES, ROOM_SCOPED_CAPABILITIES, ROOM_SCOPED_ATTACK_WATER_STATES,
+ CAPABILITY_CONSUMED_ABILITIES, UNDERWATER_ATTACK_ABILITIES) = load_capability_catalog(
+    load_json_data("traversal_capabilities.json")
+)
+METAL_BREAKING_ABILITIES = CAPABILITY_ABILITIES["metal"] | CAPABILITY_ABILITIES["metal_throw"]
 
 
 def attack_provider(ability: str, water_state: str) -> str | None:
@@ -187,14 +90,6 @@ def attack_provider(ability: str, water_state: str) -> str | None:
     return ability
 
 
-# Equipment consumed by actually using a capability, not by crossing an already
-# opened barrier. Physical source consumption remains tracked independently.
-CAPABILITY_CONSUMED_ABILITIES: Mapping[str, frozenset[str]] = {
-    "fuse": frozenset({"Crash"}),
-    "switch_310_crash_viewport": frozenset({"Crash"}),
-    "switch_533_crash_viewport": frozenset({"Crash"}),
-    "switch_533_magic_meta_knight": frozenset({"Magic"}),
-}
 _ID_TO_NAME = {value: key for key, value in ABILITY_NAME_TO_ID.items()}
 # Wait (27) is AP metadata, never actual native carried equipment.
 _NATIVE_EQUIPMENT = frozenset(name for name, value in ABILITY_NAME_TO_ID.items()

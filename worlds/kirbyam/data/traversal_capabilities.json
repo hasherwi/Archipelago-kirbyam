@@ -1,0 +1,459 @@
+{
+  "schema": 1,
+  "underwater_attack_abilities": [
+    "Hammer",
+    "Master",
+    "Parasol",
+    "Sword"
+  ],
+  "capabilities": {
+    "peg": {
+      "abilities": [
+        "Hammer",
+        "Master",
+        "Smash",
+        "Stone"
+      ]
+    },
+    "fuse": {
+      "abilities": [
+        "Bomb",
+        "Burning",
+        "Crash",
+        "Fire",
+        "Hammer",
+        "Laser",
+        "Master",
+        "UFO"
+      ],
+      "consumed_abilities": [
+        "Crash"
+      ]
+    },
+    "rope": {
+      "abilities": [
+        "Cupid",
+        "Cutter",
+        "Master",
+        "Smash",
+        "Sword"
+      ]
+    },
+    "mini_corridor": {
+      "abilities": [
+        "Mini"
+      ]
+    },
+    "metal": {
+      "abilities": [
+        "Burning",
+        "Hammer",
+        "Master",
+        "Missile",
+        "Smash",
+        "Stone",
+        "UFO"
+      ],
+      "note": "Only applicable in a reviewed route and attack context."
+    },
+    "metal_throw": {
+      "abilities": [
+        "Throw"
+      ],
+      "note": "Requires capturing and releasing a physical object; not an empty-handed attack."
+    },
+    "ordinary_block_hit": {
+      "abilities": [
+        "Burning"
+      ],
+      "note": "Reviewed dry ordinary-block attack. Does not imply a metal crossing."
+    },
+    "frozen_enemy_hit": {
+      "abilities": [
+        "Ice"
+      ]
+    },
+    "heave_ho_pull": {
+      "abilities": [
+        "Normal"
+      ],
+      "note": "Normal suction and reviewed disposal of a specific Heave-Ho, not terrain damage."
+    },
+    "underwater_block_hit": {
+      "abilities": [
+        "Hammer",
+        "Master",
+        "Normal",
+        "Parasol",
+        "Sword"
+      ]
+    },
+    "bomb_110_room9": {
+      "abilities": [
+        "Spark"
+      ],
+      "native_room": 110,
+      "water": "dry"
+    },
+    "bomb_110_room9_underwater_sword": {
+      "abilities": [
+        "Sword"
+      ],
+      "native_room": 110,
+      "water": "swimming",
+      "note": "Exact underwater hit; does not admit dry sword."
+    },
+    "bomb_110_upper_normal_spit": {
+      "abilities": [
+        "Normal"
+      ],
+      "native_room": 110,
+      "water": "dry"
+    },
+    "bomb_110_room9_underwater_normal_spray": {
+      "abilities": [
+        "Normal"
+      ],
+      "native_room": 110,
+      "water": "swimming",
+      "note": "Exact water spray from the reviewed lower route."
+    },
+    "bomb_617_normal_puff_slide": {
+      "abilities": [
+        "Normal"
+      ],
+      "native_room": 617,
+      "water": "dry",
+      "note": "Only the lower F1 target, leaving the upper chain intact."
+    },
+    "mirra_141_top_normal_puff": {
+      "abilities": [
+        "Normal"
+      ],
+      "native_room": 141,
+      "water": "dry"
+    },
+    "mirra_141_east_normal_puff": {
+      "abilities": [
+        "Normal"
+      ],
+      "native_room": 141,
+      "water": "dry"
+    },
+    "mirra_117_upper_payload": {
+      "abilities": [
+        "Normal"
+      ],
+      "native_room": 117,
+      "water": "dry"
+    },
+    "mirra_117_lower_payload": {
+      "abilities": [
+        "Normal"
+      ],
+      "native_room": 117,
+      "water": "dry"
+    },
+    "mirra_117_normal_clearance": {
+      "abilities": [
+        "Normal"
+      ],
+      "native_room": 117,
+      "water": "dry"
+    },
+    "mirra_811_normal_puff": {
+      "abilities": [
+        "Normal"
+      ],
+      "native_room": 811,
+      "water": "dry"
+    },
+    "normal_815_vitality_sequence": {
+      "abilities": [
+        "Normal"
+      ],
+      "native_room": 815,
+      "water": "dry"
+    },
+    "normal_534_twister_payload": {
+      "abilities": [
+        "Normal"
+      ],
+      "native_room": 534,
+      "water": "dry"
+    },
+    "normal_534_dee_payload": {
+      "abilities": [
+        "Normal"
+      ],
+      "native_room": 534,
+      "water": "dry"
+    },
+    "bomb_138_green": {
+      "abilities": [
+        "Spark"
+      ],
+      "native_room": 138,
+      "water": "dry"
+    },
+    "bomb_138_green_normal_lower_slide": {
+      "abilities": [
+        "Normal"
+      ],
+      "native_room": 138,
+      "water": "dry"
+    },
+    "bomb_402_candy_chest": {
+      "abilities": [
+        "Beam"
+      ],
+      "native_room": 402,
+      "water": "dry"
+    },
+    "bomb_402_candy_chest_ufo": {
+      "abilities": [
+        "UFO"
+      ],
+      "native_room": 402,
+      "water": "dry"
+    },
+    "bomb_402_candy_chest_spark": {
+      "abilities": [
+        "Spark"
+      ],
+      "native_room": 402,
+      "water": "dry"
+    },
+    "bomb_402_candy_chest_missile": {
+      "abilities": [
+        "Missile"
+      ],
+      "native_room": 402,
+      "water": "dry"
+    },
+    "bomb_402_candy_chest_sword": {
+      "abilities": [
+        "Sword"
+      ],
+      "native_room": 402,
+      "water": "dry"
+    },
+    "bomb_402_candy_chest_smash": {
+      "abilities": [
+        "Smash"
+      ],
+      "native_room": 402,
+      "water": "dry"
+    },
+    "bomb_538_beam_left_crossover": {
+      "abilities": [
+        "Beam"
+      ],
+      "native_room": 538,
+      "water": "dry"
+    },
+    "bomb_733_yellow_ufo_top_charge": {
+      "abilities": [
+        "UFO"
+      ],
+      "native_room": 733,
+      "water": "dry"
+    },
+    "bomb_733_cupid_upper_from_below": {
+      "abilities": [
+        "Cupid"
+      ],
+      "native_room": 733,
+      "water": "dry"
+    },
+    "bomb_733_cupid_lower_from_corridor": {
+      "abilities": [
+        "Cupid"
+      ],
+      "native_room": 733,
+      "water": "dry"
+    },
+    "bomb_517_chocolate": {
+      "abilities": [
+        "Beam",
+        "Ice",
+        "Smash",
+        "Spark"
+      ],
+      "native_room": 517,
+      "water": "dry"
+    },
+    "bomb_517_fire_breath": {
+      "abilities": [
+        "Fire"
+      ],
+      "native_room": 517,
+      "water": "dry"
+    },
+    "bomb_517_missile_blast": {
+      "abilities": [
+        "Missile"
+      ],
+      "native_room": 517,
+      "water": "dry"
+    },
+    "bomb_517_parasol_swing": {
+      "abilities": [
+        "Parasol"
+      ],
+      "native_room": 517,
+      "water": "dry"
+    },
+    "bomb_517_sword_first_slash": {
+      "abilities": [
+        "Sword"
+      ],
+      "native_room": 517,
+      "water": "dry"
+    },
+    "bomb_517_fighter_first_combo": {
+      "abilities": [
+        "Fighter"
+      ],
+      "native_room": 517,
+      "water": "dry"
+    },
+    "bomb_517_ufo_top_charge": {
+      "abilities": [
+        "UFO"
+      ],
+      "native_room": 517,
+      "water": "dry"
+    },
+    "bomb_719_room13": {
+      "abilities": [
+        "Beam"
+      ],
+      "native_room": 719,
+      "water": "dry"
+    },
+    "bomb_719_fighter_first_combo": {
+      "abilities": [
+        "Fighter"
+      ],
+      "native_room": 719,
+      "water": "dry"
+    },
+    "bomb_719_sword_repeated_slash": {
+      "abilities": [
+        "Sword"
+      ],
+      "native_room": 719,
+      "water": "dry"
+    },
+    "bomb_719_fire_breath": {
+      "abilities": [
+        "Fire"
+      ],
+      "native_room": 719,
+      "water": "dry"
+    },
+    "bomb_719_master_charged_wave": {
+      "abilities": [
+        "Master"
+      ],
+      "native_room": 719,
+      "water": "dry"
+    },
+    "switch_533_bomb_placement": {
+      "abilities": [
+        "Bomb"
+      ],
+      "native_room": 533,
+      "water": "dry"
+    },
+    "switch_533_ufo_top_charge": {
+      "abilities": [
+        "UFO"
+      ],
+      "native_room": 533,
+      "water": "dry"
+    },
+    "switch_533_crash_viewport": {
+      "abilities": [
+        "Crash"
+      ],
+      "native_room": 533,
+      "water": "dry",
+      "consumed_abilities": [
+        "Crash"
+      ],
+      "note": "Exact camera-valid placement and timed crossing."
+    },
+    "switch_533_magic_meta_knight": {
+      "abilities": [
+        "Magic"
+      ],
+      "native_room": 533,
+      "water": "dry",
+      "consumed_abilities": [
+        "Magic"
+      ],
+      "note": "Visible roulette selection, exact pose and timed crossing."
+    },
+    "switch_310_ufo_top_charge": {
+      "abilities": [
+        "UFO"
+      ],
+      "native_room": 310,
+      "water": "dry"
+    },
+    "switch_310_crash_viewport": {
+      "abilities": [
+        "Crash"
+      ],
+      "native_room": 310,
+      "water": "dry",
+      "consumed_abilities": [
+        "Crash"
+      ]
+    },
+    "switch_310_cupid_up_left_q0": {
+      "abilities": [
+        "Cupid"
+      ],
+      "native_room": 310,
+      "water": "dry"
+    },
+    "switch_310_cutter_five_roof_returns": {
+      "abilities": [
+        "Cutter"
+      ],
+      "native_room": 310,
+      "water": "dry",
+      "note": "Five roof returns and timed crossing; not general Cutter range."
+    },
+    "switch_310_kibble_cutter_roof_returns": {
+      "abilities": [
+        "Cutter"
+      ],
+      "native_room": 310,
+      "water": "dry"
+    },
+    "switch_825_ufo_top_charge": {
+      "abilities": [
+        "UFO"
+      ],
+      "native_room": 825,
+      "water": "dry"
+    },
+    "switch_825_fire_breath": {
+      "abilities": [
+        "Fire"
+      ],
+      "native_room": 825,
+      "water": "dry"
+    },
+    "wheel_race": {
+      "abilities": [
+        "Wheel"
+      ],
+      "note": "Only attach to a route whose timing is established."
+    }
+  }
+}

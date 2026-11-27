@@ -350,3 +350,24 @@ def test_ending_source_lifetime_preserves_equipment_already_acquired():
                  [Placement('pre', 'ROCKY', identity='rock', lifetime='encounter')], gating=False,
                  starts=[Position('pre', active=frozenset({'encounter'}))])
     assert result.reaches('other')
+
+
+@pytest.mark.parametrize("invalid", ["duplicate_ability", "wait", "missing_water", "bad_room", "wrong_consumption"])
+def test_json_capability_catalog_rejects_invalid_facts(invalid):
+    from ..data import load_json_data
+    from ..traversal import load_capability_catalog
+
+    payload = load_json_data("traversal_capabilities.json")
+    row = payload["capabilities"]["switch_533_crash_viewport"]
+    if invalid == "duplicate_ability":
+        row["abilities"] = ["Crash", "Crash"]
+    elif invalid == "wait":
+        row["abilities"] = ["Wait"]
+    elif invalid == "missing_water":
+        del row["water"]
+    elif invalid == "bad_room":
+        row["native_room"] = True
+    else:
+        row["consumed_abilities"] = ["Bomb"]
+    with pytest.raises(ValueError):
+        load_capability_catalog(payload)
