@@ -681,3 +681,62 @@ def test_duplicate_early_room16_trace_must_be_identical_staged_relogging(
     classified = launcher.classify_minimal_rejections(report, tmp_path, room16=True)
     assert bool(classified["unsafe_rejected"]) is (mutation == "none")
     assert bool(classified["unclassified"]) is (mutation != "none")
+
+
+@pytest.mark.parametrize("mutation", ["none", "budget", "advanced", "wrong_roster", "wrong_cut", "omitted_proof"])
+def test_fixed_shuffle_roster_requires_reconstructed_cut(tmp_path: Path, mutation: str) -> None:
+    from ..ability_randomization import build_enemy_copy_ability_policy
+    from ..logic_aware_shuffle import ROSTER_EVIDENCE, ROSTER_REJECTION
+    from ..options import Goal
+    import random
+
+    launcher = load_launcher()
+    # Actual hosted case 191, world seed 748065917.
+    raw = build_enemy_copy_ability_policy(random.Random(0), 1, False, False,
+                                         include_passive_enemies=True, no_ability_weight=29)
+    raw["seed"] = 4142342124837059238
+    options = {"game": "Kirby & The Amazing Mirror", "accessibility": 0, "area_keys": 1, "room_sanity": 0,
+               "goal": Goal.option_full_completion, "advanced_logic": 0, "ability_randomization_mode": 1,
+               "ability_randomization_statues": 1, "ability_randomization_no_ability_weight": 29,
+               "ability_randomization_boss_spawns": 0, "ability_randomization_minibosses": 0,
+               "ability_randomization_passive_enemies": 1}
+    cut = {"ability": "Stone", "target": "metal_537_beginning_notes"}
+    if mutation == "advanced":
+        options["advanced_logic"] = 1
+    if mutation == "wrong_roster":
+        raw["ability_randomization_no_ability_weight"] = 30
+    if mutation == "wrong_cut":
+        cut["ability"] = "Fire"
+    message = ROSTER_REJECTION if mutation != "budget" else "KirbyAM bounded assignment search exhausted"
+    trace = (
+        '  File "/repo/worlds/kirbyam/__init__.py", line 475, in generate_early\n'
+        '  File "/repo/worlds/kirbyam/peg_traversal.py", line 144, in validate_peg_assignment\n'
+        '  File "/repo/worlds/kirbyam/logic_aware_shuffle.py", line 310, in constrain_shuffled_abilities\n'
+        f"worlds.kirbyam.logic_aware_shuffle.KirbyAmShuffleRosterError: {message}\n"
+    )
+    log = (
+        'Generating for 1 player, 123 Seed 748065917 with plando: items, connections\n'
+        'P1 Rolled options (191-0/Kirby & The Amazing Mirror): ' + json.dumps(options) + "\n"
+    )
+    if mutation != "omitted_proof":
+        log += ROSTER_EVIDENCE + json.dumps({"source_policy": raw, "shortage": cut}) + "\n"
+    log += (
+        f"[P1] Generation stage 'generate_early' failed after 0.70s: KirbyAmShuffleRosterError: {message}\n"
+        'Traceback (most recent call last):\n'
+        '  File "/repo/worlds/kirbyam/generation_logging.py", line 62, in generation_stage\n'
+        + trace + 'Traceback (most recent call last):\n' + trace
+    )
+    case = tmp_path / "error/kirbyam/191"
+    case.mkdir(parents=True)
+    (case / "191.log").write_text(log)
+    (case / "191-0.yaml").write_text("game: Kirby & The Amazing Mirror\n")
+    report = successful_report(4)
+    report["stats"].update(success=3, failure=1)
+    report["errors"] = {"kirbyam": {message: [191]}}
+    outcomes = launcher.classify_minimal_rejections(report, tmp_path, shuffle_roster=True)
+    assert bool(outcomes["unsafe_rejected"]) is (mutation == "none")
+    assert bool(outcomes["unclassified"]) is (mutation != "none")
+    assert report["stats"]["failure"] == 1
+    if mutation == "none":
+        assert outcomes["unsafe_rejected"][0]["source_proof"]["shortage"] == cut
+        assert launcher.classify_minimal_rejections(report, tmp_path)["unclassified"]

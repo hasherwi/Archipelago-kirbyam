@@ -70,6 +70,8 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--classify-room16-rejections", action="store_true",
                         help="Separately classify exact Room16 exclusions with structured source-policy proof. "
                              "Never counts rejections as playable generations.")
+    parser.add_argument("--classify-shuffle-roster-rejections", action="store_true",
+                        help="Separately classify proven fixed Standard Shuffle roster shortages, not search exhaustion.")
     return parser.parse_args(argv)
 
 
@@ -176,7 +178,9 @@ TRACEBACK_FRAME = re.compile(r'^  File "([^\n]+)", line (\d+), in (\w+)$', re.MU
 TRACEBACK_EXCEPTION = re.compile(r"^[\w.]+:.*$", re.MULTILINE)
 
 
-def _is_relogged_early_room16_exception(parts: list[str], error_type: str, message: str) -> bool:
+def _is_relogged_early_exception(
+    parts: list[str], error_type: str, message: str, frames: tuple[str, ...], files: tuple[str, ...],
+) -> bool:
     """Require generation_stage to log precisely the same exception again."""
     preamble, stage_trace, terminal_trace = parts
     exception_line = error_type + ": " + message
@@ -192,18 +196,17 @@ def _is_relogged_early_room16_exception(parts: list[str], error_type: str, messa
         return False
     stage_frames = TRACEBACK_FRAME.findall(stage_trace)
     terminal_frames = TRACEBACK_FRAME.findall(terminal_trace)
-    if tuple(frame[2] for frame in stage_frames) != ("generation_stage", "generate_early", "validate_peg_assignment"):
+    if tuple(frame[2] for frame in stage_frames) != ("generation_stage", *frames):
         return False
-    if tuple(frame[0].replace("\\", "/").rsplit("/", 1)[-1] for frame in stage_frames) != (
-            "generation_logging.py", "__init__.py", "peg_traversal.py"):
+    if tuple(frame[0].replace("\\", "/").rsplit("/", 1)[-1] for frame in stage_frames) != ("generation_logging.py", *files):
         return False
-    return stage_frames[1:] == terminal_frames[-2:]
+    return stage_frames[1:] == terminal_frames[-len(frames):]
 
 
 def _rejection_context(
     message: str, log: str, *, error_type: str = CHECK_ERROR_TYPE,
     frames: tuple[str, ...] = ("stage_pre_output", "validate_all_checks"),
-    early_room16: bool = False,
+    early_files: tuple[str, ...] = (),
 ) -> dict[str, Any]:
     """Validate the shared terminal exception and actual generation envelope."""
     mixed_markers = ("ExceptionGroup", "During handling of the above exception",
@@ -211,13 +214,13 @@ def _rejection_context(
     parts = log.split(TRACEBACK_HEADER)
     has_single_trace = len(parts) == 2
     same_early_exception_logged_twice = (
-        early_room16 and len(parts) == 3 and _is_relogged_early_room16_exception(parts, error_type, message)
+        early_files and len(parts) == 3 and _is_relogged_early_exception(parts, error_type, message, frames, early_files)
     )
     if (not has_single_trace and not same_early_exception_logged_twice
             or any(marker in log for marker in mixed_markers)):
         raise ValueError("missing, mixed, or chained exception traceback")
     terminal = log.rstrip()
-    if early_room16:
+    if early_files:
         # AutoWorld.call_single attaches exactly one player/method note on Python 3.11+.
         terminal = re.sub(
             r"\nException in <bound method KirbyAmWorld\.generate_early of "
@@ -358,7 +361,7 @@ def _early_room16_rejection_evidence(message: str, log: str) -> dict[str, Any]:
     context = _rejection_context(
         message, log,
         error_type="worlds.kirbyam.peg_traversal.KirbyAmRoom16SourceError",
-        frames=("generate_early", "validate_peg_assignment"), early_room16=True,
+        frames=("generate_early", "validate_peg_assignment"), early_files=("__init__.py", "peg_traversal.py"),
     )
     options = context["rolled_options"]
     sanity = options.get("room_sanity")
@@ -384,13 +387,76 @@ def _early_room16_rejection_evidence(message: str, log: str) -> dict[str, Any]:
     return {**context, "stranded_checks": [], "rejection_kind": reason}
 
 
+def _shuffle_roster_rejection_evidence(message: str, log: str) -> dict[str, Any]:
+    """Check exact error, options and an independently reconstructed source cut."""
+    if str(REPO_ROOT) not in sys.path:
+        sys.path.insert(0, str(REPO_ROOT))
+    from worlds.kirbyam.enemy_ability_data import VALID_ENEMY_COPY_ABILITIES
+    from worlds.kirbyam.logic_aware_shuffle import ROSTER_EVIDENCE, ROSTER_REJECTION, proven_roster_shortage
+    from worlds.kirbyam.options import Goal
+
+    if message != ROSTER_REJECTION:
+        raise ValueError("not the exact Standard Shuffle roster rejection")
+    context = _rejection_context(
+        message, log, error_type="worlds.kirbyam.logic_aware_shuffle.KirbyAmShuffleRosterError",
+        frames=("generate_early", "validate_peg_assignment", "constrain_shuffled_abilities"),
+        early_files=("__init__.py", "peg_traversal.py", "logic_aware_shuffle.py"),
+    )
+    proof_lines = [line for line in log.splitlines() if line.startswith(ROSTER_EVIDENCE)]
+    if len(proof_lines) != 1 or log.index(proof_lines[0]) > log.index(TRACEBACK_HEADER):
+        raise ValueError("missing, duplicated, or misplaced Shuffle roster proof")
+    proof = json.loads(proof_lines[0][len(ROSTER_EVIDENCE):])
+    if not isinstance(proof, dict) or set(proof) != {"source_policy", "shortage"}:
+        raise ValueError("invalid Shuffle roster proof")
+    raw = proof["source_policy"]
+    options = context["rolled_options"]
+    expected = {"ability_randomization_mode": 1, "advanced_logic": 0, "ability_randomization_statues": 1}
+    if any(type(options.get(key)) is not int or options[key] != value for key, value in expected.items()):
+        raise ValueError("rolled options are not Standard Shuffle with enabled world statues")
+    flags = ("ability_randomization_boss_spawns", "ability_randomization_minibosses",
+             "ability_randomization_passive_enemies")
+    weight = "ability_randomization_no_ability_weight"
+    if (not isinstance(raw, dict)
+            or set(raw) != {"mode", "seed", "allowed_abilities", "mapping_style", "ability_randomization_minny",
+                            weight, *flags}
+            or type(raw["seed"]) is not int or not 0 <= raw["seed"] < 2**64
+            or raw["allowed_abilities"] != sorted(VALID_ENEMY_COPY_ABILITIES)
+            or raw["mapping_style"] != "per_enemy_type" or raw["ability_randomization_minny"] is not False
+            or type(raw["mode"]) is not int or raw["mode"] != 1
+            or type(options.get(weight)) is not int or type(raw[weight]) is not int
+            or not 0 <= raw[weight] < 100 or raw[weight] != options[weight]):
+        raise ValueError("invalid Shuffle source policy or mismatch with rolled weight")
+    for key in flags:
+        if (type(options.get(key)) is not int or options[key] not in (0, 1)
+                or type(raw[key]) is not bool or raw[key] != bool(options[key])):
+            raise ValueError("Shuffle source eligibility differs from rolled options")
+    for key in ("room_sanity", "area_keys"):
+        if type(options.get(key)) is not int or options[key] not in (0, 1):
+            raise ValueError("invalid rolled Shuffle route options")
+    if type(options.get("goal")) is not int or options["goal"] not in Goal.name_lookup:
+        raise ValueError("invalid rolled Shuffle goal")
+    cut = proven_roster_shortage(
+        raw, include_statues=True, require_all=True, area_keys=bool(options["area_keys"]),
+        room16=bool(options["room_sanity"]) or options["goal"] == Goal.option_full_completion,
+    )
+    if cut is None or cut != proof["shortage"]:
+        raise ValueError("fixed roster shortage could not be reconstructed")
+    return {**context, "stranded_checks": [], "rejection_kind": "shuffle_fixed_roster_shortage",
+            "source_proof": proof,
+            "source_policy_sha256": hashlib.sha256(json.dumps(raw, sort_keys=True).encode()).hexdigest()}
+
+
 def classify_minimal_rejections(report: dict[str, Any], output_dir: Path, *,
-                                minimal: bool = True, room16: bool = False) -> dict[str, Any]:
+                                minimal: bool = True, room16: bool = False,
+                                shuffle_roster: bool = False) -> dict[str, Any]:
     """Keep raw failures unchanged and add an auditable, narrowly scoped outcome."""
     result: dict[str, Any] = {
-        "schema_version": 2 if room16 else 1,
-        "policy": "single_player_explicit_room16_source_exclusions" if room16 else "single_player_minimal_placed_progression_only",
-        "enabled_classifications": {"minimal_placement": minimal, "room16_source": room16},
+        "schema_version": 3 if shuffle_roster else 2 if room16 else 1,
+        "policy": ("single_player_explicit_fixed_shuffle_roster_exclusions" if shuffle_roster else
+                   "single_player_explicit_room16_source_exclusions" if room16 else
+                   "single_player_minimal_placed_progression_only"),
+        "enabled_classifications": {"minimal_placement": minimal, "room16_source": room16,
+                                    **({"shuffle_fixed_roster": True} if shuffle_roster else {})},
         "raw_stats": report.get("stats"), "unsafe_rejected": [], "unclassified": [], "errors": [],
     }
     try:
@@ -412,6 +478,8 @@ def classify_minimal_rejections(report: dict[str, Any], output_dir: Path, *,
                     "KirbyAM 100% Game Completion requires visiting Mustard Mountain Room 4-16,",
             )):
                 evidence = _early_room16_rejection_evidence(message, log)
+            elif shuffle_roster and message.startswith("KirbyAM Standard Shuffle cannot supply"):
+                evidence = _shuffle_roster_rejection_evidence(message, log)
             elif minimal:
                 evidence = _minimal_rejection_evidence(message, log)
             else:
@@ -508,6 +576,7 @@ def write_metadata(args: argparse.Namespace, command: Sequence[str], fuzzer_retu
             "allow_ignored": args.allow_ignored,
             "classify_minimal_rejections": args.classify_minimal_rejections,
             "classify_room16_rejections": getattr(args, "classify_room16_rejections", False),
+            "classify_shuffle_roster_rejections": getattr(args, "classify_shuffle_roster_rejections", False),
         },
         "command": list(command),
         "fuzzer_return_code": fuzzer_return_code,
@@ -556,8 +625,10 @@ def report_result(args: argparse.Namespace, report: dict[str, Any], returncode: 
     unsafe_rejected = 0
     classification_errors: list[str] = []
     room16 = getattr(args, "classify_room16_rejections", False)
-    if args.classify_minimal_rejections or room16:
-        outcomes = classify_minimal_rejections(report, OUTPUT_DIR, minimal=args.classify_minimal_rejections, room16=room16)
+    shuffle_roster = getattr(args, "classify_shuffle_roster_rejections", False)
+    if args.classify_minimal_rejections or room16 or shuffle_roster:
+        outcomes = classify_minimal_rejections(report, OUTPUT_DIR, minimal=args.classify_minimal_rejections,
+                                               room16=room16, shuffle_roster=shuffle_roster)
         unsafe_rejected = len(outcomes["unsafe_rejected"])
         classification_errors = outcomes["errors"]
         (OUTPUT_DIR / CLASSIFICATION_FILENAME).write_text(json.dumps(outcomes, indent=2) + "\n", encoding="utf-8")

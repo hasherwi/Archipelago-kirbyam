@@ -9,6 +9,8 @@ from __future__ import annotations
 from collections import Counter
 from dataclasses import dataclass, field
 import hashlib
+import json
+import logging
 from typing import Any, Callable
 
 from .enemy_ability_runtime_patch import (
@@ -16,13 +18,22 @@ from .enemy_ability_runtime_patch import (
     SHUFFLE_STATUE_RESERVATIONS, shuffled_source_grants,
 )
 from .statue_seed import COPY_ABILITY_ROOM
-from .traversal import CAPABILITY_ABILITIES, SourcePolicy, TraversalGraph
+from .traversal import CAPABILITY_ABILITIES, SourcePolicy, TraversalGraph, attack_provider
 from .traversal_data import graph_items, room_traversal_targets
 
 # Search assignments, not world seeds. Keep work bounded even for custom pools.
 _MAX_CANDIDATES = 640
 _MAX_DONORS_PER_GRANT = 3
 _BRANCH_WIDTH = 4
+ROSTER_EVIDENCE = "KirbyAM Standard Shuffle roster evidence: "
+ROSTER_REJECTION = (
+    "KirbyAM Standard Shuffle cannot supply a required reviewed route from this seed's fixed grant rosters. "
+    "Try another seed or change the ability randomization options."
+)
+
+
+class KirbyAmShuffleRosterError(ValueError):
+    """A proven roster shortage, not a search limit or unexpected failure."""
 
 
 @dataclass(frozen=True)
@@ -31,6 +42,7 @@ class Constraint:
     source_keys: frozenset[str]
     wanted: frozenset[str]
     accepts: Callable[[SourcePolicy], bool]
+    unconditional_graphs: tuple[TraversalGraph, ...] = ()
 
 
 def _graph_constraint(
@@ -61,7 +73,7 @@ def _graph_constraint(
         return any(graph.required_targets <= {p.node for p in graph.evaluate(
             policy, graph_items(graph), gating=False).positions} for graph in graphs)
 
-    return Constraint(name, frozenset(keys), frozenset(wanted), accepts)
+    return Constraint(name, frozenset(keys), frozenset(wanted), accepts, graphs if applies is None else ())
 
 
 def _constraints(initial: SourcePolicy, require_all: bool, room16: bool, area_keys: bool) -> tuple[Constraint, ...]:
@@ -84,13 +96,80 @@ def _constraints(initial: SourcePolicy, require_all: bool, room16: bool, area_ke
             keys = frozenset(source["source_key"] for source in alternatives)
             graphs = target_graphs(row, area_keys, advanced=False) + short_peg_graphs(row["id"], area_keys)
             applies = lambda policy, target=row: target_applies(target, policy)
-            probe = _graph_constraint(row["id"], graphs, applies, keys)
             # Once a bounded, source-backed target works, never deliberately
             # disable its scope and let legacy permissive fallback count as a fix.
-            if alternatives and applies(initial):
-                probe = _graph_constraint(row["id"], graphs, applies, keys, must_apply=True)
-            results.append(probe)
+            conditional = condition is not None or "requires_any_guaranteed_source" in row
+            results.append(_graph_constraint(
+                row["id"], graphs, applies if conditional else None, keys,
+                must_apply=conditional and applies(initial),
+            ))
     return tuple(results)
+
+
+def _missing_graph_ability(
+        graph: TraversalGraph, ability: str, policy: SourcePolicy, movable: dict[str, str],
+) -> bool:
+    """Overestimate all legal swaps, equipment and usable gates, then check the cut."""
+    if not graph.starts or not graph.required_targets:
+        return False
+    available = {"Normal"}
+    for start in graph.starts:
+        available.update(start.equipment_outcomes)
+    rooms = {node.key: node.room for node in graph.nodes}
+    pools = {statues: {value for key, value in movable.items() if key.startswith("STATUE:") == statues}
+             for statues in (True, False)}
+    for source in graph.placements:
+        for key in source.source_choices or (source.source_key,):
+            room = rooms[source.node]
+            if key in movable and room != COPY_ABILITY_ROOM:
+                available.update(pools[key.startswith("STATUE:")])
+            else:
+                available.update(policy.grant(key, lambda _: True, source.native_grants,
+                                              native_room=room).abilities)
+    if ability in available:
+        return False
+
+    def can_equip(route):
+        return route.required_equipment is None or bool(available & route.required_equipment)
+
+    def can_act(route):
+        if not route.capability:
+            return True
+        attacks = {attack_provider(name, route.water_state) for name in available}
+        allowed = (CAPABILITY_ABILITIES[route.capability]
+                   if route.allowed_abilities is None else route.allowed_abilities)
+        return bool(attacks & allowed)
+
+    openable = set().union(*(start.opened for start in graph.starts))
+    openable.update(route.opens for route in graph.routes
+                    if route.opens and can_equip(route) and can_act(route))
+    reachable = {start.node for start in graph.starts}
+    for _ in graph.nodes:
+        old = len(reachable)
+        reachable.update(route.target for route in graph.routes
+                         if route.source in reachable and can_equip(route)
+                         and (can_act(route) or route.opens in openable))
+        if len(reachable) == old:
+            break
+    return not graph.required_targets <= reachable
+
+
+def proven_roster_shortage(raw: dict[str, Any], *, include_statues: bool, require_all: bool,
+                          room16: bool, area_keys: bool) -> dict[str, str] | None:
+    """Classify only a missing ability on every graph of an unconditional required target."""
+    if (raw.get("mode") != 1 or not include_statues or not require_all
+            or not 0 <= raw.get("ability_randomization_no_ability_weight", 100) < 100
+            or {SHUFFLE_SOURCE_SWAPS, SHUFFLE_STATUE_RESERVATIONS} & raw.keys()):
+        return None
+    policy = SourcePolicy(raw, include_statues)
+    movable = shuffled_source_grants(raw, include_statues)
+    for rule in _constraints(policy, require_all, room16, area_keys):
+        if not rule.unconditional_graphs or len(rule.wanted) != 1:
+            continue
+        ability, = rule.wanted
+        if all(_missing_graph_ability(graph, ability, policy, movable) for graph in rule.unconditional_graphs):
+            return {"target": rule.name, "ability": ability}
+    return None
 
 
 @dataclass(frozen=True)
@@ -218,6 +297,13 @@ def constrain_shuffled_abilities(
         seen.clear()
         selected = search(start, failures, reserve=True)
     if selected is None:
+        shortage = proven_roster_shortage(
+            raw, include_statues=include_statues, require_all=require_all, room16=room16, area_keys=area_keys)
+        if shortage:
+            logging.getLogger("Kirby & The Amazing Mirror").info(ROSTER_EVIDENCE + json.dumps({
+                "source_policy": raw, "shortage": shortage,
+            }, sort_keys=True))
+            raise KirbyAmShuffleRosterError(ROSTER_REJECTION)
         blocked = ", ".join(constraints[i].name for i in failures)
         raise ValueError(
             f"KirbyAM couldn't satisfy reviewed Standard Shuffle sources within the bounded assignment search "
