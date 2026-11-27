@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "normal_movement_tokens": ["can_fly", "can_swim", "can_climb"],
+  "legacy_capability_aliases": {
+    "CanCutRopes": {
+      "room_token": "can_cut_ropes",
+      "provider_capabilities": ["rope"]
+    },
+    "CanBreakBlocks": {
+      "room_token": "can_break_block",
+      "provider_capabilities": ["metal", "metal_throw"]
+    },
+    "CanUseMini": {
+      "room_token": "can_use_mini",
+      "provider_capabilities": ["mini_corridor"]
+    },
+    "CanLightFuses": {
+      "room_token": "can_light_fuses",
+      "provider_capabilities": ["fuse"]
+    },
+    "CanPoundPegs": {
+      "room_token": "can_pound_pegs",
+      "provider_capabilities": ["peg"]
+    }
+  },
+  "legacy_unreviewed_tokens": [
+    "can_break_floating_block",
+    "can_break_metal",
+    "can_break_metal_throw",
+    "can_wheel",
+    "can_mirra",
+    "can_hit_far_switch"
+  ],
+  "legacy_stake_transition_gate": "CanPoundPegs"
+}

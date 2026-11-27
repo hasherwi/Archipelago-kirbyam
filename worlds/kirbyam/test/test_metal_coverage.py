@@ -150,7 +150,8 @@ def test_placeholder_summary_includes_aliases_without_declaring_metal_gates() ->
         elif isinstance(value, str) and value in counts:
             counts[value] += 1
 
-    for path in (ROOT / "data").rglob("*.json"):
+    # A token declaration in the vocabulary is not a route using that token.
+    for path in (ROOT / "data" / "regions").rglob("*.json"):
         visit(json.loads(path.read_text()))
     assert counts == audit["counts"]
     assert counts == {"CanBreakBlocks": 0, "can_break_block": 134,

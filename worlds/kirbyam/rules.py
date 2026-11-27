@@ -30,6 +30,7 @@ requires acknowledgements for its physical checks.
 from __future__ import annotations
 
 from collections import deque
+from functools import partial
 from typing import TYPE_CHECKING
 
 from BaseClasses import CollectionState
@@ -45,7 +46,7 @@ from .generation_logging import logger
 from .groups import resolve_item_group
 from .options import Goal
 from .completion import PHYSICAL_KEYS, REQUIRED_ITEMS, ROOM_REGIONS
-from .traversal import CAPABILITY_ABILITIES, METAL_BREAKING_ABILITIES
+from .traversal import CAPABILITY_ABILITIES
 
 if TYPE_CHECKING:
     from . import KirbyAmWorld
@@ -111,18 +112,44 @@ _GOAL_LOCATION_LABELS = {value: label for value, (label, _) in _GOAL_LOGIC.items
 
 _ABILITY_GATE_STATUS_VALUES = frozenset({"confirmed", "semantic_candidate", "unconfirmed"})
 
-# Room-specific traversal installers enforce reviewed source witnesses. These
-# legacy compact capability labels cannot equip an inventory unlock by themselves;
-# unrelated movement/block requirements retain their existing policy.
-_ABILITY_GATE_PLACEHOLDER_SOURCES = {
-    "CanCutRopes": CAPABILITY_ABILITIES["rope"],
-    "CanBreakBlocks": METAL_BREAKING_ABILITIES,
-    "CanUseMini": CAPABILITY_ABILITIES["mini_corridor"],
-    "CanLightFuses": CAPABILITY_ABILITIES["fuse"],
-    "CanPoundPegs": CAPABILITY_ABILITIES["peg"],
-}
+def _load_compact_room_logic():
+    payload = load_json_data("compact_room_logic.json")
+    if not isinstance(payload, dict) or type(payload.get("schema")) is not int or payload["schema"] != 1:
+        raise ValueError("Unsupported Kirby compact room logic schema")
 
-_STAKE_TRANSITION_GATE_NAME = "CanPoundPegs"
+    def tokens(field):
+        values = payload[field]
+        if not isinstance(values, list) or not values or any(
+            not isinstance(token, str) or not token for token in values
+        ) or len(set(values)) != len(values):
+            raise ValueError(f"Invalid Kirby compact room token list: {field}")
+        return frozenset(values)
+
+    normal = tokens("normal_movement_tokens")
+    unreviewed = tokens("legacy_unreviewed_tokens")
+    occupied = set(normal | unreviewed)
+    if normal & unreviewed:
+        raise ValueError("Normal and unreviewed Kirby room tokens overlap")
+    canonical_by_alias = {}
+    providers_by_gate = {}
+    for canonical, row in payload["legacy_capability_aliases"].items():
+        room_token, capabilities = row["room_token"], row["provider_capabilities"]
+        if (not isinstance(room_token, str) or not room_token or room_token == canonical
+                or canonical in occupied or room_token in occupied
+                or not isinstance(capabilities, list) or not capabilities
+                or any(not isinstance(key, str) or key not in CAPABILITY_ABILITIES for key in capabilities)):
+            raise ValueError(f"Invalid Kirby legacy capability alias: {canonical!r}")
+        canonical_by_alias.update({canonical: canonical, room_token: canonical})
+        providers_by_gate[canonical] = frozenset().union(*(CAPABILITY_ABILITIES[key] for key in capabilities))
+        occupied.update((canonical, room_token))
+    stake = payload["legacy_stake_transition_gate"]
+    if stake not in providers_by_gate:
+        raise ValueError("Kirby stake transition must name a legacy capability gate")
+    return normal, unreviewed, canonical_by_alias, providers_by_gate, stake
+
+
+(_NORMAL_MOVEMENT_REQUIREMENTS, _PENDING_ROOM_ABILITY_REQUIREMENTS, _ROOM_ABILITY_GATE_ALIASES,
+ _ABILITY_GATE_PLACEHOLDER_SOURCES, _STAKE_TRANSITION_GATE_NAME) = _load_compact_room_logic()
 
 
 def _load_lever_wall_items() -> dict[str, str]:
@@ -148,18 +175,6 @@ def _load_lever_wall_items() -> dict[str, str]:
 
 # Physical lever events report checks; only received AP items unlock walls.
 _ROOM_LEVER_WALL_ITEMS = _load_lever_wall_items()
-# Normal Kirby can fly, swim and climb without acquiring a Copy Ability. These
-# are movement predicates, not pending equipment sources. Carry restrictions
-# remain on the reviewed compartment routes that actually carry equipment.
-_NORMAL_MOVEMENT_REQUIREMENTS = frozenset({'can_fly', 'can_swim', 'can_climb'})
-_PENDING_ROOM_ABILITY_REQUIREMENTS = frozenset({
-    "can_break_floating_block",
-    "can_break_metal",
-    "can_break_metal_throw",
-    "can_wheel",
-    "can_mirra",
-    "can_hit_far_switch",
-})
 
 
 def _has_all_shards(state: CollectionState, player: int) -> bool:
@@ -189,51 +204,16 @@ def _allow_pending_ability_gate(_state: CollectionState, _player: int, _gate_nam
     return True
 
 
-def can_cut_ropes(state: CollectionState, player: int) -> bool:
-    return _allow_pending_ability_gate(state, player, "CanCutRopes")
+def _legacy_gate_rule(state: CollectionState, player: int, *, name: str) -> bool:
+    # The catalog describes provider possibilities, not access to an equipped copy.
+    # Source-backed route overlays, not these aliases, enforce reviewed witnesses.
+    return _allow_pending_ability_gate(state, player, name)
 
 
-def can_break_blocks(state: CollectionState, player: int) -> bool:
-    return _allow_pending_ability_gate(state, player, "CanBreakBlocks")
-
-
-def can_use_mini(state: CollectionState, player: int) -> bool:
-    return _allow_pending_ability_gate(state, player, "CanUseMini")
-
-
-def can_light_fuses(state: CollectionState, player: int) -> bool:
-    return _allow_pending_ability_gate(state, player, "CanLightFuses")
-
-
-def can_pound_pegs(state: CollectionState, player: int) -> bool:
-    return _allow_pending_ability_gate(state, player, "CanPoundPegs")
-
-
-CanCutRopes = can_cut_ropes
-CanBreakBlocks = can_break_blocks
-CanUseMini = can_use_mini
-CanLightFuses = can_light_fuses
-CanPoundPegs = can_pound_pegs
-
-
-ABILITY_GATE_RULES = {
-    "CanCutRopes": can_cut_ropes,
-    "CanBreakBlocks": can_break_blocks,
-    "CanUseMini": can_use_mini,
-    "CanLightFuses": can_light_fuses,
-    "CanPoundPegs": can_pound_pegs,
-}
-
-
-# Explicit aliases share the same policy as the existing capability helpers.
-_ROOM_ABILITY_GATE_RULES = {
-    **ABILITY_GATE_RULES,
-    "can_break_block": can_break_blocks,
-    "can_cut_ropes": can_cut_ropes,
-    "can_use_mini": can_use_mini,
-    "can_light_fuses": can_light_fuses,
-    "can_pound_pegs": can_pound_pegs,
-}
+ABILITY_GATE_RULES = {name: partial(_legacy_gate_rule, name=name)
+                      for name in _ABILITY_GATE_PLACEHOLDER_SOURCES}
+_ROOM_ABILITY_GATE_RULES = {alias: ABILITY_GATE_RULES[canonical]
+                           for alias, canonical in _ROOM_ABILITY_GATE_ALIASES.items()}
 
 
 def normal_movement_satisfies_requirement(requirement) -> bool:
@@ -292,7 +272,8 @@ def evaluate_room_logic_requirement(requirement, state: CollectionState, player:
 
 
 def _requirement_contains_token(requirement, token: str) -> bool:
-    if requirement == token or (token == "CanPoundPegs" and requirement == "can_pound_pegs"):
+    if requirement == token or (isinstance(requirement, str)
+                                and _ROOM_ABILITY_GATE_ALIASES.get(requirement) == token):
         return True
     if isinstance(requirement, dict):
         return any(
@@ -547,7 +528,7 @@ def set_rules(world: KirbyAmWorld) -> None:  # noqa: C901
 
     # Shared stake-gate model (hammer peg) for directional room transitions.
     def stake_gate_rule(state):
-        return can_pound_pegs(state, world.player)
+        return ABILITY_GATE_RULES[_STAKE_TRANSITION_GATE_NAME](state, world.player)
     stake_entrance_names = get_stake_gated_transition_entrance_names()
     applied_stake_gates = 0
     for stake_entrance_name in stake_entrance_names:

@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "area_keys": {
+    "minimum_early_reachable_checks": 4,
+    "fallback_key_region": "MOONLIGHT_MANSION",
+    "starting_key_region": "RAINBOW_ROUTE",
+    "region_ids": {
+      "TUTORIAL": 0,
+      "RAINBOW_ROUTE": 1,
+      "MOONLIGHT_MANSION": 2,
+      "CABBAGE_CAVERN": 3,
+      "MUSTARD_MOUNTAIN": 4,
+      "CARROT_CASTLE": 5,
+      "OLIVE_OCEAN": 6,
+      "PEPPERMINT_PALACE": 7,
+      "RADISH_RUINS": 8,
+      "CANDY_CONSTELLATION": 9,
+      "DIMENSION_MIRROR": 10
+    },
+    "key_items": {
+      "RAINBOW_ROUTE": "AREA_KEY_1",
+      "MOONLIGHT_MANSION": "AREA_KEY_2",
+      "CABBAGE_CAVERN": "AREA_KEY_3",
+      "MUSTARD_MOUNTAIN": "AREA_KEY_4",
+      "CARROT_CASTLE": "AREA_KEY_5",
+      "OLIVE_OCEAN": "AREA_KEY_6",
+      "PEPPERMINT_PALACE": "AREA_KEY_7",
+      "RADISH_RUINS": "AREA_KEY_8",
+      "CANDY_CONSTELLATION": "AREA_KEY_9"
+    },
+    "rainbow_return_excluded_source_markers": ["_BOSS", "_GOAL"],
+    "forced_route_key_requirements": [
+      {
+        "from_region": "REGION_MOONLIGHT_MANSION/ROOM_2_11_AFTER_LEVER",
+        "to_region": "REGION_MOONLIGHT_MANSION/ROOM_2_12_LEFT",
+        "key_region": "OLIVE_OCEAN"
+      },
+      {
+        "from_region": "REGION_CARROT_CASTLE/ROOM_5_05",
+        "to_region": "REGION_CARROT_CASTLE/ROOM_5_05__LOGIC__CHUTE_SIDE",
+        "key_region": "RADISH_RUINS"
+      }
+    ]
+  },
+  "starting_mirror": {
+    "from_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
+    "to_region": "REGION_RAINBOW_ROUTE/ROOM_1_01",
+    "unlock_item": "HUB_CONNECTION_STARTING_MIRROR",
+    "tutorial_reward_location": "MAJOR_CHEST_WORLD_MAP",
+    "native_unlock_bit": 16
+  }
+}

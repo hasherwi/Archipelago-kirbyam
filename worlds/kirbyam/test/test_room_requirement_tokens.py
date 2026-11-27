@@ -1,5 +1,5 @@
 """Dispatch coverage for every capability and item token in the room graph."""
-from copy import copy
+from copy import copy, deepcopy
 from functools import lru_cache
 from unittest.mock import patch
 from typing import Any, Iterator, cast
@@ -9,9 +9,9 @@ from BaseClasses import CollectionState
 import pytest
 
 from .. import KirbyAmWorld
-from ..data import data
+from ..data import data, load_json_data
 from ..rules import (
-    _NORMAL_MOVEMENT_REQUIREMENTS, _ROOM_LEVER_WALL_ITEMS, _load_lever_wall_items,
+    _NORMAL_MOVEMENT_REQUIREMENTS, _ROOM_LEVER_WALL_ITEMS, _load_compact_room_logic, _load_lever_wall_items,
     evaluate_room_logic_requirement,
 )
 from .test_rules import _FakeState
@@ -128,6 +128,22 @@ def test_lever_wall_loader_rejects_invalid_metadata(payload: dict, message: str)
     with patch("worlds.kirbyam.rules.load_json_data", return_value=payload):
         with pytest.raises(ValueError, match=message):
             _load_lever_wall_items()
+
+
+@pytest.mark.parametrize(("field", "value", "message"), [
+    ("normal_movement_tokens", ["can_fly", "can_fly"], "token list"),
+    ("legacy_unreviewed_tokens", ["can_fly"], "overlap"),
+    ("legacy_capability_aliases", {"CanCutRopes": {
+        "room_token": "can_cut_ropes", "provider_capabilities": ["not_a_capability"]}}, "alias"),
+    ("legacy_stake_transition_gate", "unknown", "stake transition"),
+])
+def test_compact_room_catalog_rejects_invalid_data(field, value, message) -> None:
+    payload = deepcopy(load_json_data("compact_room_logic.json"))
+    assert isinstance(payload, dict)
+    payload[field] = value
+    with patch("worlds.kirbyam.rules.load_json_data", return_value=payload):
+        with pytest.raises(ValueError, match=message):
+            _load_compact_room_logic()
 
 
 def test_unknown_tokens_still_fail_closed() -> None:
