@@ -73,7 +73,7 @@ def test_all_supported_profiles_generate_phone(
     slot_data = world.fill_slot_data()
     # Main's source-aware starts and universal Phone ownership must coexist.
     assert [item.name for item in multiworld.precollected_items[1]
-            if item.name.endswith(" Ability")] == ["Beam Ability", "Ice Ability"]
+            if item.name.endswith(" Ability")] == []
     assert tuple(slot_data["ability_gateable_abilities"]) == (
         GATEABLE_ENEMY_COPY_ABILITIES if ability_gating else ())
     assert world.item_name_to_id["Phone a Friend"] == PHONE_ITEM_ID

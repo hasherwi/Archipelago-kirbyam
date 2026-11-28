@@ -215,16 +215,14 @@ you're playing a multiworld game, the client will sync your game with the server
 
 ## Starting ability unlocks
 
-New seeds automatically start with the Beam unlock only. Burning and Stone are
-progression unlocks in the shuffled pool when Ability Gating is enabled. Receiving
-an unlock grants permission to acquire an ability through normal gameplay; it
-does not equip it or create an enemy, statue or projectile.
+New seeds do not start with any copy-ability unlocks by default. With Ability
+Gating on, the 24 gated unlocks, including Ice, Burning and Stone, enter the
+item pool. Beam remains ungated and is not placed in the pool. With gating
+off, all abilities remain usable and no ability unlocks enter the pool.
 
-Beam is precollected with Ability Gating on or off. With gating on, the other24
-unlock items enter the pool. With gating off, all abilities remain usable and
-no ability unlocks enter the pool. Explicit `start_inventory` remains additive:
-an explicit positive Beam count replaces its automatic copy, while explicit
-Stone, Burning and other starting counts are retained.
+An unlock only grants permission to acquire the ability normally. It does not
+equip it or create an enemy, statue or projectile. Explicit `start_inventory`
+counts are still honored.
 
 Use a matching updated APWorld/client. Existing seeds keep their original
 inventory and gate policy, including the historical22-ability fallback when

@@ -45,9 +45,9 @@ if type(_PERMISSION_DEFAULTS.get("schema")) is not int or _PERMISSION_DEFAULTS["
     raise ValueError("Unsupported Kirby ability permission defaults schema")
 
 
-def _permission_list(field: str) -> tuple[str, ...]:
+def _permission_list(field: str, *, allow_empty: bool = False) -> tuple[str, ...]:
     names = _PERMISSION_DEFAULTS[field]
-    if (not isinstance(names, list) or not names
+    if (not isinstance(names, list) or (not names and not allow_empty)
             or any(not isinstance(name, str) or name not in _ABILITY_DATA for name in names)
             or len(set(names)) != len(names)):
         raise ValueError(f"Invalid Kirby ability permission list: {field}")
@@ -57,7 +57,12 @@ def _permission_list(field: str) -> tuple[str, ...]:
 # Keep historical seed receipt handling independent of current generation.
 STARTING_COPY_ABILITIES = _permission_list("legacy_starting_abilities")
 LEGACY_SLOT_GATEABLE_ABILITIES = _permission_list("legacy_gateable_abilities")
-_CURRENT_STARTING_ABILITIES = _permission_list("starting_abilities")
+_CURRENT_STARTING_ABILITIES = _permission_list("starting_abilities", allow_empty=True)
+# Historical clients delivered these precollected permissions even in the tutorial.
+# This protocol set must not follow the new-generation inventory defaults.
+TUTORIAL_STARTING_ABILITY_RECEIPT_ITEMS = frozenset(
+    f"{name} Ability" for name in (*STARTING_COPY_ABILITIES, *_permission_list("legacy_tutorial_receipt_extensions"))
+)
 
 
 def resolve_slot_gateable_abilities(value: object) -> tuple[str, ...]:
@@ -69,7 +74,7 @@ def resolve_slot_gateable_abilities(value: object) -> tuple[str, ...]:
 
 
 def starting_copy_abilities(mode: int) -> tuple[str, ...]:
-    """Keep Beam and Ice available at the start while traversal work continues."""
+    """Return current automatic permission items, not historical receipt types."""
     return _CURRENT_STARTING_ABILITIES
 
 _runtime_ability_name_to_id: dict[str, int] = {}

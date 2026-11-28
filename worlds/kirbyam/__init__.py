@@ -32,7 +32,8 @@ from .data import (
     load_json_data,
     normalize_region_exits,
 )
-from .enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES, STARTING_COPY_ABILITIES, starting_copy_abilities
+from .enemy_ability_data import (GATEABLE_ENEMY_COPY_ABILITIES, TUTORIAL_STARTING_ABILITY_RECEIPT_ITEMS,
+                                 starting_copy_abilities)
 from .mini_traversal import validate_mini_sources
 from .peg_traversal import peg_logic_enabled, validate_peg_assignment
 from .enemy_ability_runtime_patch import build_enemy_copy_spoiler_rows
@@ -623,7 +624,7 @@ class KirbyAmWorld(World):
 
             # Main creates start_inventory before regions. Reclassify only the
             # conditional permissions whose actual target could not exist yet.
-            # Early useful instances need collection unless guaranteed starts
+            # Early useful instances need collection unless legacy-compatible starts
             # were already tracked by collect_item.
             for item in self.multiworld.precollected_items[self.player]:
                 if item.name in {"Ice Ability", "Crash Ability", "Missile Ability",
@@ -632,7 +633,7 @@ class KirbyAmWorld(World):
                     classification = self.create_item(item.name).classification
                     if classification & ItemClassification.progression:
                         item.classification = classification
-                        if item.name not in {f"{name} Ability" for name in starting_copy_abilities(0)}:
+                        if item.name not in TUTORIAL_STARTING_ABILITY_RECEIPT_ITEMS:
                             self.multiworld.state.collect(item, prevent_sweep=True)
 
             # Log region creation
@@ -1425,9 +1426,8 @@ class KirbyAmWorld(World):
 
     # Helper methods to create items and events
     def collect_item(self, state: CollectionState, item: Item, remove: bool = False) -> str | None:
-        # Track the fixed starting permissions without making them progression
-        # or changing the existing permissive traversal predicates.
-        if item.name in {f"{name} Ability" for name in (*STARTING_COPY_ABILITIES, *starting_copy_abilities(0))}:
+        # Preserve collection semantics for historical and explicit starting receipts.
+        if item.name in TUTORIAL_STARTING_ABILITY_RECEIPT_ITEMS:
             return item.name
         return super().collect_item(state, item, remove)
 

@@ -35,7 +35,7 @@ SEEDS = (1042, 20261107, 8675309)
 @pytest.mark.parametrize("gating", [False, True])
 def test_new_starting_set_and_cutter_collection(mode: int, gating: bool) -> None:
     world = make_world(mode, gating)
-    assert starting_copy_abilities(mode) == ("Beam", "Ice")
+    assert starting_copy_abilities(mode) == ()
     state = CollectionState(world.multiworld)
     assert not state.has("Cutter Ability", 1)
     item = world.create_item("Cutter Ability")
@@ -128,11 +128,13 @@ def _assert_slot_contract(multiworld: MultiWorld, decoded: dict[str, Any], gates
     assert isinstance(world, KirbyAmWorld)
     gating = bool(world.options.ability_gating.value)
     inventory = Counter(decoded["precollected_items"][player])
-    assert all(inventory[code] == 1 for code in FIXED)
+    assert all(inventory[code] == 0 for code in FIXED)
+    assert inventory[3860102] == 0
     assert inventory[CUTTER] == explicit
     pooled = Counter(item.code for location in multiworld.get_locations()
                      if (item := location.item) is not None and item.player == player)
     assert pooled[CUTTER] == int(gating)
+    assert pooled[3860102] == int(gating)
     assert not FIXED.intersection(pooled)
     slot = decoded["slot_data"][player]
     assert ("Cutter" in slot["ability_gateable_abilities"]) == gating

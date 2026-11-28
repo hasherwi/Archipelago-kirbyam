@@ -1,4 +1,4 @@
-"""Current Beam+Ice inventory and legacy six-item history remain distinct."""
+"""New seed inventory and legacy six-item history remain distinct."""
 
 from collections.abc import Awaitable, Callable
 from typing import cast
@@ -38,19 +38,18 @@ def test_generated_start_inventory_and_balanced_pool(tmp_path: Path, gating: boo
     archive = generate_archive_from_fixture(player, tmp_path / "output", seed=957)
     decoded = load_multidata_from_archive(archive)
     inventory = Counter(decoded["precollected_items"][1])
-    expected_starts = {3860107, 3860102}  # Current automatic inventory, not the legacy history fixture.
-    assert {code: inventory[code] for code in expected_starts} == {
-        code: max(1, explicit) if code == 3860107 else 1 for code in expected_starts
-    }
-    assert all(inventory[code] == 0 for code in STARTING_IDS - expected_starts)
+    assert inventory[3860107] == explicit
+    assert inventory[3860102] == 0
+    assert all(inventory[code] == 0 for code in STARTING_IDS - {3860107})
     assert inventory[3860118] == 1  # Explicit Sword retained.
     assert inventory[3860026] == 2  # Unrelated multiplicity retained.
     locations = decoded["locations"][1]
     assert len(locations) == 140  # 124 existing checks plus sixteen default Goal Games.
     pool = Counter(item[0] for item in locations.values())
-    assert expected_starts.isdisjoint(pool)
+    assert 3860107 not in pool
     gateable_ids = {3860100 + ABILITY_NAME_TO_ID[name] for name in GATEABLE_ENEMY_COPY_ABILITIES}
-    assert gateable_ids.intersection(pool) == (gateable_ids - expected_starts if gating else set())
+    assert gateable_ids.intersection(pool) == (gateable_ids if gating else set())
+    assert pool[3860102] == int(gating)
     slot = decoded["slot_data"][1]
     assert all(slot["ability_unlock_items"][name] == f"{name} Ability" for name in STARTING_COPY_ABILITIES)
     assert set(slot["ability_gateable_abilities"]) == (set(GATEABLE_ENEMY_COPY_ABILITIES) if gating else set())

@@ -56,7 +56,8 @@
   },
   "pool_exclusions": {
     "always": [
-      "AREA_KEY_1"
+      "AREA_KEY_1",
+      "ABILITY_UNLOCK_BEAM"
     ],
     "random_starting_mirror_off": [
       "HUB_CONNECTION_STARTING_MIRROR"

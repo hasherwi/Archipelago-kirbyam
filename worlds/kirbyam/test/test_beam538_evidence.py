@@ -393,9 +393,9 @@ def test_historical_client_projection_rejects_unreviewed_changes(mutation, line_
     if mutation == 'unrelated':
         raw += b'\n# unrelated mutation\n'
     elif mutation == 'duplicate':
-        raw += b'\n# {f"{name} Ability" for name in (*STARTING_COPY_ABILITIES, *starting_copy_abilities(0))}\n'
+        raw += b'\n# TUTORIAL_STARTING_ABILITY_RECEIPT_ITEMS\n'
     elif mutation == 'missing':
-        mutated = raw.replace(b', starting_copy_abilities', b'', 1)
+        mutated = raw.replace(b'TUTORIAL_STARTING_ABILITY_RECEIPT_ITEMS, ', b'', 1)
         assert mutated != raw
         raw = mutated
     else:

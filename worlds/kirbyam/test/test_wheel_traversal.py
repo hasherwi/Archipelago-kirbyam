@@ -126,7 +126,8 @@ def test_wheel_and_mini_archive_accessibility(
     decoded = load_multidata_from_archive(archive)
     starts = decoded["precollected_items"][1]
     pool = {entry[0] for entry in decoded["locations"][1].values()}
-    assert 3860107 in starts  # Beam is the sole automatic ability.
+    assert 3860107 not in starts and 3860107 not in pool  # Beam is intrinsically ungated.
+    assert 3860102 not in starts and (3860102 in pool) == bool(gating)
     assert 3860103 not in starts and 3860108 not in starts
     assert 3860104 not in starts and 3860123 not in starts
     assert (3860104 in pool) == bool(gating)

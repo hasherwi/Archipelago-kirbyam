@@ -65,9 +65,9 @@ def test_only_minny_option_removed() -> None:
             "ability_randomization_minibosses", "ability_randomization_boss_spawns"} <= options.keys()
 
 
-def test_only_beam_is_forced_in_all_modes() -> None:
+def test_no_ability_is_forced_in_any_mode() -> None:
     assert starting_copy_abilities(0) == starting_copy_abilities(1)
-    assert set(starting_copy_abilities(0)) == {"Beam", "Ice"}
+    assert set(starting_copy_abilities(0)) == set()
     assert starting_copy_abilities(2) == starting_copy_abilities(0)
 
 

@@ -117,7 +117,7 @@ def test_full_pool_seed43_archive_at_both_logic_levels(tmp_path, gating, advance
     raw = decoded['slot_data'][1]['enemy_copy_ability_policy']
     assert len(raw['allowed_abilities']) == 25
     assert SourcePolicy(raw).grant('FOLEY', lambda _: True).guaranteed == frozenset({'Ice'})
-    assert decoded['precollected_items'][1].count(3860102) == max(1, count)
+    assert decoded['precollected_items'][1].count(3860102) == count
 
 
 def test_native_acceptance_has_paired_complete_crossings_and_controls():
