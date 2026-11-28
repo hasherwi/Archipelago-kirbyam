@@ -163,6 +163,14 @@ def test_canonical_tracked_text_and_private_packet_hashes_stay_separate():
         raw = (root / name).read_bytes()
         if name == 'data/abilities.json':
             raw = _abilities_before_progression_migration(raw)
+        if name == 'data/enemies.json':
+            from ..enemy_ability_data import ENCOUNTER_PARENT_COPY_AUDITS
+            rows = json.loads(raw)
+            assert {key for key, row in rows.items() if 'parent_copy_audit' in row} == set(
+                ENCOUNTER_PARENT_COPY_AUDITS)
+            rows = {key: {prop: value for prop, value in row.items() if prop != 'parent_copy_audit'}
+                    for key, row in rows.items() if row['kind'] != 'boss'}
+            raw = (json.dumps(rows, indent=2) + '\n').encode()
         if name == 'data/items.json':
             from .support.phone_activation_history import items_before_phone
             raw = items_before_phone(raw)

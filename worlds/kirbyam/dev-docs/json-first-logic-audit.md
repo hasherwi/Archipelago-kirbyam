@@ -121,3 +121,34 @@ patch guards still own the fixed Candy marker and the Room 4-16 timer token;
 Tracker still reconstructs from persisted settings rather than silently
 deciding an older seed should use new patch behavior. Carrot still checks the
 complete source assignment signature when validating the installed rule.
+
+### Enemy, miniboss and boss parent copy audit
+
+The vanilla parent-body facts live on the existing entries in
+[enemies.json](../data/enemies.json). Each audited encounter names its native
+type and has one explicit status:
+
+- **Swallowable:** a known result and phase. A result of `Normal` means the
+  swallow is possible but does not equip a copy ability. The special Waddle
+  Dee in native 957 uses an ordinary swallow; the other eight minibosses use
+  their defeated body before it despawns.
+- **Not swallowable:** no copy result, even if the enemy's attacks or spawned
+  objects have their own copy results. The main boss bodies and the final
+  Dark Mind phase controller fall here.
+- **Unknown:** unavailable or inconclusive evidence, never an implicit Normal
+  result or an eligible source.
+
+Stock evidence is pinned to [the native inhale gate](https://github.com/jiangzhengwenjz/katam/blob/89a012c0d2e46a0ae87d9133c7a0435d95e348e8/src/object_collision.c#L193-L209)
+and the [object update and defeat transitions](https://github.com/jiangzhengwenjz/katam/blob/89a012c0d2e46a0ae87d9133c7a0435d95e348e8/src/object.c#L731-L759).
+The constructor anchors in the data record boss inhale immunity. The
+[defeated miniboss stage](https://github.com/jiangzhengwenjz/katam/blob/89a012c0d2e46a0ae87d9133c7a0435d95e348e8/src/object.c#L1459-L1482)
+instead changes the body defense before the normal swallow grant. Solo Master
+Hand is the Smash miniboss; the Candy boss pair uses the two Crazy Hand object
+types and does not inherit that grant.
+
+[The existing placement inventory](../data/ability_source_inventory.json)
+links 52 static encounter templates and six spawner outputs that are themselves
+miniboss bodies back to these definitions. No dynamic attack, projectile, or
+child grant is reclassified. Runtime shuffle entries and source reachability
+are unchanged: the parent audit identifies what a native body can provide, not
+whether it can be reached, activated or safely swallowed from a named check.

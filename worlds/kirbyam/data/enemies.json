@@ -304,63 +304,171 @@
     "addresses": [
       "0x351BD6"
     ],
-    "default_ability": "Burning"
+    "default_ability": "Burning",
+    "parent_copy_audit": {
+      "native_types": [
+        {
+          "id": 59,
+          "name": "OBJ_BATAFIRE"
+        }
+      ],
+      "swallow_status": "swallowable",
+      "vanilla_copy": "Burning",
+      "when": "after_defeat",
+      "evidence": "src/batafire.c and src/object.c:1459–1482; use the defeated parent."
+    }
   },
   "BOMBAR": {
     "kind": "miniboss",
     "addresses": [
       "0x351C36"
     ],
-    "default_ability": "Missile"
+    "default_ability": "Missile",
+    "parent_copy_audit": {
+      "native_types": [
+        {
+          "id": 63,
+          "name": "OBJ_BOMBAR"
+        }
+      ],
+      "swallow_status": "swallowable",
+      "vanilla_copy": "Missile",
+      "when": "after_defeat",
+      "evidence": "src/bombar.c and src/object.c:1459–1482; use the defeated parent, not its bomb or missile."
+    }
   },
   "BONKERS": {
     "kind": "miniboss",
     "addresses": [
       "0x351BA6"
     ],
-    "default_ability": "Hammer"
+    "default_ability": "Hammer",
+    "parent_copy_audit": {
+      "native_types": [
+        {
+          "id": 57,
+          "name": "OBJ_BONKERS"
+        }
+      ],
+      "swallow_status": "swallowable",
+      "vanilla_copy": "Hammer",
+      "when": "after_defeat",
+      "evidence": "src/bonkers.c and src/object.c:1459–1482; use the defeated parent, not a thrown object."
+    }
   },
   "BOX_BOXER": {
     "kind": "miniboss",
     "addresses": [
       "0x351BEE"
     ],
-    "default_ability": "Fighter"
+    "default_ability": "Fighter",
+    "parent_copy_audit": {
+      "native_types": [
+        {
+          "id": 60,
+          "name": "OBJ_BOX_BOXER"
+        }
+      ],
+      "swallow_status": "swallowable",
+      "vanilla_copy": "Fighter",
+      "when": "after_defeat",
+      "evidence": "src/box_boxer.c and src/object.c:1459–1482; use the defeated parent."
+    }
   },
   "BOXY": {
     "kind": "miniboss",
     "addresses": [
       "0x351C06"
     ],
-    "default_ability": "Magic"
+    "default_ability": "Magic",
+    "parent_copy_audit": {
+      "native_types": [
+        {
+          "id": 61,
+          "name": "OBJ_BOXY"
+        }
+      ],
+      "swallow_status": "swallowable",
+      "vanilla_copy": "Magic",
+      "when": "after_defeat",
+      "evidence": "src/boxy.c and src/object.c:1459–1482; use the defeated parent, not a box spawn."
+    }
   },
   "MASTER_HAND": {
     "kind": "miniboss",
     "addresses": [
       "0x351C1E"
     ],
-    "default_ability": "Smash"
+    "default_ability": "Smash",
+    "parent_copy_audit": {
+      "native_types": [
+        {
+          "id": 62,
+          "name": "OBJ_MASTER_HAND"
+        }
+      ],
+      "swallow_status": "swallowable",
+      "vanilla_copy": "Smash",
+      "when": "after_defeat",
+      "evidence": "src/master_hand.c and src/object.c:1459–1482; solo Master Hand, not the Candy boss-pair handlers."
+    }
   },
   "MR_FROSTY": {
     "kind": "miniboss",
     "addresses": [
       "0x351B8E"
     ],
-    "default_ability": "Ice"
+    "default_ability": "Ice",
+    "parent_copy_audit": {
+      "native_types": [
+        {
+          "id": 56,
+          "name": "OBJ_MR_FROSTY"
+        }
+      ],
+      "swallow_status": "swallowable",
+      "vanilla_copy": "Ice",
+      "when": "after_defeat",
+      "evidence": "src/mr_frosty.c and src/object.c:1459–1482; use the defeated parent, not its ice cubes."
+    }
   },
   "PHAN_PHAN": {
     "kind": "miniboss",
     "addresses": [
       "0x351BBE"
     ],
-    "default_ability": "Throw"
+    "default_ability": "Throw",
+    "parent_copy_audit": {
+      "native_types": [
+        {
+          "id": 58,
+          "name": "OBJ_PHAN_PHAN"
+        }
+      ],
+      "swallow_status": "swallowable",
+      "vanilla_copy": "Throw",
+      "when": "after_defeat",
+      "evidence": "src/phan_phan.c and src/object.c:1459–1482; use the defeated parent."
+    }
   },
   "WADDLE_DEE_MINI": {
     "kind": "miniboss",
     "addresses": [
       "0x351B76"
     ],
-    "default_ability": "Normal"
+    "default_ability": "Normal",
+    "parent_copy_audit": {
+      "native_types": [
+        {
+          "id": 55,
+          "name": "OBJ_WADDLE_DEE_2"
+        }
+      ],
+      "swallow_status": "swallowable",
+      "vanilla_copy": "Normal",
+      "when": "ordinary",
+      "evidence": "src/waddle_dee.c:33–50,321–349; ordinary native Waddle Dee; uses the Normal copy table entry."
+    }
   },
   "BOMBAR_BOMB": {
     "kind": "boss_spawned",
@@ -516,5 +624,204 @@
       "0x3527BE"
     ],
     "default_ability": "Sleep"
+  },
+  "KRACKO": {
+    "kind": "boss",
+    "parent_copy_audit": {
+      "native_types": [
+        {
+          "id": 69,
+          "name": "OBJ_KRACKO"
+        }
+      ],
+      "swallow_status": "not_swallowable",
+      "vanilla_copy": null,
+      "when": null,
+      "evidence": "src/kracko.c:267"
+    }
+  },
+  "KING_GOLEM": {
+    "kind": "boss",
+    "parent_copy_audit": {
+      "native_types": [
+        {
+          "id": 70,
+          "name": "OBJ_KING_GOLEM"
+        }
+      ],
+      "swallow_status": "not_swallowable",
+      "vanilla_copy": null,
+      "when": null,
+      "evidence": "src/king_golem.c:70; not the spawned Golem"
+    }
+  },
+  "CRAZY_HAND_1": {
+    "kind": "boss",
+    "parent_copy_audit": {
+      "native_types": [
+        {
+          "id": 71,
+          "name": "OBJ_CRAZY_HAND_1"
+        }
+      ],
+      "swallow_status": "not_swallowable",
+      "vanilla_copy": null,
+      "when": null,
+      "evidence": "src/crazy_hand.c:166; Candy paired encounter, original controller"
+    }
+  },
+  "GOBBLER": {
+    "kind": "boss",
+    "parent_copy_audit": {
+      "native_types": [
+        {
+          "id": 72,
+          "name": "OBJ_GOBBLER"
+        }
+      ],
+      "swallow_status": "not_swallowable",
+      "vanilla_copy": null,
+      "when": null,
+      "evidence": "src/gobbler.c:199"
+    }
+  },
+  "WIZ": {
+    "kind": "boss",
+    "parent_copy_audit": {
+      "native_types": [
+        {
+          "id": 73,
+          "name": "OBJ_WIZ"
+        }
+      ],
+      "swallow_status": "not_swallowable",
+      "vanilla_copy": null,
+      "when": null,
+      "evidence": "src/wiz.c:137"
+    }
+  },
+  "MOLEY": {
+    "kind": "boss",
+    "parent_copy_audit": {
+      "native_types": [
+        {
+          "id": 74,
+          "name": "OBJ_MOLEY"
+        }
+      ],
+      "swallow_status": "not_swallowable",
+      "vanilla_copy": null,
+      "when": null,
+      "evidence": "src/moley.c:140"
+    }
+  },
+  "MEGA_TITAN": {
+    "kind": "boss",
+    "parent_copy_audit": {
+      "native_types": [
+        {
+          "id": 75,
+          "name": "OBJ_MEGA_TITAN"
+        }
+      ],
+      "swallow_status": "not_swallowable",
+      "vanilla_copy": null,
+      "when": null,
+      "evidence": "src/mega_titan.c:290"
+    }
+  },
+  "TITAN_HEAD": {
+    "kind": "boss",
+    "parent_copy_audit": {
+      "native_types": [
+        {
+          "id": 76,
+          "name": "OBJ_TITAN_HEAD"
+        }
+      ],
+      "swallow_status": "not_swallowable",
+      "vanilla_copy": null,
+      "when": null,
+      "evidence": "src/mega_titan.c:4157; separate head phase"
+    }
+  },
+  "CRAZY_HAND_2": {
+    "kind": "boss",
+    "parent_copy_audit": {
+      "native_types": [
+        {
+          "id": 77,
+          "name": "OBJ_CRAZY_HAND_2"
+        }
+      ],
+      "swallow_status": "not_swallowable",
+      "vanilla_copy": null,
+      "when": null,
+      "evidence": "src/crazy_hand.c:166,3015–3026; second actor spawned for the Candy boss pair"
+    }
+  },
+  "DARK_META_KNIGHT": {
+    "kind": "boss",
+    "parent_copy_audit": {
+      "native_types": [
+        {
+          "id": 78,
+          "name": "OBJ_DARK_META_KNIGHT"
+        },
+        {
+          "id": 82,
+          "name": "OBJ_DARK_META_KNIGHT_W8"
+        }
+      ],
+      "swallow_status": "not_swallowable",
+      "vanilla_copy": null,
+      "when": null,
+      "evidence": "src/dark_meta_knight.c:195; both encounter forms use the same inhale immunity"
+    }
+  },
+  "DARK_MIND_FORM_1": {
+    "kind": "boss",
+    "parent_copy_audit": {
+      "native_types": [
+        {
+          "id": 79,
+          "name": "OBJ_DARK_MIND_FORM_1"
+        }
+      ],
+      "swallow_status": "not_swallowable",
+      "vanilla_copy": null,
+      "when": null,
+      "evidence": "src/dark_mind.c:701; parent body across the template variants"
+    }
+  },
+  "DARK_MIND_FORM_2": {
+    "kind": "boss",
+    "parent_copy_audit": {
+      "native_types": [
+        {
+          "id": 80,
+          "name": "OBJ_DARK_MIND_FORM_2"
+        }
+      ],
+      "swallow_status": "not_swallowable",
+      "vanilla_copy": null,
+      "when": null,
+      "evidence": "src/dark_mind.c:5971; form-2 parent body, not its mirror objects"
+    }
+  },
+  "DARK_MIND_FORM_3_TRIGGER": {
+    "kind": "boss",
+    "parent_copy_audit": {
+      "native_types": [
+        {
+          "id": 81,
+          "name": "OBJ_DARK_MIND_FORM_3_TRIGGER"
+        }
+      ],
+      "swallow_status": "not_swallowable",
+      "vanilla_copy": null,
+      "when": null,
+      "evidence": "src/dark_mind.c:10421–10455,11484–11499; final-phase controller and visual child, not a copy source"
+    }
   }
 }

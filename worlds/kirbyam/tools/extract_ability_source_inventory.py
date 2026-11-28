@@ -721,8 +721,14 @@ def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dic
     names = {int(value, 16): name for name, value in
              re.findall(r'#define\s+(OBJ_\w+)\s+(0x[0-9A-Fa-f]+)', header)}
     source_types = {}
+    parent_audit_keys = {}
     for key, spec in enemies.items():
-        for address in spec['addresses']:
+        for native in spec.get('parent_copy_audit', {}).get('native_types', ()):
+            typ = native['id']
+            if names.get(typ) != native['name'] or typ in parent_audit_keys:
+                raise ValueError(f'Wrong or duplicated encounter parent type for {key}')
+            parent_audit_keys[typ] = key
+        for address in spec.get('addresses', ()):
             offset = int(address, 0) if isinstance(address, str) else address
             delta = offset - 0x35164E
             if delta >= 0 and delta % 24 == 0:
@@ -783,7 +789,10 @@ def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dic
                 'unused_room_slot': index == 0xFFFF}
         for raw in ([] if index == 0xFFFF else lists[index]):
             record = dict(raw)
-            record.update(id=f"room:{room_id}/template:{raw['template_address']}", native_room=room_id)
+            record['id'] = f"room:{room_id}/template:{raw['template_address']}"
+            if raw['spawn_table'] == 1 and raw['type_id'] in parent_audit_keys:
+                record['parent_copy_audit_key'] = parent_audit_keys[raw['type_id']]
+            record['native_room'] = room_id
             classify(record)
             placements.append(record)
             room['placements'].append(record['id'])
@@ -794,6 +803,8 @@ def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dic
     for parent in placements:
         if parent['source_type'] == 'object_spawner':
             child = spawner_output(rom, parent)
+            if child['spawn_table'] == 1 and child['type_id'] in parent_audit_keys:
+                child = {'id': child['id'], 'parent_copy_audit_key': parent_audit_keys[child['type_id']], **child}
             classify(child)
             spawner_outputs.append(child)
             if child['type_id'] in ENCOUNTERS:

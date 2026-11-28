@@ -18,6 +18,17 @@ class AbilitySource:
     can_be_swallowed: bool = True
 
 
+@dataclass(frozen=True)
+class EncounterParentCopyAudit:
+    """Native parent only; this is not an accessible source or a ROM patch row."""
+
+    native_types: tuple[tuple[int, str], ...]
+    swallow_status: str  # swallowable | not_swallowable | unknown
+    vanilla_copy: str | None  # "Normal" is a genuine swallow with no copy ability.
+    when: str | None  # ordinary | after_defeat
+    evidence: str
+
+
 def _load_json_file(filename: str) -> dict[str, Any]:
     raw = pkgutil.get_data(__name__, "data/" + filename)
     if raw is None:
@@ -98,6 +109,33 @@ def resolve_slot_gateable_abilities(value: object) -> tuple[str, ...]:
 
 _ENEMY_DATA = _load_json_file("enemies.json")
 
+def _parse_parent_copy_audit(key: str, raw: Any) -> EncounterParentCopyAudit:
+    fields = {"native_types", "swallow_status", "vanilla_copy", "when", "evidence"}
+    if not isinstance(raw, dict) or raw.keys() != fields:
+        raise ValueError(f"Invalid encounter parent copy audit: {key}")
+    status, ability, when = raw["swallow_status"], raw["vanilla_copy"], raw["when"]
+    if status == "swallowable":
+        if not isinstance(ability, str) or ability not in ABILITY_NAME_TO_ID or when not in (
+            "ordinary", "after_defeat",
+        ):
+            raise ValueError(f"Swallowable encounter needs a known grant and phase: {key}")
+    elif status not in ("not_swallowable", "unknown") or ability is not None or when is not None:
+        raise ValueError(f"Unswallowable or unknown encounter cannot name a vanilla grant: {key}")
+    types, evidence = raw["native_types"], raw["evidence"]
+    if not isinstance(evidence, str) or not evidence.strip() or not isinstance(types, list) or not types:
+        raise ValueError(f"Encounter parent audit needs native type and evidence: {key}")
+    native = []
+    for row in types:
+        if (not isinstance(row, dict) or row.keys() != {"id", "name"}
+                or type(row["id"]) is not int or not 0 <= row["id"] <= 0xFF
+                or not isinstance(row["name"], str) or not row["name"].startswith("OBJ_")):
+            raise ValueError(f"Invalid native encounter parent type: {key}")
+        native.append((row["id"], row["name"]))
+    return EncounterParentCopyAudit(tuple(native), status, ability, when, evidence)
+
+
+ENCOUNTER_PARENT_COPY_AUDITS: dict[str, EncounterParentCopyAudit] = {}
+NATIVE_PARENT_COPY_AUDIT_KEYS: dict[int, str] = {}
 _ability_sources: list[AbilitySource] = []
 for source_key, raw_entry in _ENEMY_DATA.items():
     if not isinstance(source_key, str) or not source_key:
@@ -106,8 +144,23 @@ for source_key, raw_entry in _ENEMY_DATA.items():
         raise ValueError(f"enemy source entry for {source_key} must be an object")
 
     kind = str(raw_entry.get("kind", "")).strip()
-    if kind not in {"enemy", "miniboss", "boss_spawned"}:
+    if kind not in {"enemy", "miniboss", "boss_spawned", "boss"}:
         raise ValueError(f"enemy source {source_key} has unsupported kind: {kind}")
+
+    audit = None
+    if "parent_copy_audit" in raw_entry or kind in {"boss", "miniboss"}:
+        if kind not in {"boss", "miniboss"}:
+            raise ValueError(f"Encounter parent audit must describe an encounter parent: {source_key}")
+        audit = _parse_parent_copy_audit(source_key, raw_entry.get("parent_copy_audit"))
+        ENCOUNTER_PARENT_COPY_AUDITS[source_key] = audit
+        for type_id, _ in audit.native_types:
+            if type_id in NATIVE_PARENT_COPY_AUDIT_KEYS:
+                raise ValueError(f"Duplicate native encounter parent type: {type_id:#x}")
+            NATIVE_PARENT_COPY_AUDIT_KEYS[type_id] = source_key
+    if kind == "boss":
+        if {"addresses", "default_ability", "can_be_swallowed"} & raw_entry.keys():
+            raise ValueError(f"Boss parent audits must not define runtime ability patches: {source_key}")
+        continue
 
     can_be_swallowed_raw = raw_entry.get("can_be_swallowed", True)
     if not isinstance(can_be_swallowed_raw, bool):
@@ -128,6 +181,14 @@ for source_key, raw_entry in _ENEMY_DATA.items():
         raise ValueError(
             f"enemy source {source_key} references unknown default ability: {default_ability_name}"
         )
+
+    if audit is not None and (
+            (audit.swallow_status == "swallowable") != can_be_swallowed
+            or (can_be_swallowed and audit.vanilla_copy != default_ability_name)
+            or {type_id for type_id, _ in audit.native_types}
+            != {(address - 0x35164E) // 24 for address in addresses}
+            or any((address - 0x35164E) % 24 for address in addresses)):
+        raise ValueError(f"Runtime source and parent copy audit disagree: {source_key}")
 
     _ability_sources.append(
         AbilitySource(

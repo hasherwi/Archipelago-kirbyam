@@ -28415,6 +28415,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:129/template:0x088D2678",
+      "parent_copy_audit_key": "DARK_META_KNIGHT",
       "native_room": 129,
       "native_name": "OBJ_DARK_META_KNIGHT_W8",
       "source_key": null,
@@ -38120,6 +38121,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:148/template:0x088BBF64",
+      "parent_copy_audit_key": "BOXY",
       "native_room": 148,
       "native_name": "OBJ_BOXY",
       "source_key": "BOXY",
@@ -42562,6 +42564,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:176/template:0x088BAE50",
+      "parent_copy_audit_key": "BATAFIRE",
       "native_room": 176,
       "native_name": "OBJ_BATAFIRE",
       "source_key": "BATAFIRE",
@@ -42940,6 +42943,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:177/template:0x088BAFE4",
+      "parent_copy_audit_key": "BOX_BOXER",
       "native_room": 177,
       "native_name": "OBJ_BOX_BOXER",
       "source_key": "BOX_BOXER",
@@ -49469,6 +49473,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:210/template:0x088BF730",
+      "parent_copy_audit_key": "BONKERS",
       "native_room": 210,
       "native_name": "OBJ_BONKERS",
       "source_key": "BONKERS",
@@ -49675,6 +49680,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:210/template:0x088BF7E4",
+      "parent_copy_audit_key": "BOX_BOXER",
       "native_room": 210,
       "native_name": "OBJ_BOX_BOXER",
       "source_key": "BOX_BOXER",
@@ -52760,6 +52766,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:219/template:0x088C1830",
+      "parent_copy_audit_key": "WIZ",
       "native_room": 219,
       "native_name": "OBJ_WIZ",
       "source_key": null,
@@ -54929,6 +54936,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:224/template:0x088C1F6C",
+      "parent_copy_audit_key": "PHAN_PHAN",
       "native_room": 224,
       "native_name": "OBJ_PHAN_PHAN",
       "source_key": "PHAN_PHAN",
@@ -58787,6 +58795,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:230/template:0x088C08B4",
+      "parent_copy_audit_key": "MR_FROSTY",
       "native_room": 230,
       "native_name": "OBJ_MR_FROSTY",
       "source_key": "MR_FROSTY",
@@ -60039,6 +60048,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:232/template:0x088C0D84",
+      "parent_copy_audit_key": "BOMBAR",
       "native_room": 232,
       "native_name": "OBJ_BOMBAR",
       "source_key": "BOMBAR",
@@ -64830,6 +64840,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:317/template:0x088C4A00",
+      "parent_copy_audit_key": "PHAN_PHAN",
       "native_room": 317,
       "native_name": "OBJ_PHAN_PHAN",
       "source_key": "PHAN_PHAN",
@@ -65091,6 +65102,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:318/template:0x088C4B28",
+      "parent_copy_audit_key": "BOX_BOXER",
       "native_room": 318,
       "native_name": "OBJ_BOX_BOXER",
       "source_key": "BOX_BOXER",
@@ -66497,6 +66509,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:323/template:0x088C5148",
+      "parent_copy_audit_key": "BATAFIRE",
       "native_room": 323,
       "native_name": "OBJ_BATAFIRE",
       "source_key": "BATAFIRE",
@@ -66744,6 +66757,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:324/template:0x088C524C",
+      "parent_copy_audit_key": "KRACKO",
       "native_room": 324,
       "native_name": "OBJ_KRACKO",
       "source_key": null,
@@ -67418,6 +67432,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:326/template:0x088C5540",
+      "parent_copy_audit_key": "BOMBAR",
       "native_room": 326,
       "native_name": "OBJ_BOMBAR",
       "source_key": "BOMBAR",
@@ -69708,6 +69723,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:403/template:0x088C5F54",
+      "parent_copy_audit_key": "PHAN_PHAN",
       "native_room": 403,
       "native_name": "OBJ_PHAN_PHAN",
       "source_key": "PHAN_PHAN",
@@ -72806,6 +72822,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:413/template:0x088C6D9C",
+      "parent_copy_audit_key": "BOX_BOXER",
       "native_room": 413,
       "native_name": "OBJ_BOX_BOXER",
       "source_key": "BOX_BOXER",
@@ -74019,6 +74036,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:415/template:0x088C72DC",
+      "parent_copy_audit_key": "MASTER_HAND",
       "native_room": 415,
       "native_name": "OBJ_MASTER_HAND",
       "source_key": "MASTER_HAND",
@@ -74872,6 +74890,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:417/template:0x088C7694",
+      "parent_copy_audit_key": "CRAZY_HAND_1",
       "native_room": 417,
       "native_name": "OBJ_CRAZY_HAND_1",
       "source_key": null,
@@ -76542,6 +76561,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:420/template:0x088C7DCC",
+      "parent_copy_audit_key": "BONKERS",
       "native_room": 420,
       "native_name": "OBJ_BONKERS",
       "source_key": "BONKERS",
@@ -82776,6 +82796,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:508/template:0x088C8EA4",
+      "parent_copy_audit_key": "BONKERS",
       "native_room": 508,
       "native_name": "OBJ_BONKERS",
       "source_key": "BONKERS",
@@ -85032,6 +85053,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:514/template:0x088C9CE0",
+      "parent_copy_audit_key": "BATAFIRE",
       "native_room": 514,
       "native_name": "OBJ_BATAFIRE",
       "source_key": "BATAFIRE",
@@ -85697,6 +85719,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:515/template:0x088C9FB4",
+      "parent_copy_audit_key": "BONKERS",
       "native_room": 515,
       "native_name": "OBJ_BONKERS",
       "source_key": "BONKERS",
@@ -85865,6 +85888,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:516/template:0x088C9280",
+      "parent_copy_audit_key": "MOLEY",
       "native_room": 516,
       "native_name": "OBJ_MOLEY",
       "source_key": null,
@@ -88637,6 +88661,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:526/template:0x088D20EC",
+      "parent_copy_audit_key": "BOXY",
       "native_room": 526,
       "native_name": "OBJ_BOXY",
       "source_key": "BOXY",
@@ -90547,6 +90572,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:530/template:0x088CAAA8",
+      "parent_copy_audit_key": "BOX_BOXER",
       "native_room": 530,
       "native_name": "OBJ_BOX_BOXER",
       "source_key": "BOX_BOXER",
@@ -94803,6 +94829,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:539/template:0x088C2914",
+      "parent_copy_audit_key": "BOMBAR",
       "native_room": 539,
       "native_name": "OBJ_BOMBAR",
       "source_key": "BOMBAR",
@@ -98674,6 +98701,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:547/template:0x088C3670",
+      "parent_copy_audit_key": "BOXY",
       "native_room": 547,
       "native_name": "OBJ_BOXY",
       "source_key": "BOXY",
@@ -102162,6 +102190,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:557/template:0x088B9358",
+      "parent_copy_audit_key": "MASTER_HAND",
       "native_room": 557,
       "native_name": "OBJ_MASTER_HAND",
       "source_key": "MASTER_HAND",
@@ -107849,6 +107878,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:609/template:0x088D0820",
+      "parent_copy_audit_key": "MASTER_HAND",
       "native_room": 609,
       "native_name": "OBJ_MASTER_HAND",
       "source_key": "MASTER_HAND",
@@ -112210,6 +112240,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:623/template:0x088D0330",
+      "parent_copy_audit_key": "BONKERS",
       "native_room": 623,
       "native_name": "OBJ_BONKERS",
       "source_key": "BONKERS",
@@ -115670,6 +115701,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:710/template:0x088BD2B0",
+      "parent_copy_audit_key": "KING_GOLEM",
       "native_room": 710,
       "native_name": "OBJ_KING_GOLEM",
       "source_key": null,
@@ -116517,6 +116549,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:712/template:0x088BD618",
+      "parent_copy_audit_key": "BOXY",
       "native_room": 712,
       "native_name": "OBJ_BOXY",
       "source_key": "BOXY",
@@ -123303,6 +123336,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:736/template:0x088D43E0",
+      "parent_copy_audit_key": "PHAN_PHAN",
       "native_room": 736,
       "native_name": "OBJ_PHAN_PHAN",
       "source_key": "PHAN_PHAN",
@@ -124143,6 +124177,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:738/template:0x088D4794",
+      "parent_copy_audit_key": "MEGA_TITAN",
       "native_room": 738,
       "native_name": "OBJ_MEGA_TITAN",
       "source_key": null,
@@ -124257,6 +124292,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:740/template:0x088BD6F8",
+      "parent_copy_audit_key": "MR_FROSTY",
       "native_room": 740,
       "native_name": "OBJ_MR_FROSTY",
       "source_key": "MR_FROSTY",
@@ -125097,6 +125133,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:741/template:0x088BDA80",
+      "parent_copy_audit_key": "BONKERS",
       "native_room": 741,
       "native_name": "OBJ_BONKERS",
       "source_key": "BONKERS",
@@ -126744,6 +126781,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:745/template:0x088BE430",
+      "parent_copy_audit_key": "BATAFIRE",
       "native_room": 745,
       "native_name": "OBJ_BATAFIRE",
       "source_key": "BATAFIRE",
@@ -132066,6 +132104,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:816/template:0x088CE8FC",
+      "parent_copy_audit_key": "BONKERS",
       "native_room": 816,
       "native_name": "OBJ_BONKERS",
       "source_key": "BONKERS",
@@ -133393,6 +133432,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:822/template:0x088CEEA8",
+      "parent_copy_audit_key": "GOBBLER",
       "native_room": 822,
       "native_name": "OBJ_GOBBLER",
       "source_key": null,
@@ -134746,6 +134786,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:825/template:0x088CD3F0",
+      "parent_copy_audit_key": "MR_FROSTY",
       "native_room": 825,
       "native_name": "OBJ_MR_FROSTY",
       "source_key": "MR_FROSTY",
@@ -135264,6 +135305,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:827/template:0x088CD638",
+      "parent_copy_audit_key": "BOXY",
       "native_room": 827,
       "native_name": "OBJ_BOXY",
       "source_key": "BOXY",
@@ -138102,6 +138144,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:909/template:0x088D51E8",
+      "parent_copy_audit_key": "DARK_META_KNIGHT",
       "native_room": 909,
       "native_name": "OBJ_DARK_META_KNIGHT",
       "source_key": null,
@@ -138134,6 +138177,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:910/template:0x088D5230",
+      "parent_copy_audit_key": "DARK_MIND_FORM_1",
       "native_room": 910,
       "native_name": "OBJ_DARK_MIND_FORM_1",
       "source_key": null,
@@ -138544,6 +138588,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:912/template:0x088D542C",
+      "parent_copy_audit_key": "DARK_MIND_FORM_1",
       "native_room": 912,
       "native_name": "OBJ_DARK_MIND_FORM_1",
       "source_key": null,
@@ -138872,6 +138917,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:914/template:0x088D55BC",
+      "parent_copy_audit_key": "DARK_MIND_FORM_1",
       "native_room": 914,
       "native_name": "OBJ_DARK_MIND_FORM_1",
       "source_key": null,
@@ -139330,6 +139376,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:916/template:0x088D57E0",
+      "parent_copy_audit_key": "DARK_MIND_FORM_1",
       "native_room": 916,
       "native_name": "OBJ_DARK_MIND_FORM_1",
       "source_key": null,
@@ -139362,6 +139409,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:918/template:0x088D5828",
+      "parent_copy_audit_key": "DARK_MIND_FORM_2",
       "native_room": 918,
       "native_name": "OBJ_DARK_MIND_FORM_2",
       "source_key": null,
@@ -139394,6 +139442,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:919/template:0x088D5870",
+      "parent_copy_audit_key": "DARK_MIND_FORM_3_TRIGGER",
       "native_room": 919,
       "native_name": "OBJ_DARK_MIND_FORM_3_TRIGGER",
       "source_key": null,
@@ -140500,6 +140549,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:955/template:0x088D5CD0",
+      "parent_copy_audit_key": "MR_FROSTY",
       "native_room": 955,
       "native_name": "OBJ_MR_FROSTY",
       "source_key": "MR_FROSTY",
@@ -140648,6 +140698,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:956/template:0x088D5D60",
+      "parent_copy_audit_key": "BATAFIRE",
       "native_room": 956,
       "native_name": "OBJ_BATAFIRE",
       "source_key": "BATAFIRE",
@@ -140796,6 +140847,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:957/template:0x088D5DF0",
+      "parent_copy_audit_key": "WADDLE_DEE_MINI",
       "native_room": 957,
       "native_name": "OBJ_WADDLE_DEE_2",
       "source_key": "WADDLE_DEE_MINI",
@@ -148580,6 +148632,7 @@
     },
     {
       "id": "room:955/template:0x088D5CF4/spawner-output",
+      "parent_copy_audit_key": "PHAN_PHAN",
       "native_room": 955,
       "parent_placement": "room:955/template:0x088D5CF4",
       "spawn_table": 1,
@@ -148668,6 +148721,7 @@
     },
     {
       "id": "room:955/template:0x088D5D18/spawner-output",
+      "parent_copy_audit_key": "BONKERS",
       "native_room": 955,
       "parent_placement": "room:955/template:0x088D5D18",
       "spawn_table": 1,
@@ -148756,6 +148810,7 @@
     },
     {
       "id": "room:956/template:0x088D5D84/spawner-output",
+      "parent_copy_audit_key": "BOXY",
       "native_room": 956,
       "parent_placement": "room:956/template:0x088D5D84",
       "spawn_table": 1,
@@ -148844,6 +148899,7 @@
     },
     {
       "id": "room:956/template:0x088D5DA8/spawner-output",
+      "parent_copy_audit_key": "MASTER_HAND",
       "native_room": 956,
       "parent_placement": "room:956/template:0x088D5DA8",
       "spawn_table": 1,
@@ -148932,6 +148988,7 @@
     },
     {
       "id": "room:957/template:0x088D5E14/spawner-output",
+      "parent_copy_audit_key": "BOX_BOXER",
       "native_room": 957,
       "parent_placement": "room:957/template:0x088D5E14",
       "spawn_table": 1,
@@ -149020,6 +149077,7 @@
     },
     {
       "id": "room:957/template:0x088D5E38/spawner-output",
+      "parent_copy_audit_key": "BOMBAR",
       "native_room": 957,
       "parent_placement": "room:957/template:0x088D5E38",
       "spawn_table": 1,
