@@ -10327,6 +10327,115 @@
               }
             }
           },
+          "conditional_routes": [
+            {
+              "contract": "mustard_map_hub4_live_cutter",
+              "activation": {
+                "source_region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4",
+                "live_statue": {
+                  "source_key": "STATUE:353903",
+                  "ability": "Cutter",
+                  "inventory_id": "room:590/template:0x088B6908"
+                },
+                "fixture_options": {
+                  "ability_randomization_mode": 2,
+                  "ability_randomization_statues": 1,
+                  "ability_randomization_no_ability_weight": 100,
+                  "area_keys": 0,
+                  "ability_gating": 0,
+                  "room_sanity": 0,
+                  "enemy_health_multiplier": 100,
+                  "minimum_health": 6,
+                  "one_hit_mode": 0
+                }
+              },
+              "witnesses": [
+                {
+                  "graph": {
+                    "version": 1,
+                    "status": "reviewed",
+                    "access": {
+                      "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4"
+                    },
+                    "nodes": [
+                      {
+                        "id": "switch_310_mustard_map:live_cutter_east_statue",
+                        "native_room": 590
+                      },
+                      {
+                        "id": "switch_310_mustard_map:live_cutter_rainbow34",
+                        "native_room": 534
+                      },
+                      {
+                        "id": "switch_310_mustard_map:live_cutter_mustard_arrival",
+                        "native_room": 310
+                      },
+                      {
+                        "id": "switch_310_mustard_map:live_cutter_crossed",
+                        "native_room": 310
+                      },
+                      {
+                        "id": "switch_310_mustard_map:live_cutter_map_chest",
+                        "native_room": 310
+                      }
+                    ],
+                    "starts": [
+                      "switch_310_mustard_map:live_cutter_east_statue"
+                    ],
+                    "required_targets": [
+                      "switch_310_mustard_map:live_cutter_map_chest"
+                    ],
+                    "sources": [
+                      {
+                        "id": "0x088B6908",
+                        "inventory_id": "room:590/template:0x088B6908",
+                        "node": "switch_310_mustard_map:live_cutter_east_statue",
+                        "source_key": "STATUE:353903",
+                        "renewable": true,
+                        "acquisition_evidence": "dev-docs/mustard-map-hub4-live-cutter-witness.md: actual east Hub 4 statue touched in the same native590 instance.",
+                        "renewable_evidence": "dev-docs/mustard-map-hub4-live-cutter-witness.md: Select drops followed by repeated contacts with the same unconsumed statue.",
+                        "retry_evidence": "dev-docs/mustard-map-hub4-live-cutter-witness.md: intentional same-room retouch; eventual positive-support Cutter is an explicit fairness assumption, not a bounded drop."
+                      }
+                    ],
+                    "routes": [
+                      {
+                        "from": "switch_310_mustard_map:live_cutter_east_statue",
+                        "to": "switch_310_mustard_map:live_cutter_rainbow34",
+                        "room_transition": true,
+                        "required_equipment": [
+                          "Cutter"
+                        ],
+                        "evidence": "dev-docs/mustard-map-hub4-live-cutter-witness.md: carry Cutter through the stock 590-to-534 mirror."
+                      },
+                      {
+                        "from": "switch_310_mustard_map:live_cutter_rainbow34",
+                        "to": "switch_310_mustard_map:live_cutter_mustard_arrival",
+                        "room_transition": true,
+                        "required_equipment": [
+                          "Cutter"
+                        ],
+                        "evidence": "dev-docs/mustard-map-hub4-live-cutter-witness.md: carry Cutter through the stock 534-to-310 mirror, without replacing equipment."
+                      },
+                      {
+                        "from": "switch_310_mustard_map:live_cutter_mustard_arrival",
+                        "to": "switch_310_mustard_map:live_cutter_crossed",
+                        "capability": "switch_310_hub4_live_cutter_return",
+                        "evidence": "dev-docs/mustard-map-hub4-live-cutter-witness.md: Cutter return and actual dash through the stock closing switch; no-shot control stayed blocked."
+                      },
+                      {
+                        "from": "switch_310_mustard_map:live_cutter_crossed",
+                        "to": "switch_310_mustard_map:live_cutter_map_chest",
+                        "required_equipment": [
+                          "Cutter"
+                        ],
+                        "evidence": "dev-docs/mustard-map-hub4-live-cutter-witness.md: exact native Map chest 0x088C3FA4 opens; local check 3960205, no AP packet."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
           "advanced_graphs": [
             "hub4_crash_entry"
           ],

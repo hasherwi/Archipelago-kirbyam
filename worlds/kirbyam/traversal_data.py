@@ -227,6 +227,23 @@ def _validate_conditional_routes(row: Mapping[str, Any], seen: set[str]) -> None
                      and all(isinstance(k, str) and k != "mode" and type(v) is int for k, v in values.items())
                      and ("room16_switch_timer_frames" not in values
                           or 0 < values["room16_switch_timer_frames"] <= 0xFFFF))
+        elif set(condition) == {"source_region", "live_statue", "fixture_options"}:
+            valid = (
+                profile["contract"] == "mustard_map_hub4_live_cutter"
+                and (row["id"], row.get("region"), row.get("location"), row.get("native_room"), row.get("kind"))
+                == ("switch_310_mustard_map", "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST",
+                    "MAJOR_CHEST_MUSTARD_MOUNTAIN", 310, "switch")
+                and condition["source_region"] == "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4"
+                and condition["live_statue"] == {
+                    "source_key": "STATUE:353903", "ability": "Cutter",
+                    "inventory_id": "room:590/template:0x088B6908",
+                }
+                and isinstance(options := condition["fixture_options"], dict)
+                and options == {"ability_randomization_mode": 2, "ability_randomization_statues": 1,
+                                "ability_randomization_no_ability_weight": 100, "area_keys": 0,
+                                "ability_gating": 0, "room_sanity": 0, "enemy_health_multiplier": 100,
+                                "minimum_health": 6, "one_hit_mode": 0}
+                and all(type(value) is int for value in options.values()))
         elif set(condition) == {"source_region", "guaranteed_source", "policy_sha256", "fixture_options",
                                 "fixture_only_options", "any_boolean_options", "physical_minor_check"}:
             verify_grant(condition["guaranteed_source"])
@@ -252,8 +269,26 @@ def _validate_conditional_routes(row: Mapping[str, Any], seen: set[str]) -> None
                 raise ValueError(f"Invalid conditional route witness for {row['id']}")
             if "guaranteed_source" in witness:
                 verify_grant(witness["guaranteed_source"])
-            graph = compile_traversal_graph(witness["graph"])
+            raw_graph = witness["graph"]
+            if "live_statue" in condition:
+                placements = raw_graph.get("sources") if isinstance(raw_graph, dict) else None
+                if (not isinstance(placements, list) or len(placements) != 1 or not isinstance(placements[0], dict)
+                        or placements[0].get("inventory_id") != condition["live_statue"]["inventory_id"]
+                        or placements[0].get("source_key") != condition["live_statue"]["source_key"]
+                        or placements[0].get("renewable") is not True
+                        or not placements[0].get("retry_evidence")):
+                    raise ValueError(f"Invalid conditional statue witness for {row['id']}")
+                graph = compile_room_graph(raw_graph, {}, require_inventory=True)
+            else:
+                graph = compile_traversal_graph(raw_graph)
             node_rooms = {node.key: node.room for node in graph.nodes}
+            if "live_statue" in condition and (
+                [(node_rooms[route.source], node_rooms[route.target])
+                 for route in graph.routes if route.room_transition] != [(590, 534), (534, 310)]
+                or any(route.resets_room_instance or route.recover_dropped_ability or route.opens is not None
+                       for route in graph.routes)
+            ):
+                raise ValueError(f"Invalid conditional statue carry for {row['id']}")
             if (graph.access_region not in data.regions or not graph.required_targets
                     or ("source_region" in condition and graph.access_region != condition["source_region"])
                     or any(node_rooms[target] != row["native_room"] for target in graph.required_targets)):

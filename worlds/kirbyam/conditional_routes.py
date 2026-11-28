@@ -6,7 +6,7 @@ import json
 from typing import Any
 
 from .traversal import SourcePolicy, TraversalGraph, compile_traversal_graph
-from .traversal_data import _room_catalog
+from .traversal_data import _room_catalog, compile_room_graph
 
 
 def _guaranteed(policy: SourcePolicy, source: dict[str, str]) -> bool:
@@ -71,9 +71,36 @@ def signed_world_profile(name: str, world: Any) -> tuple[bool, tuple]:
     return qualified, signature
 
 
+MUSTARD_MAP_LIVE_CUTTER = "mustard_map_hub4_live_cutter"
+
+
+def mustard_map_live_cutter_enabled(world: Any, policy: SourcePolicy) -> bool:
+    condition = contract(MUSTARD_MAP_LIVE_CUTTER)[1]["activation"]
+    options = getattr(world, "options", None)
+
+    def matches_option(name: str, expected: int) -> bool:
+        selected = getattr(options, name, None)
+        value = getattr(selected, "value", selected)
+        return type(value) is int and value == expected
+
+    fixture = condition["fixture_options"]
+    if not (all(matches_option(name, value) for name, value in fixture.items())
+            and policy.mode == fixture["ability_randomization_mode"]
+            and policy.policy.get("ability_randomization_no_ability_weight")
+            == fixture["ability_randomization_no_ability_weight"]):
+        return False
+    source = condition["live_statue"]
+    grant = policy.grant(source["source_key"], lambda _: True)
+    return grant.randomized and source["ability"] in grant.abilities
+
+
 @lru_cache(maxsize=None)
 def graph(name: str, index: int = 0) -> TraversalGraph:
-    return compile_traversal_graph(contract(name)[1]["witnesses"][index]["graph"])
+    profile = contract(name)[1]
+    payload = profile["witnesses"][index]["graph"]
+    if "live_statue" in profile["activation"]:
+        return compile_room_graph(payload, {}, require_inventory=True)
+    return compile_traversal_graph(payload)
 
 
 def matches_target(name: str, row: dict[str, Any]) -> bool:

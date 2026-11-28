@@ -211,6 +211,7 @@ def test_target_catalog_counts_and_provider_separation():
         "switch_310_cupid_up_left_q0": frozenset({"Cupid"}),
         "switch_310_cutter_five_roof_returns": frozenset({"Cutter"}),
         "switch_310_kibble_cutter_roof_returns": frozenset({"Cutter"}),
+        "switch_310_hub4_live_cutter_return": frozenset({"Cutter"}),
         "switch_825_ufo_top_charge": frozenset({"UFO"}),
         "switch_825_fire_breath": frozenset({"Fire"}),
         "bomb_708_right_c_burning": frozenset({"Burning"}),

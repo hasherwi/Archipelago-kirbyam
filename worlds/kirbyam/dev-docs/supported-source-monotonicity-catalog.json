@@ -8,9 +8,9 @@
     "worlds/kirbyam/enemy_ability_runtime_patch.py": "1310fdcf159e861733c65e0a7577efa807914def5e30d54e7e85cbf7ff46b7de",
     "worlds/kirbyam/data/abilities.json": "9f3b1178cdf3de87c66d95449919a3a0bbedfed9982acc4d6443aa342aa1146c",
     "worlds/kirbyam/traversal.py": "bcfb3febfd11a070b56fc53a628a78924d3b80e742d79c055818de29f14ecc70",
-    "worlds/kirbyam/traversal_data.py": "bde33b8b588126ca091e364afd58a6ed0cf514731da77258d1dc9c9bcb5d1223",
+    "worlds/kirbyam/traversal_data.py": "bbb828fb66213814c1f371df68d70e3b4766f91c5ece960699da967a1ca24a35",
     "worlds/kirbyam/master_source.py": "888ed2ca9f23edb5571ef09e149903b4df1621d694045e4d4cf5983699caf770",
-    "worlds/kirbyam/data/regions/rooms.json": "0edba812a01fb50bffac3039cb0b72857829479feb40acfd08e56e07cfa4a5a8",
+    "worlds/kirbyam/data/regions/rooms.json": "793a3aee65604bcfde180b49b1f9f29925b04ec3d14024c3aaaf7d06b6b8a85f",
     "worlds/kirbyam/phone_traversal.py": "2ca0753f419103a105ba3b564c23204a4208ab14052d92de841d77cce71b9233",
     "worlds/kirbyam/rules.py": "94924f50c3d295a529ff8e8b9f8fa94659915126720f8b7e9d5fc3194fbe1ecf",
     "worlds/kirbyam/ability_source_inventory.py": "333a5ffcaf2d7896f62a13f627ce0f956b20fcb3655359744b5a0af378b5ee55",
@@ -47,6 +47,9 @@
   ],
   "ungated_pool_abilities": [],
   "capability_providers": {
+    "switch_310_hub4_live_cutter_return": [
+      "Cutter"
+    ],
     "bomb_708_right_c_burning": [
       "Burning"
     ],

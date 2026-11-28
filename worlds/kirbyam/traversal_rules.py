@@ -296,6 +296,7 @@ def install_extra_traversal_rules(world: Any) -> None:
     active_contracts = frozenset(name for name, enabled in (
         (conditional_routes.CANDY_FUSE.CONTRACT, getattr(world, "_candy912_linked_west_fuse", False)),
         (room16_timer.CONTRACT, room16_timer.enabled(policy)),
+        (conditional_routes.MUSTARD_MAP_LIVE_CUTTER, conditional_routes.mustard_map_live_cutter_enabled(world, policy)),
         (yellow_cupid.CONTRACT, yellow_enabled),
     ) if enabled)
     for row in extra_traversal_targets():
