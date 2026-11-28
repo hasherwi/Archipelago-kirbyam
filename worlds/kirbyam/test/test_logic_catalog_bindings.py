@@ -1,5 +1,7 @@
 """Reject invalid declarative progression and client goal bindings."""
 from copy import deepcopy
+import hashlib
+import json
 
 import pytest
 
@@ -28,6 +30,19 @@ def test_reporting_only_goal_cannot_override_current_slot_mode() -> None:
         goal_reporting_data._goal_locations(payload)
 
 
+def _permission_catalogs():
+    return deepcopy(load_json_data("regions/rooms.json")), deepcopy(load_json_data("abilities.json"))
+
+
+def test_migrated_permissions_match_the_previous_semantic_projection() -> None:
+    routes, items = traversal_rules._progression_permissions()
+    # Canonical semantic projection of the deleted standalone catalog.
+    normalized = json.dumps([routes, items], sort_keys=True, separators=(",", ":")).encode()
+    assert hashlib.sha256(normalized).hexdigest() == (
+        "d8927448d3662dcc2ad9117a0d0524dfa0e866fd560195387a339e3dbafe5ceb"
+    )
+
+
 @pytest.mark.parametrize("clause", [
     {"route": "olive_goal_2_ice"},
     {"guaranteed_source": "not_an_enemy"},
@@ -35,9 +50,34 @@ def test_reporting_only_goal_cannot_override_current_slot_mode() -> None:
     {"reviewed_graph_sources": {"target": "bomb_517_chocolate", "witnesses": ["not_a_witness"]}},
 ])
 def test_invalid_permission_route_fails_validation(clause) -> None:
-    payload = deepcopy(load_json_data("progression_permissions.json"))
-    assert isinstance(payload, dict)
-    payload["routes"]["olive_goal_2_ice"] = clause
-    with pytest.MonkeyPatch.context() as patch, pytest.raises(ValueError, match="Invalid Kirby permission predicate"):
-        patch.setattr(traversal_rules, "load_json_data", lambda _: payload)
-        traversal_rules._progression_permissions.__wrapped__()
+    rooms, abilities = _permission_catalogs()
+    rooms["REGION_OLIVE_OCEAN/ROOM_6_GOAL_2"]["permission_progression_routes"]["olive_goal_2_ice"] = clause
+    with pytest.raises(ValueError, match="Invalid Kirby permission predicate"):
+        traversal_rules._compile_progression_permissions(rooms, abilities)
+
+
+def test_duplicate_permission_route_across_rooms_fails_validation() -> None:
+    rooms, abilities = _permission_catalogs()
+    rooms["REGION_MUSTARD_MOUNTAIN/ROOM_4_16"]["permission_progression_routes"]["olive_goal_2_ice"] = (
+        "advanced_logic"
+    )
+    with pytest.raises(ValueError, match="Duplicate or invalid Kirby permission route"):
+        traversal_rules._compile_progression_permissions(rooms, abilities)
+
+
+@pytest.mark.parametrize("replacement", [
+    {"item": "BATTERY", "routes": ["olive_goal_2_ice"]},
+    {"item": "ABILITY_UNLOCK_SPARK", "routes": ["olive_goal_2_ice"]},
+    {"item": "ABILITY_UNLOCK_ICE", "routes": ["does_not_exist"]},
+    {"item": "ABILITY_UNLOCK_ICE", "routes": ["olive_goal_2_ice", "olive_goal_2_ice"]},
+    {"item": ["ABILITY_UNLOCK_ICE"], "routes": ["olive_goal_2_ice"]},
+    {"item": "ABILITY_UNLOCK_ICE", "routes": "olive_goal_2_ice"},
+    {"item": "ABILITY_UNLOCK_ICE", "routes": []},
+    {},
+    None,
+])
+def test_invalid_permission_binding_fails_validation(replacement) -> None:
+    rooms, abilities = _permission_catalogs()
+    abilities["Ice"]["progression_permission"] = replacement
+    with pytest.raises(ValueError, match="Invalid Kirby permission promotion"):
+        traversal_rules._compile_progression_permissions(rooms, abilities)

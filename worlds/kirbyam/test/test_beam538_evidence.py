@@ -2,6 +2,7 @@
 
 import hashlib
 import json
+import re
 from pathlib import Path
 
 import pytest
@@ -136,7 +137,8 @@ def test_exact_owner_native_rooms_and_unchanged_neighbor_contracts():
     union = json.loads((ROOT / 'dev-docs/main-ranged-union-catalog.json').read_text())
     for name, sha256 in e['preserved_region_sha256'].items():
         expected = union['adopted_main_region_spaced_sha256'].get(name, sha256)
-        assert digest(rooms[name]) == expected
+        assert digest({key: value for key, value in rooms[name].items()
+                       if key != 'permission_progression_routes'}) == expected
     # The main merge deliberately changes its reviewed targets. Keep the old native
     # record historical; compare those targets against the separate pinned union.
     union = json.loads((ROOT / 'dev-docs/main-ranged-union-catalog.json').read_text())
@@ -235,6 +237,9 @@ def test_provenance_is_compact_separate_from_integration_and_private_payloads():
         raw = (ROOT / path).read_bytes()
         if path == 'client.py':
             raw = historical_client_before_ice_start(raw, expected)
+        if path == 'data/abilities.json':
+            # Permission classification was not part of the recorded native ability catalog.
+            raw = re.sub(rb',\r?\n    "progression_permission": \{[^{}]*\r?\n    \}', b'', raw)
         assert lf_text_sha256(raw) == expected
     for path in (EVIDENCE, EVIDENCE.with_name('rainbow-beam538-source-witness.md')):
         text = path.read_text(encoding='utf-8')
@@ -259,7 +264,7 @@ def test_historical_ownership_snapshot_and_current_union_are_separate():
         'data/ability_source_inventory.json',
         'data/ability_permission_defaults.json', 'data/compact_room_logic.json',
         'data/goal_logic.json', 'data/lever_wall_logic.json', 'data/mirror_access.json',
-        'data/phone_logic.json', 'data/progression_permissions.json',
+        'data/phone_logic.json',
         'data/traversal_capabilities.json', 'data/traversal_source_scopes.json',
         'data/check_event_logic.json', 'data/room_visit_compartments.json',
         'data/item_pool_policy.json', 'data/phone_return.json'}

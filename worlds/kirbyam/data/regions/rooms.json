@@ -3630,6 +3630,18 @@
     }
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_39": {
+    "permission_progression_routes": {
+      "rainbow_1_39_bombar_missile": {
+        "all_of": [
+          {
+            "physical_minor_check": "MINOR_CHEST_MUSIC_NOTE_01"
+          },
+          {
+            "guaranteed_source": "BOMBAR"
+          }
+        ]
+      }
+    },
     "locations": {
       "MINOR_CHEST_MUSIC_NOTE_01": null,
       "room_sanity": {
@@ -4972,6 +4984,21 @@
     }
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_01": {
+    "permission_progression_routes": {
+      "moonlight_2_01_golem_missile": {
+        "all_of": [
+          {
+            "guaranteed_source": "GOLEM"
+          },
+          {
+            "entrance_exists": {
+              "from_region": "REGION_MOONLIGHT_MANSION/ROOM_2_01",
+              "to_region": "REGION_MOONLIGHT_MANSION/ROOM_2_01_PAST_METAL_BLOCKS"
+            }
+          }
+        ]
+      }
+    },
     "locations": {
       "room_sanity": {
         "included": true,
@@ -5791,6 +5818,21 @@
     }
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_04_PAST_SWITCH_WALL": {
+    "permission_progression_routes": {
+      "moonlight_2_04_doo_missile": {
+        "all_of": [
+          {
+            "guaranteed_source": "WADDLE_DOO"
+          },
+          {
+            "entrance_exists": {
+              "from_region": "REGION_MOONLIGHT_MANSION/ROOM_2_04_PAST_SWITCH_WALL",
+              "to_region": "REGION_MOONLIGHT_MANSION/ROOM_2_13"
+            }
+          }
+        ]
+      }
+    },
     "locations": {},
     "exits": {
       "REGION_MOONLIGHT_MANSION/ROOM_2_08": "can_break_block",
@@ -7399,6 +7441,24 @@
     }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_06": {
+    "permission_progression_routes": {
+      "cabbage_chocolate_carry": {
+        "all_of": [
+          {
+            "physical_minor_check": "MINOR_CHEST_SPRAY_PAINT_12"
+          },
+          {
+            "reviewed_graph_sources": {
+              "target": "bomb_517_chocolate",
+              "witnesses": [
+                "hub2_entry",
+                "hub2_statues_entry"
+              ]
+            }
+          }
+        ]
+      }
+    },
     "locations": {
       "MINOR_CHEST_SPRAY_PAINT_12": null,
       "room_sanity": {
@@ -9767,6 +9827,33 @@
     }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST": {
+    "permission_progression_routes": {
+      "mustard_advanced_crash": {
+        "all_of": [
+          "advanced_logic",
+          {
+            "any_of": [
+              {
+                "guaranteed_source": "FOLEY"
+              },
+              {
+                "guaranteed_source": "HOT_HEAD"
+              },
+              {
+                "all_of": [
+                  {
+                    "guaranteed_source": "TWISTER"
+                  },
+                  {
+                    "check_exists": "MAJOR_CHEST_MUSTARD_MOUNTAIN"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
     "locations": {
       "room_sanity": {
         "included": true,
@@ -11722,6 +11809,29 @@
     }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_16": {
+    "permission_progression_routes": {
+      "mustard_4_16_local_source": {
+        "all_of": [
+          {
+            "guaranteed_source": "FOLEY"
+          },
+          {
+            "entrance_exists": {
+              "from_region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_15",
+              "to_region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_16"
+            }
+          }
+        ]
+      },
+      "mustard_4_16_advanced_source": {
+        "all_of": [
+          "advanced_logic",
+          {
+            "route": "mustard_4_16_local_source"
+          }
+        ]
+      }
+    },
     "locations": {
       "room_sanity": {
         "included": true,
@@ -12661,6 +12771,11 @@
     "events": []
   },
   "REGION_CARROT_CASTLE/ROOM_5_13": {
+    "permission_progression_routes": {
+      "carrot_5_13_local_source": {
+        "guaranteed_source": "WADDLE_DOO"
+      }
+    },
     "events": [],
     "exits": [],
     "logical_subregions": {
@@ -13329,6 +13444,11 @@
     }
   },
   "REGION_OLIVE_OCEAN/ROOM_6_GOAL_2": {
+    "permission_progression_routes": {
+      "olive_goal_2_ice": {
+        "physical_minor_check": "MINOR_CHEST_MUSIC_NOTE_10"
+      }
+    },
     "locations": {
       "MINOR_CHEST_MUSIC_NOTE_10": null,
       "room_sanity": {
@@ -19589,6 +19709,18 @@
     }
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_12": {
+    "permission_progression_routes": {
+      "candy_9_12_local_source": {
+        "all_of": [
+          {
+            "physical_minor_check": "MINOR_CHEST_CANDY_CONSTELLATION_9_12"
+          },
+          {
+            "guaranteed_source": "WADDLE_DOO"
+          }
+        ]
+      }
+    },
     "locations": {
       "MINOR_CHEST_CANDY_CONSTELLATION_9_12": null,
       "room_sanity": {

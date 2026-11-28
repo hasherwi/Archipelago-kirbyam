@@ -58,10 +58,26 @@ def target_applies(row: dict[str, Any], policy: SourcePolicy) -> bool:
 
 @lru_cache(maxsize=1)
 def _progression_permissions() -> tuple[dict[str, Any], dict[int, tuple[str, ...]]]:
-    payload = load_json_data("progression_permissions.json")
-    if not isinstance(payload, dict) or type(payload.get("schema")) is not int or payload["schema"] != 1:
-        raise ValueError("Unsupported Kirby permission progression schema")
-    routes = payload["routes"]
+    return _compile_progression_permissions(load_json_data("regions/rooms.json"),
+                                            load_json_data("abilities.json"))
+
+
+def _compile_progression_permissions(
+    rooms: Any, abilities: Any,
+) -> tuple[dict[str, Any], dict[int, tuple[str, ...]]]:
+    if not isinstance(rooms, dict) or not isinstance(abilities, dict):
+        raise ValueError("Invalid Kirby permission catalogs")
+    routes: dict[str, Any] = {}
+    for owner, room in rooms.items():
+        if not isinstance(room, dict) or "permission_progression_routes" not in room:
+            continue
+        declarations = room["permission_progression_routes"]
+        if owner not in data.regions or not isinstance(declarations, dict) or not declarations:
+            raise ValueError(f"Invalid Kirby permission route owner: {owner!r}")
+        for name, predicate in declarations.items():
+            if not isinstance(name, str) or not name.strip() or name in routes:
+                raise ValueError(f"Duplicate or invalid Kirby permission route: {name!r}")
+            routes[name] = predicate
     sources = {source.key for source in ABILITY_SOURCES}
     targets = {row["id"]: row for row in _room_catalog()[0]}
 
@@ -85,11 +101,13 @@ def _progression_permissions() -> tuple[dict[str, Any], dict[int, tuple[str, ...
             if loc is not None and (kind == "check_exists" or loc.category == LocationCategory.MINOR_CHEST):
                 return
         if kind == "entrance_exists" and isinstance(value, dict) and set(value) == {"from_region", "to_region"}:
-            region = data.regions.get(value["from_region"])
-            if region is not None and value["to_region"] in region.exits:
+            source, destination = value["from_region"], value["to_region"]
+            region = data.regions.get(source) if isinstance(source, str) else None
+            if region is not None and isinstance(destination, str) and destination in region.exits:
                 return
         if kind == "reviewed_graph_sources" and isinstance(value, dict) and set(value) == {"target", "witnesses"}:
-            target = targets.get(value["target"])
+            target_id = value["target"]
+            target = targets.get(target_id) if isinstance(target_id, str) else None
             witnesses = value["witnesses"]
             if target is not None and isinstance(witnesses, list) and witnesses and all(
                 isinstance(name, str) and name in target["graphs"] for name in witnesses
@@ -99,13 +117,21 @@ def _progression_permissions() -> tuple[dict[str, Any], dict[int, tuple[str, ...
 
     for route, clause in routes.items():
         validate(clause, frozenset({route}))
-    by_code = {}
-    for key, names in payload["promote_if_any_route"].items():
-        code = data.item_key_to_id.get(key)
-        if (code is None or "Abilities" not in data.items[code].tags
+    by_code: dict[int, tuple[str, ...]] = {}
+    for ability, row in abilities.items():
+        if not isinstance(row, dict) or "progression_permission" not in row:
+            continue
+        binding = row["progression_permission"]
+        if not isinstance(binding, dict) or set(binding) != {"item", "routes"}:
+            raise ValueError(f"Invalid Kirby permission promotion: {ability!r}")
+        key, names = binding["item"], binding["routes"]
+        code = data.item_key_to_id.get(key) if isinstance(key, str) else None
+        if (code is None or code in by_code or "Abilities" not in data.items[code].tags
+                or data.items[code].label != f"{ability} Ability"
                 or not isinstance(names, list) or not names
-                or any(not isinstance(name, str) or name not in routes for name in names)):
-            raise ValueError(f"Invalid Kirby permission promotion: {key!r}")
+                or any(not isinstance(name, str) or name not in routes for name in names)
+                or len(set(names)) != len(names)):
+            raise ValueError(f"Invalid Kirby permission promotion: {ability!r}")
         by_code[code] = tuple(names)
     return routes, by_code
 

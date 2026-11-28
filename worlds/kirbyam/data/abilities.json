@@ -17,7 +17,13 @@
   },
   "Crash": {
     "runtime_ability_id": 24,
-    "safe_to_gate": true
+    "safe_to_gate": true,
+    "progression_permission": {
+      "item": "ABILITY_UNLOCK_CRASH",
+      "routes": [
+        "mustard_advanced_crash"
+      ]
+    }
   },
   "Cutter": {
     "runtime_ability_id": 6,
@@ -29,7 +35,14 @@
   },
   "Fighter": {
     "runtime_ability_id": 20,
-    "safe_to_gate": true
+    "safe_to_gate": true,
+    "progression_permission": {
+      "item": "ABILITY_UNLOCK_FIGHTER",
+      "routes": [
+        "carrot_5_13_local_source",
+        "cabbage_chocolate_carry"
+      ]
+    }
   },
   "Fire": {
     "runtime_ability_id": 1,
@@ -41,7 +54,15 @@
   },
   "Ice": {
     "runtime_ability_id": 2,
-    "safe_to_gate": true
+    "safe_to_gate": true,
+    "progression_permission": {
+      "item": "ABILITY_UNLOCK_ICE",
+      "routes": [
+        "olive_goal_2_ice",
+        "cabbage_chocolate_carry",
+        "mustard_4_16_local_source"
+      ]
+    }
   },
   "Laser": {
     "runtime_ability_id": 13,
@@ -49,7 +70,13 @@
   },
   "Magic": {
     "runtime_ability_id": 21,
-    "safe_to_gate": true
+    "safe_to_gate": true,
+    "progression_permission": {
+      "item": "ABILITY_UNLOCK_MAGIC",
+      "routes": [
+        "mustard_4_16_advanced_source"
+      ]
+    }
   },
   "Master": {
     "runtime_ability_id": 26,
@@ -62,7 +89,17 @@
   },
   "Missile": {
     "runtime_ability_id": 25,
-    "safe_to_gate": true
+    "safe_to_gate": true,
+    "progression_permission": {
+      "item": "ABILITY_UNLOCK_MISSILE",
+      "routes": [
+        "cabbage_chocolate_carry",
+        "candy_9_12_local_source",
+        "rainbow_1_39_bombar_missile",
+        "moonlight_2_01_golem_missile",
+        "moonlight_2_04_doo_missile"
+      ]
+    }
   },
   "Normal": {
     "runtime_ability_id": 0,
@@ -71,7 +108,13 @@
   },
   "Parasol": {
     "runtime_ability_id": 5,
-    "safe_to_gate": true
+    "safe_to_gate": true,
+    "progression_permission": {
+      "item": "ABILITY_UNLOCK_PARASOL",
+      "routes": [
+        "cabbage_chocolate_carry"
+      ]
+    }
   },
   "Smash": {
     "runtime_ability_id": 22,
@@ -83,7 +126,14 @@
   },
   "Spark": {
     "runtime_ability_id": 15,
-    "safe_to_gate": true
+    "safe_to_gate": true,
+    "progression_permission": {
+      "item": "ABILITY_UNLOCK_SPARK",
+      "routes": [
+        "cabbage_chocolate_carry",
+        "candy_9_12_local_source"
+      ]
+    }
   },
   "Stone": {
     "runtime_ability_id": 8,
