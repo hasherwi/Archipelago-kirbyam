@@ -11,6 +11,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ## Unreleased
 
 ### New Features
+- Add **Random Starting Abilities**: with Ability Gating on, move a chosen number of distinct random copy-ability unlocks from the item pool into starting inventory (Issue #915).
 - Add **Capture the Flag** goal: physically complete one hidden, randomly selected check. Use `/goal reveal` only if you want to spoil its location (Issue #1173).
 - Add **Random Starting Mirror** (on by default). The tutorial World Map chest awards a random usable Central Circle Hub Connection. The original mirror to Room 1-01 stays locked until its Hub Connection is received (PR #1156).
 - Add 38 Kirby starting color palettes and a [visual gallery of all 65 colors](docs/color-palettes.md) (PR #1135).

@@ -9,7 +9,7 @@ from collections import Counter
 from typing import TYPE_CHECKING, Any, ClassVar, TextIO
 
 import settings
-from Options import Accessibility
+from Options import Accessibility, OptionError
 from BaseClasses import CollectionState, Item, ItemClassification, LocationProgressType, MultiWorld, Tutorial
 from worlds.AutoWorld import WebWorld, World
 from worlds.LauncherComponents import Component, Type, components, launch as launch_component
@@ -402,6 +402,35 @@ class KirbyAmWorld(World):
         validate_tracker_data(slot_data)
         return slot_data
 
+    def _grant_random_starting_abilities(self) -> None:
+        count = self.options.random_starting_abilities.value
+        self._random_starting_ability_items: tuple[str, ...] = ()
+        if not count:
+            return  # Preserve the generation RNG stream when the option is disabled.
+        if not self._ability_gating_enabled():
+            raise OptionError(f"KirbyAM ({self.player_name}): random_starting_abilities requires ability_gating.")
+        reserved = {name for name, quantity in self.options.start_inventory.value.items() if quantity > 0}
+        for block in self.options.plando_items.value:
+            if not block.from_pool:
+                continue
+            # At this stage Archipelago has resolved active blocks and item
+            # groups, but has not chosen a subset of a multi-item block.
+            # Keep every possible pool-backed pick available to plando.
+            if isinstance(block.items, dict):
+                reserved.update(name for name, quantity in block.items.items() if quantity > 0)
+            else:
+                reserved.update(block.items)
+        candidates = [f"{ability} Ability" for ability in GATEABLE_ENEMY_COPY_ABILITIES
+                      if f"{ability} Ability" not in reserved]
+        if count > len(candidates):
+            raise OptionError(
+                f"KirbyAM ({self.player_name}): random_starting_abilities requests {count}, "
+                f"but only {len(candidates)} distinct unlocks remain after explicit starting inventory and pool-backed plando."
+            )
+        self._random_starting_ability_items = tuple(self.random.sample(candidates, count))
+        for name in self._random_starting_ability_items:
+            self.push_precollected(self.create_item(name))
+
     # Pre-generation adjustments
     def generate_early(self) -> None:
         from .phone_traversal import validate_phone_profile
@@ -600,6 +629,8 @@ class KirbyAmWorld(World):
                     self.player,
                     len(map_items),
                 )
+
+            self._grant_random_starting_abilities()
 
     # Create world regions
     def create_regions(self) -> None:
@@ -952,6 +983,12 @@ class KirbyAmWorld(World):
                         self.player,
                         excluded_ability_count,
                     )
+
+                random_start_codes = {
+                    self.item_name_to_id[name] for name in getattr(self, "_random_starting_ability_items", ())
+                }
+                if random_start_codes:
+                    non_filler_item_codes = [code for code in non_filler_item_codes if code not in random_start_codes]
 
                 if len(non_filler_item_codes) > needed_pool_size:
                     raise ValueError(

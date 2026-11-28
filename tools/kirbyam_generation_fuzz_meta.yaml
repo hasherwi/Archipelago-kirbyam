@@ -1,6 +1,13 @@
 # Choose a supported maximum after the fuzzer rolls the starting HP.
 # Keep the vendored fuzzer unchanged; explicit replay samples bypass this file.
 triggers:
+  # An unlock count only applies when the fuzzer enables ability gating.
+  - option_category: Kirby & The Amazing Mirror
+    option_name: ability_gating
+    option_result: "false"
+    options:
+      Kirby & The Amazing Mirror:
+        random_starting_abilities: 0
   - option_category: Kirby & The Amazing Mirror
     option_name: minimum_health
     option_result: 1
