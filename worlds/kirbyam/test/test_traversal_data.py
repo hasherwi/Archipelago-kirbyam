@@ -213,6 +213,7 @@ def test_target_catalog_counts_and_provider_separation():
         "switch_310_kibble_cutter_roof_returns": frozenset({"Cutter"}),
         "switch_825_ufo_top_charge": frozenset({"UFO"}),
         "switch_825_fire_breath": frozenset({"Fire"}),
+        "bomb_708_right_c_burning": frozenset({"Burning"}),
         "frozen_enemy_hit": frozenset({"Ice"}),
         "heave_ho_pull": frozenset({"Normal"}),
         "underwater_block_hit": frozenset({"Normal", "Parasol", "Hammer", "Sword", "Master"}),

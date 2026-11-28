@@ -154,16 +154,16 @@ def test_advanced_high_weight_shuffle_never_sets_statue_reservations():
     (4142342124837059238, 29, True, True),
     (4794201909486144105, 50, False, False),
 ])
-def test_earlier_hosted_rainbow_failures_now_expose_a_real_multiability_peg_cut(
+def test_short_cabbage_sources_repair_earlier_hosted_peg_rosters(
     seed: int, weight: int, passive: bool, keys: bool,
 ) -> None:
-    from ..logic_aware_shuffle import proven_roster_shortage
+    from ..logic_aware_shuffle import _constraints, proven_roster_shortage
 
     raw = build_enemy_copy_ability_policy(random.Random(0), 1, False, False,
                                          include_passive_enemies=passive, no_ability_weight=weight)
     raw["seed"] = seed
-    assert proven_roster_shortage(raw, include_statues=True, require_all=True,
-                                  room16=True, area_keys=keys) == {
-        "target": "peg_513_4_7", "abilities": ["Hammer", "Master", "Smash", "Stone"]}
-    assert proven_roster_shortage(raw, include_statues=False, require_all=True,
-                                  room16=True, area_keys=keys) is None
+    initial = SourcePolicy(raw, include_statues=True)
+    settings = dict(include_statues=True, require_all=True, room16=True, area_keys=keys)
+    assert proven_roster_shortage(raw, **settings) is None
+    repaired = SourcePolicy(constrain_shuffled_abilities(raw, **settings), include_statues=True)
+    assert all(rule.accepts(repaired) for rule in _constraints(initial, True, True, keys))

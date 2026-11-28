@@ -8713,6 +8713,164 @@
               "access": {
                 "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3"
               }
+            },
+            "short_rocky_stone": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_13"
+              },
+              "nodes": [
+                {
+                  "id": "north_513",
+                  "native_room": 513
+                },
+                {
+                  "id": "east_528_arrival",
+                  "native_room": 528
+                },
+                {
+                  "id": "rocky",
+                  "native_room": 528
+                },
+                {
+                  "id": "west_513_return",
+                  "native_room": 513
+                },
+                {
+                  "id": "target",
+                  "native_room": 513
+                }
+              ],
+              "starts": [
+                "north_513"
+              ],
+              "required_targets": [
+                "target"
+              ],
+              "sources": [
+                {
+                  "node": "rocky",
+                  "inventory_id": "room:528/template:0x088C93A0",
+                  "renewable": false,
+                  "acquisition_evidence": "Exact original physical source acquired before the obstacle in the stock controller trace."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "north_513",
+                  "to": "east_528_arrival",
+                  "evidence": "Normal takes n513 west (2,5) to n528 (21,32), arrival (328,505).",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "Observed native entry in the controller trace.",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ]
+                },
+                {
+                  "from": "east_528_arrival",
+                  "to": "rocky",
+                  "evidence": "Reach the stock Rocky in the n528 east shaft through the witnessed ordinary block approach."
+                },
+                {
+                  "from": "rocky",
+                  "to": "west_513_return",
+                  "evidence": "Copy the original Rocky, retain Stone and take n528 (21,31) to n513 (4,6).",
+                  "required_equipment": [
+                    "Stone"
+                  ],
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "Observed native entry in the controller trace.",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ]
+                },
+                {
+                  "from": "west_513_return",
+                  "to": "target",
+                  "evidence": "docs/traversal-logic.md#peg_513_4_7",
+                  "capability": "peg",
+                  "allowed_abilities": [
+                    "Stone"
+                  ],
+                  "opens": "peg_513_4_7"
+                }
+              ]
+            },
+            "local_foley_stone": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_13"
+              },
+              "nodes": [
+                {
+                  "id": "north_513",
+                  "native_room": 513
+                },
+                {
+                  "id": "east_528_arrival",
+                  "native_room": 528
+                },
+                {
+                  "id": "upper_foley",
+                  "native_room": 513
+                },
+                {
+                  "id": "target",
+                  "native_room": 513
+                }
+              ],
+              "starts": [
+                "north_513"
+              ],
+              "required_targets": [
+                "target"
+              ],
+              "sources": [
+                {
+                  "node": "upper_foley",
+                  "inventory_id": "room:513/template:0x088C9B50",
+                  "renewable": false,
+                  "acquisition_evidence": "Swallowed the original upper Foley itself as Normal on Shuffled seed 1071, after arriving from n528."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "north_513",
+                  "to": "east_528_arrival",
+                  "evidence": "Normal takes n513 west (2,5) to n528 (21,32), arrival (328,505).",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "Observed native entry in the controller trace.",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ]
+                },
+                {
+                  "from": "east_528_arrival",
+                  "to": "upper_foley",
+                  "evidence": "Normal takes the observed n528 (21,31) return to n513 (4,6); the original upper Foley is just ahead.",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "Observed native entry in the controller trace.",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ]
+                },
+                {
+                  "from": "upper_foley",
+                  "to": "target",
+                  "evidence": "docs/traversal-logic.md#peg_513_4_7",
+                  "capability": "peg",
+                  "allowed_abilities": [
+                    "Stone"
+                  ],
+                  "opens": "peg_513_4_7"
+                }
+              ]
             }
           }
         }
@@ -8846,6 +9004,209 @@
               "access": {
                 "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3"
               }
+            },
+            "local_giant_rocky_stone": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_12_LOWER"
+              },
+              "nodes": [
+                {
+                  "id": "lower_528",
+                  "native_room": 528
+                },
+                {
+                  "id": "west_527",
+                  "native_room": 527
+                },
+                {
+                  "id": "giant_rocky",
+                  "native_room": 527
+                },
+                {
+                  "id": "target",
+                  "native_room": 527
+                }
+              ],
+              "routes": [
+                {
+                  "from": "lower_528",
+                  "to": "west_527",
+                  "evidence": "docs/traversal-logic.md#peg_527_56_16",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "Observed original door travel from n528 (22,47) to n527 (3,17).",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ]
+                },
+                {
+                  "from": "west_527",
+                  "to": "giant_rocky",
+                  "evidence": "docs/traversal-logic.md#peg_527_56_16"
+                },
+                {
+                  "from": "giant_rocky",
+                  "to": "target",
+                  "evidence": "docs/traversal-logic.md#peg_527_56_16",
+                  "capability": "peg",
+                  "allowed_abilities": [
+                    "Stone"
+                  ],
+                  "opens": "peg_527_56_16"
+                }
+              ],
+              "sources": [
+                {
+                  "node": "giant_rocky",
+                  "inventory_id": "room:527/template:0x088CA568",
+                  "renewable": false,
+                  "acquisition_evidence": "Stock seed 1197 physically swallowed the original Giant Rocky before either peg."
+                }
+              ],
+              "starts": [
+                "lower_528"
+              ],
+              "required_targets": [
+                "target"
+              ]
+            },
+            "short_bonkers_hammer": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_12_LOWER"
+              },
+              "nodes": [
+                {
+                  "id": "lower_528",
+                  "native_room": 528
+                },
+                {
+                  "id": "west_527",
+                  "native_room": 527
+                },
+                {
+                  "id": "upper_515",
+                  "native_room": 515
+                },
+                {
+                  "id": "bonkers",
+                  "native_room": 515
+                },
+                {
+                  "id": "lower_513",
+                  "native_room": 513
+                },
+                {
+                  "id": "east_528",
+                  "native_room": 528
+                },
+                {
+                  "id": "west_527_carry",
+                  "native_room": 527
+                },
+                {
+                  "id": "target",
+                  "native_room": 527
+                }
+              ],
+              "routes": [
+                {
+                  "from": "lower_528",
+                  "to": "west_527",
+                  "evidence": "docs/traversal-logic.md#peg_527_56_16",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "Normal takes n528 (22,47) to n527 (3,17).",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ]
+                },
+                {
+                  "from": "west_527",
+                  "to": "upper_515",
+                  "evidence": "docs/traversal-logic.md#peg_527_56_16",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "Normal takes the upper n527 (69,5) door without either peg to n515 upper left.",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ]
+                },
+                {
+                  "from": "upper_515",
+                  "to": "bonkers",
+                  "evidence": "docs/traversal-logic.md#peg_527_56_16"
+                },
+                {
+                  "from": "bonkers",
+                  "to": "lower_513",
+                  "evidence": "docs/traversal-logic.md#peg_527_56_16",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "After swallowing Bonkers, n515 (10,2) reaches the n513 lower-right arrival.",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ],
+                  "required_equipment": [
+                    "Hammer"
+                  ]
+                },
+                {
+                  "from": "lower_513",
+                  "to": "east_528",
+                  "evidence": "docs/traversal-logic.md#peg_527_56_16",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "n513 (2,5) reaches n528 east; both original moves proven with Hammer.",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ],
+                  "required_equipment": [
+                    "Hammer"
+                  ]
+                },
+                {
+                  "from": "east_528",
+                  "to": "west_527_carry",
+                  "evidence": "docs/traversal-logic.md#peg_527_56_16",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "n528 (22,47) reaches n527 (3,17).",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ],
+                  "required_equipment": [
+                    "Hammer"
+                  ]
+                },
+                {
+                  "from": "west_527_carry",
+                  "to": "target",
+                  "evidence": "docs/traversal-logic.md#peg_527_56_16",
+                  "capability": "peg",
+                  "allowed_abilities": [
+                    "Hammer"
+                  ],
+                  "opens": "peg_527_56_16"
+                }
+              ],
+              "sources": [
+                {
+                  "node": "bonkers",
+                  "inventory_id": "room:515/template:0x088C9FB4",
+                  "renewable": false,
+                  "acquisition_evidence": "Defeated the original Bonkers as Normal and swallowed the parent, not the encounter projectile."
+                }
+              ],
+              "starts": [
+                "lower_528"
+              ],
+              "required_targets": [
+                "target"
+              ]
             }
           }
         },
@@ -8952,6 +9313,209 @@
               "access": {
                 "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3"
               }
+            },
+            "local_giant_rocky_stone": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_12_LOWER"
+              },
+              "nodes": [
+                {
+                  "id": "lower_528",
+                  "native_room": 528
+                },
+                {
+                  "id": "west_527",
+                  "native_room": 527
+                },
+                {
+                  "id": "giant_rocky",
+                  "native_room": 527
+                },
+                {
+                  "id": "target",
+                  "native_room": 527
+                }
+              ],
+              "routes": [
+                {
+                  "from": "lower_528",
+                  "to": "west_527",
+                  "evidence": "docs/traversal-logic.md#peg_527_18_13",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "Observed original door travel from n528 (22,47) to n527 (3,17).",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ]
+                },
+                {
+                  "from": "west_527",
+                  "to": "giant_rocky",
+                  "evidence": "docs/traversal-logic.md#peg_527_18_13"
+                },
+                {
+                  "from": "giant_rocky",
+                  "to": "target",
+                  "evidence": "docs/traversal-logic.md#peg_527_18_13",
+                  "capability": "peg",
+                  "allowed_abilities": [
+                    "Stone"
+                  ],
+                  "opens": "peg_527_18_13"
+                }
+              ],
+              "sources": [
+                {
+                  "node": "giant_rocky",
+                  "inventory_id": "room:527/template:0x088CA568",
+                  "renewable": false,
+                  "acquisition_evidence": "Stock seed 1197 physically swallowed the original Giant Rocky before either peg."
+                }
+              ],
+              "starts": [
+                "lower_528"
+              ],
+              "required_targets": [
+                "target"
+              ]
+            },
+            "short_bonkers_hammer": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_12_LOWER"
+              },
+              "nodes": [
+                {
+                  "id": "lower_528",
+                  "native_room": 528
+                },
+                {
+                  "id": "west_527",
+                  "native_room": 527
+                },
+                {
+                  "id": "upper_515",
+                  "native_room": 515
+                },
+                {
+                  "id": "bonkers",
+                  "native_room": 515
+                },
+                {
+                  "id": "lower_513",
+                  "native_room": 513
+                },
+                {
+                  "id": "east_528",
+                  "native_room": 528
+                },
+                {
+                  "id": "west_527_carry",
+                  "native_room": 527
+                },
+                {
+                  "id": "target",
+                  "native_room": 527
+                }
+              ],
+              "routes": [
+                {
+                  "from": "lower_528",
+                  "to": "west_527",
+                  "evidence": "docs/traversal-logic.md#peg_527_18_13",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "Normal takes n528 (22,47) to n527 (3,17).",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ]
+                },
+                {
+                  "from": "west_527",
+                  "to": "upper_515",
+                  "evidence": "docs/traversal-logic.md#peg_527_18_13",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "Normal takes the upper n527 (69,5) door without either peg to n515 upper left.",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ]
+                },
+                {
+                  "from": "upper_515",
+                  "to": "bonkers",
+                  "evidence": "docs/traversal-logic.md#peg_527_18_13"
+                },
+                {
+                  "from": "bonkers",
+                  "to": "lower_513",
+                  "evidence": "docs/traversal-logic.md#peg_527_18_13",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "After swallowing Bonkers, n515 (10,2) reaches the n513 lower-right arrival.",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ],
+                  "required_equipment": [
+                    "Hammer"
+                  ]
+                },
+                {
+                  "from": "lower_513",
+                  "to": "east_528",
+                  "evidence": "docs/traversal-logic.md#peg_527_18_13",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "n513 (2,5) reaches n528 east; both original moves proven with Hammer.",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ],
+                  "required_equipment": [
+                    "Hammer"
+                  ]
+                },
+                {
+                  "from": "east_528",
+                  "to": "west_527_carry",
+                  "evidence": "docs/traversal-logic.md#peg_527_18_13",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "n528 (22,47) reaches n527 (3,17).",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ],
+                  "required_equipment": [
+                    "Hammer"
+                  ]
+                },
+                {
+                  "from": "west_527_carry",
+                  "to": "target",
+                  "evidence": "docs/traversal-logic.md#peg_527_18_13",
+                  "capability": "peg",
+                  "allowed_abilities": [
+                    "Hammer"
+                  ],
+                  "opens": "peg_527_18_13"
+                }
+              ],
+              "sources": [
+                {
+                  "node": "bonkers",
+                  "inventory_id": "room:515/template:0x088C9FB4",
+                  "renewable": false,
+                  "acquisition_evidence": "Defeated the original Bonkers as Normal and swallowed the parent, not the encounter projectile."
+                }
+              ],
+              "starts": [
+                "lower_528"
+              ],
+              "required_targets": [
+                "target"
+              ]
             }
           }
         }

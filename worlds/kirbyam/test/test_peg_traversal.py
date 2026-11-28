@@ -421,3 +421,46 @@ def test_radish_bonkers_is_an_independent_standard_wheel_then_hammer_route():
         assert entry.access_rule(state)
     with patch.object(state, "can_reach_region", side_effect=lambda name, _: name == stone.access_region):
         assert entry.access_rule(state)
+
+
+def test_cabbage_n513_upper_peg_uses_short_original_rocky_route():
+    from ..traversal_data import room_traversal_graph
+
+    graph = room_traversal_graph("peg_513_4_7", "short_rocky_stone", area_keys=True)
+    source, = graph.placements
+    assert source.identity == "room:528/template:0x088C93A0"
+    assert source.source_key == "ROCKY"
+    assert graph.access_region == "REGION_CABBAGE_CAVERN/ROOM_3_13"
+    assert graph.required_targets == {"target"}
+    assert [(edge.source, edge.target) for edge in graph.routes] == [
+        ("north_513", "east_528_arrival"), ("east_528_arrival", "rocky"),
+        ("rocky", "west_513_return"), ("west_513_return", "target"),
+    ]
+    keys = frozenset({"Cabbage Cavern - Area Key"})
+    vanilla = SourcePolicy({"mode": 0})
+    assert graph.evaluate(vanilla, keys, gating=False, advanced_logic=False).reaches("target")
+    assert not graph.evaluate(vanilla, frozenset(), gating=False, advanced_logic=False).reaches("target")
+    assert not graph.evaluate(vanilla, keys, gating=True, advanced_logic=False).reaches("target")
+    assert graph.evaluate(vanilla, keys | {"Stone Ability"}, gating=True, advanced_logic=False).reaches("target")
+
+
+@pytest.mark.parametrize("target_id", ["peg_527_18_13", "peg_527_56_16"])
+@pytest.mark.parametrize(("witness", "enemy", "ability", "carry"), [
+    ("local_giant_rocky_stone", "GIANT_ROCKY", "Stone", 0),
+    ("short_bonkers_hammer", "BONKERS", "Hammer", 3),
+])
+def test_cabbage_n527_peg_sources_are_independently_reachable(target_id, witness, enemy, ability, carry):
+    from ..traversal_data import graph_items, room_traversal_graph
+
+    graph = room_traversal_graph(target_id, witness, area_keys=True)
+    source, = graph.placements
+    assert source.source_key == enemy and not source.renewable
+    assert graph.access_region == "REGION_CABBAGE_CAVERN/ROOM_3_12_LOWER"
+    nodes = {node.key: node.room for node in graph.nodes}
+    after_source = graph.routes[next(i for i, edge in enumerate(graph.routes) if edge.source == source.node):]
+    assert sum(nodes[edge.source] != nodes[edge.target] for edge in after_source) == carry
+    keys = graph_items(graph)
+    assert graph.evaluate(SourcePolicy({"mode": 0}), keys | {f"{ability} Ability"}, gating=True,
+                          advanced_logic=False).reaches("target")
+    assert not graph.evaluate(SourcePolicy({"mode": 0}), keys, gating=True,
+                              advanced_logic=False).reaches("target")
