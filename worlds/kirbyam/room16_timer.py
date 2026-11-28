@@ -1,24 +1,21 @@
 """Explicit Completely Random room patch; historical slots keep native timing."""
-from functools import lru_cache
-from .special_route_data import SPECIAL_ROUTE_PROFILES
-from .traversal import SourcePolicy, compile_traversal_graph
+from . import conditional_routes
+from .traversal import SourcePolicy
 
-_PROFILE = SPECIAL_ROUTE_PROFILES["mustard_room_4_16_timer"]
-TARGET = _PROFILE["target"]
+CONTRACT = "mustard_room_4_16_timer"
+_TARGET, _AUTHORED = conditional_routes.contract(CONTRACT)
+TARGET = _TARGET["id"]
 POLICY_KEY = "room16_switch_timer_frames"
-TIMER_FRAMES = _PROFILE["switch_timer_frames"]
+TIMER_FRAMES = _AUTHORED["activation"]["source_policy_values"][POLICY_KEY]
 ROM_OFFSET = 0x008C2708  # native533 switch0x088C26F0, template+0x18
 
 
 def configure_policy(raw: dict) -> dict:
-    if raw.get("mode") == _PROFILE["ability_randomization_mode"]:
-        return {**raw, POLICY_KEY: TIMER_FRAMES}
-    return raw
+    return conditional_routes.policy_with_contract(CONTRACT, raw, runtime_key=POLICY_KEY)
 
 
 def enabled(policy: SourcePolicy) -> bool:
-    return (policy.mode == _PROFILE["ability_randomization_mode"] and type(policy.policy.get(POLICY_KEY)) is int
-            and policy.policy[POLICY_KEY] == TIMER_FRAMES)
+    return conditional_routes.policy_has_contract(CONTRACT, policy)
 
 
 def timer_bytes(raw: dict) -> bytes:
@@ -28,12 +25,9 @@ def timer_bytes(raw: dict) -> bytes:
     return (TIMER_FRAMES if enabled(policy) else 0).to_bytes(2, "little")
 
 
-@lru_cache(maxsize=1)
 def graph():
-    return compile_traversal_graph(_PROFILE["normal_witness"])
+    return conditional_routes.graph(CONTRACT)
 
 
 def target_graphs(row: dict, policy: SourcePolicy) -> tuple:
-    if row.get("id") == TARGET and enabled(policy):
-        return (graph(),)
-    return ()
+    return conditional_routes.active_graphs(row, frozenset({CONTRACT}) if enabled(policy) else frozenset(), policy)

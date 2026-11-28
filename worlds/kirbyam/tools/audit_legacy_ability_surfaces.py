@@ -3,7 +3,7 @@ from collections import Counter
 import json
 from pathlib import Path
 
-from ..candy912_fuse import TARGET as CANDY912_FUSE_TARGET
+from ..conditional_routes import CANDY_FUSE
 from ..rules import (_NORMAL_MOVEMENT_REQUIREMENTS, _ROOM_LEVER_WALL_ITEMS,
                      normal_movement_satisfies_requirement)
 from ..traversal_data import _room_catalog
@@ -11,6 +11,8 @@ from .build_ranged_target_coverage import build_coverage
 
 ROOT = Path(__file__).resolve().parents[1]
 
+
+CANDY912_FUSE_TARGET = CANDY_FUSE.TARGET
 
 def tokens(requirement):
     if isinstance(requirement, str):

@@ -6,11 +6,13 @@ import json
 from collections import Counter, defaultdict
 from pathlib import Path
 
-from ..candy912_fuse import TARGET as CANDY_FUSE_FALLBACK
+from ..conditional_routes import CANDY_FUSE
 from ..data import data
 from ..rules import normal_movement_satisfies_requirement
 from ..traversal_data import _room_catalog
 from .audit_legacy_ability_surfaces import tokens
+
+CANDY_FUSE_FALLBACK = CANDY_FUSE.TARGET
 
 KINDS = {
     "metal": {"can_break_metal", "can_break_metal_throw"},

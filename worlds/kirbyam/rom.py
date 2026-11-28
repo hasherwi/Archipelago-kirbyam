@@ -18,7 +18,7 @@ from typing import TYPE_CHECKING
 from settings import get_settings
 from worlds.Files import APPatchExtension, APProcedurePatch, APTokenMixin, APTokenTypes
 
-from . import candy912_fuse
+from .conditional_routes import CANDY_FUSE as candy912_fuse
 from .colors import encode_color_config
 from .data import data
 from .enemy_ability_data import ABILITY_NAME_TO_ID, GATEABLE_ENEMY_COPY_ABILITIES

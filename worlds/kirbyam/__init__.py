@@ -492,8 +492,8 @@ class KirbyAmWorld(World):
                                      and not self.options.advanced_logic.value),
                 area_keys=self._area_keys_enabled(),
             )
-            from .candy912_fuse import needs_linked_fuse
-            self._candy912_linked_west_fuse = needs_linked_fuse(
+            from .conditional_routes import CANDY_FUSE
+            self._candy912_linked_west_fuse = CANDY_FUSE.needs_linked_fuse(
                 self._enemy_copy_ability_policy, minor_chests=self.ENABLE_MINOR_CHESTS,
             )
             validate_phone_profile(self)
@@ -1342,8 +1342,8 @@ class KirbyAmWorld(World):
         slot_data["enemy_copy_ability_whitelist"] = list(allowed_abilities)
         slot_data["enemy_copy_ability_policy"] = dict(policy)
         if self._candy912_linked_west_fuse:
-            from .candy912_fuse import SLOT_KEY as CANDY912_FUSE_SLOT_KEY
-            slot_data[CANDY912_FUSE_SLOT_KEY] = True
+            from .conditional_routes import CANDY_FUSE
+            slot_data[CANDY_FUSE.SLOT_KEY] = True
 
         from .rules import get_stake_breaking_abilities, get_stake_gated_transition_entrance_names
 

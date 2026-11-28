@@ -4,7 +4,7 @@ from copy import deepcopy
 from typing import TYPE_CHECKING, Any, Iterable
 
 from BaseClasses import Item
-from . import candy912_fuse
+from .conditional_routes import CANDY_FUSE as candy912_fuse
 from .options import ExcludeTrapTypes, KirbyAmOptions
 from .starting_mirror import starting_mirror_candidates
 from .narcolepsy import NARCOLEPSY_ITEM_NAME, NARCOLEPSY_TRAP_CATALOG_VERSION

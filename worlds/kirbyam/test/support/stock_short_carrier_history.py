@@ -2,6 +2,7 @@
 from copy import deepcopy
 
 from .kibble310_history import digest
+from .conditional_route_history import before_conditional_routes_target
 
 _PEP = {
     "metal_228_chest": "949e5e576c58aae85b6b2fd279c0f6b863a8d0b45ea9478cb8063259b418e19f",
@@ -39,6 +40,7 @@ _NEW_SOURCES = ('BOMBAR@0x088C2914', 'GOLEM@0x088BC580', 'WADDLE_DOO@0x088BCCDC'
 
 
 def before_stock_short_target(row):
+    row = before_conditional_routes_target(row)
     target = row["id"]
     for (owner, witness), expected in _NEW_ROUTES.items():
         if target == owner:

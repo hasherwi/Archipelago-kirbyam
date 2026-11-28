@@ -270,9 +270,9 @@ def static_extra_witness(policy: SourcePolicy, *, advanced: bool = False) -> boo
 
 def install_extra_traversal_rules(world: Any) -> None:
     from worlds.generic.Rules import add_rule
-    from . import candy912_fuse, yellow_cupid, room16_timer
+    from . import conditional_routes, yellow_cupid, room16_timer
 
-    yellow_cupid.validate_profile(world, install=True)
+    yellow_enabled = yellow_cupid.validate_profile(world, install=True)
     raw = getattr(world, "_enemy_copy_ability_policy", None)
     if not isinstance(raw, dict):
         # Preserve legacy fallbacks except for new optional connections and
@@ -293,9 +293,13 @@ def install_extra_traversal_rules(world: Any) -> None:
         return
     policy = SourcePolicy(raw, bool(world.options.ability_randomization_statues.value))
     gating = world._ability_gating_enabled()
+    active_contracts = frozenset(name for name, enabled in (
+        (conditional_routes.CANDY_FUSE.CONTRACT, getattr(world, "_candy912_linked_west_fuse", False)),
+        (room16_timer.CONTRACT, room16_timer.enabled(policy)),
+        (yellow_cupid.CONTRACT, yellow_enabled),
+    ) if enabled)
     for row in extra_traversal_targets():
-        profile_graphs = (yellow_cupid.target_graphs(world, row) + room16_timer.target_graphs(row, policy)
-                          + candy912_fuse.target_graphs(row, getattr(world, "_candy912_linked_west_fuse", False), policy))
+        profile_graphs = conditional_routes.active_graphs(row, active_contracts, policy)
         applies = target_applies(row, policy)
         if not applies and not profile_graphs:
             if row.get("fail_closed"):

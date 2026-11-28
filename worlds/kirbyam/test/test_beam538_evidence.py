@@ -125,6 +125,14 @@ def test_exact_owner_native_rooms_and_unchanged_neighbor_contracts():
     # Compare physical neighbor records to their historical pins, not new logic metadata.
     from .support.advanced_crash_history import rooms_before_advanced_crash
     e, rooms = evidence(), rooms_before_advanced_crash(load_json_data('regions/rooms.json'))
+    from .support.stock_short_carrier_history import before_stock_short_target
+
+    # Reverse only the exact new room witnesses before checking preserved native pins.
+    for region in rooms.values():
+        if "targets" in region.get("traversal", {}):
+            targets = [before_stock_short_target(row) for row in region["traversal"]["targets"]]
+            region["traversal"]["targets"] = [row for row in targets if row is not None]
+
     assert e['target'] == {
         'id': TARGET, 'owner': OWNER, 'exit': DESTINATION, 'native_room': 538,
         'actual_exit_native_room': 537, 'independent_access': UPSTREAM}
@@ -256,7 +264,7 @@ def test_historical_ownership_snapshot_and_current_union_are_separate():
         'surfaces': 1059, 'room_sanity_locations': 263, 'installed_target_definitions': 38}
     assert current['counts'] == {
         'regions': 418, 'mapped_native_definitions': 354, 'locations': 401,
-        'surfaces': 1176, 'room_sanity_locations': 263, 'installed_target_definitions': 66}
+        'surfaces': 1178, 'room_sanity_locations': 263, 'installed_target_definitions': 68}
     # Later host data (including the placement census) is not Beam native evidence.
     assert set(current['input_sha256']) - set(snapshot['input_sha256']) == {
         'data/full_completion.json',

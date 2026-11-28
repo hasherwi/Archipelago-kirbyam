@@ -101,7 +101,8 @@ def test_tracker_schema_distinguishes_fixed_copy_room_statues(mode):
         reconstruct(legacy)
 
     restored = reconstruct(slot)
-    assert restored.worlds[1]._enemy_copy_ability_policy == original.worlds[1]._enemy_copy_ability_policy
+    # JSON serializes the Shuffle swap tuples as lists; compare the exact slot representation.
+    assert restored.worlds[1]._enemy_copy_ability_policy == slot["enemy_copy_ability_policy"]
     for mw in (original, restored):
         world = mw.worlds[1]
         state = CollectionState(mw)
@@ -302,7 +303,7 @@ def test_phone_profile_and_ownership_roundtrip(qualified, starting_phone):
 
 
 def test_candy_linked_fuse_restores_separate_seed_intent_and_preserves_legacy_rule():
-    from .. import candy912_fuse
+    from ..conditional_routes import CANDY_FUSE as candy912_fuse
     from ..data import data
 
     original = setup_multiworld(KirbyAmWorld, seed=912, options={

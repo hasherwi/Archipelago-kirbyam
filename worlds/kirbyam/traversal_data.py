@@ -162,6 +162,7 @@ def load_room_traversal(
     source_sets: dict[str, Any] = {}
     graph_parts: dict[str, Any] = {}
     seen: set[str] = set()
+    seen_contracts: set[str] = set()
     for region, room in rooms.items():
         traversal = room.get("traversal", {})
         if not traversal:
@@ -190,7 +191,67 @@ def load_room_traversal(
     _validate_graph_parts(graph_parts, source_sets, require_inventory=require_inventory)
     for row in targets:
         _validate_graphs(row, source_sets, graph_parts, require_inventory=require_inventory)
+        _validate_conditional_routes(row, seen_contracts)
     return tuple(targets), source_sets, graph_parts
+
+
+def _validate_conditional_routes(row: Mapping[str, Any], seen: set[str]) -> None:
+    """Check profile syntax and the native endpoint before any slot uses it."""
+    profiles = row.get("conditional_routes", [])
+    if not isinstance(profiles, list):
+        raise ValueError(f"Invalid conditional routes for {row['id']}")
+    source_keys = {source.key for source in ABILITY_SOURCES if source.can_be_swallowed}
+
+    def verify_grant(grant: Any) -> None:
+        if (not isinstance(grant, dict) or set(grant) != {"source_key", "ability"}
+                or grant["source_key"] not in source_keys or grant["ability"] not in ABILITY_NAME_TO_ID):
+            raise ValueError(f"Invalid conditional route grant for {row['id']}")
+
+    for profile in profiles:
+        if (not isinstance(profile, dict) or set(profile) != {"contract", "activation", "witnesses"}
+                or not isinstance(profile["contract"], str) or not profile["contract"]
+                or profile["contract"] in seen):
+            raise ValueError(f"Invalid or duplicate conditional route contract for {row['id']}")
+        seen.add(profile["contract"])
+        condition = profile["activation"]
+        if not isinstance(condition, dict):
+            raise ValueError(f"Invalid conditional route activation for {row['id']}")
+        if set(condition) == {"physical_minor_check", "reviewed_source"}:
+            valid = (condition["physical_minor_check"] is True and condition["reviewed_source"] == "missing"
+                     and bool(row.get("location")) and bool(row.get("requires_guaranteed_source")
+                                                          or row.get("requires_any_guaranteed_source")))
+        elif set(condition) == {"source_policy_mode", "source_policy_values"}:
+            values = condition["source_policy_values"]
+            valid = (type(condition["source_policy_mode"]) is int and condition["source_policy_mode"] in {0, 1, 2}
+                     and isinstance(values, dict) and bool(values)
+                     and all(isinstance(k, str) and k != "mode" and type(v) is int for k, v in values.items()))
+        elif set(condition) == {"source_region", "guaranteed_source", "policy_sha256", "fixture_options",
+                                "fixture_only_options", "any_boolean_options", "physical_minor_check"}:
+            verify_grant(condition["guaranteed_source"])
+            checksum, options = condition["policy_sha256"], condition["fixture_options"]
+            valid = (condition["physical_minor_check"] is True and bool(row.get("location"))
+                     and condition["source_region"] in data.regions
+                     and isinstance(checksum, str) and len(checksum) == 64
+                     and all(ch in "0123456789abcdef" for ch in checksum)
+                     and isinstance(options, dict) and bool(options) and all(type(v) is int for v in options.values())
+                     and all(isinstance(condition[field], list) and all(k in options for k in condition[field])
+                             for field in ("fixture_only_options", "any_boolean_options")))
+        else:
+            valid = False
+        if not valid:
+            raise ValueError(f"Invalid conditional route activation for {row['id']}")
+        if not isinstance(profile["witnesses"], list) or not profile["witnesses"]:
+            raise ValueError(f"Missing conditional route witnesses for {row['id']}")
+        for witness in profile["witnesses"]:
+            if not isinstance(witness, dict) or "graph" not in witness or set(witness) - {"graph", "guaranteed_source"}:
+                raise ValueError(f"Invalid conditional route witness for {row['id']}")
+            if "guaranteed_source" in witness:
+                verify_grant(witness["guaranteed_source"])
+            graph = compile_traversal_graph(witness["graph"])
+            node_rooms = {node.key: node.room for node in graph.nodes}
+            if (graph.access_region not in data.regions or not graph.required_targets
+                    or any(node_rooms[target] != row["native_room"] for target in graph.required_targets)):
+                raise ValueError(f"Detached conditional witness for {row['id']}")
 
 
 def _validate_graph_parts(graph_parts: Mapping[str, Any], source_sets: Mapping[str, Any],

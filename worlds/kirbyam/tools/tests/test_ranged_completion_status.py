@@ -18,7 +18,7 @@ from Options import Accessibility
 from worlds.kirbyam import traversal_rules
 from worlds.kirbyam.tools import build_ranged_completion_status as status_tool
 from worlds.kirbyam.tools.build_ranged_target_coverage import ROOT
-from worlds.kirbyam import candy912_fuse
+from worlds.kirbyam.conditional_routes import CANDY_FUSE as candy912_fuse
 from worlds.kirbyam.traversal import SourcePolicy
 from worlds.kirbyam.traversal_data import _room_catalog, graph_items
 from worlds.kirbyam.master_source import CENTRAL_REGION, CENTRAL_RETURN_EVENT

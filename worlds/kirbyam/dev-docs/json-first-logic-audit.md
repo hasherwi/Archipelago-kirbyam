@@ -109,3 +109,15 @@ still live in the generator, and runtime item effects live in the client and
 ROM code. In particular, the Cell Phone Battery is Useful for AP placement
 but remains selectable by the weighted filler policy; it is not a
 progression requirement.
+
+### Room-owned conditional routes
+
+Candy 9-12's linked-fuse Normal and exact Fire alternative, Mustard Room 4-16's
+timer-backed route, and Carrot Yellow's assignment-pinned Cupid route live on
+their exact targets in `data/regions/rooms.json`. `conditional_routes` keeps a
+profile's trigger and conditional witness alternatives together. Conditions
+are validated against the target and share one evaluator. Existing native
+patch guards still own the fixed Candy marker and the Room 4-16 timer token;
+Tracker still reconstructs from persisted settings rather than silently
+deciding an older seed should use new patch behavior. Carrot still checks the
+complete source assignment signature when validating the installed rule.
