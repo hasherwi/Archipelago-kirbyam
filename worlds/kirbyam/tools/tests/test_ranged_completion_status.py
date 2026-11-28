@@ -139,7 +139,8 @@ class TestRangedCompletionContract(unittest.TestCase):
         target = TARGETS["bomb_138_green"]
         self.assertEqual(status_tool.source_conditions(target), [])
         self.assertNotIn(target["id"], CONTRACT["policy_fallback_targets"])
-        self.assertEqual(REPORT["counts"]["witnesses"], 186)
+        row = next(row for row in REPORT["targets"] if row["id"] == target["id"])
+        self.assertEqual(row["witnesses"], ["upper_left_entry", "upper_left_normal_slide"])
         self.assertEqual(len(CONTRACT["policy_fallback_targets"]), 3)
         access = frozenset({"REGION_RAINBOW_ROUTE/ROOM_1_27_UPPER_LEFT"})
         wrong = frozenset({"REGION_RAINBOW_ROUTE/ROOM_1_27",
