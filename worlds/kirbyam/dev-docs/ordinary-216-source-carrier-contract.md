@@ -96,3 +96,29 @@ subsequent per-evaluation source-expansion optimization preserves all 477 live
 Positions while reducing this graph from 19,284 to 2,004 dequeues. See
 [source-expansion measurements](source-expansion-optimization.md) for the paired
 post-integration timings and complete-result equivalence tests.
+
+## Local Sir Kibble Missile alternative
+
+[Trial 187](https://docs.google.com/spreadsheets/d/1DTuy6sDTIiph2MuMsZTJnaZ-kygAi637APy6V6wfVII/edit#gid=10584002&range=A187:L187)
+starts in native 212 in Shuffled seed 1074. Normal takes the actual east
+arrival into native 216, slides through two ordinary blocks, then swallows
+the original fallen Sir Kibble at template 0x088C13EC. The parent itself grants
+Missile, so there is no projectile-source exception or carry after acquisition.
+Missile clears all six F5 tiles and opens the original chest 0x088C1380,
+setting flag 36 mask 16, with 6 HP retained. No AP acknowledgement is claimed.
+
+The generation witness starts only from independently reachable Peppermint
+Hub 2 and composes the existing mapped 291→215→212 ordinary feeder with that
+reviewed east arrival. The predecessor was not part of the same controller
+replay. The exact finite parent must guarantee Missile under the raw source
+policy; a mixed RNG pool, an unlock without acquisition, or another entrance
+does not qualify. When gating is on, the Missile unlock may be progression
+for this chest. This adds one Standard OR alternative, not a new exit or a
+replacement for either statue-backed Burning route.
+
+The old seed-fuzz case 141 no longer has a single-target Burning shortage at
+this chest. Its fixed enemy roster still contains just one Burning grant,
+while the reviewed native 141 left-forward and native 176 Goal 2 drink routes
+require Burning on disjoint Flamer and Batafire source families. The generation
+audit reconstructs this conservative shared-roster capacity conflict rather
+than counting bounded-search exhaustion or a rejected seed as success.

@@ -167,3 +167,37 @@ def test_short_cabbage_sources_repair_earlier_hosted_peg_rosters(
     assert proven_roster_shortage(raw, **settings) is None
     repaired = SourcePolicy(constrain_shuffled_abilities(raw, **settings), include_statues=True)
     assert all(rule.accepts(repaired) for rule in _constraints(initial, True, True, keys))
+
+
+@pytest.mark.parametrize("second_key,capacity,bypass,conflict", [
+    ("BATAFIRE", 1, False, True),
+    ("BATAFIRE", 2, False, False),
+    ("FLAMER", 1, False, False),
+    ("BATAFIRE", 1, True, False),
+])
+def test_capacity_certificate_needs_disjoint_families_and_no_alternative(
+    second_key: str, capacity: int, bypass: bool, conflict: bool,
+) -> None:
+    from ..logic_aware_shuffle import _graph_constraint, _shared_roster_cut
+    from ..traversal import Node, Placement, Position, Route, TraversalGraph
+
+    def graph(key: str, bypass: bool = False) -> TraversalGraph:
+        required = Route("start", "end", capability="metal",
+                         allowed_abilities=frozenset({"Burning"}))
+        return TraversalGraph(
+            (Node("start", 141), Node("end", 141)),
+            (required, Route("start", "end")) if bypass else (required,),
+            (Placement(node="start", source_key=key, identity=key),),
+            (Position("start"),), frozenset({"end"}),
+        )
+
+    movable = {"FLAMER": "Burning", "BATAFIRE": "Burning" if capacity == 2 else "Sword"}
+    pools = {False: set(movable.values()), True: set()}
+    constraints = (_graph_constraint("a", (graph("FLAMER"),)),
+                   _graph_constraint("b", (graph(second_key, bypass),)))
+    got = _shared_roster_cut(constraints, SourcePolicy({"mode": 0}), movable, pools)
+    if conflict:
+        assert got == {"ability": "Burning", "pool": "enemy", "available": 1,
+                       "targets": {"a": ["FLAMER"], "b": ["BATAFIRE"]}}
+    else:
+        assert got is None

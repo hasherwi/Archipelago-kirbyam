@@ -50,6 +50,18 @@ def _permission_catalogs():
 
 def test_migrated_permissions_match_the_previous_semantic_projection() -> None:
     routes, items = traversal_rules._progression_permissions()
+    # Reconstruct the exact migration baseline without this later addition.
+    key = "peppermint_7_19_local_kibble"
+    assert routes[key] == {"all_of": [
+        {"physical_minor_check": "MINOR_CHEST_PEPPERMINT_PALACE_7_19"},
+        {"reviewed_graph_sources": {"target": "metal_216_chest", "witnesses": ["peppermint291_local_missile"]}},
+    ]}
+    routes = dict(routes)
+    routes.pop(key)
+    code = next(code for code, item in data.items.items() if item.label == "Missile Ability")
+    items = dict(items)
+    assert items[code][-1] == key
+    items[code] = items[code][:-1]
     # Canonical semantic projection of the deleted standalone catalog.
     normalized = json.dumps([routes, items], sort_keys=True, separators=(",", ":")).encode()
     assert hashlib.sha256(normalized).hexdigest() == (

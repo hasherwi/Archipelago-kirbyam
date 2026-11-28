@@ -39,6 +39,10 @@ _NEW_SOURCES = ('BOMBAR@0x088C2914', 'GOLEM@0x088BC580', 'WADDLE_DOO@0x088BCCDC'
 def before_stock_short_target(row):
     row = before_conditional_routes_target(row)
     target = row["id"]
+    if target == "metal_216_chest":
+        row = deepcopy(row)
+        assert digest(row["graphs"].pop("peppermint291_local_missile")) == (
+            "b1932a1fb3907326b147b0c97104b74579502730f5dddbf637a50ecb5295dc20")
     for (owner, witness), expected in _NEW_ROUTES.items():
         if target == owner:
             row = deepcopy(row)
@@ -63,6 +67,12 @@ def before_stock_short_targets(rows):
 
 def before_stock_short_catalog(catalog):
     projected = deepcopy(catalog)
+    added = [row for row in projected["graphs"]
+             if (row["target"], row["witness"]) == ("metal_216_chest", "peppermint291_local_missile")]
+    assert len(added) == 2 and digest(added) == "7dfbf54ecd25a22145be06962b30dcc8817b1a5959488bff938e93eba5ec914b"
+    projected["graphs"] = [row for row in projected["graphs"] if row not in added]
+    projected["witnesses"] -= 1
+    projected["variants"] -= 2
     count = len(_NEW_ROUTES)
     assert (projected["witnesses"], projected["variants"]) == (169 + count, 338 + 2 * count)
     new_rows = [row for row in projected["graphs"] if (row["target"], row["witness"]) in _NEW_ROUTES]

@@ -704,7 +704,8 @@ def test_fixed_shuffle_roster_requires_reconstructed_cut(tmp_path: Path, mutatio
     import random
 
     launcher = load_launcher()
-    # Actual hosted case 141. New Moonlight paths leave the Peppermint cut.
+    # Hosted case 141: Peppermint can use Missile, but two other targets
+    # still require separate copies of the sole movable enemy Burning grant.
     raw = build_enemy_copy_ability_policy(random.Random(0), 1, True, True,
                                          include_passive_enemies=False, no_ability_weight=65)
     raw["seed"] = 8307571545629204188
@@ -713,7 +714,8 @@ def test_fixed_shuffle_roster_requires_reconstructed_cut(tmp_path: Path, mutatio
                "ability_randomization_statues": 1, "ability_randomization_no_ability_weight": 65,
                "ability_randomization_boss_spawns": 1, "ability_randomization_minibosses": 1,
                "ability_randomization_passive_enemies": 0}
-    cut = {"ability": "Burning", "target": "metal_216_chest"}
+    cut = {"ability": "Burning", "pool": "enemy", "available": 1,
+           "targets": {"metal_141_left_forward": ["FLAMER"], "metal_176_goal2_drink": ["BATAFIRE"]}}
     if mutation == "advanced":
         options["advanced_logic"] = 1
     if mutation == "wrong_roster":

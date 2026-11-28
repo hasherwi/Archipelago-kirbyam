@@ -17723,6 +17723,23 @@
     }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_19": {
+    "permission_progression_routes": {
+      "peppermint_7_19_local_kibble": {
+        "all_of": [
+          {
+            "physical_minor_check": "MINOR_CHEST_PEPPERMINT_PALACE_7_19"
+          },
+          {
+            "reviewed_graph_sources": {
+              "target": "metal_216_chest",
+              "witnesses": [
+                "peppermint291_local_missile"
+              ]
+            }
+          }
+        ]
+      }
+    },
     "locations": {
       "MINOR_CHEST_PEPPERMINT_PALACE_7_19": null,
       "room_sanity": {
@@ -17794,6 +17811,94 @@
           "native_room": 216,
           "location": "MINOR_CHEST_PEPPERMINT_PALACE_7_19",
           "graphs": {
+            "peppermint291_local_missile": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_2"
+              },
+              "nodes": [
+                {
+                  "id": "metal_216_missile:hub291",
+                  "native_room": 291
+                },
+                {
+                  "id": "metal_216_missile:arrival215",
+                  "native_room": 215
+                },
+                {
+                  "id": "metal_216_missile:arrival212",
+                  "native_room": 212
+                },
+                {
+                  "id": "metal_216_missile:arrival216_right",
+                  "native_room": 216
+                },
+                {
+                  "id": "metal_216_missile:kibble",
+                  "native_room": 216
+                },
+                {
+                  "id": "metal_216_missile:chest",
+                  "native_room": 216
+                }
+              ],
+              "starts": [
+                "metal_216_missile:hub291"
+              ],
+              "required_targets": [
+                "metal_216_missile:chest"
+              ],
+              "sources": [
+                {
+                  "id": "0x088C13EC",
+                  "node": "metal_216_missile:kibble",
+                  "source_key": "SIR_KIBBLE",
+                  "acquisition_evidence": "Ability Trials row 187: swallow the original fallen parent, not its projectile, in native 216. This is a finite source and seed 1074 guarantees Missile."
+                }
+              ],
+              "requires_guaranteed_source": {
+                "source_key": "SIR_KIBBLE",
+                "ability": "Missile"
+              },
+              "routes": [
+                {
+                  "from": "metal_216_missile:hub291",
+                  "to": "metal_216_missile:arrival215",
+                  "room_transition": true,
+                  "evidence": "Reviewed ordinary Hub 2 feeder with ordinary block clearing and no 7-19 chest dependency; docs/traversal-logic.md#rope_217_6_5 and dev-docs/ordinary-216-source-carrier-contract.md. This predecessor is not part of the seed 1074 replay. Actual 291 to 215 entrance lands at (27,29)."
+                },
+                {
+                  "from": "metal_216_missile:arrival215",
+                  "to": "metal_216_missile:arrival212",
+                  "room_transition": true,
+                  "evidence": "Reviewed ordinary Hub 2 feeder with ordinary block clearing and no 7-19 chest dependency; docs/traversal-logic.md#rope_217_6_5 and dev-docs/ordinary-216-source-carrier-contract.md. This predecessor is not part of the seed 1074 replay. Actual 215 to 212 entrance lands at (74,9)."
+                },
+                {
+                  "from": "metal_216_missile:arrival212",
+                  "to": "metal_216_missile:arrival216_right",
+                  "room_transition": true,
+                  "evidence": "Ability Trials row 187: Shuffled seed 1074, Normal takes the exact native 212 to 216 door, arriving at (44,18)."
+                },
+                {
+                  "from": "metal_216_missile:arrival216_right",
+                  "to": "metal_216_missile:kibble",
+                  "evidence": "Ability Trials row 187: from that east arrival Normal slides through both lower ordinary blocks and waits for the original Sir Kibble to fall. Other arrivals are not assumed."
+                },
+                {
+                  "from": "metal_216_missile:kibble",
+                  "to": "metal_216_missile:chest",
+                  "evidence": "Ability Trials row 187: local Sir Kibble grants Missile; rocket clears all six native F5 metal tiles (28–30,5–6) and Kirby opens exact chest 0x088C1380, flag 36 mask 16. 6 HP retained; no other equipment, helpers, or AP acknowledgement.",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Missile"
+                  ],
+                  "metal_evidence": {
+                    "Missile": "Ability Trials row 187: local Sir Kibble grants Missile; rocket clears all six native F5 metal tiles (28–30,5–6) and Kirby opens exact chest 0x088C1380, flag 36 mask 16. 6 HP retained; no other equipment, helpers, or AP acknowledgement."
+                  }
+                }
+              ]
+            },
             "central_statues": {
               "version": 1,
               "status": "reviewed",

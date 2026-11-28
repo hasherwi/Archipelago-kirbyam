@@ -127,7 +127,7 @@ _ABILITY_PROGRESSIONS = {
     'Ice': ('olive_goal_2_ice', 'cabbage_chocolate_carry', 'mustard_4_16_local_source'),
     'Magic': ('mustard_4_16_advanced_source',),
     'Missile': ('cabbage_chocolate_carry', 'candy_9_12_local_source', 'rainbow_1_39_bombar_missile',
-                'moonlight_2_01_golem_missile', 'moonlight_2_04_doo_missile'),
+                'moonlight_2_01_golem_missile', 'moonlight_2_04_doo_missile', 'peppermint_7_19_local_kibble'),
     'Parasol': ('cabbage_chocolate_carry',),
     'Spark': ('cabbage_chocolate_carry', 'candy_9_12_local_source'),
 }

@@ -6,18 +6,18 @@
     "worlds/kirbyam/ability_randomization.py": "0ede749f3cfe63dde9747c9f31184731b21c2b0d173501f8e94e090861979aaf",
     "worlds/kirbyam/enemy_ability_data.py": "509e528952a88259ff5ae167dec6ab196f6de6a792bea6a836781c9cbb62f5b2",
     "worlds/kirbyam/enemy_ability_runtime_patch.py": "1310fdcf159e861733c65e0a7577efa807914def5e30d54e7e85cbf7ff46b7de",
-    "worlds/kirbyam/data/abilities.json": "9f3b1178cdf3de87c66d95449919a3a0bbedfed9982acc4d6443aa342aa1146c",
+    "worlds/kirbyam/data/abilities.json": "1eec225d8d05662df30a0d14b080620add37ea8f99346e6b5fdb29bc60f19bbc",
     "worlds/kirbyam/traversal.py": "bcfb3febfd11a070b56fc53a628a78924d3b80e742d79c055818de29f14ecc70",
     "worlds/kirbyam/traversal_data.py": "bbb828fb66213814c1f371df68d70e3b4766f91c5ece960699da967a1ca24a35",
     "worlds/kirbyam/master_source.py": "888ed2ca9f23edb5571ef09e149903b4df1621d694045e4d4cf5983699caf770",
-    "worlds/kirbyam/data/regions/rooms.json": "793a3aee65604bcfde180b49b1f9f29925b04ec3d14024c3aaaf7d06b6b8a85f",
+    "worlds/kirbyam/data/regions/rooms.json": "b3bb73a1fe4deba7a90821e132b4bf0f5eb4e0d10f51b746602cf3ef08584067",
     "worlds/kirbyam/phone_traversal.py": "2ca0753f419103a105ba3b564c23204a4208ab14052d92de841d77cce71b9233",
     "worlds/kirbyam/rules.py": "94924f50c3d295a529ff8e8b9f8fa94659915126720f8b7e9d5fc3194fbe1ecf",
     "worlds/kirbyam/ability_source_inventory.py": "333a5ffcaf2d7896f62a13f627ce0f956b20fcb3655359744b5a0af378b5ee55",
     "worlds/kirbyam/data/ability_source_inventory.json": "34870b87f1a3f257b7a282af139f6da121a1d1d6d600a21babbd3804b74b0bc3"
   },
-  "witnesses": 186,
-  "variants": 372,
+  "witnesses": 187,
+  "variants": 374,
   "valid_pool": [
     "Beam",
     "Bomb",
@@ -1127,18 +1127,18 @@
         "documented_retry": false
       }
     ],
-    "FLAMER@0x088C15C4": [
-      {
-        "source_key": "FLAMER",
-        "identity": "0x088C15C4",
-        "renewable": false,
-        "documented_retry": false
-      }
-    ],
     "SIR_KIBBLE@0x088C13EC": [
       {
         "source_key": "SIR_KIBBLE",
         "identity": "0x088C13EC",
+        "renewable": false,
+        "documented_retry": false
+      }
+    ],
+    "FLAMER@0x088C15C4": [
+      {
+        "source_key": "FLAMER",
+        "identity": "0x088C15C4",
         "renewable": false,
         "documented_retry": false
       }
@@ -18516,6 +18516,66 @@
           ]
         }
       ]
+    },
+    {
+      "target": "metal_216_chest",
+      "witness": "peppermint291_local_missile",
+      "area_keys": false,
+      "source_ids": [
+        "SIR_KIBBLE@0x088C13EC"
+      ],
+      "capability_routes": [
+        {
+          "from": "metal_216_missile:kibble",
+          "to": "metal_216_missile:chest",
+          "capability": "metal",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Missile"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": null,
+      "graph_source_condition": [
+        "SIR_KIBBLE",
+        "Missile"
+      ],
+      "equipment_routes": []
+    },
+    {
+      "target": "metal_216_chest",
+      "witness": "peppermint291_local_missile",
+      "area_keys": true,
+      "source_ids": [
+        "SIR_KIBBLE@0x088C13EC"
+      ],
+      "capability_routes": [
+        {
+          "from": "metal_216_missile:kibble",
+          "to": "metal_216_missile:chest",
+          "capability": "metal",
+          "water_state": "dry",
+          "allowed_abilities": [
+            "Missile"
+          ],
+          "beam_provider": "Beam",
+          "beam_accepted": false,
+          "normal_accepted": false,
+          "recover_dropped_ability": false
+        }
+      ],
+      "target_source_condition": null,
+      "target_source_alternatives": null,
+      "graph_source_condition": [
+        "SIR_KIBBLE",
+        "Missile"
+      ],
+      "equipment_routes": []
     }
   ],
   "previous_source_head": "e91dd1732225a69711b46e8ea6c2e6446b7fb0a1",
