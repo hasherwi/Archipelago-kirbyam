@@ -2,7 +2,7 @@
   "schema": 2,
   "scope": "Current supported public generation, not custom narrowed policy safety or native gameplay. All compiled targets including logical subregions, both area-key modes. The always-on Phone 146 ownership rule and its separately profile-qualified witness are described in phone-progression-admission.md; neither is a compiled attack-provider graph, and the implementation is pinned here.",
   "source_sha256": {
-    "worlds/kirbyam/__init__.py": "fbb254ef439933962f0400558fef448e402eafa9be8d62b56934c392345e3ea2",
+    "worlds/kirbyam/__init__.py": "2e31b66b419160f9088e87efbef0eebcac21d549714261dc8f49a8e42b97c6d9",
     "worlds/kirbyam/ability_randomization.py": "0ede749f3cfe63dde9747c9f31184731b21c2b0d173501f8e94e090861979aaf",
     "worlds/kirbyam/enemy_ability_data.py": "509e528952a88259ff5ae167dec6ab196f6de6a792bea6a836781c9cbb62f5b2",
     "worlds/kirbyam/enemy_ability_runtime_patch.py": "1310fdcf159e861733c65e0a7577efa807914def5e30d54e7e85cbf7ff46b7de",
