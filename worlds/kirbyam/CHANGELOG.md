@@ -30,10 +30,8 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 
 ### Known Limitations
 - Phone charges can exceed three, but the battery display does not show the extra charges (PR #1086).
-- Ranged-attack coverage remains incomplete. Three targets retain older rules outside reviewed source assignments; broader physical outcomes still need review. See the [detailed coverage ledger](dev-docs/ranged-coverage-ledger.md) (PR #1052).
-- Only the North American ROM is supported; AP notifications are English.
-- mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.
-- Testing covers selected gameplay scenarios, not a complete playthrough or every multiplayer setup.
+- Only the North American ROM is supported; AP notifications and all documentation are English.
+- mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays like BizHawk.
 
 ### Bug Fixes
 - The Moonlight Mansion and Rainbow Route East Big Switches now report their own checks and display the correct reward sprites in newly generated seeds.
