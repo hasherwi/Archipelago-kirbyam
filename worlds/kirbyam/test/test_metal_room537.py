@@ -162,3 +162,20 @@ def test_required_item_at_beginning_notes_cannot_unlock_itself(
     assert not chest.can_reach(state) and not state.has(missing, 1)
     state.collect(world.create_item(missing), prevent_sweep=True)
     assert chest.can_reach(state)
+
+
+@pytest.mark.parametrize("area_keys", [False, True])
+def test_stock_bombar_missile_uses_direct_parent_and_exact_rainbow_key(area_keys: bool) -> None:
+    graph = room_traversal_graph(TARGET, "stock_bombar_short_missile", area_keys)
+    stock = SourcePolicy({"mode": 0})
+    permission = "Missile Ability"
+    key = "Rainbow Route - Area Key"
+    owned = frozenset({permission, key} if area_keys else {permission})
+    assert graph.access_region == "REGION_MUSTARD_MOUNTAIN/ROOM_4_01"
+    assert [(s.source_key, s.identity, s.renewable) for s in graph.placements] == [
+        ("BOMBAR", "0x088C2914", False)]
+    assert graph.evaluate(stock, owned, True, advanced_logic=False).reaches(END)
+    assert not graph.evaluate(stock, owned - {permission}, True, advanced_logic=False).reaches(END)
+    assert graph.evaluate(stock, owned - {key}, True, advanced_logic=False).reaches(END) is not area_keys
+    assert not graph.evaluate(policy(1, pool=["Bomb"]), owned, True, advanced_logic=False).reaches(END)
+    assert not replace(graph, placements=()).evaluate(stock, owned, True, advanced_logic=False).reaches(END)

@@ -21,6 +21,30 @@
         }
       ]
     },
+    "rainbow_1_39_bombar_missile": {
+      "all_of": [
+        {"physical_minor_check": "MINOR_CHEST_MUSIC_NOTE_01"},
+        {"guaranteed_source": "BOMBAR"}
+      ]
+    },
+    "moonlight_2_01_golem_missile": {
+      "all_of": [
+        {"guaranteed_source": "GOLEM"},
+        {"entrance_exists": {
+          "from_region": "REGION_MOONLIGHT_MANSION/ROOM_2_01",
+          "to_region": "REGION_MOONLIGHT_MANSION/ROOM_2_01_PAST_METAL_BLOCKS"
+        }}
+      ]
+    },
+    "moonlight_2_04_doo_missile": {
+      "all_of": [
+        {"guaranteed_source": "WADDLE_DOO"},
+        {"entrance_exists": {
+          "from_region": "REGION_MOONLIGHT_MANSION/ROOM_2_04_PAST_SWITCH_WALL",
+          "to_region": "REGION_MOONLIGHT_MANSION/ROOM_2_13"
+        }}
+      ]
+    },
     "mustard_advanced_crash": {
       "all_of": [
         "advanced_logic",
@@ -64,7 +88,7 @@
     "ABILITY_UNLOCK_SPARK": ["cabbage_chocolate_carry", "candy_9_12_local_source"],
     "ABILITY_UNLOCK_CRASH": ["mustard_advanced_crash"],
     "ABILITY_UNLOCK_FIGHTER": ["carrot_5_13_local_source", "cabbage_chocolate_carry"],
-    "ABILITY_UNLOCK_MISSILE": ["cabbage_chocolate_carry", "candy_9_12_local_source"],
+    "ABILITY_UNLOCK_MISSILE": ["cabbage_chocolate_carry", "candy_9_12_local_source", "rainbow_1_39_bombar_missile", "moonlight_2_01_golem_missile", "moonlight_2_04_doo_missile"],
     "ABILITY_UNLOCK_PARASOL": ["cabbage_chocolate_carry"],
     "ABILITY_UNLOCK_MAGIC": ["mustard_4_16_advanced_source"]
   }

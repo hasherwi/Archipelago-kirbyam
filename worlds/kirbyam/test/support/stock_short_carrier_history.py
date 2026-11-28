@@ -15,8 +15,24 @@ _MOON_OWNER = "REGION_MOONLIGHT_MANSION/ROOM_2_01__LOGIC__RIGHT_TOP"
 _MOON_EXITS = {"REGION_MOONLIGHT_MANSION/ROOM_2_11", "REGION_MOONLIGHT_MANSION/ROOM_2_11_DEAD_END"}
 
 
+_NEW_ROUTES = {
+    ('metal_537_beginning_notes', 'stock_bombar_short_missile'): '9627113ad2df3a7c0671ab25433dbcd9c9575d387bcf5589aa6b6e7df8385b65',
+    ('bomb_708_right_c_dead_end', 'normal_from_right_top'): 'e0e48258a721babc54ab9497c574e5c5f5ebd1e8a5554de055878d52182e8430',
+    ('metal_708_forward', 'short_golem_missile'): '4ce7fe4bae6ada9fca6370d6124dc5b09d1c98768e69e5c9952f8f57979e8f9d',
+    ('metal_708_743_main', 'short_golem_missile'): '0ec266d3a5e7ef277b6260eaceba5d634edf42d9e5d0e6ca815a77c5c9d9e6f0',
+    ('metal_708_743_dead_end', 'short_golem_missile'): '5066f0c7b02813badffe004ea869864f6078e928db32171b2a6bb5ee9ef72efd',
+    ('metal_707_to_712', 'local_doo_missile'): 'cc02410eb78e4ca9503396505b87b5b02339db8eba7e9d1ae437b4fbe0b06733',
+}
+_NEW_CATALOG_SHA = 'bb4741187d366995369f6a90c8f50d61001f4096ed943f915bd81e5e5b05b976'
+_NEW_SOURCES = ('BOMBAR@0x088C2914', 'GOLEM@0x088BC580', 'WADDLE_DOO@0x088BCCDC')
+
+
 def before_stock_short_target(row):
     target = row["id"]
+    for (owner, witness), expected in _NEW_ROUTES.items():
+        if target == owner:
+            row = deepcopy(row)
+            assert digest(row["graphs"].pop(witness)) == expected
     if target in _MOON:
         assert digest(row) == _MOON[target]
         return None
@@ -44,7 +60,17 @@ def before_stock_short_surfaces(rows):
 
 def before_stock_short_catalog(catalog):
     projected = deepcopy(catalog)
-    assert (projected["witnesses"], projected["variants"]) == (169, 338)
+    count = len(_NEW_ROUTES)
+    assert (projected["witnesses"], projected["variants"]) == (169 + count, 338 + 2 * count)
+    new_rows = [row for row in projected["graphs"] if (row["target"], row["witness"]) in _NEW_ROUTES]
+    assert len(new_rows) == 2 * count and digest(new_rows) == _NEW_CATALOG_SHA
+    projected["graphs"] = [row for row in projected["graphs"] if row not in new_rows]
+    for key in _NEW_SOURCES:
+        source, identity = key.split("@")
+        assert projected["sources"].pop(key) == [{
+            "source_key": source, "identity": identity, "renewable": False, "documented_retry": False,
+            **({"native_grants": ["Stone"]} if source == "GOLEM" else {}),
+        }]
     extra = [row for row in projected["graphs"]
              if row["target"] in _MOON or row["witness"] == "bonkers_stock_short"]
     assert digest(extra) == "03fc233163c0076914c383f259cfb1852d6b8b899659945a9c0728a9dbd1375b"

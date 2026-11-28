@@ -182,3 +182,38 @@ P1-owned Stone effects with no foreign caster, and audits both renewable Hammer
 205/228 carriers. It preserves all original source/fixture and reset limits.
 These are exact-trace audits, not a claim about all possible AI mechanisms or
 unreviewed routes. No AI-isolation patch is substituted in these replays.
+
+## Short Missile and independent Normal approaches (#1170)
+
+The original Golem in the Moonlight entry (native 195, template
+`0x088BC580`) grants Missile in Shuffled seed 1078. Its real swallow and the
+door `195 (28,8) → 708 (3,24)` are a one-native-transition carrier to the
+west bank. The same native F5 cells (36–37,23), doors, and timers were
+unchanged. Normal in vanilla does not make this Golem a Missile source.
+The current source policy and Missile permission must both allow it.
+
+- Forward exit: Missile crosses both F5s; the right shaft reaches
+  `708 (43,2) → 706 lower` at 2 HP.
+- C main: Missile from the right bank beats the closing divider. Door
+  `708 (22,28) → 743 main` reaches the main compartment; it does not prove
+  the following lever. Both endpoints use trace SHA-256
+  `9ea3ec9f8a14acf850130dbd45eeb0584fcad682242ce52e2d69c5a52c1737a0`.
+- C dead end from the west: Missile reaches the bank, Kirby drops it, and
+  Normal takes `708 (28,28) → 743 dead end`. It is not the same as C main.
+  Trace SHA-256 `f6790833e54b868e9ccf2eef96aaee989389c6bf0e3a86965cde7d6d26618edb`.
+- Independent right-top arrival: Normal can descend, fly back to the actual
+  lower-706 return, and in a separate branch use crouch-slides and take the
+  C dead-end door with F5 intact. C main did not pass in the attempted
+  timings. Trace SHA-256 `ff7cc3a5f7239bb8c9ff899c2929424dce30d307c30e18fe24fba95e945b1cf2`.
+
+A separate Normal→Golem→Stone attempt carried one door and reached the exact
+west stance. Grounded and rising/falling contact left both side-wall F5s intact;
+the solid cap blocked the tested vertical drop. No Stone crossing is modeled.
+
+In Moonlight 2-04, a local Waddle Doo (`0x088BCCDC`, native 707) granted
+Missile in Shuffled seed 1087. From the canonical west arrival, Normal cleared
+the three western ordinary blocks before acquiring it. Kirby then beat the
+stock timed slider and upper F5 wall and used `707 (72,2) → 712`. This is the
+native room visit for AP check 3961066, not a live server acknowledgement; the
+test had RoomSanity off. No ability carry is needed before the obstacle.
+Trace SHA-256 `2f2699d2e194f8f0547a8d4b054bfbb953d830a3cdaf5d7735350fd6847d622a`.

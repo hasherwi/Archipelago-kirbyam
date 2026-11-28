@@ -106,12 +106,12 @@ def _constraints(initial: SourcePolicy, require_all: bool, room16: bool, area_ke
     return tuple(results)
 
 
-def _missing_graph_ability(
-        graph: TraversalGraph, ability: str, policy: SourcePolicy, movable: dict[str, str],
-) -> bool:
-    """Overestimate all legal swaps, equipment and usable gates, then check the cut."""
+def _graph_roster_cut(
+        graph: TraversalGraph, wanted: frozenset[str], policy: SourcePolicy, movable: dict[str, str],
+) -> frozenset[str]:
+    """Overestimate all legal swaps and starts, and prove an equipment cut."""
     if not graph.starts or not graph.required_targets:
-        return False
+        return frozenset()
     available = {"Normal"}
     for start in graph.starts:
         available.update(start.equipment_outcomes)
@@ -126,49 +126,64 @@ def _missing_graph_ability(
             else:
                 available.update(policy.grant(key, lambda _: True, source.native_grants,
                                               native_room=room).abilities)
-    if ability in available:
-        return False
 
-    def can_equip(route):
-        return route.required_equipment is None or bool(available & route.required_equipment)
+    missing = wanted - available
+    if not missing:
+        return frozenset()
 
-    def can_act(route):
-        if not route.capability:
-            return True
-        attacks = {attack_provider(name, route.water_state) for name in available}
-        allowed = (CAPABILITY_ABILITIES[route.capability]
-                   if route.allowed_abilities is None else route.allowed_abilities)
-        return bool(attacks & allowed)
+    def can_reach(equipment: set[str]) -> bool:
+        def can_equip(route):
+            return route.required_equipment is None or bool(equipment & route.required_equipment)
 
-    openable = set().union(*(start.opened for start in graph.starts))
-    openable.update(route.opens for route in graph.routes
-                    if route.opens and can_equip(route) and can_act(route))
-    reachable = {start.node for start in graph.starts}
-    for _ in graph.nodes:
-        old = len(reachable)
-        reachable.update(route.target for route in graph.routes
-                         if route.source in reachable and can_equip(route)
-                         and (can_act(route) or route.opens in openable))
-        if len(reachable) == old:
-            break
-    return not graph.required_targets <= reachable
+        def can_act(route):
+            if not route.capability:
+                return True
+            attacks = {attack_provider(name, route.water_state) for name in equipment}
+            allowed = (CAPABILITY_ABILITIES[route.capability]
+                       if route.allowed_abilities is None else route.allowed_abilities)
+            return bool(attacks & allowed)
+
+        # Optimistically borrow all available equipment at every compartment,
+        # ignore ownership and lifetimes, and treat any potentially openable
+        # gate as already open. This can miss a rejection, but cannot invent one.
+        openable = set().union(*(start.opened for start in graph.starts))
+        openable.update(route.opens for route in graph.routes
+                        if route.opens and can_equip(route) and can_act(route))
+        reachable = {start.node for start in graph.starts}
+        for _ in graph.nodes:
+            old = len(reachable)
+            reachable.update(route.target for route in graph.routes
+                             if route.source in reachable and can_equip(route)
+                             and (can_act(route) or route.opens in openable))
+            if len(reachable) == old:
+                break
+        return graph.required_targets <= reachable
+
+    # Do not classify a disconnected/malformed graph as insufficient roster.
+    if can_reach(available) or not can_reach(available | missing):
+        return frozenset()
+    return missing
 
 
 def proven_roster_shortage(raw: dict[str, Any], *, include_statues: bool, require_all: bool,
-                          room16: bool, area_keys: bool) -> dict[str, str] | None:
-    """Classify only a missing ability on every graph of an unconditional required target."""
+                          room16: bool, area_keys: bool) -> dict[str, str | list[str]] | None:
+    """Classify only a proven equipment cut across every reviewed alternative."""
     if (raw.get("mode") != 1 or not include_statues or not require_all
             or not 0 <= raw.get("ability_randomization_no_ability_weight", 100) < 100
             or {SHUFFLE_SOURCE_SWAPS, SHUFFLE_STATUE_RESERVATIONS} & raw.keys()):
         return None
     policy = SourcePolicy(raw, include_statues)
     movable = shuffled_source_grants(raw, include_statues)
-    for rule in _constraints(policy, require_all, room16, area_keys):
-        if not rule.unconditional_graphs or len(rule.wanted) != 1:
+    for rule in sorted(_constraints(policy, require_all, room16, area_keys), key=lambda row: len(row.wanted)):
+        if not rule.unconditional_graphs or not rule.wanted:
             continue
-        ability, = rule.wanted
-        if all(_missing_graph_ability(graph, ability, policy, movable) for graph in rule.unconditional_graphs):
-            return {"target": rule.name, "ability": ability}
+        cuts = [_graph_roster_cut(graph, rule.wanted, policy, movable)
+                for graph in rule.unconditional_graphs]
+        if all(cuts):
+            kinds = sorted(set().union(*cuts))
+            if len(kinds) == 1:
+                return {"target": rule.name, "ability": kinds[0]}
+            return {"target": rule.name, "abilities": kinds}
     return None
 
 

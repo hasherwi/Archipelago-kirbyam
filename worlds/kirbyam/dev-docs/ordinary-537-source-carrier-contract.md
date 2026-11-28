@@ -105,3 +105,22 @@ The92-witness catalog includes both new graphs. The537 full live-pool case retai
 3.0ms in the paired run. Native policy retains354 positions, about1.9ms versus
 1.3ms. These bounded costs preserve the established shared-prefix design rather
 than duplicating selected sources or introducing a new persistent result cache.
+
+## Short vanilla Bombar Missile alternative (#1170)
+
+Defeat the original Bombar in eastern native 539 as Normal and swallow the
+defeated parent (`0x088C2914`) for Missile. The boss's swallowable projectile
+is a different, Advanced-only source, and is not used in this route.
+Carry through the same-native return mirror, then `539 → 538 → 537`: three
+mirror uses but only two native-room changes, with Missile kept at 1 HP. The
+cross-area return still requires the precollected Rainbow key when Area Keys
+are enabled. From the exact upper-right arrival, downward Missile clears all
+four F5 cells and opening `0x088B5FA8` proves 3960514 natively. Omitting
+activation at the matched bank leaves both terrain and the chest flag
+unchanged. No live AP acknowledgement. Positive trace SHA-256
+`84487e8ccd2ccdc4f69cf1f4ab81c477dfac9193aeee3c4474a16f5acc8ad00b`;
+control SHA-256 `ac56ca73ddf39e0241d5b9b959b1879dfde1014aa42c73d5fb16a8b7622e2762`.
+
+The shorter Flamer Burning trial reached n537, but the tested grounded and
+midfall attacks left its metal intact. It remains evidence against those
+setups, not a global impossibility or a generation route.

@@ -148,3 +148,22 @@ def test_advanced_high_weight_shuffle_never_sets_statue_reservations():
                        ability_randomization_no_ability_weight=100)
     assert SHUFFLE_STATUE_RESERVATIONS not in world._enemy_copy_ability_policy
     assert SHUFFLE_SOURCE_SWAPS not in world._enemy_copy_ability_policy
+
+
+@pytest.mark.parametrize("seed,weight,passive,keys", [
+    (4142342124837059238, 29, True, True),
+    (4794201909486144105, 50, False, False),
+])
+def test_earlier_hosted_rainbow_failures_now_expose_a_real_multiability_peg_cut(
+    seed: int, weight: int, passive: bool, keys: bool,
+) -> None:
+    from ..logic_aware_shuffle import proven_roster_shortage
+
+    raw = build_enemy_copy_ability_policy(random.Random(0), 1, False, False,
+                                         include_passive_enemies=passive, no_ability_weight=weight)
+    raw["seed"] = seed
+    assert proven_roster_shortage(raw, include_statues=True, require_all=True,
+                                  room16=True, area_keys=keys) == {
+        "target": "peg_513_4_7", "abilities": ["Hammer", "Master", "Smash", "Stone"]}
+    assert proven_roster_shortage(raw, include_statues=False, require_all=True,
+                                  room16=True, area_keys=keys) is None

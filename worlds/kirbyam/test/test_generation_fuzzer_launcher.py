@@ -691,20 +691,20 @@ def test_fixed_shuffle_roster_requires_reconstructed_cut(tmp_path: Path, mutatio
     import random
 
     launcher = load_launcher()
-    # Actual hosted case 191, world seed 748065917.
-    raw = build_enemy_copy_ability_policy(random.Random(0), 1, False, False,
-                                         include_passive_enemies=True, no_ability_weight=29)
-    raw["seed"] = 4142342124837059238
-    options = {"game": "Kirby & The Amazing Mirror", "accessibility": 0, "area_keys": 1, "room_sanity": 0,
-               "goal": Goal.option_full_completion, "advanced_logic": 0, "ability_randomization_mode": 1,
-               "ability_randomization_statues": 1, "ability_randomization_no_ability_weight": 29,
-               "ability_randomization_boss_spawns": 0, "ability_randomization_minibosses": 0,
-               "ability_randomization_passive_enemies": 1}
-    cut = {"ability": "Stone", "target": "metal_537_beginning_notes"}
+    # Actual hosted case 141. New Moonlight paths leave the Peppermint cut.
+    raw = build_enemy_copy_ability_policy(random.Random(0), 1, True, True,
+                                         include_passive_enemies=False, no_ability_weight=65)
+    raw["seed"] = 8307571545629204188
+    options = {"game": "Kirby & The Amazing Mirror", "accessibility": 2, "area_keys": 1, "room_sanity": 0,
+               "goal": Goal.option_dark_mind, "advanced_logic": 0, "ability_randomization_mode": 1,
+               "ability_randomization_statues": 1, "ability_randomization_no_ability_weight": 65,
+               "ability_randomization_boss_spawns": 1, "ability_randomization_minibosses": 1,
+               "ability_randomization_passive_enemies": 0}
+    cut = {"ability": "Burning", "target": "metal_216_chest"}
     if mutation == "advanced":
         options["advanced_logic"] = 1
     if mutation == "wrong_roster":
-        raw["ability_randomization_no_ability_weight"] = 30
+        raw["ability_randomization_no_ability_weight"] = 66
     if mutation == "wrong_cut":
         cut["ability"] = "Fire"
     message = ROSTER_REJECTION if mutation != "budget" else "KirbyAM bounded assignment search exhausted"
@@ -715,8 +715,8 @@ def test_fixed_shuffle_roster_requires_reconstructed_cut(tmp_path: Path, mutatio
         f"worlds.kirbyam.logic_aware_shuffle.KirbyAmShuffleRosterError: {message}\n"
     )
     log = (
-        'Generating for 1 player, 123 Seed 748065917 with plando: items, connections\n'
-        'P1 Rolled options (191-0/Kirby & The Amazing Mirror): ' + json.dumps(options) + "\n"
+        'Generating for 1 player, 123 Seed 313799105 with plando: items, connections\n'
+        'P1 Rolled options (141-0/Kirby & The Amazing Mirror): ' + json.dumps(options) + "\n"
     )
     if mutation != "omitted_proof":
         log += ROSTER_EVIDENCE + json.dumps({"source_policy": raw, "shortage": cut}) + "\n"
@@ -726,13 +726,13 @@ def test_fixed_shuffle_roster_requires_reconstructed_cut(tmp_path: Path, mutatio
         '  File "/repo/worlds/kirbyam/generation_logging.py", line 62, in generation_stage\n'
         + trace + 'Traceback (most recent call last):\n' + trace
     )
-    case = tmp_path / "error/kirbyam/191"
+    case = tmp_path / "error/kirbyam/141"
     case.mkdir(parents=True)
-    (case / "191.log").write_text(log)
-    (case / "191-0.yaml").write_text("game: Kirby & The Amazing Mirror\n")
+    (case / "141.log").write_text(log)
+    (case / "141-0.yaml").write_text("game: Kirby & The Amazing Mirror\n")
     report = successful_report(4)
     report["stats"].update(success=3, failure=1)
-    report["errors"] = {"kirbyam": {message: [191]}}
+    report["errors"] = {"kirbyam": {message: [141]}}
     outcomes = launcher.classify_minimal_rejections(report, tmp_path, shuffle_roster=True)
     assert bool(outcomes["unsafe_rejected"]) is (mutation == "none")
     assert bool(outcomes["unclassified"]) is (mutation != "none")

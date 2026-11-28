@@ -130,7 +130,7 @@ def test_installed_branch_uses_one_or_target_not_generic_room_access(
     state = SimpleNamespace(base=True, has=lambda name, player: name in owned,
                             can_reach_region=lambda name, player: name == access)
     assert target.access_rule(state) is (access in {CENTRAL, CABBAGE})
-    assert set(indirect) == {CENTRAL, CABBAGE}
+    assert set(indirect) == {CENTRAL, CABBAGE, "REGION_MOONLIGHT_MANSION/ROOM_2_ENTRY"}
     owned.remove("Burning Ability")
     assert not target.access_rule(state)
     owned.add("Burning Ability")
@@ -272,7 +272,7 @@ def test_right_top_c_branches_use_exact_local_finite_flamer(
     state = SimpleNamespace(base=True, has=lambda name, player: name in PERMISSION,
                             can_reach_region=lambda name, player: name == RIGHT_TOP)
     assert registered == [source_room]
-    assert not target.access_rule(state)
+    assert target.access_rule(state) is (destination == DEAD743)
     state.can_reach_region = lambda name, player: name == source_room
     assert target.access_rule(state)
     state.base = False
@@ -281,3 +281,21 @@ def test_right_top_c_branches_use_exact_local_finite_flamer(
     world._enemy_copy_ability_policy = None
     rules.install_extra_traversal_rules(world)
     assert not target.access_rule(state)
+
+
+@pytest.mark.parametrize("identity", TARGETS)
+def test_short_shuffled_golem_missile_distinguishes_all_three_destinations(identity: str) -> None:
+    graph = room_traversal_graph(identity, "short_golem_missile")
+    resolver = policy(1, pool=["Missile"])
+    endpoint = TARGETS[identity][2]
+    permission = frozenset({"Missile Ability"})
+    assert graph.access_region == "REGION_MOONLIGHT_MANSION/ROOM_2_ENTRY"
+    assert [(s.source_key, s.identity) for s in graph.placements] == [("GOLEM", "0x088BC580")]
+    assert graph.required_targets == {endpoint}
+    result = graph.evaluate(resolver, permission, True, advanced_logic=False)
+    assert result.reaches(endpoint)
+    assert not any(result.reaches(other) for _, _, other in TARGETS.values() if other != endpoint)
+    assert not graph.evaluate(resolver, frozenset(), True, advanced_logic=False).reaches(endpoint)
+    assert not graph.evaluate(SourcePolicy({"mode": 0}), permission, True, advanced_logic=False).reaches(endpoint)
+    assert sum(r.room_transition for r in graph.routes) == 1
+    assert any(r.loses_equipment for r in graph.routes) is (identity == "metal_708_743_dead_end")
