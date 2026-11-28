@@ -50,6 +50,7 @@ def _graph_constraint(
         name: str, graphs: tuple[TraversalGraph, ...],
         applies: Callable[[SourcePolicy], bool] | None = None,
         condition_keys: frozenset[str] = frozenset(), *, must_apply: bool = False,
+        standard_carry_limit: bool = False,
 ) -> Constraint:
     keys = set(condition_keys)
     wanted: set[str] = set()
@@ -72,14 +73,16 @@ def _graph_constraint(
         if applies is not None and not applies(policy):
             return not must_apply
         return any(graph.required_targets <= {p.node for p in graph.evaluate(
-            policy, graph_items(graph), gating=False).positions} for graph in graphs)
+            policy, graph_items(graph), gating=False, advanced_logic=not standard_carry_limit).positions}
+                   for graph in graphs)
 
     return Constraint(name, frozenset(keys), frozenset(wanted), accepts, graphs if applies is None else ())
 
 
 def _constraints(initial: SourcePolicy, require_all: bool, room16: bool, area_keys: bool) -> tuple[Constraint, ...]:
     from .peg_traversal import short_peg_graphs
-    from .traversal_rules import extra_traversal_targets, target_applies, target_graphs
+    from .traversal_rules import (extra_traversal_targets, target_applies, target_graphs,
+                                  target_uses_standard_carry_limit)
 
     results: list[Constraint] = []
     if room16:
@@ -103,6 +106,7 @@ def _constraints(initial: SourcePolicy, require_all: bool, room16: bool, area_ke
             results.append(_graph_constraint(
                 row["id"], graphs, applies if conditional else None, keys,
                 must_apply=conditional and applies(initial),
+                standard_carry_limit=target_uses_standard_carry_limit(row, advanced=False),
             ))
     return tuple(results)
 

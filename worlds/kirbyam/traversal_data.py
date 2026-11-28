@@ -492,6 +492,8 @@ def _validate_target(row: Mapping[str, Any]) -> None:
     if row.get("fail_closed") and not row.get("exit"):
         raise ValueError("fail_closed requires an exit target")
     _validate_scoped_sources(row)
+    if not isinstance(row.get("enforce_standard_carry_limit", False), bool):
+        raise ValueError("enforce_standard_carry_limit must be a boolean")
     if not isinstance(row.get("required_for_generation", True), bool):
         raise ValueError("required_for_generation must be a boolean")
     if not row.get("required_for_generation", True) and not row.get("optional_route_evidence"):

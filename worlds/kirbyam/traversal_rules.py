@@ -33,9 +33,14 @@ def target_graphs(row: dict[str, Any], area_keys: bool, *, advanced: bool = Fals
 
 
 def graph_succeeds(graph: TraversalGraph, policy: SourcePolicy, owned: frozenset[str], gating: bool,
-                   *, retries: bool) -> bool:
-    result = graph.evaluate(policy, owned, gating, allow_documented_retries=retries)
+                   *, retries: bool, advanced: bool = True) -> bool:
+    result = graph.evaluate(policy, owned, gating, allow_documented_retries=retries, advanced_logic=advanced)
     return bool(graph.required_targets) and all(result.reaches(target) for target in graph.required_targets)
+
+
+def target_uses_standard_carry_limit(row: dict[str, Any], *, advanced: bool) -> bool:
+    """Apply the carry limit only where Standard source coverage has been reviewed."""
+    return not advanced and row.get("enforce_standard_carry_limit", False)
 
 
 def target_applies(row: dict[str, Any], policy: SourcePolicy) -> bool:
@@ -262,7 +267,8 @@ def static_extra_witness(policy: SourcePolicy, *, advanced: bool = False) -> boo
     """
     return all(
         not target_applies(row, policy) or not row.get("required_for_generation", True)
-        or any(graph_succeeds(graph, policy, graph_items(graph), False, retries=False)
+        or any(graph_succeeds(graph, policy, graph_items(graph), False, retries=False,
+                              advanced=not target_uses_standard_carry_limit(row, advanced=advanced))
                for graph in target_graphs(row, False, advanced=advanced))
         for row in extra_traversal_targets()
     )
@@ -299,6 +305,7 @@ def install_extra_traversal_rules(world: Any) -> None:
         (conditional_routes.MUSTARD_MAP_LIVE_CUTTER, conditional_routes.mustard_map_live_cutter_enabled(world, policy)),
         (yellow_cupid.CONTRACT, yellow_enabled),
     ) if enabled)
+    advanced = advanced_traversal_enabled(world)
     for row in extra_traversal_targets():
         profile_graphs = conditional_routes.active_graphs(row, active_contracts, policy)
         applies = target_applies(row, policy)
@@ -314,12 +321,13 @@ def install_extra_traversal_rules(world: Any) -> None:
                 target = world.multiworld.get_location(data.locations[row["location"]].label, world.player)
             except KeyError:
                 continue  # This optional location category is disabled.
-        graphs = ((target_graphs(row, world._area_keys_enabled(), advanced=advanced_traversal_enabled(world))
+        graphs = ((target_graphs(row, world._area_keys_enabled(), advanced=advanced)
                    if applies else ()) + profile_graphs)
+        unrestricted = not target_uses_standard_carry_limit(row, advanced=advanced)
         required_items = frozenset(f"{name} Ability" for name in GATEABLE_ENEMY_COPY_ABILITIES)
         required_items |= frozenset(item for graph in graphs for item in graph_items(graph))
         if requires_all_traversal_witnesses(world) and row.get("required_for_generation", True) and not any(
-            graph_succeeds(graph, policy, required_items, gating, retries=True) for graph in graphs
+            graph_succeeds(graph, policy, required_items, gating, retries=True, advanced=unrestricted) for graph in graphs
         ):
             raise ValueError(
                 f"No reviewed source witness for {row['id']} in mode {policy.mode}; "
@@ -327,11 +335,11 @@ def install_extra_traversal_rules(world: Any) -> None:
             )
 
         def rule(state: Any, graphs: tuple[TraversalGraph, ...] = graphs,
-                 required_items: frozenset[str] = required_items) -> bool:
+                 required_items: frozenset[str] = required_items, unrestricted: bool = unrestricted) -> bool:
             owned = frozenset(item for item in required_items if state.has(item, world.player))
             return any(
                 has_graph_access(world, state, graph)
-                and graph_succeeds(graph, policy, owned, gating, retries=True)
+                and graph_succeeds(graph, policy, owned, gating, retries=True, advanced=unrestricted)
                 for graph in graphs
             )
 

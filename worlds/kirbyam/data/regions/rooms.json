@@ -2719,6 +2719,7 @@
       "targets": [
         {
           "id": "fuse_126",
+          "enforce_standard_carry_limit": true,
           "kind": "fuse",
           "native_room": 126,
           "exit": "REGION_RAINBOW_ROUTE/ROOM_1_33_LEFT",
@@ -14643,6 +14644,7 @@
       "targets": [
         {
           "id": "fuse_827",
+          "enforce_standard_carry_limit": true,
           "kind": "fuse",
           "native_room": 827,
           "exit": "REGION_OLIVE_OCEAN/ROOM_6_05__LOGIC__ENTRY_FROM_6_07",
