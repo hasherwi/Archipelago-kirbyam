@@ -755,3 +755,67 @@ def test_fixed_shuffle_roster_requires_reconstructed_cut(tmp_path: Path, mutatio
     if mutation == "none":
         assert outcomes["unsafe_rejected"][0]["source_proof"]["shortage"] == cut
         assert launcher.classify_minimal_rejections(report, tmp_path)["unclassified"]
+
+
+def write_unsupported_mustard_map_case(tmp_path: Path, mutation: str) -> None:
+    from Options import OptionError
+    from ..options import AbilityRandomizationMode, AbilityRandomizationNoAbilityWeight, Goal, validate_generation_options
+
+    player = "430-0"
+    options = {
+        "game": "Kirby & The Amazing Mirror", "accessibility": 2, "goal": Goal.option_full_completion,
+        "ability_randomization_mode": AbilityRandomizationMode.option_completely_random,
+        "ability_randomization_no_ability_weight": 100, "advanced_logic": 1, "ability_randomization_statues": 1,
+    }
+    with pytest.raises(OptionError) as error:
+        validate_generation_options(SimpleNamespace(
+            goal=Goal.from_any(options["goal"]),
+            ability_randomization_mode=AbilityRandomizationMode.from_any(options["ability_randomization_mode"]),
+            ability_randomization_no_ability_weight=AbilityRandomizationNoAbilityWeight.from_any(100),
+        ), player)
+    if mutation == "wrong_weight":
+        options["ability_randomization_no_ability_weight"] = 99
+    elif mutation == "wrong_goal":
+        options["goal"] = Goal.option_dark_mind
+    terminal_message = str(error.value) if mutation != "other_guard" else "KirbyAM (430-0): A different option guard."
+    path = "options.py" if mutation != "foreign_source" else "unrelated.py"
+    log = (
+        'Generating for 1 player, 87451922268851181333 Seed 349879855 with plando: items\n'
+        f'P1 Rolled options (430-0/Kirby & The Amazing Mirror): {json.dumps(options)}\n'
+        'Traceback (most recent call last):\n'
+        '  File "/runner/worlds/kirbyam/__init__.py", line 444, in generate_early\n'
+        f'  File "/runner/worlds/kirbyam/{path}", line 569, in validate_generation_options\n'
+        f'Options.OptionError: {terminal_message}\n'
+        'Exception in <bound method KirbyAmWorld.generate_early of '
+        '<worlds.kirbyam.KirbyAmWorld object at 0x7D1686305310>> for player 1, named 430-0.\n'
+    )
+    if mutation == "mixed_traceback":
+        log += 'Traceback (most recent call last):\nSomeOtherException: hidden\n'
+    case = tmp_path / "ignored" / "kirbyam" / "430"
+    case.mkdir(parents=True)
+    (case / "430.log").write_text(log, encoding="utf-8")
+    if mutation != "missing_yaml":
+        (case / "430-0.yaml").write_text("game: Kirby & The Amazing Mirror\n", encoding="utf-8")
+
+
+@pytest.mark.parametrize("mutation", ["none", "wrong_weight", "wrong_goal", "other_guard", "foreign_source",
+                                     "mixed_traceback", "missing_yaml", "count_mismatch"])
+def test_only_exact_unsupported_mustard_map_option_is_classified(monkeypatch, tmp_path, mutation):
+    launcher = load_launcher()
+    monkeypatch.setattr(launcher, "OUTPUT_DIR", tmp_path)
+    write_unsupported_mustard_map_case(tmp_path, mutation)
+    report = successful_report(total=10, ignored=1 if mutation != "count_mismatch" else 2)
+    assert launcher.report_result(launcher_args(), report, 0) == 1
+    args = launcher_args(classify_unsupported_options=True)
+    assert launcher.report_result(args, report, 0) == (0 if mutation == "none" else 1)
+    outcomes = json.loads((tmp_path / launcher.CLASSIFICATION_FILENAME).read_text())
+    assert outcomes["raw_stats"] == report["stats"]
+    options = outcomes["unsupported_options"]
+    if mutation == "none":
+        rejected, = options["unsafe_rejected"]
+        assert rejected["seed"] == 349879855 and rejected["case"] == 430
+        assert rejected["rejection_kind"] == "full_completion_live_random_no_ability"
+        assert not options["unclassified"] and not options["errors"]
+    else:
+        assert not options["unsafe_rejected"]
+        assert options["errors"] or options["unclassified"]

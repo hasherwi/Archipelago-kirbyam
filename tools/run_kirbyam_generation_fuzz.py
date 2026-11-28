@@ -13,6 +13,7 @@ import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
+from types import SimpleNamespace
 from typing import Any, Sequence
 
 
@@ -72,6 +73,8 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
                              "Never counts rejections as playable generations.")
     parser.add_argument("--classify-shuffle-roster-rejections", action="store_true",
                         help="Separately classify proven fixed Standard Shuffle roster shortages, not search exhaustion.")
+    parser.add_argument("--classify-unsupported-options", action="store_true",
+                        help="Separately classify the exact Full Completion/Completely Random/100 guard.")
     return parser.parse_args(argv)
 
 
@@ -499,12 +502,86 @@ def classify_minimal_rejections(report: dict[str, Any], output_dir: Path, *,
     return result
 
 
+def _unsupported_option_evidence(log: str) -> dict[str, Any]:
+    """Replay the exact pre-generation Mustard Map guard, not other OptionErrors."""
+    if str(REPO_ROOT) not in sys.path:
+        sys.path.insert(0, str(REPO_ROOT))
+    from Options import OptionError
+    from worlds.kirbyam.options import (
+        AbilityRandomizationMode, AbilityRandomizationNoAbilityWeight, Goal, validate_generation_options,
+    )
+
+    diagnostic = re.findall(r"^Options\.OptionError: (KirbyAM \(([^\n]+?)\): [^\n]+)$", log, re.MULTILINE)
+    if len(diagnostic) != 1:
+        raise ValueError("missing single KirbyAM option rejection")
+    message, player = diagnostic[0]
+    frames = ("generate_early", "validate_generation_options")
+    files = ("__init__.py", "options.py")
+    context = _rejection_context(message, log, error_type="Options.OptionError",
+                                 frames=frames, early_files=files)
+    trace = log.split(TRACEBACK_HEADER)[-1]
+    if (tuple(Path(row[0].replace("\\", "/")).name for row in TRACEBACK_FRAME.findall(trace)[-2:]) != files
+            or TRACEBACK_EXCEPTION.findall(trace) != ["Options.OptionError: " + message]):
+        raise ValueError("unexpected traceback around option rejection")
+    options = context["rolled_options"]
+    expected = {
+        "goal": Goal.option_full_completion,
+        "ability_randomization_mode": AbilityRandomizationMode.option_completely_random,
+        "ability_randomization_no_ability_weight": 100,
+    }
+    if any(type(options.get(key)) is not int or options[key] != value for key, value in expected.items()):
+        raise ValueError("rolled options do not match the explicit unsupported profile")
+    rolled_options = SimpleNamespace(
+        goal=Goal.from_any(options["goal"]),
+        ability_randomization_mode=AbilityRandomizationMode.from_any(options["ability_randomization_mode"]),
+        ability_randomization_no_ability_weight=AbilityRandomizationNoAbilityWeight.from_any(
+            options["ability_randomization_no_ability_weight"]),
+    )
+    try:
+        validate_generation_options(rolled_options, player)
+    except OptionError as exc:
+        if str(exc) == message:
+            return {**context, "rejection_kind": "full_completion_live_random_no_ability"}
+    raise ValueError("production option guard did not reproduce the diagnostic")
+
+
+def classify_unsupported_options(report: dict[str, Any], output_dir: Path) -> dict[str, Any]:
+    """Classify only logged cases; do not rewrite the pinned fuzzer's raw stats."""
+    result: dict[str, Any] = {"unsafe_rejected": [], "unclassified": [], "errors": []}
+    ignored_root = output_dir / "ignored"
+    cases = list(ignored_root.glob("*/*"))
+    count = report.get("stats", {}).get("ignored")
+    if type(count) is not int or count != len(cases):
+        result["errors"].append("ignored reproducer count does not match the raw report")
+        return result
+    for case in sorted(cases):
+        try:
+            if not case.is_dir() or case.parent.name != "kirbyam" or not re.fullmatch(r"[0-9]+", case.name):
+                raise ValueError("not a named KirbyAM ignored reproducer")
+            log_path = case / f"{case.name}.log"
+            log = log_path.read_bytes()
+            yamls = sorted(case.glob("*.yaml"))
+            if len(yamls) != 1 or not yamls[0].read_bytes():
+                raise ValueError("missing single-player YAML reproducer")
+            result["unsafe_rejected"].append({
+                "case": int(case.name), **_unsupported_option_evidence(log.decode("utf-8-sig")),
+                "log": log_path.relative_to(output_dir).as_posix(),
+                "log_sha256": hashlib.sha256(log).hexdigest(),
+                "yaml": yamls[0].relative_to(output_dir).as_posix(),
+                "yaml_sha256": hashlib.sha256(yamls[0].read_bytes()).hexdigest(),
+            })
+        except (OSError, ValueError, TypeError, KeyError) as exc:
+            result["unclassified"].append({"case": case.name, "reason": str(exc)})
+    return result
+
+
 def validate_report(
     report: dict[str, Any],
     *,
     expected_runs: int,
     allow_ignored: bool,
     unsafe_rejected: int = 0,
+    unsupported_options: int = 0,
 ) -> list[str]:
     stats = report.get("stats")
     if not isinstance(stats, dict):
@@ -529,12 +606,15 @@ def validate_report(
         unsafe_rejected = 0
     if failure > unsafe_rejected:
         messages.append(f"{failure - unsafe_rejected} generation failure(s)")
-    if unsafe_rejected and (not stats["success"] or stats["success"] * 2 < total):
+    if type(unsupported_options) is not int or not 0 <= unsupported_options <= ignored:
+        messages.append("invalid classified unsupported option count")
+        unsupported_options = 0
+    if (unsafe_rejected or unsupported_options) and (not stats["success"] or stats["success"] * 2 < total):
         messages.append("fewer than 50% of attempts succeeded; safety rejections are not playable generations")
     if timeouts:
         messages.append(f"{timeouts} generation timeout(s)")
-    if ignored and not allow_ignored:
-        messages.append(f"{ignored} ignored OptionError case(s); use --allow-ignored only after review")
+    if ignored > unsupported_options and not allow_ignored:
+        messages.append(f"{ignored - unsupported_options} ignored OptionError case(s); use --allow-ignored only after review")
     return messages
 
 
@@ -577,6 +657,7 @@ def write_metadata(args: argparse.Namespace, command: Sequence[str], fuzzer_retu
             "classify_minimal_rejections": args.classify_minimal_rejections,
             "classify_room16_rejections": getattr(args, "classify_room16_rejections", False),
             "classify_shuffle_roster_rejections": getattr(args, "classify_shuffle_roster_rejections", False),
+            "classify_unsupported_options": getattr(args, "classify_unsupported_options", False),
         },
         "command": list(command),
         "fuzzer_return_code": fuzzer_return_code,
@@ -626,11 +707,18 @@ def report_result(args: argparse.Namespace, report: dict[str, Any], returncode: 
     classification_errors: list[str] = []
     room16 = getattr(args, "classify_room16_rejections", False)
     shuffle_roster = getattr(args, "classify_shuffle_roster_rejections", False)
-    if args.classify_minimal_rejections or room16 or shuffle_roster:
+    classify_options = getattr(args, "classify_unsupported_options", False)
+    unsupported_options = 0
+    if args.classify_minimal_rejections or room16 or shuffle_roster or classify_options:
         outcomes = classify_minimal_rejections(report, OUTPUT_DIR, minimal=args.classify_minimal_rejections,
                                                room16=room16, shuffle_roster=shuffle_roster)
         unsafe_rejected = len(outcomes["unsafe_rejected"])
         classification_errors = outcomes["errors"]
+        if classify_options:
+            option_outcomes = classify_unsupported_options(report, OUTPUT_DIR)
+            outcomes["unsupported_options"] = option_outcomes
+            unsupported_options = len(option_outcomes["unsafe_rejected"])
+            classification_errors.extend(option_outcomes["errors"])
         (OUTPUT_DIR / CLASSIFICATION_FILENAME).write_text(json.dumps(outcomes, indent=2) + "\n", encoding="utf-8")
 
     validation_messages = validate_report(
@@ -638,6 +726,7 @@ def report_result(args: argparse.Namespace, report: dict[str, Any], returncode: 
         expected_runs=args.runs,
         allow_ignored=args.allow_ignored,
         unsafe_rejected=unsafe_rejected,
+        unsupported_options=unsupported_options,
     ) + classification_errors
     stats = report.get("stats")
     if not isinstance(stats, dict):
@@ -648,6 +737,7 @@ def report_result(args: argparse.Namespace, report: dict[str, Any], returncode: 
         f"{stats.get('failure', '?')} raw failures ({unsafe_rejected} classified unsafe rejections), "
         f"{stats.get('timeout', '?')} timed out, "
         f"{stats.get('ignored', '?')} ignored"
+        + (f" ({unsupported_options} classified unsupported options)" if classify_options else "")
     )
     for message in validation_messages:
         print(f"ERROR: {message}", file=sys.stderr)
