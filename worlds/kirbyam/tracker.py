@@ -7,7 +7,9 @@ from BaseClasses import Item
 from .capture_the_flag import flag_location_id
 from .conditional_routes import CANDY_FUSE as candy912_fuse
 from .enemy_ability_data import resolve_slot_gateable_abilities
-from .options import ExcludeTrapTypes, Goal, KirbyAmOptions, RANDOM_AREA_BOSS_SLOT_KEY
+from .options import (
+    ExcludeTrapTypes, Goal, KirbyAmOptions, RANDOM_AREA_BOSS_SLOT_KEY, RandomStartingAbilities,
+)
 from .starting_mirror import starting_mirror_candidates
 from .narcolepsy import NARCOLEPSY_ITEM_NAME, NARCOLEPSY_TRAP_CATALOG_VERSION
 from .random_teleport import RANDOM_TELEPORT_ITEM_NAME, TRAP_CATALOG_VERSION
@@ -15,6 +17,7 @@ from .random_teleport import RANDOM_TELEPORT_ITEM_NAME, TRAP_CATALOG_VERSION
 TRACKER_SCHEMA_VERSION = 2
 
 TRACKER_OPTIONS = (*KirbyAmOptions.__annotations__, "accessibility", "exclude_locations")
+_OPTIONAL_TRACKER_OPTIONS = {"exclude_trap_types", "random_starting_mirror", "random_starting_abilities"}
 
 if TYPE_CHECKING:
     from . import KirbyAmWorld
@@ -28,7 +31,7 @@ def validate_tracker_data(slot_data: dict[str, Any]) -> dict[str, Any]:
             "This Kirby seed does not support tracking with the current rules. "
             "Update the KirbyAM APWorld and generate a new seed for Universal Tracker."
         )
-    required = set(TRACKER_OPTIONS) - {"exclude_trap_types", "random_starting_mirror"}  # Older schema-1 seeds used legacy behavior.
+    required = set(TRACKER_OPTIONS) - _OPTIONAL_TRACKER_OPTIONS
     options = tracker.get("options")
     if not isinstance(options, dict) or not required.issubset(options):
         raise ValueError("Incomplete Kirby tracker options; refusing to reroll the seed.")
@@ -57,6 +60,21 @@ def validate_tracker_data(slot_data: dict[str, Any]) -> dict[str, Any]:
     candy912_fuse.enabled(slot_data)  # Reject invalid explicit seed intent.
     if not isinstance(tracker.get("precollected_items"), dict):
         raise ValueError("Missing Kirby tracker starting inventory.")
+    count = options.get("random_starting_abilities", RandomStartingAbilities.default)
+    selected = tracker.get("random_starting_ability_items", [])
+    if type(count) is not int or not 0 <= count <= RandomStartingAbilities.range_end:
+        raise ValueError("Invalid Kirby tracker Random Starting Abilities count.")
+    if (not isinstance(selected, list) or len(selected) != count
+            or any(not isinstance(name, str) for name in selected)
+            or len(set(selected)) != count):
+        raise ValueError("Missing or invalid Kirby tracker random starting ability unlocks.")
+    if selected:
+        gateable_items = {f"{name} Ability" for name in resolve_slot_gateable_abilities(
+            slot_data.get("ability_gateable_abilities"))}
+        inventory = tracker["precollected_items"]
+        if (not options["ability_gating"] or not set(selected) <= gateable_items
+                or any(type(inventory.get(name)) is not int or inventory[name] != 1 for name in selected)):
+            raise ValueError("Kirby tracker random starting unlocks do not match the seed's starting inventory.")
     mirror = options.get("random_starting_mirror", 0)
     if type(mirror) is not int or mirror not in (0, 1):
         raise ValueError("Invalid Kirby tracker Random Starting Mirror option.")
@@ -71,6 +89,8 @@ def export_tracker_data(world: "KirbyAmWorld", items: Iterable[Item]) -> dict[st
     options = {}
     for name in TRACKER_OPTIONS:
         value = getattr(world.options, name).value
+        if name == "random_starting_abilities" and value == RandomStartingAbilities.default:
+            continue
         options[name] = sorted(value) if isinstance(value, (set, frozenset)) else deepcopy(value)
     return {
         "version": TRACKER_SCHEMA_VERSION,
@@ -80,6 +100,8 @@ def export_tracker_data(world: "KirbyAmWorld", items: Iterable[Item]) -> dict[st
         "options": options,
         **({"starting_mirror_tutorial_item": reward}
            if (reward := getattr(world, "_starting_mirror_tutorial_item", None)) else {}),
+        **({"random_starting_ability_items": list(selected)}
+           if (selected := getattr(world, "_random_starting_ability_items", ())) else {}),
         "precollected_items": dict(Counter(item.name for item in items)),
     }
 
@@ -87,6 +109,7 @@ def export_tracker_data(world: "KirbyAmWorld", items: Iterable[Item]) -> dict[st
 def restore_tracker_data(world: "KirbyAmWorld", slot_data: dict[str, Any]) -> None:
     tracker = validate_tracker_data(slot_data)
     world._tracker_trap_catalog_version = tracker.get("trap_catalog_version", 0)
+    world._random_starting_ability_items = tuple(tracker.get("random_starting_ability_items", ()))
     for name, option_type in KirbyAmOptions.type_hints.items():
         if name in TRACKER_OPTIONS:
             # Values were already rolled by generation. Do not call from_any,

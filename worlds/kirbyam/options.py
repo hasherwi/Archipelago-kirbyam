@@ -28,6 +28,7 @@ from .enemy_health_scaling import (
     ENEMY_HEALTH_MULTIPLIER_MAX,
     ENEMY_HEALTH_MULTIPLIER_MIN,
 )
+from .enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES
 from .health import HEALTH_MAX, HEALTH_MIN, MAXIMUM_HEALTH_DEFAULT, MINIMUM_HEALTH_DEFAULT
 
 
@@ -268,6 +269,20 @@ class AbilityGating(Toggle):
     """
     display_name = "Ability Gating"
     default = 1
+
+
+class RandomStartingAbilities(Range):
+    """Start with this many distinct, randomly selected copy-ability unlocks.
+
+    Requires Ability Gating when nonzero. Chosen unlocks move from the
+    randomized pool into starting inventory; they are not equipped and their
+    in-game sources do not change. Abilities already in start_inventory
+    are not eligible for the random draw.
+    """
+    display_name = "Random Starting Abilities"
+    range_start = 0
+    range_end = len(GATEABLE_ENEMY_COPY_ABILITIES)
+    default = 0
 
 
 class EnableTraps(Toggle):
@@ -511,6 +526,8 @@ class KirbyAmOptions(PerGameCommonOptions):
 
     ability_gating: AbilityGating
 
+    random_starting_abilities: RandomStartingAbilities
+
     enable_traps: EnableTraps
 
     trap_fill_percentage: TrapFillPercentage
@@ -564,6 +581,7 @@ OPTION_GROUPS = [
     ]),
     OptionGroup("Make the game easier", [
         StartWithAllMaps,
+        RandomStartingAbilities,
         AreaKeys,
     ]),
     OptionGroup("Kirby Health", [
