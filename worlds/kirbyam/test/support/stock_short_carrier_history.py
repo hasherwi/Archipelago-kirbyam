@@ -12,9 +12,6 @@ _MOON = {
     "bomb_708_right_c_main": "8ac0d56cad6bdfc902af1988811d4e9c99a6c8011c443a98ccfb8c4be68a14d3",
     "bomb_708_right_c_dead_end": "e2e3a0eb28180c32ef32585964937e262371bd95c97826098964f109d30217ca",
 }
-_MOON_OWNER = "REGION_MOONLIGHT_MANSION/ROOM_2_01__LOGIC__RIGHT_TOP"
-_MOON_EXITS = {"REGION_MOONLIGHT_MANSION/ROOM_2_11", "REGION_MOONLIGHT_MANSION/ROOM_2_11_DEAD_END"}
-
 
 _NEW_ROUTES = {
     ('metal_537_beginning_notes', 'stock_bombar_short_missile'): '9627113ad2df3a7c0671ab25433dbcd9c9575d387bcf5589aa6b6e7df8385b65',
@@ -62,13 +59,6 @@ def before_stock_short_targets(rows):
         if target is not None:
             projected.append({**row, "target": target})
     return projected
-
-
-def before_stock_short_surfaces(rows):
-    extra = [row for row in rows if row["owner"] == _MOON_OWNER and row["target"] in _MOON_EXITS]
-    assert len(extra) == 2
-    assert all(row["kind"] == "exit" and row["requirement"] is None and not row["room_sanity"] for row in extra)
-    return [row for row in rows if row not in extra]
 
 
 def before_stock_short_catalog(catalog):

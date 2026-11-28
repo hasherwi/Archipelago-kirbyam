@@ -71,13 +71,13 @@ def test_real_generation_starting_ice_and_twister_crash_permissions(
     multiworld, = generated
     assert not multiworld.get_unfilled_locations()
     assert multiworld.can_beat_game() and multiworld.fulfills_accessibility()
-    assert region_states == [count if gating or ability == 'Ice' else 0]
+    assert region_states == [count if gating else 0]
     starting = [item for item in multiworld.precollected_items[1] if item.name == f'{ability} Ability']
     assert len(starting) == count
     assert all(item.classification == (ItemClassification.progression if gating else ItemClassification.useful)
                for item in starting)
     state = CollectionState(multiworld)
-    assert state.count(f'{ability} Ability', 1) == (count if gating or ability == 'Ice' else 0)
+    assert state.count(f'{ability} Ability', 1) == (count if gating else 0)
     state.can_reach_region = lambda name, player: name == access
     chest = multiworld.get_location(data.locations[location].label, 1)
     assert chest.access_rule(state)
@@ -123,9 +123,9 @@ def test_reconciliation_preserves_predicates_and_existing_counts(
     unrelated = world.create_item('Magic Ability')
     assert unrelated.classification == ItemClassification.useful
     multiworld.push_precollected(unrelated)
-    assert multiworld.state.count(f'{ability} Ability', 1) == (4 if ability == 'Ice' else (3 if early_chocolate else 1))
+    assert multiworld.state.count(f'{ability} Ability', 1) == (3 if early_ice or early_chocolate else 1)
     world.create_regions()
-    expected = 4 if ability == 'Ice' else (3 if scenario == 'enabled' or early_chocolate else 1)
+    expected = 3 if early_ice or early_chocolate or scenario == 'enabled' else 1
     assert multiworld.state.count(f'{ability} Ability', 1) == expected
     assert CollectionState(multiworld).count(f'{ability} Ability', 1) == expected
     assert all(item.advancement is (early_ice or early_chocolate or scenario == 'enabled') for item in early)
@@ -149,6 +149,9 @@ def test_disabled_minor_category_does_not_promote_starting_permission(monkeypatc
     item = world.create_item(f'{ability} Ability')
     multiworld.push_precollected(item)
     world.create_regions()
-    assert item.classification == ItemClassification.useful
-    assert multiworld.state.count(item.name, 1) == (2 if ability == 'Ice' else 0)
-    assert CollectionState(multiworld).count(item.name, 1) == (2 if ability == 'Ice' else 0)
+    # Removing minor checks removes the original permission predicate, but
+    # Missile still has a separate Moonlight entrance with the same source.
+    expected = int(ability == 'Missile')
+    assert item.classification == (ItemClassification.progression if expected else ItemClassification.useful)
+    assert multiworld.state.count(item.name, 1) == expected
+    assert CollectionState(multiworld).count(item.name, 1) == expected

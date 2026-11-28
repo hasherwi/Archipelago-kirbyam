@@ -55,6 +55,10 @@ RAINBOW_AREA_KEY_CATALOG_INSERTION = b'''  "AREA_KEY_1": {
 def items_before_phone(raw: bytes) -> bytes:
     """Reverse the reviewed battery classification, then the exact prior catalog additions."""
     raw = raw.replace(b'\r\n', b'\n')
+    # 36d9ebcd made the existing Beam item progression when ability gating is active.
+    beam = b'"label": "Beam Ability",\n    "classification": "PROGRESSION",\n    "item_id": 3860107,'
+    assert raw.count(beam) == 1
+    raw = raw.replace(beam, beam.replace(b'PROGRESSION', b'USEFUL'), 1)
     assert hashlib.sha256(raw).hexdigest() == 'ec3fdad4a43eb9ef0a3bf0c5f2ab73d17ca0682287e392f5d9d73a37965a23c1'
     for item_id in range(3860002, 3860010):
         explicit_id = f'    "item_id": {item_id},\n'.encode()

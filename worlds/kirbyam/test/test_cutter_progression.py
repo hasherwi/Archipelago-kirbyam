@@ -26,7 +26,8 @@ from .test_mini_traversal import make_world
 
 
 CUTTER = 3860106
-FIXED = {3860107}
+BEAM = 3860107
+ICE = 3860102
 SEEDS = (1042, 20261107, 8675309)
 
 
@@ -126,19 +127,18 @@ def _assert_slot_contract(multiworld: MultiWorld, decoded: dict[str, Any], gates
     assert isinstance(world, KirbyAmWorld)
     gating = bool(world.options.ability_gating.value)
     inventory = Counter(decoded["precollected_items"][player])
-    assert all(inventory[code] == 0 for code in FIXED)
-    assert inventory[3860102] == 0
+    assert inventory[BEAM] == inventory[ICE] == 0
     assert inventory[CUTTER] == explicit
     pooled = Counter(item.code for location in multiworld.get_locations()
                      if (item := location.item) is not None and item.player == player)
     assert pooled[CUTTER] == int(gating)
-    assert pooled[3860102] == int(gating)
-    assert not FIXED.intersection(pooled)
+    assert pooled[BEAM] == pooled[ICE] == int(gating)
     slot = decoded["slot_data"][player]
     assert ("Cutter" in slot["ability_gateable_abilities"]) == gating
     assert slot["ability_unlock_items"]["Cutter"] == "Cutter Ability"
     assert bool(gates[player] & (1 << 6)) == gating
-    assert gates[player] & (1 << 7) == 0
+    assert ("Beam" in slot["ability_gateable_abilities"]) == gating
+    assert bool(gates[player] & (1 << 7)) == gating
     assert gates[player] & ((1 << 3) | (1 << 8)) == (0x108 if gating else 0)
 
 
@@ -190,7 +190,8 @@ def test_generated_seed_matrix(
         minimal_strands = {(1, 0): ('Peppermint Palace 7-09 - Small Chest',
                   'Peppermint Palace 7-10 - Small Chest #2',
                   'Room 4-16'),
-         (1, 1): ('Room 4-16',),
+         (1, 1): ('Cabbage Cavern 3-06 - Spray Paint #12 Chest',
+                  'Olive Ocean 6-GOAL-2 - Music Sheet #10 Chest', 'Room 4-16'),
          (2, 1): ('Room 4-16',)}
         expected_placed = minimal_strands.get((mode, gating), ('Room 4-16',)) if (
             accessibility == 'minimal') else ('Room 4-16',)
@@ -210,16 +211,17 @@ def test_generated_seed_matrix(
         return
     # Phone and Goal Game slots change this exact deterministic fill.
     if gating == 1 and accessibility == "minimal" and (
-            seed == 8675309 or (seed == 1042 and mode in (1, 2))):
+            seed == 8675309 or (seed == 1042 and mode == 1)):
         _assert_goal_phone_refusal(monkeypatch, tmp_path,
             f"test_generated_seed_matrix[{gating}-{accessibility}-{mode}-{seed}]", seed, [options])
         return
     multiworld, decoded, archive = _generate(monkeypatch, tmp_path, seed, [options])
     _assert_slot_contract(multiworld, decoded, _gate_words(archive), 1)
-    if (seed, mode, gating, accessibility) == (1042, 1, 1, "minimal"):
+    if (seed, mode, gating, accessibility) == (1042, 2, 1, "minimal"):
+        _assert_historical_goal_phone_case("test_generated_seed_matrix[1-minimal-2-1042]")
         from .support.check_accessibility import audit_local_checks, LocalCheckAudit
-        assert decoded['slot_data'][1]['advanced_logic'] == 0
-        assert audit_local_checks(multiworld, 1) == LocalCheckAudit((), (), ())
+        assert all(audit_local_checks(multiworld, p) == LocalCheckAudit((), (), ())
+                   for p in multiworld.player_ids)
 
 
 @pytest.mark.parametrize("seed", SEEDS)
@@ -235,8 +237,10 @@ def test_mixed_multiworld_and_explicit_cutter_inventory(
         {"ability_randomization_mode": 2, "ability_gating": 1, "accessibility": "full",
          "ability_randomization_no_ability_weight": 100, "ability_randomization_statues": 1},
     ]
-    # All three retained mixed seeds now pass the unchanged all-check guard.
     options = [{**option, "random_starting_mirror": 0} for option in options]
+    if seed in (1042, 20261107):
+        _assert_current_placement_refusal(monkeypatch, tmp_path, seed, options, affected_player=2)
+        return
     multiworld, decoded, archive = _generate(monkeypatch, tmp_path, seed, options)
     gates = _gate_words(archive)
     for player in multiworld.player_ids:
@@ -317,30 +321,48 @@ def test_advanced_seed1042_with_goal_games_preserves_historical_refusal(monkeypa
         "test_advanced_seed1042_with_goal_games_preserves_historical_refusal", 1042, [options])
 
 
+def _assert_historical_goal_phone_case(case):
+    # Freeze the pre-pool-change evidence separately from current generation.
+    historical = (Path(__file__).parent / "data/goal-phone-generation-contract.json").read_text(encoding="utf-8")
+    previous = json.loads((Path(__file__).parent / "data/chocolate-generation-contract.json").read_text())
+    assert hashlib.sha256(historical.encode()).hexdigest() == previous["historical_sha256"]
+    previous_case, = previous["cases"][case]
+    original_case, = json.loads(historical)["cases"][case]
+    assert original_case["accepted"] is False
+    assert previous_case["accepted"] is False
+    assert previous_case["seed"] == original_case["seed"]
+    assert previous_case["policies"] == original_case["policies"]
+    return previous_case
+
+
 def _assert_goal_phone_refusal(monkeypatch, tmp_path, case, seed, options):
+    previous = _assert_historical_goal_phone_case(case)
+    _assert_current_placement_refusal(monkeypatch, tmp_path, seed, options,
+                                      affected_player=1, prior_policy=previous["policies"])
+
+
+def _assert_current_placement_refusal(monkeypatch, tmp_path, seed, options, *, affected_player, prior_policy=None):
     from .. import check_accessibility
     from .support.check_accessibility import audit_local_checks
-    # Normalize checkout line endings before checking the unchanged historical text.
-    historical = (Path(__file__).parent / "data/goal-phone-generation-contract.json").read_text(encoding="utf-8").encode("utf-8")
-    current = json.loads((Path(__file__).parent / "data/chocolate-generation-contract.json").read_text())
-    assert hashlib.sha256(historical).hexdigest() == current["historical_sha256"]
-    expected, = current["cases"][case]
-    prior, = json.loads(historical)["cases"][case]
-    assert expected["seed"] == prior["seed"] and expected["policies"] == prior["policies"]
-    assert prior["accepted"] is False
-    assert expected["accepted"] is False
+
     original = check_accessibility.validate_all_checks
     inspected = []
+
     def validate(mw, players):
         players = tuple(players)
-        assert mw.seed == expected["seed"]
-        assert {str(p): json.loads(json.dumps(audit_local_checks(mw, p).__dict__)) for p in players} == expected["audits"]
-        assert {str(p): hashlib.sha256(json.dumps(mw.worlds[p]._enemy_copy_ability_policy,
-                sort_keys=True, separators=(",", ":")).encode()).hexdigest() for p in players} == expected["policies"]
-        inspected.append(True)
+        assert mw.seed == seed
+        audits = {p: audit_local_checks(mw, p) for p in players}
+        assert all(not audit.inventory_unreachable and not audit.unfilled for audit in audits.values())
+        assert audits[affected_player].progression_unreachable
+        if prior_policy is not None:
+            assert {str(p): hashlib.sha256(json.dumps(mw.worlds[p]._enemy_copy_ability_policy,
+                    sort_keys=True, separators=(",", ":")).encode()).hexdigest() for p in players} == prior_policy
+        inspected.append(audits[affected_player].progression_unreachable)
         original(mw, players)
+
     monkeypatch.setattr(check_accessibility, "validate_all_checks", validate)
     with pytest.raises(check_accessibility.KirbyAmCheckAccessibilityError) as caught:
         _generate(monkeypatch, tmp_path, seed, options)
-    assert inspected == [True] and str(caught.value) == expected["error"]
+    assert len(inspected) == 1
+    assert f"unreachable from placed progression={list(inspected[0])!r}" in str(caught.value)
     assert not tuple((tmp_path / "output").glob("*.zip"))

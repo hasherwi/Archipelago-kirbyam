@@ -192,6 +192,7 @@ def test_invalid_health_pair_fails_early_before_generation(minimum: int, maximum
     world.options.maximum_health = SimpleNamespace(value=maximum)
     # A canonical Phone profile lets this fixture reach the health-range guard.
     for name, value in {"ability_randomization_mode": 0, "ability_gating": 1,
+                        "goal": 0, "ability_randomization_no_ability_weight": 0,
                         "room_sanity": 0, "enemy_health_multiplier": 100}.items():
         setattr(world.options, name, SimpleNamespace(value=value))
     with pytest.raises(ValueError, match="maximum_health"):

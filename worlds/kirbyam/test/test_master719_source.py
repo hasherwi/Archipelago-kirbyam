@@ -282,6 +282,10 @@ def test_current_catalog_changes_only_exact_master719_contract() -> None:
             ability = 'Beam' if row['witness'] == 'room5_entry' else 'Fighter'
             assert row['graph_source_condition'] == ['WADDLE_DOO', ability]
             row['graph_source_condition'] = None
+    # Reconstruct the earlier ability catalog after 36d9ebcd made Beam gateable.
+    # This was the only remaining change to the historical Master scope census.
+    assert catalog['ungated_pool_abilities'] == []
+    catalog['ungated_pool_abilities'] = ['Beam']
     assert hashlib.sha256(json.dumps(catalog, sort_keys=True, separators=(',', ':')).encode()).hexdigest() == (
         "dd5eec552fce4ecc410c3c7f14508ed84b6e7ada6d7c9ab931937a491fc45fb8")
 

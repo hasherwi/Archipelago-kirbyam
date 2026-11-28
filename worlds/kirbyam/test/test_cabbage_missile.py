@@ -144,7 +144,7 @@ def test_actual_world_binds_only_chest_and_preserves_progression(
     state.can_reach_region = lambda name, player: name == OWNER
     item = world.create_item('Missile Ability')
     assert 'Missile' in GATEABLE_ENEMY_COPY_ABILITIES
-    assert item.classification == (ItemClassification.progression if gating and minor_chests
+    assert item.classification == (ItemClassification.progression if gating
                                    else ItemClassification.useful)
     if minor_chests:
         chest = world.multiworld.get_location(data.locations[CHEST].label, 1)
@@ -186,8 +186,13 @@ def test_actual_world_uncertain_enemy_policies_use_native_statues(monkeypatch, m
     set_rule_test_policy(monkeypatch, lambda *args, **kwargs: resolver.policy)
     world = make_world(mode, gating, accessibility='minimal', ability_randomization_no_ability_weight=weight)
     chest = world.multiworld.get_location(data.locations[CHEST].label, 1)
+    # Besides this chest, Rainbow 1-39 can need Missile from a defeated
+    # Bombar, and the Moonlight n703 entrance can need Missile from Golem.
+    missile_source = any(resolver.grant(source, lambda _: True).guaranteed == {'Missile'}
+                         for source in ('BOMBAR', 'GOLEM'))
     assert world.create_item('Missile Ability').classification == (
-        ItemClassification.progression if gating and ability == 'Missile' else ItemClassification.useful)
+        ItemClassification.progression if gating and (ability == 'Missile' or missile_source)
+        else ItemClassification.useful)
     state = CollectionState(world.multiworld)
     state.can_reach_region = lambda name, player: name == OWNER
     assert not chest.access_rule(state)
@@ -304,7 +309,7 @@ def test_full_seed5_start_inventory_is_reconciled_after_regions(
         assert multiworld.can_beat_game() and multiworld.fulfills_accessibility()
     assert SourcePolicy(raw).grant('WADDLE_DOO', lambda _: True).guaranteed == frozenset({'Missile'})
     assert starts.count(3860125) == count
-    expected_count = count if gating and minor_chests else 0
+    expected_count = count if gating else 0  # Moonlight entrance also uses this Waddle Doo assignment.
     assert region_states == [expected_count]  # Existing state repaired once, before fill.
     starting = [item for item in multiworld.precollected_items[1] if item.name == 'Missile Ability']
     assert len(starting) == count
