@@ -71,7 +71,7 @@ def assert_generation_contract(
     assert decoded["slot_data"][player]["starting_phone_access"] is False
     assert "phone_progression" not in decoded["slot_data"][player]
 
-    assert {code: placed[code] for code in gateable} == {code: int(gating and code not in automatic) for code in gateable}
+    assert {code: placed[code] for code in gateable} == {code: int(gating) for code in gateable}
     expected_gate = sum(1 << ABILITY_NAME_TO_ID[name] for name in GATEABLE_ENEMY_COPY_ABILITIES) if gating else 0
     assert _gate_words(archive)[player] == expected_gate
     assert set(decoded["slot_data"][player]["ability_gateable_abilities"]) == (
