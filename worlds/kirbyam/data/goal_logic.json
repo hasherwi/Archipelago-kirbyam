@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "default_goal": "dark_mind",
+  "dark_mind_prerequisite_event": "Defeat Dark Meta Knight (Dimension Mirror)",
+  "legacy_reporting_only_goals": [
+    {"slot_option": 3, "goal_location": "GOAL_HIDDEN_AREA_BOSS"}
+  ],
+  "goals": {
+    "capture_the_flag": {
+      "goal_event": "Capture the Flag"
+    },
+    "dark_mind": {
+      "goal_location": "GOAL_DARK_MIND",
+      "all_of": ["all_shards", "dark_mind_prerequisite_event"]
+    },
+    "defeat_any_area_boss": {
+      "goal_location": "GOAL_ANY_AREA_BOSS",
+      "all_of": [{"reachable_bosses": 1}]
+    },
+    "defeat_area_boss": {
+      "goal_location": "GOAL_CONFIGURED_AREA_BOSS",
+      "all_of": ["configured_boss"]
+    },
+    "defeat_area_boss_count": {
+      "goal_location": "GOAL_AREA_BOSS_COUNT",
+      "all_of": [{"reachable_bosses": {"option": "required_area_bosses"}}]
+    },
+    "full_completion": {
+      "goal_location": "GOAL_100_PERCENT",
+      "all_of": [
+        "dark_mind_prerequisite_event",
+        "completion_items",
+        "completion_rooms",
+        "completion_checks"
+      ]
+    }
+  }
+}

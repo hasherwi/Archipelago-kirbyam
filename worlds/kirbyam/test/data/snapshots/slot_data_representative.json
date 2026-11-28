@@ -3923,7 +3923,8 @@
     },
     "REGION_CANDY_CONSTELLATION/ROOM_9_12": {
       "exits": [
-        "REGION_CANDY_CONSTELLATION/ROOM_9_13"
+        "REGION_CANDY_CONSTELLATION/ROOM_9_13",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_13__LOGIC__UPPER_WARP"
       ],
       "label": "REGION_CANDY_CONSTELLATION/ROOM_9_12",
       "parent_region": "REGION_CANDY_CONSTELLATION",
@@ -3931,8 +3932,7 @@
     },
     "REGION_CANDY_CONSTELLATION/ROOM_9_13": {
       "exits": [
-        "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3",
-        "REGION_CANDY_CONSTELLATION/ROOM_9_WARP"
+        "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3"
       ],
       "label": "REGION_CANDY_CONSTELLATION/ROOM_9_13",
       "parent_region": "REGION_CANDY_CONSTELLATION",
@@ -4165,19 +4165,14 @@
     },
     "REGION_CARROT_CASTLE/ROOM_5_12": {
       "exits": [
-        "REGION_CARROT_CASTLE/ROOM_5_BOSS",
-        "REGION_CARROT_CASTLE/ROOM_5_13"
+        "REGION_CARROT_CASTLE/ROOM_5_BOSS"
       ],
       "label": "REGION_CARROT_CASTLE/ROOM_5_12",
       "parent_region": "REGION_CARROT_CASTLE",
       "room_sanity_location_id": 3961127
     },
     "REGION_CARROT_CASTLE/ROOM_5_13": {
-      "exits": [
-        "REGION_CARROT_CASTLE/ROOM_5_12",
-        "REGION_CARROT_CASTLE/ROOM_5_18",
-        "REGION_CARROT_CASTLE/ROOM_5_WARP"
-      ],
+      "exits": [],
       "label": "REGION_CARROT_CASTLE/ROOM_5_13",
       "parent_region": "REGION_CARROT_CASTLE",
       "room_sanity_location_id": 3961134
@@ -4226,8 +4221,7 @@
     },
     "REGION_CARROT_CASTLE/ROOM_5_18": {
       "exits": [
-        "REGION_CARROT_CASTLE/ROOM_5_WARP",
-        "REGION_CARROT_CASTLE/ROOM_5_13"
+        "REGION_CARROT_CASTLE/ROOM_5_WARP"
       ],
       "label": "REGION_CARROT_CASTLE/ROOM_5_18",
       "parent_region": "REGION_CARROT_CASTLE",
@@ -4270,8 +4264,7 @@
     "REGION_CARROT_CASTLE/ROOM_5_WARP": {
       "exits": [
         "REGION_CARROT_CASTLE/ROOM_5_CHEST_2",
-        "REGION_PEPPERMINT_PALACE/ROOM_7_04",
-        "REGION_CARROT_CASTLE/ROOM_5_13"
+        "REGION_PEPPERMINT_PALACE/ROOM_7_04"
       ],
       "label": "REGION_CARROT_CASTLE/ROOM_5_WARP",
       "parent_region": "REGION_CARROT_CASTLE",
@@ -4306,6 +4299,7 @@
     "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_RIGHT": {
       "exits": [
         "REGION_MOONLIGHT_MANSION/ROOM_2_11_DEAD_END",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_01__LOGIC__RIGHT_TOP",
         "REGION_MOONLIGHT_MANSION/ROOM_2_01__ROOM_CHECK"
       ],
       "label": "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_RIGHT",
@@ -4510,7 +4504,8 @@
     "REGION_MOONLIGHT_MANSION/ROOM_2_11_AFTER_LEVER": {
       "exits": [
         "REGION_MOONLIGHT_MANSION/ROOM_2_12_LEFT",
-        "REGION_MOONLIGHT_MANSION/ROOM_2_11"
+        "REGION_MOONLIGHT_MANSION/ROOM_2_11",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_11_DEAD_END"
       ],
       "label": "REGION_MOONLIGHT_MANSION/ROOM_2_11_AFTER_LEVER",
       "parent_region": "REGION_MOONLIGHT_MANSION",
@@ -4972,10 +4967,8 @@
     },
     "REGION_OLIVE_OCEAN/ROOM_6_05": {
       "exits": [
-        "REGION_OLIVE_OCEAN/ROOM_6_04",
         "REGION_OLIVE_OCEAN/ROOM_6_06",
-        "REGION_OLIVE_OCEAN/ROOM_6_07",
-        "REGION_OLIVE_OCEAN/ROOM_6_23"
+        "REGION_OLIVE_OCEAN/ROOM_6_07"
       ],
       "label": "REGION_OLIVE_OCEAN/ROOM_6_05",
       "parent_region": "REGION_OLIVE_OCEAN",
@@ -4991,8 +4984,7 @@
     },
     "REGION_OLIVE_OCEAN/ROOM_6_06": {
       "exits": [
-        "REGION_OLIVE_OCEAN/ROOM_6_GOAL_1",
-        "REGION_OLIVE_OCEAN/ROOM_6_05"
+        "REGION_OLIVE_OCEAN/ROOM_6_GOAL_1"
       ],
       "label": "REGION_OLIVE_OCEAN/ROOM_6_06",
       "parent_region": "REGION_OLIVE_OCEAN",
@@ -5140,8 +5132,7 @@
     },
     "REGION_OLIVE_OCEAN/ROOM_6_23": {
       "exits": [
-        "REGION_OLIVE_OCEAN/ROOM_6_BOSS",
-        "REGION_OLIVE_OCEAN/ROOM_6_05"
+        "REGION_OLIVE_OCEAN/ROOM_6_BOSS"
       ],
       "label": "REGION_OLIVE_OCEAN/ROOM_6_23",
       "parent_region": "REGION_OLIVE_OCEAN",
@@ -5276,16 +5267,16 @@
     },
     "REGION_PEPPERMINT_PALACE/ROOM_7_09": {
       "exits": [
-        "REGION_PEPPERMINT_PALACE/ROOM_7_10"
+        "REGION_PEPPERMINT_PALACE/ROOM_7_10",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_10__LOGIC__CENTER_WARP",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_10__LOGIC__RIGHT_SPRAY"
       ],
       "label": "REGION_PEPPERMINT_PALACE/ROOM_7_09",
       "parent_region": "REGION_PEPPERMINT_PALACE",
       "room_sanity_location_id": 3961184
     },
     "REGION_PEPPERMINT_PALACE/ROOM_7_10": {
-      "exits": [
-        "REGION_PEPPERMINT_PALACE/ROOM_7_WARP"
-      ],
+      "exits": [],
       "label": "REGION_PEPPERMINT_PALACE/ROOM_7_10",
       "parent_region": "REGION_PEPPERMINT_PALACE",
       "room_sanity_location_id": 3961185
@@ -6260,6 +6251,7 @@
     "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE": {
       "exits": [
         "REGION_COPY_ABILITY_ROOM/MAIN",
+        "REGION_DIMENSION_MIRROR/MAIN",
         "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE_UPPER_PLATFORMS",
         "REGION_RAINBOW_ROUTE/ROOM_1_01",
         "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1",
@@ -6369,7 +6361,6 @@
     },
     "REGION_TUTORIAL/ROOM_0_02": {
       "exits": [
-        "REGION_TUTORIAL/ROOM_0_01",
         "REGION_TUTORIAL/ROOM_0_03"
       ],
       "label": "REGION_TUTORIAL/ROOM_0_02",

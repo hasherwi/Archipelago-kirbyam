@@ -1,0 +1,9 @@
+{
+  "schema": 1,
+  "required_item_by_wall_token": {
+    "mm_lever": "LEVER_WALL_MOONLIGHT_MANSION_2_11",
+    "oo_lever": "LEVER_WALL_OLIVE_OCEAN_6_13",
+    "cc_lever": "LEVER_WALL_CARROT_CASTLE_5_12",
+    "rr_lever": "LEVER_WALL_RADISH_RUINS_8_12"
+  }
+}

@@ -1,6 +1,7 @@
 """Production-normalized coverage must not omit compartments or synthetic sinks."""
 import hashlib
 import unittest
+from collections import Counter
 from pathlib import PurePosixPath, PureWindowsPath
 
 from worlds.kirbyam.data import data
@@ -14,7 +15,9 @@ class TestRangedTargetCoverage(unittest.TestCase):
 
     def test_all_production_regions(self):
         self.assertEqual({r['region'] for r in self.coverage['regions']}, set(data.regions))
-        self.assertEqual(len(data.regions), 386)
+        kinds = Counter(r['kind'] for r in self.coverage['regions'])
+        # Step 3 adds 30 visit-only sinks, no new physical room compartments.
+        self.assertEqual(kinds, {'native_room': 354, 'area_or_other': 11, 'room_sanity_sink': 53})
         self.assertEqual(self.coverage['counts']['mapped_native_definitions'], 354)
 
     def test_locations_owned_once_after_moves(self):
@@ -29,7 +32,14 @@ class TestRangedTargetCoverage(unittest.TestCase):
 
     def test_nested_targets_are_present(self):
         targets = {r['target']['id']: r for r in self.coverage['installed_targets']}
-        self.assertEqual(len(targets), 66)
+        self.assertEqual(len(targets), 68)
+        for target_id, suffix in (('bomb_708_right_c_main', ''),
+                                  ('bomb_708_right_c_dead_end', '_DEAD_END')):
+            row = targets[target_id]
+            self.assertEqual(row['owner'], 'REGION_MOONLIGHT_MANSION/ROOM_2_01__LOGIC__RIGHT_TOP')
+            self.assertEqual(row['target']['exit'], 'REGION_MOONLIGHT_MANSION/ROOM_2_11' + suffix)
+            self.assertTrue(row['target']['new_connection'])
+            self.assertFalse(row['target']['required_for_generation'])
         self.assertEqual(targets["mirra_141_top_mustard"]["owner"],
                          "REGION_RAINBOW_ROUTE/ROOM_1_41__LOGIC__TOP_MUSTARD")
         self.assertTrue(targets['mini_321_right_lower']['owner'].endswith('__LOGIC__RIGHT_ENTRY'))
@@ -66,8 +76,7 @@ class TestRangedTargetCoverage(unittest.TestCase):
     def test_room_sanity_is_separate(self):
         self.assertEqual(self.coverage['counts']['room_sanity_locations'], 263)
         sinks = [r for r in self.coverage['regions'] if r['kind'] == 'room_sanity_sink']
-        self.assertTrue(sinks)
-        self.assertTrue(all(r['native_room'] is not None for r in sinks))
+        self.assertTrue(all(r['native_room'] is not None and not r['exits'] for r in sinks))
 
     def test_exits_match_normalized_adjacency(self):
         actual = {(s['owner'], s['target']) for s in self.coverage['surfaces'] if s['kind'] == 'exit'}
@@ -94,7 +103,8 @@ class TestRangedTargetCoverage(unittest.TestCase):
     def test_provenance_hashes_cover_normalizer_and_region_inputs(self):
         hashes = self.coverage['input_sha256']
         for name in ('data.py', 'data/regions/rooms.json', 'data/regions/areas.json',
-                     'data/locations.json', 'dev-docs/native-room-wikirby-map.json'):
+                     'data/locations.json', 'data/room_visit_compartments.json',
+                     'dev-docs/native-room-wikirby-map.json'):
             self.assertEqual(len(hashes[name]), 64)
             self.assertEqual(hashes[name], hashlib.sha256((ROOT / name).read_bytes()).hexdigest())
 

@@ -23,8 +23,8 @@ def reported_policy() -> dict:
 
 @pytest.mark.parametrize("accessibility", ["full", "minimal"])
 @pytest.mark.parametrize("goal,room_sanity", [("dark_mind", 1), ("full_completion", 0), ("full_completion", 1)])
-def test_reported_unqualified_first_draw_is_replaced_in_world(monkeypatch, accessibility, goal, room_sanity):
-    from .. import ability_randomization
+def test_reported_unqualified_first_draw_is_repaired_in_world(monkeypatch, accessibility, goal, room_sanity):
+    from ..enemy_ability_runtime_patch import SHUFFLE_SOURCE_SWAPS
     import worlds.kirbyam as kirby
 
     first = reported_policy()
@@ -33,16 +33,17 @@ def test_reported_unqualified_first_draw_is_replaced_in_world(monkeypatch, acces
     attempts = []
 
     def factory(*args, **kwargs):
-        candidate = ability_randomization.build_enemy_copy_ability_policy(*args, **kwargs) if attempts else first
-        attempts.append(candidate)
-        return candidate
+        assert not attempts, "Standard Shuffle must not redraw the policy"
+        attempts.append(first)
+        return first
 
     monkeypatch.setattr(kirby, "build_enemy_copy_ability_policy", factory)
     world = make_world(1, True, goal=goal, room_sanity=room_sanity, accessibility=accessibility,
                        ability_randomization_boss_spawns=1, ability_randomization_minibosses=1,
                        ability_randomization_passive_enemies=1, ability_randomization_no_ability_weight=55)
     selected = world._enemy_copy_ability_policy
-    assert selected is attempts[-1] and selected is not first
+    assert len(attempts) == 1 and selected is not first
+    assert selected["seed"] == first["seed"] and selected[SHUFFLE_SOURCE_SWAPS]
     assert selected["ability_randomization_no_ability_weight"] == 55
     assert world.options.accessibility.current_key == accessibility
     assert world.fill_slot_data()["enemy_copy_ability_policy"] == selected

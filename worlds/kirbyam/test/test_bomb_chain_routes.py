@@ -26,7 +26,9 @@ def test_mansion_11_right_arrival_does_not_enter_the_machine_or_lever_compartmen
     right = data.regions[MANSION + "ROOM_2_01_BOTTOM_RIGHT"]
     assert main in left.exits and dead_end not in left.exits
     assert dead_end in right.exits and main not in right.exits
-    assert data.regions[dead_end].exits == [MANSION + "ROOM_2_01_BOTTOM_RIGHT"]
+    visit = main + "__ROOM_CHECK"
+    assert set(data.regions[dead_end].exits) == {MANSION + "ROOM_2_01_BOTTOM_RIGHT", visit}
+    assert not data.regions[visit].exits
     assert not data.regions[dead_end].locations
     assert "LEVER_MOONLIGHT_MANSION_2_11" in data.regions[main].locations
 
@@ -68,7 +70,9 @@ def test_existing_ordinary_bomb_passages_do_not_query_copy_ability_unlocks(sourc
 
 def test_rainbow_6_upper_arrival_cannot_inherit_the_lower_bomb_approach() -> None:
     upper = data.regions[RAINBOW + "ROOM_1_06_UPPER"]
-    assert set(upper.exits) == {RAINBOW + "ROOM_1_05"}
+    visit = upper.name + "__ROOM_CHECK"
+    assert set(upper.exits) == {RAINBOW + "ROOM_1_05", visit}
+    assert not data.regions[visit].exits
     lower_mid = data.regions[RAINBOW + "ROOM_1_06_LOWER_MID"]
     assert RAINBOW + "ROOM_1_06_UPPER" in lower_mid.exits
     # The optional chest remains a separate Wheel witness, not an ordinary Bomb opening.

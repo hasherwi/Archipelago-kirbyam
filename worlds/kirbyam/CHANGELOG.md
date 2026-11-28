@@ -11,6 +11,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ## Unreleased
 
 ### New Features
+- Add **Random Starting Abilities**: with Ability Gating on, move a chosen number of distinct random copy-ability unlocks from the item pool into starting inventory (Issue #915).
 - Add **Capture the Flag** goal: physically complete one hidden, randomly selected check. Use `/goal reveal` only if you want to spoil its location (Issue #1173).
 - Add **Random Starting Mirror** (on by default). The tutorial World Map chest awards a random usable Central Circle Hub Connection. The original mirror to Room 1-01 stays locked until its Hub Connection is received (PR #1156).
 - Add 38 Kirby starting color palettes and a [visual gallery of all 65 colors](docs/color-palettes.md) (PR #1135).
@@ -29,16 +30,15 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 - Allow only File 1 to be selected, preventing cross-save problems (Issue #1144).
 - Sprite Swapping (**custom sprite artwork by Aarcayne Art**): Local check rewards and incoming items show the item’s own sprite when available, including new sprites for Area Keys and the Copy Ability Room unlock. When Area Keys are enabled, Kirby starts with the Rainbow Route key, so its return mirrors don’t need a separate unlock. This key is for future use and isn’t in the randomized item pool. Outgoing non-trap rewards and awards without their own artwork still use the AP gem (PRs #1137 and #1164; Issues #1139 and #1140).
 - Show boss defeat progress in `/goal` when using the boss-count goal (PR #1133).
-- Improved Logic for Item Placement and Accessible Locations, including a same-room Smash route and a supplemental Fire route for Candy Constellation 9-12’s Small Chest. If the seed does not guarantee a verified copy route, the western Bomb Block also opens the chest seal for Normal Kirby (PR #1141; Issue #1161).
+- Improved Logic for Item Placement and Accessible Locations, including a same-room Smash route and a supplemental Fire route for Candy Constellation 9-12’s Small Chest. If the seed does not guarantee a verified copy route, the western Bomb Block also opens the chest seal for Normal Kirby (PR #1141; Issue #1161). Phone-dependent checks require access to a repeatable Goal Game before the gate. Batteries remain Useful consumables.
 
 ### Known Limitations
 - Phone charges can exceed three, but the battery display does not show the extra charges (PR #1086).
-- Ranged-attack coverage remains incomplete. Three targets retain older rules outside reviewed source assignments; broader physical outcomes still need review. See the [detailed coverage ledger](dev-docs/ranged-coverage-ledger.md) (PR #1052).
-- Only the North American ROM is supported; AP notifications are English.
-- mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays.
-- Testing covers selected gameplay scenarios, not a complete playthrough or every multiplayer setup.
+- Only the North American ROM is supported; AP notifications and all documentation are English.
+- mGBA notifications require the visible **Archipelago Connector** scripting panel; they are plain text, not game-image overlays like BizHawk.
 
 ### Bug Fixes
+- The Moonlight Mansion and Rainbow Route East Big Switches now report their own checks and display the correct reward sprites in newly generated seeds.
 - Keep pending traps and consumables from blocking item delivery after an emulator pause (PR #1142).
 - Restored previously received Area Keys and Hub Connections when switching Adventure files without restarting the emulator.
 - Area Keys now remain usable after restarting the game offline in the same seed and save file.

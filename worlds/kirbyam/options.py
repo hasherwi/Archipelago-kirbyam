@@ -28,6 +28,7 @@ from .enemy_health_scaling import (
     ENEMY_HEALTH_MULTIPLIER_MAX,
     ENEMY_HEALTH_MULTIPLIER_MIN,
 )
+from .enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES
 from .health import HEALTH_MAX, HEALTH_MIN, MAXIMUM_HEALTH_DEFAULT, MINIMUM_HEALTH_DEFAULT
 
 
@@ -202,7 +203,8 @@ class AbilityRandomizationNoAbilityWeight(Range):
     - 55: 55% of included randomized enemies grant no ability, 45% grant a copy ability.
             Default. This matches the in-game percentage when enemies that normally
             grant no ability are included in the randomization pool.
-    - 100: Included randomized enemies always grant no ability.
+    - 100: Included randomized enemies always grant no ability. With Completely Random,
+       this is not supported for the 100% Game Completion goal.
 
     This only affects enemies already included by the ability randomization mode and
     the boss/miniboss/passive-enemy toggles.
@@ -267,6 +269,22 @@ class AbilityGating(Toggle):
     """
     display_name = "Ability Gating"
     default = 1
+
+
+class RandomStartingAbilities(Range):
+    """Start with this many distinct, randomly selected copy-ability unlocks.
+
+    With Ability Gating on, this sets how many unlocks you get at random,
+    not which ones. To guarantee a specific starting unlock, use start_inventory.
+    To guarantee it at a specific check, use plando_items with from_pool: true
+    (requires host-enabled item plando). The random draw skips both.
+    Chosen unlocks move out of the item pool. They do not equip Kirby or change
+    where the abilities can be acquired in-game. Leave this at 0 with gating off.
+    """
+    display_name = "Random Starting Abilities"
+    range_start = 0
+    range_end = len(GATEABLE_ENEMY_COPY_ABILITIES)
+    default = 0
 
 
 class EnableTraps(Toggle):
@@ -456,11 +474,17 @@ class RoomSanity(Toggle):
 
 
 class AdvancedLogic(Toggle):
-    """Off by default. Enable reviewed Crash- and Magic-dependent traversal routes, including
-    their physical source and one-use timing requirements. Disabled logic excludes
-    these routes, but does not remove Crash or Magic from the ability pool.
+    """Off by default. When enabled, generation can require these verified routes:
+    - Using Crash or Magic to clear an obstacle.
+    - Copying an ability from an enemy projectile, including boss and miniboss projectiles.
+    - Carrying a needed ability through more than three room transitions, regardless of
+      ability randomization mode, where the route has been verified and modeled.
+    - Specific exceptions, such as using Missile for the Wheel Race and its lower chest
+      when its alternate route is supported by your settings.
 
-    This does not assume helper combat or enable unreviewed routes.
+    A verified Standard route to the same check is still valid. This option does not add
+    or remove copy abilities, assume other Kirbys will use copy attacks, or allow
+    unverified routes. Use false if you do not want these techniques required.
     """
     display_name = "Advanced Logic"
     default = 0
@@ -504,6 +528,8 @@ class KirbyAmOptions(PerGameCommonOptions):
 
     ability_gating: AbilityGating
 
+    random_starting_abilities: RandomStartingAbilities
+
     enable_traps: EnableTraps
 
     trap_fill_percentage: TrapFillPercentage
@@ -535,6 +561,20 @@ class KirbyAmOptions(PerGameCommonOptions):
     death_link: KirbyAmDeathLink
 
 
+def validate_generation_options(options: KirbyAmOptions, player_name: str) -> None:
+    """Reject unsupported combinations for new seeds after options are rolled."""
+    if (options.goal.value == Goal.option_full_completion
+            and options.ability_randomization_mode.value == AbilityRandomizationMode.option_completely_random
+            and options.ability_randomization_no_ability_weight.value == 100):
+        raise OptionError(
+            f"KirbyAM ({player_name}): 100% Game Completion (goal: full_completion) is not supported with "
+            "Completely Random (ability_randomization_mode: completely_random) and No Ability Weight 100 "
+            "(ability_randomization_no_ability_weight: 100). Generation cannot establish a route to the "
+            "required Mustard Mountain Map. Lower No Ability Weight below 100, choose a different "
+            "ability randomization mode, or choose a different goal."
+        )
+
+
 OPTION_GROUPS = [
     OptionGroup("Make the game shorter", [
         Goal,
@@ -543,6 +583,7 @@ OPTION_GROUPS = [
     ]),
     OptionGroup("Make the game easier", [
         StartWithAllMaps,
+        RandomStartingAbilities,
         AreaKeys,
     ]),
     OptionGroup("Kirby Health", [

@@ -28,6 +28,15 @@ Neither possession of a permission nor an inventory row equips Kirby. Gating off
 still requires physical acquisition. Moving a source behind its own barrier
 cannot justify reaching it.
 
+Obtaining a copy ability by swallowing an enemy projectile is **Advanced
+only**, including boss and miniboss projectiles. This applies in Off, Shuffle,
+and Completely Random, even when no room transition is needed. A projectile
+is not the same source as the enemy that launches it: swallowing the defeated
+enemy may still qualify for Standard if that acquisition and carry route are
+verified. For example, Bombar itself and Bombar’s spawned missiles are separate
+source records. The projectile’s presence does not establish that Kirby can
+leave the encounter with its ability or complete a downstream check.
+
 Encounter source types are rejected from standard room graphs, including when
 introduced through reusable graph parts or source sets. Advanced graphs still
 need an explicit acquisition witness. The encounter census records 126
@@ -98,6 +107,30 @@ python worlds/kirbyam/tools/audit_ability_source_coverage.py \
 The extractor checks the ROM size/SHA-1, bounds, table namespace, record sizes,
 and terminators. It does not start an emulator or read/write any playthrough
 save. The #1059 playthrough remains paused.
+
+## Step 5 acquisition backlog (#1170)
+
+Build a room-by-room review queue from the existing inventory and traversal
+references, without a ROM, emulator, or new playthrough results:
+
+```sh
+python worlds/kirbyam/tools/audit_ability_source_coverage.py \
+  --output /tmp/kirby-ability-source-coverage.json \
+  --acquisition-backlog /tmp/kirby-ability-acquisition-backlog.json
+```
+
+The backlog separates static placements, generated statue slots, spawner
+children and encounter outputs, including potential randomized sources whose
+stock grant is Normal. Existing inventory references, including alternatives
+and legacy bindings, are excluded; that does not certify all uses of a
+referenced source. Known outside-Adventure candidates are counted but not
+queued. AP region names are candidate aliases only, not source access in
+every subroom. Empty aliases mean no known mapping in the inventory.
+
+Review each candidate's exact acquisition compartment, activation, lifetime,
+and directed route separately. This report does not add routes, prove
+three-room carry, certify a dynamic spawn, or affect generation. It is a
+physical-source backlog, not a count of remaining playthrough checks.
 
 ## Remaining acceptance gaps
 

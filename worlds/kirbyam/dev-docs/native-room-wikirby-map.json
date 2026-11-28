@@ -528,7 +528,6 @@
         "REGION_OLIVE_OCEAN/ROOM_6_05",
         "REGION_OLIVE_OCEAN/ROOM_6_05_SUBROOM",
         "REGION_OLIVE_OCEAN/ROOM_6_05__LOGIC__ENTRY_FROM_6_04_OR_6_06",
-        "REGION_OLIVE_OCEAN/ROOM_6_05__LOGIC__ENTRY_FROM_6_23",
         "REGION_OLIVE_OCEAN/ROOM_6_05__LOGIC__ENTRY_FROM_6_07"
       ],
       "wiki_title": "Olive Ocean - Room 5",
@@ -1268,7 +1267,9 @@
       "completion_index": 100,
       "object_list_index": 100,
       "ap_keys": [
-        "REGION_PEPPERMINT_PALACE/ROOM_7_10"
+        "REGION_PEPPERMINT_PALACE/ROOM_7_10",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_10__LOGIC__CENTER_WARP",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_10__LOGIC__RIGHT_SPRAY"
       ],
       "wiki_title": "Peppermint Palace - Room 10",
       "wiki_url": "https://wikirby.com/wiki/Peppermint_Palace_-_Room_10",
@@ -1766,7 +1767,8 @@
       "completion_index": 160,
       "object_list_index": 160,
       "ap_keys": [
-        "REGION_CANDY_CONSTELLATION/ROOM_9_13"
+        "REGION_CANDY_CONSTELLATION/ROOM_9_13",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_13__LOGIC__UPPER_WARP"
       ],
       "wiki_title": "Candy Constellation - Room 13",
       "wiki_url": "https://wikirby.com/wiki/Candy_Constellation_-_Room_13",
@@ -3055,9 +3057,7 @@
         "REGION_CARROT_CASTLE/ROOM_5_13",
         "REGION_CARROT_CASTLE/ROOM_5_13_UPPER",
         "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_07",
-        "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_14",
-        "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_12",
-        "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_18_OR_5_WARP"
+        "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_14"
       ],
       "wiki_title": "Carrot Castle - Room 13",
       "wiki_url": "https://wikirby.com/wiki/Carrot_Castle_-_Room_13",

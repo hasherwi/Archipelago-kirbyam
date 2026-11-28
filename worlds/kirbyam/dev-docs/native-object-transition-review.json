@@ -1,0 +1,153 @@
+{
+  "schema": 1,
+  "rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "scope": "Scoped original USA template decode. These are configured destination and spawn arguments, not gameplay or a validated AP compartment.",
+  "transitions": [
+    {
+      "source_native_room": 126,
+      "mechanism": "fuse_cannon",
+      "template_address": "0x088B94E8",
+      "position_pixels": [
+        144,
+        64
+      ],
+      "destination_native_room": 570,
+      "configured_spawn_arguments": [
+        6,
+        1
+      ]
+    },
+    {
+      "source_native_room": 142,
+      "mechanism": "warp_star",
+      "template_address": "0x088B7A10",
+      "position_pixels": [
+        400,
+        192
+      ],
+      "destination_native_room": 195,
+      "configured_spawn_arguments": [
+        -5,
+        -3
+      ]
+    },
+    {
+      "source_native_room": 230,
+      "mechanism": "warp_star",
+      "template_address": "0x088C0890",
+      "position_pixels": [
+        360,
+        80
+      ],
+      "destination_native_room": 404,
+      "configured_spawn_arguments": [
+        11,
+        15
+      ]
+    },
+    {
+      "source_native_room": 318,
+      "mechanism": "warp_star",
+      "template_address": "0x088C4AE0",
+      "position_pixels": [
+        128,
+        48
+      ],
+      "destination_native_room": 401,
+      "configured_spawn_arguments": [
+        -1,
+        20
+      ]
+    },
+    {
+      "source_native_room": 323,
+      "destination_native_room": 300,
+      "mechanism": "fuse_cannon",
+      "template_address": "0x088C5124",
+      "position_pixels": [
+        128,
+        384
+      ],
+      "configured_spawn_arguments": [
+        2,
+        1
+      ],
+      "from_region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_13__LOGIC__CANNON_LEFT",
+      "to_region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_14__LOGIC__CANNON_LEFT",
+      "tile_relationship": "separate_cannon_compartment"
+    },
+    {
+      "source_native_room": 412,
+      "mechanism": "warp_star",
+      "template_address": "0x088C6BC8",
+      "position_pixels": [
+        600,
+        32
+      ],
+      "destination_native_room": 415,
+      "configured_spawn_arguments": [
+        5,
+        15
+      ]
+    },
+    {
+      "source_native_room": 502,
+      "destination_native_room": 525,
+      "mechanism": "fuse_cannon",
+      "template_address": "0x088D1608",
+      "position_pixels": [
+        1104,
+        144
+      ],
+      "configured_spawn_arguments": [
+        2,
+        1
+      ],
+      "from_region": "REGION_RADISH_RUINS/ROOM_8_16",
+      "to_region": "REGION_RADISH_RUINS/ROOM_8_17",
+      "tile_relationship": "parallel_cannon"
+    },
+    {
+      "source_native_room": 705,
+      "mechanism": "warp_star",
+      "template_address": "0x088BC8C0",
+      "position_pixels": [
+        128,
+        64
+      ],
+      "destination_native_room": 409,
+      "configured_spawn_arguments": [
+        63,
+        15
+      ]
+    },
+    {
+      "source_native_room": 731,
+      "mechanism": "warp_star",
+      "template_address": "0x088D5178",
+      "position_pixels": [
+        104,
+        40
+      ],
+      "destination_native_room": 222,
+      "configured_spawn_arguments": [
+        -1,
+        0
+      ]
+    },
+    {
+      "source_native_room": 827,
+      "mechanism": "fuse_cannon",
+      "template_address": "0x088CD65C",
+      "position_pixels": [
+        656,
+        272
+      ],
+      "destination_native_room": 133,
+      "configured_spawn_arguments": [
+        27,
+        1
+      ]
+    }
+  ]
+}

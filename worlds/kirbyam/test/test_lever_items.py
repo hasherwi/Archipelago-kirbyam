@@ -135,10 +135,5 @@ def test_carrot_lever_move_preserves_current_room_topology() -> None:
         "REGION_CARROT_CASTLE/ROOM_5_07": None,
     }
     old_room = rooms["REGION_CARROT_CASTLE/ROOM_5_12"]
-    assert old_room["exits"] == {
-        "REGION_CARROT_CASTLE/ROOM_5_BOSS": None,
-        "REGION_CARROT_CASTLE/ROOM_5_13": None,
-    }
-    assert old_room["logical_exit_overrides"] == {
-        "REGION_CARROT_CASTLE/ROOM_5_13": "ENTRY_FROM_5_12",
-    }
+    assert old_room["exits"] == {"REGION_CARROT_CASTLE/ROOM_5_BOSS": None}
+    assert "logical_exit_overrides" not in old_room

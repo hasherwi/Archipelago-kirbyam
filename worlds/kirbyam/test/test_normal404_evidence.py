@@ -209,22 +209,24 @@ def test_current_host_structure_preserves_404_and_tracks_master719_and_green138_
     contract = evidence()['host_contract']
     # Frozen404 remains 144; later Master, Green, Ice, Radish, Kibble and two Mirra witnesses add seven.
     assert contract['counts']['witnesses'] == 144
-    assert status['counts'] == {**contract['counts'], 'witnesses': 165,
-                                'normalized_targets': 66, 'installed_target_definitions': 66,
-                                'locations': 401, 'surfaces': 1108,
-                                'regions': 386, 'mapped_native_definitions': 354}
+    assert status['counts'] == {**contract['counts'], 'witnesses': 187,
+                                'normalized_targets': 68, 'installed_target_definitions': 68,
+                                'locations': 401, 'surfaces': 1178,
+                                'regions': 418, 'mapped_native_definitions': 354}
     assert (len(data.regions), len(data.locations), len(coverage['surfaces']),
-            len(coverage['installed_targets']), status['counts']['witnesses']) == (386, 401, 1108, 66, 165)
+            len(coverage['installed_targets']), status['counts']['witnesses']) == (418, 401, 1178, 68, 187)
     # Project only the pinned feature surfaces, retaining the frozen native record.
     from .support.main_sync_history import main_surfaces
+    # main_surfaces already reverses the pinned stock Moonlight exits.
     assert digest(main_surfaces(coverage['surfaces'])) == contract['normalized_surface_sha256']
     # Strictly project Green off the unchanged Master-era catalog pin; keep frozen404 evidence.
     from .support.green138_history import before_green138
     from .support.advanced_crash_history import before_advanced_crash
     from .support.radish617_history import before_radish617_targets
     from .support.candy912_history import before_candy912_targets
+    from .support.stock_short_carrier_history import before_stock_short_targets
     historical = [{**row, 'target': before_green138(before_advanced_crash(row['target']))}
-                  for row in before_radish617_targets(before_candy912_targets(coverage['installed_targets']))]
+                  for row in before_radish617_targets(before_candy912_targets(before_stock_short_targets(coverage['installed_targets'])))]
     assert digest(historical) == '76c369a269387b9e3812400689c2da0e9ab02a68476624e71817e9a6b48c8933'
     carrot = next(row['target'] for row in coverage['installed_targets']
                   if row['target']['id'] == 'bomb_719_room13')

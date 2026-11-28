@@ -9,7 +9,7 @@ from collections import Counter
 from typing import TYPE_CHECKING, Any, ClassVar, TextIO
 
 import settings
-from Options import Accessibility
+from Options import Accessibility, OptionError
 from BaseClasses import CollectionState, Item, ItemClassification, LocationProgressType, MultiWorld, Tutorial
 from worlds.AutoWorld import WebWorld, World
 from worlds.LauncherComponents import Component, Type, components, launch as launch_component
@@ -21,7 +21,6 @@ from .ability_randomization import (
 from .area_keys import (
     EARLY_REACHABLE_CHECK_THRESHOLD,
     FALLBACK_STARTING_AREA_KEY_LABEL,
-    RAINBOW_ROUTE_AREA_KEY_ID,
     RAINBOW_ROUTE_AREA_KEY_LABEL,
     area_key_bitfield_from_items,
 )
@@ -33,7 +32,7 @@ from .data import (
     load_json_data,
     normalize_region_exits,
 )
-from .enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES, STARTING_COPY_ABILITIES, starting_copy_abilities
+from .enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES
 from .mini_traversal import validate_mini_sources
 from .peg_traversal import peg_logic_enabled, validate_peg_assignment
 from .enemy_ability_runtime_patch import build_enemy_copy_spoiler_rows
@@ -48,6 +47,7 @@ from .generation_logging import (
 )
 from .groups import ITEM_GROUPS, LOCATION_GROUPS, resolve_item_group
 from .health import HealthRange, MAXIMUM_HEALTH_DEFAULT, MINIMUM_HEALTH_DEFAULT, resolve_health_range
+from .item_pool_policy import ITEM_POOL_POLICY
 from .items import KirbyAmItem, create_item_label_to_code_map, get_item_classification
 from .locations import KirbyAmLocation, create_location_label_to_id_map
 from .options import (
@@ -59,6 +59,7 @@ from .options import (
     KirbyAmOptions,
     RandomizeShards,
     TrapFillPercentage,
+    validate_generation_options,
 )
 from .rom import KirbyAmProcedurePatch, write_tokens
 
@@ -151,72 +152,10 @@ class KirbyAmWorld(World):
     _flag_location_id: int | None = None
 
     # Generation stages
-    # Active filler pool for random selection.
-    ACTIVE_FILLER_POOL: ClassVar[tuple[str, ...]] = (
-        "1 Up",
-        "Small Food",
-        "Energy Drink",
-        "Hunk of Meat",
-        "Cell Phone Battery",
-        "Max Tomato",
-        "Invincibility Candy",
-    )
-    # Issue #688: weighted filler distribution tuned from native frequency research,
-    # with whole-number percentages for easier balancing.
-    ACTIVE_FILLER_WEIGHTS: ClassVar[dict[str, int]] = {
-        "1 Up": 15,
-        "Small Food": 14,
-        "Energy Drink": 17,
-        "Hunk of Meat": 9,
-        "Cell Phone Battery": 25,
-        "Max Tomato": 15,
-        "Invincibility Candy": 5,
-    }
-    ACTIVE_FILLER_POOL_NO_HEALING: ClassVar[tuple[str, ...]] = tuple(
-        item_name
-        for item_name in ACTIVE_FILLER_POOL
-        if item_name not in {"Small Food", "Energy Drink", "Hunk of Meat", "Max Tomato"}
-    )
-    ACTIVE_FILLER_POOL_NO_1UP: ClassVar[tuple[str, ...]] = tuple(
-        item_name for item_name in ACTIVE_FILLER_POOL if item_name != "1 Up"
-    )
-    _HEALTH_DOWN_TRAP_KEY: ClassVar[str] = "TRAP_HEALTH_DOWN"
-    _LIFE_DOWN_TRAP_KEY: ClassVar[str] = "TRAP_LIFE_DOWN"
-    _LIFE_WIPEOUT_TRAP_KEY: ClassVar[str] = "TRAP_LIFE_WIPEOUT"
-    _SHARD_CHEST_KEY_ORDER: ClassVar[tuple[str, ...]] = (
-        "MAJOR_CHEST_MUSTARD_MOUNTAIN",
-        "MAJOR_CHEST_MOONLIGHT_MANSION",
-        "MAJOR_CHEST_CANDY_CONSTELLATION",
-        "MAJOR_CHEST_OLIVE_OCEAN",
-        "MAJOR_CHEST_PEPPERMINT_PALACE",
-        "MAJOR_CHEST_CABBAGE_CAVERN",
-        "MAJOR_CHEST_CARROT_CASTLE",
-        "MAJOR_CHEST_RADISH_RUINS",
-    )
-    _BOSS_DEFEAT_KEY_ORDER: ClassVar[tuple[str, ...]] = (
-        "BOSS_DEFEAT_1",
-        "BOSS_DEFEAT_2",
-        "BOSS_DEFEAT_3",
-        "BOSS_DEFEAT_4",
-        "BOSS_DEFEAT_5",
-        "BOSS_DEFEAT_6",
-        "BOSS_DEFEAT_7",
-        "BOSS_DEFEAT_8",
-    )
-    # Shard item labels in the same positional order as _BOSS_DEFEAT_KEY_ORDER.
-    # Vanilla placement follows boss-defeat index -> shard label. This order also
-    # matches the legacy shard-chest ordering, but boss-defeat ordering is the
-    # authoritative mapping for the current contract.
-    _SHARD_ITEM_LABEL_ORDER: ClassVar[tuple[str, ...]] = (
-        "Mustard Mountain - Mirror Shard",
-        "Moonlight Mansion - Mirror Shard",
-        "Candy Constellation - Mirror Shard",
-        "Olive Ocean - Mirror Shard",
-        "Peppermint Palace - Mirror Shard",
-        "Cabbage Cavern - Mirror Shard",
-        "Carrot Castle - Mirror Shard",
-        "Radish Ruins - Mirror Shard",
-    )
+    # Keep the historical public test-facing views derived from the policy.
+    ACTIVE_FILLER_POOL: ClassVar[tuple[str, ...]] = ITEM_POOL_POLICY.filler_labels
+    ACTIVE_FILLER_WEIGHTS: ClassVar[dict[str, int]] = dict(ITEM_POOL_POLICY.filler_weights_by_label)
+    _SHARD_ITEM_LABEL_ORDER: ClassVar[tuple[str, ...]] = ITEM_POOL_POLICY.shard_labels
     # Activate the verified exact-source minor chest rollout. The older
     # collection-name placeholder rows remain dormant until they have unique
     # physical chest mappings.
@@ -231,7 +170,7 @@ class KirbyAmWorld(World):
 
     @classmethod
     def stage_pre_fill(cls, multiworld: MultiWorld) -> None:
-        from .enemy_ability_runtime_patch import ROOM16_FOLEY_SWAP
+        from .enemy_ability_runtime_patch import ROOM16_FOLEY_SWAP, SHUFFLE_SOURCE_SWAPS, SHUFFLE_STATUE_RESERVATIONS
 
         stone = "Stone Ability"
         stone_by_owner = {item.player: item for item in multiworld.itempool if item.name == stone and item.advancement}
@@ -240,7 +179,8 @@ class KirbyAmWorld(World):
             if (not isinstance(world, cls) or player not in stone_by_owner
                     or world.options.accessibility != Accessibility.option_minimal
                     or not world._ability_gating_enabled()
-                    or ROOM16_FOLEY_SWAP not in getattr(world, "_enemy_copy_ability_policy", {})):
+                    or not {ROOM16_FOLEY_SWAP, SHUFFLE_SOURCE_SWAPS, SHUFFLE_STATUE_RESERVATIONS}.intersection(
+                        getattr(world, "_enemy_copy_ability_policy", {}))):
                 continue
             if any(item.name == stone for item in multiworld.precollected_items[player]) or any(
                 location.item is not None and location.item.player == player and location.item.name == stone
@@ -423,18 +363,13 @@ class KirbyAmWorld(World):
         return resolved
 
     def _active_filler_pool(self) -> tuple[str, ...]:
-        pool = self.ACTIVE_FILLER_POOL
-        if self._health_range().maximum == 1:
-            pool = self.ACTIVE_FILLER_POOL_NO_HEALING
-        if self._no_extra_lives_enabled():
-            pool = tuple(item_name for item_name in pool if item_name != "1 Up")
-        return pool
+        return self._active_filler_weighted_pool()[0]
 
     def _active_filler_weighted_pool(self) -> tuple[tuple[str, ...], tuple[int, ...]]:
-        pool = self._active_filler_pool()
-        if not pool:
-            raise ValueError("KirbyAM active filler pool resolved empty")
-        return pool, tuple(self.ACTIVE_FILLER_WEIGHTS[item_name] for item_name in pool)
+        return ITEM_POOL_POLICY.filler_for(
+            maximum_health_is_one=self._health_range().maximum == 1,
+            no_extra_lives=self._no_extra_lives_enabled(),
+        )
 
     # Filler item name
     def get_filler_item_name(self) -> str:
@@ -450,52 +385,15 @@ class KirbyAmWorld(World):
         return self.random.choice(trap_labels)
 
     def _active_trap_pool(self) -> tuple[str, ...]:
-        def _label_for_item_key(item_key: str) -> str:
-            item_id = kirby_data.item_key_to_id.get(item_key)
-            if item_id is None:
-                raise ValueError(f"KirbyAM trap key missing from items.json: {item_key}")
-            return kirby_data.items[item_id].label
-
-        option = getattr(getattr(self, "options", None), "exclude_trap_types", None)
-        excluded_traps: set[str] = set(getattr(option, "value", ()))
-        from .narcolepsy import NARCOLEPSY_TRAP_CATALOG_VERSION
         from .random_teleport import TRAP_CATALOG_VERSION
 
-        catalog_version = getattr(self, "_tracker_trap_catalog_version", TRAP_CATALOG_VERSION)
-        if catalog_version < NARCOLEPSY_TRAP_CATALOG_VERSION:
-            excluded_traps.add(_label_for_item_key("TRAP_NARCOLEPSY"))
-        if catalog_version < TRAP_CATALOG_VERSION:
-            excluded_traps.add(_label_for_item_key("TRAP_RANDOM_TELEPORT"))
-        if self._no_extra_lives_enabled():
-            excluded_traps.update(
-                {
-                    _label_for_item_key(self._LIFE_DOWN_TRAP_KEY),
-                    _label_for_item_key(self._LIFE_WIPEOUT_TRAP_KEY),
-                }
-            )
-        if self._health_range().minimum == 1:
-            excluded_traps.add(_label_for_item_key(self._HEALTH_DOWN_TRAP_KEY))
-
-        if not excluded_traps:
-            return kirby_data.available_trap_item_labels
-
-        return tuple(
-            trap_label
-            for trap_label in kirby_data.available_trap_item_labels
-            if trap_label not in excluded_traps
+        option = getattr(getattr(self, "options", None), "exclude_trap_types", None)
+        return ITEM_POOL_POLICY.traps_for(
+            minimum_health_is_one=self._health_range().minimum == 1,
+            no_extra_lives=self._no_extra_lives_enabled(),
+            catalog_version=getattr(self, "_tracker_trap_catalog_version", TRAP_CATALOG_VERSION),
+            player_excluded_labels=set(getattr(option, "value", ())),
         )
-
-    def _ordered_boss_defeat_locations(self, boss_locations: list[KirbyAmLocation]) -> list[KirbyAmLocation]:
-        boss_locations_by_key = {
-            loc.key: loc for loc in boss_locations if loc.key is not None
-        }
-        ordered_boss_locations: list[KirbyAmLocation] = []
-        for boss_key in self._BOSS_DEFEAT_KEY_ORDER:
-            boss_loc = boss_locations_by_key.get(boss_key)
-            if boss_loc is None:
-                raise ValueError(f"KirbyAM boss-defeat location missing from region graph: {boss_key}")
-            ordered_boss_locations.append(boss_loc)
-        return ordered_boss_locations
 
     @staticmethod
     def interpret_slot_data(slot_data: dict[str, Any]) -> dict[str, Any]:
@@ -503,6 +401,35 @@ class KirbyAmWorld(World):
         from .tracker import validate_tracker_data
         validate_tracker_data(slot_data)
         return slot_data
+
+    def _grant_random_starting_abilities(self) -> None:
+        count = self.options.random_starting_abilities.value
+        self._random_starting_ability_items: tuple[str, ...] = ()
+        if not count:
+            return  # Preserve the generation RNG stream when the option is disabled.
+        if not self._ability_gating_enabled():
+            raise OptionError(f"KirbyAM ({self.player_name}): random_starting_abilities requires ability_gating.")
+        reserved = {name for name, quantity in self.options.start_inventory.value.items() if quantity > 0}
+        for block in self.options.plando_items.value:
+            if not block.from_pool:
+                continue
+            # At this stage Archipelago has resolved active blocks and item
+            # groups, but has not chosen a subset of a multi-item block.
+            # Keep every possible pool-backed pick available to plando.
+            if isinstance(block.items, dict):
+                reserved.update(name for name, quantity in block.items.items() if quantity > 0)
+            else:
+                reserved.update(block.items)
+        candidates = [f"{ability} Ability" for ability in GATEABLE_ENEMY_COPY_ABILITIES
+                      if f"{ability} Ability" not in reserved]
+        if count > len(candidates):
+            raise OptionError(
+                f"KirbyAM ({self.player_name}): random_starting_abilities requests {count}, "
+                f"but only {len(candidates)} distinct unlocks remain after explicit starting inventory and pool-backed plando."
+            )
+        self._random_starting_ability_items = tuple(self.random.sample(candidates, count))
+        for name in self._random_starting_ability_items:
+            self.push_precollected(self.create_item(name))
 
     # Pre-generation adjustments
     def generate_early(self) -> None:
@@ -514,6 +441,7 @@ class KirbyAmWorld(World):
             validate_phone_profile(self, require_policy=True)
             self._generation_start_time = time.time()
             return
+        validate_generation_options(self.options, self.player_name)
         validate_phone_profile(self)
         # Reject unsupported health pairs before producing regions/items or a patch.
         health_range = self._health_range()
@@ -573,8 +501,8 @@ class KirbyAmWorld(World):
             )
             from .room16_timer import configure_policy
             self._enemy_copy_ability_policy = configure_policy(self._enemy_copy_ability_policy)
-            # All checks need feasible sources even under minimal accessibility.
-            # Keep whole-policy resampling bounded and preserve the selected option.
+            # Standard Shuffled repairs the initial assignment without drawing a
+            # new seed. Other modes and Advanced retain their existing policy.
             self._enemy_copy_ability_policy = validate_peg_assignment(
                 self._enemy_copy_ability_policy,
                 lambda: build_enemy_copy_ability_policy(
@@ -591,9 +519,12 @@ class KirbyAmWorld(World):
                 require_room16=bool(self.options.room_sanity.value),
                 room16_for_completion=self.options.goal.value == Goal.option_full_completion,
                 allow_room16_shuffle_repair=True,
+                logic_aware_shuffle=(mode == AbilityRandomizationMode.option_shuffled
+                                     and not self.options.advanced_logic.value),
+                area_keys=self._area_keys_enabled(),
             )
-            from .candy912_fuse import needs_linked_fuse
-            self._candy912_linked_west_fuse = needs_linked_fuse(
+            from .conditional_routes import CANDY_FUSE
+            self._candy912_linked_west_fuse = CANDY_FUSE.needs_linked_fuse(
                 self._enemy_copy_ability_policy, minor_chests=self.ENABLE_MINOR_CHESTS,
             )
             validate_phone_profile(self)
@@ -677,16 +608,8 @@ class KirbyAmWorld(World):
                     self.player,
                 )
 
-            # Main applies explicit start_inventory after generate_early. Keep its
-            # requested multiplicity, but do not add another automatic copy.
-            starting_inventory = getattr(self.options, "start_inventory", None)
-            explicit_starting = getattr(starting_inventory, "value", {})
-            for ability_name in starting_copy_abilities(mode):
-                label = f"{ability_name} Ability"
-                if explicit_starting.get(label, 0) <= 0:
-                    self.push_precollected(self.create_item(label))
-
             if self._area_keys_enabled():
+                explicit_starting = getattr(getattr(self.options, "start_inventory", None), "value", {})
                 # Rainbow Route is a guaranteed start, not a random placement.
                 # Treat explicit "from pool" copies as the same guaranteed start.
                 from_pool = getattr(getattr(self.options, "start_inventory_from_pool", None), "value", {})
@@ -707,6 +630,8 @@ class KirbyAmWorld(World):
                     len(map_items),
                 )
 
+            self._grant_random_starting_abilities()
+
     # Create world regions
     def create_regions(self) -> None:
         with generation_stage("create_regions", self.player, self.player_name):
@@ -723,8 +648,7 @@ class KirbyAmWorld(World):
 
             # Main creates start_inventory before regions. Reclassify only the
             # conditional permissions whose actual target could not exist yet.
-            # Early useful instances need collection unless guaranteed starts
-            # were already tracked by collect_item.
+            # Useful items promoted here must now be collected.
             for item in self.multiworld.precollected_items[self.player]:
                 if item.name in {"Ice Ability", "Crash Ability", "Missile Ability",
                                  "Parasol Ability", "Magic Ability", "Spark Ability"} \
@@ -732,8 +656,7 @@ class KirbyAmWorld(World):
                     classification = self.create_item(item.name).classification
                     if classification & ItemClassification.progression:
                         item.classification = classification
-                        if item.name not in {f"{name} Ability" for name in starting_copy_abilities(0)}:
-                            self.multiworld.state.collect(item, prevent_sweep=True)
+                        self.multiworld.state.collect(item, prevent_sweep=True)
 
             # Log region creation
             fillable_locations = len([
@@ -909,25 +832,7 @@ class KirbyAmWorld(World):
                 or area_visit_locations
                 or goal_game_locations
             ):
-                shard_label_to_code = {
-                    item.label: item.item_id
-                    for item in kirby_data.items.values()
-                    if "Shards" in item.tags
-                }
-                missing_shard_labels = [
-                    label for label in self._SHARD_ITEM_LABEL_ORDER
-                    if label not in shard_label_to_code
-                ]
-                if missing_shard_labels:
-                    available_labels = sorted(shard_label_to_code.keys())
-                    raise ValueError(
-                        "KirbyAM shard item configuration error: missing shard labels in items data: "
-                        f"{missing_shard_labels}. "
-                        f"Available shard-tagged item labels: {available_labels}"
-                    )
-                shard_item_codes = [
-                    shard_label_to_code[label] for label in self._SHARD_ITEM_LABEL_ORDER
-                ]
+                shard_item_codes = ITEM_POOL_POLICY.shard_codes
 
                 expected_boss_defeat_count = sum(
                     1 for m in kirby_data.locations.values()
@@ -942,14 +847,11 @@ class KirbyAmWorld(World):
                 # In vanilla shard mode, each area's boss defeat location awards
                 # that area's matching shard (fixed AP placement).
                 if self.options.shards.value == RandomizeShards.option_vanilla:
-                    ordered_boss_locations = self._ordered_boss_defeat_locations(boss_locations)
-
-                    if len(ordered_boss_locations) != len(shard_item_codes):
-                        raise ValueError(
-                            "KirbyAM shard placement mismatch: %d ordered boss locations vs %d shard items"
-                            % (len(ordered_boss_locations), len(shard_item_codes))
-                        )
-                    for boss_loc, shard_code in zip(ordered_boss_locations, shard_item_codes):
+                    boss_by_key = {loc.key: loc for loc in boss_locations}
+                    for boss_key, shard_code in ITEM_POOL_POLICY.vanilla_boss_shards:
+                        boss_loc = boss_by_key.get(boss_key)
+                        if boss_loc is None:
+                            raise ValueError(f"KirbyAM boss-defeat location missing from region graph: {boss_key}")
                         boss_loc.place_locked_item(self.create_item_by_code(shard_code))
                         boss_loc.progress_type = LocationProgressType.DEFAULT
                         locked_shard_count += 1
@@ -990,21 +892,26 @@ class KirbyAmWorld(World):
                     kirby_data.locations[loc.key].default_item
                     for loc in minor_chest_locations if loc.key is not None
                 }
+                # Weighted-slot eligibility is independent of AP classification.
+                weighted_item_codes = ITEM_POOL_POLICY.weighted_item_codes
                 non_filler_item_codes = [
                     item.item_id
                     for item in kirby_data.items.values()
-                    if item.classification not in (ItemClassification.filler, ItemClassification.trap)
+                    if item.item_id not in weighted_item_codes
                     and (
                         not item.tags.intersection({"SprayPaint", "MusicSheet"})
                         or item.item_id in active_collection_item_codes
                     )
                 ]
-                from .starting_mirror import STARTING_MIRROR_ITEM_ID, random_starting_mirror_enabled
+                from .starting_mirror import random_starting_mirror_enabled
 
+                excluded_mirror = (
+                    frozenset() if random_starting_mirror_enabled(self)
+                    else ITEM_POOL_POLICY.pool_exclusions["random_starting_mirror_off"]
+                )
                 non_filler_item_codes = [
                     code for code in non_filler_item_codes
-                    if code != tutorial_hub_code
-                    and (code != STARTING_MIRROR_ITEM_ID or random_starting_mirror_enabled(self))
+                    if code != tutorial_hub_code and code not in excluded_mirror
                 ]
                 vitality_item_codes = getattr(self, "_vitality_item_codes", None)
                 if vitality_item_codes is None:
@@ -1014,14 +921,7 @@ class KirbyAmWorld(World):
                         if "Vitality" in item.tags
                     }
                     self._vitality_item_codes = vitality_item_codes
-                map_item_codes = getattr(self, "_map_item_codes", None)
-                if map_item_codes is None:
-                    map_item_codes = {
-                        item.item_id
-                        for item in kirby_data.items.values()
-                        if "Maps" in item.tags
-                    }
-                    self._map_item_codes = map_item_codes
+                map_item_codes = ITEM_POOL_POLICY.pool_exclusions["start_with_all_maps"]
                 if self.options.shards.value == RandomizeShards.option_vanilla:
                     shard_code_set = set(shard_item_codes)
                     non_filler_item_codes = [
@@ -1056,36 +956,39 @@ class KirbyAmWorld(World):
                         excluded_map_count,
                     )
 
-                starting_ability_codes = {
-                    self.item_name_to_id[f"{name} Ability"]
-                    for name in starting_copy_abilities(int(getattr(
-                        getattr(self.options, "ability_randomization_mode", None), "value", 0
-                    )))
-                }
                 non_filler_item_codes = [
-                    code for code in non_filler_item_codes if code not in starting_ability_codes
+                    code for code in non_filler_item_codes if code not in ITEM_POOL_POLICY.pool_exclusions["always"]
                 ]
-
-                non_filler_item_codes = [
-                    code for code in non_filler_item_codes if code != RAINBOW_ROUTE_AREA_KEY_ID
-                ]
-                if not self._area_keys_enabled():
+                # A reconstructed seed retains its original gate catalog.
+                if (seed_gateable := getattr(self, "_seed_gateable_abilities", None)) is not None:
+                    seed_unlocks = {f"{name} Ability" for name in seed_gateable}
                     non_filler_item_codes = [
-                        code for code in non_filler_item_codes if "AreaKeys" not in kirby_data.items[code].tags
+                        code for code in non_filler_item_codes
+                        if "Abilities" not in kirby_data.items[code].tags or self.item_id_to_name[code] in seed_unlocks
                     ]
+                if not self._area_keys_enabled():
+                    excluded_key_codes = ITEM_POOL_POLICY.pool_exclusions["area_keys_off"]
+                    non_filler_item_codes = [code for code in non_filler_item_codes if code not in excluded_key_codes]
 
                 if not self._ability_gating_enabled():
+                    excluded_ability_codes = ITEM_POOL_POLICY.pool_exclusions["ability_gating_off"]
                     excluded_ability_count = sum(
-                        1 for code in non_filler_item_codes if "Abilities" in kirby_data.items[code].tags
+                        1 for code in non_filler_item_codes if code in excluded_ability_codes
                     )
                     non_filler_item_codes = [
-                        code for code in non_filler_item_codes if "Abilities" not in kirby_data.items[code].tags
+                        code for code in non_filler_item_codes if code not in excluded_ability_codes
                     ]
                     logger.info(
                         "[P%s] ability_gating: removed %s ability unlock item(s) from non-filler pool",
                         self.player,
                         excluded_ability_count,
                     )
+
+                random_start_codes = {
+                    self.item_name_to_id[name] for name in getattr(self, "_random_starting_ability_items", ())
+                }
+                if random_start_codes:
+                    non_filler_item_codes = [code for code in non_filler_item_codes if code not in random_start_codes]
 
                 if len(non_filler_item_codes) > needed_pool_size:
                     raise ValueError(
@@ -1114,7 +1017,7 @@ class KirbyAmWorld(World):
                 non_filler_pool_codes = [
                     code
                     for code in randomized_item_codes
-                    if get_item_classification(code) not in (ItemClassification.filler, ItemClassification.trap)
+                    if code not in weighted_item_codes
                 ]
                 if sorted(non_filler_pool_codes) != sorted(non_filler_item_codes):
                     raise ValueError(
@@ -1231,20 +1134,6 @@ class KirbyAmWorld(World):
                 trap_count,
             )
 
-            goal_event_count = 0
-            for location in self.multiworld.get_locations(self.player):
-                if not isinstance(location, KirbyAmLocation) or location.key is None:
-                    continue
-                loc_meta = kirby_data.locations.get(location.key)
-                if loc_meta and loc_meta.category == LocationCategory.GOAL:
-                    location.place_locked_item(self.create_event(location.name))
-                    location.progress_type = LocationProgressType.DEFAULT
-                    # Goal checks are runtime events, not host-fillable AP locations.
-                    # Keep address=None so multidata does not serialize a None item
-                    # for a numeric location entry (host LocationStore requires ints).
-                    location.address = None
-                    goal_event_count += 1
-
             # Log item creation (randomized pool + fixed shard placements)
             log_items_created(
                 self.player,
@@ -1252,7 +1141,6 @@ class KirbyAmWorld(World):
                 locked_shard_count + pool_shard_count,
                 len(itempool) - pool_shard_count,
             )
-            logger.debug(f"[P{self.player}] Converted {goal_event_count} goal locations to locked events")
 
     @classmethod
     def stage_create_items(cls, multiworld: MultiWorld) -> None:
@@ -1493,8 +1381,8 @@ class KirbyAmWorld(World):
         slot_data["enemy_copy_ability_whitelist"] = list(allowed_abilities)
         slot_data["enemy_copy_ability_policy"] = dict(policy)
         if self._candy912_linked_west_fuse:
-            from .candy912_fuse import SLOT_KEY as CANDY912_FUSE_SLOT_KEY
-            slot_data[CANDY912_FUSE_SLOT_KEY] = True
+            from .conditional_routes import CANDY_FUSE
+            slot_data[CANDY_FUSE.SLOT_KEY] = True
 
         from .rules import get_stake_breaking_abilities, get_stake_gated_transition_entrance_names
 
@@ -1511,7 +1399,7 @@ class KirbyAmWorld(World):
             ability_unlock_items[ability_name] = item_data.label
 
         if ability_gating_enabled:
-            slot_data["ability_gateable_abilities"] = list(GATEABLE_ENEMY_COPY_ABILITIES)
+            slot_data["ability_gateable_abilities"] = list(getattr(self, "_seed_gateable_abilities", GATEABLE_ENEMY_COPY_ABILITIES))
         else:
             slot_data["ability_gateable_abilities"] = []
         # Ownership is represented even when gates are disabled; it never equips.
@@ -1575,47 +1463,15 @@ class KirbyAmWorld(World):
         return slot_data
 
     # Helper methods to create items and events
-    def collect_item(self, state: CollectionState, item: Item, remove: bool = False) -> str | None:
-        # Track the fixed starting permissions without making them progression
-        # or changing the existing permissive traversal predicates.
-        if item.name in {f"{name} Ability" for name in (*STARTING_COPY_ABILITIES, *starting_copy_abilities(0))}:
-            return item.name
-        return super().collect_item(state, item, remove)
-
     def create_item(self, name: str) -> KirbyAmItem:
         return self.create_item_by_code(self.item_name_to_id[name])
 
     # Helper method to create item by item code
     def create_item_by_code(self, item_code: int) -> KirbyAmItem:
-        from .traversal_rules import (cabbage_element_is_progression, candy912_source_is_progression,
-                                      mustard_magic_is_progression)
+        from .traversal_rules import permission_is_progression
 
         classification = get_item_classification(item_code)
-        if self.item_id_to_name[item_code] == "Ice Ability":
-            from .traversal_rules import goal2_ice_is_progression, mustard_ice_is_progression
-            if (goal2_ice_is_progression(self) or cabbage_element_is_progression(self, "Ice")
-                    or mustard_ice_is_progression(self)):
-                classification = ItemClassification.progression
-        if self.item_id_to_name[item_code] == "Spark Ability":
-            if cabbage_element_is_progression(self, "Spark") or candy912_source_is_progression(self, "Spark"):
-                classification = ItemClassification.progression
-        if self.item_id_to_name[item_code] == "Crash Ability":
-            from .traversal_rules import mustard_crash_is_progression
-            if mustard_crash_is_progression(self):
-                classification = ItemClassification.progression
-        if self.item_id_to_name[item_code] == "Fighter Ability":
-            from .traversal_rules import cabbage_source_is_progression, carrot_fighter_is_progression
-            if carrot_fighter_is_progression(self) or cabbage_source_is_progression(self, "Fighter"):
-                classification = ItemClassification.progression
-        if self.item_id_to_name[item_code] == "Missile Ability":
-            from .traversal_rules import cabbage_missile_is_progression
-            if cabbage_missile_is_progression(self) or candy912_source_is_progression(self, "Missile"):
-                classification = ItemClassification.progression
-        if self.item_id_to_name[item_code] == "Parasol Ability":
-            from .traversal_rules import cabbage_parasol_is_progression
-            if cabbage_parasol_is_progression(self):
-                classification = ItemClassification.progression
-        if self.item_id_to_name[item_code] == "Magic Ability" and mustard_magic_is_progression(self):
+        if permission_is_progression(self, item_code):
             classification = ItemClassification.progression
         return KirbyAmItem(
             self.item_id_to_name[item_code],

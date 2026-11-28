@@ -9,7 +9,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def audit(inventory: dict, rooms: dict) -> dict:
+def audit(inventory: dict, rooms: dict, *, include_references: bool = False) -> dict:
     references = []
     compact_requirements = []
     scoped_targets = []
@@ -48,6 +48,7 @@ def audit(inventory: dict, rooms: dict) -> dict:
     bound = known & referenced
     relevant = [p for p in inventory['placements'] if p['source_type'] != 'other_object']
     return {
+        **({'inventory_references': references} if include_references else {}),
         'version': 1, 'issue': 1114, 'complete': False,
         'native_rooms': len(inventory['rooms']),
         'declared_ap_regions': len(inventory.get('ap_region_inventory', [])),
@@ -81,12 +82,63 @@ def audit(inventory: dict, rooms: dict) -> dict:
     }
 
 
+def acquisition_backlog(inventory: dict, report: dict) -> dict:
+    """Index unbound source candidates by native room, not AP compartment."""
+    # Explicit and legacy references both count, including all alternatives.
+    referenced = {reference['inventory_id'] for reference in report['inventory_references']}
+    aliases = {}
+    for region in inventory.get('ap_region_inventory', []):
+        for native_room in region.get('native_rooms', []):
+            aliases.setdefault(native_room, set()).add(region['region'])
+
+    by_room = {}
+    counts = Counter()
+    outside_adventure = 0
+    for kind in ('placements', 'generated_statue_slots', 'spawner_outputs', 'encounter_sources'):
+        for row in inventory.get(kind, []):
+            identity = row['id']
+            if identity in referenced:
+                continue
+            if not (row.get('source_key') or row.get('possible_source_keys')
+                    or row.get('native_grant_states') or row.get('native_grant') not in (None, 'Normal')):
+                continue
+            if row.get('world_access', {}).get('status') == 'outside_adventure':
+                outside_adventure += 1
+                continue
+            room = row['native_room']
+            counts[kind] += 1
+            by_room.setdefault(room, []).append({
+                'id': identity, 'inventory_kind': kind, 'source_type': row['source_type'],
+                'native_grant': row.get('native_grant'), 'source_key': row.get('source_key'),
+                'possible_source_keys': row.get('possible_source_keys', []),
+                'has_phase_dependent_grant': bool(row.get('native_grant_states')),
+            })
+    return {
+        'version': 1,
+        'scope': 'Unbound, potentially granting physical records. Not accessible sources or proven routes.',
+        'outside_adventure_candidates_omitted': outside_adventure,
+        'candidate_counts_by_inventory_kind': dict(sorted(counts.items())),
+        'rooms': [
+            {'native_room': room, 'candidate_ap_regions': sorted(aliases.get(room, ())),
+             'sources': sorted(by_room[room], key=lambda row: row['id'])}
+            for room in sorted(by_room)
+        ],
+    }
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--acquisition-backlog', type=Path,
+                        help='Also write unbound potential source records grouped by native room.')
     args = parser.parse_args()
-    result = audit(json.loads((ROOT / 'data/ability_source_inventory.json').read_text()),
-                   json.loads((ROOT / 'data/regions/rooms.json').read_text()))
+    inventory = json.loads((ROOT / 'data/ability_source_inventory.json').read_text())
+    result = audit(inventory, json.loads((ROOT / 'data/regions/rooms.json').read_text()),
+                   include_references=args.acquisition_backlog is not None)
+    if args.acquisition_backlog is not None:
+        backlog = acquisition_backlog(inventory, result)
+        args.acquisition_backlog.write_text(json.dumps(backlog, indent=2) + '\n')
+        del result['inventory_references']
     args.output.write_text(json.dumps(result, indent=2) + '\n')
     print(f"{result['reviewed_inventory_references']} references, "
           f"{result['distinct_referenced_placements']} distinct placements; issue remains incomplete")

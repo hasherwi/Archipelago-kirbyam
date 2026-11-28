@@ -101,7 +101,8 @@ def test_tracker_schema_distinguishes_fixed_copy_room_statues(mode):
         reconstruct(legacy)
 
     restored = reconstruct(slot)
-    assert restored.worlds[1]._enemy_copy_ability_policy == original.worlds[1]._enemy_copy_ability_policy
+    # JSON serializes the Shuffle swap tuples as lists; compare the exact slot representation.
+    assert restored.worlds[1]._enemy_copy_ability_policy == slot["enemy_copy_ability_policy"]
     for mw in (original, restored):
         world = mw.worlds[1]
         state = CollectionState(mw)
@@ -302,7 +303,7 @@ def test_phone_profile_and_ownership_roundtrip(qualified, starting_phone):
 
 
 def test_candy_linked_fuse_restores_separate_seed_intent_and_preserves_legacy_rule():
-    from .. import candy912_fuse
+    from ..conditional_routes import CANDY_FUSE as candy912_fuse
     from ..data import data
 
     original = setup_multiworld(KirbyAmWorld, seed=912, options={
@@ -324,3 +325,27 @@ def test_candy_linked_fuse_restores_separate_seed_intent_and_preserves_legacy_ru
             assert chest.access_rule(state) is expected
     with pytest.raises(ValueError, match="linked fuse patch contract"):
         reconstruct({**slot, candy912_fuse.SLOT_KEY: 1})
+
+
+@pytest.mark.parametrize("legacy", [False, True])
+def test_beam_gate_matches_the_seed_not_the_current_catalog(legacy):
+    from .test_beam538_crossover import EDGE, UPSTREAM
+
+    original = setup_multiworld(KirbyAmWorld, seed=773, options={
+        "ability_randomization_mode": 0, "ability_gating": 1, "area_keys": 0,
+    })
+    slot = json.loads(json.dumps(original.worlds[1].fill_slot_data()))
+    if legacy:
+        slot["ability_gateable_abilities"].remove("Beam")
+    world = reconstruct(slot).worlds[1]
+    state = CollectionState(world.multiworld)
+    edge = world.multiworld.get_entrance(EDGE, 1)
+    state.can_reach_region = lambda name, player: name == UPSTREAM
+    assert edge.access_rule(state) is legacy
+    state.collect(world.create_item("Beam Ability"), prevent_sweep=True)
+    assert edge.access_rule(state)
+    assert world.fill_slot_data()["ability_gateable_abilities"] == slot["ability_gateable_abilities"]
+    # The prior supported schema-2 slot omitted Beam from the random pool too.
+    pool = Counter(item.name for item in world.multiworld.itempool)
+    assert pool["Beam Ability"] == (0 if legacy else 1)
+    assert pool["Ice Ability"] == 1

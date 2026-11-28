@@ -130,7 +130,7 @@ def test_installed_branch_uses_one_or_target_not_generic_room_access(
     state = SimpleNamespace(base=True, has=lambda name, player: name in owned,
                             can_reach_region=lambda name, player: name == access)
     assert target.access_rule(state) is (access in {CENTRAL, CABBAGE})
-    assert set(indirect) == {CENTRAL, CABBAGE}
+    assert set(indirect) == {CENTRAL, CABBAGE, "REGION_MOONLIGHT_MANSION/ROOM_2_ENTRY"}
     owned.remove("Burning Ability")
     assert not target.access_rule(state)
     owned.add("Burning Ability")
@@ -149,6 +149,8 @@ def test_room_check_sink_cannot_restore_closed_or_unreviewed_routes(start: str) 
     mw.get_region("Menu", 1).connect(mw.get_region(start, 1))
     state = CollectionState(mw)
     expected = {LEFT, UPPER, CHECK} if start in {LEFT, UPPER} else {start, CHECK}
+    if start == BOTTOM_RIGHT:
+        expected.add(RIGHT_TOP)  # independent Normal ascent, never an exit from the check sink
     assert {name for name in SIDES if state.can_reach_region(name, 1)} == expected
     check, = (loc for loc in mw.get_locations(1) if loc.address == 3961062)
     assert check.can_reach(state) and check.parent_region.name == CHECK
@@ -160,9 +162,9 @@ def test_exact_arrival_and_return_edges_do_not_cross_c_divider() -> None:
     assert isinstance(rooms, dict)
     assert rooms[LOWER706]["logical_exit_overrides"] == {LEFT: "RIGHT_TOP"}
     assert RIGHT_TOP in data.regions[LOWER706].exits and LEFT not in data.regions[LOWER706].exits
-    assert set(data.regions[RIGHT_TOP].exits) == {LOWER706, CHECK}
+    assert set(data.regions[RIGHT_TOP].exits) == {LOWER706, CHECK, MAIN743, DEAD743}
     assert set(data.regions[BOTTOM_LEFT].exits) == {MAIN743, CHECK}
-    assert set(data.regions[BOTTOM_RIGHT].exits) == {DEAD743, CHECK}
+    assert set(data.regions[BOTTOM_RIGHT].exits) == {DEAD743, RIGHT_TOP, CHECK}
     assert BOTTOM_LEFT in data.regions[MAIN743].exits
     assert BOTTOM_RIGHT in data.regions[DEAD743].exits
     # The new native join uses retained Burning. Do not export it as a generic
@@ -226,3 +228,74 @@ def test_required_permission_or_hub_item_cannot_be_borrowed_from743(
     assert not state.has(missing, 1) and downstream not in state.advancements
     state.collect(world.create_item(missing), prevent_sweep=True)
     assert state.can_reach_region(MAIN743, 1) and downstream.can_reach(state)
+
+
+@pytest.mark.parametrize(("identity", "destination"), [
+    ("bomb_708_right_c_main", MAIN743), ("bomb_708_right_c_dead_end", DEAD743),
+])
+def test_right_top_c_branches_use_exact_local_finite_flamer(
+    monkeypatch: pytest.MonkeyPatch, identity: str, destination: str,
+) -> None:
+    simulate_burning_gating(monkeypatch)
+    source_room = "REGION_MOONLIGHT_MANSION/ROOM_2_05"
+    row = next(row for row in room_traversal_targets("block") if row["id"] == identity)
+    assert (row["region"], row["exit"]) == (RIGHT_TOP, destination)
+    assert row["new_connection"] and not row["required_for_generation"]
+    for area_keys in (False, True):
+        graph = room_traversal_graph(identity, "stock_west_flamer", area_keys)
+        assert graph.access_region == source_room
+        assert len(graph.placements) == 1
+        assert graph.placements[0].source_key == "FLAMER"
+        assert graph.placements[0].identity == "0x088BDE80"
+        assert sum(r.room_transition for r in graph.routes) == 2
+        assert graph.routes[-1].capability == "bomb_708_right_c_burning"
+        assert graph.required_targets == {identity + ":c_door"}
+        assert rules.graph_succeeds(graph, SourcePolicy({"mode": 0}), PERMISSION, True, retries=False)
+        assert not rules.graph_succeeds(graph, SourcePolicy({"mode": 0}), frozenset(), True, retries=False)
+        assert rules.graph_succeeds(graph, SourcePolicy({"mode": 0}), frozenset(), False, retries=False)
+        assert not rules.graph_succeeds(graph, policy(2, pool=["Beam"]), PERMISSION, True, retries=False)
+
+    monkeypatch.setattr(rules, "extra_traversal_targets", lambda: (row,))
+    target = SimpleNamespace(access_rule=lambda state: state.base)
+    registered: list[str] = []
+    world = SimpleNamespace(
+        player=1,
+        _enemy_copy_ability_policy={"mode": 0},
+        _ability_gating_enabled=lambda: True,
+        _area_keys_enabled=lambda: False,
+        options=SimpleNamespace(ability_randomization_statues=SimpleNamespace(value=False)),
+        multiworld=SimpleNamespace(get_entrance=lambda name, player: target,
+                                   get_region=lambda name, player: name,
+                                   register_indirect_condition=lambda name, entrance: registered.append(name)),
+    )
+    rules.install_extra_traversal_rules(world)
+    state = SimpleNamespace(base=True, has=lambda name, player: name in PERMISSION,
+                            can_reach_region=lambda name, player: name == RIGHT_TOP)
+    assert registered == [source_room]
+    assert target.access_rule(state) is (destination == DEAD743)
+    state.can_reach_region = lambda name, player: name == source_room
+    assert target.access_rule(state)
+    state.base = False
+    assert not target.access_rule(state)
+    state.base = True
+    world._enemy_copy_ability_policy = None
+    rules.install_extra_traversal_rules(world)
+    assert not target.access_rule(state)
+
+
+@pytest.mark.parametrize("identity", TARGETS)
+def test_short_shuffled_golem_missile_distinguishes_all_three_destinations(identity: str) -> None:
+    graph = room_traversal_graph(identity, "short_golem_missile")
+    resolver = policy(1, pool=["Missile"])
+    endpoint = TARGETS[identity][2]
+    permission = frozenset({"Missile Ability"})
+    assert graph.access_region == "REGION_MOONLIGHT_MANSION/ROOM_2_ENTRY"
+    assert [(s.source_key, s.identity) for s in graph.placements] == [("GOLEM", "0x088BC580")]
+    assert graph.required_targets == {endpoint}
+    result = graph.evaluate(resolver, permission, True, advanced_logic=False)
+    assert result.reaches(endpoint)
+    assert not any(result.reaches(other) for _, _, other in TARGETS.values() if other != endpoint)
+    assert not graph.evaluate(resolver, frozenset(), True, advanced_logic=False).reaches(endpoint)
+    assert not graph.evaluate(SourcePolicy({"mode": 0}), permission, True, advanced_logic=False).reaches(endpoint)
+    assert sum(r.room_transition for r in graph.routes) == 1
+    assert any(r.loses_equipment for r in graph.routes) is (identity == "metal_708_743_dead_end")

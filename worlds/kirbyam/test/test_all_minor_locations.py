@@ -151,7 +151,7 @@ def test_starting_ungated_native_abilities_match_remaining_placeholders() -> Non
     abilities = cast(dict[str, Any], load_json_data('abilities.json'))
     ungated = {name for name, row in abilities.items()
                if not row.get('safe_to_gate') and row.get('enemy_copy_allowed', True)}
-    assert ungated == {'Beam'}
+    assert not ungated
     assert all(not (ungated & choices) for choices in _ABILITY_GATE_PLACEHOLDER_SOURCES.values())
     assert not ungated & _ABILITY_GATE_PLACEHOLDER_SOURCES["CanCutRopes"]
     assert abilities["Cutter"]["safe_to_gate"]

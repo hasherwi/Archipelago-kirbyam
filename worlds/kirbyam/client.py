@@ -40,8 +40,11 @@ from .hub_protocol import HUB_MARKER, HUB_MARKER_OFFSET, hub_slot_version
 from .data import BASE_OFFSET, LocationCategory, data, format_room_region_label, load_json_data
 from .enemy_ability_data import ABILITY_SOURCES
 from .enemy_ability_data import ABILITY_NAME_TO_ID
-from .enemy_ability_data import STARTING_COPY_ABILITIES, resolve_slot_gateable_abilities, starting_copy_abilities
-from .generated_hub_switch_contract import HUB_SWITCH_COMPATIBILITY_AP_BITS_BY_LOCATION_KEY
+from .enemy_ability_data import resolve_slot_gateable_abilities
+from .generated_hub_switch_contract import (
+    HUB_SWITCH_COMPATIBILITY_AP_BITS_BY_LOCATION_KEY,
+    HUB_SWITCH_RUNTIME_AP_BIT_BY_LOCATION_KEY,
+)
 from .health import (
     MAXIMUM_HEALTH_DEFAULT,
     MINIMUM_HEALTH_DEFAULT,
@@ -53,6 +56,10 @@ from .vitality import (VITALITY_ITEM_BITS, VITALITY_MASK, HEALTH_CONFIG_OFFSET,
                        validate_health_protocol)
 from .kirby_ap_payload.thumb_branch import is_thumb_bl_instruction
 from .options import Goal, OneHitMode, RANDOM_AREA_BOSS_SLOT_KEY
+from .goal_reporting_data import (
+    LEGACY_HIDDEN_BOSS_GOAL_OPTION as _LEGACY_GOAL_DEFEAT_RANDOM_HIDDEN_AREA_BOSS,
+    goal_location_ids_by_option,
+)
 from .types import KirbyAmBizHawkClientContext
 
 if TYPE_CHECKING:
@@ -75,7 +82,6 @@ _GOAL_STATE_FULL_CLEAR = 10000
 # Legacy v0.2/v0.3 slot-data value retained only so newer clients can finish
 # already-generated defeat_random_hidden_area_boss seeds. New generation never
 # emits goal value 3 after Issue #872.
-_LEGACY_GOAL_DEFEAT_RANDOM_HIDDEN_AREA_BOSS = 3
 _GOAL_BOSS_NAMES: dict[str, str] = {
     "BOSS_DEFEAT_1": "Kracko (Mustard Mountain)",
     "BOSS_DEFEAT_2": "King Golem (Moonlight Mansion)",
@@ -608,24 +614,11 @@ class KirbyAmClient(BizHawkClient):
         self._all_location_ids_sorted: list[int] = [
             loc.location_id for loc in sorted(data.locations.values(), key=lambda l: l.location_id)
         ]
-        self._goal_location_ids_by_option: dict[int, int] = {}
-        self._non_goal_location_ids_sorted: list[int] = []
-        for loc in sorted(data.locations.values(), key=lambda l: l.location_id):
-            if loc.category.name == "GOAL":
-                if loc.name == "GOAL_DARK_MIND":
-                    self._goal_location_ids_by_option[Goal.option_dark_mind] = loc.location_id
-                elif loc.name == "GOAL_ANY_AREA_BOSS":
-                    self._goal_location_ids_by_option[Goal.option_defeat_any_area_boss] = loc.location_id
-                elif loc.name == "GOAL_CONFIGURED_AREA_BOSS":
-                    self._goal_location_ids_by_option[Goal.option_defeat_area_boss] = loc.location_id
-                elif loc.name == "GOAL_100_PERCENT":
-                    self._goal_location_ids_by_option[Goal.option_full_completion] = loc.location_id
-                elif loc.name == "GOAL_AREA_BOSS_COUNT":
-                    self._goal_location_ids_by_option[Goal.option_defeat_area_boss_count] = loc.location_id
-                elif loc.name == "GOAL_HIDDEN_AREA_BOSS":
-                    self._goal_location_ids_by_option[_LEGACY_GOAL_DEFEAT_RANDOM_HIDDEN_AREA_BOSS] = loc.location_id
-            else:
-                self._non_goal_location_ids_sorted.append(loc.location_id)
+        self._goal_location_ids_by_option = goal_location_ids_by_option()
+        self._non_goal_location_ids_sorted = [
+            loc.location_id for loc in sorted(data.locations.values(), key=lambda loc: loc.location_id)
+            if loc.category != LocationCategory.GOAL
+        ]
         # Boss defeat bitfield -> location IDs (BOSS_DEFEAT category; polled from boss_defeat_flags)
         self._boss_location_ids_by_bit = self._build_location_ids_by_bit(LocationCategory.BOSS_DEFEAT)
         self._boss_location_ids_all: set[int] = {
@@ -671,25 +664,14 @@ class KirbyAmClient(BizHawkClient):
         # Sound Player chest bitfield -> location IDs (SOUND_PLAYER_CHEST category).
         self._sound_player_chest_location_ids_by_bit = self._build_location_ids_by_bit(LocationCategory.SOUND_PLAYER_CHEST)
 
-        # Hub switch bitfield -> location IDs (HUB_SWITCH category).
-        self._hub_switch_location_ids_by_bit = self._build_location_ids_by_bit(LocationCategory.HUB_SWITCH)
-
-        # Compatibility aliases sourced from the generated hub-switch contract.
-        # This keeps fallback bits synchronized with payload/client mapping rules.
-        for location_key, compatibility_bits in HUB_SWITCH_COMPATIBILITY_AP_BITS_BY_LOCATION_KEY.items():
-            location = data.locations.get(location_key)
-            if location is None:
-                self._log_verbose(
-                    "warning",
-                    "KirbyAM: hub-switch compatibility mapping references unknown location key '%s'; alias bits=%s",
-                    location_key,
-                    list(compatibility_bits),
-                )
-                continue
-            for compatibility_bit in compatibility_bits:
-                fallback_ids = self._hub_switch_location_ids_by_bit.setdefault(compatibility_bit, [])
-                if location.location_id not in fallback_ids:
-                    fallback_ids.append(location.location_id)
+        # Decode the ROM's physical-switch bits, not the catalog indices.
+        # Keep the persisted ROM bits and Archipelago location IDs unchanged.
+        self._hub_switch_location_ids_by_bit = {}
+        for location_key, runtime_bit in HUB_SWITCH_RUNTIME_AP_BIT_BY_LOCATION_KEY.items():
+            location_id = data.locations[location_key].location_id
+            self._hub_switch_location_ids_by_bit[runtime_bit] = [location_id]
+            for compatibility_bit in HUB_SWITCH_COMPATIBILITY_AP_BITS_BY_LOCATION_KEY.get(location_key, ()):
+                self._hub_switch_location_ids_by_bit[compatibility_bit] = [location_id]
         self._hub_switch_location_ids_all: set[int] = {
             location_id
             for location_ids in self._hub_switch_location_ids_by_bit.values()
@@ -4957,8 +4939,8 @@ class KirbyAmClient(BizHawkClient):
             return False
         item_id = cls._coerce_u32(getattr(item, "item", None))
         entry = data.items.get(item_id)
-        return (entry is not None and entry.label in
-                {f"{name} Ability" for name in (*STARTING_COPY_ABILITIES, *starting_copy_abilities(0))})
+        # Current explicit start_inventory permissions may be delivered in tutorial.
+        return entry is not None and "Abilities" in entry.tags
 
     async def _restore_confirmed_file_progress(
         self, ctx: KirbyAmBizHawkClientContext, flag_addr: int,

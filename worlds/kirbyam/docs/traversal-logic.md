@@ -1049,6 +1049,8 @@ AP region: `REGION_CANDY_CONSTELLATION/ROOM_9_08`.
 
 Actual resolved statue slots STATUE:353900 and STATUE:3538FC; independently reachable hub190; explicit hub/area requirements. Renewable randomized statues use documented possible-acquisition assumption.
 
+**Shorter natural Stone route.** Start at n408 and take its top entrance to n401 as Normal. Swallow the original lower Rocky (`0x088C5864`), then carry Stone through n401 (1,48) → n407, n407 (10,3) → n490, and n490 (14,5) → n411. Preserve the n407 temporary ceiling until crossing. Drive peg (4,3), discard Stone, and use the actual n411 (2,7) → n405 door (native bit 147). The later Vitality chest (`0x088C5EC4`) also completed as Normal after the n403 Phan Phan fight; this is not a separate Stone or helper requirement. Ability Trials rows 72 and 122; controller SHA-256 `abe3291af3bdcc5534084d5b5d17d5e6507dc452d748afe930db9dca281167bd`. No AP acknowledgment.
+
 #### `peg_509_32_2`
 
 AP region: `REGION_CABBAGE_CAVERN/ROOM_3_10`.
@@ -1115,6 +1117,8 @@ AP region: `REGION_CABBAGE_CAVERN/ROOM_3_09`.
 - Path: 592, 528, 513, 509, 510.
 - Qualification: 528 wall puff and upper513 transition retain Stone.513 exit0889D458 ->509spawn43,17;509 exit0889B9AC ->510spawn4,6. Exact13px-body initial-map paths reach upperpeg with no prior peg/rope/metal. ChestUFO cannot bootstrap. Horizontalmetal alternate uncredited, not declared impossible.
 
+**Natural Hammer alternative.** From the proved n527 upper exit (not the lower chest door), enter n515 as Normal, defeat Bonkers and swallow the original parent (`0x088C9FB4`). Retain Hammer across n515→n513 lower; clear (5,18) and climb back up to n513 (8,2)→n509; then take n509 (41,3)→n510. Low aerial Hammer opens peg (7,7); the exact chest `0x088C9114` raised the native ring 5→6 at 9 HP. Three carries, no AP acknowledgment. Matched no-attack leaves peg and award unchanged. Controller SHA-256 `991ebf58a6de29742027cc99c4aea068b97454f0b4d5ecb96bbb757aaa353dac`; Ability Trials row 118.
+
 #### `peg_513_4_7`
 
 AP region: `REGION_CABBAGE_CAVERN/ROOM_3_13`.
@@ -1138,18 +1142,22 @@ AP region: `REGION_CABBAGE_CAVERN/ROOM_3_13`.
 
 **Routes.**
 
-- From: 501 spawn27,5 or528 spawn4,6 upper; To: exit27,18 to515 spawn12,3; Requires: peg_513_4_7, then bomb_513_5_18; Status: ordered collision action graph; movement untested.
+- From: 501 spawn27,5 or528 spawn4,6 upper; To: exit27,18 to515 spawn12,3; Requires: peg_513_4_7, then bomb_513_5_18; Status: stock Stone traversal physically verified; see controller witness below.
 - From: 515 spawn27,19 lower; To: upper exits; Requires: bomb_513_5_18; Note: opens alternative middle passage without activating peg; Status: optimistic reverse bypass; physical movement untested.
 - From: upper; To: 509 exit8,2 /501 exit27,4 /528 exit2,5; Requires: none; Status: same initial collision component.
 
 **Source observations.**
 
-none; upper Haley/Foley/Chip, lower Shooty/Foley
+Original Rocky in the n528 east shaft (template `0x088C93A0`) is accessible from the n513 upper compartment before the peg. The upper n513 Haley/Foley/Chip and lower Shooty/Foley are not assumed to grant peg equipment.
 
 **Reviewed carry evidence.**
 
 - Path: 592, 528, 513.
 - Qualification: 528 ordinary wall puff and transition retain Stone.513 upper arrivals4,6/27,5 require peg4,7 then bomb5,18 to descend. Lower arrival27,19 can activate bomb then ascend without peg. Exact native terrain body[-6,-5,6,7] and upward-only0F preserve this directed distinction.
+
+- Stock Rocky replay: enter n528 from the upper n513 west door as Normal, get Stone from the original Rocky, and return through n528 (21,31) to n513 (4,6). From there Stone pounded (4,7) (F6→00); a regular slide cleared the lower F1 at (5,18); the actual n513 door (27,18), record `0x0889D7E2`, reached n515 (12,3). One native transition carried to the peg, two through the exit, 9 HP and Stone retained; no AP award was tested. Controller trace SHA-256: `f0b387fad2d1376dd9180ce33476e79f36c16644038a641f5608010b12329517`.
+
+- Shuffled seed 1071 replay: in an isolated boot-location-only fixture, Normal took the real n528 mirror to n513 (4,6), swallowed the original upper Foley (`0x088C9B50`, not a projectile) for its seed-assigned Stone, then pounded (4,7), slid through the lower F1 at (5,18), and used the same door to n515. Zero transitions carrying Stone to the peg and one through the exit; 6 HP retained. The n515 destination is the isolated upper-right return shaft, not the lower small-chest compartment. No check award or AP report was tested. Controller trace SHA-256: `47fcc9ad78e5b9237e423bf8810c7c3ccb51ba959772673d800a00d40eb84e81`.
 
 #### `peg_527_18_13`
 
@@ -1172,13 +1180,13 @@ AP region: `REGION_CABBAGE_CAVERN/ROOM_3_14`.
 **Routes.**
 
 - From: 528 spawn3,17 main; To: lower exit69,17 to515 spawn5,24; Requires: peg_527_56_16; Status: initial tile separation and peg opening verified.
-- From: 528 spawn3,17 main; To: upper exit69,5 to515 spawn2,3; Requires: none; Note: no peg tile separates this port; dynamic gate/movement constraints separate; Status: static component only.
+- From: 528 spawn3,17 main; To: upper exit69,5 to515 spawn2,3; Requires: none; Note: no peg tile separates this port; dynamic gate/movement constraints separate; Status: the original upper exit was taken as Normal before either peg.
 - From: upper-left peg approach; To: Sapphire chest0x088CA520 at224,280; Requires: peg_527_18_13; Status: opened local approach verified.
-- From: main lower passage; To: Sapphire; Requires: reach bomb_527_38_8 via timed gate, bomb_527_38_8, peg_527_18_13; Note: Prior bomb_527_24_14 bypass disproved by directed0F platform graph. Dynamic gate timing still not simulated.; Status: directed tile separation verified; full movement/timer untested.
+- From: main lower passage; To: Sapphire; Requires: reach bomb_527_38_8 via timed gate, bomb_527_38_8, peg_527_18_13; Note: Prior bomb_527_24_14 bypass disproved by directed0F platform graph. Status: original timer and full route replayed with local Stone and carried Hammer.
 
 **Source observations.**
 
-- Source: GiantRocky; Pixel position: 752, 288; Record: 0x088CA568; Vanilla: Stone; Status: same optimistic main lower component before second peg; dynamic/movement confirmation pending.
+- Source: GiantRocky; Pixel position: 752, 288; Record: 0x088CA568; Vanilla: Stone; Status: Normal reaches and swallows the exact original Giant Rocky from the west n527 arrival with both pegs untouched.
 
 **Timed gate.**
 
@@ -1189,13 +1197,18 @@ AP region: `REGION_CABBAGE_CAVERN/ROOM_3_14`.
 - Shared room state slot: 1.
 - Switch unk18: 100.
 - Door initial bounds: -8, -32, 8, 0.
-- Note: time-bounded gate; complete timing route not simulated; door absent from point graph.
+- Note: Time-bounded gate; both archived controller runs passed the unmodified gate.
 
 **Reviewed carry evidence.**
 
 - Path: 592, 528, 527.
 - Sequence: ordinary timed switch route, bomb38,8, peg18,13, Sapphire.
 - Qualification: Wiki Room14 documents ordinary run through gate. Native timer100 loads102, gradual4px/7-update door animation, ordinary jump/horizontal movement shared by held Stone,176px clear waypoint route. Vanilla timed traversal assumed; no integrated frame schedule or emulator timing replay. No forced damage or ability drop.
+
+**Controller witnesses.**
+
+- Vanilla: Normal takes n528 (22,47), record `0x0889CBC8`, into n527 (3,17), then crosses with flight and ordinary block attacks to swallow original Giant Rocky (`0x088CA568`). With Stone, hit the timed switch, clear the upper F1 at (38,8), and drive (18,13); the other peg stays intact. The replay includes one recovery of Kirby's own dropped Stone star, not a required damage boost. Exact Sapphire chest `0x088CA520` awarded; no AP acknowledgment. Zero rooms carrying Stone. Controller trace SHA-256: `988699207f1f8d934c3ea6349066bae0d8fdadfb8fb7ac17e369c60e9ccd78fc`.
+- Hammer: from the same west arrival, use n527's upper door (69,5) as Normal, before activating either peg. In n515 defeat and swallow the original Bonkers (`0x088C9FB4`). Carry Hammer through n515 (10,2) → n513 (27,19), n513 (2,5) → n528 (21,32), and n528 (22,47) → n527 (3,17). This is three native transitions to the peg. The Hammer branch passed the original timed route and earned the same Sapphire chest.
 
 #### `peg_527_56_16`
 
@@ -1214,6 +1227,9 @@ Shares arrivals, exits, Giant Rocky, timed-gate observations, and route alternat
 
 - Path: 592, 528, 527.
 - Qualification: Lower515 entrance only. Carry avoids timed-door and rock-body envelopes. Flight terrain bounds(-6,-5,6,7) fit ordinary16px corridors.515 lower chest separate from common exits and isolated513 arrival.
+
+- The same vanilla Giant Rocky approach proved the east peg (56,16) and the original lower exit n527 (69,17), record `0x0889E918`, to n515 (5,24). The west peg remained intact. Stone crossed the exit at 9 HP; after a normal slide into the branch and an unrelated hit the exact small chest (`0x088C9FFC`) was awarded. Zero carries to the peg, one across the exit; no AP acknowledgment. Controller trace SHA-256: `cf8727b0c4b76b04672e4fce7d5127cf4f4c1bae8e7a9edaf4a227019fda2fdf`.
+- Hammer from the same Bonkers route cleared the exact east peg and took the exact lower door at three carries to the peg. Hammer was still equipped on the fourth transition, but only the peg requires it; the following chest branch does not. The archived chest trial retains its four-transition Advanced classification.
 
 #### `peg_605_12_24`
 
@@ -1483,6 +1499,8 @@ providers retain ordinary movement here.
 
 Source: https://wikirby.com/wiki/Peppermint_Palace_-_Room_20
 
+**Shorter natural Sword route.** Start from independent n221 access, take the n225 lower entrance, and copy the original Sword Knight (`0x088C2514`), not the other spawn. Carry back through n221 to n217 and cut both exact rope cells. After dropping Sword, Kirby reached n223 and n224 as Normal (visit bits 113/114), went on to open Frosty's chest separately, and completed the native Goal Game. No AP acknowledgment. Ability Trials rows 79–80 and 119–120; controller SHA-256 `a94e6a90d0414ed388440ef07dd6f1bf9ca7b629e827a360389d7fe89ede6118`.
+
 ### rope_227_20_12
 
 Owner: Peppermint Room6. Bind only MINOR_CHEST_PEPPERMINT_PALACE_7_06_OBJECT_03,
@@ -1529,6 +1547,8 @@ same right-hand bomb approach above, without replacing the carried ability.
 
 Source: https://wikirby.com/wiki/Peppermint_Palace_-_Room_9
 
+**Natural Sword alternative.** From n290 take the n210 lower arrival and swallow original Sword Knight `0x088BF658`, the same source used for the distinct n227 rope. Carry through n210→n205→n228, take the outer Bomb (22,15) approach, cut the exact two rope tiles with a jump slash, and award Sparerib `0x088C04D8` (ring 4→5 at 9 HP). Two carries; no AP acknowledgment. Controller SHA-256 `aff50f57c03488ac49efa0b8e66160de9d0e03ef23b63f75ce3438bdbf6217de`; Ability Trials row 27.
+
 ### rope_316_35_5
 
 Owner: Mustard Room10. Bind only MINOR_CHEST_MUSTARD_MOUNTAIN_4_10_OBJECT_01,
@@ -1553,6 +1573,8 @@ crumble block is required. Path after activation:
 All five providers retain ordinary flight and puffing.
 
 Source: https://wikirby.com/wiki/Mustard_Mountain_-_Room_10 (oldid574589)
+
+**Shorter natural Cupid route.** Original lower Cupie (`0x088C3DEC`) in n308, one carried transition from n308 (26,3) to n316, exact rope cells (34/35,5) and native chest `0x088C4798`, event ring 0→1. No AP acknowledgment. Ability Trials row 95; controller SHA-256 `510423d881417b16a89e7c2b8769f70f99df862e40d98cdc0d322aed97426e16`.
 
 ### rope_553_26_7
 

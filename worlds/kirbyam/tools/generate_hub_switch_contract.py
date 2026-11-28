@@ -94,6 +94,15 @@ def _validate_contract(contract: dict[str, Any], locations: dict[str, Any]) -> l
 
     if seen_door_indices != set(range(1, 16)):
         raise ValueError("Hub runtime mapping must cover every door 1..15")
+    catalog_keys = {key for key, meta in locations.items() if meta.get("category") == "HUB_SWITCH"}
+    if {entry["location_key"] for entry in normalized} != catalog_keys:
+        raise ValueError("Hub contract must cover every Big Switch in the location catalog")
+    assigned_transport_bits = set(seen_runtime_bits)
+    for entry in normalized:
+        for bit in entry["compatibility_ap_bits"]:
+            if not 0 <= bit < 32 or bit in assigned_transport_bits:
+                raise ValueError("Invalid or already assigned hub compatibility bit")
+            assigned_transport_bits.add(bit)
     return normalized
 
 
@@ -110,6 +119,11 @@ def _build_python_output(entries: list[dict[str, Any]]) -> str:
     lines.append("")
     lines.append("from typing import Final")
     lines.append("")
+    lines.append("")
+    lines.append("HUB_SWITCH_RUNTIME_AP_BIT_BY_LOCATION_KEY: Final[dict[str, int]] = {")
+    for entry in entries:
+        lines.append(f"    \"{entry['location_key']}\": {entry['runtime_ap_bit_index']},")
+    lines.append("}")
     lines.append("")
     lines.append("HUB_SWITCH_COMPATIBILITY_AP_BITS_BY_LOCATION_KEY: Final[dict[str, tuple[int, ...]]] = {")
     for entry in entries:

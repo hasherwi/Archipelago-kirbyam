@@ -150,7 +150,7 @@ def test_one_installed_target_ors_access_alternatives_and_keeps_base_rule(
     state = SimpleNamespace(base=True, has=lambda name, player: name in owned,
                             can_reach_region=lambda name, player: name == access)
     assert target.access_rule(state) is (access is not None)
-    assert set(indirect) == {CENTRAL, CABBAGE}
+    assert set(indirect) == {CENTRAL, CABBAGE, "REGION_MOONLIGHT_MANSION/ROOM_2_04"}
     owned.remove("Burning Ability")
     assert not target.access_rule(state)
     owned.add("Burning Ability")
@@ -234,3 +234,16 @@ def test_unsupported_statue_policy_rejects_or_stays_closed_without_fallback(
         rules.install_extra_traversal_rules(world)
         state = SimpleNamespace(has=lambda name, player: True, can_reach_region=lambda name, player: True)
         assert not target.access_rule(state)
+
+
+def test_local_shuffled_doo_missile_reaches_exact_712_with_permission() -> None:
+    graph = room_traversal_graph("metal_707_to_712", "local_doo_missile")
+    resolver = policy(1, pool=["Missile"])
+    owned = frozenset({"Missile Ability"})
+    endpoint, = graph.required_targets
+    assert graph.access_region == "REGION_MOONLIGHT_MANSION/ROOM_2_04"
+    assert [(s.source_key, s.identity) for s in graph.placements] == [("WADDLE_DOO", "0x088BCCDC")]
+    assert sum(route.room_transition for route in graph.routes) == 0
+    assert graph.evaluate(resolver, owned, True, advanced_logic=False).reaches(endpoint)
+    assert not graph.evaluate(resolver, frozenset(), True, advanced_logic=False).reaches(endpoint)
+    assert not graph.evaluate(SourcePolicy({"mode": 0}), owned, True, advanced_logic=False).reaches(endpoint)

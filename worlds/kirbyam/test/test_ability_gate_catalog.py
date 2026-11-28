@@ -1,4 +1,4 @@
-"""Legacy slot gates stay fixed when the current generation catalog grows."""
+"""Runtime gate declarations, current defaults, and explicit start receipts."""
 
 from __future__ import annotations
 
@@ -14,31 +14,24 @@ from .. import client as client_module, enemy_ability_data, rom
 from ..client import KirbyAmClient, _build_kirbyam_command_processor
 from ..data import data
 from ..enemy_ability_data import (
-    ABILITY_NAME_TO_ID, LEGACY_SLOT_GATEABLE_ABILITIES, STARTING_COPY_ABILITIES,
+    ABILITY_NAME_TO_ID, GATEABLE_ENEMY_COPY_ABILITIES,
     resolve_slot_gateable_abilities,
 )
 
 from .test_mini_traversal import make_world
 
-# Literal protocol expectations, deliberately not derived from today's catalog.
-LEGACY_NAMES = (
-    "Bomb", "Cook", "Crash", "Cutter", "Cupid", "Fighter", "Fire", "Hammer", "Ice", "Laser", "Magic",
-    "Mini", "Missile", "Parasol", "Smash", "Sleep", "Spark", "Sword", "Throw", "Tornado", "UFO", "Wheel",
-)
-LEGACY_MASK = 0x03FFFE76
-EXPANDED_NAMES = (*LEGACY_NAMES, "Stone", "Burning")
-EXPANDED_MASK = 0x03FFFF7E
+EXPANDED_NAMES = GATEABLE_ENEMY_COPY_ABILITIES
+EXPANDED_MASK = 0x03FFFFFE
 STONE_BURNING_MASK = 0x108
 MISSING = object()
 GATE_CASES = [
-    pytest.param(MISSING, LEGACY_NAMES, LEGACY_MASK, id="missing"),
-    pytest.param([], LEGACY_NAMES, LEGACY_MASK, id="empty-list"),
-    pytest.param(None, LEGACY_NAMES, LEGACY_MASK, id="none"),
-    pytest.param("Stone", LEGACY_NAMES, LEGACY_MASK, id="string"),
-    pytest.param(("Stone",), LEGACY_NAMES, LEGACY_MASK, id="tuple"),
-    pytest.param({"Stone": True}, LEGACY_NAMES, LEGACY_MASK, id="dict"),
-    pytest.param(1, LEGACY_NAMES, LEGACY_MASK, id="integer"),
-    pytest.param(list(LEGACY_NAMES), LEGACY_NAMES, LEGACY_MASK, id="explicit-old"),
+    pytest.param(MISSING, EXPANDED_NAMES, EXPANDED_MASK, id="missing"),
+    pytest.param([], EXPANDED_NAMES, EXPANDED_MASK, id="empty-list"),
+    pytest.param(None, EXPANDED_NAMES, EXPANDED_MASK, id="none"),
+    pytest.param("Stone", EXPANDED_NAMES, EXPANDED_MASK, id="string"),
+    pytest.param(("Stone",), EXPANDED_NAMES, EXPANDED_MASK, id="tuple"),
+    pytest.param({"Stone": True}, EXPANDED_NAMES, EXPANDED_MASK, id="dict"),
+    pytest.param(1, EXPANDED_NAMES, EXPANDED_MASK, id="integer"),
     pytest.param(list(EXPANDED_NAMES), EXPANDED_NAMES, EXPANDED_MASK, id="explicit-new"),
     pytest.param(["Stone"], ("Stone",), 0x100, id="stone-only"),
     pytest.param(["Burning"], ("Burning",), 0x8, id="burning-only"),
@@ -92,15 +85,6 @@ def _expected_abilities(names: tuple[str, ...], gating: bool, received: bool) ->
     if received:
         available.update(("Stone", "Burning"))
     return sorted(available)
-
-
-def test_frozen_gate_list_and_historical_receipt_names() -> None:
-    assert LEGACY_SLOT_GATEABLE_ABILITIES == LEGACY_NAMES
-    assert len(LEGACY_SLOT_GATEABLE_ABILITIES) == 22
-    assert sum(1 << ABILITY_NAME_TO_ID[name] for name in LEGACY_SLOT_GATEABLE_ABILITIES) == LEGACY_MASK
-    assert sum(1 << ABILITY_NAME_TO_ID[name] for name in EXPANDED_NAMES) == EXPANDED_MASK
-    assert EXPANDED_MASK ^ LEGACY_MASK == STONE_BURNING_MASK
-    assert STARTING_COPY_ABILITIES == ("Beam", "Burning", "Cutter", "Mini", "Stone", "Wheel")
 
 
 @pytest.mark.parametrize("raw,names,mask", GATE_CASES)
@@ -158,8 +142,8 @@ async def test_seed_gates_and_receipts_survive_reconnect_reset_and_new_client(
 ) -> None:
     ctx = mock_bizhawk_context
     ctx.game = KirbyAmClient.game
-    names = EXPANDED_NAMES if explicit else LEGACY_NAMES
-    mask = (EXPANDED_MASK if explicit else LEGACY_MASK) if gating else 0
+    names = EXPANDED_NAMES
+    mask = EXPANDED_MASK if gating else 0
     ctx.slot_data = _slot_data(structured, gating, list(names) if explicit else MISSING)
     ctx.items_received = []
     client = KirbyAmClient()
@@ -223,14 +207,10 @@ async def test_no_config_keeps_legacy_runtime_return(
     assert client._last_ability_runtime_config_signature is None
 
 
-@pytest.mark.parametrize("history", [
-    (3860107, 3860103, 3860106, 3860123, 3860108, 3860104),  # Historical six.
-    (3860107, 3860103, 3860108),  # Current automatic starts.
-    (3860107,),  # Future Beam-only starts do not need a new receipt protocol.
-    (3860108, 3860103),  # Explicit Stone/Burning starts.
-])
-def test_historical_start_receipt_exception_remains_precollect_only(history: tuple[int, ...]) -> None:
-    for code in history:
+def test_explicit_ability_receipt_is_precollect_only() -> None:
+    assert not KirbyAmClient._is_guaranteed_starting_ability_receipt(NetworkItem(3860026, -2, 0, 2))
+    for name in GATEABLE_ENEMY_COPY_ABILITIES:
+        code = 3860100 + ABILITY_NAME_TO_ID[name]
         assert KirbyAmClient._is_guaranteed_starting_ability_receipt(NetworkItem(code, -2, 0, 2))
         assert not KirbyAmClient._is_guaranteed_starting_ability_receipt(NetworkItem(code, 3960566, 1, 2))
         assert not KirbyAmClient._is_guaranteed_starting_ability_receipt(NetworkItem(code, -2, 1, 2))
@@ -250,4 +230,25 @@ def test_new_seed_serialization_and_bootstrap_keep_current_catalog(
     assert slot["ability_gateable_abilities"] == (list(EXPANDED_NAMES) if gating else [])
     assert len(slot["ability_unlock_items"]) == 25
     assert rom._initial_ability_gate_mask(world) == (EXPANDED_MASK if gating else 0)
-    assert resolve_slot_gateable_abilities(None) == LEGACY_NAMES
+    assert resolve_slot_gateable_abilities(None) == EXPANDED_NAMES
+
+
+@pytest.mark.asyncio
+async def test_new_seed_mailbox_requires_received_beam_and_ice_independently(mock_bizhawk_context):
+    from ..enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES
+
+    ctx = mock_bizhawk_context
+    ctx.game = KirbyAmClient.game
+    ctx.slot_data = _slot_data(True, True, list(GATEABLE_ENEMY_COPY_ABILITIES))
+    client = KirbyAmClient()
+    client.initialize_client()
+    for code, bit, name, other in (
+        (3860107, 0x80, "Beam", "Ice"), (3860102, 0x04, "Ice", "Beam")
+    ):
+        ctx.items_received = [NetworkItem(code, 3960566, 1, 2)]
+        with patch("worlds.kirbyam.client.bizhawk.write", new_callable=AsyncMock) as write:
+            await client._sync_enemy_copy_ability_runtime_config(ctx)
+        written = {addr: int.from_bytes(value, "little") for addr, value, _ in write.await_args.args[1]}
+        assert written[data.transport_ram_addresses["ability_gate_mask_runtime"]] == 0x03FFFFFE
+        assert written[data.transport_ram_addresses["ability_unlock_mask_runtime"]] == bit
+        assert name in _abilities(ctx) and other not in _abilities(ctx)

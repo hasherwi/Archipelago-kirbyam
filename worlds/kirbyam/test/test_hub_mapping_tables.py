@@ -27,7 +27,7 @@ def test_generated_mapping_is_current_and_preserves_compiled_baseline():
     assert [(e['ap_bit_index'], e['runtime_ap_bit_index']) for e in entries[:2]] == [(1, 11), (11, 1)]
 
 
-@pytest.mark.parametrize('mutation', ['missing', 'range', 'duplicate', 'reason'])
+@pytest.mark.parametrize('mutation', ['missing', 'range', 'duplicate', 'reason', 'ambiguous_alias', 'alias_out_of_range', 'omitted_catalog_key'])
 def test_invalid_mapping_is_rejected(mutation):
     contract, locations = inputs()
     contract = copy.deepcopy(contract)
@@ -37,6 +37,12 @@ def test_invalid_mapping_is_rejected(mutation):
         contract['entries'][0]['world_props_unlock_index'] = 256
     elif mutation == 'duplicate':
         contract['entries'][0]['runtime_ap_bit_index'] = 1
+    elif mutation == 'ambiguous_alias':
+        contract['entries'][0]['compatibility_ap_bits'] = [1]
+    elif mutation == 'alias_out_of_range':
+        contract['entries'][0]['compatibility_ap_bits'] = [32]
+    elif mutation == 'omitted_catalog_key':
+        locations['EXTRA_SWITCH'] = {"category": "HUB_SWITCH", "bit_index": 30}
     else:
         contract['entries'][0].pop('runtime_bit_reason')
     with pytest.raises(ValueError):

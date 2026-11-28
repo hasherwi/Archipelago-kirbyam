@@ -20,6 +20,7 @@ PREFIX = "REGION_MOONLIGHT_MANSION/ROOM_2_"
 ROOM_18 = PREFIX + "18"
 BOTTOM_RIGHT = ROOM_18 + "_BOTTOM_RIGHT"
 GOAL_MAIN = PREFIX + "GOAL_2"
+GOAL_VISIT = GOAL_MAIN + "__ROOM_CHECK"
 UPPER_LEFT = GOAL_MAIN + "_UPPER_LEFT"
 CHALK = "MINOR_CHEST_SPRAY_PAINT_14"
 MAIN_CHEST = "MINOR_CHEST_MOONLIGHT_MANSION_2_GOAL_2_OBJECT_01"
@@ -150,7 +151,7 @@ def test_native_return_door_targets_room_18_bottom_right_only() -> None:
         "locations": {CHALK: None},
         "exits": {BOTTOM_RIGHT: None},
     }
-    assert data.regions[UPPER_LEFT].exits == [BOTTOM_RIGHT]
+    assert data.regions[UPPER_LEFT].exits == [BOTTOM_RIGHT, GOAL_VISIT]
     assert not data.regions[UPPER_LEFT].exit_requirements
     assert not data.regions[UPPER_LEFT].location_requirements
     # The native return spawns at (13, 9), inside the bottom-right compartment.
@@ -214,15 +215,16 @@ def test_built_regions_and_slot_data_keep_correct_compartments(
     assert chalk.address == 3960513
     assert sum(location.address == chalk.address for location in multiworld.get_locations(1)) == 1
     assert multiworld.get_location(data.locations[MAIN_CHEST].label, 1).parent_region is main
-    assert {location.address for location in main.locations} == (
-        {data.locations[MAIN_CHEST].location_id, 3960704, 3961055} if room_sanity
-        else {data.locations[MAIN_CHEST].location_id, 3960704}
-    )
+    assert {location.address for location in main.locations} == {data.locations[MAIN_CHEST].location_id, 3960704}
+    room_visit = multiworld.get_region(GOAL_VISIT, 1)
+    assert {location.address for location in room_visit.locations} == ({3961055} if room_sanity else set())
+    assert not room_visit.exits
     door = multiworld.get_entrance(f"{UPPER_LEFT} -> {BOTTOM_RIGHT}", 1)
     assert door.connected_region is multiworld.get_region(BOTTOM_RIGHT, 1)
     assert door.access_rule(CollectionState(multiworld))
     assert {exit.connected_region.name for exit in upper_left.exits if exit.connected_region} == {
-        BOTTOM_RIGHT, "REGION_MOONLIGHT_MANSION/MAIN",
+        BOTTOM_RIGHT, GOAL_VISIT, "REGION_MOONLIGHT_MANSION/MAIN",
+        "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
     }
     with pytest.raises(KeyError):
         multiworld.get_entrance(f"{UPPER_LEFT} -> {ROOM_18}", 1)

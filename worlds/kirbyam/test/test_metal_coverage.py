@@ -66,7 +66,14 @@ def test_matrix_preserves_current_ap_checks_and_compartment_exits() -> None:
                 key for key in source.locations if data.locations[key].category != LocationCategory.ROOM_SANITY}
             assert part["room_sanity"] == any(
                 data.locations[key].category == LocationCategory.ROOM_SANITY for key in source.locations)
-            assert set(part["exits"]) == set(source.exits)
+            exits = set(part["exits"])
+            if part["region"] == "REGION_MOONLIGHT_MANSION/ROOM_2_01__LOGIC__RIGHT_TOP":
+                # The topology audit predates the verified right-shaft approach.
+                added = {"REGION_MOONLIGHT_MANSION/ROOM_2_11",
+                         "REGION_MOONLIGHT_MANSION/ROOM_2_11_DEAD_END"}
+                assert not exits & added
+                exits |= added
+            assert exits == set(source.exits)
 
 
 def test_every_cluster_has_an_explicit_status_without_inventing_gate_acceptance() -> None:
@@ -83,11 +90,8 @@ def test_every_cluster_has_an_explicit_status_without_inventing_gate_acceptance(
                 assert cluster["classification"] == "bypass"
 
 
-def test_beam_only_release_has_no_pending_mandatory_metal_cluster() -> None:
+def test_release_has_no_pending_mandatory_metal_cluster() -> None:
     """Keep the native evidence census separate from generated graph feasibility."""
-    from ..enemy_ability_data import starting_copy_abilities
-
-    assert all(starting_copy_abilities(mode) == ("Beam", "Ice") for mode in range(3))
     for room in read("dev-docs/ordinary-metal-coverage.json")["rooms"]:
         for cluster in room["clusters"]:
             assert cluster["classification"] != "unknown", cluster["id"]
@@ -150,10 +154,11 @@ def test_placeholder_summary_includes_aliases_without_declaring_metal_gates() ->
         elif isinstance(value, str) and value in counts:
             counts[value] += 1
 
-    for path in (ROOT / "data").rglob("*.json"):
+    # A token declaration in the vocabulary is not a route using that token.
+    for path in (ROOT / "data" / "regions").rglob("*.json"):
         visit(json.loads(path.read_text()))
     assert counts == audit["counts"]
-    assert counts == {"CanBreakBlocks": 0, "can_break_block": 134,
+    assert counts == {"CanBreakBlocks": 0, "can_break_block": 136,
                       "can_break_floating_block": 20, "can_break_metal": 6, "can_break_metal_throw": 0}
 
 

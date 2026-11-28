@@ -1,0 +1,573 @@
+{
+  "schema": 1,
+  "rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "scope": "Retail tile connectivity within the destination after each recorded landing. It does not model body fit, current direction, collisions at sub-tile resolution, switch states or actual routes.",
+  "models": {
+    "strict": "Only terrain codes 00,48,F3,FC,FD,FE,FF; four cardinal neighbors.",
+    "optimistic": "Allow every tile except the native plain solid codes 0D and 22\u201327; four cardinal neighbors. Not a claim of physical traversal."
+  },
+  "room_pairs": [
+    {
+      "source_native_room": 321,
+      "destination_native_room": 308,
+      "arrivals": [
+        {
+          "spawn_arguments": [
+            39,
+            29
+          ],
+          "strict": {
+            "cells": 9,
+            "other_arrival_count": 0,
+            "exits": []
+          },
+          "optimistic": {
+            "cells": 522,
+            "other_arrival_count": 1,
+            "exits": [
+              316
+            ]
+          }
+        },
+        {
+          "spawn_arguments": [
+            43,
+            29
+          ],
+          "strict": {
+            "cells": 8,
+            "other_arrival_count": 0,
+            "exits": []
+          },
+          "optimistic": {
+            "cells": 522,
+            "other_arrival_count": 1,
+            "exits": [
+              316
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "source_native_room": 545,
+      "destination_native_room": 546,
+      "arrivals": [
+        {
+          "spawn_arguments": [
+            6,
+            79
+          ],
+          "strict": {
+            "cells": 6,
+            "other_arrival_count": 0,
+            "exits": []
+          },
+          "optimistic": {
+            "cells": 940,
+            "other_arrival_count": 1,
+            "exits": [
+              321,
+              547
+            ]
+          }
+        },
+        {
+          "spawn_arguments": [
+            11,
+            79
+          ],
+          "strict": {
+            "cells": 6,
+            "other_arrival_count": 0,
+            "exits": []
+          },
+          "optimistic": {
+            "cells": 940,
+            "other_arrival_count": 1,
+            "exits": [
+              321,
+              547
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "source_native_room": 202,
+      "destination_native_room": 208,
+      "arrivals": [
+        {
+          "spawn_arguments": [
+            5,
+            19
+          ],
+          "strict": {
+            "cells": 311,
+            "other_arrival_count": 1,
+            "exits": [
+              202,
+              209,
+              290
+            ]
+          },
+          "optimistic": {
+            "cells": 686,
+            "other_arrival_count": 1,
+            "exits": [
+              202,
+              209,
+              290
+            ]
+          }
+        },
+        {
+          "spawn_arguments": [
+            19,
+            19
+          ],
+          "strict": {
+            "cells": 311,
+            "other_arrival_count": 1,
+            "exits": [
+              202,
+              209,
+              290
+            ]
+          },
+          "optimistic": {
+            "cells": 686,
+            "other_arrival_count": 1,
+            "exits": [
+              202,
+              209,
+              290
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "source_native_room": 208,
+      "destination_native_room": 202,
+      "arrivals": [
+        {
+          "spawn_arguments": [
+            3,
+            4
+          ],
+          "strict": {
+            "cells": 398,
+            "other_arrival_count": 0,
+            "exits": [
+              208,
+              211
+            ]
+          },
+          "optimistic": {
+            "cells": 703,
+            "other_arrival_count": 1,
+            "exits": [
+              208,
+              211
+            ]
+          }
+        },
+        {
+          "spawn_arguments": [
+            35,
+            5
+          ],
+          "strict": {
+            "cells": 56,
+            "other_arrival_count": 0,
+            "exits": [
+              208
+            ]
+          },
+          "optimistic": {
+            "cells": 703,
+            "other_arrival_count": 1,
+            "exits": [
+              208,
+              211
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "source_native_room": 210,
+      "destination_native_room": 227,
+      "arrivals": [
+        {
+          "spawn_arguments": [
+            58,
+            17
+          ],
+          "strict": {
+            "cells": 296,
+            "other_arrival_count": 0,
+            "exits": [
+              204,
+              210
+            ]
+          },
+          "optimistic": {
+            "cells": 1403,
+            "other_arrival_count": 1,
+            "exits": [
+              204,
+              210
+            ]
+          }
+        },
+        {
+          "spawn_arguments": [
+            59,
+            10
+          ],
+          "strict": {
+            "cells": 16,
+            "other_arrival_count": 0,
+            "exits": []
+          },
+          "optimistic": {
+            "cells": 1403,
+            "other_arrival_count": 1,
+            "exits": [
+              204,
+              210
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "source_native_room": 220,
+      "destination_native_room": 232,
+      "arrivals": [
+        {
+          "spawn_arguments": [
+            134,
+            5
+          ],
+          "strict": {
+            "cells": 1034,
+            "other_arrival_count": 0,
+            "exits": [
+              220,
+              225
+            ]
+          },
+          "optimistic": {
+            "cells": 1272,
+            "other_arrival_count": 1,
+            "exits": [
+              220,
+              225,
+              231,
+              232
+            ]
+          }
+        },
+        {
+          "spawn_arguments": [
+            135,
+            7
+          ],
+          "strict": {
+            "cells": 0,
+            "other_arrival_count": 0,
+            "exits": []
+          },
+          "optimistic": {
+            "cells": 1272,
+            "other_arrival_count": 1,
+            "exits": [
+              220,
+              225,
+              231,
+              232
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "source_native_room": 232,
+      "destination_native_room": 231,
+      "arrivals": [
+        {
+          "spawn_arguments": [
+            10,
+            2
+          ],
+          "strict": {
+            "cells": 0,
+            "other_arrival_count": 0,
+            "exits": []
+          },
+          "optimistic": {
+            "cells": 1488,
+            "other_arrival_count": 3,
+            "exits": [
+              215
+            ]
+          }
+        },
+        {
+          "spawn_arguments": [
+            11,
+            2
+          ],
+          "strict": {
+            "cells": 0,
+            "other_arrival_count": 0,
+            "exits": []
+          },
+          "optimistic": {
+            "cells": 1488,
+            "other_arrival_count": 3,
+            "exits": [
+              215
+            ]
+          }
+        },
+        {
+          "spawn_arguments": [
+            12,
+            2
+          ],
+          "strict": {
+            "cells": 0,
+            "other_arrival_count": 0,
+            "exits": []
+          },
+          "optimistic": {
+            "cells": 1488,
+            "other_arrival_count": 3,
+            "exits": [
+              215
+            ]
+          }
+        },
+        {
+          "spawn_arguments": [
+            13,
+            2
+          ],
+          "strict": {
+            "cells": 0,
+            "other_arrival_count": 0,
+            "exits": []
+          },
+          "optimistic": {
+            "cells": 1488,
+            "other_arrival_count": 3,
+            "exits": [
+              215
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "source_native_room": 601,
+      "destination_native_room": 605,
+      "arrivals": [
+        {
+          "spawn_arguments": [
+            3,
+            18
+          ],
+          "strict": {
+            "cells": 50,
+            "other_arrival_count": 0,
+            "exits": [
+              606
+            ]
+          },
+          "optimistic": {
+            "cells": 532,
+            "other_arrival_count": 1,
+            "exits": [
+              601,
+              606,
+              610
+            ]
+          }
+        },
+        {
+          "spawn_arguments": [
+            4,
+            25
+          ],
+          "strict": {
+            "cells": 64,
+            "other_arrival_count": 0,
+            "exits": [
+              601
+            ]
+          },
+          "optimistic": {
+            "cells": 532,
+            "other_arrival_count": 1,
+            "exits": [
+              601,
+              606,
+              610
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "source_native_room": 601,
+      "destination_native_room": 611,
+      "arrivals": [
+        {
+          "spawn_arguments": [
+            24,
+            8
+          ],
+          "strict": {
+            "cells": 113,
+            "other_arrival_count": 1,
+            "exits": [
+              601,
+              603,
+              690
+            ]
+          },
+          "optimistic": {
+            "cells": 161,
+            "other_arrival_count": 1,
+            "exits": [
+              601,
+              603,
+              690
+            ]
+          }
+        },
+        {
+          "spawn_arguments": [
+            24,
+            9
+          ],
+          "strict": {
+            "cells": 113,
+            "other_arrival_count": 1,
+            "exits": [
+              601,
+              603,
+              690
+            ]
+          },
+          "optimistic": {
+            "cells": 161,
+            "other_arrival_count": 1,
+            "exits": [
+              601,
+              603,
+              690
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "source_native_room": 174,
+      "destination_native_room": 173,
+      "arrivals": [
+        {
+          "spawn_arguments": [
+            30,
+            11
+          ],
+          "strict": {
+            "cells": 296,
+            "other_arrival_count": 0,
+            "exits": [
+              172
+            ]
+          },
+          "optimistic": {
+            "cells": 574,
+            "other_arrival_count": 1,
+            "exits": [
+              172,
+              175,
+              508
+            ]
+          }
+        },
+        {
+          "spawn_arguments": [
+            30,
+            16
+          ],
+          "strict": {
+            "cells": 254,
+            "other_arrival_count": 0,
+            "exits": [
+              175,
+              508
+            ]
+          },
+          "optimistic": {
+            "cells": 574,
+            "other_arrival_count": 1,
+            "exits": [
+              172,
+              175,
+              508
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "source_native_room": 175,
+      "destination_native_room": 176,
+      "arrivals": [
+        {
+          "spawn_arguments": [
+            29,
+            3
+          ],
+          "strict": {
+            "cells": 59,
+            "other_arrival_count": 0,
+            "exits": []
+          },
+          "optimistic": {
+            "cells": 731,
+            "other_arrival_count": 1,
+            "exits": [
+              980
+            ]
+          }
+        },
+        {
+          "spawn_arguments": [
+            29,
+            9
+          ],
+          "strict": {
+            "cells": 139,
+            "other_arrival_count": 0,
+            "exits": []
+          },
+          "optimistic": {
+            "cells": 731,
+            "other_arrival_count": 1,
+            "exits": [
+              980
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -31,7 +31,7 @@ from ..client import (
 )
 from ..options import OneHitMode
 from ..rom import KirbyAmProcedurePatch
-from ..enemy_ability_data import ABILITY_NAME_TO_ID, LEGACY_SLOT_GATEABLE_ABILITIES
+from ..enemy_ability_data import ABILITY_NAME_TO_ID, GATEABLE_ENEMY_COPY_ABILITIES
 
 
 def _load_world_version_from_manifest() -> str:
@@ -193,7 +193,7 @@ def test_abilities_command_lists_unlocked_and_always_available_abilities(mock_bi
     mock_bizhawk_context.slot_data = {"ability_gating": True, "ability_gateable_abilities": []}
     mock_bizhawk_context.items_received = []
 
-    unlocked = sorted(set(ABILITY_NAME_TO_ID) - set(LEGACY_SLOT_GATEABLE_ABILITIES) - {"Wait"})
+    unlocked = sorted(set(ABILITY_NAME_TO_ID) - set(GATEABLE_ENEMY_COPY_ABILITIES) - {"Wait"})
     assert _run_abilities_command(mock_bizhawk_context) == [
         f"Unlocked Abilities for {KirbyAmClient.game}",
         *unlocked,
@@ -205,7 +205,7 @@ def test_abilities_command_includes_received_unlocks_once_and_ignores_other_item
     mock_bizhawk_context.slot_data = {"ability_gating": True}
     gated_ability = next(
         item for item in data.items.values()
-        if item.label.endswith(" Ability") and item.label.removesuffix(" Ability") in LEGACY_SLOT_GATEABLE_ABILITIES
+        if item.label.endswith(" Ability") and item.label.removesuffix(" Ability") in GATEABLE_ENEMY_COPY_ABILITIES
     )
     filler_item = next(item for item in data.items.values() if "Abilities" not in item.tags)
     mock_bizhawk_context.items_received = [
@@ -216,7 +216,7 @@ def test_abilities_command_includes_received_unlocks_once_and_ignores_other_item
     ]
 
     unlocked = sorted(
-        (set(ABILITY_NAME_TO_ID) - set(LEGACY_SLOT_GATEABLE_ABILITIES) - {"Wait"})
+        (set(ABILITY_NAME_TO_ID) - set(GATEABLE_ENEMY_COPY_ABILITIES) - {"Wait"})
         | {gated_ability.label.removesuffix(" Ability")}
     )
     assert _run_abilities_command(mock_bizhawk_context) == [
@@ -250,8 +250,9 @@ def test_abilities_command_hides_wait_without_removing_real_abilities(
     output = _run_abilities_command(mock_bizhawk_context)
 
     assert "Wait" not in output
-    assert "Beam" in output
     gating = not isinstance(slot_data, dict) or slot_data.get("ability_gating", True)
+    assert ("Beam" in output) == (not gating)
+    assert ("Ice" in output) == (not gating)
     assert ("Cutter" in output) == (received_cutter or not gating)
     assert output[1:] == sorted(set(output[1:]))
     # Wait is still needed by native ability logic; hide it only in this display.
@@ -1540,18 +1541,14 @@ async def test_poll_lever_locations_skips_when_transport_address_missing(mock_bi
     mock_send.assert_not_awaited()
 
 
+@pytest.mark.parametrize(("transport_bit", "location_id"), [
+    (11, 3960401),  # Native door 1: Moonlight Mansion.
+    (1, 3960411),   # Native door 2: Rainbow Route East.
+])
 @pytest.mark.asyncio
-async def test_poll_hub_switch_sends_location_checks_for_set_bits(mock_bizhawk_context):
-    """Set transport hub-switch bits after baseline should map to LocationChecks."""
+async def test_poll_hub_switch_reports_only_the_pressed_switch(mock_bizhawk_context, transport_bit, location_id):
     client = KirbyAmClient()
     client.initialize_client()
-
-    moonlight = data.locations["HUB_SWITCH_MOONLIGHT"].location_id
-    moonlight_bit = data.locations["HUB_SWITCH_MOONLIGHT"].bit_index
-    assert moonlight_bit is not None
-    rainbow_east = data.locations["HUB_SWITCH_RAINBOW_ROUTE_EAST"].location_id
-    rainbow_east_bit = data.locations["HUB_SWITCH_RAINBOW_ROUTE_EAST"].bit_index
-    assert rainbow_east_bit is not None
     mock_bizhawk_context.checked_locations = set()
 
     with patch.dict(data.transport_ram_addresses, {"hub_switch_flags": 0x0203B04C}, clear=False), \
@@ -1559,14 +1556,35 @@ async def test_poll_hub_switch_sends_location_checks_for_set_bits(mock_bizhawk_c
          patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
         mock_read.side_effect = [
             [(0).to_bytes(4, 'little')],
-            [((1 << moonlight_bit) | (1 << rainbow_east_bit)).to_bytes(4, 'little')],
+            [(1 << transport_bit).to_bytes(4, 'little')],
         ]
 
         await client._poll_hub_switch_locations(mock_bizhawk_context)
         await client._poll_hub_switch_locations(mock_bizhawk_context)
 
     mock_send.assert_awaited_once_with([
-        {"cmd": "LocationChecks", "locations": [moonlight, rainbow_east]}
+        {"cmd": "LocationChecks", "locations": [location_id]}
+    ])
+
+
+@pytest.mark.parametrize(("transport_bit", "location_id"), [(11, 3960401), (1, 3960411)])
+@pytest.mark.asyncio
+async def test_poll_hub_switch_reads_existing_saved_bits_without_migration(
+    mock_bizhawk_context, transport_bit, location_id,
+):
+    client = KirbyAmClient()
+    client.initialize_client()
+    # Simulate reconnect to a seed with existing checks and a restored ROM flag.
+    mock_bizhawk_context.checked_locations = {data.locations["HUB_SWITCH_CARROT"].location_id}
+
+    with patch.dict(data.transport_ram_addresses, {"hub_switch_flags": 0x0203B04C}, clear=False), \
+         patch('worlds.kirbyam.client.bizhawk.read', new_callable=AsyncMock) as mock_read, \
+         patch.object(mock_bizhawk_context, 'send_msgs', new_callable=AsyncMock) as mock_send:
+        mock_read.return_value = [(1 << transport_bit).to_bytes(4, 'little')]
+        await client._poll_hub_switch_locations(mock_bizhawk_context)
+
+    mock_send.assert_awaited_once_with([
+        {"cmd": "LocationChecks", "locations": [location_id]}
     ])
 
 
@@ -1653,8 +1671,7 @@ async def test_poll_hub_switch_skips_already_server_acknowledged(mock_bizhawk_co
     client._debug_logging_enabled = True
 
     moonlight = data.locations["HUB_SWITCH_MOONLIGHT"].location_id
-    moonlight_bit = data.locations["HUB_SWITCH_MOONLIGHT"].bit_index
-    assert moonlight_bit is not None
+    moonlight_bit = 11  # ROM/SRAM transport bit, not the catalog index.
     mock_bizhawk_context.checked_locations = {moonlight}
 
     with patch.dict(data.transport_ram_addresses, {"hub_switch_flags": 0x0203B04C}, clear=False), \
@@ -1697,8 +1714,7 @@ async def test_poll_hub_switch_rebaselines_on_stream_marker_change(mock_bizhawk_
     client.initialize_client()
 
     rainbow_east = data.locations["HUB_SWITCH_RAINBOW_ROUTE_EAST"].location_id
-    rainbow_east_bit = data.locations["HUB_SWITCH_RAINBOW_ROUTE_EAST"].bit_index
-    assert rainbow_east_bit is not None
+    rainbow_east_bit = 1  # ROM/SRAM transport bit, not the catalog index.
     mock_bizhawk_context.checked_locations = set()
     mock_bizhawk_context.bizhawk_ctx.streams = object()
 
@@ -6181,7 +6197,7 @@ async def test_sync_enemy_copy_ability_runtime_config_revalidates_each_tick_for_
     no_ability_weight = 55
     allowed_mask = 0
     ability_gating_enabled = True
-    gated_mask = 0x03FFFE76  # Frozen legacy catalog, not the current generation catalog.
+    gated_mask = 0x03FFFFFE  # Current gate catalog.
     unlocked_mask = 0
     client._last_ability_runtime_config_signature = (
         mode,
@@ -6233,7 +6249,7 @@ async def test_sync_enemy_copy_ability_runtime_config_rewrites_when_revalidation
     no_ability_weight = 55
     allowed_mask = 0
     ability_gating_enabled = True
-    gated_mask = 0x03FFFE76  # Frozen legacy catalog, not the current generation catalog.
+    gated_mask = 0x03FFFFFE  # Current gate catalog.
     unlocked_mask = 0
     client._last_ability_runtime_config_signature = (
         mode,

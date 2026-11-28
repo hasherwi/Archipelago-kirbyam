@@ -166,6 +166,7 @@
       "REGION_COPY_ABILITY_ROOM/MAIN": {
         "item": "Copy Ability Room Access"
       },
+      "REGION_DIMENSION_MIRROR/MAIN": null,
       "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE_UPPER_PLATFORMS": "can_fly",
       "REGION_RAINBOW_ROUTE/ROOM_1_01": null,
       "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1": {
@@ -2718,6 +2719,7 @@
       "targets": [
         {
           "id": "fuse_126",
+          "enforce_standard_carry_limit": true,
           "kind": "fuse",
           "native_room": 126,
           "exit": "REGION_RAINBOW_ROUTE/ROOM_1_33_LEFT",
@@ -3629,6 +3631,18 @@
     }
   },
   "REGION_RAINBOW_ROUTE/ROOM_1_39": {
+    "permission_progression_routes": {
+      "rainbow_1_39_bombar_missile": {
+        "all_of": [
+          {
+            "physical_minor_check": "MINOR_CHEST_MUSIC_NOTE_01"
+          },
+          {
+            "guaranteed_source": "BOMBAR"
+          }
+        ]
+      }
+    },
     "locations": {
       "MINOR_CHEST_MUSIC_NOTE_01": null,
       "room_sanity": {
@@ -3780,6 +3794,103 @@
               ],
               "required_targets": [
                 "metal_537:chest"
+              ]
+            },
+            "stock_bombar_short_missile": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_01"
+              },
+              "nodes": [
+                {
+                  "id": "bombar539:west",
+                  "native_room": 539
+                },
+                {
+                  "id": "bombar539:defeated_east",
+                  "native_room": 539
+                },
+                {
+                  "id": "bombar539:return_west",
+                  "native_room": 539
+                },
+                {
+                  "id": "bombar539:538_horizontal",
+                  "native_room": 538
+                },
+                {
+                  "id": "bombar539:537_right_top",
+                  "native_room": 537
+                },
+                {
+                  "id": "metal_537:chest",
+                  "native_room": 537
+                }
+              ],
+              "starts": [
+                "bombar539:west"
+              ],
+              "required_targets": [
+                "metal_537:chest"
+              ],
+              "sources": [
+                {
+                  "id": "0x088C2914",
+                  "inventory_id": "room:539/template:0x088C2914",
+                  "node": "bombar539:defeated_east",
+                  "acquisition_evidence": "Controller witness SHA-256 84487e8ccd2ccdc4f69cf1f4ab81c477dfac9193aeee3c4474a16f5acc8ad00b: swallow the actual defeated Bombar and equip Missile at 1 HP; finite direct-parent grant resolved by the seed. No spawned missile, helper, or reacquisition."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "bombar539:west",
+                  "to": "bombar539:defeated_east",
+                  "room_transition": true,
+                  "evidence": "Controller witness SHA-256 84487e8ccd2ccdc4f69cf1f4ab81c477dfac9193aeee3c4474a16f5acc8ad00b: west (31,7) to east (103,4) in n539; defeat the live Bombar as Normal with three spit attacks. The defeated parent is not a projectile."
+                },
+                {
+                  "from": "bombar539:defeated_east",
+                  "to": "bombar539:return_west",
+                  "room_transition": true,
+                  "required_equipment": [
+                    "Missile"
+                  ],
+                  "evidence": "Controller witness SHA-256 84487e8ccd2ccdc4f69cf1f4ab81c477dfac9193aeee3c4474a16f5acc8ad00b: after acquiring Missile, (119,2) to same native room (32,3) at 1 HP."
+                },
+                {
+                  "from": "bombar539:return_west",
+                  "to": "bombar539:538_horizontal",
+                  "room_transition": true,
+                  "required_equipment": [
+                    "Missile"
+                  ],
+                  "evidence": "Controller witness SHA-256 84487e8ccd2ccdc4f69cf1f4ab81c477dfac9193aeee3c4474a16f5acc8ad00b: n539 (1,2) to n538 (28,3). Retain Missile while using Normal crouch-slide moves on the native F1s.",
+                  "area_key_items": [
+                    "Rainbow Route - Area Key"
+                  ]
+                },
+                {
+                  "from": "bombar539:538_horizontal",
+                  "to": "bombar539:537_right_top",
+                  "room_transition": true,
+                  "required_equipment": [
+                    "Missile"
+                  ],
+                  "evidence": "Controller witness SHA-256 84487e8ccd2ccdc4f69cf1f4ab81c477dfac9193aeee3c4474a16f5acc8ad00b: n538 (1,11) to n537 (44,3), not the canonical left approach."
+                },
+                {
+                  "from": "bombar539:537_right_top",
+                  "to": "metal_537:chest",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Missile"
+                  ],
+                  "metal_evidence": {
+                    "Missile": "Controller witness SHA-256 84487e8ccd2ccdc4f69cf1f4ab81c477dfac9193aeee3c4474a16f5acc8ad00b: Downward Missile from (507.344,74.363) clears all four F5 (30\u201331,6\u20137). Drop into dry corridor and open native chest 0x088B5FA8, check 3960514. Matched no-activation control leaves metal and flag intact."
+                  },
+                  "evidence": "Controller witness SHA-256 84487e8ccd2ccdc4f69cf1f4ab81c477dfac9193aeee3c4474a16f5acc8ad00b: Downward Missile from (507.344,74.363) clears all four F5 (30\u201331,6\u20137). Drop into dry corridor and open native chest 0x088B5FA8, check 3960514. Matched no-activation control leaves metal and flag intact."
+                }
               ]
             }
           }
@@ -4874,6 +4985,21 @@
     }
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_01": {
+    "permission_progression_routes": {
+      "moonlight_2_01_golem_missile": {
+        "all_of": [
+          {
+            "guaranteed_source": "GOLEM"
+          },
+          {
+            "entrance_exists": {
+              "from_region": "REGION_MOONLIGHT_MANSION/ROOM_2_01",
+              "to_region": "REGION_MOONLIGHT_MANSION/ROOM_2_01_PAST_METAL_BLOCKS"
+            }
+          }
+        ]
+      }
+    },
     "locations": {
       "room_sanity": {
         "included": true,
@@ -4889,9 +5015,186 @@
       "RIGHT_TOP": {
         "locations": [],
         "exits": {
-          "REGION_MOONLIGHT_MANSION/ROOM_2_03_LOWER": null
+          "REGION_MOONLIGHT_MANSION/ROOM_2_03_LOWER": null,
+          "REGION_MOONLIGHT_MANSION/ROOM_2_11": null,
+          "REGION_MOONLIGHT_MANSION/ROOM_2_11_DEAD_END": null
         },
-        "evidence": "dev-docs/ordinary-708-source-carrier-contract.md: native 706 lower door 0x88356E enters 708 stored (43, 3) beside its own return door (43, 2). This door-local arrival does not grant a descent, fresh reverse metal attack, lower 743 passage or canonical-left access. Return adjacency is source/geometry level, not a new controller replay."
+        "evidence": "dev-docs/ordinary-708-source-carrier-contract.md: native 706 lower door 0x88356E enters 708 stored (43, 3) beside its own return door (43, 2). This door-local arrival does not grant a descent, fresh reverse metal attack, lower 743 passage or canonical-left access. Return adjacency is source/geometry level, not a new controller replay. The exact Normal right-top descent and reverse door were later verified (trace SHA-256 ff7cc3a5f7239bb8c9ff899c2929424dce30d307c30e18fe24fba95e945b1cf2). The optional C exits have separate witnesses; Normal is proven for the dead end only. Ordinary adjacency is unchanged.",
+        "traversal": {
+          "version": 1,
+          "targets": [
+            {
+              "id": "bomb_708_right_c_main",
+              "kind": "block",
+              "native_room": 708,
+              "exit": "REGION_MOONLIGHT_MANSION/ROOM_2_11",
+              "new_connection": true,
+              "required_for_generation": false,
+              "optional_route_evidence": "Additional approach only. Independent west/C carriers and all existing checks and approaches remain. This edge owns no exclusive check.",
+              "graphs": {
+                "stock_west_flamer": {
+                  "version": 1,
+                  "status": "reviewed",
+                  "access": {
+                    "region": "REGION_MOONLIGHT_MANSION/ROOM_2_05"
+                  },
+                  "nodes": [
+                    {
+                      "id": "bomb_708_right_c_main:west_flamer",
+                      "native_room": 702
+                    },
+                    {
+                      "id": "bomb_708_right_c_main:west706",
+                      "native_room": 706
+                    },
+                    {
+                      "id": "bomb_708_right_c_main:right_top708",
+                      "native_room": 708
+                    },
+                    {
+                      "id": "bomb_708_right_c_main:c_door",
+                      "native_room": 708
+                    }
+                  ],
+                  "starts": [
+                    "bomb_708_right_c_main:west_flamer"
+                  ],
+                  "required_targets": [
+                    "bomb_708_right_c_main:c_door"
+                  ],
+                  "sources": [
+                    {
+                      "id": "0x088BDE80",
+                      "inventory_id": "room:702/template:0x088BDE80",
+                      "node": "bomb_708_right_c_main:west_flamer",
+                      "acquisition_evidence": "Controller witness SHA-256 ade29938d68606f4a9f5506f9090683d7b27af961ae5b89385372ad98039d404: Normal acquires the native west Flamer at (168,288); no editing equipment, helper, or repeat/reset assumption."
+                    }
+                  ],
+                  "routes": [
+                    {
+                      "from": "bomb_708_right_c_main:west_flamer",
+                      "to": "bomb_708_right_c_main:west706",
+                      "room_transition": true,
+                      "evidence": "Controller witness SHA-256 ade29938d68606f4a9f5506f9090683d7b27af961ae5b89385372ad98039d404: retain Burning through 702 west mirror (2,11) to lower-west 706 at (25,19)."
+                    },
+                    {
+                      "from": "bomb_708_right_c_main:west706",
+                      "to": "bomb_708_right_c_main:right_top708",
+                      "room_transition": true,
+                      "evidence": "Controller witness SHA-256 ade29938d68606f4a9f5506f9090683d7b27af961ae5b89385372ad98039d404: retained Burning through 706 mirror (1,18) to 708 right-top (43,3)."
+                    },
+                    {
+                      "from": "bomb_708_right_c_main:right_top708",
+                      "to": "bomb_708_right_c_main:c_door",
+                      "capability": "bomb_708_right_c_burning",
+                      "evidence": "Controller witness SHA-256 ade29938d68606f4a9f5506f9090683d7b27af961ae5b89385372ad98039d404: descend 708 right shaft to (697.996,456.996) at 9 HP; Open C from the right bank and rush left through the divider while it closes. Take 708 mirror (22,28). F5 stays intact; branch is terminal."
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "id": "bomb_708_right_c_dead_end",
+              "kind": "block",
+              "native_room": 708,
+              "exit": "REGION_MOONLIGHT_MANSION/ROOM_2_11_DEAD_END",
+              "new_connection": true,
+              "required_for_generation": false,
+              "optional_route_evidence": "Additional approach only. Independent west/C carriers and all existing checks and approaches remain. This edge owns no exclusive check.",
+              "graphs": {
+                "stock_west_flamer": {
+                  "version": 1,
+                  "status": "reviewed",
+                  "access": {
+                    "region": "REGION_MOONLIGHT_MANSION/ROOM_2_05"
+                  },
+                  "nodes": [
+                    {
+                      "id": "bomb_708_right_c_dead_end:west_flamer",
+                      "native_room": 702
+                    },
+                    {
+                      "id": "bomb_708_right_c_dead_end:west706",
+                      "native_room": 706
+                    },
+                    {
+                      "id": "bomb_708_right_c_dead_end:right_top708",
+                      "native_room": 708
+                    },
+                    {
+                      "id": "bomb_708_right_c_dead_end:c_door",
+                      "native_room": 708
+                    }
+                  ],
+                  "starts": [
+                    "bomb_708_right_c_dead_end:west_flamer"
+                  ],
+                  "required_targets": [
+                    "bomb_708_right_c_dead_end:c_door"
+                  ],
+                  "sources": [
+                    {
+                      "id": "0x088BDE80",
+                      "inventory_id": "room:702/template:0x088BDE80",
+                      "node": "bomb_708_right_c_dead_end:west_flamer",
+                      "acquisition_evidence": "Controller witness SHA-256 ade29938d68606f4a9f5506f9090683d7b27af961ae5b89385372ad98039d404: Normal acquires the native west Flamer at (168,288); no editing equipment, helper, or repeat/reset assumption."
+                    }
+                  ],
+                  "routes": [
+                    {
+                      "from": "bomb_708_right_c_dead_end:west_flamer",
+                      "to": "bomb_708_right_c_dead_end:west706",
+                      "room_transition": true,
+                      "evidence": "Controller witness SHA-256 ade29938d68606f4a9f5506f9090683d7b27af961ae5b89385372ad98039d404: retain Burning through 702 west mirror (2,11) to lower-west 706 at (25,19)."
+                    },
+                    {
+                      "from": "bomb_708_right_c_dead_end:west706",
+                      "to": "bomb_708_right_c_dead_end:right_top708",
+                      "room_transition": true,
+                      "evidence": "Controller witness SHA-256 ade29938d68606f4a9f5506f9090683d7b27af961ae5b89385372ad98039d404: retained Burning through 706 mirror (1,18) to 708 right-top (43,3)."
+                    },
+                    {
+                      "from": "bomb_708_right_c_dead_end:right_top708",
+                      "to": "bomb_708_right_c_dead_end:c_door",
+                      "capability": "bomb_708_right_c_burning",
+                      "evidence": "Controller witness SHA-256 ade29938d68606f4a9f5506f9090683d7b27af961ae5b89385372ad98039d404: descend 708 right shaft to (697.996,456.996) at 9 HP; Open C from the right bank and stay right of the divider. Take 708 mirror (28,28). F5 stays intact; branch is terminal."
+                    }
+                  ]
+                },
+                "normal_from_right_top": {
+                  "version": 1,
+                  "status": "reviewed",
+                  "nodes": [
+                    {
+                      "id": "bomb_708_right_c_dead_end:normal_right_top",
+                      "native_room": 708
+                    },
+                    {
+                      "id": "bomb_708_right_c_dead_end:c_door",
+                      "native_room": 708
+                    }
+                  ],
+                  "starts": [
+                    "bomb_708_right_c_dead_end:normal_right_top"
+                  ],
+                  "required_targets": [
+                    "bomb_708_right_c_dead_end:c_door"
+                  ],
+                  "routes": [
+                    {
+                      "from": "bomb_708_right_c_dead_end:normal_right_top",
+                      "to": "bomb_708_right_c_dead_end:c_door",
+                      "required_equipment": [
+                        "Normal"
+                      ],
+                      "evidence": "Controller witness SHA-256 ff7cc3a5f7239bb8c9ff899c2929424dce30d307c30e18fe24fba95e945b1cf2: from actual n706 lower mirror arrival, Normal hover/puff reaches the right bank with F5 intact. Crouch-slide clears both F1s and activates C; stay to the right of the closed divider and take (28,28) into n743 dead end (184,40.996), 9 HP. Does not reach C main."
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
       }
     },
     "traversal": {
@@ -5012,6 +5315,64 @@
               "required_targets": [
                 "metal_708:706_lower_door"
               ]
+            },
+            "short_golem_missile": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_MOONLIGHT_MANSION/ROOM_2_ENTRY"
+              },
+              "nodes": [
+                {
+                  "id": "golem195:source",
+                  "native_room": 195
+                },
+                {
+                  "id": "golem195:708_west",
+                  "native_room": 708
+                },
+                {
+                  "id": "metal_708:706_lower_door",
+                  "native_room": 708
+                }
+              ],
+              "starts": [
+                "golem195:source"
+              ],
+              "required_targets": [
+                "metal_708:706_lower_door"
+              ],
+              "sources": [
+                {
+                  "id": "0x088BC580",
+                  "inventory_id": "room:195/template:0x088BC580",
+                  "node": "golem195:source",
+                  "acquisition_evidence": "Controller witness SHA-256 9ea3ec9f8a14acf850130dbd45eeb0584fcad682242ce52e2d69c5a52c1737a0: Golem itself is inhaled in n195 at (208,128). Shuffled seed 1078 granted Missile; actual grant and unlock must match any generated seed. No fixture ability or projectile."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "golem195:source",
+                  "to": "golem195:708_west",
+                  "room_transition": true,
+                  "required_equipment": [
+                    "Missile"
+                  ],
+                  "evidence": "Controller witness SHA-256 9ea3ec9f8a14acf850130dbd45eeb0584fcad682242ce52e2d69c5a52c1737a0: n195 (28,8) to n708 west (40,376.996). Clear the real timed entry switch, lower F1, and Snooter with Missile; reach exact west F5 pose x569.996."
+                },
+                {
+                  "from": "golem195:708_west",
+                  "to": "metal_708:706_lower_door",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Missile"
+                  ],
+                  "metal_evidence": {
+                    "Missile": "Controller witness SHA-256 9ea3ec9f8a14acf850130dbd45eeb0584fcad682242ce52e2d69c5a52c1737a0: Right+B across F5 (36\u201337,23) in the dry corridor; both tiles cleared, continuously equipped at 2 HP. After the west wall, cross the upper shaft below spikes and take n708 (43,2) to n706 lower (40,296.996)."
+                  },
+                  "evidence": "Controller witness SHA-256 9ea3ec9f8a14acf850130dbd45eeb0584fcad682242ce52e2d69c5a52c1737a0: Right+B across F5 (36\u201337,23) in the dry corridor; both tiles cleared, continuously equipped at 2 HP. After the west wall, cross the upper shaft below spikes and take n708 (43,2) to n706 lower (40,296.996)."
+                }
+              ]
             }
           }
         }
@@ -5128,6 +5489,64 @@
               "required_targets": [
                 "metal_708:743_main_door"
               ]
+            },
+            "short_golem_missile": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_MOONLIGHT_MANSION/ROOM_2_ENTRY"
+              },
+              "nodes": [
+                {
+                  "id": "golem195:source",
+                  "native_room": 195
+                },
+                {
+                  "id": "golem195:708_west",
+                  "native_room": 708
+                },
+                {
+                  "id": "metal_708:743_main_door",
+                  "native_room": 708
+                }
+              ],
+              "starts": [
+                "golem195:source"
+              ],
+              "required_targets": [
+                "metal_708:743_main_door"
+              ],
+              "sources": [
+                {
+                  "id": "0x088BC580",
+                  "inventory_id": "room:195/template:0x088BC580",
+                  "node": "golem195:source",
+                  "acquisition_evidence": "Controller witness SHA-256 9ea3ec9f8a14acf850130dbd45eeb0584fcad682242ce52e2d69c5a52c1737a0: Golem itself is inhaled in n195 at (208,128). Shuffled seed 1078 granted Missile; actual grant and unlock must match any generated seed. No fixture ability or projectile."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "golem195:source",
+                  "to": "golem195:708_west",
+                  "room_transition": true,
+                  "required_equipment": [
+                    "Missile"
+                  ],
+                  "evidence": "Controller witness SHA-256 9ea3ec9f8a14acf850130dbd45eeb0584fcad682242ce52e2d69c5a52c1737a0: n195 (28,8) to n708 west (40,376.996). Clear the real timed entry switch, lower F1, and Snooter with Missile; reach exact west F5 pose x569.996."
+                },
+                {
+                  "from": "golem195:708_west",
+                  "to": "metal_708:743_main_door",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Missile"
+                  ],
+                  "metal_evidence": {
+                    "Missile": "Controller witness SHA-256 9ea3ec9f8a14acf850130dbd45eeb0584fcad682242ce52e2d69c5a52c1737a0: Right+B across F5 (36\u201337,23) in the dry corridor; both tiles cleared, continuously equipped at 2 HP. After the west wall, drop to the right bank, clear the two right F1s, then Left+B from x502 hits C and outruns the divider. Cancel Missile on the left and take (22,28) into n743 main at (88,40.996). Does not prove the lever."
+                  },
+                  "evidence": "Controller witness SHA-256 9ea3ec9f8a14acf850130dbd45eeb0584fcad682242ce52e2d69c5a52c1737a0: Right+B across F5 (36\u201337,23) in the dry corridor; both tiles cleared, continuously equipped at 2 HP. After the west wall, drop to the right bank, clear the two right F1s, then Left+B from x502 hits C and outruns the divider. Cancel Missile on the left and take (22,28) into n743 main at (88,40.996). Does not prove the lever."
+                }
+              ]
             }
           }
         },
@@ -5222,6 +5641,90 @@
               "required_targets": [
                 "metal_708:743_dead_end_door"
               ]
+            },
+            "short_golem_missile": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_MOONLIGHT_MANSION/ROOM_2_ENTRY"
+              },
+              "nodes": [
+                {
+                  "id": "golem195:source",
+                  "native_room": 195
+                },
+                {
+                  "id": "golem195:708_west",
+                  "native_room": 708
+                },
+                {
+                  "id": "golem195:708_right_bank",
+                  "native_room": 708
+                },
+                {
+                  "id": "golem195:normal_right_bank",
+                  "native_room": 708
+                },
+                {
+                  "id": "metal_708:743_dead_end_door",
+                  "native_room": 708
+                }
+              ],
+              "starts": [
+                "golem195:source"
+              ],
+              "required_targets": [
+                "metal_708:743_dead_end_door"
+              ],
+              "sources": [
+                {
+                  "id": "0x088BC580",
+                  "inventory_id": "room:195/template:0x088BC580",
+                  "node": "golem195:source",
+                  "acquisition_evidence": "Controller witness SHA-256 9ea3ec9f8a14acf850130dbd45eeb0584fcad682242ce52e2d69c5a52c1737a0: Golem itself is inhaled in n195 at (208,128). Shuffled seed 1078 granted Missile; actual grant and unlock must match any generated seed. No fixture ability or projectile."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "golem195:source",
+                  "to": "golem195:708_west",
+                  "room_transition": true,
+                  "required_equipment": [
+                    "Missile"
+                  ],
+                  "evidence": "Controller witness SHA-256 9ea3ec9f8a14acf850130dbd45eeb0584fcad682242ce52e2d69c5a52c1737a0: n195 (28,8) to n708 west (40,376.996). Clear the real timed entry switch, lower F1, and Snooter with Missile; reach exact west F5 pose x569.996."
+                },
+                {
+                  "from": "golem195:708_west",
+                  "to": "golem195:708_right_bank",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Missile"
+                  ],
+                  "metal_evidence": {
+                    "Missile": "Controller witness SHA-256 9ea3ec9f8a14acf850130dbd45eeb0584fcad682242ce52e2d69c5a52c1737a0: Right+B through F5 (36\u201337,23); descend to the stable right bank at (697.996,456.996) with Missile and 2 HP."
+                  },
+                  "evidence": "Controller witness SHA-256 9ea3ec9f8a14acf850130dbd45eeb0584fcad682242ce52e2d69c5a52c1737a0: Right+B through F5 (36\u201337,23); descend to the stable right bank at (697.996,456.996) with Missile and 2 HP."
+                },
+                {
+                  "from": "golem195:708_right_bank",
+                  "to": "golem195:normal_right_bank",
+                  "required_equipment": [
+                    "Missile"
+                  ],
+                  "loses_equipment": true,
+                  "loss_evidence": "Controller witness SHA-256 f6790833e54b868e9ccf2eef96aaee989389c6bf0e3a86965cde7d6d26618edb: intentional Select drop at the matched bank.",
+                  "evidence": "Controller witness SHA-256 f6790833e54b868e9ccf2eef96aaee989389c6bf0e3a86965cde7d6d26618edb: discard Missile with Select at the exact verified bank, without recoating or opening C first."
+                },
+                {
+                  "from": "golem195:normal_right_bank",
+                  "to": "metal_708:743_dead_end_door",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "Controller witness SHA-256 f6790833e54b868e9ccf2eef96aaee989389c6bf0e3a86965cde7d6d26618edb: Normal slides through right F1s and triggers C, stays right of both closing tiles, and enters n708 (28,28) -> n743 dead end (184,40.996) at 2 HP. Not C main."
+                }
+              ]
             }
           }
         }
@@ -5239,6 +5742,7 @@
     "locations": {},
     "exits": {
       "REGION_MOONLIGHT_MANSION/ROOM_2_11_DEAD_END": null,
+      "REGION_MOONLIGHT_MANSION/ROOM_2_01__LOGIC__RIGHT_TOP": "can_fly",
       "REGION_MOONLIGHT_MANSION/ROOM_2_01__ROOM_CHECK": null
     }
   },
@@ -5315,6 +5819,21 @@
     }
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_04_PAST_SWITCH_WALL": {
+    "permission_progression_routes": {
+      "moonlight_2_04_doo_missile": {
+        "all_of": [
+          {
+            "guaranteed_source": "WADDLE_DOO"
+          },
+          {
+            "entrance_exists": {
+              "from_region": "REGION_MOONLIGHT_MANSION/ROOM_2_04_PAST_SWITCH_WALL",
+              "to_region": "REGION_MOONLIGHT_MANSION/ROOM_2_13"
+            }
+          }
+        ]
+      }
+    },
     "locations": {},
     "exits": {
       "REGION_MOONLIGHT_MANSION/ROOM_2_08": "can_break_block",
@@ -5424,6 +5943,72 @@
               ],
               "required_targets": [
                 "metal_707:712_door"
+              ]
+            },
+            "local_doo_missile": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_MOONLIGHT_MANSION/ROOM_2_04"
+              },
+              "nodes": [
+                {
+                  "id": "doo707:left",
+                  "native_room": 707
+                },
+                {
+                  "id": "doo707:source",
+                  "native_room": 707
+                },
+                {
+                  "id": "doo707:upper_f5",
+                  "native_room": 707
+                },
+                {
+                  "id": "metal_707:712_mirror",
+                  "native_room": 707
+                }
+              ],
+              "starts": [
+                "doo707:left"
+              ],
+              "required_targets": [
+                "metal_707:712_mirror"
+              ],
+              "sources": [
+                {
+                  "id": "0x088BCCDC",
+                  "inventory_id": "room:707/template:0x088BCCDC",
+                  "node": "doo707:source",
+                  "acquisition_evidence": "Controller witness SHA-256 2f2699d2e194f8f0547a8d4b054bfbb953d830a3cdaf5d7735350fd6847d622a: actual fixed-position Waddle Doo at (336,152) grants Missile in Shuffled seed 1087, from normal physical inhale and Down. Require the real live policy and permission."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "doo707:left",
+                  "to": "doo707:source",
+                  "evidence": "Controller witness SHA-256 2f2699d2e194f8f0547a8d4b054bfbb953d830a3cdaf5d7735350fd6847d622a: use three Normal slides for the western F1s from canonical left arrival at (24,152.996); inhale the original Waddle Doo."
+                },
+                {
+                  "from": "doo707:source",
+                  "to": "doo707:upper_f5",
+                  "required_equipment": [
+                    "Missile"
+                  ],
+                  "evidence": "Controller witness SHA-256 2f2699d2e194f8f0547a8d4b054bfbb953d830a3cdaf5d7735350fd6847d622a: activate native button 0x088BCD6C and cross moving door 0x088BCD00 while open; use Missile on Snooter and Heavy Knight, use ordinary slide to clear lower F1, and ascend right shaft, retaining Missile."
+                },
+                {
+                  "from": "doo707:upper_f5",
+                  "to": "metal_707:712_mirror",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Missile"
+                  ],
+                  "metal_evidence": {
+                    "Missile": "Controller witness SHA-256 2f2699d2e194f8f0547a8d4b054bfbb953d830a3cdaf5d7735350fd6847d622a: Right+B from (1086.117,72.996) clears upper F5 (69\u201370,4). Take original n707 (72,2) to n712 (24,456.996) at 4 HP, proving native visit for 3961066; no AP acknowledgement."
+                  },
+                  "evidence": "Controller witness SHA-256 2f2699d2e194f8f0547a8d4b054bfbb953d830a3cdaf5d7735350fd6847d622a: Right+B from (1086.117,72.996) clears upper F5 (69\u201370,4). Take original n707 (72,2) to n712 (24,456.996) at 4 HP, proving native visit for 3961066; no AP acknowledgement."
+                }
               ]
             }
           }
@@ -5591,7 +6176,13 @@
     "locations": {},
     "exits": {
       "REGION_MOONLIGHT_MANSION/ROOM_2_12_LEFT": null,
-      "REGION_MOONLIGHT_MANSION/ROOM_2_11": "mm_lever"
+      "REGION_MOONLIGHT_MANSION/ROOM_2_11": "mm_lever",
+      "REGION_MOONLIGHT_MANSION/ROOM_2_11_DEAD_END": {
+        "all": [
+          "mm_lever",
+          "can_fly"
+        ]
+      }
     }
   },
   "REGION_MOONLIGHT_MANSION/ROOM_2_12_LEFT": {
@@ -6851,6 +7442,24 @@
     }
   },
   "REGION_CABBAGE_CAVERN/ROOM_3_06": {
+    "permission_progression_routes": {
+      "cabbage_chocolate_carry": {
+        "all_of": [
+          {
+            "physical_minor_check": "MINOR_CHEST_SPRAY_PAINT_12"
+          },
+          {
+            "reviewed_graph_sources": {
+              "target": "bomb_517_chocolate",
+              "witnesses": [
+                "hub2_entry",
+                "hub2_statues_entry"
+              ]
+            }
+          }
+        ]
+      }
+    },
     "locations": {
       "MINOR_CHEST_SPRAY_PAINT_12": null,
       "room_sanity": {
@@ -7932,6 +8541,138 @@
               "access": {
                 "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3"
               }
+            },
+            "short_bonkers_hammer": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_12_LOWER"
+              },
+              "nodes": [
+                {
+                  "id": "lower_528",
+                  "native_room": 528
+                },
+                {
+                  "id": "west_527",
+                  "native_room": 527
+                },
+                {
+                  "id": "upper_515",
+                  "native_room": 515
+                },
+                {
+                  "id": "bonkers",
+                  "native_room": 515
+                },
+                {
+                  "id": "lower_513",
+                  "native_room": 513
+                },
+                {
+                  "id": "east_509",
+                  "native_room": 509
+                },
+                {
+                  "id": "west_510",
+                  "native_room": 510
+                },
+                {
+                  "id": "target",
+                  "native_room": 510
+                }
+              ],
+              "routes": [
+                {
+                  "from": "lower_528",
+                  "to": "west_527",
+                  "evidence": "docs/traversal-logic.md#peg_527_18_13",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "Normal takes n528 (22,47) to n527 (3,17).",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ]
+                },
+                {
+                  "from": "west_527",
+                  "to": "upper_515",
+                  "evidence": "docs/traversal-logic.md#peg_527_18_13",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "Normal takes the upper n527 (69,5) door without either peg to n515 upper left.",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ]
+                },
+                {
+                  "from": "upper_515",
+                  "to": "bonkers",
+                  "evidence": "docs/traversal-logic.md#peg_527_18_13"
+                },
+                {
+                  "from": "bonkers",
+                  "to": "lower_513",
+                  "evidence": "docs/traversal-logic.md#peg_527_18_13",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "After swallowing Bonkers, n515 (10,2) reaches the n513 lower-right arrival.",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ],
+                  "required_equipment": [
+                    "Hammer"
+                  ]
+                },
+                {
+                  "from": "lower_513",
+                  "to": "east_509",
+                  "room_transition": true,
+                  "evidence": "docs/traversal-logic.md#peg_510_7_7; open lower F1 at (5,18), reverse ascent from lower entry, then n513 (8,2) \u2192 n509 (43,17).",
+                  "required_equipment": [
+                    "Hammer"
+                  ],
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ]
+                },
+                {
+                  "from": "east_509",
+                  "to": "west_510",
+                  "room_transition": true,
+                  "evidence": "docs/traversal-logic.md#peg_510_7_7; take original n509 (41,3) \u2192 n510 (4,6) with Hammer.",
+                  "required_equipment": [
+                    "Hammer"
+                  ],
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ]
+                },
+                {
+                  "from": "west_510",
+                  "to": "target",
+                  "evidence": "docs/traversal-logic.md#peg_510_7_7; low aerial Hammer drives (7,7) then drops through to exact chest template 0x088C9114.",
+                  "capability": "peg",
+                  "allowed_abilities": [
+                    "Hammer"
+                  ],
+                  "opens": "peg_510_7_7"
+                }
+              ],
+              "sources": [
+                {
+                  "node": "bonkers",
+                  "inventory_id": "room:515/template:0x088C9FB4",
+                  "renewable": false,
+                  "acquisition_evidence": "Defeated the original Bonkers as Normal and swallowed the parent, not the encounter projectile."
+                }
+              ],
+              "starts": [
+                "lower_528"
+              ],
+              "required_targets": [
+                "target"
+              ]
             }
           }
         }
@@ -8165,6 +8906,164 @@
               "access": {
                 "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3"
               }
+            },
+            "short_rocky_stone": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_13"
+              },
+              "nodes": [
+                {
+                  "id": "north_513",
+                  "native_room": 513
+                },
+                {
+                  "id": "east_528_arrival",
+                  "native_room": 528
+                },
+                {
+                  "id": "rocky",
+                  "native_room": 528
+                },
+                {
+                  "id": "west_513_return",
+                  "native_room": 513
+                },
+                {
+                  "id": "target",
+                  "native_room": 513
+                }
+              ],
+              "starts": [
+                "north_513"
+              ],
+              "required_targets": [
+                "target"
+              ],
+              "sources": [
+                {
+                  "node": "rocky",
+                  "inventory_id": "room:528/template:0x088C93A0",
+                  "renewable": false,
+                  "acquisition_evidence": "Exact original physical source acquired before the obstacle in the stock controller trace."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "north_513",
+                  "to": "east_528_arrival",
+                  "evidence": "Normal takes n513 west (2,5) to n528 (21,32), arrival (328,505).",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "Observed native entry in the controller trace.",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ]
+                },
+                {
+                  "from": "east_528_arrival",
+                  "to": "rocky",
+                  "evidence": "Reach the stock Rocky in the n528 east shaft through the witnessed ordinary block approach."
+                },
+                {
+                  "from": "rocky",
+                  "to": "west_513_return",
+                  "evidence": "Copy the original Rocky, retain Stone and take n528 (21,31) to n513 (4,6).",
+                  "required_equipment": [
+                    "Stone"
+                  ],
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "Observed native entry in the controller trace.",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ]
+                },
+                {
+                  "from": "west_513_return",
+                  "to": "target",
+                  "evidence": "docs/traversal-logic.md#peg_513_4_7",
+                  "capability": "peg",
+                  "allowed_abilities": [
+                    "Stone"
+                  ],
+                  "opens": "peg_513_4_7"
+                }
+              ]
+            },
+            "local_foley_stone": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_13"
+              },
+              "nodes": [
+                {
+                  "id": "north_513",
+                  "native_room": 513
+                },
+                {
+                  "id": "east_528_arrival",
+                  "native_room": 528
+                },
+                {
+                  "id": "upper_foley",
+                  "native_room": 513
+                },
+                {
+                  "id": "target",
+                  "native_room": 513
+                }
+              ],
+              "starts": [
+                "north_513"
+              ],
+              "required_targets": [
+                "target"
+              ],
+              "sources": [
+                {
+                  "node": "upper_foley",
+                  "inventory_id": "room:513/template:0x088C9B50",
+                  "renewable": false,
+                  "acquisition_evidence": "Swallowed the original upper Foley itself as Normal on Shuffled seed 1071, after arriving from n528."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "north_513",
+                  "to": "east_528_arrival",
+                  "evidence": "Normal takes n513 west (2,5) to n528 (21,32), arrival (328,505).",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "Observed native entry in the controller trace.",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ]
+                },
+                {
+                  "from": "east_528_arrival",
+                  "to": "upper_foley",
+                  "evidence": "Normal takes the observed n528 (21,31) return to n513 (4,6); the original upper Foley is just ahead.",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "Observed native entry in the controller trace.",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ]
+                },
+                {
+                  "from": "upper_foley",
+                  "to": "target",
+                  "evidence": "docs/traversal-logic.md#peg_513_4_7",
+                  "capability": "peg",
+                  "allowed_abilities": [
+                    "Stone"
+                  ],
+                  "opens": "peg_513_4_7"
+                }
+              ]
             }
           }
         }
@@ -8298,6 +9197,209 @@
               "access": {
                 "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3"
               }
+            },
+            "local_giant_rocky_stone": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_12_LOWER"
+              },
+              "nodes": [
+                {
+                  "id": "lower_528",
+                  "native_room": 528
+                },
+                {
+                  "id": "west_527",
+                  "native_room": 527
+                },
+                {
+                  "id": "giant_rocky",
+                  "native_room": 527
+                },
+                {
+                  "id": "target",
+                  "native_room": 527
+                }
+              ],
+              "routes": [
+                {
+                  "from": "lower_528",
+                  "to": "west_527",
+                  "evidence": "docs/traversal-logic.md#peg_527_56_16",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "Observed original door travel from n528 (22,47) to n527 (3,17).",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ]
+                },
+                {
+                  "from": "west_527",
+                  "to": "giant_rocky",
+                  "evidence": "docs/traversal-logic.md#peg_527_56_16"
+                },
+                {
+                  "from": "giant_rocky",
+                  "to": "target",
+                  "evidence": "docs/traversal-logic.md#peg_527_56_16",
+                  "capability": "peg",
+                  "allowed_abilities": [
+                    "Stone"
+                  ],
+                  "opens": "peg_527_56_16"
+                }
+              ],
+              "sources": [
+                {
+                  "node": "giant_rocky",
+                  "inventory_id": "room:527/template:0x088CA568",
+                  "renewable": false,
+                  "acquisition_evidence": "Stock seed 1197 physically swallowed the original Giant Rocky before either peg."
+                }
+              ],
+              "starts": [
+                "lower_528"
+              ],
+              "required_targets": [
+                "target"
+              ]
+            },
+            "short_bonkers_hammer": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_12_LOWER"
+              },
+              "nodes": [
+                {
+                  "id": "lower_528",
+                  "native_room": 528
+                },
+                {
+                  "id": "west_527",
+                  "native_room": 527
+                },
+                {
+                  "id": "upper_515",
+                  "native_room": 515
+                },
+                {
+                  "id": "bonkers",
+                  "native_room": 515
+                },
+                {
+                  "id": "lower_513",
+                  "native_room": 513
+                },
+                {
+                  "id": "east_528",
+                  "native_room": 528
+                },
+                {
+                  "id": "west_527_carry",
+                  "native_room": 527
+                },
+                {
+                  "id": "target",
+                  "native_room": 527
+                }
+              ],
+              "routes": [
+                {
+                  "from": "lower_528",
+                  "to": "west_527",
+                  "evidence": "docs/traversal-logic.md#peg_527_56_16",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "Normal takes n528 (22,47) to n527 (3,17).",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ]
+                },
+                {
+                  "from": "west_527",
+                  "to": "upper_515",
+                  "evidence": "docs/traversal-logic.md#peg_527_56_16",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "Normal takes the upper n527 (69,5) door without either peg to n515 upper left.",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ]
+                },
+                {
+                  "from": "upper_515",
+                  "to": "bonkers",
+                  "evidence": "docs/traversal-logic.md#peg_527_56_16"
+                },
+                {
+                  "from": "bonkers",
+                  "to": "lower_513",
+                  "evidence": "docs/traversal-logic.md#peg_527_56_16",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "After swallowing Bonkers, n515 (10,2) reaches the n513 lower-right arrival.",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ],
+                  "required_equipment": [
+                    "Hammer"
+                  ]
+                },
+                {
+                  "from": "lower_513",
+                  "to": "east_528",
+                  "evidence": "docs/traversal-logic.md#peg_527_56_16",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "n513 (2,5) reaches n528 east; both original moves proven with Hammer.",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ],
+                  "required_equipment": [
+                    "Hammer"
+                  ]
+                },
+                {
+                  "from": "east_528",
+                  "to": "west_527_carry",
+                  "evidence": "docs/traversal-logic.md#peg_527_56_16",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "n528 (22,47) reaches n527 (3,17).",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ],
+                  "required_equipment": [
+                    "Hammer"
+                  ]
+                },
+                {
+                  "from": "west_527_carry",
+                  "to": "target",
+                  "evidence": "docs/traversal-logic.md#peg_527_56_16",
+                  "capability": "peg",
+                  "allowed_abilities": [
+                    "Hammer"
+                  ],
+                  "opens": "peg_527_56_16"
+                }
+              ],
+              "sources": [
+                {
+                  "node": "bonkers",
+                  "inventory_id": "room:515/template:0x088C9FB4",
+                  "renewable": false,
+                  "acquisition_evidence": "Defeated the original Bonkers as Normal and swallowed the parent, not the encounter projectile."
+                }
+              ],
+              "starts": [
+                "lower_528"
+              ],
+              "required_targets": [
+                "target"
+              ]
             }
           }
         },
@@ -8404,6 +9506,209 @@
               "access": {
                 "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3"
               }
+            },
+            "local_giant_rocky_stone": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_12_LOWER"
+              },
+              "nodes": [
+                {
+                  "id": "lower_528",
+                  "native_room": 528
+                },
+                {
+                  "id": "west_527",
+                  "native_room": 527
+                },
+                {
+                  "id": "giant_rocky",
+                  "native_room": 527
+                },
+                {
+                  "id": "target",
+                  "native_room": 527
+                }
+              ],
+              "routes": [
+                {
+                  "from": "lower_528",
+                  "to": "west_527",
+                  "evidence": "docs/traversal-logic.md#peg_527_18_13",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "Observed original door travel from n528 (22,47) to n527 (3,17).",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ]
+                },
+                {
+                  "from": "west_527",
+                  "to": "giant_rocky",
+                  "evidence": "docs/traversal-logic.md#peg_527_18_13"
+                },
+                {
+                  "from": "giant_rocky",
+                  "to": "target",
+                  "evidence": "docs/traversal-logic.md#peg_527_18_13",
+                  "capability": "peg",
+                  "allowed_abilities": [
+                    "Stone"
+                  ],
+                  "opens": "peg_527_18_13"
+                }
+              ],
+              "sources": [
+                {
+                  "node": "giant_rocky",
+                  "inventory_id": "room:527/template:0x088CA568",
+                  "renewable": false,
+                  "acquisition_evidence": "Stock seed 1197 physically swallowed the original Giant Rocky before either peg."
+                }
+              ],
+              "starts": [
+                "lower_528"
+              ],
+              "required_targets": [
+                "target"
+              ]
+            },
+            "short_bonkers_hammer": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_12_LOWER"
+              },
+              "nodes": [
+                {
+                  "id": "lower_528",
+                  "native_room": 528
+                },
+                {
+                  "id": "west_527",
+                  "native_room": 527
+                },
+                {
+                  "id": "upper_515",
+                  "native_room": 515
+                },
+                {
+                  "id": "bonkers",
+                  "native_room": 515
+                },
+                {
+                  "id": "lower_513",
+                  "native_room": 513
+                },
+                {
+                  "id": "east_528",
+                  "native_room": 528
+                },
+                {
+                  "id": "west_527_carry",
+                  "native_room": 527
+                },
+                {
+                  "id": "target",
+                  "native_room": 527
+                }
+              ],
+              "routes": [
+                {
+                  "from": "lower_528",
+                  "to": "west_527",
+                  "evidence": "docs/traversal-logic.md#peg_527_18_13",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "Normal takes n528 (22,47) to n527 (3,17).",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ]
+                },
+                {
+                  "from": "west_527",
+                  "to": "upper_515",
+                  "evidence": "docs/traversal-logic.md#peg_527_18_13",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "Normal takes the upper n527 (69,5) door without either peg to n515 upper left.",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ]
+                },
+                {
+                  "from": "upper_515",
+                  "to": "bonkers",
+                  "evidence": "docs/traversal-logic.md#peg_527_18_13"
+                },
+                {
+                  "from": "bonkers",
+                  "to": "lower_513",
+                  "evidence": "docs/traversal-logic.md#peg_527_18_13",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "After swallowing Bonkers, n515 (10,2) reaches the n513 lower-right arrival.",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ],
+                  "required_equipment": [
+                    "Hammer"
+                  ]
+                },
+                {
+                  "from": "lower_513",
+                  "to": "east_528",
+                  "evidence": "docs/traversal-logic.md#peg_527_18_13",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "n513 (2,5) reaches n528 east; both original moves proven with Hammer.",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ],
+                  "required_equipment": [
+                    "Hammer"
+                  ]
+                },
+                {
+                  "from": "east_528",
+                  "to": "west_527_carry",
+                  "evidence": "docs/traversal-logic.md#peg_527_18_13",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "n528 (22,47) reaches n527 (3,17).",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ],
+                  "required_equipment": [
+                    "Hammer"
+                  ]
+                },
+                {
+                  "from": "west_527_carry",
+                  "to": "target",
+                  "evidence": "docs/traversal-logic.md#peg_527_18_13",
+                  "capability": "peg",
+                  "allowed_abilities": [
+                    "Hammer"
+                  ],
+                  "opens": "peg_527_18_13"
+                }
+              ],
+              "sources": [
+                {
+                  "node": "bonkers",
+                  "inventory_id": "room:515/template:0x088C9FB4",
+                  "renewable": false,
+                  "acquisition_evidence": "Defeated the original Bonkers as Normal and swallowed the parent, not the encounter projectile."
+                }
+              ],
+              "starts": [
+                "lower_528"
+              ],
+              "required_targets": [
+                "target"
+              ]
             }
           }
         }
@@ -8523,6 +9828,33 @@
     }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST": {
+    "permission_progression_routes": {
+      "mustard_advanced_crash": {
+        "all_of": [
+          "advanced_logic",
+          {
+            "any_of": [
+              {
+                "guaranteed_source": "FOLEY"
+              },
+              {
+                "guaranteed_source": "HOT_HEAD"
+              },
+              {
+                "all_of": [
+                  {
+                    "guaranteed_source": "TWISTER"
+                  },
+                  {
+                    "check_exists": "MAJOR_CHEST_MUSTARD_MOUNTAIN"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
     "locations": {
       "room_sanity": {
         "included": true,
@@ -8996,6 +10328,115 @@
               }
             }
           },
+          "conditional_routes": [
+            {
+              "contract": "mustard_map_hub4_live_cutter",
+              "activation": {
+                "source_region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4",
+                "live_statue": {
+                  "source_key": "STATUE:353903",
+                  "ability": "Cutter",
+                  "inventory_id": "room:590/template:0x088B6908"
+                },
+                "fixture_options": {
+                  "ability_randomization_mode": 2,
+                  "ability_randomization_statues": 1,
+                  "ability_randomization_no_ability_weight": 100,
+                  "area_keys": 0,
+                  "ability_gating": 0,
+                  "room_sanity": 0,
+                  "enemy_health_multiplier": 100,
+                  "minimum_health": 6,
+                  "one_hit_mode": 0
+                }
+              },
+              "witnesses": [
+                {
+                  "graph": {
+                    "version": 1,
+                    "status": "reviewed",
+                    "access": {
+                      "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4"
+                    },
+                    "nodes": [
+                      {
+                        "id": "switch_310_mustard_map:live_cutter_east_statue",
+                        "native_room": 590
+                      },
+                      {
+                        "id": "switch_310_mustard_map:live_cutter_rainbow34",
+                        "native_room": 534
+                      },
+                      {
+                        "id": "switch_310_mustard_map:live_cutter_mustard_arrival",
+                        "native_room": 310
+                      },
+                      {
+                        "id": "switch_310_mustard_map:live_cutter_crossed",
+                        "native_room": 310
+                      },
+                      {
+                        "id": "switch_310_mustard_map:live_cutter_map_chest",
+                        "native_room": 310
+                      }
+                    ],
+                    "starts": [
+                      "switch_310_mustard_map:live_cutter_east_statue"
+                    ],
+                    "required_targets": [
+                      "switch_310_mustard_map:live_cutter_map_chest"
+                    ],
+                    "sources": [
+                      {
+                        "id": "0x088B6908",
+                        "inventory_id": "room:590/template:0x088B6908",
+                        "node": "switch_310_mustard_map:live_cutter_east_statue",
+                        "source_key": "STATUE:353903",
+                        "renewable": true,
+                        "acquisition_evidence": "dev-docs/mustard-map-hub4-live-cutter-witness.md: actual east Hub 4 statue touched in the same native590 instance.",
+                        "renewable_evidence": "dev-docs/mustard-map-hub4-live-cutter-witness.md: Select drops followed by repeated contacts with the same unconsumed statue.",
+                        "retry_evidence": "dev-docs/mustard-map-hub4-live-cutter-witness.md: intentional same-room retouch; eventual positive-support Cutter is an explicit fairness assumption, not a bounded drop."
+                      }
+                    ],
+                    "routes": [
+                      {
+                        "from": "switch_310_mustard_map:live_cutter_east_statue",
+                        "to": "switch_310_mustard_map:live_cutter_rainbow34",
+                        "room_transition": true,
+                        "required_equipment": [
+                          "Cutter"
+                        ],
+                        "evidence": "dev-docs/mustard-map-hub4-live-cutter-witness.md: carry Cutter through the stock 590-to-534 mirror."
+                      },
+                      {
+                        "from": "switch_310_mustard_map:live_cutter_rainbow34",
+                        "to": "switch_310_mustard_map:live_cutter_mustard_arrival",
+                        "room_transition": true,
+                        "required_equipment": [
+                          "Cutter"
+                        ],
+                        "evidence": "dev-docs/mustard-map-hub4-live-cutter-witness.md: carry Cutter through the stock 534-to-310 mirror, without replacing equipment."
+                      },
+                      {
+                        "from": "switch_310_mustard_map:live_cutter_mustard_arrival",
+                        "to": "switch_310_mustard_map:live_cutter_crossed",
+                        "capability": "switch_310_hub4_live_cutter_return",
+                        "evidence": "dev-docs/mustard-map-hub4-live-cutter-witness.md: Cutter return and actual dash through the stock closing switch; no-shot control stayed blocked."
+                      },
+                      {
+                        "from": "switch_310_mustard_map:live_cutter_crossed",
+                        "to": "switch_310_mustard_map:live_cutter_map_chest",
+                        "required_equipment": [
+                          "Cutter"
+                        ],
+                        "evidence": "dev-docs/mustard-map-hub4-live-cutter-witness.md: exact native Map chest 0x088C3FA4 opens; local check 3960205, no AP packet."
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
           "advanced_graphs": [
             "hub4_crash_entry"
           ],
@@ -9730,6 +11171,72 @@
               "access": {
                 "region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
               }
+            },
+            "short_308_cupie": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "lower_308",
+                  "native_room": 308
+                },
+                {
+                  "id": "cupie",
+                  "native_room": 308
+                },
+                {
+                  "id": "east_316",
+                  "native_room": 316
+                },
+                {
+                  "id": "target",
+                  "native_room": 316
+                }
+              ],
+              "routes": [
+                {
+                  "from": "lower_308",
+                  "to": "cupie",
+                  "evidence": "docs/traversal-logic.md#rope_316_35_5; Normal reaches the original lower Cupie at (280,312) from the ordinary west/lower approach."
+                },
+                {
+                  "from": "cupie",
+                  "to": "east_316",
+                  "evidence": "docs/traversal-logic.md#rope_316_35_5; Take n308 (26,3) to n316 (60,4) with Cupid.",
+                  "room_transition": true,
+                  "required_equipment": [
+                    "Cupid"
+                  ]
+                },
+                {
+                  "from": "east_316",
+                  "to": "target",
+                  "evidence": "docs/traversal-logic.md#rope_316_35_5; Charged Cupid breaks both exact rope cells and reaches native Energy Drink chest 0x088C4798.",
+                  "capability": "rope",
+                  "allowed_abilities": [
+                    "Cupid"
+                  ],
+                  "opens": "rope_316_35_5"
+                }
+              ],
+              "access": {
+                "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_09"
+              },
+              "starts": [
+                "lower_308"
+              ],
+              "required_targets": [
+                "target"
+              ],
+              "sources": [
+                {
+                  "node": "cupie",
+                  "inventory_id": "room:308/template:0x088C3DEC",
+                  "renewable": false,
+                  "acquisition_evidence": "docs/traversal-logic.md#rope_316_35_5; controller replay observed Normal inhale and swallow of the original placement before the obstacle.",
+                  "id": "0x088C3DEC"
+                }
+              ]
             }
           }
         }
@@ -10406,12 +11913,117 @@
           "advanced_graphs": [
             "hub4_crash_entry",
             "hub4_magic_entry"
+          ],
+          "conditional_routes": [
+            {
+              "contract": "mustard_room_4_16_timer",
+              "activation": {
+                "source_policy_mode": 2,
+                "source_policy_values": {
+                  "room16_switch_timer_frames": 600
+                }
+              },
+              "witnesses": [
+                {
+                  "graph": {
+                    "version": 1,
+                    "status": "reviewed",
+                    "access": {
+                      "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4"
+                    },
+                    "nodes": [
+                      {
+                        "id": "switch_533_room16:hub4",
+                        "native_room": 590
+                      },
+                      {
+                        "id": "switch_533_room16:rainbow34",
+                        "native_room": 534
+                      },
+                      {
+                        "id": "switch_533_room16:arrival",
+                        "native_room": 533
+                      },
+                      {
+                        "id": "switch_533_room16:switch",
+                        "native_room": 533
+                      },
+                      {
+                        "id": "switch_533_room16:door",
+                        "native_room": 533
+                      }
+                    ],
+                    "starts": [
+                      "switch_533_room16:hub4"
+                    ],
+                    "required_targets": [
+                      "switch_533_room16:door"
+                    ],
+                    "sources": [],
+                    "routes": [
+                      {
+                        "from": "switch_533_room16:hub4",
+                        "to": "switch_533_room16:rainbow34",
+                        "room_transition": true,
+                        "room_instance": "reset",
+                        "reset_evidence": "dev-docs/mustard-room15-source-witness.md; actual single-player door transition, not a source retry loop.",
+                        "evidence": "dev-docs/mustard-room15-source-witness.md; Normal payload/spit-star and air-puff approach from actual Hub4 entry; no permission implies equipment."
+                      },
+                      {
+                        "from": "switch_533_room16:rainbow34",
+                        "to": "switch_533_room16:arrival",
+                        "room_transition": true,
+                        "room_instance": "reset",
+                        "reset_evidence": "dev-docs/mustard-room15-source-witness.md; actual single-player door transition, not a source retry loop.",
+                        "evidence": "dev-docs/mustard-room15-source-witness.md; Normal payload/spit-star and air-puff approach from actual Hub4 entry; no permission implies equipment."
+                      },
+                      {
+                        "from": "switch_533_room16:arrival",
+                        "to": "switch_533_room16:switch",
+                        "evidence": "dev-docs/room16-normal-timer.md; Normal flight to the physical switch, without swallowing Foley."
+                      },
+                      {
+                        "from": "switch_533_room16:switch",
+                        "to": "switch_533_room16:door",
+                        "evidence": "dev-docs/room16-normal-timer.md; explicit 600-frame room switch timer patch, stand on switch, fly left, cross gate and enter native325; no Foley grant, Phone, or persistent switch credit.",
+                        "required_equipment": [
+                          "Normal"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
           ]
         }
       ]
     }
   },
   "REGION_MUSTARD_MOUNTAIN/ROOM_4_16": {
+    "permission_progression_routes": {
+      "mustard_4_16_local_source": {
+        "all_of": [
+          {
+            "guaranteed_source": "FOLEY"
+          },
+          {
+            "entrance_exists": {
+              "from_region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_15",
+              "to_region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_16"
+            }
+          }
+        ]
+      },
+      "mustard_4_16_advanced_source": {
+        "all_of": [
+          "advanced_logic",
+          {
+            "route": "mustard_4_16_local_source"
+          }
+        ]
+      }
+    },
     "locations": {
       "room_sanity": {
         "included": true,
@@ -10633,11 +12245,7 @@
           "can_fly",
           "can_climb"
         ]
-      },
-      "REGION_CARROT_CASTLE/ROOM_5_13": null
-    },
-    "logical_exit_overrides": {
-      "REGION_CARROT_CASTLE/ROOM_5_13": "ENTRY_FROM_5_18_OR_5_WARP"
+      }
     }
   },
   "REGION_CARROT_CASTLE/ROOM_5_BOSS": {
@@ -11350,21 +12958,18 @@
       }
     },
     "exits": {
-      "REGION_CARROT_CASTLE/ROOM_5_BOSS": null,
-      "REGION_CARROT_CASTLE/ROOM_5_13": null
+      "REGION_CARROT_CASTLE/ROOM_5_BOSS": null
     },
-    "events": [],
-    "logical_exit_overrides": {
-      "REGION_CARROT_CASTLE/ROOM_5_13": "ENTRY_FROM_5_12"
-    }
+    "events": []
   },
   "REGION_CARROT_CASTLE/ROOM_5_13": {
+    "permission_progression_routes": {
+      "carrot_5_13_local_source": {
+        "guaranteed_source": "WADDLE_DOO"
+      }
+    },
     "events": [],
-    "exits": [
-      "REGION_CARROT_CASTLE/ROOM_5_12",
-      "REGION_CARROT_CASTLE/ROOM_5_18",
-      "REGION_CARROT_CASTLE/ROOM_5_WARP"
-    ],
+    "exits": [],
     "logical_subregions": {
       "ENTRY_FROM_5_07": {
         "exits": [
@@ -11383,19 +12988,6 @@
         "locations": [
           "MINOR_CHEST_MUSIC_NOTE_06"
         ]
-      },
-      "ENTRY_FROM_5_12": {
-        "exits": [
-          "REGION_CARROT_CASTLE/ROOM_5_12"
-        ],
-        "events": []
-      },
-      "ENTRY_FROM_5_18_OR_5_WARP": {
-        "exits": [
-          "REGION_CARROT_CASTLE/ROOM_5_18",
-          "REGION_CARROT_CASTLE/ROOM_5_WARP"
-        ],
-        "events": []
       }
     },
     "room_sanity": {
@@ -11618,7 +13210,241 @@
                 }
               ]
             }
-          }
+          },
+          "conditional_routes": [
+            {
+              "contract": "carrot_yellow_cupid",
+              "activation": {
+                "source_region": "REGION_CARROT_CASTLE/ROOM_5_14",
+                "guaranteed_source": {
+                  "source_key": "SPARKY",
+                  "ability": "Cupid"
+                },
+                "policy_sha256": "1b5321f57d0ed75ed938aaeda8889ab5c9d5439a3cac7c6df5a5b634bdb21ac0",
+                "fixture_options": {
+                  "ability_randomization_mode": 1,
+                  "ability_gating": 0,
+                  "ability_randomization_statues": 0,
+                  "minimum_health": 6,
+                  "maximum_health": 6,
+                  "enemy_health_multiplier": 100,
+                  "one_hit_mode": 0,
+                  "area_keys": 0,
+                  "room_sanity": 1,
+                  "advanced_logic": 0
+                },
+                "fixture_only_options": [
+                  "minimum_health",
+                  "maximum_health",
+                  "one_hit_mode"
+                ],
+                "any_boolean_options": [
+                  "room_sanity",
+                  "ability_gating"
+                ],
+                "physical_minor_check": true
+              },
+              "witnesses": [
+                {
+                  "graph": {
+                    "version": 1,
+                    "status": "reviewed",
+                    "access": {
+                      "region": "REGION_CARROT_CASTLE/ROOM_5_14"
+                    },
+                    "nodes": [
+                      {
+                        "id": "bomb_733_yellow:far_right",
+                        "native_room": 720
+                      },
+                      {
+                        "id": "bomb_733_yellow:upper734",
+                        "native_room": 734
+                      },
+                      {
+                        "id": "bomb_733_yellow:left720",
+                        "native_room": 720
+                      },
+                      {
+                        "id": "bomb_733_yellow:top730",
+                        "native_room": 730
+                      },
+                      {
+                        "id": "bomb_733_yellow:upper_source",
+                        "native_room": 730
+                      },
+                      {
+                        "id": "bomb_733_yellow:loss_pocket",
+                        "native_room": 730
+                      },
+                      {
+                        "id": "bomb_733_yellow:ladder_top",
+                        "native_room": 730
+                      },
+                      {
+                        "id": "bomb_733_yellow:lower_source",
+                        "native_room": 730
+                      },
+                      {
+                        "id": "bomb_733_yellow:lower_carry",
+                        "native_room": 730
+                      },
+                      {
+                        "id": "bomb_733_yellow:arrival733",
+                        "native_room": 733
+                      },
+                      {
+                        "id": "bomb_733_yellow:upper_open",
+                        "native_room": 733
+                      },
+                      {
+                        "id": "bomb_733_yellow:lower_open",
+                        "native_room": 733
+                      },
+                      {
+                        "id": "bomb_733_yellow:chest",
+                        "native_room": 733
+                      }
+                    ],
+                    "starts": [
+                      "bomb_733_yellow:far_right"
+                    ],
+                    "required_targets": [
+                      "bomb_733_yellow:chest"
+                    ],
+                    "sources": [
+                      {
+                        "id": "0x088D4FC0",
+                        "node": "bomb_733_yellow:upper_source",
+                        "source_key": "SPARKY",
+                        "renewable": false,
+                        "acquisition_evidence": "dev-docs/carrot-yellow-cupid-admission.md; Upper original Sparky acquired5450; finite original object, no retry."
+                      },
+                      {
+                        "id": "0x088D4F9C",
+                        "node": "bomb_733_yellow:lower_source",
+                        "source_key": "SPARKY",
+                        "renewable": false,
+                        "acquisition_evidence": "dev-docs/carrot-yellow-cupid-admission.md; Distinct lower original Sparky acquired7578 after upper Cupid loss and Normal descent; no dropped-star recovery."
+                      }
+                    ],
+                    "routes": [
+                      {
+                        "from": "bomb_733_yellow:far_right",
+                        "to": "bomb_733_yellow:upper734",
+                        "evidence": "dev-docs/carrot-yellow-cupid-admission.md; Existing qualified719\u2192720 arrival; Normal no-hit path avoids Foley drops, inhales/spits Bronto without copying, presses small switch, falls through16-pixel floor gap into734upper at3844. Both720 left bomb-chain cells remain intact. No upstream719 proof.",
+                        "required_equipment": [
+                          "Normal"
+                        ],
+                        "room_instance": "reset",
+                        "reset_evidence": "dev-docs/carrot-yellow-cupid-admission.md; Continuous native transition in cold replay; no source is revisited."
+                      },
+                      {
+                        "from": "bomb_733_yellow:upper734",
+                        "to": "bomb_733_yellow:left720",
+                        "evidence": "dev-docs/carrot-yellow-cupid-admission.md; Normal flight across isolated734 upper compartment, real door2,4 returns to720left at4136. No assumed734 AP entry.",
+                        "required_equipment": [
+                          "Normal"
+                        ],
+                        "room_instance": "reset",
+                        "reset_evidence": "dev-docs/carrot-yellow-cupid-admission.md; Continuous native transition in cold replay; no source is revisited."
+                      },
+                      {
+                        "from": "bomb_733_yellow:left720",
+                        "to": "bomb_733_yellow:top730",
+                        "evidence": "dev-docs/carrot-yellow-cupid-admission.md; Normal walk to720door2,7, real730top arrival at4313. Both valid720 arrivals are independently evidenced.",
+                        "required_equipment": [
+                          "Normal"
+                        ],
+                        "room_instance": "reset",
+                        "reset_evidence": "dev-docs/carrot-yellow-cupid-admission.md; Continuous native transition in cold replay; no source is revisited."
+                      },
+                      {
+                        "from": "bomb_733_yellow:top730",
+                        "to": "bomb_733_yellow:upper_source",
+                        "evidence": "dev-docs/carrot-yellow-cupid-admission.md; Normal route from top arrival to original upper Sparky; acquire Cupid at5450.",
+                        "required_equipment": [
+                          "Normal"
+                        ]
+                      },
+                      {
+                        "from": "bomb_733_yellow:upper_source",
+                        "to": "bomb_733_yellow:loss_pocket",
+                        "evidence": "dev-docs/carrot-yellow-cupid-admission.md; Carry upper Cupid through the maze to the hidden-door pocket; observed damage loses Cupid at6479. Recorded damage is not a required health cost; the following Normal segment permits voluntarily dropping Cupid.",
+                        "required_equipment": [
+                          "Cupid"
+                        ]
+                      },
+                      {
+                        "from": "bomb_733_yellow:loss_pocket",
+                        "to": "bomb_733_yellow:ladder_top",
+                        "required_equipment": [
+                          "Normal"
+                        ],
+                        "evidence": "dev-docs/carrot-yellow-cupid-admission.md; Normal passes the exposed hidden selfdoor and crosses to the ladder; no star recovery. Three damage events total leave HP3."
+                      },
+                      {
+                        "from": "bomb_733_yellow:ladder_top",
+                        "to": "bomb_733_yellow:lower_source",
+                        "evidence": "dev-docs/carrot-yellow-cupid-admission.md; Normal ladder descent to the lower original source, with upper source consumed. No heal or ability-star dependency.",
+                        "required_equipment": [
+                          "Normal"
+                        ]
+                      },
+                      {
+                        "from": "bomb_733_yellow:lower_source",
+                        "to": "bomb_733_yellow:lower_carry",
+                        "evidence": "dev-docs/carrot-yellow-cupid-admission.md; Acquire lower original Sparky as Cupid7578; retain it through both hidden doors. Fly over native food without collecting it.",
+                        "required_equipment": [
+                          "Cupid"
+                        ]
+                      },
+                      {
+                        "from": "bomb_733_yellow:lower_carry",
+                        "to": "bomb_733_yellow:arrival733",
+                        "evidence": "dev-docs/carrot-yellow-cupid-admission.md; Real730-to733 arrival8206, retained Cupid and HP3; no helper, reset or heal.",
+                        "required_equipment": [
+                          "Cupid"
+                        ],
+                        "room_instance": "reset",
+                        "reset_evidence": "dev-docs/carrot-yellow-cupid-admission.md; Continuous native transition in cold replay; no source is revisited."
+                      },
+                      {
+                        "from": "bomb_733_yellow:arrival733",
+                        "to": "bomb_733_yellow:upper_open",
+                        "required_equipment": [
+                          "Cupid"
+                        ],
+                        "evidence": "dev-docs/carrot-yellow-cupid-admission.md; Charged up-shot while remaining below the one-way ledge; upper trigger only. No-shot control leaves both closed.",
+                        "capability": "bomb_733_cupid_upper_from_below"
+                      },
+                      {
+                        "from": "bomb_733_yellow:upper_open",
+                        "to": "bomb_733_yellow:lower_open",
+                        "required_equipment": [
+                          "Cupid"
+                        ],
+                        "evidence": "dev-docs/carrot-yellow-cupid-admission.md; Traverse opened corridor and fire charged up-shot at lower trigger; no lower-shot control leaves chest blocked.",
+                        "capability": "bomb_733_cupid_lower_from_corridor"
+                      },
+                      {
+                        "from": "bomb_733_yellow:lower_open",
+                        "to": "bomb_733_yellow:chest",
+                        "required_equipment": [
+                          "Cupid"
+                        ],
+                        "evidence": "dev-docs/carrot-yellow-cupid-admission.md; Fly around remaining central obstacle and collect chest at9513; native flag80/event1 and real client3960501."
+                      }
+                    ],
+                    "requires_guaranteed_source": {
+                      "source_key": "SPARKY",
+                      "ability": "Cupid"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
         }
       ]
     }
@@ -11654,11 +13480,7 @@
             ]
           }
         ]
-      },
-      "REGION_CARROT_CASTLE/ROOM_5_13": null
-    },
-    "logical_exit_overrides": {
-      "REGION_CARROT_CASTLE/ROOM_5_13": "ENTRY_FROM_5_18_OR_5_WARP"
+      }
     }
   },
   "REGION_OLIVE_OCEAN/ROOM_6_HUB": {
@@ -12048,6 +13870,11 @@
     }
   },
   "REGION_OLIVE_OCEAN/ROOM_6_GOAL_2": {
+    "permission_progression_routes": {
+      "olive_goal_2_ice": {
+        "physical_minor_check": "MINOR_CHEST_MUSIC_NOTE_10"
+      }
+    },
     "locations": {
       "MINOR_CHEST_MUSIC_NOTE_10": null,
       "room_sanity": {
@@ -12674,22 +14501,13 @@
   "REGION_OLIVE_OCEAN/ROOM_6_05": {
     "events": [],
     "exits": [
-      "REGION_OLIVE_OCEAN/ROOM_6_04",
       "REGION_OLIVE_OCEAN/ROOM_6_06",
-      "REGION_OLIVE_OCEAN/ROOM_6_07",
-      "REGION_OLIVE_OCEAN/ROOM_6_23"
+      "REGION_OLIVE_OCEAN/ROOM_6_07"
     ],
     "logical_subregions": {
       "ENTRY_FROM_6_04_OR_6_06": {
         "exits": [
-          "REGION_OLIVE_OCEAN/ROOM_6_04",
           "REGION_OLIVE_OCEAN/ROOM_6_06"
-        ],
-        "events": []
-      },
-      "ENTRY_FROM_6_23": {
-        "exits": [
-          "REGION_OLIVE_OCEAN/ROOM_6_23"
         ],
         "events": []
       },
@@ -12727,11 +14545,7 @@
           "can_break_block",
           "can_fly"
         ]
-      },
-      "REGION_OLIVE_OCEAN/ROOM_6_05": null
-    },
-    "logical_exit_overrides": {
-      "REGION_OLIVE_OCEAN/ROOM_6_05": "ENTRY_FROM_6_04_OR_6_06"
+      }
     },
     "traversal": {
       "version": 1,
@@ -12830,6 +14644,7 @@
       "targets": [
         {
           "id": "fuse_827",
+          "enforce_standard_carry_limit": true,
           "kind": "fuse",
           "native_room": 827,
           "exit": "REGION_OLIVE_OCEAN/ROOM_6_05__LOGIC__ENTRY_FROM_6_07",
@@ -13883,11 +15698,7 @@
       }
     },
     "exits": {
-      "REGION_OLIVE_OCEAN/ROOM_6_BOSS": null,
-      "REGION_OLIVE_OCEAN/ROOM_6_05": null
-    },
-    "logical_exit_overrides": {
-      "REGION_OLIVE_OCEAN/ROOM_6_05": "ENTRY_FROM_6_23"
+      "REGION_OLIVE_OCEAN/ROOM_6_BOSS": null
     }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_1": {
@@ -14862,6 +16673,28 @@
             ]
           }
         ]
+      },
+      "REGION_PEPPERMINT_PALACE/ROOM_7_10__LOGIC__CENTER_WARP": {
+        "all": [
+          "can_break_block",
+          {
+            "any": [
+              "can_fly",
+              "can_climb"
+            ]
+          }
+        ]
+      },
+      "REGION_PEPPERMINT_PALACE/ROOM_7_10__LOGIC__RIGHT_SPRAY": {
+        "all": [
+          "can_break_block",
+          {
+            "any": [
+              "can_fly",
+              "can_climb"
+            ]
+          }
+        ]
       }
     },
     "traversal": {
@@ -15050,6 +16883,95 @@
               "access": {
                 "region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
               }
+            },
+            "short_sword_knight": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_1"
+              },
+              "nodes": [
+                {
+                  "id": "hub",
+                  "native_room": 290
+                },
+                {
+                  "id": "lower_210",
+                  "native_room": 210
+                },
+                {
+                  "id": "sword_knight",
+                  "native_room": 210
+                },
+                {
+                  "id": "lower_205",
+                  "native_room": 205
+                },
+                {
+                  "id": "right_228",
+                  "native_room": 228
+                },
+                {
+                  "id": "target",
+                  "native_room": 228
+                }
+              ],
+              "sources": [
+                {
+                  "node": "sword_knight",
+                  "inventory_id": "room:210/template:0x088BF658",
+                  "renewable": false,
+                  "acquisition_evidence": "docs/traversal-logic.md#rope_228_11_21; ordinary Normal path from n290 lower entrance to original Sword Knight (112,464), swallowed directly.",
+                  "id": "0x088BF658"
+                }
+              ],
+              "routes": [
+                {
+                  "from": "hub",
+                  "to": "lower_210",
+                  "room_transition": true,
+                  "evidence": "docs/traversal-logic.md#rope_228_11_21; n290 (1,8) \u2192 n210 (27,49), no held tool required."
+                },
+                {
+                  "from": "lower_210",
+                  "to": "sword_knight",
+                  "evidence": "docs/traversal-logic.md#rope_228_11_21"
+                },
+                {
+                  "from": "sword_knight",
+                  "to": "lower_205",
+                  "room_transition": true,
+                  "evidence": "docs/traversal-logic.md#rope_228_11_21; retain Sword and use n210 (15,2) \u2192 n205 (10,19).",
+                  "required_equipment": [
+                    "Sword"
+                  ]
+                },
+                {
+                  "from": "lower_205",
+                  "to": "right_228",
+                  "room_transition": true,
+                  "evidence": "docs/traversal-logic.md#rope_228_11_21; n205 (44,2) \u2192 n228 (26,29) with Sword.",
+                  "required_equipment": [
+                    "Sword"
+                  ]
+                },
+                {
+                  "from": "right_228",
+                  "to": "target",
+                  "evidence": "docs/traversal-logic.md#rope_228_11_21; use outer (22,15) bomb, cut the exact rope and open Sparerib (0x088C04D8).",
+                  "capability": "rope",
+                  "allowed_abilities": [
+                    "Sword"
+                  ],
+                  "opens": "rope_228_11_21"
+                }
+              ],
+              "starts": [
+                "hub"
+              ],
+              "required_targets": [
+                "target"
+              ]
             }
           }
         },
@@ -15059,6 +16981,55 @@
           "native_room": 228,
           "location": "MINOR_CHEST_PEPPERMINT_PALACE_7_09",
           "graphs": {
+            "bonkers_stock_short": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "metal_228:205_stock_floor_launch",
+                  "native_room": 205
+                }
+              ],
+              "routes": [
+                {
+                  "from": "metal_205:defeated_bonkers_arena",
+                  "to": "metal_228:205_stock_floor_launch",
+                  "required_equipment": [
+                    "Hammer"
+                  ],
+                  "room_transition": true,
+                  "evidence": "Stock controller witness 4fbd43e33801e1f10da5b2b55ad1c0d1e95b67da6612b0a52f7dff56a024a65e: Normal defeats original Bonkers template 0x088BF730, swallows it, retains Hammer through n210 (15,2) to n205 (10,19), then the stock western climb and icy bypass."
+                },
+                {
+                  "from": "metal_228:205_stock_floor_launch",
+                  "to": "metal_228:228_lower_arrival",
+                  "required_equipment": [
+                    "Hammer"
+                  ],
+                  "room_transition": true,
+                  "evidence": "From that n205 dry approach, ordinary mid-height hover and ceiling approach reach native n205 (44,2) to n228 (26,29). Carry Hammer and enter the stock lower gate at 9 HP. No n209 detour, door reset assumption, or other n228 entrance."
+                }
+              ],
+              "starts": [
+                "metal_205:outer"
+              ],
+              "required_targets": [
+                "metal_228:chest"
+              ],
+              "graph_parts": [
+                "metal_205_bonkers_approach",
+                "metal_228_hammer_continuation"
+              ],
+              "access": {
+                "region": "REGION_PEPPERMINT_PALACE/ROOM_7_07"
+              },
+              "source_sets": [
+                {
+                  "id": "metal_210_bonkers",
+                  "node": "metal_205:defeated_bonkers_arena"
+                }
+              ]
+            },
             "bonkers_joint": {
               "version": 1,
               "status": "reviewed",
@@ -15264,16 +17235,13 @@
     "locations": {
       "MINOR_CHEST_PEPPERMINT_PALACE_7_10_OBJECT_02": null,
       "MINOR_CHEST_PEPPERMINT_PALACE_7_10_OBJECT_03": null,
-      "MINOR_CHEST_SPRAY_PAINT_09": null,
       "room_sanity": {
         "included": true,
         "location_id": 3961185,
         "bit_index": 100
       }
     },
-    "exits": {
-      "REGION_PEPPERMINT_PALACE/ROOM_7_WARP": "can_fly"
-    },
+    "exits": {},
     "traversal": {
       "version": 1,
       "targets": [
@@ -15283,6 +17251,65 @@
           "native_room": 229,
           "location": "MINOR_CHEST_PEPPERMINT_PALACE_7_10_OBJECT_02",
           "graphs": {
+            "bonkers_stock_short": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "metal_228:205_stock_floor_launch",
+                  "native_room": 205
+                }
+              ],
+              "routes": [
+                {
+                  "from": "metal_205:defeated_bonkers_arena",
+                  "to": "metal_228:205_stock_floor_launch",
+                  "required_equipment": [
+                    "Hammer"
+                  ],
+                  "room_transition": true,
+                  "evidence": "Stock controller witness 4fbd43e33801e1f10da5b2b55ad1c0d1e95b67da6612b0a52f7dff56a024a65e: Normal defeats original Bonkers template 0x088BF730, swallows it, retains Hammer through n210 (15,2) to n205 (10,19), then the stock western climb and icy bypass."
+                },
+                {
+                  "from": "metal_228:205_stock_floor_launch",
+                  "to": "metal_228:228_lower_arrival",
+                  "required_equipment": [
+                    "Hammer"
+                  ],
+                  "room_transition": true,
+                  "evidence": "From that n205 dry approach, ordinary mid-height hover and ceiling approach reach native n205 (44,2) to n228 (26,29). Carry Hammer and enter the stock lower gate at 9 HP. No n209 detour, door reset assumption, or other n228 entrance."
+                },
+                {
+                  "from": "metal_228:chest",
+                  "to": "metal_229:left_arrival",
+                  "required_equipment": [
+                    "Hammer"
+                  ],
+                  "room_transition": true,
+                  "evidence": "Same stock Bonkers controller witness: after actual n228 chest 0x088C046C, use the original timed switch and Bomb approach, then native n228 (16,4) to n229 (17,29), x264. Carry the original Hammer into the left lane and recover the exact left 1-Up. No generic n229 entry or persistent opened state."
+                }
+              ],
+              "starts": [
+                "metal_205:outer"
+              ],
+              "required_targets": [
+                "metal_229:left_chest"
+              ],
+              "graph_parts": [
+                "metal_205_bonkers_approach",
+                "metal_228_hammer_continuation",
+                "metal_229_hammer_continuation"
+              ],
+              "access": {
+                "region": "REGION_PEPPERMINT_PALACE/ROOM_7_07"
+              },
+              "source_sets": [
+                {
+                  "id": "metal_210_bonkers",
+                  "node": "metal_205:defeated_bonkers_arena"
+                }
+              ]
+            },
             "bonkers_joint": {
               "version": 1,
               "status": "reviewed",
@@ -15400,6 +17427,20 @@
             }
           ]
         }
+      }
+    },
+    "logical_subregions": {
+      "CENTER_WARP": {
+        "exits": {
+          "REGION_PEPPERMINT_PALACE/ROOM_7_WARP": "can_fly"
+        },
+        "evidence": "Reviewed native 228 middle door to 229 Warp route."
+      },
+      "RIGHT_SPRAY": {
+        "locations": [
+          "MINOR_CHEST_SPRAY_PAINT_09"
+        ],
+        "evidence": "Reviewed native 228 right door to 229 Spray Paint route."
       }
     }
   },
@@ -15684,6 +17725,23 @@
     }
   },
   "REGION_PEPPERMINT_PALACE/ROOM_7_19": {
+    "permission_progression_routes": {
+      "peppermint_7_19_local_kibble": {
+        "all_of": [
+          {
+            "physical_minor_check": "MINOR_CHEST_PEPPERMINT_PALACE_7_19"
+          },
+          {
+            "reviewed_graph_sources": {
+              "target": "metal_216_chest",
+              "witnesses": [
+                "peppermint291_local_missile"
+              ]
+            }
+          }
+        ]
+      }
+    },
     "locations": {
       "MINOR_CHEST_PEPPERMINT_PALACE_7_19": null,
       "room_sanity": {
@@ -15755,6 +17813,94 @@
           "native_room": 216,
           "location": "MINOR_CHEST_PEPPERMINT_PALACE_7_19",
           "graphs": {
+            "peppermint291_local_missile": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_2"
+              },
+              "nodes": [
+                {
+                  "id": "metal_216_missile:hub291",
+                  "native_room": 291
+                },
+                {
+                  "id": "metal_216_missile:arrival215",
+                  "native_room": 215
+                },
+                {
+                  "id": "metal_216_missile:arrival212",
+                  "native_room": 212
+                },
+                {
+                  "id": "metal_216_missile:arrival216_right",
+                  "native_room": 216
+                },
+                {
+                  "id": "metal_216_missile:kibble",
+                  "native_room": 216
+                },
+                {
+                  "id": "metal_216_missile:chest",
+                  "native_room": 216
+                }
+              ],
+              "starts": [
+                "metal_216_missile:hub291"
+              ],
+              "required_targets": [
+                "metal_216_missile:chest"
+              ],
+              "sources": [
+                {
+                  "id": "0x088C13EC",
+                  "node": "metal_216_missile:kibble",
+                  "source_key": "SIR_KIBBLE",
+                  "acquisition_evidence": "Ability Trials row 187: swallow the original fallen parent, not its projectile, in native 216. This is a finite source and seed 1074 guarantees Missile."
+                }
+              ],
+              "requires_guaranteed_source": {
+                "source_key": "SIR_KIBBLE",
+                "ability": "Missile"
+              },
+              "routes": [
+                {
+                  "from": "metal_216_missile:hub291",
+                  "to": "metal_216_missile:arrival215",
+                  "room_transition": true,
+                  "evidence": "Reviewed ordinary Hub 2 feeder with ordinary block clearing and no 7-19 chest dependency; docs/traversal-logic.md#rope_217_6_5 and dev-docs/ordinary-216-source-carrier-contract.md. This predecessor is not part of the seed 1074 replay. Actual 291 to 215 entrance lands at (27,29)."
+                },
+                {
+                  "from": "metal_216_missile:arrival215",
+                  "to": "metal_216_missile:arrival212",
+                  "room_transition": true,
+                  "evidence": "Reviewed ordinary Hub 2 feeder with ordinary block clearing and no 7-19 chest dependency; docs/traversal-logic.md#rope_217_6_5 and dev-docs/ordinary-216-source-carrier-contract.md. This predecessor is not part of the seed 1074 replay. Actual 215 to 212 entrance lands at (74,9)."
+                },
+                {
+                  "from": "metal_216_missile:arrival212",
+                  "to": "metal_216_missile:arrival216_right",
+                  "room_transition": true,
+                  "evidence": "Ability Trials row 187: Shuffled seed 1074, Normal takes the exact native 212 to 216 door, arriving at (44,18)."
+                },
+                {
+                  "from": "metal_216_missile:arrival216_right",
+                  "to": "metal_216_missile:kibble",
+                  "evidence": "Ability Trials row 187: from that east arrival Normal slides through both lower ordinary blocks and waits for the original Sir Kibble to fall. Other arrivals are not assumed."
+                },
+                {
+                  "from": "metal_216_missile:kibble",
+                  "to": "metal_216_missile:chest",
+                  "evidence": "Ability Trials row 187: local Sir Kibble grants Missile; rocket clears all six native F5 metal tiles (28–30,5–6) and Kirby opens exact chest 0x088C1380, flag 36 mask 16. 6 HP retained; no other equipment, helpers, or AP acknowledgement.",
+                  "capability": "metal",
+                  "allowed_abilities": [
+                    "Missile"
+                  ],
+                  "metal_evidence": {
+                    "Missile": "Ability Trials row 187: local Sir Kibble grants Missile; rocket clears all six native F5 metal tiles (28–30,5–6) and Kirby opens exact chest 0x088C1380, flag 36 mask 16. 6 HP retained; no other equipment, helpers, or AP acknowledgement."
+                  }
+                }
+              ]
+            },
             "central_statues": {
               "version": 1,
               "status": "reviewed",
@@ -16177,6 +18323,95 @@
               "access": {
                 "region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
               }
+            },
+            "short_225_sword_knight": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "right_221",
+                  "native_room": 221
+                },
+                {
+                  "id": "lower_225",
+                  "native_room": 225
+                },
+                {
+                  "id": "sword_knight",
+                  "native_room": 225
+                },
+                {
+                  "id": "upper_221_return",
+                  "native_room": 221
+                },
+                {
+                  "id": "upper_217",
+                  "native_room": 217
+                },
+                {
+                  "id": "target",
+                  "native_room": 217
+                }
+              ],
+              "routes": [
+                {
+                  "from": "right_221",
+                  "to": "lower_225",
+                  "evidence": "docs/traversal-logic.md#rope_217_6_5; Normal takes n221 (58,4) to n225 lower arrival (6,89).",
+                  "room_transition": true
+                },
+                {
+                  "from": "lower_225",
+                  "to": "sword_knight",
+                  "evidence": "docs/traversal-logic.md#rope_217_6_5; Reach original lower Sword Knight (216,1256) from below, before either Goal 2 visit."
+                },
+                {
+                  "from": "sword_knight",
+                  "to": "upper_221_return",
+                  "evidence": "docs/traversal-logic.md#rope_217_6_5; Carry Sword back through n225 (4,88) to n221 (58,5).",
+                  "room_transition": true,
+                  "required_equipment": [
+                    "Sword"
+                  ]
+                },
+                {
+                  "from": "upper_221_return",
+                  "to": "upper_217",
+                  "evidence": "docs/traversal-logic.md#rope_217_6_5; Take n221 (57,18) to n217 (3,4).",
+                  "room_transition": true,
+                  "required_equipment": [
+                    "Sword"
+                  ]
+                },
+                {
+                  "from": "upper_217",
+                  "to": "target",
+                  "evidence": "docs/traversal-logic.md#rope_217_6_5; Cut the exact linked roof rope; the ordinary exit at (3,8) leads to n223.",
+                  "capability": "rope",
+                  "allowed_abilities": [
+                    "Sword"
+                  ],
+                  "opens": "rope_217_6_5"
+                }
+              ],
+              "access": {
+                "region": "REGION_PEPPERMINT_PALACE/ROOM_7_22"
+              },
+              "starts": [
+                "right_221"
+              ],
+              "required_targets": [
+                "target"
+              ],
+              "sources": [
+                {
+                  "node": "sword_knight",
+                  "inventory_id": "room:225/template:0x088C2514",
+                  "renewable": false,
+                  "acquisition_evidence": "docs/traversal-logic.md#rope_217_6_5; controller replay observed Normal inhale and swallow of the original placement before the obstacle.",
+                  "id": "0x088C2514"
+                }
+              ]
             }
           }
         }
@@ -17855,6 +20090,107 @@
               "access": {
                 "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1"
               }
+            },
+            "short_401_rocky": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "entry_408",
+                  "native_room": 408
+                },
+                {
+                  "id": "top_401",
+                  "native_room": 401
+                },
+                {
+                  "id": "lower_rocky",
+                  "native_room": 401
+                },
+                {
+                  "id": "right_407",
+                  "native_room": 407
+                },
+                {
+                  "id": "left_490",
+                  "native_room": 490
+                },
+                {
+                  "id": "lower_411",
+                  "native_room": 411
+                },
+                {
+                  "id": "target",
+                  "native_room": 411
+                }
+              ],
+              "routes": [
+                {
+                  "from": "entry_408",
+                  "to": "top_401",
+                  "evidence": "docs/traversal-logic.md#peg_411_4_3; Normal takes n408 (1,3) to n401 upper (28,4).",
+                  "room_transition": true
+                },
+                {
+                  "from": "top_401",
+                  "to": "lower_rocky",
+                  "evidence": "docs/traversal-logic.md#peg_411_4_3; Normal descends to the original lower Rocky at (240,312)."
+                },
+                {
+                  "from": "lower_rocky",
+                  "to": "right_407",
+                  "evidence": "docs/traversal-logic.md#peg_411_4_3; Use the ordinary lower shortcut, then n401 (1,48) to n407 (41,13).",
+                  "room_transition": true,
+                  "required_equipment": [
+                    "Stone"
+                  ]
+                },
+                {
+                  "from": "right_407",
+                  "to": "left_490",
+                  "evidence": "docs/traversal-logic.md#peg_411_4_3; Keep the temporary ceiling intact until crossing, then n407 (10,3) to n490 (3,6).",
+                  "room_transition": true,
+                  "required_equipment": [
+                    "Stone"
+                  ]
+                },
+                {
+                  "from": "left_490",
+                  "to": "lower_411",
+                  "evidence": "docs/traversal-logic.md#peg_411_4_3; Use n490 (14,5) to n411 (3,19).",
+                  "room_transition": true,
+                  "required_equipment": [
+                    "Stone"
+                  ]
+                },
+                {
+                  "from": "lower_411",
+                  "to": "target",
+                  "evidence": "docs/traversal-logic.md#peg_411_4_3; Drive (4,3) on the upper-left ledge; this reveals the door to n405. Stone is not needed afterward.",
+                  "capability": "peg",
+                  "allowed_abilities": [
+                    "Stone"
+                  ],
+                  "opens": "peg_411_4_3"
+                }
+              ],
+              "access": {
+                "region": "REGION_CANDY_CONSTELLATION/ROOM_9_05"
+              },
+              "starts": [
+                "entry_408"
+              ],
+              "required_targets": [
+                "target"
+              ],
+              "sources": [
+                {
+                  "node": "lower_rocky",
+                  "inventory_id": "room:401/template:0x088C5864",
+                  "renewable": false,
+                  "acquisition_evidence": "docs/traversal-logic.md#peg_411_4_3; controller replay observed Normal inhale and swallow of the original placement before the obstacle."
+                }
+              ]
             }
           }
         }
@@ -17905,6 +20241,18 @@
     }
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_12": {
+    "permission_progression_routes": {
+      "candy_9_12_local_source": {
+        "all_of": [
+          {
+            "physical_minor_check": "MINOR_CHEST_CANDY_CONSTELLATION_9_12"
+          },
+          {
+            "guaranteed_source": "WADDLE_DOO"
+          }
+        ]
+      }
+    },
     "locations": {
       "MINOR_CHEST_CANDY_CONSTELLATION_9_12": null,
       "room_sanity": {
@@ -17914,7 +20262,8 @@
       }
     },
     "exits": {
-      "REGION_CANDY_CONSTELLATION/ROOM_9_13": null
+      "REGION_CANDY_CONSTELLATION/ROOM_9_13": null,
+      "REGION_CANDY_CONSTELLATION/ROOM_9_13__LOGIC__UPPER_WARP": null
     },
     "traversal": {
       "version": 1,
@@ -18248,7 +20597,138 @@
                 }
               ]
             }
-          }
+          },
+          "conditional_routes": [
+            {
+              "contract": "candy_9_12_linked_fuse",
+              "activation": {
+                "physical_minor_check": true,
+                "reviewed_source": "missing"
+              },
+              "witnesses": [
+                {
+                  "graph": {
+                    "version": 1,
+                    "status": "reviewed",
+                    "access": {
+                      "region": "REGION_CANDY_CONSTELLATION/ROOM_9_12"
+                    },
+                    "nodes": [
+                      {
+                        "id": "candy912_normal:arrival",
+                        "native_room": 402
+                      },
+                      {
+                        "id": "candy912_normal:west_bomb",
+                        "native_room": 402
+                      },
+                      {
+                        "id": "candy912_normal:chest",
+                        "native_room": 402
+                      }
+                    ],
+                    "starts": [
+                      "candy912_normal:arrival"
+                    ],
+                    "required_targets": [
+                      "candy912_normal:chest"
+                    ],
+                    "sources": [],
+                    "routes": [
+                      {
+                        "from": "candy912_normal:arrival",
+                        "to": "candy912_normal:west_bomb",
+                        "required_equipment": [
+                          "Normal"
+                        ],
+                        "evidence": "dev-docs/candy-room12-beam-witness.md; follow the original west passage and slide into its visible Bomb Block at tile (7,18)."
+                      },
+                      {
+                        "from": "candy912_normal:west_bomb",
+                        "to": "candy912_normal:chest",
+                        "required_equipment": [
+                          "Normal"
+                        ],
+                        "evidence": "dev-docs/candy-room12-beam-witness.md; only linked seeds fire the original east fuse from the western Bomb Block hit. Traverse the lower east gallery and hover left through the opened seal to the unchanged chest."
+                      }
+                    ]
+                  }
+                },
+                {
+                  "graph": {
+                    "version": 1,
+                    "status": "reviewed",
+                    "access": {
+                      "region": "REGION_CANDY_CONSTELLATION/ROOM_9_12"
+                    },
+                    "nodes": [
+                      {
+                        "id": "candy912_fire:arrival",
+                        "native_room": 402
+                      },
+                      {
+                        "id": "candy912_fire:east_doo",
+                        "native_room": 402
+                      },
+                      {
+                        "id": "candy912_fire:east_fuse_face",
+                        "native_room": 402
+                      },
+                      {
+                        "id": "candy912_fire:chest",
+                        "native_room": 402
+                      }
+                    ],
+                    "starts": [
+                      "candy912_fire:arrival"
+                    ],
+                    "required_targets": [
+                      "candy912_fire:chest"
+                    ],
+                    "sources": [
+                      {
+                        "id": "0x088C5D0C",
+                        "inventory_id": "room:402/template:0x088C5D0C",
+                        "node": "candy912_fire:east_doo",
+                        "source_key": "WADDLE_DOO",
+                        "acquisition_evidence": "dev-docs/candy-room12-beam-witness.md; inhale and swallow the original east Waddle Doo at (504,296). The isolated fixed-Fire grant required its permission when gated."
+                      }
+                    ],
+                    "routes": [
+                      {
+                        "from": "candy912_fire:arrival",
+                        "to": "candy912_fire:east_doo",
+                        "required_equipment": [
+                          "Normal"
+                        ],
+                        "evidence": "dev-docs/candy-room12-beam-witness.md; take the center one-way floor to the east source in the same room."
+                      },
+                      {
+                        "from": "candy912_fire:east_doo",
+                        "to": "candy912_fire:east_fuse_face",
+                        "required_equipment": [
+                          "Fire"
+                        ],
+                        "evidence": "dev-docs/candy-room12-beam-witness.md; retain Fire through the east crossover and lower turnaround, then line up left at about (470,439)."
+                      },
+                      {
+                        "from": "candy912_fire:east_fuse_face",
+                        "to": "candy912_fire:chest",
+                        "required_equipment": [
+                          "Fire"
+                        ],
+                        "evidence": "dev-docs/candy-room12-beam-witness.md; at the prepared pose tap Left+B to clear the original Bomb Block and seals, then hover left to the unchanged chest. Prepared attack/pickup verified separately from acquisition; supplemental route only; Normal remains guaranteed."
+                      }
+                    ]
+                  },
+                  "guaranteed_source": {
+                    "source_key": "WADDLE_DOO",
+                    "ability": "Fire"
+                  }
+                }
+              ]
+            }
+          ]
         }
       ]
     }
@@ -18262,8 +20742,15 @@
       }
     },
     "exits": {
-      "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3": null,
-      "REGION_CANDY_CONSTELLATION/ROOM_9_WARP": null
+      "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3": null
+    },
+    "logical_subregions": {
+      "UPPER_WARP": {
+        "exits": {
+          "REGION_CANDY_CONSTELLATION/ROOM_9_WARP": null
+        },
+        "evidence": "Retail native room 419 upper arrival (3,4) leads to Warp only. Lower arrival (3,15) reaches Chest 3. See dev-docs/split-door-topology.md."
+      }
     }
   },
   "REGION_CANDY_CONSTELLATION/ROOM_9_14": {
@@ -18373,7 +20860,6 @@
       }
     },
     "exits": {
-      "REGION_TUTORIAL/ROOM_0_01": null,
       "REGION_TUTORIAL/ROOM_0_03": null
     }
   },

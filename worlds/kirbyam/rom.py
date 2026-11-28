@@ -18,7 +18,7 @@ from typing import TYPE_CHECKING
 from settings import get_settings
 from worlds.Files import APPatchExtension, APProcedurePatch, APTokenMixin, APTokenTypes
 
-from . import candy912_fuse
+from .conditional_routes import CANDY_FUSE as candy912_fuse
 from .capture_the_flag import BOSS_FLAG_CONFIG_ROM_OFFSET, boss_flag_config
 from .colors import encode_color_config
 from .data import data
@@ -74,7 +74,7 @@ def _initial_ability_gate_mask(world: "KirbyAmWorld") -> int:
         return 0
 
     mask = 0
-    for ability_name in GATEABLE_ENEMY_COPY_ABILITIES:
+    for ability_name in getattr(world, "_seed_gateable_abilities", GATEABLE_ENEMY_COPY_ABILITIES):
         ability_id = ABILITY_NAME_TO_ID.get(ability_name)
         if ability_id is None or not 0 < ability_id <= 31:
             raise ValueError(

@@ -69,7 +69,9 @@ jobs:
             --jobs "$FUZZ_JOBS" \
             --timeout 60 \
             --classify-minimal-rejections \
-            --classify-room16-rejections
+            --classify-room16-rejections \
+            --classify-shuffle-roster-rejections \
+            --classify-unsupported-options
 
       - name: Upload generation-fuzz artifacts
         if: always()

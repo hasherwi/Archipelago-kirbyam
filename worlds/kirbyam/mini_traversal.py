@@ -35,7 +35,7 @@ def install_mini_rules(world: Any) -> None:
     raw_policy = getattr(world, "_enemy_copy_ability_policy", None)
     if not isinstance(raw_policy, dict):
         return
-    policy = SourcePolicy(raw_policy, bool(world.options.ability_randomization_statues.value))
+    policy = SourcePolicy.for_world(world, raw_policy)
     gating = world._ability_gating_enabled()
     for row, graph in mini_routes():
         def rule(state: Any, graph: TraversalGraph = graph) -> bool:

@@ -17,7 +17,7 @@ from ..ability_randomization import build_enemy_copy_ability_policy
 from ..enemy_ability_data import VALID_ENEMY_COPY_ABILITIES
 from ..traversal import SourcePolicy
 from ..traversal_data import _room_catalog
-from .. import candy912_fuse
+from ..conditional_routes import CANDY_FUSE as candy912_fuse
 from ..traversal_rules import target_applies
 from .build_ranged_target_coverage import ROOT, build_coverage
 
@@ -116,7 +116,7 @@ def build_status() -> dict[str, Any]:
         "tools/build_ranged_completion_status.py", "tools/build_ranged_target_coverage.py",
         "dev-docs/ranged-completion-scope.json", "dev-docs/ranged-static-target-census.json",
         "dev-docs/small-switch-inventory.json", "dev-docs/main-ranged-union-catalog.json",
-        "candy912_fuse.py", "data/candy912_normal_fuse_witness.json",
+        "conditional_routes.py", "data/traversal_source_scopes.json",
     ):
         inputs[name] = hashlib.sha256((ROOT / name).read_bytes()).hexdigest()
     fingerprint = hashlib.sha256(json.dumps(inputs, sort_keys=True).encode()).hexdigest()

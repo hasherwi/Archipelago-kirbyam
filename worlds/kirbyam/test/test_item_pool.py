@@ -13,7 +13,6 @@ from ..starting_mirror import STARTING_MIRROR_ITEM_ID
 from .. import KirbyAmWorld
 from ..data import BASE_OFFSET, LocationCategory, data, load_json_data
 from ..items import get_item_classification
-from ..enemy_ability_data import STARTING_COPY_ABILITIES, starting_copy_abilities
 from ..locations import KirbyAmLocation
 from ..options import OneHitMode, RandomizeShards
 
@@ -127,7 +126,7 @@ def test_sound_player_chest_default_item_is_useful_sound_player() -> None:
 
 
 def test_filler_catalog_includes_current_filler_set() -> None:
-    filler_items = [item for item in data.items.values() if item.classification == ItemClassification.filler]
+    filler_items = [item for item in data.items.values() if "Filler" in item.tags]
     filler_by_label = {item.label: item for item in filler_items}
     filler_labels = set(filler_by_label)
 
@@ -147,6 +146,7 @@ def test_filler_catalog_includes_current_filler_set() -> None:
     assert "Health" in filler_by_label["Energy Drink"].tags
     assert "Health" in filler_by_label["Hunk of Meat"].tags
     assert "Battery" in filler_by_label["Cell Phone Battery"].tags
+    assert filler_by_label["Cell Phone Battery"].classification == ItemClassification.useful
     assert "Health" in filler_by_label["Max Tomato"].tags
     assert "Invincibility" in filler_by_label["Invincibility Candy"].tags
 
@@ -225,7 +225,7 @@ def test_ability_unlock_items_are_explicit_and_match_runtime_catalog() -> None:
         if isinstance(attrs, dict)
         and attrs.get("runtime_ability_id") is not None
         and attrs.get("enemy_copy_allowed", True) is not False
-        and (bool(attrs.get("safe_to_gate", False)) or ability_name in STARTING_COPY_ABILITIES)
+        and (bool(attrs.get("safe_to_gate", False)))
     )
     expected_labels = [
         f"{ability_name} Ability"
@@ -237,7 +237,7 @@ def test_ability_unlock_items_are_explicit_and_match_runtime_catalog() -> None:
                 and isinstance(attrs, dict)
                 and attrs.get("runtime_ability_id") is not None
                 and attrs.get("enemy_copy_allowed", True) is not False
-                and (bool(attrs.get("safe_to_gate", False)) or ability_name in STARTING_COPY_ABILITIES)
+                and (bool(attrs.get("safe_to_gate", False)))
             ),
             key=lambda entry: (int(entry[1]["runtime_ability_id"]), entry[0]),
         )
@@ -249,7 +249,7 @@ def test_ability_unlock_items_are_explicit_and_match_runtime_catalog() -> None:
     assert [item.label for item in ability_items] == expected_labels
     progression_abilities = {f"{name} Ability" for name in (
         "Mini", "Wheel", "Hammer", "Smash", "Fire", "Bomb", "Laser", "UFO", "Sword", "Cupid", "Cutter",
-        "Stone", "Burning",
+        "Stone", "Burning", "Beam",
     )}
     assert all(item.classification == (ItemClassification.progression if item.label in progression_abilities
                                        else ItemClassification.useful) for item in ability_items)
@@ -587,42 +587,17 @@ def test_payload_supports_consumable_and_life_fillers() -> None:
     assert "KIRBY_ITEM_ID_BASE_OFFSET + 23u" not in payload
 
 
-def test_goal_locations_are_converted_to_addressless_events() -> None:
-    goal_key, goal_meta = next(
-        (key, meta) for key, meta in data.locations.items() if meta.category == LocationCategory.GOAL
-    )
-    goal_location = KirbyAmLocation(
-        1,
-        goal_meta.label,
-        goal_meta.location_id,
-        None,
-        key=goal_key,
-        default_item_code=goal_meta.default_item,
-    )
+def test_goal_locations_remain_locked_addressless_events_after_item_creation() -> None:
+    from test.general import setup_multiworld
 
-    class _DummyMultiWorld:
-        def __init__(self, locations):
-            self._locations = locations
-            self.itempool = []
-
-        def get_locations(self, player):
-            return self._locations
-
-        def get_player_name(self, player):
-            return "KirbyAM-Test"
-
-    world = KirbyAmWorld.__new__(KirbyAmWorld)
-    world.player = 1
-    world.multiworld = _DummyMultiWorld([goal_location])
-    world.options = SimpleNamespace(
-        shards=SimpleNamespace(value=RandomizeShards.option_completely_random)
-    )
-
-    world.create_items()
-
-    assert goal_location.item is not None
-    assert goal_location.item.code is None
-    assert goal_location.address is None
+    mw = setup_multiworld(KirbyAmWorld, steps=("generate_early", "create_regions", "create_items"))
+    goals = [mw.get_location(meta.label, 1) for meta in data.locations.values()
+             if meta.category == LocationCategory.GOAL]
+    assert goals
+    for goal in goals:
+        assert goal.locked and goal.address is None
+        assert goal.item is not None and goal.item.name == goal.name and goal.item.code is None
+        assert all(item is not goal.item for item in mw.itempool)
 
 
 def test_vanilla_shards_are_locked_to_boss_defeats() -> None:
@@ -634,7 +609,7 @@ def test_vanilla_shards_are_locked_to_boss_defeats() -> None:
     chest_locations = [loc for loc in locations if data.locations[loc.key].category == LocationCategory.MAP_CHEST]
 
     key_to_boss_location = {loc.key: loc for loc in boss_locations}
-    ordered_boss_locations = [key_to_boss_location[key] for key in KirbyAmWorld._BOSS_DEFEAT_KEY_ORDER]
+    ordered_boss_locations = [key_to_boss_location[f"BOSS_DEFEAT_{n}"] for n in range(1, 9)]
     locked_boss_shards = [loc.item.name for loc in ordered_boss_locations if loc.item is not None]
     assert len(locked_boss_shards) == 8
     assert all("Mirror Shard" in item_name for item_name in locked_boss_shards)
@@ -720,15 +695,16 @@ def test_completely_random_pool_contains_each_non_filler_item_exactly_once() -> 
     expected_non_filler_codes = {
         item.item_id
         for item in data.items.values()
-        if item.classification not in (ItemClassification.filler, ItemClassification.trap)
+        if "Filler" not in item.tags and item.classification != ItemClassification.trap
     }
-    expected_non_filler_codes -= {world.item_name_to_id[f"{name} Ability"] for name in starting_copy_abilities(0)}
     expected_non_filler_codes.discard(STARTING_MIRROR_ITEM_ID)  # Fixture has Random Starting Mirror off.
     expected_non_filler_codes.discard(data.item_key_to_id["AREA_KEY_1"])  # Always precollected, never randomized.
     expected_non_filler_codes -= set(range(3860224, 3860229))  # Default 6..10 uses four identities.
     assert 3860501 in expected_non_filler_codes  # Phone is a standard item.
     pool_codes = [item.code for item in world.multiworld.itempool if item.code is not None]
-    pool_non_filler_codes = [code for code in pool_codes if get_item_classification(code) != ItemClassification.filler]
+    pool_non_filler_codes = [code for code in pool_codes
+                             if "Filler" not in data.items[code].tags
+                             and get_item_classification(code) != ItemClassification.trap]
 
     assert set(pool_non_filler_codes) == expected_non_filler_codes
     assert len(pool_non_filler_codes) == len(expected_non_filler_codes)
@@ -747,17 +723,18 @@ def test_vanilla_pool_contains_each_non_shard_non_filler_item_exactly_once() -> 
         item.item_id
         for item in data.items.values()
         if (
-            item.classification not in (ItemClassification.filler, ItemClassification.trap)
+            "Filler" not in item.tags and item.classification != ItemClassification.trap
             and item.item_id not in shard_codes
         )
     }
-    expected_non_filler_codes -= {world.item_name_to_id[f"{name} Ability"] for name in starting_copy_abilities(0)}
     expected_non_filler_codes.discard(STARTING_MIRROR_ITEM_ID)  # Fixture has Random Starting Mirror off.
     expected_non_filler_codes.discard(data.item_key_to_id["AREA_KEY_1"])  # Always precollected, never randomized.
     expected_non_filler_codes -= set(range(3860224, 3860229))  # Default 6..10 uses four identities.
     assert 3860501 in expected_non_filler_codes  # Phone is a standard item.
     pool_codes = [item.code for item in world.multiworld.itempool if item.code is not None]
-    pool_non_filler_codes = [code for code in pool_codes if get_item_classification(code) != ItemClassification.filler]
+    pool_non_filler_codes = [code for code in pool_codes
+                             if "Filler" not in data.items[code].tags
+                             and get_item_classification(code) != ItemClassification.trap]
 
     assert set(pool_non_filler_codes) == expected_non_filler_codes
     assert len(pool_non_filler_codes) == len(expected_non_filler_codes)

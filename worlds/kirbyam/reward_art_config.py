@@ -5,6 +5,7 @@ import struct
 from BaseClasses import Location
 
 from .data import LocationCategory, LocationData, data
+from .generated_hub_switch_contract import HUB_SWITCH_RUNTIME_AP_BIT_BY_LOCATION_KEY
 from .locations import KirbyAmLocation
 from .reward_art_types import RewardArt, reward_art_for_item
 
@@ -23,7 +24,6 @@ _BIT_INDEXED_CATEGORIES = frozenset({
     LocationCategory.VITALITY_CHEST,
     LocationCategory.SOUND_PLAYER_CHEST,
     LocationCategory.ROOM_SANITY,
-    LocationCategory.HUB_SWITCH,
     LocationCategory.AREA_VISIT,
     LocationCategory.LEVER,
     LocationCategory.GOAL_GAME,
@@ -40,6 +40,8 @@ def reward_art_location_key(location: LocationData) -> int | None:
     """Return the identity observable by the native interaction, not the item ID."""
     if location.category == LocationCategory.MINOR_CHEST:
         index = location.source_rom_offset
+    elif location.category == LocationCategory.HUB_SWITCH:
+        index = HUB_SWITCH_RUNTIME_AP_BIT_BY_LOCATION_KEY[location.name]
     elif location.category in _BIT_INDEXED_CATEGORIES:
         index = location.bit_index
     else:

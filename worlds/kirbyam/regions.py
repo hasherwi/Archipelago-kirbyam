@@ -9,6 +9,7 @@ from BaseClasses import ItemClassification, Region
 from .data import LocationCategory, data
 from .items import KirbyAmItem
 from .locations import KirbyAmLocation
+from .phone_return import phone_return
 
 if TYPE_CHECKING:
     from . import KirbyAmWorld
@@ -45,21 +46,18 @@ def create_regions(world: "KirbyAmWorld") -> dict[str, Region]:
                 and "CoreLandmark" not in loc_meta.tags
             ):
                 continue
-            if loc_meta.label in world.multiworld.regions.location_cache[world.player]:
-                # Logical subregions can mirror a location already owned by the
-                # canonical room. AP locations are still singletons, so only
-                # materialize the first instance.
-                continue
-            region.locations.append(
-                KirbyAmLocation(
-                    world.player,
-                    loc_meta.label,
-                    loc_meta.location_id,
-                    region,
-                    key=loc_key,
-                    default_item_code=loc_meta.default_item,
-                )
+            is_goal = loc_meta.category == LocationCategory.GOAL
+            loc = KirbyAmLocation(
+                world.player,
+                loc_meta.label,
+                None if is_goal else loc_meta.location_id,
+                region,
+                key=loc_key,
+                default_item_code=loc_meta.default_item,
             )
+            if is_goal:
+                loc.place_locked_item(world.create_event(loc.name))
+            region.locations.append(loc)
 
         for event_data in region_data.events:
             if event_data.name.startswith(_DEBUG_EVENT_PREFIX):
@@ -68,6 +66,11 @@ def create_regions(world: "KirbyAmWorld") -> dict[str, Region]:
             loc.place_locked_item(
                 KirbyAmItem(event_data.name, ItemClassification.progression, None, world.player)
             )
+            if event_data.source_check is not None:
+                source = next(check for check in region.locations if check.key == event_data.source_check)
+                # Share the final rule, including overlays attached after region creation.
+                # The check and its event already have the same physical parent.
+                loc.access_rule = lambda state, check=source: check.access_rule(state)
             region.locations.append(loc)
 
         regions[region_name] = region
@@ -86,12 +89,19 @@ def create_regions(world: "KirbyAmWorld") -> dict[str, Region]:
         source.connect(dest, entrance_name)
 
     # Area First Visit checks follow physical room reachability, including
-    # legitimate overland routes. Area summaries never bypass a Hub item gate.
+    # legitimate overland routes. Room-check sinks do not represent travel;
+    # only their actual source compartments may lead to an area summary.
     for name, region in regions.items():
-        if "/ROOM_" in name:
+        if "/ROOM_" in name and not name.endswith("__ROOM_CHECK"):
             area = regions.get(name.split("/", 1)[0] + "/MAIN")
             if area is not None:
                 region.connect(area, f"{name} -> {area.name}")
+
+    # Native L is free movement once Kirby can settle as Normal. It is not
+    # a summon, an ability-carry edge, or a replacement for a physical exit.
+    return_routes = phone_return()
+    for source in return_routes.sources:
+        regions[source].connect(regions[return_routes.destination], f"{source} -> Central Circle (Phone L)")
 
     # 3) Add Menu region and start connection
     menu = Region("Menu", world.player, world.multiworld)

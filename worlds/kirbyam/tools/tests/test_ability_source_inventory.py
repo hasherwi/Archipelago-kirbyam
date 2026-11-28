@@ -161,6 +161,42 @@ class CoverageAuditTests(unittest.TestCase):
         self.assertEqual(report['unmapped_ap_regions'], ['unknown'])
 
 
+    def test_acquisition_backlog_preserves_room_and_grant_uncertainty(self):
+        module = importlib.import_module('audit_ability_source_coverage')
+        def row(identity, room, **extras):
+            return {'id': identity, 'native_room': room, 'source_type': 'enemy', **extras}
+
+        inventory = {
+            'reviewed_bindings': {'2:legacy': 'legacy'}, 'rooms': [],
+            'placements': [row('legacy', 2, source_key='BEAM'), row('explicit', 2, source_key='BEAM'),
+                           row('alt1', 2, source_key='BEAM'), row('alt2', 2, source_key='FIRE'),
+                           row('no_grant', 2, native_grant='Normal'),
+                           row('potential_shuffle', 2, source_key='WADDLE_DEE', native_grant='Normal')],
+            'encounter_calls': [], 'dynamic_grant_types': [], 'spawner_outputs': [],
+            'generated_statue_slots': [row('statue', 9, possible_source_keys=['FIRE', 'BEAM'])],
+            'encounter_sources': [row('phase', 2, native_grant_states=[{}]),
+                                  row('outside', 8, source_key='BEAM',
+                                      world_access={'status': 'outside_adventure'})],
+            'ap_region_inventory': [{'region': 'base', 'native_rooms': [2],
+                                     'mapping_evidence': 'native_door_list_alias'},
+                                    {'region': 'lower', 'native_rooms': [2],
+                                     'mapping_evidence': 'declared_parent'}],
+        }
+        report = module.audit(inventory, {'sources': [{'inventory_id': 'explicit'},
+                                                       {'inventory_alternatives': ['alt1', 'alt2']}]},
+                              include_references=True)
+        backlog = module.acquisition_backlog(inventory, report)
+        self.assertEqual(backlog['outside_adventure_candidates_omitted'], 1)
+        self.assertEqual(backlog['candidate_counts_by_inventory_kind'],
+                         {'encounter_sources': 1, 'generated_statue_slots': 1, 'placements': 1})
+        room, unknown = backlog['rooms']
+        self.assertEqual(room['candidate_ap_regions'], ['base', 'lower'])
+        self.assertEqual([source['id'] for source in room['sources']], ['phase', 'potential_shuffle'])
+        self.assertTrue(room['sources'][0]['has_phase_dependent_grant'])
+        self.assertEqual(unknown['candidate_ap_regions'], [])
+        self.assertEqual(unknown['sources'][0]['possible_source_keys'], ['FIRE', 'BEAM'])
+
+
 class BonkersNativeContractTests(unittest.TestCase):
     def test_branch_and_collision_contract_does_not_certify_access(self):
         contracts = [extract.bonkers_nut_contract(extract.BONKERS_REVIEW_SHA256, t) for t in (168, 169)]

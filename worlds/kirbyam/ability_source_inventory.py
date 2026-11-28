@@ -7,6 +7,11 @@ import re
 from functools import lru_cache
 from typing import Any, Mapping
 
+from .enemy_ability_data import (
+    ENCOUNTER_OUTPUT_COPY_AUDITS, ENCOUNTER_PARENT_COPY_AUDITS, NATIVE_PARENT_COPY_AUDIT_KEYS,
+    EncounterOutputCopyAudit, EncounterParentCopyAudit,
+)
+
 
 @lru_cache(maxsize=1)
 def _inventory_payload() -> dict[str, Any]:
@@ -19,11 +24,51 @@ def _inventory_payload() -> dict[str, Any]:
     return payload
 
 
+def parent_copy_audit_for_placement(placement: Mapping[str, Any]) -> EncounterParentCopyAudit | None:
+    """Resolve parent facts without admitting the body or its children as routes."""
+    key = placement.get("parent_copy_audit_key")
+    parent = placement.get("source_type") in ("boss", "miniboss")
+    native_type = placement.get("type_id")
+    expected = NATIVE_PARENT_COPY_AUDIT_KEYS.get(native_type) if parent and type(native_type) is int else None
+    if key != expected or (parent and expected is None):
+        raise ValueError(f"Encounter parent copy audit mismatch: {placement.get('id')}")
+    if key is None:
+        return None
+    audit = ENCOUNTER_PARENT_COPY_AUDITS[key]
+    if (placement.get("type_id"), placement.get("native_name")) not in audit.native_types:
+        raise ValueError(f"Encounter parent copy audit native name mismatch: {placement.get('id')}")
+    if placement.get("source_type") == "boss" and (
+            placement.get("source_key") is not None or placement.get("native_grant") is not None):
+        raise ValueError(f"Boss parent audit cannot introduce a runtime grant: {placement.get('id')}")
+    return audit
+
+
+def encounter_copy_audit_for_placement(placement: Mapping[str, Any]) -> EncounterOutputCopyAudit | None:
+    """Resolve output facts only for this native child, never its encounter parent."""
+    key = placement.get("encounter_copy_audit_key")
+    child = placement.get("source_type") == "encounter_spawn"
+    native_type = placement.get("type_id")
+    expected = ENCOUNTER_OUTPUT_COPY_AUDITS.get(native_type) if child and type(native_type) is int else None
+    if expected is None and key is None:
+        return None
+    if expected is None or key != expected[0]:
+        raise ValueError(f"Encounter output copy audit mismatch: {placement.get('id')}")
+    audit = expected[1]
+    if (placement.get("logic") != "advanced" or placement.get("native_name") != audit.native_name
+            or (audit.copy_result == "fixed" and placement.get("native_grant") != audit.vanilla_copy)
+            or (audit.copy_result == "random" and placement.get("native_grant") != "Wait")):
+        raise ValueError(f"Encounter output copy audit disagrees with native facts: {placement.get('id')}")
+    return audit
+
+
 @lru_cache(maxsize=1)
 def source_inventory() -> Mapping[str, Mapping[str, Any]]:
     payload = _inventory_payload()
     records = (payload['placements'] + payload['generated_statue_slots']
                + payload.get('spawner_outputs', []) + payload.get('encounter_sources', []))
+    for row in records:
+        parent_copy_audit_for_placement(row)
+        encounter_copy_audit_for_placement(row)
     result = {row['id']: row for row in records}
     if len(result) != len(records):
         raise ValueError('Duplicate physical ability placement identity')

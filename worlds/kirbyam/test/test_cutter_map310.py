@@ -118,9 +118,13 @@ def test_actual_world_only_map_and_unchanged_cutter_classification(
     state.remove(item)
     assert target.access_rule(state) is (not applies or not gating)
     state.collect(item, prevent_sweep=True)
+    # The scoped live statue requires independent Hub 4 reachability just
+    # like the finite route. Other nonmatching profiles keep their old rule.
+    live_cutter = (mode == 2 and weight == 100 and pool == ['Cutter']
+                   and statues == 1 and gating == area_keys == room_sanity == 0)
     for accessible in (OWNER, SOURCE_ROOM):
         state.can_reach_region = lambda name, player, accessible=accessible: name == accessible
-        assert target.access_rule(state) is (not applies)
+        assert target.access_rule(state) is (not (applies or live_cutter))
         assert world.multiworld.get_entrance(f'{OWNER} -> {SOURCE_ROOM}', 1).access_rule(state)
         # The separate Normal entrance requires its independent Hub4 payload route.
         assert not incoming.access_rule(state)

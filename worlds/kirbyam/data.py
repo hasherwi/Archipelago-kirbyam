@@ -313,6 +313,7 @@ class LocationData(NamedTuple):
 class EventData(NamedTuple):
     name: str
     parent_region: str
+    source_check: str | None = None
 
 
 @dataclass
@@ -375,6 +376,52 @@ def _classification_from_string(s: str) -> ItemClassification:
     raise ValueError(f"Unknown classification: {s}")
 
 
+def _parse_item_catalog(
+    raw: object,
+) -> tuple[dict[int, ItemData], dict[str, int], tuple[str, ...]]:
+    """Read stable AP item identities without allocating IDs or defaulting bad data."""
+    if not isinstance(raw, dict) or not raw:
+        raise ValueError("items.json must be a nonempty JSON object mapping item keys to attributes")
+
+    items: dict[int, ItemData] = {}
+    key_to_id: dict[str, int] = {}
+    id_owners: dict[int, str] = {}
+    label_owners: dict[str, str] = {}
+    traps: list[str] = []
+    for key, attrs in raw.items():
+        if not isinstance(key, str) or not key or not isinstance(attrs, dict):
+            raise ValueError(f"Invalid KirbyAM item record in items.json: {key!r}")
+        label = attrs.get("label")
+        if not isinstance(label, str) or not label or label != label.strip():
+            raise ValueError(f"Invalid label for KirbyAM item {key!r} in items.json")
+        if label in label_owners:
+            raise ValueError(f"Duplicate KirbyAM item label {label!r}: {label_owners[label]!r} and {key!r}")
+        class_name = attrs.get("classification")
+        if not isinstance(class_name, str):
+            raise ValueError(f"Missing or invalid classification for KirbyAM item {key!r}")
+        classification = _classification_from_string(class_name)
+        tags = attrs.get("tags")
+        if not isinstance(tags, list) or any(
+            not isinstance(tag, str) or not tag or tag != tag.strip() for tag in tags
+        ):
+            raise ValueError(f"Invalid tags for KirbyAM item {key!r} in items.json")
+        if len(tags) != len(set(tags)):
+            raise ValueError(f"Duplicate tags for KirbyAM item {key!r} in items.json")
+        item_id = attrs.get("item_id")
+        if type(item_id) is not int or item_id <= 0:
+            raise ValueError(f"A positive explicit item_id is required for KirbyAM item {key!r}")
+        if item_id in id_owners:
+            raise ValueError(f"Duplicate KirbyAM item_id {item_id}: {id_owners[item_id]!r} and {key!r}")
+
+        items[item_id] = ItemData(label=label, item_id=item_id, classification=classification, tags=frozenset(tags))
+        key_to_id[key] = item_id
+        id_owners[item_id] = key
+        label_owners[label] = key
+        if classification == ItemClassification.trap:
+            traps.append(label)
+    return items, key_to_id, tuple(traps)
+
+
 def _init() -> None:  # noqa: C901
     # Optional addresses.json.
     # Supports both old flat schema:
@@ -410,66 +457,11 @@ def _init() -> None:  # noqa: C901
             for k, v in rom.items():
                 data.rom_addresses[k] = _normalize_gba_rom_address(_parse_int(v))
 
-    # Load items.json
-    # Expected forms:
-    #   { "ITEM_NAME": {"label":"...", "classification":"PROGRESSION", "tags":[...], "item_id":123} }
-    # or without item_id (auto-assigned)
-    items_json = load_json_data("items.json")
-    if not isinstance(items_json, dict):
-        raise TypeError("items.json must be a JSON object mapping item keys to attributes")
-
-    next_item_id = BASE_OFFSET + 1
-    used_item_ids: set[int] = set()
-    explicit_item_id_owner: dict[int, str] = {}
-    # Build a helper mapping from item_key (string) -> item_id regardless of whether
-    # the JSON specified an explicit item_id.
-    item_key_to_id: dict[str, int] = {}
-    parsed_items: list[tuple[str, str, ItemClassification, frozenset[str], int | None]] = []
-
-    for item_key, attrs in items_json.items():
-        if not isinstance(item_key, str) or not isinstance(attrs, dict):
-            continue
-
-        label = attrs.get("label", item_key)
-        classification = _classification_from_string(attrs.get("classification", "FILLER"))
-        tags = frozenset(attrs.get("tags", []))
-
-        item_id_val = attrs.get("item_id")
-        explicit_item_id: int | None
-        # Treat 0 as "unset" to allow placeholder JSON during early development.
-        if item_id_val in (None, 0, "0"):
-            explicit_item_id = None
-        else:
-            explicit_item_id = _parse_int(item_id_val)
-            if explicit_item_id in used_item_ids:
-                first_key = explicit_item_id_owner.get(explicit_item_id, "<unknown>")
-                raise ValueError(
-                    "Duplicate KirbyAM item_id detected in items.json: "
-                    f"item_id={explicit_item_id} is used by '{first_key}' and '{item_key}'"
-                )
-            used_item_ids.add(explicit_item_id)
-            explicit_item_id_owner[explicit_item_id] = item_key
-
-        parsed_items.append((item_key, label, classification, tags, explicit_item_id))
-
-    available_traps: list[str] = []
-    for item_key, label, classification, tags, explicit_item_id in parsed_items:
-        if explicit_item_id is None:
-            while next_item_id in used_item_ids:
-                next_item_id += 1
-            item_id = next_item_id
-            next_item_id += 1
-            used_item_ids.add(item_id)
-        else:
-            item_id = explicit_item_id
-
-        data.items[item_id] = ItemData(label=label, item_id=item_id, classification=classification, tags=tags)
-        item_key_to_id[item_key] = item_id
-        if classification == ItemClassification.trap:
-            available_traps.append(label)
-
-    data.item_key_to_id = dict(item_key_to_id)
-    data.available_trap_item_labels = tuple(available_traps)
+    (
+        data.items,
+        data.item_key_to_id,
+        data.available_trap_item_labels,
+    ) = _parse_item_catalog(load_json_data("items.json"))
 
     # Load locations.json (+ optional locations_*.json fragments)
     # Expected forms:
@@ -543,8 +535,8 @@ def _init() -> None:  # noqa: C901
         default_item_raw = attrs.get("default_item")
         default_item_id: int | None = None
         if isinstance(default_item_raw, int) or isinstance(default_item_raw, str):
-            if isinstance(default_item_raw, str) and default_item_raw in item_key_to_id:
-                default_item_id = item_key_to_id[default_item_raw]
+            if isinstance(default_item_raw, str) and default_item_raw in data.item_key_to_id:
+                default_item_id = data.item_key_to_id[default_item_raw]
             else:
                 try:
                     default_item_id = _parse_int(default_item_raw)
@@ -826,9 +818,11 @@ def _init() -> None:  # noqa: C901
             )
         room_sanity_by_region.setdefault(loc.parent_region, []).append(loc_key)
 
+    visit_aliases = _load_room_visit_aliases(room_sanity_by_region.keys(), merged_regions.keys())
     for region_name, loc_keys in sorted(room_sanity_by_region.items()):
         region = data.regions[region_name]
-        if region_name in logical_subregions_by_parent:
+        extra = visit_aliases.get(region_name, [])
+        if region_name in logical_subregions_by_parent or extra:
             # A visit to any compartment sets the same native physical-room bit.
             # Put the singleton check in a sink: never connect compartments to
             # the canonical room, whose exits could permit unintended traversal.
@@ -839,10 +833,11 @@ def _init() -> None:  # noqa: C901
             data.regions[check_region_name] = region
             sources = [region_name, *(
                 logical_region_names[(region_name, key)]
-                for key in logical_subregions_by_parent[region_name]
-            )]
+                for key in logical_subregions_by_parent.get(region_name, {})
+            ), *extra]
             for source in sources:
-                data.regions[source].exits.append(check_region_name)
+                if check_region_name not in data.regions[source].exits:
+                    data.regions[source].exits.append(check_region_name)
         for loc_key in sorted(
             loc_keys,
             key=lambda key: (
@@ -852,6 +847,76 @@ def _init() -> None:  # noqa: C901
         ):
             region.locations.append(loc_key)
             claimed_locations.add(loc_key)
+    _bind_check_events(load_json_data("check_event_logic.json"))
+    validate_check_placement(data)
+
+
+def _load_room_visit_aliases(visit_owners: Iterable[str], authored_regions: Iterable[str]) -> dict[str, list[str]]:
+    """Top-level compartments explicitly verified to share the native room bit."""
+    payload = load_json_data("room_visit_compartments.json")
+    if (not isinstance(payload, dict) or type(payload.get("schema")) is not int or payload["schema"] != 1
+            or not isinstance(payload.get("additional_compartments"), dict)):
+        raise ValueError("Invalid Kirby room visit compartments schema")
+    mapping = payload["additional_compartments"]
+    canonical = set(visit_owners)
+    authored = set(authored_regions)
+    seen = set(canonical)
+    for owner, aliases in mapping.items():
+        if owner not in canonical or not isinstance(aliases, list) or not aliases:
+            raise ValueError(f"Invalid Kirby room visit owner: {owner}")
+        for alias in aliases:
+            if (not isinstance(alias, str) or alias in seen or alias not in authored
+                    or not alias.startswith(owner.split("/")[0] + "/ROOM_")):
+                raise ValueError(f"Invalid or duplicate Kirby visit compartment: {owner} → {alias}")
+            seen.add(alias)
+    return mapping
+
+
+def _bind_check_events(payload: Any) -> None:
+    """Bind addressless switch facts to their physical check rather than an area visit."""
+    if (not isinstance(payload, dict) or set(payload) != {"schema", "hub_switches"}
+            or type(payload["schema"]) is not int or payload["schema"] != 1
+            or not isinstance(payload["hub_switches"], dict)):
+        raise ValueError("Invalid Kirby check-event schema")
+    hub_switches = payload["hub_switches"]
+    expected = {key for key, loc in data.locations.items() if loc.category == LocationCategory.HUB_SWITCH}
+    if hub_switches.keys() != expected:
+        raise ValueError("Kirby check-events must bind every physical Big Switch exactly once")
+    for key, name in hub_switches.items():
+        if not isinstance(name, str) or not name.startswith("Activate Big Switch - "):
+            raise ValueError(f"Invalid Kirby Big Switch event name for {key}: {name!r}")
+        region = data.regions[data.locations[key].parent_region]
+        region.events.append(EventData(name, region.name, key))
+
+
+def validate_check_placement(catalog: KirbyAmData) -> None:
+    """Fail closed on duplicate ownership instead of picking a region by iteration order."""
+    owners: dict[str, str] = {}
+    ids: set[int] = set()
+    names: set[str] = set()
+    for key, loc in catalog.locations.items():
+        if loc.location_id in ids or loc.label in names:
+            raise ValueError(f"Duplicate Kirby location ID or label: {key}")
+        ids.add(loc.location_id)
+        names.add(loc.label)
+    for region in catalog.regions.values():
+        for key in region.locations:
+            if key in owners:
+                raise ValueError(f"Kirby location {key} has multiple owners: {owners[key]}, {region.name}")
+            loc = catalog.locations[key]
+            parent = loc.parent_region
+            if (region.name != parent and not (
+                    loc.category == LocationCategory.ROOM_SANITY and region.name == f"{parent}__ROOM_CHECK")):
+                raise ValueError(f"Kirby location {key} owner {region.name} differs from {parent}")
+            owners[key] = region.name
+        for event in region.events:
+            if event.parent_region != region.name or event.name in names:
+                raise ValueError(f"Duplicate or misplaced Kirby event: {event.name} in {region.name}")
+            if event.source_check is not None and event.source_check not in region.locations:
+                raise ValueError(f"Kirby event {event.name} is not in the region of {event.source_check}")
+            names.add(event.name)
+    if missing := catalog.locations.keys() - owners.keys():
+        raise ValueError(f"Kirby locations without an owner: {sorted(missing)}")
 
 
 data = KirbyAmData()

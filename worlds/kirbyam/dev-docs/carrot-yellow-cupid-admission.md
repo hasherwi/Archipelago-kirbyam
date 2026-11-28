@@ -135,3 +135,14 @@ Those remain excluded. Restored-state exploration found the corrected descent
 and facing; qualification uses only the subsequent cold runs. The native patch
 is unchanged, and this evidence does not establish full-seed beatability,
 other source assignments, other health settings or helper Bomb Block attacks.
+
+## Stock Cupid evidence (Advanced only)
+
+The same evidence catalog also records the separate stock Cupid route under
+`stock_witness`. Kirby copies the original lower 5-13 Cupie, retains Cupid over
+six native room transitions, fires both required shots in 5-16, and collects
+the exact Yellow Paint chest. The three same-room mirrors do not count toward
+the carry limit. The native award is verified; there is no AP acknowledgment.
+
+This is a local graph regression starting at the Cupie, not a change to the
+seed-14 admission policy, the generator, Standard access, or game timing.

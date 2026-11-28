@@ -84,6 +84,10 @@ def test_location_families_have_disjoint_native_identities() -> None:
             assert key is None
             continue
         index = location.source_rom_offset if category == LocationCategory.MINOR_CHEST else location.bit_index
+        if location.name == "HUB_SWITCH_MOONLIGHT":
+            index = 11
+        elif location.name == "HUB_SWITCH_RAINBOW_ROUTE_EAST":
+            index = 1
         assert index is not None and key == (expected_categories[category] << 24) | index
         assert key and key not in keys, (location.name, keys.get(key))
         keys[key] = location.name
@@ -109,7 +113,7 @@ def test_config_includes_outgoing_cross_game_traps_and_ignores_non_traps() -> No
     placements = [outgoing_trap, ordinary, logical_goal, local_trap, event, unresolved, mixed_trap, unknown, foreign_check]
     config = build_reward_art_config(placements)
     assert config == build_reward_art_config(reversed(placements))
-    assert _variants(config) == dict.fromkeys((0x09000000, 0x09000001, 0x0D000001), RewardArt.TRAP)
+    assert _variants(config) == dict.fromkeys((0x09000000, 0x09000001, 0x0D00000B), RewardArt.TRAP)
 
 
 def test_trap_cosmetics_are_written_as_production_seed_tokens() -> None:
@@ -131,7 +135,7 @@ def test_trap_cosmetics_are_written_as_production_seed_tokens() -> None:
         pos += length
     assert pos == len(blob)
     payload, = writes
-    assert _variants(payload) == dict.fromkeys((0x02000000, 0x0D000001), RewardArt.TRAP)
+    assert _variants(payload) == dict.fromkeys((0x02000000, 0x0D00000B), RewardArt.TRAP)
 
 
 def test_empty_config_clears_entire_reserved_window() -> None:
@@ -148,6 +152,7 @@ def test_python_tokens_match_native_lookup_abi(tmp_path: Path) -> None:
     token = build_reward_art_config((
         _location("MAJOR_CHEST_WORLD_MAP", item),
         _location("HUB_SWITCH_MOONLIGHT", ForeignItem("Outgoing", ItemClassification.trap, 222, 2)),
+        _location("HUB_SWITCH_RAINBOW_ROUTE_EAST", KirbyAmItem("1 Up", ItemClassification.filler, 3860001, 1)),
         _location("LEVER_MOONLIGHT_MANSION_2_11", KirbyAmItem("Max Tomato", ItemClassification.filler, 3860028, 1)),
         _location("GOAL_GAME_1_GOAL_2", KirbyAmItem("1 Up", ItemClassification.filler, 3860001, 1)),
         _location("BOSS_DEFEAT_1", KirbyAmItem("Music Sheet #10", ItemClassification.useful, 3860223, 1)),
@@ -167,15 +172,17 @@ def test_python_tokens_match_native_lookup_abi(tmp_path: Path) -> None:
 #include <assert.h>
 #include <stdio.h>
 #include "reward_art_config.h"
+#include "generated_hub_switch_tables.inc"
 
 int main(void) {
     struct ApRewardArtConfig config;
     FILE *f = fopen("abi.bin", "rb");
     assert(f && fread(&config, 1, sizeof(config), f) == sizeof(config));
     fclose(f);
-    assert(config.marker == AP_REWARD_ART_MAGIC && config.count == 10u);
+    assert(config.marker == AP_REWARD_ART_MAGIC && config.count == 11u);
     assert(ap_reward_art_from_config(&config, AP_REWARD_KEY(AP_REWARD_MAP_CHEST, 0)) == AP_REWARD_TRAP);
-    assert(ap_reward_art_from_config(&config, AP_REWARD_KEY(AP_REWARD_SWITCH, 1)) == AP_REWARD_TRAP);
+    assert(ap_reward_art_from_config(&config, AP_REWARD_KEY(AP_REWARD_SWITCH, ap_hub_bits[1])) == AP_REWARD_TRAP);
+    assert(ap_reward_art_from_config(&config, AP_REWARD_KEY(AP_REWARD_SWITCH, ap_hub_bits[2])) == 2u);
     assert(ap_reward_art_from_config(&config, AP_REWARD_KEY(AP_REWARD_MAP_CHEST, 1)) == AP_REWARD_GEM);
     assert(ap_reward_art_from_config(&config, AP_REWARD_KEY(AP_REWARD_GOAL, 1)) == 2u);
     assert(ap_reward_art_from_config(&config, AP_REWARD_KEY(AP_REWARD_LEVER, 0)) == 6u);
@@ -188,7 +195,7 @@ int main(void) {
     assert(ap_reward_art_from_config(&config, 0u) == AP_REWARD_GEM);
     config.count = AP_REWARD_ART_CAPACITY + 1u;
     assert(ap_reward_art_from_config(&config, AP_REWARD_KEY(AP_REWARD_MAP_CHEST, 0)) == AP_REWARD_GEM);
-    config.count = 10u;
+    config.count = 11u;
     config.marker = 0x32565241u; /* Older packed ARV2 data is not interpreted as ARV3. */
     assert(ap_reward_art_from_config(&config, AP_REWARD_KEY(AP_REWARD_MAP_CHEST, 0)) == AP_REWARD_GEM);
     config.marker = AP_REWARD_ART_MAGIC;

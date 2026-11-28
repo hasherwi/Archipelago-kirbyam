@@ -332,6 +332,19 @@ def test_unconditional_phone_does_not_override_fuzz_profiles(room_sanity: str) -
     assert resolved == {**original, "maximum_health": "random-range-2-6"}
 
 
+@pytest.mark.parametrize("gating,expected", [("false", 0), ("true", 9)])
+def test_fuzz_random_starts_follow_ability_gating(gating: str, expected: int) -> None:
+    import yaml
+    from Generate import roll_triggers
+
+    game = "Kirby & The Amazing Mirror"
+    meta = yaml.safe_load(load_launcher().FUZZER_META_PATH.read_text(encoding="utf-8"))
+    options = {"ability_gating": gating, "random_starting_abilities": 9, "minimum_health": 2}
+    resolved = roll_triggers({game: options}, meta["triggers"], set())[game]
+    assert resolved["random_starting_abilities"] == expected
+    assert resolved["ability_gating"] == gating
+
+
 def room16_artifact(launcher: ModuleType, root: Path, *, ability: str | None = None,
                     advanced: int = 0, accessibility: int = 0, placed: list[str] | None = None,
                     weight: int = 0) -> tuple[dict[str, object], dict[str, object]]:
@@ -681,3 +694,128 @@ def test_duplicate_early_room16_trace_must_be_identical_staged_relogging(
     classified = launcher.classify_minimal_rejections(report, tmp_path, room16=True)
     assert bool(classified["unsafe_rejected"]) is (mutation == "none")
     assert bool(classified["unclassified"]) is (mutation != "none")
+
+
+@pytest.mark.parametrize("mutation", ["none", "budget", "advanced", "wrong_roster", "wrong_cut", "omitted_proof"])
+def test_fixed_shuffle_roster_requires_reconstructed_cut(tmp_path: Path, mutation: str) -> None:
+    from ..ability_randomization import build_enemy_copy_ability_policy
+    from ..logic_aware_shuffle import ROSTER_EVIDENCE, ROSTER_REJECTION
+    from ..options import Goal
+    import random
+
+    launcher = load_launcher()
+    # Hosted case 141: Peppermint can use Missile, but two other targets
+    # still require separate copies of the sole movable enemy Burning grant.
+    raw = build_enemy_copy_ability_policy(random.Random(0), 1, True, True,
+                                         include_passive_enemies=False, no_ability_weight=65)
+    raw["seed"] = 8307571545629204188
+    options = {"game": "Kirby & The Amazing Mirror", "accessibility": 2, "area_keys": 1, "room_sanity": 0,
+               "goal": Goal.option_dark_mind, "advanced_logic": 0, "ability_randomization_mode": 1,
+               "ability_randomization_statues": 1, "ability_randomization_no_ability_weight": 65,
+               "ability_randomization_boss_spawns": 1, "ability_randomization_minibosses": 1,
+               "ability_randomization_passive_enemies": 0}
+    cut = {"ability": "Burning", "pool": "enemy", "available": 1,
+           "targets": {"metal_141_left_forward": ["FLAMER"], "metal_176_goal2_drink": ["BATAFIRE"]}}
+    if mutation == "advanced":
+        options["advanced_logic"] = 1
+    if mutation == "wrong_roster":
+        raw["ability_randomization_no_ability_weight"] = 66
+    if mutation == "wrong_cut":
+        cut["ability"] = "Fire"
+    message = ROSTER_REJECTION if mutation != "budget" else "KirbyAM bounded assignment search exhausted"
+    trace = (
+        '  File "/repo/worlds/kirbyam/__init__.py", line 475, in generate_early\n'
+        '  File "/repo/worlds/kirbyam/peg_traversal.py", line 144, in validate_peg_assignment\n'
+        '  File "/repo/worlds/kirbyam/logic_aware_shuffle.py", line 310, in constrain_shuffled_abilities\n'
+        f"worlds.kirbyam.logic_aware_shuffle.KirbyAmShuffleRosterError: {message}\n"
+    )
+    log = (
+        'Generating for 1 player, 123 Seed 313799105 with plando: items, connections\n'
+        'P1 Rolled options (141-0/Kirby & The Amazing Mirror): ' + json.dumps(options) + "\n"
+    )
+    if mutation != "omitted_proof":
+        log += ROSTER_EVIDENCE + json.dumps({"source_policy": raw, "shortage": cut}) + "\n"
+    log += (
+        f"[P1] Generation stage 'generate_early' failed after 0.70s: KirbyAmShuffleRosterError: {message}\n"
+        'Traceback (most recent call last):\n'
+        '  File "/repo/worlds/kirbyam/generation_logging.py", line 62, in generation_stage\n'
+        + trace + 'Traceback (most recent call last):\n' + trace
+    )
+    case = tmp_path / "error/kirbyam/141"
+    case.mkdir(parents=True)
+    (case / "141.log").write_text(log)
+    (case / "141-0.yaml").write_text("game: Kirby & The Amazing Mirror\n")
+    report = successful_report(4)
+    report["stats"].update(success=3, failure=1)
+    report["errors"] = {"kirbyam": {message: [141]}}
+    outcomes = launcher.classify_minimal_rejections(report, tmp_path, shuffle_roster=True)
+    assert bool(outcomes["unsafe_rejected"]) is (mutation == "none")
+    assert bool(outcomes["unclassified"]) is (mutation != "none")
+    assert report["stats"]["failure"] == 1
+    if mutation == "none":
+        assert outcomes["unsafe_rejected"][0]["source_proof"]["shortage"] == cut
+        assert launcher.classify_minimal_rejections(report, tmp_path)["unclassified"]
+
+
+def write_unsupported_mustard_map_case(tmp_path: Path, mutation: str) -> None:
+    from Options import OptionError
+    from ..options import AbilityRandomizationMode, AbilityRandomizationNoAbilityWeight, Goal, validate_generation_options
+
+    player = "430-0"
+    options = {
+        "game": "Kirby & The Amazing Mirror", "accessibility": 2, "goal": Goal.option_full_completion,
+        "ability_randomization_mode": AbilityRandomizationMode.option_completely_random,
+        "ability_randomization_no_ability_weight": 100, "advanced_logic": 1, "ability_randomization_statues": 1,
+    }
+    with pytest.raises(OptionError) as error:
+        validate_generation_options(SimpleNamespace(
+            goal=Goal.from_any(options["goal"]),
+            ability_randomization_mode=AbilityRandomizationMode.from_any(options["ability_randomization_mode"]),
+            ability_randomization_no_ability_weight=AbilityRandomizationNoAbilityWeight.from_any(100),
+        ), player)
+    if mutation == "wrong_weight":
+        options["ability_randomization_no_ability_weight"] = 99
+    elif mutation == "wrong_goal":
+        options["goal"] = Goal.option_dark_mind
+    terminal_message = str(error.value) if mutation != "other_guard" else "KirbyAM (430-0): A different option guard."
+    path = "options.py" if mutation != "foreign_source" else "unrelated.py"
+    log = (
+        'Generating for 1 player, 87451922268851181333 Seed 349879855 with plando: items\n'
+        f'P1 Rolled options (430-0/Kirby & The Amazing Mirror): {json.dumps(options)}\n'
+        'Traceback (most recent call last):\n'
+        '  File "/runner/worlds/kirbyam/__init__.py", line 444, in generate_early\n'
+        f'  File "/runner/worlds/kirbyam/{path}", line 569, in validate_generation_options\n'
+        f'Options.OptionError: {terminal_message}\n'
+        'Exception in <bound method KirbyAmWorld.generate_early of '
+        '<worlds.kirbyam.KirbyAmWorld object at 0x7D1686305310>> for player 1, named 430-0.\n'
+    )
+    if mutation == "mixed_traceback":
+        log += 'Traceback (most recent call last):\nSomeOtherException: hidden\n'
+    case = tmp_path / "ignored" / "kirbyam" / "430"
+    case.mkdir(parents=True)
+    (case / "430.log").write_text(log, encoding="utf-8")
+    if mutation != "missing_yaml":
+        (case / "430-0.yaml").write_text("game: Kirby & The Amazing Mirror\n", encoding="utf-8")
+
+
+@pytest.mark.parametrize("mutation", ["none", "wrong_weight", "wrong_goal", "other_guard", "foreign_source",
+                                     "mixed_traceback", "missing_yaml", "count_mismatch"])
+def test_only_exact_unsupported_mustard_map_option_is_classified(monkeypatch, tmp_path, mutation):
+    launcher = load_launcher()
+    monkeypatch.setattr(launcher, "OUTPUT_DIR", tmp_path)
+    write_unsupported_mustard_map_case(tmp_path, mutation)
+    report = successful_report(total=10, ignored=1 if mutation != "count_mismatch" else 2)
+    assert launcher.report_result(launcher_args(), report, 0) == 1
+    args = launcher_args(classify_unsupported_options=True)
+    assert launcher.report_result(args, report, 0) == (0 if mutation == "none" else 1)
+    outcomes = json.loads((tmp_path / launcher.CLASSIFICATION_FILENAME).read_text())
+    assert outcomes["raw_stats"] == report["stats"]
+    options = outcomes["unsupported_options"]
+    if mutation == "none":
+        rejected, = options["unsafe_rejected"]
+        assert rejected["seed"] == 349879855 and rejected["case"] == 430
+        assert rejected["rejection_kind"] == "full_completion_live_random_no_ability"
+        assert not options["unclassified"] and not options["errors"]
+    else:
+        assert not options["unsafe_rejected"]
+        assert options["errors"] or options["unclassified"]

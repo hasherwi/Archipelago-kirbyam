@@ -107,6 +107,24 @@ def test_encounter_type_requires_advanced_graph_even_without_inventory_reference
     assert not compiled.evaluate(policy(), frozenset(), False).reaches('post')
 
 
+def test_bombar_projectiles_are_advanced_only_even_without_a_room_crossing():
+    enemy = 'room:539/template:0x088C2914'
+    payload_sources = {'generation_evidence': 'fixture spawn', 'lifetime_evidence': 'fixture lifetime'}
+    missiles = [record for record in source_inventory().values()
+                if record.get('parent_placement') == enemy and record['source_key'] == 'BOMBAR_MISSILE']
+    assert len(missiles) == 2  # Separate native launch call sites.
+    for missile in missiles:
+        witness = {**payload_sources, 'inventory_id': missile['id']}
+        with pytest.raises(ValueError, match='Advanced Logic'):
+            resolve_inventory_source(witness, 539, require_inventory=True)
+        assert resolve_inventory_source(witness, 539, advanced=True,
+                                        require_inventory=True)['source_key'] == 'BOMBAR_MISSILE'
+
+    # The direct swallow after defeat is a separately reviewable Standard source.
+    assert resolve_inventory_source({'inventory_id': enemy}, 539,
+                                    require_inventory=True)['source_key'] == 'BOMBAR'
+
+
 def test_join_does_not_mutate_witness_or_invent_renewability():
     original = payload()
     snapshot = deepcopy(original)
@@ -377,3 +395,112 @@ def test_dark_mind_static_phase_selection_does_not_transfer_to_descendants():
         assert record['native_contract']['attack_entry_guaranteed'] is False
     assert not any('native_phase_selection' in r for r in records
                    if r.get('generation', {}).get('controller_type') == 81)
+
+
+def test_parent_audit_separates_all_native_boss_actors_from_runtime_grants():
+    from ..ability_source_inventory import parent_copy_audit_for_placement
+    from ..enemy_ability_data import ABILITY_SOURCES, ENCOUNTER_PARENT_COPY_AUDITS, NATIVE_PARENT_COPY_AUDIT_KEYS
+
+    adults = set(range(0x45, 0x53))
+    youth = set(range(0x37, 0x40))
+    assert set(NATIVE_PARENT_COPY_AUDIT_KEYS) == adults | youth
+    runtime = {source.key: source for source in ABILITY_SOURCES}
+    assert len(runtime) == 73  # This annotation cannot add or reorder runtime grant types.
+    for typ in adults:
+        key = NATIVE_PARENT_COPY_AUDIT_KEYS[typ]
+        audit = ENCOUNTER_PARENT_COPY_AUDITS[key]
+        assert (audit.swallow_status, audit.vanilla_copy, audit.when) == ("not_swallowable", None, None)
+        assert key not in runtime
+    expected = ("Normal", "Ice", "Hammer", "Throw", "Burning", "Fighter", "Magic", "Smash", "Missile")
+    for typ, ability in zip(sorted(youth), expected, strict=True):
+        key = NATIVE_PARENT_COPY_AUDIT_KEYS[typ]
+        audit = ENCOUNTER_PARENT_COPY_AUDITS[key]
+        assert (audit.swallow_status, audit.vanilla_copy, audit.when) == (
+            "swallowable", ability, "ordinary" if typ == 0x37 else "after_defeat",
+        )
+        assert runtime[key].default_ability_name == ability
+    assert NATIVE_PARENT_COPY_AUDIT_KEYS[0x47] != NATIVE_PARENT_COPY_AUDIT_KEYS[0x3E]
+    assert NATIVE_PARENT_COPY_AUDIT_KEYS[0x4D] != NATIVE_PARENT_COPY_AUDIT_KEYS[0x3E]
+    rows = [row for row in source_inventory().values() if parent_copy_audit_for_placement(row) is not None]
+    assert sum(row["source_type"] == "boss" for row in rows) == 15
+    assert sum(row["source_type"] == "miniboss" for row in rows) == 43
+    assert sum("parent_placement" in row for row in rows) == 6  # Spawned miniboss bodies, not projectiles.
+    assert all(row["source_key"] is None and row["native_grant"] is None
+               for row in rows if row["source_type"] == "boss")
+
+
+def test_unknown_and_normal_parent_audit_states_are_not_interchangeable():
+    from ..enemy_ability_data import _parse_parent_copy_audit
+
+    raw = {
+        "native_types": [{"id": 0x37, "name": "OBJ_WADDLE_DEE_2"}],
+        "swallow_status": "unknown", "vanilla_copy": None, "when": None,
+        "evidence": "Fixture with unverified parent behavior.",
+    }
+    assert _parse_parent_copy_audit("FIXTURE", raw).swallow_status == "unknown"
+    with pytest.raises(ValueError, match="cannot name a vanilla grant"):
+        _parse_parent_copy_audit("FIXTURE", dict(raw, vanilla_copy="Normal"))
+    with pytest.raises(ValueError, match="known grant"):
+        _parse_parent_copy_audit("FIXTURE", dict(raw, swallow_status="swallowable", when="ordinary"))
+    assert _parse_parent_copy_audit("FIXTURE", dict(
+        raw, swallow_status="swallowable", when="ordinary", vanilla_copy="Normal",
+    )).vanilla_copy == "Normal"
+
+
+def test_parent_audit_cannot_attach_to_projectiles_or_invent_a_boss_grant():
+    from ..ability_source_inventory import parent_copy_audit_for_placement
+
+    rows = tuple(source_inventory().values())
+    child = next(row for row in rows if row.get("source_type") == "encounter_spawn")
+    with pytest.raises(ValueError, match="audit mismatch"):
+        parent_copy_audit_for_placement(dict(child, parent_copy_audit_key="MASTER_HAND"))
+    boss = next(row for row in rows if row.get("parent_copy_audit_key") == "KRACKO")
+    with pytest.raises(ValueError, match="cannot introduce a runtime grant"):
+        parent_copy_audit_for_placement(dict(boss, native_grant="Normal"))
+    with pytest.raises(ValueError, match="audit mismatch"):
+        parent_copy_audit_for_placement(dict(boss, parent_copy_audit_key="MASTER_HAND"))
+    with pytest.raises(ValueError, match="native name mismatch"):
+        parent_copy_audit_for_placement(dict(boss, native_name="OBJ_MASTER_HAND"))
+
+
+def test_encounter_output_audit_keeps_normal_immunity_unknown_and_mix_distinct():
+    from ..ability_source_inventory import encounter_copy_audit_for_placement
+    from ..enemy_ability_data import ABILITY_SOURCES, ENCOUNTER_OUTPUT_COPY_AUDITS
+
+    placements = source_inventory()
+    audited = [row for row in placements.values() if encounter_copy_audit_for_placement(row) is not None]
+    assert {row['type_id'] for row in audited} == set(ENCOUNTER_OUTPUT_COPY_AUDITS)
+    assert all(row['logic'] == 'advanced' and row['access']['status'] == 'unresolved'
+               and row['parent_placement'] in placements for row in audited)
+    audit = {row['type_id']: encounter_copy_audit_for_placement(row) for row in audited}
+    assert (audit[166].swallow_status, audit[166].vanilla_copy) == ('swallowable', 'Normal')
+    assert (audit[156].swallow_status, audit[156].vanilla_copy) == ('not_swallowable', None)
+    assert (audit[183].swallow_status, audit[183].vanilla_copy) == ('unknown', None)
+    assert (audit[206].swallow_status, audit[206].copy_result, audit[206].vanilla_copy) == (
+        'swallowable', 'random', None)
+    assert audit[178].vanilla_copy == 'Bomb'
+    assert audit[179].vanilla_copy == 'Missile'
+    assert audit[200].vanilla_copy == 'Burning'
+    assert audit[48].vanilla_copy == 'Crash'
+    assert not {'BATAFIRE_FIREBALL', 'KING_GOLEM_GORDO', 'DARK_MIND_STAR_MIX'} & {
+        source.key for source in ABILITY_SOURCES
+    }
+
+
+def test_encounter_projectile_audit_cannot_be_attached_to_parent_or_used_in_standard_logic():
+    from ..ability_source_inventory import encounter_copy_audit_for_placement
+
+    placements = source_inventory()
+    row = next(row for row in placements.values()
+               if row.get('encounter_copy_audit_key') == 'BOMBAR_MISSILE'
+               and 'world_access' not in row)
+    parent = placements[row['parent_placement']]
+    assert encounter_copy_audit_for_placement(parent) is None
+    with pytest.raises(ValueError, match='output copy audit mismatch'):
+        encounter_copy_audit_for_placement(dict(parent, encounter_copy_audit_key='BOMBAR_MISSILE'))
+    with pytest.raises(ValueError, match='output copy audit disagrees'):
+        encounter_copy_audit_for_placement(dict(row, logic='standard'))
+    with pytest.raises(ValueError, match='requires Advanced Logic'):
+        resolve_inventory_source({'inventory_id': row['id']}, row['native_room'])
+    with pytest.raises(ValueError, match='requires generation_evidence'):
+        resolve_inventory_source({'inventory_id': row['id']}, row['native_room'], advanced=True)

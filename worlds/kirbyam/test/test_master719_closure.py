@@ -66,8 +66,10 @@ def fixture(  # noqa: C901 - one explicit isolated-world dependency matrix
     mw.set_seed(1052719)
     args = Namespace()
     overrides = {'goal': goal, 'shards': shards, 'accessibility': accessibility,
-                 'ability_randomization_mode': 2, 'ability_randomization_statues': False,
-                 'ability_randomization_no_ability_weight': 100, 'area_keys': keys,
+                 # Early setup must use a supported option combination. The isolated
+                 # resolver below supplies the exact source policy under test.
+                 'ability_randomization_mode': 0, 'ability_randomization_statues': False,
+                 'area_keys': keys,
                  'required_area_bosses': 1}
     for name, cls in KirbyAmWorld.options_dataclass.type_hints.items():
         setattr(args, name, {player: cls.from_any(overrides.get(name, cls.default)) for player in mw.player_ids})
@@ -167,7 +169,7 @@ def fixture(  # noqa: C901 - one explicit isolated-world dependency matrix
         if carrier == CARROT_KEY and not keys:
             continue
         put(f'Carrier {carrier}', carrier, lower if cycle == carrier else menu)
-    if early and early != 'Beam':
+    if early:
         put('Early ability permission', f'{early} Ability')
     put('Lower target check', '1 Up', lower)
     return ClosureFixture(world, target, event)

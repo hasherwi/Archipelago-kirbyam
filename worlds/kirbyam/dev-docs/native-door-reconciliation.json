@@ -1,0 +1,561 @@
+{
+  "schema": 1,
+  "note": "Audit evidence only; no access rules. Tile pins select recorded trigger and landing for named compartments. Non-tile witnesses certify a specific mechanism, not unconditional passage.",
+  "tile_pins": [
+    {
+      "from_region": "REGION_CABBAGE_CAVERN/ROOM_3_03",
+      "to_region": "REGION_CABBAGE_CAVERN/ROOM_3_04",
+      "trigger_tile": [
+        24,
+        2
+      ],
+      "arrival_tile": [
+        23,
+        19
+      ],
+      "evidence": "ordinary-529-directional-topology.md"
+    },
+    {
+      "from_region": "REGION_CABBAGE_CAVERN/ROOM_3_03__LOGIC__UPPER_LEFT",
+      "to_region": "REGION_CABBAGE_CAVERN/ROOM_3_04_SUB",
+      "trigger_tile": [
+        5,
+        2
+      ],
+      "arrival_tile": [
+        10,
+        19
+      ],
+      "evidence": "ordinary-529-directional-topology.md"
+    },
+    {
+      "from_region": "REGION_CABBAGE_CAVERN/ROOM_3_04",
+      "to_region": "REGION_CABBAGE_CAVERN/ROOM_3_03",
+      "trigger_tile": [
+        23,
+        18
+      ],
+      "arrival_tile": [
+        24,
+        3
+      ],
+      "evidence": "ordinary-529-directional-topology.md"
+    },
+    {
+      "from_region": "REGION_CABBAGE_CAVERN/ROOM_3_04_SUB",
+      "to_region": "REGION_CABBAGE_CAVERN/ROOM_3_03__LOGIC__UPPER_LEFT",
+      "trigger_tile": [
+        10,
+        18
+      ],
+      "arrival_tile": [
+        7,
+        3
+      ],
+      "evidence": "ordinary-529-directional-topology.md"
+    },
+    {
+      "from_region": "REGION_MOONLIGHT_MANSION/ROOM_2_01__LOGIC__RIGHT_TOP",
+      "to_region": "REGION_MOONLIGHT_MANSION/ROOM_2_11",
+      "trigger_tile": [
+        22,
+        28
+      ],
+      "arrival_tile": [
+        6,
+        3
+      ],
+      "evidence": "ordinary-708-source-carrier-contract.md"
+    },
+    {
+      "from_region": "REGION_MOONLIGHT_MANSION/ROOM_2_01__LOGIC__RIGHT_TOP",
+      "to_region": "REGION_MOONLIGHT_MANSION/ROOM_2_11_DEAD_END",
+      "trigger_tile": [
+        28,
+        28
+      ],
+      "arrival_tile": [
+        12,
+        3
+      ],
+      "evidence": "ordinary-708-source-carrier-contract.md"
+    },
+    {
+      "from_region": "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_LEFT",
+      "to_region": "REGION_MOONLIGHT_MANSION/ROOM_2_11",
+      "trigger_tile": [
+        22,
+        28
+      ],
+      "arrival_tile": [
+        6,
+        3
+      ],
+      "evidence": "bomb-chain-route-audit.md"
+    },
+    {
+      "from_region": "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_RIGHT",
+      "to_region": "REGION_MOONLIGHT_MANSION/ROOM_2_11_DEAD_END",
+      "trigger_tile": [
+        28,
+        28
+      ],
+      "arrival_tile": [
+        12,
+        3
+      ],
+      "evidence": "bomb-chain-route-audit.md"
+    },
+    {
+      "from_region": "REGION_MOONLIGHT_MANSION/ROOM_2_11",
+      "to_region": "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_LEFT",
+      "trigger_tile": [
+        6,
+        2
+      ],
+      "arrival_tile": [
+        23,
+        29
+      ],
+      "evidence": "bomb-chain-route-audit.md"
+    },
+    {
+      "from_region": "REGION_MOONLIGHT_MANSION/ROOM_2_11_DEAD_END",
+      "to_region": "REGION_MOONLIGHT_MANSION/ROOM_2_01_BOTTOM_RIGHT",
+      "trigger_tile": [
+        10,
+        2
+      ],
+      "arrival_tile": [
+        30,
+        29
+      ],
+      "evidence": "bomb-chain-route-audit.md"
+    },
+    {
+      "from_region": "REGION_MOONLIGHT_MANSION/ROOM_2_14",
+      "to_region": "REGION_MOONLIGHT_MANSION/ROOM_2_15",
+      "trigger_tile": [
+        1,
+        17
+      ],
+      "arrival_tile": [
+        30,
+        29
+      ],
+      "evidence": "ordinary-742-door-topology.json"
+    },
+    {
+      "from_region": "REGION_MOONLIGHT_MANSION/ROOM_2_14_UPPER",
+      "to_region": "REGION_MOONLIGHT_MANSION/ROOM_2_15__LOGIC__UPPER_RETURN",
+      "trigger_tile": [
+        3,
+        2
+      ],
+      "arrival_tile": [
+        19,
+        8
+      ],
+      "evidence": "ordinary-742-door-topology.json"
+    },
+    {
+      "from_region": "REGION_PEPPERMINT_PALACE/ROOM_7_05",
+      "to_region": "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST__LOGIC__UPPER_ENTRY",
+      "trigger_tile": [
+        29,
+        14
+      ],
+      "arrival_tile": [
+        2,
+        9
+      ],
+      "evidence": "ordinary-205-209-directed-checks.md"
+    },
+    {
+      "from_region": "REGION_PEPPERMINT_PALACE/ROOM_7_05__LOGIC__SNOW_HALL",
+      "to_region": "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST__LOGIC__LOWER_MAP",
+      "trigger_tile": [
+        29,
+        28
+      ],
+      "arrival_tile": [
+        2,
+        20
+      ],
+      "evidence": "ordinary-205-209-directed-checks.md"
+    },
+    {
+      "from_region": "REGION_PEPPERMINT_PALACE/ROOM_7_CHEST__LOGIC__UPPER_ENTRY",
+      "to_region": "REGION_PEPPERMINT_PALACE/ROOM_7_05__LOGIC__SNOW_HALL",
+      "trigger_tile": [
+        1,
+        13
+      ],
+      "arrival_tile": [
+        30,
+        24
+      ],
+      "evidence": "ordinary-205-209-directed-checks.md"
+    },
+    {
+      "from_region": "REGION_CARROT_CASTLE/ROOM_5_07",
+      "to_region": "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_07",
+      "trigger_tile": [
+        1,
+        14
+      ],
+      "arrival_tile": [
+        13,
+        14
+      ],
+      "evidence": "carrot-topology-reconciliation.md"
+    },
+    {
+      "from_region": "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_07",
+      "to_region": "REGION_CARROT_CASTLE/ROOM_5_07",
+      "trigger_tile": [
+        13,
+        13
+      ],
+      "arrival_tile": [
+        6,
+        15
+      ],
+      "evidence": "carrot-topology-reconciliation.md"
+    },
+    {
+      "from_region": "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_14",
+      "to_region": "REGION_CARROT_CASTLE/ROOM_5_14",
+      "trigger_tile": [
+        2,
+        4
+      ],
+      "arrival_tile": [
+        11,
+        8
+      ],
+      "evidence": "carrot-topology-reconciliation.md"
+    },
+    {
+      "from_region": "REGION_OLIVE_OCEAN/ROOM_6_04",
+      "to_region": "REGION_OLIVE_OCEAN/ROOM_6_05_SUBROOM",
+      "trigger_tile": [
+        73,
+        6
+      ],
+      "arrival_tile": [
+        2,
+        6
+      ],
+      "evidence": "olive-door-topology.md"
+    },
+    {
+      "from_region": "REGION_OLIVE_OCEAN/ROOM_6_04",
+      "to_region": "REGION_OLIVE_OCEAN/ROOM_6_05__LOGIC__ENTRY_FROM_6_04_OR_6_06",
+      "trigger_tile": [
+        73,
+        18
+      ],
+      "arrival_tile": [
+        3,
+        18
+      ],
+      "evidence": "olive-door-topology.md"
+    },
+    {
+      "from_region": "REGION_OLIVE_OCEAN/ROOM_6_05_SUBROOM",
+      "to_region": "REGION_OLIVE_OCEAN/ROOM_6_07",
+      "trigger_tile": [
+        14,
+        14
+      ],
+      "arrival_tile": [
+        3,
+        4
+      ],
+      "evidence": "olive-door-topology.md"
+    },
+    {
+      "from_region": "REGION_OLIVE_OCEAN/ROOM_6_05__LOGIC__ENTRY_FROM_6_04_OR_6_06",
+      "to_region": "REGION_OLIVE_OCEAN/ROOM_6_06",
+      "trigger_tile": [
+        43,
+        2
+      ],
+      "arrival_tile": [
+        2,
+        7
+      ],
+      "evidence": "olive-door-topology.md"
+    },
+    {
+      "from_region": "REGION_CABBAGE_CAVERN/ROOM_3_14",
+      "to_region": "REGION_CABBAGE_CAVERN/ROOM_3_15_UPPER_ENTRY",
+      "trigger_tile": [
+        69,
+        5
+      ],
+      "arrival_tile": [
+        2,
+        3
+      ],
+      "evidence": "../docs/traversal-logic.md#peg_527_56_16"
+    },
+    {
+      "from_region": "REGION_CABBAGE_CAVERN/ROOM_3_14",
+      "to_region": "REGION_CABBAGE_CAVERN/ROOM_3_15_LOWER_ENTRY",
+      "trigger_tile": [
+        69,
+        17
+      ],
+      "arrival_tile": [
+        5,
+        24
+      ],
+      "evidence": "../docs/traversal-logic.md#peg_527_56_16"
+    },
+    {
+      "from_region": "REGION_RAINBOW_ROUTE/ROOM_1_02",
+      "to_region": "REGION_RAINBOW_ROUTE/ROOM_1_03_UPPER",
+      "trigger_tile": [
+        76,
+        3
+      ],
+      "arrival_tile": [
+        4,
+        4
+      ],
+      "evidence": "split-door-topology.md#rainbow-and-moonlight"
+    },
+    {
+      "from_region": "REGION_RAINBOW_ROUTE/ROOM_1_02",
+      "to_region": "REGION_RAINBOW_ROUTE/ROOM_1_03_LOWER",
+      "trigger_tile": [
+        76,
+        7
+      ],
+      "arrival_tile": [
+        4,
+        9
+      ],
+      "evidence": "split-door-topology.md#rainbow-and-moonlight"
+    },
+    {
+      "from_region": "REGION_MOONLIGHT_MANSION/ROOM_2_20",
+      "to_region": "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2",
+      "trigger_tile": [
+        2,
+        18
+      ],
+      "arrival_tile": [
+        59,
+        13
+      ],
+      "evidence": "split-door-topology.md#rainbow-and-moonlight"
+    },
+    {
+      "from_region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_12",
+      "to_region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_13",
+      "trigger_tile": [
+        6,
+        15
+      ],
+      "arrival_tile": [
+        30,
+        39
+      ],
+      "evidence": "phone-mustard12-lower-evidence.json"
+    },
+    {
+      "from_region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_12",
+      "to_region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_13__LOGIC__CANNON_LEFT",
+      "trigger_tile": [
+        1,
+        8
+      ],
+      "arrival_tile": [
+        13,
+        36
+      ],
+      "evidence": "split-door-topology.md#mustard-cannon-and-batafire"
+    },
+    {
+      "from_region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_14",
+      "to_region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_BOSS",
+      "trigger_tile": [
+        12,
+        2
+      ],
+      "arrival_tile": [
+        11,
+        19
+      ],
+      "evidence": "split-door-topology.md#mustard-cannon-and-batafire"
+    },
+    {
+      "from_region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_14__LOGIC__CANNON_LEFT",
+      "to_region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_BOSS",
+      "trigger_tile": [
+        3,
+        2
+      ],
+      "arrival_tile": [
+        4,
+        19
+      ],
+      "evidence": "split-door-topology.md#mustard-cannon-and-batafire"
+    },
+    {
+      "from_region": "REGION_PEPPERMINT_PALACE/ROOM_7_12",
+      "to_region": "REGION_PEPPERMINT_PALACE/ROOM_7_06",
+      "trigger_tile": [
+        56,
+        8
+      ],
+      "arrival_tile": [
+        18,
+        3
+      ],
+      "evidence": "../docs/traversal-logic.md#peg_204_62_4"
+    },
+    {
+      "from_region": "REGION_PEPPERMINT_PALACE/ROOM_7_12",
+      "to_region": "REGION_PEPPERMINT_PALACE/ROOM_7_06__LOGIC__HAPPY_NOTES_ENTRY",
+      "trigger_tile": [
+        64,
+        8
+      ],
+      "arrival_tile": [
+        27,
+        2
+      ],
+      "evidence": "../docs/traversal-logic.md#peg_204_62_4"
+    },
+    {
+      "from_region": "REGION_MOONLIGHT_MANSION/ROOM_2_20",
+      "to_region": "REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_BOTTOM_RIGHT",
+      "arrival_tile": [
+        60,
+        19
+      ],
+      "trigger_tiles": [
+        [
+          0,
+          26
+        ],
+        [
+          1,
+          26
+        ],
+        [
+          0,
+          27
+        ],
+        [
+          1,
+          27
+        ],
+        [
+          0,
+          28
+        ],
+        [
+          1,
+          28
+        ],
+        [
+          0,
+          29
+        ],
+        [
+          1,
+          29
+        ]
+      ],
+      "evidence": "split-door-topology.md#rainbow-and-moonlight"
+    },
+    {
+      "from_region": "REGION_CANDY_CONSTELLATION/ROOM_9_12",
+      "to_region": "REGION_CANDY_CONSTELLATION/ROOM_9_13__LOGIC__UPPER_WARP",
+      "trigger_tile": [
+        40,
+        3
+      ],
+      "arrival_tile": [
+        3,
+        4
+      ],
+      "evidence": "split-door-topology.md#candy-constellation-room-13"
+    },
+    {
+      "from_region": "REGION_CANDY_CONSTELLATION/ROOM_9_12",
+      "to_region": "REGION_CANDY_CONSTELLATION/ROOM_9_13",
+      "trigger_tile": [
+        40,
+        28
+      ],
+      "arrival_tile": [
+        3,
+        15
+      ],
+      "evidence": "split-door-topology.md#candy-constellation-room-13"
+    },
+    {
+      "from_region": "REGION_PEPPERMINT_PALACE/ROOM_7_09",
+      "to_region": "REGION_PEPPERMINT_PALACE/ROOM_7_10",
+      "trigger_tile": [
+        16,
+        4
+      ],
+      "arrival_tile": [
+        17,
+        29
+      ],
+      "evidence": "ordinary-229-source-carrier-contract.md#independent-normal-approaches-common-boundary"
+    },
+    {
+      "from_region": "REGION_PEPPERMINT_PALACE/ROOM_7_09",
+      "to_region": "REGION_PEPPERMINT_PALACE/ROOM_7_10__LOGIC__CENTER_WARP",
+      "trigger_tile": [
+        22,
+        4
+      ],
+      "arrival_tile": [
+        23,
+        29
+      ],
+      "evidence": "ordinary-229-source-carrier-contract.md#independent-normal-approaches-common-boundary"
+    },
+    {
+      "from_region": "REGION_PEPPERMINT_PALACE/ROOM_7_09",
+      "to_region": "REGION_PEPPERMINT_PALACE/ROOM_7_10__LOGIC__RIGHT_SPRAY",
+      "trigger_tile": [
+        28,
+        4
+      ],
+      "arrival_tile": [
+        29,
+        29
+      ],
+      "evidence": "ordinary-229-source-carrier-contract.md#independent-normal-approaches-common-boundary"
+    }
+  ],
+  "non_tile_witnesses": [
+    {
+      "from_region": "REGION_RAINBOW_ROUTE/ROOM_1_32",
+      "to_region": "REGION_RAINBOW_ROUTE/ROOM_1_33_LEFT",
+      "mechanism": "fuse_cannon",
+      "arrival_tile": [
+        6,
+        1
+      ],
+      "evidence": "rainbow-room32-crash-source-witness.md"
+    },
+    {
+      "from_region": "REGION_RAINBOW_ROUTE/ROOM_1_WARP",
+      "to_region": "REGION_MOONLIGHT_MANSION/ROOM_2_ENTRY",
+      "mechanism": "warp_star",
+      "evidence": "area-key-native-evidence.json"
+    }
+  ]
+}

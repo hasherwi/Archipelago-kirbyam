@@ -22,7 +22,8 @@
 - Enemies that cannot be swallowed are excluded from the enemy copy-ability randomization pool.
 - The chance for an enemy to not have a copy ability can be controlled via the `ability_randomization_no_ability_weight`
 - Ability statues (sometimes called ability trophies or ability stands) have a dedicated boolean toggle (`ability_randomization_statues`). With the toggle off, statues retain their vanilla abilities. In `shuffled` mode, each statue keeps one seed-deterministic assignment, which appears in the spoiler log. In `completely_random` mode, a regular statue makes a fresh draw every time its grant is triggered; independent draws may still repeat by chance. Statue draws use the configured ability whitelist, exclude Mini from the regular-statue pool, and remove gated abilities until their AP unlock items are received. Statues always draw an ability when at least one eligible ability remains and intentionally ignore `ability_randomization_no_ability_weight`, `ability_randomization_passive_enemies`, `ability_randomization_minibosses`, and `ability_randomization_boss_spawns`. The Master Sword stand is not treated as a regular randomized statue.
-- All 25 AP ability items are listed in `data/items.json` with stable item IDs, labels, classifications, and tags for trackers. Beam is the only guaranteed starting item. The other abilities, including Burning and Stone, use source-backed traversal rules and remain gated when Ability Gating is enabled. `Ability Gating` defaults on under `Make the game harder`; when enabled, the other 24 ability items enter the pool and unlock their matching abilities when received. With gating off, those unlock items are omitted from the pool. `data/abilities.json` retains the runtime IDs and gating policy. Receiving an ability item grants ownership, not an immediate ability change.
+- All 25 AP ability items are listed in `data/items.json` with stable item IDs, labels, classifications, and tags for trackers. No copy ability unlock is precollected by default. All 25 unlockable abilities, including Beam and Ice, use the same gating policy. `Ability Gating` defaults on under `Make the game harder`; when enabled, all 25 ability items normally enter the pool and unlock their matching abilities when received. With gating off, those unlock items are omitted from the pool. `data/abilities.json` retains the runtime IDs and gating policy. Receiving an ability item grants ownership, not an immediate ability change.
+- **Random Starting Abilities** (`random_starting_abilities`, default 0): with Ability Gating on, move 0–25 unique, seed-selected ability unlocks from the item pool to starting inventory, replacing their pool slots with filler or traps according to your settings. Explicit `start_inventory` abilities and unlocks reserved by `from_pool` plando are not selected. A count larger than the remaining eligible unlocks is rejected. Kirby still has to acquire each copy ability in-game through its usual source.
 
 
 
@@ -217,16 +218,14 @@ you're playing a multiworld game, the client will sync your game with the server
 
 ## Starting ability unlocks
 
-New seeds automatically start with the Beam unlock only. Burning and Stone are
-progression unlocks in the shuffled pool when Ability Gating is enabled. Receiving
-an unlock grants permission to acquire an ability through normal gameplay; it
-does not equip it or create an enemy, statue or projectile.
+New seeds do not start with any copy-ability unlocks by default. With Ability
+Gating on, the 24 gated unlocks, including Ice, Burning and Stone, enter the
+item pool, including Beam and Ice. With gating
+off, all abilities remain usable and no ability unlocks enter the pool.
 
-Beam is precollected with Ability Gating on or off. With gating on, the other24
-unlock items enter the pool. With gating off, all abilities remain usable and
-no ability unlocks enter the pool. Explicit `start_inventory` remains additive:
-an explicit positive Beam count replaces its automatic copy, while explicit
-Stone, Burning and other starting counts are retained.
+An unlock only grants permission to acquire the ability normally. It does not
+equip it or create an enemy, statue or projectile. Explicit `start_inventory`
+counts are still honored.
 
 Use a matching updated APWorld/client. Existing seeds keep their original
 inventory and gate policy, including the historical22-ability fallback when
@@ -246,6 +245,9 @@ Every new seed includes one **Phone a Friend** progression item; there is no
 Phone option. Receiving it unlocks new local single-player **R** calls. **L**
 return/escape and tutorial calls are not locked. Ownership persists with the
 authenticated native save. Cell Phone Batteries remain ordinary consumables.
+For item placement, a Phone-dependent check needs at least one Goal Game that
+can be reached first and replayed for batteries. Battery items are Useful, not
+progression.
 Before you receive Phone, its battery display is empty but charges are retained.
 You start with three charges and can receive more than three; the display has
 only three segments, so extra charges have no additional visual indicator.

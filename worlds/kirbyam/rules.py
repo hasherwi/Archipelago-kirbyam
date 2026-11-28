@@ -30,6 +30,7 @@ requires acknowledgements for its physical checks.
 from __future__ import annotations
 
 from collections import deque
+from functools import partial
 from typing import TYPE_CHECKING
 
 from BaseClasses import CollectionState
@@ -46,81 +47,140 @@ from .groups import resolve_item_group
 from .options import Goal
 from .capture_the_flag import GOAL_EVENT as FLAG_GOAL_EVENT, install_goal_event
 from .completion import PHYSICAL_KEYS, REQUIRED_ITEMS, ROOM_REGIONS
-from .traversal import CAPABILITY_ABILITIES, METAL_BREAKING_ABILITIES
+from .traversal import CAPABILITY_ABILITIES
 
 if TYPE_CHECKING:
     from . import KirbyAmWorld
 
 
-_SHARD_ITEM_LABELS = [
-    "Mustard Mountain - Mirror Shard",
-    "Moonlight Mansion - Mirror Shard",
-    "Candy Constellation - Mirror Shard",
-    "Olive Ocean - Mirror Shard",
-    "Peppermint Palace - Mirror Shard",
-    "Cabbage Cavern - Mirror Shard",
-    "Carrot Castle - Mirror Shard",
-    "Radish Ruins - Mirror Shard",
-]
+def _load_goal_logic():
+    payload = load_json_data("goal_logic.json")
+    if not isinstance(payload, dict) or type(payload.get("schema")) is not int or payload["schema"] != 1:
+        raise ValueError("Unsupported Kirby goal logic schema")
+    goals = payload.get("goals")
+    if not isinstance(goals, dict) or goals.keys() != set(Goal.name_lookup.values()):
+        raise ValueError("Kirby goal logic must declare every supported mode")
+    if payload.get("default_goal") not in goals:
+        raise ValueError("Unknown default Kirby goal")
+    event = payload["dark_mind_prerequisite_event"]
+    event_regions = [region.name for region in data.regions.values()
+                     if any(item.name == event for item in region.events)]
+    if len(event_regions) != 1:
+        raise ValueError("Dark Mind prerequisite must name a unique region event")
+    modes = {}
+    for value, name in Goal.name_lookup.items():
+        row = goals[name]
+        if value == Goal.option_capture_the_flag:
+            if row != {"goal_event": FLAG_GOAL_EVENT}:
+                raise ValueError("Invalid Kirby Capture the Flag goal event")
+            modes[value] = (row["goal_event"], ())
+            continue
+        if not isinstance(row, dict) or set(row) != {"goal_location", "all_of"}:
+            raise ValueError(f"Invalid Kirby goal declaration: {name}")
+        location = data.locations.get(row["goal_location"])
+        if location is None or location.category != LocationCategory.GOAL:
+            raise ValueError(f"Kirby goal declaration must name a goal location: {name}")
+        requirements = row["all_of"]
+        if not isinstance(requirements, list) or not requirements:
+            raise ValueError(f"Kirby goal must declare requirements: {name}")
+        clauses = []
+        for requirement in requirements:
+            if isinstance(requirement, str) and requirement in {
+                "all_shards", "dark_mind_prerequisite_event", "configured_boss",
+                "completion_items", "completion_rooms", "completion_checks",
+            }:
+                clauses.append((requirement, None))
+                continue
+            if isinstance(requirement, dict) and set(requirement) == {"reachable_bosses"}:
+                count = requirement["reachable_bosses"]
+                if type(count) is int and 1 <= count <= len(_BOSS_DEFEAT_LOCATION_LABELS):
+                    clauses.append(("reachable_bosses", count))
+                    continue
+                if count == {"option": "required_area_bosses"}:
+                    clauses.append(("reachable_bosses", "required_area_bosses"))
+                    continue
+            raise ValueError(f"Unknown or invalid Kirby goal requirement: {requirement!r}")
+        modes[value] = (location.label, tuple(clauses))
+    if len({label for label, _ in modes.values()}) != len(modes):
+        raise ValueError("Kirby goal modes must bind distinct goal locations")
+    return modes, Goal.options[payload["default_goal"]], event, event_regions[0]
 
-_GOAL_LOCATION_LABELS = {
-    Goal.option_dark_mind: "Defeat Dark Mind",
-    Goal.option_full_completion: "100% Game Completion",
-    Goal.option_capture_the_flag: FLAG_GOAL_EVENT,
-    Goal.option_defeat_any_area_boss: "Defeat Any Area Boss",
-    Goal.option_defeat_area_boss: "Defeat Area Boss",
-    Goal.option_defeat_area_boss_count: "Defeat a Number of Area Bosses",
-}
-_DARK_MIND_GOAL_LABEL = _GOAL_LOCATION_LABELS[Goal.option_dark_mind]
-_ANY_AREA_BOSS_GOAL_LABEL = _GOAL_LOCATION_LABELS[Goal.option_defeat_any_area_boss]
-_AREA_BOSS_GOAL_LABEL = _GOAL_LOCATION_LABELS[Goal.option_defeat_area_boss]
 
+# Stable order matches canonical boss bit indices and shard item identity.
+_SHARD_ITEM_LABELS = [item.label for item in sorted(data.items.values(), key=lambda item: item.item_id)
+                      if "Shards" in item.tags]
 _BOSS_DEFEAT_LOCATION_LABELS = [
-    "Mustard Mountain - Boss Defeat",
-    "Moonlight Mansion - Boss Defeat",
-    "Candy Constellation - Boss Defeat",
-    "Olive Ocean - Boss Defeat",
-    "Peppermint Palace - Boss Defeat",
-    "Cabbage Cavern - Boss Defeat",
-    "Carrot Castle - Boss Defeat",
-    "Radish Ruins - Boss Defeat",
+    loc.label for loc in sorted(data.locations.values(), key=lambda loc: loc.location_id)
+    if loc.category == LocationCategory.BOSS_DEFEAT
 ]
+_GOAL_LOGIC, _DEFAULT_GOAL, _DMK_DIMENSION_MIRROR_EVENT, _DMK_EVENT_REGION = _load_goal_logic()
+_GOAL_LOCATION_LABELS = {value: label for value, (label, _) in _GOAL_LOGIC.items()}
 
-_DMK_DIMENSION_MIRROR_EVENT = "Defeat Dark Meta Knight (Dimension Mirror)"
 _ABILITY_GATE_STATUS_VALUES = frozenset({"confirmed", "semantic_candidate", "unconfirmed"})
 
-# Room-specific traversal installers enforce reviewed source witnesses. These
-# legacy compact capability labels cannot equip an inventory unlock by themselves;
-# unrelated movement/block requirements retain their existing policy.
-_ABILITY_GATE_PLACEHOLDER_SOURCES = {
-    "CanCutRopes": CAPABILITY_ABILITIES["rope"],
-    "CanBreakBlocks": METAL_BREAKING_ABILITIES,
-    "CanUseMini": CAPABILITY_ABILITIES["mini_corridor"],
-    "CanLightFuses": CAPABILITY_ABILITIES["fuse"],
-    "CanPoundPegs": CAPABILITY_ABILITIES["peg"],
-}
+def _load_compact_room_logic():
+    payload = load_json_data("compact_room_logic.json")
+    if not isinstance(payload, dict) or type(payload.get("schema")) is not int or payload["schema"] != 1:
+        raise ValueError("Unsupported Kirby compact room logic schema")
 
-_STAKE_TRANSITION_GATE_NAME = "CanPoundPegs"
-# Catalog/native item order is Moonlight, Olive, Carrot, Radish (IDs 3860037..40).
-# Physical lever events report checks; only these AP items own the wall unlocks.
-_ROOM_LEVER_WALL_ITEMS = {
-    "mm_lever": "Moonlight Mansion 2-11 - Lever Wall",
-    "oo_lever": "Olive Ocean 6-13 - Lever Wall",
-    "cc_lever": "Carrot Castle 5-05 - Lever Wall",
-    "rr_lever": "Radish Ruins 8-12 - Lever Wall",
-}
-# Normal Kirby can fly, swim and climb without acquiring a Copy Ability. These
-# are movement predicates, not pending equipment sources. Carry restrictions
-# remain on the reviewed compartment routes that actually carry equipment.
-_NORMAL_MOVEMENT_REQUIREMENTS = frozenset({'can_fly', 'can_swim', 'can_climb'})
-_PENDING_ROOM_ABILITY_REQUIREMENTS = frozenset({
-    "can_break_floating_block",
-    "can_break_metal",
-    "can_break_metal_throw",
-    "can_wheel",
-    "can_mirra",
-    "can_hit_far_switch",
-})
+    def tokens(field):
+        values = payload[field]
+        if not isinstance(values, list) or not values or any(
+            not isinstance(token, str) or not token for token in values
+        ) or len(set(values)) != len(values):
+            raise ValueError(f"Invalid Kirby compact room token list: {field}")
+        return frozenset(values)
+
+    normal = tokens("normal_movement_tokens")
+    unreviewed = tokens("legacy_unreviewed_tokens")
+    occupied = set(normal | unreviewed)
+    if normal & unreviewed:
+        raise ValueError("Normal and unreviewed Kirby room tokens overlap")
+    canonical_by_alias = {}
+    providers_by_gate = {}
+    for canonical, row in payload["legacy_capability_aliases"].items():
+        room_token, capabilities = row["room_token"], row["provider_capabilities"]
+        if (not isinstance(room_token, str) or not room_token or room_token == canonical
+                or canonical in occupied or room_token in occupied
+                or not isinstance(capabilities, list) or not capabilities
+                or any(not isinstance(key, str) or key not in CAPABILITY_ABILITIES for key in capabilities)):
+            raise ValueError(f"Invalid Kirby legacy capability alias: {canonical!r}")
+        canonical_by_alias.update({canonical: canonical, room_token: canonical})
+        providers_by_gate[canonical] = frozenset().union(*(CAPABILITY_ABILITIES[key] for key in capabilities))
+        occupied.update((canonical, room_token))
+    stake = payload["legacy_stake_transition_gate"]
+    if stake not in providers_by_gate:
+        raise ValueError("Kirby stake transition must name a legacy capability gate")
+    return normal, unreviewed, canonical_by_alias, providers_by_gate, stake
+
+
+(_NORMAL_MOVEMENT_REQUIREMENTS, _PENDING_ROOM_ABILITY_REQUIREMENTS, _ROOM_ABILITY_GATE_ALIASES,
+ _ABILITY_GATE_PLACEHOLDER_SOURCES, _STAKE_TRANSITION_GATE_NAME) = _load_compact_room_logic()
+
+
+def _load_lever_wall_items() -> dict[str, str]:
+    payload = load_json_data("lever_wall_logic.json")
+    if not isinstance(payload, dict) or type(payload.get("schema")) is not int or payload["schema"] != 1:
+        raise ValueError("Unsupported Kirby lever wall logic schema")
+    mapping = payload.get("required_item_by_wall_token")
+    if not isinstance(mapping, dict) or not mapping:
+        raise ValueError("Kirby lever wall logic must declare required items")
+    labels = {}
+    for token, item_key in mapping.items():
+        if not isinstance(token, str) or not token.endswith("_lever") or not isinstance(item_key, str):
+            raise ValueError(f"Invalid Kirby lever wall requirement: {token!r}")
+        item_id = data.item_key_to_id.get(item_key)
+        item = data.items.get(item_id) if item_id is not None else None
+        if item is None or "Levers" not in item.tags:
+            raise ValueError(f"Kirby lever wall requirement must name a catalog Lever Wall item: {item_key!r}")
+        if item.label in labels.values():
+            raise ValueError(f"Duplicate Kirby Lever Wall item: {item_key!r}")
+        labels[token] = item.label
+    return labels
+
+
+# Physical lever events report checks; only received AP items unlock walls.
+_ROOM_LEVER_WALL_ITEMS = _load_lever_wall_items()
 
 
 def _has_all_shards(state: CollectionState, player: int) -> bool:
@@ -134,7 +194,7 @@ def can_complete_dark_mind_sequence(state: CollectionState, player: int) -> bool
     predicate models the opportunity, not a client receipt or equipped Master.
     """
     return (_has_all_shards(state, player)
-            and state.can_reach_region("REGION_DIMENSION_MIRROR/MAIN", player)
+            and state.can_reach_region(_DMK_EVENT_REGION, player)
             and state.has(_DMK_DIMENSION_MIRROR_EVENT, player))
 
 
@@ -150,51 +210,16 @@ def _allow_pending_ability_gate(_state: CollectionState, _player: int, _gate_nam
     return True
 
 
-def can_cut_ropes(state: CollectionState, player: int) -> bool:
-    return _allow_pending_ability_gate(state, player, "CanCutRopes")
+def _legacy_gate_rule(state: CollectionState, player: int, *, name: str) -> bool:
+    # The catalog describes provider possibilities, not access to an equipped copy.
+    # Source-backed route overlays, not these aliases, enforce reviewed witnesses.
+    return _allow_pending_ability_gate(state, player, name)
 
 
-def can_break_blocks(state: CollectionState, player: int) -> bool:
-    return _allow_pending_ability_gate(state, player, "CanBreakBlocks")
-
-
-def can_use_mini(state: CollectionState, player: int) -> bool:
-    return _allow_pending_ability_gate(state, player, "CanUseMini")
-
-
-def can_light_fuses(state: CollectionState, player: int) -> bool:
-    return _allow_pending_ability_gate(state, player, "CanLightFuses")
-
-
-def can_pound_pegs(state: CollectionState, player: int) -> bool:
-    return _allow_pending_ability_gate(state, player, "CanPoundPegs")
-
-
-CanCutRopes = can_cut_ropes
-CanBreakBlocks = can_break_blocks
-CanUseMini = can_use_mini
-CanLightFuses = can_light_fuses
-CanPoundPegs = can_pound_pegs
-
-
-ABILITY_GATE_RULES = {
-    "CanCutRopes": can_cut_ropes,
-    "CanBreakBlocks": can_break_blocks,
-    "CanUseMini": can_use_mini,
-    "CanLightFuses": can_light_fuses,
-    "CanPoundPegs": can_pound_pegs,
-}
-
-
-# Explicit aliases share the same policy as the existing capability helpers.
-_ROOM_ABILITY_GATE_RULES = {
-    **ABILITY_GATE_RULES,
-    "can_break_block": can_break_blocks,
-    "can_cut_ropes": can_cut_ropes,
-    "can_use_mini": can_use_mini,
-    "can_light_fuses": can_light_fuses,
-    "can_pound_pegs": can_pound_pegs,
-}
+ABILITY_GATE_RULES = {name: partial(_legacy_gate_rule, name=name)
+                      for name in _ABILITY_GATE_PLACEHOLDER_SOURCES}
+_ROOM_ABILITY_GATE_RULES = {alias: ABILITY_GATE_RULES[canonical]
+                           for alias, canonical in _ROOM_ABILITY_GATE_ALIASES.items()}
 
 
 def normal_movement_satisfies_requirement(requirement) -> bool:
@@ -253,7 +278,8 @@ def evaluate_room_logic_requirement(requirement, state: CollectionState, player:
 
 
 def _requirement_contains_token(requirement, token: str) -> bool:
-    if requirement == token or (token == "CanPoundPegs" and requirement == "can_pound_pegs"):
+    if requirement == token or (isinstance(requirement, str)
+                                and _ROOM_ABILITY_GATE_ALIASES.get(requirement) == token):
         return True
     if isinstance(requirement, dict):
         return any(
@@ -313,6 +339,44 @@ def get_stake_gated_transition_entrance_names() -> tuple[str, ...]:
     return tuple(sorted(entrance_names))
 
 
+def _compile_goal_requirements(world: KirbyAmWorld, goal_value: int):
+    player = world.player
+    label, clauses = _GOAL_LOGIC[goal_value]
+    compiled = []
+    for kind, argument in clauses:
+        if kind == "all_shards":
+            compiled.append(lambda state: _has_all_shards(state, player))
+        elif kind == "dark_mind_prerequisite_event":
+            compiled.append(lambda state: state.has(_DMK_DIMENSION_MIRROR_EVENT, player))
+        elif kind == "completion_items":
+            compiled.append(lambda state: all(state.has(item.label, player) for item in REQUIRED_ITEMS))
+        elif kind == "completion_rooms":
+            compiled.append(lambda state: all(any(state.can_reach_region(region, player) for region in regions)
+                                              for regions in ROOM_REGIONS))
+        elif kind == "completion_checks":
+            compiled.append(lambda state: all(state.can_reach_location(data.locations[key].label, player)
+                                              for key in PHYSICAL_KEYS))
+        elif kind == "reachable_bosses":
+            count = getattr(world.options, argument).value if isinstance(argument, str) else argument
+            if count == 1:
+                compiled.append(lambda state: any(state.can_reach_location(boss, player)
+                                                  for boss in _BOSS_DEFEAT_LOCATION_LABELS))
+            else:
+                compiled.append(lambda state, required=count: sum(state.can_reach_location(boss, player)
+                                                                 for boss in _BOSS_DEFEAT_LOCATION_LABELS)
+                                >= required)
+        elif kind == "configured_boss":
+            key = getattr(world, "_resolved_configured_area_boss_goal_key", None)
+            target = data.locations.get(key) if isinstance(key, str) else None
+            if target is None or target.category != LocationCategory.BOSS_DEFEAT:
+                raise ValueError(f"[P{player}] Configured area-boss goal target was not resolved "
+                                 f"for goal location {label!r}")
+            compiled.append(lambda state, boss=target.label: state.can_reach_location(boss, player))
+        else:
+            raise ValueError(f"Uncompiled Kirby goal requirement: {kind!r}")
+    return lambda state: all(pred(state) for pred in compiled)
+
+
 def set_rules(world: KirbyAmWorld) -> None:  # noqa: C901
     def shard_gate_rule(state):
         return _has_all_shards(state, world.player)
@@ -332,7 +396,7 @@ def set_rules(world: KirbyAmWorld) -> None:  # noqa: C901
 
     # Completion condition
     goal_value = world.options.goal.value
-    goal_label = _GOAL_LOCATION_LABELS.get(goal_value, "Defeat Dark Mind")
+    goal_label = _GOAL_LOCATION_LABELS.get(goal_value, _GOAL_LOCATION_LABELS[_DEFAULT_GOAL])
 
     if goal_value not in _GOAL_LOCATION_LABELS:
         logger.warning(
@@ -473,7 +537,7 @@ def set_rules(world: KirbyAmWorld) -> None:  # noqa: C901
 
     # Shared stake-gate model (hammer peg) for directional room transitions.
     def stake_gate_rule(state):
-        return can_pound_pegs(state, world.player)
+        return ABILITY_GATE_RULES[_STAKE_TRANSITION_GATE_NAME](state, world.player)
     stake_entrance_names = get_stake_gated_transition_entrance_names()
     applied_stake_gates = 0
     for stake_entrance_name in stake_entrance_names:
@@ -523,64 +587,8 @@ def set_rules(world: KirbyAmWorld) -> None:  # noqa: C901
                 set_rule(goal_location, lambda _state: True)
                 continue
 
-            if goal_value == Goal.option_full_completion:
-                # Physical visits are independent of whether Room Sanity awards items.
-                # Ten native final-sequence rooms use the existing Dark Mind model.
-                def full_completion_rule(state):
-                    return (
-                        state.has(_DMK_DIMENSION_MIRROR_EVENT, world.player)
-                        and all(state.has(item.label, world.player) for item in REQUIRED_ITEMS)
-                        and all(any(state.can_reach_region(region, world.player) for region in regions)
-                                for regions in ROOM_REGIONS)
-                        and all(state.can_reach_location(data.locations[key].label, world.player)
-                                for key in PHYSICAL_KEYS)
-                    )
-                set_rule(goal_location, full_completion_rule)
-            elif goal_location_name == _DARK_MIND_GOAL_LABEL:
-                # Sequenced after Dark Meta Knight within the Dimension Mirror.
-                def dmk_rule(state):
-                    return (
-                        _has_all_shards(state, world.player)
-                        and state.has(_DMK_DIMENSION_MIRROR_EVENT, world.player)
-                    )
-                set_rule(goal_location, dmk_rule)
-            elif goal_location_name == _ANY_AREA_BOSS_GOAL_LABEL:
-                def any_area_boss_rule(state):
-                    return any(
-                        state.can_reach_location(location_name, world.player)
-                        for location_name in _BOSS_DEFEAT_LOCATION_LABELS
-                    )
-                set_rule(goal_location, any_area_boss_rule)
-            elif goal_value == Goal.option_defeat_area_boss_count:
-                required_bosses = world.options.required_area_bosses.value
-
-                def area_boss_count_rule(state):
-                    return sum(
-                        state.can_reach_location(location_name, world.player)
-                        for location_name in _BOSS_DEFEAT_LOCATION_LABELS
-                    ) >= required_bosses
-                set_rule(goal_location, area_boss_count_rule)
-            elif goal_location_name == _AREA_BOSS_GOAL_LABEL:
-                configured_goal_key = getattr(
-                    world,
-                    "_resolved_configured_area_boss_goal_key",
-                    None,
-                )
-                configured_goal = (
-                    data.locations.get(configured_goal_key)
-                    if isinstance(configured_goal_key, str)
-                    else None
-                )
-                if configured_goal is None or not isinstance(configured_goal.label, str):
-                    raise ValueError(
-                        f"[P{world.player}] Configured area-boss goal target was not resolved "
-                        f"for goal location {goal_location_name!r}"
-                    )
-
-                def configured_area_boss_rule(state):
-                    return state.can_reach_location(configured_goal.label, world.player)
-
-                set_rule(goal_location, configured_area_boss_rule)
+            selected_goal = goal_value if goal_value in _GOAL_LOGIC else _DEFAULT_GOAL
+            set_rule(goal_location, _compile_goal_requirements(world, selected_goal))
         except KeyError:
             logger.warning(
                 "[P%s] Goal location %s not found; goal-specific rule was not applied",

@@ -13,7 +13,7 @@ from BaseClasses import CollectionState, ItemClassification
 
 from ..ability_randomization import build_enemy_copy_ability_policy
 from ..data import data
-from ..enemy_ability_data import ABILITY_NAME_TO_ID, ABILITY_SOURCES, starting_copy_abilities
+from ..enemy_ability_data import ABILITY_NAME_TO_ID, ABILITY_SOURCES
 from ..enemy_ability_runtime_patch import build_enemy_copy_runtime_patch_writes
 from ..traversal import CAPABILITY_ABILITIES, Grant, SourcePolicy
 from ..traversal_data import graph_items, room_traversal_graph, room_traversal_targets
@@ -135,13 +135,6 @@ def test_all_physical_source_identities_are_explicit_and_shared_consistently() -
 def test_new_provider_permission_items_are_progression(ability: str) -> None:
     item = next(item for item in data.items.values() if item.label == ability + ' Ability')
     assert item.classification & ItemClassification.progression
-    assert ability not in starting_copy_abilities(0)
-
-
-@pytest.mark.parametrize('mode', [0, 1, 2])
-def test_fuse_and_rope_permissions_are_not_forced_starts(mode: int) -> None:
-    assert 'Burning' not in starting_copy_abilities(mode)
-    assert 'Cutter' not in starting_copy_abilities(mode)
 
 
 @pytest.mark.parametrize('target', ['fuse_126', 'fuse_323', 'fuse_827'])
@@ -260,3 +253,65 @@ def test_joint_static_validation_rejects_bad_actual_assignment_without_rewriting
         validate_peg_assignment(raw, lambda: pytest.fail('One-attempt budget must not draw another assignment'),
                                 include_statues=True, max_attempts=1)
     assert raw == before
+
+
+@pytest.mark.parametrize("area_keys", [False, True])
+@pytest.mark.parametrize("mode", [0, 1, 2])
+@pytest.mark.parametrize("target,near,far", [
+    ("fuse_126", "rainbow_hub194_statue", "rainbow_hub592_burning"),
+    ("fuse_827", "olive_hub890_statue", "olive_hub592_burning"),
+])
+def test_installed_fuse_carry_limit_uses_real_options_and_independent_source_access(mode, target, near, far, area_keys):
+    from .. import traversal_rules
+
+    # Keep statues native while exercising all three enemy grant modes. Each
+    # named witness gets its own entry condition; local or alternate grants
+    # must not mask the result of rejecting the long witness.
+    near_graph, far_graph = (room_traversal_graph(target, name, area_keys) for name in (near, far))
+    near_ability = {"fuse_126": "Laser", "fuse_827": "Bomb"}[target]
+    for advanced in (False, True):
+        world = make_world(mode, True, area_keys=area_keys, advanced_logic=advanced,
+                           ability_randomization_statues=False)
+        state = CollectionState(world.multiworld)
+        source, destination = FUSE_BINDINGS[target]
+        entrance = world.multiworld.get_entrance(f"{source} -> {destination}", 1)
+        for name in graph_items(near_graph) | graph_items(far_graph):
+            state.collect(world.create_item(name), prevent_sweep=True)
+        with patch.object(traversal_rules, "has_graph_access",
+                          side_effect=lambda w, s, graph: graph is far_graph):
+            assert not entrance.access_rule(state)
+            state.collect(world.create_item("Burning Ability"), prevent_sweep=True)
+            assert entrance.access_rule(state) is advanced
+            state.remove(world.create_item("Burning Ability"))
+        with patch.object(traversal_rules, "has_graph_access",
+                          side_effect=lambda w, s, graph: graph is near_graph):
+            assert not entrance.access_rule(state)
+            state.collect(world.create_item(f"{near_ability} Ability"), prevent_sweep=True)
+            assert entrance.access_rule(state)
+        with patch.object(traversal_rules, "has_graph_access", return_value=False):
+            assert not entrance.access_rule(state)
+
+
+@pytest.mark.parametrize("mode", [0, 1, 2])
+def test_exact_cabbage_peg_hammer_three_versus_stone_four(mode):
+    from .test_traversal import policy
+
+    # Configured randomization excludes this Bonkers and these fixed statues;
+    # each graph still has to acquire the actual required ability before use.
+    resolver = policy(mode, minibosses=False, statues=False)
+    for witness, ability, crossings in (("short_bonkers_hammer", "Hammer", 3), ("carry", "Stone", 4)):
+        graph = room_traversal_graph("peg_510_7_7", witness, area_keys=True)
+        keys = graph_items(graph)
+        owned = keys | {f"{ability} Ability"}
+        action, = [route for route in graph.routes if route.target == "target"]
+        assert action.capability == "peg"
+        rooms = {node.key: node.room for node in graph.nodes}
+        assert rooms[action.source] == rooms[action.target] == 510
+        for advanced in (False, True):
+            assert not graph_succeeds(graph, resolver, keys, True, retries=False, advanced=advanced)
+            assert graph_succeeds(graph, resolver, owned, True, retries=False, advanced=advanced) is (
+                advanced or crossings == 3
+            )
+        arrivals = graph.evaluate(resolver, owned, True, advanced_logic=False).positions
+        assert {p.carried_room_transitions for p in arrivals
+                if p.node == action.source and p.equipped == ability} == {crossings}

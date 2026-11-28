@@ -12,7 +12,7 @@ from test.general import setup_multiworld
 
 from .support.source_policy import set_rule_test_policy
 from .. import KirbyAmWorld, traversal_rules as rules
-from ..enemy_ability_data import ABILITY_NAME_TO_ID, GATEABLE_ENEMY_COPY_ABILITIES, STARTING_COPY_ABILITIES
+from ..enemy_ability_data import ABILITY_NAME_TO_ID, GATEABLE_ENEMY_COPY_ABILITIES
 from ..traversal import Node, Position, Route, SourcePolicy, compile_traversal_graph, reachable_positions
 from ..traversal_data import _validate_target, room_traversal_graph, room_traversal_targets
 from .support.integration_generation import generate_archive_from_fixture, load_multidata_from_archive
@@ -223,7 +223,7 @@ def test_five_or_alternatives_preserve_graphs_and_exact_target():
     owners = [(r['id'], key) for r in room_traversal_targets('switch') for key, g in r['graphs'].items()
               if any(route.get('capability') == CAPABILITY for route in g['routes'])]
     assert owners == [(TARGET, WITNESS)]
-    assert 'Magic' in GATEABLE_ENEMY_COPY_ABILITIES and 'Magic' not in STARTING_COPY_ABILITIES
+    assert 'Magic' in GATEABLE_ENEMY_COPY_ABILITIES
 
 
 @pytest.mark.parametrize('scenario', [

@@ -31,9 +31,11 @@ def test_requires_actual_local_beam_not_normal_or_permission(area_keys):
     assert CAPABILITY_ABILITIES[TARGET] == {"Beam"}
     assert target_applies(row, normal)
     assert not target_applies(row, wrong_source)
+    beam_permission = frozenset({"Beam Ability"})
     for gating in (False, True):
-        assert graph.evaluate(normal, frozenset(), gating).reaches(chest)
-        assert not graph.evaluate(wrong_source, frozenset({"Beam Ability"}), gating).reaches(chest)
+        assert graph.evaluate(normal, frozenset(), gating).reaches(chest) is (not gating)
+        assert graph.evaluate(normal, beam_permission, gating).reaches(chest)
+        assert not graph.evaluate(wrong_source, beam_permission, gating).reaches(chest)
     assert data.locations[LOCATION].location_id == 3960575
 
 
@@ -181,7 +183,7 @@ def test_controlled_shuffled_source_full_fill_keeps_permission_outside_own_chest
     (2, ["Beam"], 100, False, False),
 ])
 def test_linked_fuse_policy_only_when_no_stock_witness(mode, pool, weight, minor_chests, want):
-    from .. import candy912_fuse
+    from ..conditional_routes import CANDY_FUSE as candy912_fuse
 
     original = policy(mode, pool=pool, weight=weight, minny=False).policy
     baseline = deepcopy(original)
@@ -206,7 +208,7 @@ def test_linked_fuse_policy_only_when_no_stock_witness(mode, pool, weight, minor
 def test_generated_full_seed_keeps_exact_chest_and_patch_intent(tmp_path, monkeypatch, mode, weight, gating):
     import Main
     from BaseClasses import CollectionState
-    from .. import candy912_fuse
+    from ..conditional_routes import CANDY_FUSE as candy912_fuse
     from ..traversal import SourcePolicy
 
     generated = []
@@ -253,7 +255,7 @@ def test_generated_full_seed_keeps_exact_chest_and_patch_intent(tmp_path, monkey
 
 @pytest.mark.parametrize("mode", [1, 2])
 def test_supplemental_fire_exact_source_permission_and_linked_scope(mode):
-    from .. import candy912_fuse
+    from ..conditional_routes import CANDY_FUSE as candy912_fuse
 
     row = {"id": TARGET}
     fire = policy(mode, pool=["Fire"], weight=0, minny=False)

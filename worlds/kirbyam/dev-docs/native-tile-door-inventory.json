@@ -1,0 +1,1239 @@
+{
+  "schema": 1,
+  "rom_sha1": "274b102b6d940f46861a92b4e65f89a51815c12c",
+  "source_commit": "7d969fbce14fdc838d2c1ea01389717fb96c3189",
+  "decoded_tile_door_count": 724,
+  "note": "Directed tile-trigger records only. Object-driven doors and dynamic travel are not in this table. A matching room pair does not prove trigger access, arrival compartment, or reverse travel.",
+  "doors_by_source_native_room": {
+    "101": [
+      {"to_native_room":106,"trigger_tile":[83,8],"arrival_tile":[2,9],"collision_attribute":255,"transition_flags":0}
+    ],
+    "102": [
+      {"to_native_room":114,"trigger_tile":[1,2],"arrival_tile":[14,8],"collision_attribute":255,"transition_flags":2}
+    ],
+    "103": [
+      {"to_native_room":142,"trigger_tile":[14,3],"arrival_tile":[5,19],"collision_attribute":255,"transition_flags":1}
+    ],
+    "104": [
+      {"to_native_room":103,"trigger_tile":[57,8],"arrival_tile":[2,39],"collision_attribute":255,"transition_flags":1}
+    ],
+    "106": [
+      {"to_native_room":107,"trigger_tile":[76,3],"arrival_tile":[4,4],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":107,"trigger_tile":[76,7],"arrival_tile":[4,9],"collision_attribute":255,"transition_flags":1}
+    ],
+    "107": [
+      {"to_native_room":104,"trigger_tile":[59,3],"arrival_tile":[2,9],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":108,"trigger_tile":[59,8],"arrival_tile":[2,8],"collision_attribute":255,"transition_flags":0}
+    ],
+    "108": [
+      {"to_native_room":103,"trigger_tile":[58,5],"arrival_tile":[2,39],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":140,"trigger_tile":[58,11],"arrival_tile":[3,9],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":110,"trigger_tile":[34,18],"arrival_tile":[7,8],"collision_attribute":255,"transition_flags":0}
+    ],
+    "110": [
+      {"to_native_room":108,"trigger_tile":[7,7],"arrival_tile":[34,19],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":503,"trigger_tile":[2,68],"arrival_tile":[7,3],"collision_attribute":253,"transition_flags":0},
+      {"to_native_room":554,"trigger_tile":[12,68],"arrival_tile":[4,4],"collision_attribute":253,"transition_flags":1}
+    ],
+    "113": [
+      {"to_native_room":102,"trigger_tile":[2,4],"arrival_tile":[74,8],"collision_attribute":255,"transition_flags":0}
+    ],
+    "114": [
+      {"to_native_room":129,"trigger_tile":[1,7],"arrival_tile":[2,2],"collision_attribute":255,"transition_flags":129}
+    ],
+    "115": [
+      {"to_native_room":139,"trigger_tile":[73,4],"arrival_tile":[3,19],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":192,"trigger_tile":[3,7],"arrival_tile":[14,9],"collision_attribute":255,"transition_flags":0}
+    ],
+    "117": [
+      {"to_native_room":192,"trigger_tile":[10,2],"arrival_tile":[3,9],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":120,"trigger_tile":[1,8],"arrival_tile":[28,29],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":118,"trigger_tile":[43,8],"arrival_tile":[3,5],"collision_attribute":255,"transition_flags":0}
+    ],
+    "118": [
+      {"to_native_room":117,"trigger_tile":[1,4],"arrival_tile":[43,9],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":119,"trigger_tile":[13,38],"arrival_tile":[3,4],"collision_attribute":255,"transition_flags":0}
+    ],
+    "119": [
+      {"to_native_room":118,"trigger_tile":[1,3],"arrival_tile":[13,39],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":504,"trigger_tile":[13,28],"arrival_tile":[4,3],"collision_attribute":255,"transition_flags":1}
+    ],
+    "120": [
+      {"to_native_room":121,"trigger_tile":[11,2],"arrival_tile":[104,7],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":122,"trigger_tile":[1,12],"arrival_tile":[104,8],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":117,"trigger_tile":[28,28],"arrival_tile":[3,9],"collision_attribute":255,"transition_flags":1}
+    ],
+    "121": [
+      {"to_native_room":226,"trigger_tile":[2,4],"arrival_tile":[29,9],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":122,"trigger_tile":[7,8],"arrival_tile":[4,3],"collision_attribute":255,"transition_flags":1}
+    ],
+    "122": [
+      {"to_native_room":121,"trigger_tile":[1,2],"arrival_tile":[10,9],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":193,"trigger_tile":[2,7],"arrival_tile":[14,9],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":171,"trigger_tile":[13,7],"arrival_tile":[4,5],"collision_attribute":255,"transition_flags":1}
+    ],
+    "127": [
+      {"to_native_room":194,"trigger_tile":[44,11],"arrival_tile":[3,7],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":504,"trigger_tile":[1,13],"arrival_tile":[13,57],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":509,"trigger_tile":[10,17],"arrival_tile":[21,8],"collision_attribute":255,"transition_flags":1}
+    ],
+    "130": [
+      {"to_native_room":191,"trigger_tile":[1,7],"arrival_tile":[14,7],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":131,"trigger_tile":[72,7],"arrival_tile":[3,6],"collision_attribute":255,"transition_flags":1}
+    ],
+    "131": [
+      {"to_native_room":132,"trigger_tile":[72,3],"arrival_tile":[3,16],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":130,"trigger_tile":[1,5],"arrival_tile":[72,8],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":826,"trigger_tile":[35,5],"arrival_tile":[4,4],"collision_attribute":255,"transition_flags":1}
+    ],
+    "132": [
+      {"to_native_room":132,"trigger_tile":[48,6],"arrival_tile":[49,10],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":133,"trigger_tile":[73,6],"arrival_tile":[2,6],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":133,"trigger_tile":[73,18],"arrival_tile":[3,18],"collision_attribute":255,"transition_flags":1}
+    ],
+    "133": [
+      {"to_native_room":134,"trigger_tile":[43,2],"arrival_tile":[2,7],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":827,"trigger_tile":[14,14],"arrival_tile":[3,4],"collision_attribute":255,"transition_flags":1}
+    ],
+    "134": [
+      {"to_native_room":135,"trigger_tile":[73,3],"arrival_tile":[2,4],"collision_attribute":255,"transition_flags":1}
+    ],
+    "135": [
+      {"to_native_room":981,"trigger_tile":[117,3],"arrival_tile":[3,73],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":981,"trigger_tile":[118,3],"arrival_tile":[3,73],"collision_attribute":255,"transition_flags":1}
+    ],
+    "136": [
+      {"to_native_room":126,"trigger_tile":[43,3],"arrival_tile":[2,28],"collision_attribute":255,"transition_flags":0}
+    ],
+    "137": [
+      {"to_native_room":136,"trigger_tile":[7,3],"arrival_tile":[43,27],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":194,"trigger_tile":[1,17],"arrival_tile":[14,7],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":507,"trigger_tile":[65,18],"arrival_tile":[4,11],"collision_attribute":255,"transition_flags":0}
+    ],
+    "138": [
+      {"to_native_room":532,"trigger_tile":[44,6],"arrival_tile":[4,4],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":178,"trigger_tile":[1,18],"arrival_tile":[90,9],"collision_attribute":255,"transition_flags":2}
+    ],
+    "139": [
+      {"to_native_room":532,"trigger_tile":[28,2],"arrival_tile":[10,29],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":115,"trigger_tile":[1,18],"arrival_tile":[73,5],"collision_attribute":255,"transition_flags":0}
+    ],
+    "140": [
+      {"to_native_room":108,"trigger_tile":[1,8],"arrival_tile":[58,12],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":190,"trigger_tile":[43,8],"arrival_tile":[3,9],"collision_attribute":255,"transition_flags":0}
+    ],
+    "141": [
+      {"to_native_room":545,"trigger_tile":[34,3],"arrival_tile":[4,39],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":144,"trigger_tile":[43,8],"arrival_tile":[4,4],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":543,"trigger_tile":[1,13],"arrival_tile":[44,9],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":143,"trigger_tile":[43,18],"arrival_tile":[3,3],"collision_attribute":255,"transition_flags":0}
+    ],
+    "143": [
+      {"to_native_room":141,"trigger_tile":[1,2],"arrival_tile":[43,19],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":145,"trigger_tile":[27,4],"arrival_tile":[3,7],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":190,"trigger_tile":[1,18],"arrival_tile":[14,9],"collision_attribute":255,"transition_flags":2}
+    ],
+    "144": [
+      {"to_native_room":141,"trigger_tile":[2,3],"arrival_tile":[43,9],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":146,"trigger_tile":[74,18],"arrival_tile":[4,5],"collision_attribute":255,"transition_flags":1}
+    ],
+    "145": [
+      {"to_native_room":143,"trigger_tile":[1,6],"arrival_tile":[27,5],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":146,"trigger_tile":[74,8],"arrival_tile":[4,9],"collision_attribute":255,"transition_flags":1}
+    ],
+    "146": [
+      {"to_native_room":144,"trigger_tile":[2,4],"arrival_tile":[74,19],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":147,"trigger_tile":[13,4],"arrival_tile":[3,19],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":145,"trigger_tile":[2,8],"arrival_tile":[74,9],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":148,"trigger_tile":[13,8],"arrival_tile":[3,6],"collision_attribute":255,"transition_flags":1}
+    ],
+    "147": [
+      {"to_native_room":148,"trigger_tile":[18,18],"arrival_tile":[19,6],"collision_attribute":255,"transition_flags":1}
+    ],
+    "148": [
+      {"to_native_room":146,"trigger_tile":[1,5],"arrival_tile":[13,9],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":149,"trigger_tile":[59,5],"arrival_tile":[2,10],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":981,"trigger_tile":[6,11],"arrival_tile":[3,73],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":981,"trigger_tile":[7,11],"arrival_tile":[3,73],"collision_attribute":255,"transition_flags":1}
+    ],
+    "149": [
+      {"to_native_room":195,"trigger_tile":[44,12],"arrival_tile":[3,9],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":148,"trigger_tile":[2,18],"arrival_tile":[59,13],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":148,"trigger_tile":[0,26],"arrival_tile":[60,19],"collision_attribute":252,"transition_flags":2},
+      {"to_native_room":148,"trigger_tile":[1,26],"arrival_tile":[60,19],"collision_attribute":252,"transition_flags":2},
+      {"to_native_room":148,"trigger_tile":[0,27],"arrival_tile":[60,19],"collision_attribute":252,"transition_flags":2},
+      {"to_native_room":148,"trigger_tile":[1,27],"arrival_tile":[60,19],"collision_attribute":252,"transition_flags":2},
+      {"to_native_room":148,"trigger_tile":[0,28],"arrival_tile":[60,19],"collision_attribute":252,"transition_flags":2},
+      {"to_native_room":148,"trigger_tile":[1,28],"arrival_tile":[60,19],"collision_attribute":252,"transition_flags":2},
+      {"to_native_room":148,"trigger_tile":[0,29],"arrival_tile":[60,19],"collision_attribute":252,"transition_flags":2},
+      {"to_native_room":148,"trigger_tile":[1,29],"arrival_tile":[60,19],"collision_attribute":252,"transition_flags":2}
+    ],
+    "170": [
+      {"to_native_room":719,"trigger_tile":[12,5],"arrival_tile":[43,29],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":719,"trigger_tile":[13,5],"arrival_tile":[43,29],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":181,"trigger_tile":[1,8],"arrival_tile":[5,3],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":193,"trigger_tile":[44,8],"arrival_tile":[3,9],"collision_attribute":255,"transition_flags":1}
+    ],
+    "171": [
+      {"to_native_room":122,"trigger_tile":[2,4],"arrival_tile":[12,8],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":172,"trigger_tile":[12,55],"arrival_tile":[6,5],"collision_attribute":255,"transition_flags":1}
+    ],
+    "172": [
+      {"to_native_room":171,"trigger_tile":[4,4],"arrival_tile":[12,56],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":173,"trigger_tile":[89,8],"arrival_tile":[3,9],"collision_attribute":255,"transition_flags":1}
+    ],
+    "173": [
+      {"to_native_room":172,"trigger_tile":[1,8],"arrival_tile":[89,9],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":508,"trigger_tile":[29,34],"arrival_tile":[2,5],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":175,"trigger_tile":[1,38],"arrival_tile":[87,6],"collision_attribute":255,"transition_flags":2}
+    ],
+    "174": [
+      {"to_native_room":173,"trigger_tile":[1,10],"arrival_tile":[30,11],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":504,"trigger_tile":[59,13],"arrival_tile":[4,19],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":173,"trigger_tile":[1,15],"arrival_tile":[30,16],"collision_attribute":255,"transition_flags":2}
+    ],
+    "175": [
+      {"to_native_room":176,"trigger_tile":[3,2],"arrival_tile":[29,3],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":176,"trigger_tile":[3,8],"arrival_tile":[29,9],"collision_attribute":255,"transition_flags":2}
+    ],
+    "176": [
+      {"to_native_room":980,"trigger_tile":[9,4],"arrival_tile":[3,74],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":980,"trigger_tile":[10,4],"arrival_tile":[3,74],"collision_attribute":255,"transition_flags":0}
+    ],
+    "177": [
+      {"to_native_room":980,"trigger_tile":[2,8],"arrival_tile":[3,74],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":980,"trigger_tile":[3,8],"arrival_tile":[3,74],"collision_attribute":255,"transition_flags":1}
+    ],
+    "178": [
+      {"to_native_room":177,"trigger_tile":[1,8],"arrival_tile":[45,4],"collision_attribute":255,"transition_flags":2}
+    ],
+    "180": [
+      {"to_native_room":743,"trigger_tile":[9,0],"arrival_tile":[8,8],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":743,"trigger_tile":[10,0],"arrival_tile":[8,8],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":743,"trigger_tile":[11,0],"arrival_tile":[8,8],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":743,"trigger_tile":[12,0],"arrival_tile":[8,8],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":743,"trigger_tile":[13,0],"arrival_tile":[8,8],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":743,"trigger_tile":[14,0],"arrival_tile":[8,8],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":743,"trigger_tile":[9,1],"arrival_tile":[8,8],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":743,"trigger_tile":[10,1],"arrival_tile":[8,8],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":743,"trigger_tile":[11,1],"arrival_tile":[8,8],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":743,"trigger_tile":[12,1],"arrival_tile":[8,8],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":743,"trigger_tile":[13,1],"arrival_tile":[8,8],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":743,"trigger_tile":[14,1],"arrival_tile":[8,8],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":824,"trigger_tile":[1,50],"arrival_tile":[12,4],"collision_attribute":254,"transition_flags":2},
+      {"to_native_room":824,"trigger_tile":[2,50],"arrival_tile":[12,4],"collision_attribute":254,"transition_flags":2},
+      {"to_native_room":824,"trigger_tile":[3,50],"arrival_tile":[12,4],"collision_attribute":254,"transition_flags":2},
+      {"to_native_room":824,"trigger_tile":[4,50],"arrival_tile":[12,4],"collision_attribute":254,"transition_flags":2},
+      {"to_native_room":824,"trigger_tile":[5,50],"arrival_tile":[12,4],"collision_attribute":254,"transition_flags":2},
+      {"to_native_room":824,"trigger_tile":[6,50],"arrival_tile":[12,4],"collision_attribute":254,"transition_flags":2},
+      {"to_native_room":824,"trigger_tile":[1,51],"arrival_tile":[12,4],"collision_attribute":254,"transition_flags":2},
+      {"to_native_room":824,"trigger_tile":[2,51],"arrival_tile":[12,4],"collision_attribute":254,"transition_flags":2},
+      {"to_native_room":824,"trigger_tile":[3,51],"arrival_tile":[12,4],"collision_attribute":254,"transition_flags":2},
+      {"to_native_room":824,"trigger_tile":[4,51],"arrival_tile":[12,4],"collision_attribute":254,"transition_flags":2},
+      {"to_native_room":824,"trigger_tile":[5,51],"arrival_tile":[12,4],"collision_attribute":254,"transition_flags":2},
+      {"to_native_room":824,"trigger_tile":[6,51],"arrival_tile":[12,4],"collision_attribute":254,"transition_flags":2},
+      {"to_native_room":824,"trigger_tile":[1,52],"arrival_tile":[12,4],"collision_attribute":254,"transition_flags":2},
+      {"to_native_room":824,"trigger_tile":[2,52],"arrival_tile":[12,4],"collision_attribute":254,"transition_flags":2},
+      {"to_native_room":824,"trigger_tile":[3,52],"arrival_tile":[12,4],"collision_attribute":254,"transition_flags":2},
+      {"to_native_room":824,"trigger_tile":[4,52],"arrival_tile":[12,4],"collision_attribute":254,"transition_flags":2},
+      {"to_native_room":824,"trigger_tile":[5,52],"arrival_tile":[12,4],"collision_attribute":254,"transition_flags":2},
+      {"to_native_room":824,"trigger_tile":[6,52],"arrival_tile":[12,4],"collision_attribute":254,"transition_flags":2}
+    ],
+    "181": [
+      {"to_native_room":170,"trigger_tile":[9,0],"arrival_tile":[3,9],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":170,"trigger_tile":[10,0],"arrival_tile":[3,9],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":170,"trigger_tile":[11,0],"arrival_tile":[3,9],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":170,"trigger_tile":[12,0],"arrival_tile":[3,9],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":170,"trigger_tile":[13,0],"arrival_tile":[3,9],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":170,"trigger_tile":[14,0],"arrival_tile":[3,9],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":170,"trigger_tile":[9,1],"arrival_tile":[3,9],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":170,"trigger_tile":[10,1],"arrival_tile":[3,9],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":170,"trigger_tile":[11,1],"arrival_tile":[3,9],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":170,"trigger_tile":[12,1],"arrival_tile":[3,9],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":170,"trigger_tile":[13,1],"arrival_tile":[3,9],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":170,"trigger_tile":[14,1],"arrival_tile":[3,9],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":619,"trigger_tile":[1,50],"arrival_tile":[4,4],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":619,"trigger_tile":[2,50],"arrival_tile":[4,4],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":619,"trigger_tile":[3,50],"arrival_tile":[4,4],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":619,"trigger_tile":[4,50],"arrival_tile":[4,4],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":619,"trigger_tile":[5,50],"arrival_tile":[4,4],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":619,"trigger_tile":[6,50],"arrival_tile":[4,4],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":619,"trigger_tile":[1,51],"arrival_tile":[4,4],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":619,"trigger_tile":[2,51],"arrival_tile":[4,4],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":619,"trigger_tile":[3,51],"arrival_tile":[4,4],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":619,"trigger_tile":[4,51],"arrival_tile":[4,4],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":619,"trigger_tile":[5,51],"arrival_tile":[4,4],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":619,"trigger_tile":[6,51],"arrival_tile":[4,4],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":619,"trigger_tile":[1,52],"arrival_tile":[4,4],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":619,"trigger_tile":[2,52],"arrival_tile":[4,4],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":619,"trigger_tile":[3,52],"arrival_tile":[4,4],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":619,"trigger_tile":[4,52],"arrival_tile":[4,4],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":619,"trigger_tile":[5,52],"arrival_tile":[4,4],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":619,"trigger_tile":[6,52],"arrival_tile":[4,4],"collision_attribute":254,"transition_flags":1}
+    ],
+    "190": [
+      {"to_native_room":801,"trigger_tile":[8,3],"arrival_tile":[24,12],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":140,"trigger_tile":[1,8],"arrival_tile":[43,9],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":143,"trigger_tile":[14,8],"arrival_tile":[3,19],"collision_attribute":255,"transition_flags":1}
+    ],
+    "191": [
+      {"to_native_room":801,"trigger_tile":[8,3],"arrival_tile":[25,17],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":523,"trigger_tile":[1,6],"arrival_tile":[42,19],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":130,"trigger_tile":[14,6],"arrival_tile":[3,8],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":890,"trigger_tile":[8,8],"arrival_tile":[9,3],"collision_attribute":255,"transition_flags":0}
+    ],
+    "192": [
+      {"to_native_room":193,"trigger_tile":[3,3],"arrival_tile":[9,3],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":801,"trigger_tile":[12,3],"arrival_tile":[8,12],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":117,"trigger_tile":[1,8],"arrival_tile":[12,3],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":115,"trigger_tile":[14,8],"arrival_tile":[5,8],"collision_attribute":255,"transition_flags":1}
+    ],
+    "193": [
+      {"to_native_room":192,"trigger_tile":[8,3],"arrival_tile":[4,3],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":170,"trigger_tile":[1,8],"arrival_tile":[44,9],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":122,"trigger_tile":[14,8],"arrival_tile":[4,8],"collision_attribute":255,"transition_flags":1}
+    ],
+    "194": [
+      {"to_native_room":801,"trigger_tile":[8,3],"arrival_tile":[15,18],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":127,"trigger_tile":[1,6],"arrival_tile":[44,12],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":137,"trigger_tile":[14,6],"arrival_tile":[3,18],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":591,"trigger_tile":[8,8],"arrival_tile":[9,3],"collision_attribute":255,"transition_flags":0}
+    ],
+    "195": [
+      {"to_native_room":708,"trigger_tile":[28,8],"arrival_tile":[3,24],"collision_attribute":255,"transition_flags":1}
+    ],
+    "200": [
+      {"to_native_room":219,"trigger_tile":[5,2],"arrival_tile":[4,9],"collision_attribute":255,"transition_flags":129}
+    ],
+    "202": [
+      {"to_native_room":208,"trigger_tile":[1,3],"arrival_tile":[5,19],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":208,"trigger_tile":[35,4],"arrival_tile":[19,19],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":211,"trigger_tile":[3,14],"arrival_tile":[4,3],"collision_attribute":255,"transition_flags":1}
+    ],
+    "203": [
+      {"to_native_room":205,"trigger_tile":[59,4],"arrival_tile":[3,3],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":204,"trigger_tile":[1,18],"arrival_tile":[73,4],"collision_attribute":255,"transition_flags":2}
+    ],
+    "204": [
+      {"to_native_room":203,"trigger_tile":[73,3],"arrival_tile":[3,19],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":220,"trigger_tile":[1,7],"arrival_tile":[59,5],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":227,"trigger_tile":[56,8],"arrival_tile":[18,3],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":227,"trigger_tile":[64,8],"arrival_tile":[27,2],"collision_attribute":255,"transition_flags":1}
+    ],
+    "205": [
+      {"to_native_room":203,"trigger_tile":[1,2],"arrival_tile":[59,5],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":228,"trigger_tile":[44,2],"arrival_tile":[26,29],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":209,"trigger_tile":[29,17],"arrival_tile":[11,3],"collision_attribute":253,"transition_flags":0},
+      {"to_native_room":210,"trigger_tile":[10,18],"arrival_tile":[17,3],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":206,"trigger_tile":[42,18],"arrival_tile":[4,9],"collision_attribute":255,"transition_flags":1}
+    ],
+    "206": [
+      {"to_native_room":214,"trigger_tile":[74,18],"arrival_tile":[2,4],"collision_attribute":255,"transition_flags":1}
+    ],
+    "208": [
+      {"to_native_room":290,"trigger_tile":[13,2],"arrival_tile":[14,9],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":209,"trigger_tile":[29,3],"arrival_tile":[3,39],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":202,"trigger_tile":[3,18],"arrival_tile":[3,4],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":202,"trigger_tile":[17,18],"arrival_tile":[35,5],"collision_attribute":255,"transition_flags":2}
+    ],
+    "209": [
+      {"to_native_room":205,"trigger_tile":[9,2],"arrival_tile":[29,18],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":210,"trigger_tile":[1,13],"arrival_tile":[30,24],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":210,"trigger_tile":[1,32],"arrival_tile":[30,44],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":208,"trigger_tile":[1,38],"arrival_tile":[29,4],"collision_attribute":255,"transition_flags":2}
+    ],
+    "210": [
+      {"to_native_room":205,"trigger_tile":[15,2],"arrival_tile":[10,19],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":227,"trigger_tile":[1,14],"arrival_tile":[59,10],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":209,"trigger_tile":[29,14],"arrival_tile":[2,9],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":227,"trigger_tile":[1,23],"arrival_tile":[58,17],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":209,"trigger_tile":[29,28],"arrival_tile":[2,20],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":290,"trigger_tile":[27,48],"arrival_tile":[3,9],"collision_attribute":255,"transition_flags":1}
+    ],
+    "211": [
+      {"to_native_room":202,"trigger_tile":[2,2],"arrival_tile":[5,15],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":226,"trigger_tile":[6,24],"arrival_tile":[12,8],"collision_attribute":255,"transition_flags":2}
+    ],
+    "212": [
+      {"to_native_room":216,"trigger_tile":[1,2],"arrival_tile":[44,18],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":215,"trigger_tile":[74,8],"arrival_tile":[3,3],"collision_attribute":255,"transition_flags":1}
+    ],
+    "214": [
+      {"to_native_room":981,"trigger_tile":[118,2],"arrival_tile":[3,74],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":981,"trigger_tile":[119,2],"arrival_tile":[3,74],"collision_attribute":255,"transition_flags":1}
+    ],
+    "215": [
+      {"to_native_room":212,"trigger_tile":[1,2],"arrival_tile":[74,9],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":291,"trigger_tile":[27,28],"arrival_tile":[3,9],"collision_attribute":255,"transition_flags":1}
+    ],
+    "216": [
+      {"to_native_room":212,"trigger_tile":[44,17],"arrival_tile":[3,3],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":217,"trigger_tile":[1,18],"arrival_tile":[14,9],"collision_attribute":255,"transition_flags":2}
+    ],
+    "217": [
+      {"to_native_room":221,"trigger_tile":[1,3],"arrival_tile":[57,19],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":223,"trigger_tile":[3,8],"arrival_tile":[59,5],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":216,"trigger_tile":[14,8],"arrival_tile":[3,19],"collision_attribute":255,"transition_flags":1}
+    ],
+    "218": [
+      {"to_native_room":200,"trigger_tile":[5,4],"arrival_tile":[41,9],"collision_attribute":255,"transition_flags":2}
+    ],
+    "220": [
+      {"to_native_room":232,"trigger_tile":[17,4],"arrival_tile":[134,5],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":204,"trigger_tile":[59,4],"arrival_tile":[3,8],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":232,"trigger_tile":[0,6],"arrival_tile":[135,7],"collision_attribute":252,"transition_flags":0},
+      {"to_native_room":232,"trigger_tile":[1,6],"arrival_tile":[135,7],"collision_attribute":252,"transition_flags":0},
+      {"to_native_room":232,"trigger_tile":[0,7],"arrival_tile":[135,7],"collision_attribute":252,"transition_flags":0},
+      {"to_native_room":232,"trigger_tile":[1,7],"arrival_tile":[135,7],"collision_attribute":252,"transition_flags":0}
+    ],
+    "221": [
+      {"to_native_room":218,"trigger_tile":[1,2],"arrival_tile":[15,3],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":225,"trigger_tile":[58,4],"arrival_tile":[6,89],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":217,"trigger_tile":[57,18],"arrival_tile":[3,4],"collision_attribute":255,"transition_flags":1}
+    ],
+    "222": [
+      {"to_native_room":291,"trigger_tile":[15,2],"arrival_tile":[14,9],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":226,"trigger_tile":[103,2],"arrival_tile":[3,9],"collision_attribute":255,"transition_flags":1}
+    ],
+    "223": [
+      {"to_native_room":224,"trigger_tile":[1,14],"arrival_tile":[135,9],"collision_attribute":255,"transition_flags":2}
+    ],
+    "224": [
+      {"to_native_room":982,"trigger_tile":[1,4],"arrival_tile":[3,74],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":982,"trigger_tile":[2,4],"arrival_tile":[3,74],"collision_attribute":255,"transition_flags":1}
+    ],
+    "225": [
+      {"to_native_room":232,"trigger_tile":[13,6],"arrival_tile":[35,7],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":221,"trigger_tile":[4,88],"arrival_tile":[58,5],"collision_attribute":255,"transition_flags":2}
+    ],
+    "226": [
+      {"to_native_room":211,"trigger_tile":[11,6],"arrival_tile":[8,25],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":211,"trigger_tile":[12,6],"arrival_tile":[8,25],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":222,"trigger_tile":[1,8],"arrival_tile":[103,3],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":121,"trigger_tile":[29,8],"arrival_tile":[4,5],"collision_attribute":255,"transition_flags":1}
+    ],
+    "227": [
+      {"to_native_room":204,"trigger_tile":[16,2],"arrival_tile":[56,9],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":210,"trigger_tile":[58,16],"arrival_tile":[3,24],"collision_attribute":255,"transition_flags":0}
+    ],
+    "228": [
+      {"to_native_room":229,"trigger_tile":[16,4],"arrival_tile":[17,29],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":229,"trigger_tile":[22,4],"arrival_tile":[23,29],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":229,"trigger_tile":[28,4],"arrival_tile":[29,29],"collision_attribute":255,"transition_flags":1}
+    ],
+    "229": [
+      {"to_native_room":230,"trigger_tile":[22,3],"arrival_tile":[23,19],"collision_attribute":255,"transition_flags":2}
+    ],
+    "231": [
+      {"to_native_room":215,"trigger_tile":[2,80],"arrival_tile":[29,3],"collision_attribute":255,"transition_flags":2}
+    ],
+    "232": [
+      {"to_native_room":232,"trigger_tile":[76,3],"arrival_tile":[24,9],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":220,"trigger_tile":[134,4],"arrival_tile":[19,5],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":225,"trigger_tile":[33,6],"arrival_tile":[13,7],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":232,"trigger_tile":[1,8],"arrival_tile":[77,6],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":231,"trigger_tile":[121,9],"arrival_tile":[10,2],"collision_attribute":252,"transition_flags":0},
+      {"to_native_room":231,"trigger_tile":[122,9],"arrival_tile":[11,2],"collision_attribute":252,"transition_flags":0},
+      {"to_native_room":231,"trigger_tile":[123,9],"arrival_tile":[12,2],"collision_attribute":252,"transition_flags":0},
+      {"to_native_room":231,"trigger_tile":[124,9],"arrival_tile":[13,2],"collision_attribute":252,"transition_flags":0},
+      {"to_native_room":231,"trigger_tile":[121,10],"arrival_tile":[10,2],"collision_attribute":252,"transition_flags":0},
+      {"to_native_room":231,"trigger_tile":[122,10],"arrival_tile":[11,2],"collision_attribute":252,"transition_flags":0},
+      {"to_native_room":231,"trigger_tile":[123,10],"arrival_tile":[12,2],"collision_attribute":252,"transition_flags":0},
+      {"to_native_room":231,"trigger_tile":[124,10],"arrival_tile":[13,2],"collision_attribute":252,"transition_flags":0},
+      {"to_native_room":231,"trigger_tile":[121,11],"arrival_tile":[10,2],"collision_attribute":252,"transition_flags":0},
+      {"to_native_room":231,"trigger_tile":[122,11],"arrival_tile":[11,2],"collision_attribute":252,"transition_flags":0},
+      {"to_native_room":231,"trigger_tile":[123,11],"arrival_tile":[12,2],"collision_attribute":252,"transition_flags":0},
+      {"to_native_room":231,"trigger_tile":[124,11],"arrival_tile":[13,2],"collision_attribute":252,"transition_flags":0},
+      {"to_native_room":231,"trigger_tile":[121,12],"arrival_tile":[10,2],"collision_attribute":252,"transition_flags":0},
+      {"to_native_room":231,"trigger_tile":[122,12],"arrival_tile":[11,2],"collision_attribute":252,"transition_flags":0},
+      {"to_native_room":231,"trigger_tile":[123,12],"arrival_tile":[12,2],"collision_attribute":252,"transition_flags":0},
+      {"to_native_room":231,"trigger_tile":[124,12],"arrival_tile":[13,2],"collision_attribute":252,"transition_flags":0}
+    ],
+    "290": [
+      {"to_native_room":291,"trigger_tile":[3,3],"arrival_tile":[9,3],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":801,"trigger_tile":[12,3],"arrival_tile":[4,11],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":210,"trigger_tile":[1,8],"arrival_tile":[27,49],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":208,"trigger_tile":[14,8],"arrival_tile":[15,3],"collision_attribute":255,"transition_flags":1}
+    ],
+    "291": [
+      {"to_native_room":290,"trigger_tile":[8,3],"arrival_tile":[4,3],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":215,"trigger_tile":[1,8],"arrival_tile":[27,29],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":222,"trigger_tile":[14,8],"arrival_tile":[17,3],"collision_attribute":255,"transition_flags":1}
+    ],
+    "300": [
+      {"to_native_room":324,"trigger_tile":[3,2],"arrival_tile":[4,19],"collision_attribute":255,"transition_flags":128},
+      {"to_native_room":324,"trigger_tile":[12,2],"arrival_tile":[11,19],"collision_attribute":255,"transition_flags":128}
+    ],
+    "304": [
+      {"to_native_room":321,"trigger_tile":[28,4],"arrival_tile":[2,22],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":390,"trigger_tile":[28,38],"arrival_tile":[3,6],"collision_attribute":255,"transition_flags":1}
+    ],
+    "308": [
+      {"to_native_room":316,"trigger_tile":[26,3],"arrival_tile":[60,4],"collision_attribute":255,"transition_flags":2}
+    ],
+    "310": [
+      {"to_native_room":534,"trigger_tile":[2,8],"arrival_tile":[62,6],"collision_attribute":255,"transition_flags":2}
+    ],
+    "312": [
+      {"to_native_room":313,"trigger_tile":[46,6],"arrival_tile":[2,11],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":318,"trigger_tile":[72,6],"arrival_tile":[3,39],"collision_attribute":255,"transition_flags":1}
+    ],
+    "313": [
+      {"to_native_room":326,"trigger_tile":[83,0],"arrival_tile":[1,2],"collision_attribute":254,"transition_flags":0},
+      {"to_native_room":326,"trigger_tile":[84,0],"arrival_tile":[1,2],"collision_attribute":254,"transition_flags":0},
+      {"to_native_room":326,"trigger_tile":[83,1],"arrival_tile":[1,2],"collision_attribute":254,"transition_flags":0},
+      {"to_native_room":326,"trigger_tile":[84,1],"arrival_tile":[1,2],"collision_attribute":254,"transition_flags":0},
+      {"to_native_room":326,"trigger_tile":[83,2],"arrival_tile":[1,2],"collision_attribute":254,"transition_flags":0},
+      {"to_native_room":326,"trigger_tile":[84,2],"arrival_tile":[1,2],"collision_attribute":254,"transition_flags":0},
+      {"to_native_room":326,"trigger_tile":[83,3],"arrival_tile":[1,2],"collision_attribute":254,"transition_flags":0},
+      {"to_native_room":326,"trigger_tile":[84,3],"arrival_tile":[1,2],"collision_attribute":254,"transition_flags":0},
+      {"to_native_room":326,"trigger_tile":[83,4],"arrival_tile":[1,2],"collision_attribute":254,"transition_flags":0},
+      {"to_native_room":326,"trigger_tile":[84,4],"arrival_tile":[1,2],"collision_attribute":254,"transition_flags":0},
+      {"to_native_room":326,"trigger_tile":[83,5],"arrival_tile":[1,2],"collision_attribute":254,"transition_flags":0},
+      {"to_native_room":326,"trigger_tile":[84,5],"arrival_tile":[1,2],"collision_attribute":254,"transition_flags":0},
+      {"to_native_room":326,"trigger_tile":[83,6],"arrival_tile":[1,2],"collision_attribute":254,"transition_flags":0},
+      {"to_native_room":326,"trigger_tile":[84,6],"arrival_tile":[1,2],"collision_attribute":254,"transition_flags":0},
+      {"to_native_room":326,"trigger_tile":[83,7],"arrival_tile":[1,2],"collision_attribute":254,"transition_flags":0},
+      {"to_native_room":326,"trigger_tile":[84,7],"arrival_tile":[1,2],"collision_attribute":254,"transition_flags":0},
+      {"to_native_room":326,"trigger_tile":[83,8],"arrival_tile":[1,2],"collision_attribute":254,"transition_flags":0},
+      {"to_native_room":326,"trigger_tile":[84,8],"arrival_tile":[1,2],"collision_attribute":254,"transition_flags":0},
+      {"to_native_room":326,"trigger_tile":[83,9],"arrival_tile":[1,2],"collision_attribute":254,"transition_flags":0},
+      {"to_native_room":326,"trigger_tile":[84,9],"arrival_tile":[1,2],"collision_attribute":254,"transition_flags":0},
+      {"to_native_room":326,"trigger_tile":[83,10],"arrival_tile":[1,2],"collision_attribute":254,"transition_flags":0},
+      {"to_native_room":326,"trigger_tile":[84,10],"arrival_tile":[1,2],"collision_attribute":254,"transition_flags":0}
+    ],
+    "315": [
+      {"to_native_room":323,"trigger_tile":[1,8],"arrival_tile":[13,36],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":323,"trigger_tile":[6,15],"arrival_tile":[30,39],"collision_attribute":255,"transition_flags":2}
+    ],
+    "316": [
+      {"to_native_room":322,"trigger_tile":[3,8],"arrival_tile":[33,4],"collision_attribute":255,"transition_flags":2}
+    ],
+    "317": [
+      {"to_native_room":312,"trigger_tile":[2,3],"arrival_tile":[74,18],"collision_attribute":255,"transition_flags":2}
+    ],
+    "321": [
+      {"to_native_room":308,"trigger_tile":[14,2],"arrival_tile":[39,29],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":308,"trigger_tile":[16,2],"arrival_tile":[43,29],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":544,"trigger_tile":[5,39],"arrival_tile":[3,2],"collision_attribute":255,"transition_flags":1}
+    ],
+    "322": [
+      {"to_native_room":315,"trigger_tile":[2,6],"arrival_tile":[44,18],"collision_attribute":255,"transition_flags":2}
+    ],
+    "323": [
+      {"to_native_room":300,"trigger_tile":[17,2],"arrival_tile":[13,18],"collision_attribute":255,"transition_flags":0}
+    ],
+    "325": [
+      {"to_native_room":317,"trigger_tile":[29,4],"arrival_tile":[3,19],"collision_attribute":255,"transition_flags":1}
+    ],
+    "326": [
+      {"to_native_room":981,"trigger_tile":[103,8],"arrival_tile":[3,74],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":981,"trigger_tile":[104,8],"arrival_tile":[3,74],"collision_attribute":255,"transition_flags":1}
+    ],
+    "390": [
+      {"to_native_room":304,"trigger_tile":[1,5],"arrival_tile":[28,39],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":541,"trigger_tile":[14,5],"arrival_tile":[5,5],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":590,"trigger_tile":[8,8],"arrival_tile":[9,3],"collision_attribute":255,"transition_flags":0}
+    ],
+    "400": [
+      {"to_native_room":417,"trigger_tile":[7,3],"arrival_tile":[3,7],"collision_attribute":255,"transition_flags":129}
+    ],
+    "401": [
+      {"to_native_room":408,"trigger_tile":[28,3],"arrival_tile":[3,4],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":407,"trigger_tile":[1,48],"arrival_tile":[41,13],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":406,"trigger_tile":[28,48],"arrival_tile":[7,8],"collision_attribute":255,"transition_flags":2}
+    ],
+    "402": [
+      {"to_native_room":419,"trigger_tile":[40,3],"arrival_tile":[3,4],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":419,"trigger_tile":[40,28],"arrival_tile":[3,15],"collision_attribute":255,"transition_flags":1}
+    ],
+    "403": [
+      {"to_native_room":405,"trigger_tile":[55,3],"arrival_tile":[3,10],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":404,"trigger_tile":[5,8],"arrival_tile":[21,5],"collision_attribute":255,"transition_flags":1}
+    ],
+    "404": [
+      {"to_native_room":403,"trigger_tile":[20,4],"arrival_tile":[7,9],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":407,"trigger_tile":[89,7],"arrival_tile":[4,27],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":427,"trigger_tile":[1,8],"arrival_tile":[42,5],"collision_attribute":255,"transition_flags":2}
+    ],
+    "405": [
+      {"to_native_room":411,"trigger_tile":[74,8],"arrival_tile":[3,8],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":403,"trigger_tile":[1,9],"arrival_tile":[55,4],"collision_attribute":255,"transition_flags":2}
+    ],
+    "406": [
+      {"to_native_room":401,"trigger_tile":[7,7],"arrival_tile":[28,49],"collision_attribute":255,"transition_flags":2}
+    ],
+    "407": [
+      {"to_native_room":490,"trigger_tile":[10,3],"arrival_tile":[3,6],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":401,"trigger_tile":[41,12],"arrival_tile":[3,49],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":404,"trigger_tile":[2,26],"arrival_tile":[89,8],"collision_attribute":255,"transition_flags":2}
+    ],
+    "408": [
+      {"to_native_room":401,"trigger_tile":[1,3],"arrival_tile":[28,4],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":409,"trigger_tile":[74,15],"arrival_tile":[3,5],"collision_attribute":255,"transition_flags":1}
+    ],
+    "409": [
+      {"to_native_room":408,"trigger_tile":[1,4],"arrival_tile":[74,16],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":427,"trigger_tile":[119,4],"arrival_tile":[3,5],"collision_attribute":255,"transition_flags":1}
+    ],
+    "411": [
+      {"to_native_room":418,"trigger_tile":[28,6],"arrival_tile":[3,5],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":405,"trigger_tile":[2,7],"arrival_tile":[74,9],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":490,"trigger_tile":[1,18],"arrival_tile":[14,6],"collision_attribute":255,"transition_flags":2}
+    ],
+    "413": [
+      {"to_native_room":982,"trigger_tile":[1,4],"arrival_tile":[3,73],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":982,"trigger_tile":[2,4],"arrival_tile":[3,73],"collision_attribute":255,"transition_flags":1}
+    ],
+    "414": [
+      {"to_native_room":413,"trigger_tile":[2,3],"arrival_tile":[44,19],"collision_attribute":255,"transition_flags":2}
+    ],
+    "415": [
+      {"to_native_room":422,"trigger_tile":[133,2],"arrival_tile":[3,5],"collision_attribute":255,"transition_flags":1}
+    ],
+    "416": [
+      {"to_native_room":400,"trigger_tile":[7,2],"arrival_tile":[7,27],"collision_attribute":255,"transition_flags":1}
+    ],
+    "418": [
+      {"to_native_room":414,"trigger_tile":[107,3],"arrival_tile":[74,18],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":402,"trigger_tile":[133,3],"arrival_tile":[4,4],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":411,"trigger_tile":[1,4],"arrival_tile":[28,7],"collision_attribute":255,"transition_flags":2}
+    ],
+    "419": [
+      {"to_native_room":412,"trigger_tile":[73,2],"arrival_tile":[2,29],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":426,"trigger_tile":[73,15],"arrival_tile":[5,4],"collision_attribute":255,"transition_flags":1}
+    ],
+    "420": [
+      {"to_native_room":982,"trigger_tile":[43,4],"arrival_tile":[3,74],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":982,"trigger_tile":[44,4],"arrival_tile":[3,74],"collision_attribute":255,"transition_flags":1}
+    ],
+    "421": [
+      {"to_native_room":416,"trigger_tile":[133,4],"arrival_tile":[8,96],"collision_attribute":255,"transition_flags":1}
+    ],
+    "422": [
+      {"to_native_room":423,"trigger_tile":[59,3],"arrival_tile":[3,9],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":424,"trigger_tile":[43,8],"arrival_tile":[4,8],"collision_attribute":255,"transition_flags":1}
+    ],
+    "423": [
+      {"to_native_room":421,"trigger_tile":[133,3],"arrival_tile":[3,5],"collision_attribute":255,"transition_flags":1}
+    ],
+    "424": [
+      {"to_native_room":422,"trigger_tile":[13,2],"arrival_tile":[44,8],"collision_attribute":255,"transition_flags":1}
+    ],
+    "425": [
+      {"to_native_room":427,"trigger_tile":[7,3],"arrival_tile":[43,19],"collision_attribute":255,"transition_flags":2}
+    ],
+    "426": [
+      {"to_native_room":420,"trigger_tile":[39,3],"arrival_tile":[3,19],"collision_attribute":255,"transition_flags":1}
+    ],
+    "427": [
+      {"to_native_room":409,"trigger_tile":[1,4],"arrival_tile":[119,5],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":404,"trigger_tile":[42,4],"arrival_tile":[3,9],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":425,"trigger_tile":[43,18],"arrival_tile":[8,5],"collision_attribute":255,"transition_flags":1}
+    ],
+    "490": [
+      {"to_native_room":407,"trigger_tile":[1,5],"arrival_tile":[12,4],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":411,"trigger_tile":[14,5],"arrival_tile":[3,19],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":801,"trigger_tile":[8,8],"arrival_tile":[27,4],"collision_attribute":255,"transition_flags":2}
+    ],
+    "500": [
+      {"to_native_room":516,"trigger_tile":[12,8],"arrival_tile":[15,1],"collision_attribute":255,"transition_flags":129}
+    ],
+    "501": [
+      {"to_native_room":510,"trigger_tile":[14,3],"arrival_tile":[24,29],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":514,"trigger_tile":[28,11],"arrival_tile":[3,5],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":513,"trigger_tile":[2,28],"arrival_tile":[27,5],"collision_attribute":255,"transition_flags":2}
+    ],
+    "502": [
+      {"to_native_room":525,"trigger_tile":[74,5],"arrival_tile":[2,19],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":617,"trigger_tile":[49,16],"arrival_tile":[4,9],"collision_attribute":255,"transition_flags":1}
+    ],
+    "503": [
+      {"to_native_room":110,"trigger_tile":[7,2],"arrival_tile":[4,69],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":507,"trigger_tile":[14,47],"arrival_tile":[66,3],"collision_attribute":255,"transition_flags":2}
+    ],
+    "504": [
+      {"to_native_room":119,"trigger_tile":[2,2],"arrival_tile":[13,29],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":174,"trigger_tile":[2,18],"arrival_tile":[59,14],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":127,"trigger_tile":[13,56],"arrival_tile":[3,14],"collision_attribute":255,"transition_flags":1}
+    ],
+    "507": [
+      {"to_native_room":503,"trigger_tile":[66,2],"arrival_tile":[14,48],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":137,"trigger_tile":[2,10],"arrival_tile":[65,19],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":512,"trigger_tile":[14,17],"arrival_tile":[4,7],"collision_attribute":255,"transition_flags":1}
+    ],
+    "508": [
+      {"to_native_room":528,"trigger_tile":[25,27],"arrival_tile":[22,10],"collision_attribute":253,"transition_flags":2},
+      {"to_native_room":509,"trigger_tile":[44,27],"arrival_tile":[4,19],"collision_attribute":253,"transition_flags":0}
+    ],
+    "509": [
+      {"to_native_room":510,"trigger_tile":[41,3],"arrival_tile":[4,6],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":127,"trigger_tile":[19,7],"arrival_tile":[12,18],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":508,"trigger_tile":[2,18],"arrival_tile":[43,28],"collision_attribute":253,"transition_flags":2}
+    ],
+    "510": [
+      {"to_native_room":509,"trigger_tile":[2,5],"arrival_tile":[41,4],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":501,"trigger_tile":[24,28],"arrival_tile":[14,4],"collision_attribute":255,"transition_flags":2}
+    ],
+    "511": [
+      {"to_native_room":531,"trigger_tile":[1,2],"arrival_tile":[38,4],"collision_attribute":255,"transition_flags":0}
+    ],
+    "512": [
+      {"to_native_room":507,"trigger_tile":[2,6],"arrival_tile":[14,18],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":511,"trigger_tile":[1,12],"arrival_tile":[45,5],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":529,"trigger_tile":[10,18],"arrival_tile":[7,3],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":529,"trigger_tile":[23,18],"arrival_tile":[24,3],"collision_attribute":255,"transition_flags":2}
+    ],
+    "513": [
+      {"to_native_room":509,"trigger_tile":[8,2],"arrival_tile":[43,17],"collision_attribute":253,"transition_flags":0},
+      {"to_native_room":501,"trigger_tile":[27,4],"arrival_tile":[5,29],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":528,"trigger_tile":[2,5],"arrival_tile":[21,32],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":515,"trigger_tile":[27,18],"arrival_tile":[12,3],"collision_attribute":255,"transition_flags":0}
+    ],
+    "514": [
+      {"to_native_room":501,"trigger_tile":[1,4],"arrival_tile":[28,12],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":517,"trigger_tile":[27,38],"arrival_tile":[4,3],"collision_attribute":255,"transition_flags":1}
+    ],
+    "515": [
+      {"to_native_room":513,"trigger_tile":[10,2],"arrival_tile":[27,19],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":500,"trigger_tile":[7,39],"arrival_tile":[3,2],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":500,"trigger_tile":[8,39],"arrival_tile":[3,2],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":500,"trigger_tile":[7,40],"arrival_tile":[3,2],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":500,"trigger_tile":[8,40],"arrival_tile":[3,2],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":500,"trigger_tile":[7,41],"arrival_tile":[3,2],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":500,"trigger_tile":[8,41],"arrival_tile":[3,2],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":500,"trigger_tile":[7,42],"arrival_tile":[3,2],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":500,"trigger_tile":[8,42],"arrival_tile":[3,2],"collision_attribute":254,"transition_flags":1}
+    ],
+    "517": [
+      {"to_native_room":514,"trigger_tile":[2,2],"arrival_tile":[27,39],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":591,"trigger_tile":[44,18],"arrival_tile":[3,9],"collision_attribute":255,"transition_flags":0}
+    ],
+    "523": [
+      {"to_native_room":529,"trigger_tile":[17,2],"arrival_tile":[5,29],"collision_attribute":253,"transition_flags":1},
+      {"to_native_room":530,"trigger_tile":[1,9],"arrival_tile":[44,9],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":191,"trigger_tile":[42,18],"arrival_tile":[3,7],"collision_attribute":253,"transition_flags":1}
+    ],
+    "524": [
+      {"to_native_room":502,"trigger_tile":[88,2],"arrival_tile":[2,7],"collision_attribute":255,"transition_flags":1}
+    ],
+    "525": [
+      {"to_native_room":526,"trigger_tile":[73,3],"arrival_tile":[4,8],"collision_attribute":255,"transition_flags":0}
+    ],
+    "526": [
+      {"to_native_room":982,"trigger_tile":[51,3],"arrival_tile":[3,73],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":982,"trigger_tile":[52,3],"arrival_tile":[3,73],"collision_attribute":255,"transition_flags":1}
+    ],
+    "527": [
+      {"to_native_room":515,"trigger_tile":[69,5],"arrival_tile":[2,3],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":528,"trigger_tile":[1,16],"arrival_tile":[22,48],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":515,"trigger_tile":[69,17],"arrival_tile":[5,24],"collision_attribute":255,"transition_flags":0}
+    ],
+    "528": [
+      {"to_native_room":508,"trigger_tile":[27,0],"arrival_tile":[38,28],"collision_attribute":252,"transition_flags":0},
+      {"to_native_room":508,"trigger_tile":[28,0],"arrival_tile":[38,28],"collision_attribute":252,"transition_flags":0},
+      {"to_native_room":508,"trigger_tile":[29,0],"arrival_tile":[38,28],"collision_attribute":252,"transition_flags":0},
+      {"to_native_room":508,"trigger_tile":[30,0],"arrival_tile":[38,28],"collision_attribute":252,"transition_flags":0},
+      {"to_native_room":508,"trigger_tile":[27,1],"arrival_tile":[38,28],"collision_attribute":252,"transition_flags":0},
+      {"to_native_room":508,"trigger_tile":[28,1],"arrival_tile":[38,28],"collision_attribute":252,"transition_flags":0},
+      {"to_native_room":508,"trigger_tile":[29,1],"arrival_tile":[38,28],"collision_attribute":252,"transition_flags":0},
+      {"to_native_room":508,"trigger_tile":[30,1],"arrival_tile":[38,28],"collision_attribute":252,"transition_flags":0},
+      {"to_native_room":513,"trigger_tile":[21,31],"arrival_tile":[4,6],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":592,"trigger_tile":[2,47],"arrival_tile":[14,7],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":527,"trigger_tile":[22,47],"arrival_tile":[3,17],"collision_attribute":255,"transition_flags":1}
+    ],
+    "529": [
+      {"to_native_room":512,"trigger_tile":[5,2],"arrival_tile":[10,19],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":512,"trigger_tile":[24,2],"arrival_tile":[23,19],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":523,"trigger_tile":[3,28],"arrival_tile":[19,3],"collision_attribute":253,"transition_flags":1}
+    ],
+    "530": [
+      {"to_native_room":523,"trigger_tile":[44,8],"arrival_tile":[3,10],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":591,"trigger_tile":[1,18],"arrival_tile":[14,9],"collision_attribute":255,"transition_flags":2}
+    ],
+    "531": [
+      {"to_native_room":981,"trigger_tile":[2,28],"arrival_tile":[3,74],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":981,"trigger_tile":[3,28],"arrival_tile":[3,74],"collision_attribute":255,"transition_flags":1}
+    ],
+    "532": [
+      {"to_native_room":138,"trigger_tile":[2,3],"arrival_tile":[44,7],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":571,"trigger_tile":[28,4],"arrival_tile":[3,9],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":139,"trigger_tile":[8,28],"arrival_tile":[28,3],"collision_attribute":255,"transition_flags":0}
+    ],
+    "533": [
+      {"to_native_room":317,"trigger_tile":[33,2],"arrival_tile":[5,34],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":325,"trigger_tile":[7,3],"arrival_tile":[4,20],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":534,"trigger_tile":[39,16],"arrival_tile":[5,5],"collision_attribute":255,"transition_flags":1}
+    ],
+    "534": [
+      {"to_native_room":533,"trigger_tile":[3,4],"arrival_tile":[39,17],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":310,"trigger_tile":[62,5],"arrival_tile":[4,9],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":590,"trigger_tile":[1,18],"arrival_tile":[14,7],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":535,"trigger_tile":[62,18],"arrival_tile":[5,6],"collision_attribute":255,"transition_flags":1}
+    ],
+    "535": [
+      {"to_native_room":534,"trigger_tile":[3,5],"arrival_tile":[62,19],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":538,"trigger_tile":[39,27],"arrival_tile":[7,8],"collision_attribute":255,"transition_flags":1}
+    ],
+    "536": [
+      {"to_native_room":537,"trigger_tile":[20,2],"arrival_tile":[3,9],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":542,"trigger_tile":[42,13],"arrival_tile":[10,2],"collision_attribute":255,"transition_flags":1}
+    ],
+    "537": [
+      {"to_native_room":538,"trigger_tile":[44,2],"arrival_tile":[3,12],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":536,"trigger_tile":[1,8],"arrival_tile":[20,3],"collision_attribute":255,"transition_flags":2}
+    ],
+    "538": [
+      {"to_native_room":539,"trigger_tile":[28,2],"arrival_tile":[3,3],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":535,"trigger_tile":[5,7],"arrival_tile":[39,28],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":537,"trigger_tile":[1,11],"arrival_tile":[44,3],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":542,"trigger_tile":[15,18],"arrival_tile":[21,9],"collision_attribute":255,"transition_flags":1}
+    ],
+    "539": [
+      {"to_native_room":538,"trigger_tile":[1,2],"arrival_tile":[28,3],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":540,"trigger_tile":[91,2],"arrival_tile":[3,39],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":539,"trigger_tile":[119,2],"arrival_tile":[32,3],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":539,"trigger_tile":[31,7],"arrival_tile":[103,4],"collision_attribute":255,"transition_flags":0}
+    ],
+    "540": [
+      {"to_native_room":541,"trigger_tile":[2,2],"arrival_tile":[57,19],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":539,"trigger_tile":[1,38],"arrival_tile":[93,3],"collision_attribute":255,"transition_flags":1}
+    ],
+    "541": [
+      {"to_native_room":390,"trigger_tile":[3,4],"arrival_tile":[14,6],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":540,"trigger_tile":[57,18],"arrival_tile":[4,3],"collision_attribute":255,"transition_flags":0}
+    ],
+    "542": [
+      {"to_native_room":536,"trigger_tile":[3,8],"arrival_tile":[42,14],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":538,"trigger_tile":[19,8],"arrival_tile":[15,19],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":543,"trigger_tile":[32,17],"arrival_tile":[3,5],"collision_attribute":255,"transition_flags":1}
+    ],
+    "543": [
+      {"to_native_room":542,"trigger_tile":[1,4],"arrival_tile":[32,18],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":141,"trigger_tile":[44,8],"arrival_tile":[3,14],"collision_attribute":255,"transition_flags":1}
+    ],
+    "544": [
+      {"to_native_room":543,"trigger_tile":[7,59],"arrival_tile":[31,2],"collision_attribute":255,"transition_flags":2}
+    ],
+    "545": [
+      {"to_native_room":546,"trigger_tile":[12,5],"arrival_tile":[6,79],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":546,"trigger_tile":[15,5],"arrival_tile":[11,79],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":545,"trigger_tile":[21,28],"arrival_tile":[4,23],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":141,"trigger_tile":[2,38],"arrival_tile":[34,4],"collision_attribute":255,"transition_flags":2}
+    ],
+    "546": [
+      {"to_native_room":321,"trigger_tile":[3,2],"arrival_tile":[30,19],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":547,"trigger_tile":[13,2],"arrival_tile":[2,3],"collision_attribute":255,"transition_flags":1}
+    ],
+    "547": [
+      {"to_native_room":981,"trigger_tile":[85,6],"arrival_tile":[3,74],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":981,"trigger_tile":[86,6],"arrival_tile":[3,74],"collision_attribute":255,"transition_flags":1}
+    ],
+    "551": [
+      {"to_native_room":815,"trigger_tile":[73,18],"arrival_tile":[5,9],"collision_attribute":255,"transition_flags":1}
+    ],
+    "553": [
+      {"to_native_room":832,"trigger_tile":[73,4],"arrival_tile":[3,25],"collision_attribute":255,"transition_flags":1}
+    ],
+    "554": [
+      {"to_native_room":110,"trigger_tile":[2,3],"arrival_tile":[14,69],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":555,"trigger_tile":[44,26],"arrival_tile":[8,3],"collision_attribute":255,"transition_flags":0}
+    ],
+    "555": [
+      {"to_native_room":556,"trigger_tile":[11,58],"arrival_tile":[2,6],"collision_attribute":255,"transition_flags":1}
+    ],
+    "556": [
+      {"to_native_room":557,"trigger_tile":[74,8],"arrival_tile":[2,5],"collision_attribute":255,"transition_flags":1}
+    ],
+    "557": [
+      {"to_native_room":980,"trigger_tile":[27,28],"arrival_tile":[3,74],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":980,"trigger_tile":[28,28],"arrival_tile":[3,74],"collision_attribute":255,"transition_flags":0}
+    ],
+    "570": [
+      {"to_native_room":590,"trigger_tile":[74,4],"arrival_tile":[3,7],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":571,"trigger_tile":[1,8],"arrival_tile":[69,6],"collision_attribute":255,"transition_flags":2}
+    ],
+    "571": [
+      {"to_native_room":570,"trigger_tile":[69,5],"arrival_tile":[3,9],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":532,"trigger_tile":[1,8],"arrival_tile":[28,5],"collision_attribute":255,"transition_flags":2}
+    ],
+    "590": [
+      {"to_native_room":390,"trigger_tile":[8,3],"arrival_tile":[8,8],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":570,"trigger_tile":[1,6],"arrival_tile":[74,5],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":534,"trigger_tile":[14,6],"arrival_tile":[3,19],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":801,"trigger_tile":[8,8],"arrival_tile":[15,4],"collision_attribute":255,"transition_flags":0}
+    ],
+    "591": [
+      {"to_native_room":194,"trigger_tile":[8,3],"arrival_tile":[8,8],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":517,"trigger_tile":[1,8],"arrival_tile":[44,19],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":530,"trigger_tile":[14,8],"arrival_tile":[3,19],"collision_attribute":255,"transition_flags":1}
+    ],
+    "592": [
+      {"to_native_room":801,"trigger_tile":[8,3],"arrival_tile":[7,17],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":620,"trigger_tile":[1,6],"arrival_tile":[44,9],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":528,"trigger_tile":[14,6],"arrival_tile":[4,48],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":690,"trigger_tile":[8,8],"arrival_tile":[9,3],"collision_attribute":255,"transition_flags":0}
+    ],
+    "600": [
+      {"to_native_room":738,"trigger_tile":[2,8],"arrival_tile":[14,7],"collision_attribute":255,"transition_flags":130}
+    ],
+    "601": [
+      {"to_native_room":623,"trigger_tile":[47,2],"arrival_tile":[4,12],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":611,"trigger_tile":[2,3],"arrival_tile":[24,8],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":605,"trigger_tile":[112,3],"arrival_tile":[3,18],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":611,"trigger_tile":[2,8],"arrival_tile":[24,9],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":605,"trigger_tile":[112,8],"arrival_tile":[4,25],"collision_attribute":255,"transition_flags":1}
+    ],
+    "603": [
+      {"to_native_room":604,"trigger_tile":[11,3],"arrival_tile":[4,6],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":611,"trigger_tile":[3,48],"arrival_tile":[17,5],"collision_attribute":255,"transition_flags":1}
+    ],
+    "604": [
+      {"to_native_room":622,"trigger_tile":[102,2],"arrival_tile":[3,18],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":603,"trigger_tile":[2,5],"arrival_tile":[11,4],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":623,"trigger_tile":[48,8],"arrival_tile":[3,3],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":606,"trigger_tile":[78,8],"arrival_tile":[4,5],"collision_attribute":255,"transition_flags":1}
+    ],
+    "605": [
+      {"to_native_room":606,"trigger_tile":[7,16],"arrival_tile":[16,44],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":601,"trigger_tile":[2,24],"arrival_tile":[112,9],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":610,"trigger_tile":[11,28],"arrival_tile":[42,4],"collision_attribute":255,"transition_flags":2}
+    ],
+    "606": [
+      {"to_native_room":604,"trigger_tile":[2,4],"arrival_tile":[78,9],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":605,"trigger_tile":[16,43],"arrival_tile":[7,17],"collision_attribute":255,"transition_flags":1}
+    ],
+    "608": [
+      {"to_native_room":619,"trigger_tile":[70,3],"arrival_tile":[12,8],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":613,"trigger_tile":[3,6],"arrival_tile":[13,27],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":612,"trigger_tile":[72,17],"arrival_tile":[4,5],"collision_attribute":255,"transition_flags":0}
+    ],
+    "609": [
+      {"to_native_room":614,"trigger_tile":[2,3],"arrival_tile":[44,29],"collision_attribute":255,"transition_flags":2}
+    ],
+    "610": [
+      {"to_native_room":611,"trigger_tile":[2,7],"arrival_tile":[14,19],"collision_attribute":255,"transition_flags":2}
+    ],
+    "611": [
+      {"to_native_room":603,"trigger_tile":[15,4],"arrival_tile":[5,49],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":690,"trigger_tile":[2,8],"arrival_tile":[14,9],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":601,"trigger_tile":[24,8],"arrival_tile":[4,9],"collision_attribute":255,"transition_flags":1}
+    ],
+    "612": [
+      {"to_native_room":608,"trigger_tile":[2,4],"arrival_tile":[72,18],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":690,"trigger_tile":[43,13],"arrival_tile":[4,9],"collision_attribute":255,"transition_flags":1}
+    ],
+    "613": [
+      {"to_native_room":616,"trigger_tile":[2,3],"arrival_tile":[40,27],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":609,"trigger_tile":[13,48],"arrival_tile":[103,3],"collision_attribute":255,"transition_flags":2}
+    ],
+    "614": [
+      {"to_native_room":618,"trigger_tile":[1,2],"arrival_tile":[8,78],"collision_attribute":255,"transition_flags":2}
+    ],
+    "616": [
+      {"to_native_room":524,"trigger_tile":[3,3],"arrival_tile":[3,8],"collision_attribute":255,"transition_flags":1}
+    ],
+    "617": [
+      {"to_native_room":502,"trigger_tile":[26,3],"arrival_tile":[54,17],"collision_attribute":255,"transition_flags":1}
+    ],
+    "618": [
+      {"to_native_room":113,"trigger_tile":[7,3],"arrival_tile":[89,7],"collision_attribute":255,"transition_flags":2}
+    ],
+    "619": [
+      {"to_native_room":181,"trigger_tile":[2,3],"arrival_tile":[12,49],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":608,"trigger_tile":[12,7],"arrival_tile":[72,4],"collision_attribute":255,"transition_flags":1}
+    ],
+    "620": [
+      {"to_native_room":621,"trigger_tile":[7,8],"arrival_tile":[73,3],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":621,"trigger_tile":[8,8],"arrival_tile":[73,3],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":592,"trigger_tile":[44,8],"arrival_tile":[3,7],"collision_attribute":255,"transition_flags":0}
+    ],
+    "621": [
+      {"to_native_room":605,"trigger_tile":[2,17],"arrival_tile":[44,5],"collision_attribute":255,"transition_flags":2}
+    ],
+    "622": [
+      {"to_native_room":981,"trigger_tile":[43,5],"arrival_tile":[3,73],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":981,"trigger_tile":[44,5],"arrival_tile":[3,73],"collision_attribute":255,"transition_flags":1}
+    ],
+    "623": [
+      {"to_native_room":606,"trigger_tile":[34,7],"arrival_tile":[2,28],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":601,"trigger_tile":[3,15],"arrival_tile":[48,10],"collision_attribute":255,"transition_flags":0}
+    ],
+    "690": [
+      {"to_native_room":592,"trigger_tile":[8,3],"arrival_tile":[8,8],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":612,"trigger_tile":[2,8],"arrival_tile":[43,14],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":611,"trigger_tile":[14,8],"arrival_tile":[4,9],"collision_attribute":255,"transition_flags":1}
+    ],
+    "700": [
+      {"to_native_room":710,"trigger_tile":[33,8],"arrival_tile":[5,5],"collision_attribute":255,"transition_flags":129}
+    ],
+    "702": [
+      {"to_native_room":709,"trigger_tile":[43,4],"arrival_tile":[3,9],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":706,"trigger_tile":[2,11],"arrival_tile":[25,19],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":744,"trigger_tile":[43,17],"arrival_tile":[2,3],"collision_attribute":255,"transition_flags":0}
+    ],
+    "704": [
+      {"to_native_room":709,"trigger_tile":[14,14],"arrival_tile":[14,4],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":711,"trigger_tile":[21,15],"arrival_tile":[3,6],"collision_attribute":255,"transition_flags":1}
+    ],
+    "706": [
+      {"to_native_room":790,"trigger_tile":[2,2],"arrival_tile":[14,9],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":708,"trigger_tile":[1,18],"arrival_tile":[43,3],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":702,"trigger_tile":[25,18],"arrival_tile":[4,12],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":707,"trigger_tile":[72,18],"arrival_tile":[2,10],"collision_attribute":255,"transition_flags":1}
+    ],
+    "707": [
+      {"to_native_room":712,"trigger_tile":[72,2],"arrival_tile":[2,29],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":709,"trigger_tile":[7,13],"arrival_tile":[3,4],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":704,"trigger_tile":[67,18],"arrival_tile":[2,8],"collision_attribute":255,"transition_flags":1}
+    ],
+    "708": [
+      {"to_native_room":740,"trigger_tile":[32,2],"arrival_tile":[3,9],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":706,"trigger_tile":[43,2],"arrival_tile":[3,19],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":743,"trigger_tile":[22,28],"arrival_tile":[6,3],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":743,"trigger_tile":[28,28],"arrival_tile":[12,3],"collision_attribute":255,"transition_flags":0}
+    ],
+    "709": [
+      {"to_native_room":707,"trigger_tile":[1,3],"arrival_tile":[12,14],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":704,"trigger_tile":[14,3],"arrival_tile":[16,15],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":702,"trigger_tile":[1,8],"arrival_tile":[43,5],"collision_attribute":255,"transition_flags":2}
+    ],
+    "711": [
+      {"to_native_room":700,"trigger_tile":[18,28],"arrival_tile":[3,9],"collision_attribute":255,"transition_flags":1}
+    ],
+    "712": [
+      {"to_native_room":741,"trigger_tile":[22,2],"arrival_tile":[4,39],"collision_attribute":255,"transition_flags":1}
+    ],
+    "714": [
+      {"to_native_room":735,"trigger_tile":[33,18],"arrival_tile":[79,7],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":714,"trigger_tile":[1,27],"arrival_tile":[44,4],"collision_attribute":255,"transition_flags":2}
+    ],
+    "716": [
+      {"to_native_room":731,"trigger_tile":[2,4],"arrival_tile":[20,29],"collision_attribute":255,"transition_flags":2}
+    ],
+    "717": [
+      {"to_native_room":716,"trigger_tile":[13,18],"arrival_tile":[14,49],"collision_attribute":255,"transition_flags":2}
+    ],
+    "719": [
+      {"to_native_room":720,"trigger_tile":[14,3],"arrival_tile":[119,8],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":719,"trigger_tile":[19,8],"arrival_tile":[26,9],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":719,"trigger_tile":[24,8],"arrival_tile":[19,9],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":734,"trigger_tile":[1,14],"arrival_tile":[13,14],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":714,"trigger_tile":[2,23],"arrival_tile":[43,4],"collision_attribute":255,"transition_flags":2}
+    ],
+    "720": [
+      {"to_native_room":730,"trigger_tile":[2,7],"arrival_tile":[29,4],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":734,"trigger_tile":[17,11],"arrival_tile":[14,5],"collision_attribute":254,"transition_flags":2},
+      {"to_native_room":734,"trigger_tile":[18,11],"arrival_tile":[14,5],"collision_attribute":254,"transition_flags":2},
+      {"to_native_room":734,"trigger_tile":[19,11],"arrival_tile":[14,5],"collision_attribute":254,"transition_flags":2},
+      {"to_native_room":734,"trigger_tile":[20,11],"arrival_tile":[14,5],"collision_attribute":254,"transition_flags":2},
+      {"to_native_room":734,"trigger_tile":[21,11],"arrival_tile":[14,5],"collision_attribute":254,"transition_flags":2},
+      {"to_native_room":734,"trigger_tile":[22,11],"arrival_tile":[14,5],"collision_attribute":254,"transition_flags":2},
+      {"to_native_room":734,"trigger_tile":[23,11],"arrival_tile":[14,5],"collision_attribute":254,"transition_flags":2},
+      {"to_native_room":734,"trigger_tile":[24,11],"arrival_tile":[14,5],"collision_attribute":254,"transition_flags":2},
+      {"to_native_room":734,"trigger_tile":[25,11],"arrival_tile":[14,5],"collision_attribute":254,"transition_flags":2},
+      {"to_native_room":734,"trigger_tile":[26,11],"arrival_tile":[14,5],"collision_attribute":254,"transition_flags":2},
+      {"to_native_room":734,"trigger_tile":[27,11],"arrival_tile":[14,5],"collision_attribute":254,"transition_flags":2}
+    ],
+    "730": [
+      {"to_native_room":730,"trigger_tile":[7,12],"arrival_tile":[4,18],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":730,"trigger_tile":[8,12],"arrival_tile":[4,18],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":730,"trigger_tile":[11,12],"arrival_tile":[17,19],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":730,"trigger_tile":[12,12],"arrival_tile":[17,19],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":730,"trigger_tile":[15,12],"arrival_tile":[19,28],"collision_attribute":254,"transition_flags":2},
+      {"to_native_room":730,"trigger_tile":[16,12],"arrival_tile":[19,28],"collision_attribute":254,"transition_flags":2},
+      {"to_native_room":730,"trigger_tile":[7,13],"arrival_tile":[4,18],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":730,"trigger_tile":[8,13],"arrival_tile":[4,18],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":730,"trigger_tile":[11,13],"arrival_tile":[17,19],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":730,"trigger_tile":[12,13],"arrival_tile":[17,19],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":730,"trigger_tile":[15,13],"arrival_tile":[19,28],"collision_attribute":254,"transition_flags":2},
+      {"to_native_room":730,"trigger_tile":[16,13],"arrival_tile":[19,28],"collision_attribute":254,"transition_flags":2},
+      {"to_native_room":730,"trigger_tile":[11,21],"arrival_tile":[17,24],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":730,"trigger_tile":[24,25],"arrival_tile":[4,35],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":730,"trigger_tile":[2,29],"arrival_tile":[4,41],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":730,"trigger_tile":[23,30],"arrival_tile":[28,37],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":730,"trigger_tile":[15,36],"arrival_tile":[15,46],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":730,"trigger_tile":[12,41],"arrival_tile":[15,46],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":730,"trigger_tile":[27,41],"arrival_tile":[20,46],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":717,"trigger_tile":[3,48],"arrival_tile":[71,19],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":733,"trigger_tile":[27,48],"arrival_tile":[3,8],"collision_attribute":255,"transition_flags":1}
+    ],
+    "731": [
+      {"to_native_room":732,"trigger_tile":[42,28],"arrival_tile":[4,4],"collision_attribute":255,"transition_flags":1}
+    ],
+    "732": [
+      {"to_native_room":600,"trigger_tile":[1,28],"arrival_tile":[44,4],"collision_attribute":255,"transition_flags":2}
+    ],
+    "733": [
+      {"to_native_room":735,"trigger_tile":[72,7],"arrival_tile":[79,7],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":733,"trigger_tile":[29,8],"arrival_tile":[37,8],"collision_attribute":255,"transition_flags":1}
+    ],
+    "734": [
+      {"to_native_room":720,"trigger_tile":[2,4],"arrival_tile":[11,8],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":719,"trigger_tile":[13,13],"arrival_tile":[6,15],"collision_attribute":255,"transition_flags":1}
+    ],
+    "735": [
+      {"to_native_room":736,"trigger_tile":[2,6],"arrival_tile":[24,15],"collision_attribute":255,"transition_flags":2}
+    ],
+    "736": [
+      {"to_native_room":737,"trigger_tile":[1,2],"arrival_tile":[44,9],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":736,"trigger_tile":[28,2],"arrival_tile":[24,14],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":736,"trigger_tile":[23,9],"arrival_tile":[18,8],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":736,"trigger_tile":[31,9],"arrival_tile":[24,14],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":736,"trigger_tile":[19,10],"arrival_tile":[16,11],"collision_attribute":254,"transition_flags":2},
+      {"to_native_room":736,"trigger_tile":[27,10],"arrival_tile":[44,3],"collision_attribute":254,"transition_flags":2},
+      {"to_native_room":736,"trigger_tile":[1,14],"arrival_tile":[24,14],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":736,"trigger_tile":[18,14],"arrival_tile":[16,15],"collision_attribute":254,"transition_flags":2},
+      {"to_native_room":736,"trigger_tile":[28,14],"arrival_tile":[32,15],"collision_attribute":254,"transition_flags":1},
+      {"to_native_room":736,"trigger_tile":[44,14],"arrival_tile":[24,14],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":736,"trigger_tile":[19,18],"arrival_tile":[14,27],"collision_attribute":254,"transition_flags":2},
+      {"to_native_room":736,"trigger_tile":[27,18],"arrival_tile":[44,22],"collision_attribute":254,"transition_flags":2},
+      {"to_native_room":736,"trigger_tile":[2,19],"arrival_tile":[24,14],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":736,"trigger_tile":[23,19],"arrival_tile":[31,23],"collision_attribute":254,"transition_flags":2},
+      {"to_native_room":736,"trigger_tile":[31,22],"arrival_tile":[24,14],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":739,"trigger_tile":[16,28],"arrival_tile":[4,4],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":736,"trigger_tile":[40,28],"arrival_tile":[24,14],"collision_attribute":255,"transition_flags":0}
+    ],
+    "737": [
+      {"to_native_room":600,"trigger_tile":[5,3],"arrival_tile":[44,9],"collision_attribute":254,"transition_flags":2},
+      {"to_native_room":600,"trigger_tile":[1,17],"arrival_tile":[44,9],"collision_attribute":254,"transition_flags":2}
+    ],
+    "739": [
+      {"to_native_room":736,"trigger_tile":[12,2],"arrival_tile":[24,14],"collision_attribute":255,"transition_flags":2}
+    ],
+    "740": [
+      {"to_native_room":790,"trigger_tile":[44,5],"arrival_tile":[3,9],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":708,"trigger_tile":[1,8],"arrival_tile":[32,3],"collision_attribute":255,"transition_flags":2}
+    ],
+    "741": [
+      {"to_native_room":742,"trigger_tile":[3,2],"arrival_tile":[19,8],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":742,"trigger_tile":[1,17],"arrival_tile":[30,29],"collision_attribute":255,"transition_flags":0}
+    ],
+    "742": [
+      {"to_native_room":705,"trigger_tile":[27,2],"arrival_tile":[4,39],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":741,"trigger_tile":[25,12],"arrival_tile":[11,8],"collision_attribute":255,"transition_flags":0}
+    ],
+    "743": [
+      {"to_native_room":708,"trigger_tile":[6,2],"arrival_tile":[23,29],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":708,"trigger_tile":[10,2],"arrival_tile":[30,29],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":180,"trigger_tile":[6,7],"arrival_tile":[5,3],"collision_attribute":255,"transition_flags":0}
+    ],
+    "744": [
+      {"to_native_room":745,"trigger_tile":[3,58],"arrival_tile":[7,3],"collision_attribute":255,"transition_flags":1}
+    ],
+    "745": [
+      {"to_native_room":982,"trigger_tile":[26,6],"arrival_tile":[3,73],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":982,"trigger_tile":[27,6],"arrival_tile":[3,73],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":982,"trigger_tile":[28,6],"arrival_tile":[3,73],"collision_attribute":255,"transition_flags":1}
+    ],
+    "790": [
+      {"to_native_room":801,"trigger_tile":[8,3],"arrival_tile":[28,11],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":740,"trigger_tile":[1,8],"arrival_tile":[44,6],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":706,"trigger_tile":[14,8],"arrival_tile":[4,3],"collision_attribute":255,"transition_flags":1}
+    ],
+    "800": [
+      {"to_native_room":822,"trigger_tile":[1,27],"arrival_tile":[12,3],"collision_attribute":255,"transition_flags":130}
+    ],
+    "801": [
+      {"to_native_room":970,"trigger_tile":[3,4],"arrival_tile":[15,6],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":590,"trigger_tile":[15,4],"arrival_tile":[8,8],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":490,"trigger_tile":[27,4],"arrival_tile":[8,8],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":290,"trigger_tile":[2,11],"arrival_tile":[13,3],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":790,"trigger_tile":[28,11],"arrival_tile":[9,3],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":192,"trigger_tile":[6,12],"arrival_tile":[13,3],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":190,"trigger_tile":[24,12],"arrival_tile":[9,3],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":101,"trigger_tile":[19,14],"arrival_tile":[3,7],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":592,"trigger_tile":[5,17],"arrival_tile":[9,3],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":191,"trigger_tile":[25,17],"arrival_tile":[9,3],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":194,"trigger_tile":[15,18],"arrival_tile":[9,3],"collision_attribute":255,"transition_flags":0}
+    ],
+    "802": [
+      {"to_native_room":816,"trigger_tile":[29,43],"arrival_tile":[2,4],"collision_attribute":252,"transition_flags":1},
+      {"to_native_room":816,"trigger_tile":[30,43],"arrival_tile":[2,4],"collision_attribute":252,"transition_flags":1},
+      {"to_native_room":816,"trigger_tile":[29,44],"arrival_tile":[2,4],"collision_attribute":252,"transition_flags":1},
+      {"to_native_room":816,"trigger_tile":[30,44],"arrival_tile":[2,4],"collision_attribute":252,"transition_flags":1},
+      {"to_native_room":816,"trigger_tile":[29,45],"arrival_tile":[2,4],"collision_attribute":252,"transition_flags":1},
+      {"to_native_room":816,"trigger_tile":[30,45],"arrival_tile":[2,4],"collision_attribute":252,"transition_flags":1}
+    ],
+    "803": [
+      {"to_native_room":804,"trigger_tile":[73,3],"arrival_tile":[2,5],"collision_attribute":255,"transition_flags":0}
+    ],
+    "804": [
+      {"to_native_room":805,"trigger_tile":[56,2],"arrival_tile":[4,7],"collision_attribute":255,"transition_flags":1}
+    ],
+    "805": [
+      {"to_native_room":804,"trigger_tile":[2,6],"arrival_tile":[56,3],"collision_attribute":255,"transition_flags":2}
+    ],
+    "810": [
+      {"to_native_room":802,"trigger_tile":[43,17],"arrival_tile":[13,3],"collision_attribute":253,"transition_flags":1}
+    ],
+    "811": [
+      {"to_native_room":890,"trigger_tile":[2,3],"arrival_tile":[14,9],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":551,"trigger_tile":[51,3],"arrival_tile":[3,4],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":829,"trigger_tile":[57,6],"arrival_tile":[3,5],"collision_attribute":253,"transition_flags":1},
+      {"to_native_room":830,"trigger_tile":[50,19],"arrival_tile":[12,2],"collision_attribute":253,"transition_flags":1}
+    ],
+    "814": [
+      {"to_native_room":824,"trigger_tile":[1,2],"arrival_tile":[4,8],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":831,"trigger_tile":[43,3],"arrival_tile":[3,18],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":829,"trigger_tile":[2,28],"arrival_tile":[92,6],"collision_attribute":253,"transition_flags":2},
+      {"to_native_room":832,"trigger_tile":[44,28],"arrival_tile":[14,4],"collision_attribute":255,"transition_flags":1}
+    ],
+    "815": [
+      {"to_native_room":553,"trigger_tile":[40,8],"arrival_tile":[3,4],"collision_attribute":255,"transition_flags":0}
+    ],
+    "816": [
+      {"to_native_room":819,"trigger_tile":[58,16],"arrival_tile":[3,5],"collision_attribute":253,"transition_flags":1}
+    ],
+    "819": [
+      {"to_native_room":821,"trigger_tile":[42,18],"arrival_tile":[2,5],"collision_attribute":253,"transition_flags":1}
+    ],
+    "821": [
+      {"to_native_room":800,"trigger_tile":[116,8],"arrival_tile":[10,4],"collision_attribute":255,"transition_flags":1}
+    ],
+    "823": [
+      {"to_native_room":890,"trigger_tile":[42,27],"arrival_tile":[3,9],"collision_attribute":253,"transition_flags":1},
+      {"to_native_room":828,"trigger_tile":[2,28],"arrival_tile":[103,6],"collision_attribute":253,"transition_flags":2}
+    ],
+    "824": [
+      {"to_native_room":180,"trigger_tile":[12,3],"arrival_tile":[12,49],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":814,"trigger_tile":[2,7],"arrival_tile":[3,3],"collision_attribute":255,"transition_flags":1}
+    ],
+    "825": [
+      {"to_native_room":982,"trigger_tile":[43,2],"arrival_tile":[3,73],"collision_attribute":255,"transition_flags":1},
+      {"to_native_room":982,"trigger_tile":[44,2],"arrival_tile":[3,73],"collision_attribute":255,"transition_flags":1}
+    ],
+    "826": [
+      {"to_native_room":131,"trigger_tile":[3,7],"arrival_tile":[36,9],"collision_attribute":253,"transition_flags":1}
+    ],
+    "827": [
+      {"to_native_room":828,"trigger_tile":[43,28],"arrival_tile":[3,4],"collision_attribute":255,"transition_flags":1}
+    ],
+    "828": [
+      {"to_native_room":827,"trigger_tile":[1,3],"arrival_tile":[43,29],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":823,"trigger_tile":[103,5],"arrival_tile":[4,29],"collision_attribute":253,"transition_flags":1}
+    ],
+    "829": [
+      {"to_native_room":811,"trigger_tile":[2,3],"arrival_tile":[57,7],"collision_attribute":253,"transition_flags":2},
+      {"to_native_room":814,"trigger_tile":[92,5],"arrival_tile":[4,29],"collision_attribute":253,"transition_flags":1}
+    ],
+    "830": [
+      {"to_native_room":810,"trigger_tile":[3,77],"arrival_tile":[3,2],"collision_attribute":253,"transition_flags":1}
+    ],
+    "831": [
+      {"to_native_room":825,"trigger_tile":[74,7],"arrival_tile":[18,19],"collision_attribute":255,"transition_flags":1}
+    ],
+    "832": [
+      {"to_native_room":814,"trigger_tile":[12,3],"arrival_tile":[44,29],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":821,"trigger_tile":[28,47],"arrival_tile":[2,2],"collision_attribute":253,"transition_flags":1}
+    ],
+    "890": [
+      {"to_native_room":191,"trigger_tile":[8,3],"arrival_tile":[8,8],"collision_attribute":255,"transition_flags":0},
+      {"to_native_room":823,"trigger_tile":[1,8],"arrival_tile":[42,28],"collision_attribute":255,"transition_flags":2},
+      {"to_native_room":811,"trigger_tile":[14,8],"arrival_tile":[4,4],"collision_attribute":255,"transition_flags":1}
+    ],
+    "970": [
+      {"to_native_room":801,"trigger_tile":[14,5],"arrival_tile":[5,4],"collision_attribute":255,"transition_flags":1}
+    ]
+  }
+}

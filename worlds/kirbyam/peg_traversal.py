@@ -7,12 +7,14 @@ never credit a source behind its own peg. Other peg routes await a reviewed carr
 
 from __future__ import annotations
 
+from functools import lru_cache
 from typing import Any, Callable
 
 from .data import data
+from .special_route_data import SPECIAL_ROUTE_PROFILES
 from .traversal import SourcePolicy, TraversalGraph
 from .traversal_data import (
-    graph_access_regions, graph_items, has_graph_access, requires_all_traversal_witnesses,
+    compile_room_graph, graph_access_regions, graph_items, has_graph_access, requires_all_traversal_witnesses,
     room_traversal_graph, room_traversal_targets,
 )
 
@@ -25,9 +27,18 @@ def stone_carry_graph(row: dict[str, Any], area_keys: bool, statue_room: bool = 
     return room_traversal_graph(row["id"], "statues" if statue_room else "carry", area_keys)
 
 
+@lru_cache(maxsize=None)
+def short_peg_graphs(target_id: str, area_keys: bool) -> tuple[TraversalGraph, ...]:
+    record = SPECIAL_ROUTE_PROFILES["short_peg_witnesses"].get(target_id)
+    if record is None:
+        return ()
+    return tuple(compile_room_graph(entry["witness"], {}, area_keys=area_keys, require_inventory=True)
+                 for entry in (record, *record.get("alternatives", ())))
+
+
 def carry_graphs(row: dict[str, Any], area_keys: bool) -> tuple[TraversalGraph, ...]:
     return tuple(room_traversal_graph(row["id"], name, area_keys)
-                 for name in row["graphs"] if name != "local")
+                 for name in row["graphs"] if name != "local") + short_peg_graphs(row["id"], area_keys)
 
 
 def carrier_reachable(world: Any, state: Any, policy: SourcePolicy, graph: TraversalGraph,
@@ -91,7 +102,7 @@ def validate_peg_assignment(
     initial: dict[str, Any], factory: Callable[[], dict[str, Any]], include_statues: bool,
     max_attempts: int = 8192, *, require_all_witnesses: bool = True, advanced: bool = False,
     require_room16: bool = False, room16_for_completion: bool = False,
-    allow_room16_shuffle_repair: bool = False,
+    allow_room16_shuffle_repair: bool = False, logic_aware_shuffle: bool = False, area_keys: bool = False,
 ) -> dict[str, Any]:
     """Select a valid deterministic assignment without rerolling generation.
 
@@ -125,6 +136,14 @@ def validate_peg_assignment(
             and not static_room16_witness(SourcePolicy(initial, include_statues), advanced=advanced)):
         raise KirbyAmRoom16SourceError(
             ROOM16_COMPLETION_WEIGHT_REJECTION if room16_for_completion else ROOM16_WEIGHT_REJECTION
+        )
+
+    if initial.get("mode") == 1 and logic_aware_shuffle and not advanced:
+        from .logic_aware_shuffle import constrain_shuffled_abilities
+
+        return constrain_shuffled_abilities(
+            initial, include_statues=include_statues, require_all=validate_static,
+            room16=require_room16, area_keys=area_keys,
         )
 
     repair_candidates: list[dict[str, Any]] | None = (
@@ -209,7 +228,7 @@ def install_peg_rules(world: Any) -> None:
     raw_policy = getattr(world, "_enemy_copy_ability_policy", None)
     if not isinstance(raw_policy, dict):
         return
-    policy = SourcePolicy(raw_policy, bool(world.options.ability_randomization_statues.value))
+    policy = SourcePolicy.for_world(world, raw_policy)
     gating = world._ability_gating_enabled()
     for row in PEG_ROUTES:
         graph = peg_graph(row)

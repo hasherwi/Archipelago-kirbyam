@@ -11,6 +11,7 @@ from collections import defaultdict, deque
 from dataclasses import dataclass
 from typing import Any, Callable, Iterable, Mapping
 
+from .data import load_json_data
 from .master_source import (
     CARROT_HUB, CARROT_KEY, CENTRAL_MASTER_IDENTITY, CENTRAL_MASTER_SOURCE, CENTRAL_REGION,
     CENTRAL_RETURN_EVENT, MASTER719_CAPABILITY, MASTER719_NODES, MASTER719_PREFIX, RAINBOW_WEST_HUB,
@@ -25,156 +26,76 @@ from .enemy_ability_runtime_patch import (
 )
 
 
-METAL_BREAKING_ABILITIES = frozenset({
-    "Hammer", "Stone", "Throw", "Burning", "Missile", "UFO", "Smash", "Master",
-})
+def load_capability_catalog(payload: Any) -> tuple[
+    dict[str, frozenset[str]], dict[str, int], dict[str, str],
+    dict[str, frozenset[str]], frozenset[str],
+]:
+    """Validate authored capability facts without inferring unstated equipment."""
+    if (not isinstance(payload, dict)
+            or set(payload) - {"schema", "underwater_attack_abilities", "capabilities", "logic_tiers"}
+            or not {"schema", "underwater_attack_abilities", "capabilities"} <= payload.keys()
+            or type(payload["schema"]) is not int or payload["schema"] != 1):
+        raise ValueError("Unsupported traversal capability catalog")
+    equipment = {name for name, value in ABILITY_NAME_TO_ID.items()
+                 if 0 <= value <= ABILITY_NAME_TO_ID["Master"]}
+
+    def abilities(raw: Any, where: str) -> frozenset[str]:
+        if (not isinstance(raw, list) or not raw
+                or any(not isinstance(name, str) or name not in equipment for name in raw)
+                or len(set(raw)) != len(raw)):
+            raise ValueError(f"{where} must name unique native equipment")
+        return frozenset(raw)
+
+    rows = payload["capabilities"]
+    if not isinstance(rows, dict) or not {"metal", "metal_throw"} <= rows.keys():
+        raise ValueError("Missing core traversal capability definitions")
+    providers: dict[str, frozenset[str]] = {}
+    rooms: dict[str, int] = {}
+    water: dict[str, str] = {}
+    consumed: dict[str, frozenset[str]] = {}
+    for name, raw in rows.items():
+        if (not isinstance(name, str) or not name or not isinstance(raw, dict)
+                or "allowed_abilities" not in raw
+                or raw.keys() - {"allowed_abilities", "consumed_abilities", "native_room", "attack_medium", "note"}):
+            raise ValueError(f"Invalid traversal capability: {name!r}")
+        if "note" in raw and (not isinstance(raw["note"], str) or not raw["note"].strip()):
+            raise ValueError(f"{name} has an invalid capability note")
+        providers[name] = abilities(raw["allowed_abilities"], name)
+        if "native_room" in raw or "attack_medium" in raw:
+            room, medium = raw.get("native_room"), raw.get("attack_medium")
+            if type(room) is not int or room < 0 or medium not in ("dry", "swimming"):
+                raise ValueError(f"{name} requires both a native room and attack medium")
+            rooms[name], water[name] = room, medium
+        if "consumed_abilities" in raw:
+            spent = abilities(raw["consumed_abilities"], name)
+            if not spent <= providers[name]:
+                raise ValueError(f"{name} cannot consume equipment it does not accept")
+            consumed[name] = spent
+
+    underwater = abilities(payload["underwater_attack_abilities"], "Underwater attacks")
+    return providers, rooms, water, consumed, underwater
 
 
-CAPABILITY_ABILITIES: Mapping[str, frozenset[str]] = {
-    "peg": frozenset({"Stone", "Hammer", "Smash", "Master"}),
-    "fuse": frozenset({"Fire", "Burning", "Bomb", "Laser", "UFO", "Master", "Hammer", "Crash"}),
-    "rope": frozenset({"Cutter", "Sword", "Cupid", "Smash", "Master"}),
-    "mini_corridor": frozenset({"Mini"}),
-    # These are attack classes, not permission-to-equip shortcuts. Room data
-    # must still establish direction, reach, source and water state.
-    "metal": METAL_BREAKING_ABILITIES - {"Throw"},
-    # Throw is a physical capture-and-release sequence, never an unarmed attack.
-    "metal_throw": frozenset({"Throw"}),
-    # A reviewed dry ordinary-block attack/carry, not a metal crossing. Only
-    # Burning has an accepted provider witness for this class so far.
-    "ordinary_block_hit": frozenset({"Burning"}),
-    "frozen_enemy_hit": frozenset({"Ice"}),
-    # Normal suction moves an existing Heave-Ho into a reviewed disposal path.
-    # This is not an attack against metal or an inventory-granted ability.
-    "heave_ho_pull": frozenset({"Normal"}),
-    "underwater_block_hit": frozenset({"Normal", "Parasol", "Hammer", "Sword", "Master"}),
-    # Target-specific native witnesses, NOT a general wall-piercing class.
-    "bomb_110_room9": frozenset({"Spark"}),
-    "bomb_110_room9_underwater_sword": frozenset({"Sword"}),
-    # Exact finite mouth payload and lower spray; not generic Normal ammunition.
-    "bomb_110_upper_normal_spit": frozenset({"Normal"}),
-    "bomb_110_room9_underwater_normal_spray": frozenset({"Normal"}),
-    # Select only lower F1, leaving the upper blocking-chain trigger intact.
-    "bomb_617_normal_puff_slide": frozenset({"Normal"}),
-    "mirra_141_top_normal_puff": frozenset({"Normal"}),
-    "mirra_141_east_normal_puff": frozenset({"Normal"}),
-    "mirra_117_upper_payload": frozenset({"Normal"}),
-    "mirra_117_lower_payload": frozenset({"Normal"}),
-    "mirra_117_normal_clearance": frozenset({"Normal"}),
-    "mirra_811_normal_puff": frozenset({"Normal"}),
-    "normal_815_vitality_sequence": frozenset({"Normal"}),
-    "normal_534_twister_payload": frozenset({"Normal"}),
-    "normal_534_dee_payload": frozenset({"Normal"}),
+_CAPABILITY_CATALOG = load_json_data("traversal_capabilities.json")
+(CAPABILITY_ABILITIES, ROOM_SCOPED_CAPABILITIES, ROOM_SCOPED_ATTACK_WATER_STATES,
+ CAPABILITY_CONSUMED_ABILITIES, UNDERWATER_ATTACK_ABILITIES) = load_capability_catalog(_CAPABILITY_CATALOG)
 
-    "bomb_138_green": frozenset({"Spark"}),
-    "bomb_138_green_normal_lower_slide": frozenset({"Normal"}),
-    # Grounded left-ledge sweep and completed chain crossing, not Beam range.
-    "bomb_402_candy_chest": frozenset({"Beam"}),
-    "bomb_402_candy_chest_ufo": frozenset({"UFO"}),
-    "bomb_402_candy_chest_spark": frozenset({"Spark"}),
-    "bomb_402_candy_chest_missile": frozenset({"Missile"}),
-    "bomb_402_candy_chest_sword": frozenset({"Sword"}),
-    "bomb_402_candy_chest_smash": frozenset({"Smash"}),
-    "bomb_538_beam_left_crossover": frozenset({"Beam"}),
-    "bomb_733_yellow_ufo_top_charge": frozenset({"UFO"}),
-    "bomb_733_cupid_upper_from_below": frozenset({"Cupid"}),
-    "bomb_733_cupid_lower_from_corridor": frozenset({"Cupid"}),
-    "bomb_517_chocolate": frozenset({"Beam", "Spark", "Ice", "Smash"}),
-    "bomb_517_fire_breath": frozenset({"Fire"}),
-    "bomb_517_missile_blast": frozenset({"Missile"}),
-    "bomb_517_parasol_swing": frozenset({"Parasol"}),
-    "bomb_517_sword_first_slash": frozenset({"Sword"}),
-    "bomb_517_fighter_first_combo": frozenset({"Fighter"}),
-    "bomb_517_ufo_top_charge": frozenset({"UFO"}),
-    "bomb_719_room13": frozenset({"Beam"}),
-    "bomb_719_fighter_first_combo": frozenset({"Fighter"}),
-    "bomb_719_sword_repeated_slash": frozenset({"Sword"}),
-    "bomb_719_fire_breath": frozenset({"Fire"}),
-    MASTER719_CAPABILITY: frozenset({"Master"}),
-    "switch_533_bomb_placement": frozenset({"Bomb"}),
-    "switch_533_ufo_top_charge": frozenset({"UFO"}),
-    # Exact camera-valid room533 pose and timed crossing, not whole-room damage.
-    "switch_533_crash_viewport": frozenset({"Crash"}),
-    # Ordinary-mode visible roulette selection, exact pose and timed crossing.
-    "switch_533_magic_meta_knight": frozenset({"Magic"}),
-    "switch_310_ufo_top_charge": frozenset({"UFO"}),
-    "switch_310_crash_viewport": frozenset({"Crash"}),
-    "switch_310_cupid_up_left_q0": frozenset({"Cupid"}),
-    # Five roof returns, enemy-aware setup and timed crossing, not any Cutter shot.
-    "switch_310_cutter_five_roof_returns": frozenset({"Cutter"}),
-    "switch_310_kibble_cutter_roof_returns": frozenset({"Cutter"}),
-    "switch_825_ufo_top_charge": frozenset({"UFO"}),
-    "switch_825_fire_breath": frozenset({"Fire"}),
-    # Only attach to a route whose timing has actually been established.
-    "wheel_race": frozenset({"Wheel"}),
-}
-# Each target effect keeps its reviewed room and attack medium. The underwater
-# Sword spin and Normal spray remain separate from the dry Spark effect.
-ROOM_SCOPED_CAPABILITIES: Mapping[str, int] = {
-    "bomb_110_room9": 110,
-    "bomb_110_room9_underwater_sword": 110,
-    "bomb_110_upper_normal_spit": 110,
-    "bomb_110_room9_underwater_normal_spray": 110,
-    "bomb_617_normal_puff_slide": 617,
-    "mirra_141_top_normal_puff": 141,
-    "mirra_141_east_normal_puff": 141,
-    "mirra_117_upper_payload": 117,
-    "mirra_117_lower_payload": 117,
-    "mirra_117_normal_clearance": 117,
-    "mirra_811_normal_puff": 811,
-    "normal_815_vitality_sequence": 815,
-    "normal_534_twister_payload": 534,
-    "normal_534_dee_payload": 534,
 
-    "bomb_138_green": 138,
-    "bomb_138_green_normal_lower_slide": 138,
-    "bomb_402_candy_chest": 402,
-    "bomb_402_candy_chest_ufo": 402,
-    "bomb_402_candy_chest_spark": 402,
-    "bomb_402_candy_chest_missile": 402,
-    "bomb_402_candy_chest_sword": 402,
-    "bomb_402_candy_chest_smash": 402,
-    "bomb_538_beam_left_crossover": 538,
-    "bomb_733_yellow_ufo_top_charge": 733,
-    "bomb_733_cupid_upper_from_below": 733,
-    "bomb_733_cupid_lower_from_corridor": 733,
-    "bomb_517_chocolate": 517,
-    "bomb_517_fire_breath": 517,
-    "bomb_517_missile_blast": 517,
-    "bomb_517_parasol_swing": 517,
-    "bomb_517_sword_first_slash": 517,
-    "bomb_517_fighter_first_combo": 517,
-    "bomb_517_ufo_top_charge": 517,
-    "bomb_719_room13": 719,
-    "bomb_719_fighter_first_combo": 719,
-    "bomb_719_sword_repeated_slash": 719,
-    "bomb_719_fire_breath": 719,
-    MASTER719_CAPABILITY: 719,
-    "switch_533_bomb_placement": 533,
-    "switch_533_ufo_top_charge": 533,
-    "switch_533_crash_viewport": 533,
-    "switch_533_magic_meta_knight": 533,
-    "switch_310_ufo_top_charge": 310,
-    "switch_310_crash_viewport": 310,
-    "switch_310_cupid_up_left_q0": 310,
-    "switch_310_cutter_five_roof_returns": 310,
-    "switch_310_kibble_cutter_roof_returns": 310,
-    "switch_825_ufo_top_charge": 825,
-    "switch_825_fire_breath": 825,
-}
+def _load_logic_tiers(raw: Any) -> tuple[int, frozenset[str]]:
+    if (not isinstance(raw, dict)
+            or set(raw) != {"standard_max_carried_room_transitions", "advanced_only_abilities"}):
+        raise ValueError("Invalid traversal logic tiers")
+    limit, abilities = raw["standard_max_carried_room_transitions"], raw["advanced_only_abilities"]
+    if (type(limit) is not int or limit < 0 or not isinstance(abilities, list) or not abilities
+            or any(not isinstance(name, str) or name not in ABILITY_NAME_TO_ID
+                   or name in {"Normal", "Wait"} for name in abilities)
+            or len(set(abilities)) != len(abilities)):
+        raise ValueError("Invalid Standard carry limit or Advanced-only abilities")
+    return limit, frozenset(abilities)
 
-ROOM_SCOPED_ATTACK_WATER_STATES: Mapping[str, str] = {
-    capability: "swimming" if capability in {
-        "bomb_110_room9_underwater_sword", "bomb_110_room9_underwater_normal_spray",
-    } else "dry"
-    for capability in ROOM_SCOPED_CAPABILITIES
-}
 
-# Native kirby.c swimming B dispatch. Other equipment uses Normal Water Gun
-# without replacing the carried ability. In particular, swimming cannot start
-# Stone or use Smash's hammer. A pre-transformed Stone descent is a separate
-# geometric sequence and must not be inferred from a swimming attack.
-UNDERWATER_ATTACK_ABILITIES = frozenset({"Parasol", "Hammer", "Sword", "Master"})
+STANDARD_CARRY_LIMIT, ADVANCED_ONLY_ABILITIES = _load_logic_tiers(_CAPABILITY_CATALOG["logic_tiers"])
+METAL_BREAKING_ABILITIES = CAPABILITY_ABILITIES["metal"] | CAPABILITY_ABILITIES["metal_throw"]
 
 
 def attack_provider(ability: str, water_state: str) -> str | None:
@@ -187,14 +108,6 @@ def attack_provider(ability: str, water_state: str) -> str | None:
     return ability
 
 
-# Equipment consumed by actually using a capability, not by crossing an already
-# opened barrier. Physical source consumption remains tracked independently.
-CAPABILITY_CONSUMED_ABILITIES: Mapping[str, frozenset[str]] = {
-    "fuse": frozenset({"Crash"}),
-    "switch_310_crash_viewport": frozenset({"Crash"}),
-    "switch_533_crash_viewport": frozenset({"Crash"}),
-    "switch_533_magic_meta_knight": frozenset({"Magic"}),
-}
 _ID_TO_NAME = {value: key for key, value in ABILITY_NAME_TO_ID.items()}
 # Wait (27) is AP metadata, never actual native carried equipment.
 _NATIVE_EQUIPMENT = frozenset(name for name, value in ABILITY_NAME_TO_ID.items()
@@ -229,12 +142,19 @@ class SourcePolicy:
     with a finite guarantee. Excluded categories retain their native grant.
     """
 
-    def __init__(self, policy: dict[str, Any], include_statues: bool = False) -> None:
+    def __init__(self, policy: dict[str, Any], include_statues: bool = False, *,
+                 gateable_abilities: tuple[str, ...] = GATEABLE_ENEMY_COPY_ABILITIES) -> None:
         self.policy = dict(policy)
+        self.gateable_abilities = gateable_abilities
         self.mode = int(policy.get("mode", 0))
         self.writes = build_enemy_copy_runtime_patch_writes(policy, include_statues)
         self.source_config = build_enemy_source_runtime_config(policy)
         self.statue_mask = build_statue_runtime_allowed_mask(policy, include_statues)
+
+    @classmethod
+    def for_world(cls, world: Any, policy: dict[str, Any]) -> SourcePolicy:
+        return cls(policy, bool(world.options.ability_randomization_statues.value),
+                   gateable_abilities=getattr(world, "_seed_gateable_abilities", GATEABLE_ENEMY_COPY_ABILITIES))
 
     def grant(self, key: str, permitted: Callable[[str], bool],
               native_grants: tuple[str, ...] = (), *, native_room: int | None = None) -> Grant:
@@ -316,9 +236,10 @@ class SourcePolicy:
         return Grant(frozenset({previous_ability}) if permitted(previous_ability) else frozenset())
 
 
-def ability_permission(ability: str, owned: frozenset[str], gating: bool) -> bool:
+def ability_permission(ability: str, owned: frozenset[str], gating: bool,
+                       gateable_abilities: tuple[str, ...] = GATEABLE_ENEMY_COPY_ABILITIES) -> bool:
     """Match current runtime gateability without altering starting abilities."""
-    return not gating or ability not in GATEABLE_ENEMY_COPY_ABILITIES or f"{ability} Ability" in owned
+    return not gating or ability not in gateable_abilities or f"{ability} Ability" in owned
 
 
 @dataclass(frozen=True)
@@ -390,6 +311,7 @@ class Position:
     consumed: frozenset[str] = frozenset()
     expired: frozenset[str] = frozenset()
     active: frozenset[str] = frozenset()
+    carried_room_transitions: int = 0
 
     @property
     def equipment_outcomes(self) -> frozenset[str]:
@@ -458,6 +380,7 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
     owned: frozenset[str] = frozenset(),
     gating: bool = True,
     allow_documented_retries: bool = False,
+    *, advanced_logic: bool = True,
 ) -> TraversalResult:
     """Compute a finite fixed point without consulting AP region reachability.
 
@@ -680,7 +603,8 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
     expanded_sources: set[tuple[str, frozenset[str], frozenset[str], frozenset[str], frozenset[str]]] = set()
 
     def permitted(ability: str) -> bool:
-        return ability_permission(ability, owned, gating)
+        return ability_permission(ability, owned, gating,
+                                  getattr(policy, "gateable_abilities", GATEABLE_ENEMY_COPY_ABILITIES))
 
     def grant_at(key: str, native_grants: tuple[str, ...], room: int | None,
                  allow: Callable[[str], bool]) -> Grant:
@@ -750,11 +674,14 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
                     # Player receives one of these, not all of them. Retain the
                     # uncertainty: a subsequent edge must work for EVERY outcome.
                     queue.append(Position(position.node, grant.abilities, position.opened, consumed, position.expired, position.active))
+        equipment = position.equipment_outcomes
+        stale = position.carried_room_transitions > STANDARD_CARRY_LIMIT
         for route in outgoing[position.node]:
             if not route.items <= owned:
                 continue
             if route.required_equipment is not None and (
-                not position.equipment_outcomes or not position.equipment_outcomes <= route.required_equipment
+                not equipment or not equipment <= route.required_equipment
+                or (not advanced_logic and (equipment & ADVANCED_ONLY_ABILITIES or (stale and equipment - {"Normal"})))
             ):
                 continue
             opened = position.opened
@@ -771,6 +698,8 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
                 attacks = frozenset(attack_provider(ability, route.water_state)
                                     for ability in position.equipment_outcomes)
                 if not attacks or not attacks <= abilities:
+                    continue
+                if not advanced_logic and (attacks & ADVANCED_ONLY_ABILITIES or (stale and attacks - {"Normal"})):
                     continue
             if not already_open and route.uses_object is not None:
                 if (route.uses_object in position.consumed
@@ -838,7 +767,13 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
             # A revived controller is eligible to activate again, not already spawned.
             active = ((active - route.ends_lifetimes - route.revives_lifetimes)
                       | (route.activates_lifetimes - expired))
-            queue.append(Position(route.target, ability, opened, consumed, expired, active))
+            carry = 0
+            if not advanced_logic and ability not in ("Normal", frozenset({"Normal"})):
+                # Cap at one past the limit so directed cycles stay finite.
+                # Same-room mirrors may reset room objects, but add no carry.
+                carry = min(STANDARD_CARRY_LIMIT + 1, position.carried_room_transitions
+                            + (node_by_key[position.node].room != node_by_key[route.target].room))
+            queue.append(Position(route.target, ability, opened, consumed, expired, active, carry))
     return TraversalResult(frozenset(visited), frozenset(assumptions))
 
 
@@ -857,7 +792,7 @@ class TraversalGraph:
     required_guaranteed_source: tuple[str, str] | None = None
 
     def evaluate(self, policy: SourcePolicy, owned: frozenset[str], gating: bool,
-                 allow_documented_retries: bool = False) -> TraversalResult:
+                 allow_documented_retries: bool = False, *, advanced_logic: bool = True) -> TraversalResult:
         if _has_central_master(self.placements, self.routes):
             if (self.access_region != CENTRAL_REGION or self.requires_all_hub_switches
                     or self.unavailable_reason is not None or self.required_guaranteed_source is not None
@@ -873,7 +808,7 @@ class TraversalGraph:
                 return TraversalResult(frozenset(), frozenset())
         return reachable_positions(
             self.nodes, self.routes, self.placements, self.starts, policy, owned, gating,
-            allow_documented_retries,
+            allow_documented_retries, advanced_logic=advanced_logic,
         )
 
 

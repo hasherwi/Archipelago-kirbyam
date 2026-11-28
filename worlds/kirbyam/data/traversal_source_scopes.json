@@ -1,0 +1,854 @@
+{
+  "schema": 1,
+  "single_source_scopes": [
+    {
+      "target": {
+        "id": "bomb_402_candy_chest",
+        "kind": "block",
+        "native_room": 402,
+        "region": "REGION_CANDY_CONSTELLATION/ROOM_9_12",
+        "location": "MINOR_CHEST_CANDY_CONSTELLATION_9_12"
+      },
+      "source": {
+        "source_key": "WADDLE_DOO",
+        "abilities": [
+          "Beam",
+          "UFO",
+          "Spark",
+          "Missile",
+          "Sword",
+          "Smash"
+        ]
+      }
+    },
+    {
+      "target": {
+        "id": "switch_310_mustard_map",
+        "kind": "switch",
+        "native_room": 310,
+        "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST",
+        "location": "MAJOR_CHEST_MUSTARD_MOUNTAIN"
+      },
+      "source": {
+        "source_key": "TWISTER",
+        "abilities": [
+          "UFO",
+          "Crash",
+          "Cupid",
+          "Cutter"
+        ]
+      }
+    },
+    {
+      "target": {
+        "id": "bomb_517_chocolate",
+        "kind": "block",
+        "native_room": 517,
+        "region": "REGION_CABBAGE_CAVERN/ROOM_3_06",
+        "location": "MINOR_CHEST_SPRAY_PAINT_12"
+      },
+      "source": {
+        "source_key": "WADDLE_DOO",
+        "abilities": [
+          "Beam",
+          "Smash",
+          "Fire",
+          "Missile",
+          "Parasol",
+          "Spark",
+          "Ice",
+          "Sword",
+          "Fighter",
+          "UFO"
+        ]
+      }
+    },
+    {
+      "target": {
+        "id": "bomb_733_yellow",
+        "kind": "block",
+        "native_room": 733,
+        "region": "REGION_CARROT_CASTLE/ROOM_5_16",
+        "location": "MINOR_CHEST_SPRAY_PAINT_02"
+      },
+      "source": {
+        "source_key": "SPARKY",
+        "ability": "UFO"
+      }
+    }
+  ],
+  "alternative_source_scopes": [
+    {
+      "target": {
+        "id": "bomb_110_room9",
+        "kind": "block",
+        "native_room": 110,
+        "region": "REGION_RAINBOW_ROUTE/ROOM_1_08",
+        "exit": "REGION_RAINBOW_ROUTE/ROOM_1_09"
+      },
+      "sources": [
+        {
+          "source_key": "SPARKY",
+          "ability": "Spark"
+        },
+        {
+          "source_key": "SWORD_KNIGHT",
+          "ability": "Sword"
+        }
+      ]
+    },
+    {
+      "target": {
+        "id": "switch_310_mustard_map",
+        "kind": "switch",
+        "native_room": 310,
+        "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST",
+        "location": "MAJOR_CHEST_MUSTARD_MOUNTAIN"
+      },
+      "sources": [
+        {
+          "source_key": "TWISTER",
+          "abilities": [
+            "UFO",
+            "Crash",
+            "Cupid",
+            "Cutter"
+          ]
+        },
+        {
+          "source_key": "SIR_KIBBLE",
+          "ability": "Cutter"
+        }
+      ]
+    },
+    {
+      "target": {
+        "id": "bomb_517_chocolate",
+        "kind": "block",
+        "native_room": 517,
+        "region": "REGION_CABBAGE_CAVERN/ROOM_3_06",
+        "location": "MINOR_CHEST_SPRAY_PAINT_12"
+      },
+      "sources": [
+        {
+          "source_key": "WADDLE_DOO",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353906",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        },
+        {
+          "source_key": "STATUE:353901",
+          "abilities": [
+            "Beam",
+            "Smash",
+            "Fire",
+            "Missile",
+            "Parasol",
+            "Spark",
+            "Ice",
+            "Sword",
+            "Fighter",
+            "UFO"
+          ]
+        }
+      ]
+    }
+  ],
+  "directed_source_scopes": [
+    {
+      "target": {
+        "id": "bomb_719_room13",
+        "kind": "block",
+        "native_room": 719,
+        "region": "REGION_CARROT_CASTLE/ROOM_5_07",
+        "exit": "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_07"
+      },
+      "source": {
+        "source_key": "WADDLE_DOO",
+        "abilities": [
+          "Beam",
+          "Fighter",
+          "Sword",
+          "Fire"
+        ]
+      },
+      "error_context": "the reviewed Carrot entry"
+    },
+    {
+      "target": {
+        "id": "switch_533_room16",
+        "kind": "switch",
+        "native_room": 533,
+        "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_15",
+        "exit": "REGION_MUSTARD_MOUNTAIN/ROOM_4_16"
+      },
+      "source": {
+        "source_key": "FOLEY",
+        "abilities": [
+          "Bomb",
+          "UFO",
+          "Crash",
+          "Magic",
+          "Ice"
+        ]
+      },
+      "error_context": "the reviewed Room16 exit"
+    }
+  ],
+  "special_route_profiles": {
+    "short_peg_witnesses": {
+      "peg_510_7_7": {
+        "verified_checks": [
+          3960576
+        ],
+        "controller_trace_sha256": "5250525db2a340fda97f5eda947ac72cfd4aa346dc3ab5ca5991993f2190666f",
+        "witness": {
+          "version": 1,
+          "status": "reviewed",
+          "access": {
+            "region": "REGION_CABBAGE_CAVERN/ROOM_3_13"
+          },
+          "nodes": [
+            {
+              "id": "north_513",
+              "native_room": 513
+            },
+            {
+              "id": "east_528_arrival",
+              "native_room": 528
+            },
+            {
+              "id": "rocky",
+              "native_room": 528
+            },
+            {
+              "id": "west_513_return",
+              "native_room": 513
+            },
+            {
+              "id": "east_509",
+              "native_room": 509
+            },
+            {
+              "id": "west_510",
+              "native_room": 510
+            },
+            {
+              "id": "target",
+              "native_room": 510
+            }
+          ],
+          "starts": [
+            "north_513"
+          ],
+          "required_targets": [
+            "target"
+          ],
+          "sources": [
+            {
+              "node": "rocky",
+              "inventory_id": "room:528/template:0x088C93A0",
+              "renewable": false,
+              "acquisition_evidence": "Exact original physical source acquired before the obstacle in the stock controller trace."
+            }
+          ],
+          "routes": [
+            {
+              "from": "north_513",
+              "to": "east_528_arrival",
+              "evidence": "Normal takes n513 west (2,5) to n528 (21,32), arrival (328,505).",
+              "room_transition": true,
+              "room_instance": "reset",
+              "reset_evidence": "Observed native entry in the controller trace.",
+              "area_key_items": [
+                "Cabbage Cavern - Area Key"
+              ]
+            },
+            {
+              "from": "east_528_arrival",
+              "to": "rocky",
+              "evidence": "Reach the stock Rocky in the n528 east shaft through the witnessed ordinary block approach."
+            },
+            {
+              "from": "rocky",
+              "to": "west_513_return",
+              "evidence": "Copy the original Rocky, retain Stone and take n528 (21,31) to n513 (4,6).",
+              "required_equipment": [
+                "Stone"
+              ],
+              "room_transition": true,
+              "room_instance": "reset",
+              "reset_evidence": "Observed native entry in the controller trace.",
+              "area_key_items": [
+                "Cabbage Cavern - Area Key"
+              ]
+            },
+            {
+              "from": "west_513_return",
+              "to": "east_509",
+              "evidence": "Keep Stone past original upper Bang-Bang and take n513 (8,2) to n509 (43,17).",
+              "required_equipment": [
+                "Stone"
+              ],
+              "room_transition": true,
+              "room_instance": "reset",
+              "reset_evidence": "Observed native entry in the controller trace.",
+              "area_key_items": [
+                "Cabbage Cavern - Area Key"
+              ]
+            },
+            {
+              "from": "east_509",
+              "to": "west_510",
+              "evidence": "Retain Stone across n509 (41,3) into n510 (4,6), on the exact peg side.",
+              "required_equipment": [
+                "Stone"
+              ],
+              "room_transition": true,
+              "room_instance": "reset",
+              "reset_evidence": "Observed native entry in the controller trace.",
+              "area_key_items": [
+                "Cabbage Cavern - Area Key"
+              ]
+            },
+            {
+              "from": "west_510",
+              "to": "target",
+              "evidence": "Drive exact peg (7,7) 0x088C90F0 with Stone and reach the chest 0x088C9114; native event rises.",
+              "required_equipment": [
+                "Stone"
+              ]
+            }
+          ]
+        }
+      },
+      "peg_204_62_4": {
+        "verified_checks": [
+          3960515
+        ],
+        "controller_trace_sha256": "48a0fc660ebd1a19b9d603b6982f40799584e39641eed37678ebc0c066926840",
+        "witness": {
+          "version": 1,
+          "status": "reviewed",
+          "access": {
+            "region": "REGION_PEPPERMINT_PALACE/ROOM_7_07"
+          },
+          "nodes": [
+            {
+              "id": "upper_205",
+              "native_room": 205
+            },
+            {
+              "id": "upper_210",
+              "native_room": 210
+            },
+            {
+              "id": "bonkers",
+              "native_room": 210
+            },
+            {
+              "id": "lower_227",
+              "native_room": 227
+            },
+            {
+              "id": "peg_204",
+              "native_room": 204
+            },
+            {
+              "id": "target",
+              "native_room": 204
+            }
+          ],
+          "starts": [
+            "upper_205"
+          ],
+          "required_targets": [
+            "target"
+          ],
+          "sources": [
+            {
+              "node": "bonkers",
+              "inventory_id": "room:210/template:0x088BF730",
+              "renewable": false,
+              "acquisition_evidence": "Exact original physical source acquired before the obstacle in the stock controller trace."
+            }
+          ],
+          "routes": [
+            {
+              "from": "upper_205",
+              "to": "upper_210",
+              "evidence": "Native n205 (10,18) leads to n210 upper (17,3), Normal and 9 HP in the controller journal.",
+              "room_transition": true,
+              "room_instance": "reset",
+              "reset_evidence": "Observed native entry in the controller trace.",
+              "area_key_items": [
+                "Peppermint Palace - Area Key"
+              ]
+            },
+            {
+              "from": "upper_210",
+              "to": "bonkers",
+              "evidence": "Normal reaches and defeats original Bonkers with native coconut catches/spits. Swallow the defeated original to copy Hammer."
+            },
+            {
+              "from": "bonkers",
+              "to": "lower_227",
+              "evidence": "Keep Hammer through the lower LEFT n210 (1,23) mirror to n227 (58,17), not the upper arrival.",
+              "required_equipment": [
+                "Hammer"
+              ],
+              "room_transition": true,
+              "room_instance": "reset",
+              "reset_evidence": "Observed native entry in the controller trace.",
+              "area_key_items": [
+                "Peppermint Palace - Area Key"
+              ]
+            },
+            {
+              "from": "lower_227",
+              "to": "peg_204",
+              "evidence": "Retain Hammer across n227 (16,2) to n204 (56,9).",
+              "required_equipment": [
+                "Hammer"
+              ],
+              "room_transition": true,
+              "room_instance": "reset",
+              "reset_evidence": "Observed native entry in the controller trace.",
+              "area_key_items": [
+                "Peppermint Palace - Area Key"
+              ]
+            },
+            {
+              "from": "peg_204",
+              "to": "target",
+              "evidence": "Drive exact n204 peg 0x088BEA24 with an aerial Hammer attack, opening the return mirror. The separate n204→n227 upper continuation preserves Hammer and awards exact 0x088C026C.",
+              "required_equipment": [
+                "Hammer"
+              ]
+            }
+          ]
+        }
+      },
+      "peg_605_12_24": {
+        "alternatives": [
+          {
+            "verified_checks": [
+              3961206,
+              3960302
+            ],
+            "controller_trace_sha256": "98806987b7d5d79a5ff6e27b2aa893218251e9f4d1674032bc6da987af8389be",
+            "witness": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_RADISH_RUINS/ROOM_8_09__LOGIC__ENTRY_FROM_8_08"
+              },
+              "nodes": [
+                {
+                  "id": "lower_604_arrival",
+                  "native_room": 604
+                },
+                {
+                  "id": "wheelie",
+                  "native_room": 604
+                },
+                {
+                  "id": "concealed_door_open",
+                  "native_room": 604
+                },
+                {
+                  "id": "upper_623",
+                  "native_room": 623
+                },
+                {
+                  "id": "bonkers",
+                  "native_room": 623
+                },
+                {
+                  "id": "west_606",
+                  "native_room": 606
+                },
+                {
+                  "id": "west_605",
+                  "native_room": 605
+                },
+                {
+                  "id": "target",
+                  "native_room": 605
+                }
+              ],
+              "starts": [
+                "lower_604_arrival"
+              ],
+              "required_targets": [
+                "target"
+              ],
+              "sources": [
+                {
+                  "node": "wheelie",
+                  "inventory_id": "room:604/template:0x088CF704",
+                  "renewable": false,
+                  "acquisition_evidence": "Actual west Wheelie at (1168,136), swallowed from x1206. The stock eastern Wheelie remained untouched."
+                },
+                {
+                  "node": "bonkers",
+                  "inventory_id": "room:623/template:0x088D0330",
+                  "renewable": false,
+                  "acquisition_evidence": "Original Bonkers HP 40→0 via real coconut spits, then natural swallow; no helper."
+                }
+              ],
+              "routes": [
+                {
+                  "from": "lower_604_arrival",
+                  "to": "wheelie",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "Start at the n606 (2,4) verified lower-right arrival in n604 (78,9); approach the stock lower-west Wheelie."
+                },
+                {
+                  "from": "wheelie",
+                  "to": "concealed_door_open",
+                  "required_equipment": [
+                    "Wheel"
+                  ],
+                  "evidence": "Copy the original lower-west Wheelie, ride Wheel through the F4 and concealed F1 (49,8) on the n604 approach, and reveal the real door."
+                },
+                {
+                  "from": "concealed_door_open",
+                  "to": "upper_623",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "Discard Wheel before the n604 (48,8) mirror; normal entry in n623 upper (3,3), not n623 lower.",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "Observed native room change, no artificial respawn.",
+                  "area_key_items": [
+                    "Radish Ruins - Area Key"
+                  ]
+                },
+                {
+                  "from": "upper_623",
+                  "to": "bonkers",
+                  "required_equipment": [
+                    "Normal"
+                  ],
+                  "evidence": "Defeat original Bonkers as Normal using four native coconut spit attacks; no forced defeat or borrowed grant."
+                },
+                {
+                  "from": "bonkers",
+                  "to": "west_606",
+                  "required_equipment": [
+                    "Hammer"
+                  ],
+                  "evidence": "Acquired Hammer retained through n623 (34,7)→n606 (2,28), the proved lower-west arrival.",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "Observed native room change, no artificial respawn.",
+                  "area_key_items": [
+                    "Radish Ruins - Area Key"
+                  ]
+                },
+                {
+                  "from": "west_606",
+                  "to": "west_605",
+                  "required_equipment": [
+                    "Hammer"
+                  ],
+                  "evidence": "Retain Hammer through n606 (16,43)→n605 (7,17) into the west approach.",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "Observed native room change, no artificial respawn.",
+                  "area_key_items": [
+                    "Radish Ruins - Area Key"
+                  ]
+                },
+                {
+                  "from": "west_605",
+                  "to": "target",
+                  "required_equipment": [
+                    "Hammer"
+                  ],
+                  "evidence": "Let the floor crumble and face right at (186,393) for the grounded Hammer strike on peg 0x088CF8B8. Separate Normal suffix opens exact n610 visit and Vitality chest after discarding Hammer."
+                }
+              ]
+            }
+          }
+        ],
+        "verified_checks": [
+          3961206,
+          3960302
+        ],
+        "controller_trace_sha256": "73ca8c157abf7bb2b4ac79eacb91fe9714ac58aaef07d02def3a6f59ebdca087",
+        "witness": {
+          "version": 1,
+          "status": "reviewed",
+          "access": {
+            "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3"
+          },
+          "nodes": [
+            {
+              "id": "stone_statue",
+              "native_room": 592
+            },
+            {
+              "id": "east_620",
+              "native_room": 620
+            },
+            {
+              "id": "east_621",
+              "native_room": 621
+            },
+            {
+              "id": "east_605",
+              "native_room": 605
+            },
+            {
+              "id": "target",
+              "native_room": 605
+            }
+          ],
+          "starts": [
+            "stone_statue"
+          ],
+          "required_targets": [
+            "target"
+          ],
+          "sources": [
+            {
+              "node": "stone_statue",
+              "inventory_id": "room:592/template:0x088CEFEC",
+              "renewable": true,
+              "acquisition_evidence": "Exact original physical source acquired before the obstacle in the stock controller trace.",
+              "renewable_evidence": "The permanent hub statue remains interactable after discarding its grant.",
+              "retry_evidence": "Original reachable hub-statue retouch without consumption, as in the existing n592 source set."
+            }
+          ],
+          "routes": [
+            {
+              "from": "stone_statue",
+              "to": "east_620",
+              "evidence": "Retain Stone through ordinary n592 (1,6) to n620 (44,9). No hub-switch warp used.",
+              "required_equipment": [
+                "Stone"
+              ],
+              "room_transition": true,
+              "room_instance": "reset",
+              "reset_evidence": "Observed native entry in the controller trace.",
+              "area_key_items": [
+                "Radish Ruins - Area Key"
+              ]
+            },
+            {
+              "from": "east_620",
+              "to": "east_621",
+              "evidence": "Slide left at n620 (262,137) to hit F1 (15,8) while retaining Stone, then take n620 (7,8) to n621 (73,3).",
+              "required_equipment": [
+                "Stone"
+              ],
+              "room_transition": true,
+              "room_instance": "reset",
+              "reset_evidence": "Observed native entry in the controller trace.",
+              "area_key_items": [
+                "Radish Ruins - Area Key"
+              ]
+            },
+            {
+              "from": "east_621",
+              "to": "east_605",
+              "evidence": "Crumble the bridge, use Stone on the lower bank and ordinary puff for the upper F1 (19,12), then swim to n621 (2,17) and n605 (44,5).",
+              "required_equipment": [
+                "Stone"
+              ],
+              "room_transition": true,
+              "room_instance": "reset",
+              "reset_evidence": "Observed native entry in the controller trace.",
+              "area_key_items": [
+                "Radish Ruins - Area Key"
+              ]
+            },
+            {
+              "from": "east_605",
+              "to": "target",
+              "evidence": "Follow witnessed east n605 serpentine and drive exact peg 0x088CF8B8 with Stone. Discard before n605→n610; independently proved visit bit and Vitality 0x088CFD64.",
+              "required_equipment": [
+                "Stone"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "rainbow_wheel_race_missile": {
+      "mode": 0,
+      "area_keys": true,
+      "ability_gating": false,
+      "check": "MINOR_CHEST_RAINBOW_ROUTE_1_06_UPPER",
+      "location_id": 3960567,
+      "replay_sha256": "3d24ad6ac18b1e9744b66ab9034a53a8b6427ae8e44f52b866c0cb410ac7c99a",
+      "negative_control_sha256": "f4db1e1e33995ee715416a016c5f449124423391298e162cab0dc37cb930f277",
+      "witness": {
+        "version": 1,
+        "status": "reviewed",
+        "access": {
+          "region": "REGION_RAINBOW_ROUTE/ROOM_1_13"
+        },
+        "nodes": [
+          {
+            "id": "wheel_race_missile:east_507",
+            "native_room": 507
+          },
+          {
+            "id": "wheel_race_missile:lower_503",
+            "native_room": 503
+          },
+          {
+            "id": "wheel_race_missile:bang_bang",
+            "native_room": 503
+          },
+          {
+            "id": "wheel_race_missile:lower_110",
+            "native_room": 110
+          },
+          {
+            "id": "wheel_race_missile:race_arrival",
+            "native_room": 108
+          },
+          {
+            "id": "wheel_race_missile:chest",
+            "native_room": 108
+          }
+        ],
+        "starts": [
+          "wheel_race_missile:east_507"
+        ],
+        "required_targets": [
+          "wheel_race_missile:chest"
+        ],
+        "sources": [
+          {
+            "node": "wheel_race_missile:bang_bang",
+            "inventory_id": "room:503/template:0x088B8E64",
+            "renewable": false,
+            "acquisition_evidence": "Original Bang-Bang swallowed naturally at replay frame 119, exact static template. No grant, timer or encounter change."
+          }
+        ],
+        "routes": [
+          {
+            "from": "wheel_race_missile:east_507",
+            "to": "wheel_race_missile:lower_503",
+            "evidence": "Take 507 east mirror (66,2) to 503 lower-right arrival (14,48); start before the cannon approach.",
+            "room_transition": true,
+            "room_instance": "reset",
+            "reset_evidence": "Observed directed room change in stock native replay; no artificial respawn claimed."
+          },
+          {
+            "from": "wheel_race_missile:lower_503",
+            "to": "wheel_race_missile:bang_bang",
+            "evidence": "Normal puff clears lower F1, then original cannon and shaft reach the original Bang-Bang above the lower-right approach. No other copy ability."
+          },
+          {
+            "from": "wheel_race_missile:bang_bang",
+            "to": "wheel_race_missile:lower_110",
+            "evidence": "Natural Missile retained through actual n503 mirror (7,2), landing n110 bottom-left (4,69).",
+            "required_equipment": [
+              "Missile"
+            ],
+            "room_transition": true,
+            "room_instance": "reset",
+            "reset_evidence": "Observed directed room change in stock native replay; no artificial respawn claimed."
+          },
+          {
+            "from": "wheel_race_missile:lower_110",
+            "to": "wheel_race_missile:race_arrival",
+            "evidence": "Retain Missile; cross original n110 shaft with air puffs and flight. Take real door (7,7) to n108 (34,19), the lower race-side arrival, not the upper mirror.",
+            "required_equipment": [
+              "Missile"
+            ],
+            "room_transition": true,
+            "room_instance": "reset",
+            "reset_evidence": "Observed directed room change in stock native replay; no artificial respawn claimed."
+          },
+          {
+            "from": "wheel_race_missile:race_arrival",
+            "to": "wheel_race_missile:chest",
+            "evidence": "From (486,268), begin Missile airborne facing right, then steer left. Cross native F1 (29,16), both linked barriers, and closing lane before cancelling rocket and opening exact 0x088B7288. Wrong-vertical-steering control opened the gate but did not award.",
+            "required_equipment": [
+              "Missile"
+            ]
+          }
+        ]
+      }
+    },
+    "central_master_carrot_5_13": {
+      "central_region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
+      "prerequisite_event": "Post-clear Central return available",
+      "source_key": "CENTRAL_MASTER_STAND:088B4C88",
+      "stand_identity": "0x088B4C88",
+      "charged_wave_capability": "bomb_719_master_charged_wave",
+      "node_prefix": "bomb_719_master:",
+      "ordered_compartments": [
+        {
+          "name": "central_entry",
+          "native_room": 801
+        },
+        {
+          "name": "stand",
+          "native_room": 801
+        },
+        {
+          "name": "west_hub",
+          "native_room": 192
+        },
+        {
+          "name": "carrot_hub",
+          "native_room": 193
+        },
+        {
+          "name": "room5",
+          "native_room": 170
+        },
+        {
+          "name": "arrival",
+          "native_room": 719
+        },
+        {
+          "name": "left_pose",
+          "native_room": 719
+        },
+        {
+          "name": "left_door",
+          "native_room": 719
+        }
+      ],
+      "west_hub_item": "Rainbow Route West - Hub Connection",
+      "carrot_hub_item": "Carrot Castle - Hub Connection",
+      "carrot_area_key": "Carrot Castle - Area Key"
+    }
+  }
+}

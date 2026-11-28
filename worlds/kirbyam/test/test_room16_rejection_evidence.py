@@ -67,7 +67,7 @@ def test_exact_replay_emits_actual_policy_but_still_rejects(monkeypatch, tmp_pat
     assert len(messages) == 1
     proof = json.loads(messages[0][len(prefix):])
     assert proof['seed'] == mw.seed
-    assert proof['source_policy'] == mw.worlds[1]._enemy_copy_ability_policy
+    assert proof['source_policy'] == json.loads(json.dumps(mw.worlds[1]._enemy_copy_ability_policy))
     assert not tuple((tmp_path / 'output').glob('*.zip'))
 
 
@@ -87,5 +87,5 @@ def test_exact_new_fuzz_replays_cover_source_and_advanced_exclusions(monkeypatch
     assert len(messages) == 1
     proof = json.loads(messages[0][len(prefix):])
     assert proof['seed'] == seed == mw.seed
-    assert proof['source_policy'] == mw.worlds[1]._enemy_copy_ability_policy
+    assert proof['source_policy'] == json.loads(json.dumps(mw.worlds[1]._enemy_copy_ability_policy))
     assert proof['advanced_logic'] == (1 if case == 3 else 0)

@@ -379,7 +379,9 @@
           ],
           "room_sanity": true,
           "exits": [
-            "REGION_PEPPERMINT_PALACE/ROOM_7_10"
+            "REGION_PEPPERMINT_PALACE/ROOM_7_10",
+            "REGION_PEPPERMINT_PALACE/ROOM_7_10__LOGIC__CENTER_WARP",
+            "REGION_PEPPERMINT_PALACE/ROOM_7_10__LOGIC__RIGHT_SPRAY"
           ]
         }
       ],
@@ -422,13 +424,37 @@
           "region": "REGION_PEPPERMINT_PALACE/ROOM_7_10",
           "item_checks": [
             "MINOR_CHEST_PEPPERMINT_PALACE_7_10_OBJECT_02",
-            "MINOR_CHEST_PEPPERMINT_PALACE_7_10_OBJECT_03",
+            "MINOR_CHEST_PEPPERMINT_PALACE_7_10_OBJECT_03"
+          ],
+          "room_sanity": false,
+          "exits": [
+            "REGION_PEPPERMINT_PALACE/ROOM_7_10__ROOM_CHECK"
+          ]
+        },
+        {
+          "region": "REGION_PEPPERMINT_PALACE/ROOM_7_10__LOGIC__CENTER_WARP",
+          "item_checks": [],
+          "room_sanity": false,
+          "exits": [
+            "REGION_PEPPERMINT_PALACE/ROOM_7_WARP",
+            "REGION_PEPPERMINT_PALACE/ROOM_7_10__ROOM_CHECK"
+          ]
+        },
+        {
+          "region": "REGION_PEPPERMINT_PALACE/ROOM_7_10__LOGIC__RIGHT_SPRAY",
+          "item_checks": [
             "MINOR_CHEST_SPRAY_PAINT_09"
           ],
-          "room_sanity": true,
+          "room_sanity": false,
           "exits": [
-            "REGION_PEPPERMINT_PALACE/ROOM_7_WARP"
+            "REGION_PEPPERMINT_PALACE/ROOM_7_10__ROOM_CHECK"
           ]
+        },
+        {
+          "region": "REGION_PEPPERMINT_PALACE/ROOM_7_10__ROOM_CHECK",
+          "item_checks": [],
+          "room_sanity": true,
+          "exits": []
         }
       ],
       "clusters": [
@@ -554,9 +580,10 @@
         {
           "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_17",
           "item_checks": [],
-          "room_sanity": true,
+          "room_sanity": false,
           "exits": [
-            "REGION_MUSTARD_MOUNTAIN/ROOM_4_18"
+            "REGION_MUSTARD_MOUNTAIN/ROOM_4_18",
+            "REGION_MUSTARD_MOUNTAIN/ROOM_4_17__ROOM_CHECK"
           ]
         },
         {
@@ -564,8 +591,15 @@
           "item_checks": [],
           "room_sanity": false,
           "exits": [
-            "REGION_MUSTARD_MOUNTAIN/ROOM_4_18"
+            "REGION_MUSTARD_MOUNTAIN/ROOM_4_18",
+            "REGION_MUSTARD_MOUNTAIN/ROOM_4_17__ROOM_CHECK"
           ]
+        },
+        {
+          "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_17__ROOM_CHECK",
+          "item_checks": [],
+          "room_sanity": true,
+          "exits": []
         }
       ],
       "clusters": [
@@ -781,11 +815,26 @@
         {
           "region": "REGION_CANDY_CONSTELLATION/ROOM_9_13",
           "item_checks": [],
-          "room_sanity": true,
+          "room_sanity": false,
           "exits": [
             "REGION_CANDY_CONSTELLATION/ROOM_9_CHEST_3",
-            "REGION_CANDY_CONSTELLATION/ROOM_9_WARP"
+            "REGION_CANDY_CONSTELLATION/ROOM_9_13__ROOM_CHECK"
           ]
+        },
+        {
+          "region": "REGION_CANDY_CONSTELLATION/ROOM_9_13__LOGIC__UPPER_WARP",
+          "item_checks": [],
+          "room_sanity": false,
+          "exits": [
+            "REGION_CANDY_CONSTELLATION/ROOM_9_WARP",
+            "REGION_CANDY_CONSTELLATION/ROOM_9_13__ROOM_CHECK"
+          ]
+        },
+        {
+          "region": "REGION_CANDY_CONSTELLATION/ROOM_9_13__ROOM_CHECK",
+          "item_checks": [],
+          "room_sanity": true,
+          "exits": []
         }
       ],
       "clusters": [
@@ -944,10 +993,11 @@
         {
           "region": "REGION_CABBAGE_CAVERN/ROOM_3_04",
           "item_checks": [],
-          "room_sanity": true,
+          "room_sanity": false,
           "exits": [
             "REGION_RAINBOW_ROUTE/ROOM_1_13",
-            "REGION_CABBAGE_CAVERN/ROOM_3_03"
+            "REGION_CABBAGE_CAVERN/ROOM_3_03",
+            "REGION_CABBAGE_CAVERN/ROOM_3_04__ROOM_CHECK"
           ]
         },
         {
@@ -956,8 +1006,15 @@
           "room_sanity": false,
           "exits": [
             "REGION_CABBAGE_CAVERN/ROOM_3_03__LOGIC__UPPER_LEFT",
-            "REGION_CABBAGE_CAVERN/ROOM_3_05"
+            "REGION_CABBAGE_CAVERN/ROOM_3_05",
+            "REGION_CABBAGE_CAVERN/ROOM_3_04__ROOM_CHECK"
           ]
+        },
+        {
+          "region": "REGION_CABBAGE_CAVERN/ROOM_3_04__ROOM_CHECK",
+          "item_checks": [],
+          "room_sanity": true,
+          "exits": []
         }
       ],
       "clusters": [
@@ -1092,11 +1149,12 @@
         {
           "region": "REGION_RAINBOW_ROUTE/ROOM_1_27",
           "item_checks": [],
-          "room_sanity": true,
+          "room_sanity": false,
           "exits": [
             "REGION_RAINBOW_ROUTE/ROOM_1_26",
             "REGION_RAINBOW_ROUTE/ROOM_1_27_UPPER_RIGHT",
-            "REGION_RAINBOW_ROUTE/ROOM_1_27_UPPER_LEFT"
+            "REGION_RAINBOW_ROUTE/ROOM_1_27_UPPER_LEFT",
+            "REGION_RAINBOW_ROUTE/ROOM_1_27__ROOM_CHECK"
           ]
         },
         {
@@ -1105,7 +1163,8 @@
           "room_sanity": false,
           "exits": [
             "REGION_RAINBOW_ROUTE/ROOM_1_28",
-            "REGION_RAINBOW_ROUTE/ROOM_1_27"
+            "REGION_RAINBOW_ROUTE/ROOM_1_27",
+            "REGION_RAINBOW_ROUTE/ROOM_1_27__ROOM_CHECK"
           ]
         },
         {
@@ -1114,8 +1173,15 @@
           "room_sanity": false,
           "exits": [
             "REGION_RAINBOW_ROUTE/ROOM_1_30",
-            "REGION_RAINBOW_ROUTE/ROOM_1_27"
+            "REGION_RAINBOW_ROUTE/ROOM_1_27",
+            "REGION_RAINBOW_ROUTE/ROOM_1_27__ROOM_CHECK"
           ]
+        },
+        {
+          "region": "REGION_RAINBOW_ROUTE/ROOM_1_27__ROOM_CHECK",
+          "item_checks": [],
+          "room_sanity": true,
+          "exits": []
         }
       ],
       "clusters": [
@@ -1326,10 +1392,11 @@
         {
           "region": "REGION_MOONLIGHT_MANSION/ROOM_2_04",
           "item_checks": [],
-          "room_sanity": true,
+          "room_sanity": false,
           "exits": [
             "REGION_MOONLIGHT_MANSION/ROOM_2_07_UPPER_LEFT",
-            "REGION_MOONLIGHT_MANSION/ROOM_2_04_PAST_SWITCH_WALL"
+            "REGION_MOONLIGHT_MANSION/ROOM_2_04_PAST_SWITCH_WALL",
+            "REGION_MOONLIGHT_MANSION/ROOM_2_04__ROOM_CHECK"
           ]
         },
         {
@@ -1337,7 +1404,8 @@
           "item_checks": [],
           "room_sanity": false,
           "exits": [
-            "REGION_MOONLIGHT_MANSION/ROOM_2_04"
+            "REGION_MOONLIGHT_MANSION/ROOM_2_04",
+            "REGION_MOONLIGHT_MANSION/ROOM_2_04__ROOM_CHECK"
           ]
         },
         {
@@ -1346,8 +1414,15 @@
           "room_sanity": false,
           "exits": [
             "REGION_MOONLIGHT_MANSION/ROOM_2_08",
-            "REGION_MOONLIGHT_MANSION/ROOM_2_13"
+            "REGION_MOONLIGHT_MANSION/ROOM_2_13",
+            "REGION_MOONLIGHT_MANSION/ROOM_2_04__ROOM_CHECK"
           ]
+        },
+        {
+          "region": "REGION_MOONLIGHT_MANSION/ROOM_2_04__ROOM_CHECK",
+          "item_checks": [],
+          "room_sanity": true,
+          "exits": []
         }
       ],
       "clusters": [
@@ -1355,7 +1430,7 @@
           "id": "707:69,4",
           "classification": "ap_exit",
           "status": "reviewed_source_witness",
-          "note": "Unconditional source-backed Burning carrier to native712. Existing ordinary hub statue acquisition plus no-loss native790\u2192706\u2192707\u2192712 at100% and500% enemy health; exact statue policy, hub/key guards and independent Central/592 access required. Synthetic790 fixture is not a production source. No local enemy, other provider,709 arrival, reset or finite-enemy retry accepted. See ordinary-707-source-carrier-contract.md.",
+          "note": "Unconditional source-backed Burning carrier to native712. Existing ordinary hub statue acquisition plus no-loss native790→706→707→712 at100% and500% enemy health; exact statue policy, hub/key guards and independent Central/592 access required. Synthetic790 fixture is not a production source. No local enemy, other provider,709 arrival, reset or finite-enemy retry accepted. See ordinary-707-source-carrier-contract.md.",
           "tile_count": 2,
           "bounds": [
             69,
@@ -1395,6 +1470,7 @@
           "item_checks": [],
           "room_sanity": false,
           "exits": [
+            "REGION_MOONLIGHT_MANSION/ROOM_2_01__LOGIC__RIGHT_TOP",
             "REGION_MOONLIGHT_MANSION/ROOM_2_11_DEAD_END",
             "REGION_MOONLIGHT_MANSION/ROOM_2_01__ROOM_CHECK"
           ]
@@ -1641,9 +1717,10 @@
         {
           "region": "REGION_MOONLIGHT_MANSION/ROOM_2_14",
           "item_checks": [],
-          "room_sanity": true,
+          "room_sanity": false,
           "exits": [
-            "REGION_MOONLIGHT_MANSION/ROOM_2_15"
+            "REGION_MOONLIGHT_MANSION/ROOM_2_15",
+            "REGION_MOONLIGHT_MANSION/ROOM_2_14__ROOM_CHECK"
           ]
         },
         {
@@ -1651,8 +1728,15 @@
           "item_checks": [],
           "room_sanity": false,
           "exits": [
-            "REGION_MOONLIGHT_MANSION/ROOM_2_15__LOGIC__UPPER_RETURN"
+            "REGION_MOONLIGHT_MANSION/ROOM_2_15__LOGIC__UPPER_RETURN",
+            "REGION_MOONLIGHT_MANSION/ROOM_2_14__ROOM_CHECK"
           ]
+        },
+        {
+          "region": "REGION_MOONLIGHT_MANSION/ROOM_2_14__ROOM_CHECK",
+          "item_checks": [],
+          "room_sanity": true,
+          "exits": []
         }
       ],
       "clusters": [
@@ -2074,7 +2158,7 @@
     "scope": "All string-valued tokens in data/**/*.json; counts are occurrences, not proven metal barriers. Current occurrences include rooms.json directed-exit and location conditions. Goal Game checks reuse their goal-door conditions, adding six can_break_block and two can_break_floating_block occurrences without changing token semantics or native route acceptance.",
     "counts": {
       "CanBreakBlocks": 0,
-      "can_break_block": 134,
+      "can_break_block": 136,
       "can_break_floating_block": 20,
       "can_break_metal": 6,
       "can_break_metal_throw": 0

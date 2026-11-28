@@ -1,0 +1,108 @@
+{
+  "schema": 1,
+  "weighted_filler": [
+    {
+      "item": "1_UP",
+      "weight": 15
+    },
+    {
+      "item": "SMALL_FOOD",
+      "weight": 14
+    },
+    {
+      "item": "ENERGY_DRINK",
+      "weight": 17
+    },
+    {
+      "item": "HUNK_OF_MEAT",
+      "weight": 9
+    },
+    {
+      "item": "BATTERY",
+      "weight": 25
+    },
+    {
+      "item": "MAX_TOMATO",
+      "weight": 15
+    },
+    {
+      "item": "INVINCIBILITY_CANDY",
+      "weight": 5
+    }
+  ],
+  "filler_exclusions": {
+    "maximum_health_is_one": [
+      "SMALL_FOOD",
+      "ENERGY_DRINK",
+      "HUNK_OF_MEAT",
+      "MAX_TOMATO"
+    ],
+    "no_extra_lives": [
+      "1_UP"
+    ]
+  },
+  "trap_exclusions": {
+    "minimum_health_is_one": [
+      "TRAP_HEALTH_DOWN"
+    ],
+    "no_extra_lives": [
+      "TRAP_LIFE_DOWN",
+      "TRAP_LIFE_WIPEOUT"
+    ]
+  },
+  "trap_catalog_introduced_in": {
+    "TRAP_NARCOLEPSY": 1,
+    "TRAP_RANDOM_TELEPORT": 2
+  },
+  "pool_exclusions": {
+    "always": [
+      "AREA_KEY_1"
+    ],
+    "random_starting_mirror_off": [
+      "HUB_CONNECTION_STARTING_MIRROR"
+    ],
+    "start_with_all_maps": {
+      "tag": "Maps"
+    },
+    "area_keys_off": {
+      "tag": "AreaKeys"
+    },
+    "ability_gating_off": {
+      "tag": "Abilities"
+    }
+  },
+  "vanilla_boss_shards": [
+    {
+      "check": "BOSS_DEFEAT_1",
+      "item": "SHARD_1"
+    },
+    {
+      "check": "BOSS_DEFEAT_2",
+      "item": "SHARD_2"
+    },
+    {
+      "check": "BOSS_DEFEAT_3",
+      "item": "SHARD_3"
+    },
+    {
+      "check": "BOSS_DEFEAT_4",
+      "item": "SHARD_4"
+    },
+    {
+      "check": "BOSS_DEFEAT_5",
+      "item": "SHARD_5"
+    },
+    {
+      "check": "BOSS_DEFEAT_6",
+      "item": "SHARD_6"
+    },
+    {
+      "check": "BOSS_DEFEAT_7",
+      "item": "SHARD_7"
+    },
+    {
+      "check": "BOSS_DEFEAT_8",
+      "item": "SHARD_8"
+    }
+  ]
+}

@@ -2,6 +2,7 @@
 
 import hashlib
 import json
+import re
 from pathlib import Path
 
 import pytest
@@ -124,6 +125,14 @@ def test_exact_owner_native_rooms_and_unchanged_neighbor_contracts():
     # Compare physical neighbor records to their historical pins, not new logic metadata.
     from .support.advanced_crash_history import rooms_before_advanced_crash
     e, rooms = evidence(), rooms_before_advanced_crash(load_json_data('regions/rooms.json'))
+    from .support.stock_short_carrier_history import before_stock_short_target
+
+    # Reverse only the exact new room witnesses before checking preserved native pins.
+    for region in rooms.values():
+        if "targets" in region.get("traversal", {}):
+            targets = [before_stock_short_target(row) for row in region["traversal"]["targets"]]
+            region["traversal"]["targets"] = [row for row in targets if row is not None]
+
     assert e['target'] == {
         'id': TARGET, 'owner': OWNER, 'exit': DESTINATION, 'native_room': 538,
         'actual_exit_native_room': 537, 'independent_access': UPSTREAM}
@@ -131,12 +140,13 @@ def test_exact_owner_native_rooms_and_unchanged_neighbor_contracts():
                            'native_type': 18, 'native_ability': 7, 'finite': True}
     assert CAPABILITY_ABILITIES[CAPABILITY] == frozenset({'Beam'})
     assert ROOM_SCOPED_CAPABILITIES[CAPABILITY] == 538
-    assert 'Beam' not in GATEABLE_ENEMY_COPY_ABILITIES
-    assert load_json_data('abilities.json')['Beam'] == {'runtime_ability_id': 7, 'safe_to_gate': False}
+    assert 'Beam' in GATEABLE_ENEMY_COPY_ABILITIES
+    assert load_json_data('abilities.json')['Beam'] == {'runtime_ability_id': 7, 'safe_to_gate': True}
     union = json.loads((ROOT / 'dev-docs/main-ranged-union-catalog.json').read_text())
     for name, sha256 in e['preserved_region_sha256'].items():
         expected = union['adopted_main_region_spaced_sha256'].get(name, sha256)
-        assert digest(rooms[name]) == expected
+        assert digest({key: value for key, value in rooms[name].items()
+                       if key != 'permission_progression_routes'}) == expected
     # The main merge deliberately changes its reviewed targets. Keep the old native
     # record historical; compare those targets against the separate pinned union.
     union = json.loads((ROOT / 'dev-docs/main-ranged-union-catalog.json').read_text())
@@ -158,7 +168,9 @@ def test_exact_owner_native_rooms_and_unchanged_neighbor_contracts():
     assert 'requires_guaranteed_source' not in row and 'requires_any_guaranteed_source' not in row
     assert row['region'] == OWNER and row['exit'] == DESTINATION
     assert set(data.regions[OWNER].exits) == {
-        DESTINATION, 'REGION_RAINBOW_ROUTE/ROOM_1_35', 'REGION_RAINBOW_ROUTE/ROOM_1_37'}
+        DESTINATION, 'REGION_RAINBOW_ROUTE/ROOM_1_35', 'REGION_RAINBOW_ROUTE/ROOM_1_37',
+        OWNER + '__ROOM_CHECK'}
+    assert not data.regions[OWNER + '__ROOM_CHECK'].exits
 
 
 def test_all_positive_and_matched_omission_boundaries():
@@ -233,6 +245,14 @@ def test_provenance_is_compact_separate_from_integration_and_private_payloads():
         raw = (ROOT / path).read_bytes()
         if path == 'client.py':
             raw = historical_client_before_ice_start(raw, expected)
+        if path == 'data/abilities.json':
+            # Permission classification was not part of the recorded native ability catalog.
+            raw = re.sub(rb',\r?\n    "progression_permission": \{[^{}]*\r?\n    \}', b'', raw)
+            # This witness used the older seed format in which Beam was ungated.
+            raw, count = re.subn(
+                rb'("Beam": \{\r?\n    "runtime_ability_id": 7,\r?\n    "safe_to_gate": )true',
+                rb'\g<1>false', raw)
+            assert count == 1
         assert lf_text_sha256(raw) == expected
     for path in (EVIDENCE, EVIDENCE.with_name('rainbow-beam538-source-witness.md')):
         text = path.read_text(encoding='utf-8')
@@ -248,14 +268,19 @@ def test_historical_ownership_snapshot_and_current_union_are_separate():
         'regions': 366, 'mapped_native_definitions': 343, 'locations': 384,
         'surfaces': 1059, 'room_sanity_locations': 263, 'installed_target_definitions': 38}
     assert current['counts'] == {
-        'regions': 386, 'mapped_native_definitions': 354, 'locations': 401,
-        'surfaces': 1108, 'room_sanity_locations': 263, 'installed_target_definitions': 66}
+        'regions': 418, 'mapped_native_definitions': 354, 'locations': 401,
+        'surfaces': 1178, 'room_sanity_locations': 263, 'installed_target_definitions': 68}
     # Later host data (including the placement census) is not Beam native evidence.
     assert set(current['input_sha256']) - set(snapshot['input_sha256']) == {
-        'data/yellow_cupid_witness.json', 'data/full_completion.json',
+        'data/full_completion.json',
         'data/goal_game_doors.json', 'data/locations_goal_games.json',
-        'data/ability_source_inventory.json', 'data/room16_normal_timer_witness.json',
-        'data/candy912_normal_fuse_witness.json', 'data/candy912_fire_fuse_witness.json'}
+        'data/ability_source_inventory.json',
+        'data/compact_room_logic.json',
+        'data/goal_logic.json', 'data/lever_wall_logic.json', 'data/mirror_access.json',
+        'data/phone_logic.json',
+        'data/traversal_capabilities.json', 'data/traversal_source_scopes.json',
+        'data/check_event_logic.json', 'data/room_visit_compartments.json',
+        'data/item_pool_policy.json', 'data/phone_return.json'}
     assert set(snapshot['input_sha256']) <= set(current['input_sha256'])
     # Exact current target/part/source bytes are pinned against both reviewed
     # parents by test_main_ranged_union, not labeled as fresh native evidence.
@@ -373,9 +398,9 @@ def test_historical_client_projection_rejects_unreviewed_changes(mutation, line_
     if mutation == 'unrelated':
         raw += b'\n# unrelated mutation\n'
     elif mutation == 'duplicate':
-        raw += b'\n# {f"{name} Ability" for name in (*STARTING_COPY_ABILITIES, *starting_copy_abilities(0))}\n'
+        raw += b'\n# TUTORIAL_STARTING_ABILITY_RECEIPT_ITEMS\n'
     elif mutation == 'missing':
-        mutated = raw.replace(b', starting_copy_abilities', b'', 1)
+        mutated = raw.replace(b'import resolve_slot_gateable_abilities', b'import ABILITY_NAME_TO_ID', 1)
         assert mutated != raw
         raw = mutated
     else:

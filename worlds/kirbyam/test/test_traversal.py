@@ -8,7 +8,7 @@ from typing import Any
 import pytest
 
 from ..ability_randomization import build_enemy_copy_ability_policy
-from ..enemy_ability_data import ABILITY_NAME_TO_ID, ABILITY_SOURCES, STARTING_COPY_ABILITIES
+from ..enemy_ability_data import ABILITY_NAME_TO_ID, ABILITY_SOURCES
 from ..enemy_ability_runtime_patch import build_enemy_copy_runtime_patch_writes
 from ..traversal import (
     Node, Placement, Position, Route, SourcePolicy, compile_traversal_graph,
@@ -188,10 +188,6 @@ def test_statue_toggle_off_is_vanilla_even_in_random_mode() -> None:
     assert policy(2, statues=False).grant("STATUE:353900", lambda _: True).guaranteed == {"Stone"}
 
 
-def test_stone_starting_permission_is_preserved() -> None:
-    assert "Stone" in STARTING_COPY_ABILITIES
-
-
 def test_invalid_cross_room_peg_event_is_rejected() -> None:
     with pytest.raises(ValueError, match="room-local"):
         run([Route("pre", "other", "peg", "peg_1")])
@@ -350,3 +346,71 @@ def test_ending_source_lifetime_preserves_equipment_already_acquired():
                  [Placement('pre', 'ROCKY', identity='rock', lifetime='encounter')], gating=False,
                  starts=[Position('pre', active=frozenset({'encounter'}))])
     assert result.reaches('other')
+
+
+@pytest.mark.parametrize("invalid", ["duplicate_ability", "wait", "missing_water", "bad_room", "wrong_consumption"])
+def test_json_capability_catalog_rejects_invalid_facts(invalid):
+    from ..data import load_json_data
+    from ..traversal import load_capability_catalog
+
+    payload = load_json_data("traversal_capabilities.json")
+    row = payload["capabilities"]["switch_533_crash_viewport"]
+    if invalid == "duplicate_ability":
+        row["allowed_abilities"] = ["Crash", "Crash"]
+    elif invalid == "wait":
+        row["allowed_abilities"] = ["Wait"]
+    elif invalid == "missing_water":
+        del row["attack_medium"]
+    elif invalid == "bad_room":
+        row["native_room"] = True
+    else:
+        row["consumed_abilities"] = ["Bomb"]
+    with pytest.raises(ValueError):
+        load_capability_catalog(payload)
+
+
+@pytest.mark.parametrize("mode", [0, 1, 2])
+@pytest.mark.parametrize("crossings", [3, 4])
+def test_standard_carry_limit_counts_native_rooms_in_every_mode(mode, crossings):
+    rooms = [100, 101, 102, 102, 103, 104][:crossings + 2]
+    nodes = [Node(str(i), room) for i, room in enumerate(rooms)] + [Node("target", rooms[-1])]
+    routes = [Route(a.key, b.key, room_transition=(a.room == b.room)) for a, b in zip(nodes, nodes[1:-1])]
+    routes += [Route(nodes[-2].key, "target", "wheel_race")]
+    start = (Position("0", "Wheel"),)
+    for advanced in (False, True):
+        result = reachable_positions(nodes, routes, (), start, policy(mode), advanced_logic=advanced)
+        assert result.reaches("target") is (advanced or crossings == 3)
+
+
+@pytest.mark.parametrize("equipment", ["Crash", "Magic"])
+def test_crash_and_magic_are_advanced_even_without_carry(equipment):
+    nodes = (Node("start", 100), Node("target", 100))
+    route = Route("start", "target", required_equipment=frozenset({equipment}))
+    start = (Position("start", equipment),)
+    assert not reachable_positions(nodes, (route,), (), start, policy(), advanced_logic=False).reaches("target")
+    assert reachable_positions(nodes, (route,), (), start, policy(), advanced_logic=True).reaches("target")
+    normal_alternative = Route("start", "target", required_equipment=frozenset({"Normal"}))
+    assert reachable_positions(nodes, (route, normal_alternative), (), start, policy(),
+                               advanced_logic=False).reaches("target")
+
+
+@pytest.mark.parametrize(("equipment", "capability"), [
+    ("Crash", "switch_533_crash_viewport"), ("Magic", "switch_533_magic_meta_knight"),
+])
+def test_advanced_only_attacks_are_checked_before_consumption(equipment, capability):
+    nodes = (Node("start", 533), Node("target", 533))
+    route = Route("start", "target", capability)
+    start = (Position("start", equipment),)
+    assert not reachable_positions(nodes, (route,), (), start, policy(), advanced_logic=False).reaches("target")
+    result = reachable_positions(nodes, (route,), (), start, policy(), advanced_logic=True)
+    assert any(p.node == "target" and p.equipped == "Normal" for p in result.positions)
+
+
+def test_new_physical_acquisition_restarts_carry_not_merely_returning_to_a_room():
+    nodes = (Node("start", 100), Node("a", 101), Node("b", 102), Node("c", 103), Node("d", 104),
+             Node("target", 104))
+    routes = tuple(Route(a.key, b.key) for a, b in zip(nodes, nodes[1:-1])) + (Route("d", "target", "wheel_race"),)
+    start = (Position("start", "Wheel"),)
+    assert not reachable_positions(nodes, routes, (), start, policy(), advanced_logic=False).reaches("target")
+    assert reachable_positions(nodes, routes, (Placement("d", "WHEELIE"),), start, policy(),
+                               gating=False, advanced_logic=False).reaches("target")

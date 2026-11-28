@@ -17,6 +17,7 @@ from .ability_source_inventory import (generation_instance_suffix, inventory_alt
 from .data import LocationCategory, data
 from .enemy_ability_data import ABILITY_NAME_TO_ID, ABILITY_SOURCES
 from .traversal import TraversalGraph, compile_traversal_graph
+from .special_route_data import SOURCE_SCOPE_CATALOG
 
 
 HUB_SWITCH_LABELS = tuple(row.label for row in data.locations.values()
@@ -161,6 +162,7 @@ def load_room_traversal(
     source_sets: dict[str, Any] = {}
     graph_parts: dict[str, Any] = {}
     seen: set[str] = set()
+    seen_contracts: set[str] = set()
     for region, room in rooms.items():
         traversal = room.get("traversal", {})
         if not traversal:
@@ -189,7 +191,108 @@ def load_room_traversal(
     _validate_graph_parts(graph_parts, source_sets, require_inventory=require_inventory)
     for row in targets:
         _validate_graphs(row, source_sets, graph_parts, require_inventory=require_inventory)
+        _validate_conditional_routes(row, seen_contracts)
     return tuple(targets), source_sets, graph_parts
+
+
+def _validate_conditional_routes(row: Mapping[str, Any], seen: set[str]) -> None:
+    """Check profile syntax and the native endpoint before any slot uses it."""
+    profiles = row.get("conditional_routes", [])
+    if not isinstance(profiles, list):
+        raise ValueError(f"Invalid conditional routes for {row['id']}")
+    source_keys = {source.key for source in ABILITY_SOURCES if source.can_be_swallowed}
+
+    def verify_grant(grant: Any) -> None:
+        if (not isinstance(grant, dict) or set(grant) != {"source_key", "ability"}
+                or grant["source_key"] not in source_keys or grant["ability"] not in ABILITY_NAME_TO_ID):
+            raise ValueError(f"Invalid conditional route grant for {row['id']}")
+
+    for profile in profiles:
+        if (not isinstance(profile, dict) or set(profile) != {"contract", "activation", "witnesses"}
+                or not isinstance(profile["contract"], str) or not profile["contract"]
+                or profile["contract"] in seen):
+            raise ValueError(f"Invalid or duplicate conditional route contract for {row['id']}")
+        seen.add(profile["contract"])
+        condition = profile["activation"]
+        if not isinstance(condition, dict):
+            raise ValueError(f"Invalid conditional route activation for {row['id']}")
+        if set(condition) == {"physical_minor_check", "reviewed_source"}:
+            valid = (condition["physical_minor_check"] is True and condition["reviewed_source"] == "missing"
+                     and bool(row.get("location")) and bool(row.get("requires_guaranteed_source")
+                                                          or row.get("requires_any_guaranteed_source")))
+        elif set(condition) == {"source_policy_mode", "source_policy_values"}:
+            values = condition["source_policy_values"]
+            valid = (type(condition["source_policy_mode"]) is int and condition["source_policy_mode"] in {0, 1, 2}
+                     and isinstance(values, dict) and bool(values)
+                     and all(isinstance(k, str) and k != "mode" and type(v) is int for k, v in values.items())
+                     and ("room16_switch_timer_frames" not in values
+                          or 0 < values["room16_switch_timer_frames"] <= 0xFFFF))
+        elif set(condition) == {"source_region", "live_statue", "fixture_options"}:
+            valid = (
+                profile["contract"] == "mustard_map_hub4_live_cutter"
+                and (row["id"], row.get("region"), row.get("location"), row.get("native_room"), row.get("kind"))
+                == ("switch_310_mustard_map", "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST",
+                    "MAJOR_CHEST_MUSTARD_MOUNTAIN", 310, "switch")
+                and condition["source_region"] == "REGION_RAINBOW_ROUTE/ROOM_1_HUB_4"
+                and condition["live_statue"] == {
+                    "source_key": "STATUE:353903", "ability": "Cutter",
+                    "inventory_id": "room:590/template:0x088B6908",
+                }
+                and isinstance(options := condition["fixture_options"], dict)
+                and options == {"ability_randomization_mode": 2, "ability_randomization_statues": 1,
+                                "ability_randomization_no_ability_weight": 100, "area_keys": 0,
+                                "ability_gating": 0, "room_sanity": 0, "enemy_health_multiplier": 100,
+                                "minimum_health": 6, "one_hit_mode": 0}
+                and all(type(value) is int for value in options.values()))
+        elif set(condition) == {"source_region", "guaranteed_source", "policy_sha256", "fixture_options",
+                                "fixture_only_options", "any_boolean_options", "physical_minor_check"}:
+            verify_grant(condition["guaranteed_source"])
+            checksum, options = condition["policy_sha256"], condition["fixture_options"]
+            valid = (condition["physical_minor_check"] is True and bool(row.get("location"))
+                     and isinstance(condition["source_region"], str) and condition["source_region"] in data.regions
+                     and isinstance(checksum, str) and len(checksum) == 64
+                     and all(ch in "0123456789abcdef" for ch in checksum)
+                     and isinstance(options, dict) and bool(options) and all(type(v) is int for v in options.values())
+                     and all(isinstance(condition[field], list)
+                             and all(isinstance(k, str) and k in options for k in condition[field])
+                             and len(set(condition[field])) == len(condition[field])
+                             for field in ("fixture_only_options", "any_boolean_options"))
+                     and not set(condition["fixture_only_options"]) & set(condition["any_boolean_options"]))
+        else:
+            valid = False
+        if not valid:
+            raise ValueError(f"Invalid conditional route activation for {row['id']}")
+        if not isinstance(profile["witnesses"], list) or not profile["witnesses"]:
+            raise ValueError(f"Missing conditional route witnesses for {row['id']}")
+        for witness in profile["witnesses"]:
+            if not isinstance(witness, dict) or "graph" not in witness or set(witness) - {"graph", "guaranteed_source"}:
+                raise ValueError(f"Invalid conditional route witness for {row['id']}")
+            if "guaranteed_source" in witness:
+                verify_grant(witness["guaranteed_source"])
+            raw_graph = witness["graph"]
+            if "live_statue" in condition:
+                placements = raw_graph.get("sources") if isinstance(raw_graph, dict) else None
+                if (not isinstance(placements, list) or len(placements) != 1 or not isinstance(placements[0], dict)
+                        or placements[0].get("inventory_id") != condition["live_statue"]["inventory_id"]
+                        or placements[0].get("source_key") != condition["live_statue"]["source_key"]
+                        or placements[0].get("renewable") is not True
+                        or not placements[0].get("retry_evidence")):
+                    raise ValueError(f"Invalid conditional statue witness for {row['id']}")
+                graph = compile_room_graph(raw_graph, {}, require_inventory=True)
+            else:
+                graph = compile_traversal_graph(raw_graph)
+            node_rooms = {node.key: node.room for node in graph.nodes}
+            if "live_statue" in condition and (
+                [(node_rooms[route.source], node_rooms[route.target])
+                 for route in graph.routes if route.room_transition] != [(590, 534), (534, 310)]
+                or any(route.resets_room_instance or route.recover_dropped_ability or route.opens is not None
+                       for route in graph.routes)
+            ):
+                raise ValueError(f"Invalid conditional statue carry for {row['id']}")
+            if (graph.access_region not in data.regions or not graph.required_targets
+                    or ("source_region" in condition and graph.access_region != condition["source_region"])
+                    or any(node_rooms[target] != row["native_room"] for target in graph.required_targets)):
+                raise ValueError(f"Detached conditional witness for {row['id']}")
 
 
 def _validate_graph_parts(graph_parts: Mapping[str, Any], source_sets: Mapping[str, Any],
@@ -232,15 +335,33 @@ def _validate_graphs(row: Mapping[str, Any], source_sets: Mapping[str, Any], gra
             raise ValueError(f"Remote traversal witness needs independent access: {row['id']}")
 
 
-def _validate_carrot_source_condition(row: Mapping[str, Any], condition: Any) -> Any:
-    if condition == {"source_key": "WADDLE_DOO", "abilities": ["Beam", "Fighter", "Sword", "Fire"]}:
-        if tuple(row.get(key) for key in ("id", "kind", "native_room", "region", "exit")) != (
-            "bomb_719_room13", "block", 719, "REGION_CARROT_CASTLE/ROOM_5_07",
-            "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_07",
-        ):
-            raise ValueError("Carrot source applicability belongs only to the reviewed Carrot entry")
-        return None  # Validated here; never extend the chest source conditions.
-    return condition
+def _matches_scoped_target(row: Mapping[str, Any], target: Mapping[str, Any]) -> bool:
+    return all(row.get(key) == target.get(key) for key in (
+        "id", "kind", "native_room", "region", "exit", "location",
+    ))
+
+
+def _validate_scoped_sources(row: Mapping[str, Any]) -> None:
+    condition = row.get("requires_guaranteed_source")
+    if "requires_any_guaranteed_source" in row:
+        if "requires_guaranteed_source" in row:
+            raise ValueError("Guaranteed-source conditions are mutually exclusive")
+        if not any(row["requires_any_guaranteed_source"] == scope["sources"]
+                   and _matches_scoped_target(row, scope["target"])
+                   for scope in SOURCE_SCOPE_CATALOG["alternative_source_scopes"]):
+            raise ValueError("Unsupported target-specific guaranteed-source alternatives; reviewed chest target only")
+    for scope in SOURCE_SCOPE_CATALOG["directed_source_scopes"]:
+        if condition == scope["source"]:
+            if not _matches_scoped_target(row, scope["target"]):
+                raise ValueError(f"Target-specific source applicability belongs only to {scope['error_context']}")
+            return
+    for scope in SOURCE_SCOPE_CATALOG["single_source_scopes"]:
+        if condition == scope["source"]:
+            if not _matches_scoped_target(row, scope["target"]):
+                raise ValueError("Target-specific source applicability belongs only to its reviewed chest target")
+            return
+    if condition is not None:
+        _validate_source_condition(condition)
 
 
 def _validate_new_connection(row: Mapping[str, Any]) -> None:
@@ -370,58 +491,9 @@ def _validate_target(row: Mapping[str, Any]) -> None:
         raise ValueError("fail_closed must be a boolean")
     if row.get("fail_closed") and not row.get("exit"):
         raise ValueError("fail_closed requires an exit target")
-    condition = row.get("requires_guaranteed_source")
-    alternatives = row.get("requires_any_guaranteed_source")
-    if "requires_any_guaranteed_source" in row:
-        if "requires_guaranteed_source" in row:
-            raise ValueError("Guaranteed-source conditions are mutually exclusive")
-        scoped_alternatives = (
-            ([{"source_key": "SPARKY", "ability": "Spark"},
-              {"source_key": "SWORD_KNIGHT", "ability": "Sword"}],
-             ("bomb_110_room9", "block", 110, "REGION_RAINBOW_ROUTE/ROOM_1_08",
-              "REGION_RAINBOW_ROUTE/ROOM_1_09", None)),
-            ([{"source_key": "TWISTER", "abilities": ["UFO", "Crash", "Cupid", "Cutter"]},
-              {"source_key": "SIR_KIBBLE", "ability": "Cutter"}],
-             ("switch_310_mustard_map", "switch", 310, "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST",
-              None, "MAJOR_CHEST_MUSTARD_MOUNTAIN")),
-            ([{"source_key": key,
-               "abilities": ["Beam", "Smash", "Fire", "Missile", "Parasol", "Spark", "Ice", "Sword", "Fighter", "UFO"]}
-              for key in ("WADDLE_DOO", "STATUE:353906", "STATUE:353901")],
-             ("bomb_517_chocolate", "block", 517, "REGION_CABBAGE_CAVERN/ROOM_3_06",
-              None, "MINOR_CHEST_SPRAY_PAINT_12")),
-        )
-        if not any(alternatives == expected and tuple(row.get(key) for key in (
-                "id", "kind", "native_room", "region", "exit", "location")) == target
-                   for expected, target in scoped_alternatives):
-            raise ValueError("Unsupported target-specific guaranteed-source alternatives; reviewed chest target only")
-    # These selective carry proofs may not spread to another source or surface.
-    scoped_conditions = (
-        ({"source_key": "WADDLE_DOO", "abilities": ["Beam", "UFO", "Spark", "Missile", "Sword", "Smash"]}, (
-            "bomb_402_candy_chest", "block", 402, "REGION_CANDY_CONSTELLATION/ROOM_9_12",
-            "MINOR_CHEST_CANDY_CONSTELLATION_9_12",
-        )),
-        ({"source_key": "TWISTER", "abilities": ["UFO", "Crash", "Cupid", "Cutter"]}, (
-            "switch_310_mustard_map", "switch", 310, "REGION_MUSTARD_MOUNTAIN/ROOM_4_CHEST",
-            "MAJOR_CHEST_MUSTARD_MOUNTAIN",
-        )),
-        ({"source_key": "WADDLE_DOO",
-          "abilities": ["Beam", "Smash", "Fire", "Missile", "Parasol", "Spark", "Ice", "Sword", "Fighter", "UFO"]}, (
-            "bomb_517_chocolate", "block", 517, "REGION_CABBAGE_CAVERN/ROOM_3_06",
-            "MINOR_CHEST_SPRAY_PAINT_12",
-        )),
-        ({"source_key": "SPARKY", "ability": "UFO"}, (
-            "bomb_733_yellow", "block", 733, "REGION_CARROT_CASTLE/ROOM_5_16",
-            "MINOR_CHEST_SPRAY_PAINT_02",
-        )),
-    )
-    condition = _validate_carrot_source_condition(row, condition)
-    condition = _validate_mustard_source_condition(row, condition)
-    scoped_target = next((target for supported, target in scoped_conditions if condition == supported), None)
-    if scoped_target is not None:
-        if tuple(row.get(key) for key in ("id", "kind", "native_room", "region", "location")) != scoped_target:
-            raise ValueError("Target-specific source applicability belongs only to its reviewed chest target")
-    elif condition is not None:
-        _validate_source_condition(condition)
+    _validate_scoped_sources(row)
+    if not isinstance(row.get("enforce_standard_carry_limit", False), bool):
+        raise ValueError("enforce_standard_carry_limit must be a boolean")
     if not isinstance(row.get("required_for_generation", True), bool):
         raise ValueError("required_for_generation must be a boolean")
     if not row.get("required_for_generation", True) and not row.get("optional_route_evidence"):
@@ -436,17 +508,6 @@ def _validate_target(row: Mapping[str, Any]) -> None:
         raise ValueError(f"Traversal target is not an exit of its owner: {exit_name}")
     if location and location not in region.locations:
         raise ValueError(f"Traversal target is not a location of its owner: {location}")
-
-
-def _validate_mustard_source_condition(row: Mapping[str, Any], condition: Any) -> Any:
-    if condition == {"source_key": "FOLEY", "abilities": ["Bomb", "UFO", "Crash", "Magic", "Ice"]}:
-        if tuple(row.get(key) for key in ("id", "kind", "native_room", "region", "exit")) != (
-            "switch_533_room16", "switch", 533, "REGION_MUSTARD_MOUNTAIN/ROOM_4_15",
-            "REGION_MUSTARD_MOUNTAIN/ROOM_4_16",
-        ):
-            raise ValueError("Foley source applicability belongs only to the reviewed Room16 exit")
-        return None
-    return condition
 
 
 @lru_cache(maxsize=1)

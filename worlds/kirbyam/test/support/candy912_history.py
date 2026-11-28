@@ -2,6 +2,8 @@
 from copy import deepcopy
 
 from .kibble310_history import digest
+from .conditional_route_history import before_conditional_routes_target
+from .stock_short_carrier_history import before_stock_short_catalog
 
 TARGET = 'bomb_402_candy_chest'
 
@@ -10,6 +12,8 @@ def before_candy912_targets(rows):
     added, = [row for row in rows if row['target']['id'] == TARGET]
     predecessor = deepcopy(added)
     target = predecessor['target']
+    if 'conditional_routes' in target:
+        target = predecessor['target'] = before_conditional_routes_target(target)
     assert target['requires_guaranteed_source']['abilities'].pop() == 'Smash'
     assert digest(target['graphs'].pop('local_smash')) == (
         'cd649464aff26bcf3dcf2350e69c98167b7b573a9d047736a8d23adc10330b39')
@@ -18,7 +22,7 @@ def before_candy912_targets(rows):
 
 
 def before_candy912_catalog(catalog):
-    result = deepcopy(catalog)
+    result = before_stock_short_catalog(catalog)
     assert (result['witnesses'], result['variants']) == (165, 330)
     added = [row for row in result['graphs'] if row['target'] == TARGET]
     smash = [row for row in added if row['witness'] == 'local_smash']

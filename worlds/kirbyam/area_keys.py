@@ -13,29 +13,19 @@ from collections.abc import Iterable
 from functools import lru_cache
 
 from .data import data
+from .mirror_access_data import AREA_KEY_CONFIG, AREA_KEY_ITEMS, FORCED_ROUTE_KEYS
 
 
-EARLY_REACHABLE_CHECK_THRESHOLD = 4
-RAINBOW_ROUTE_AREA_ID = 1
-RAINBOW_ROUTE_AREA_KEY_ID = 3860056
-FALLBACK_STARTING_AREA_ID = 2
-DIMENSION_MIRROR_AREA_ID = 10
+EARLY_REACHABLE_CHECK_THRESHOLD = AREA_KEY_CONFIG["minimum_early_reachable_checks"]
+_AREA_ID_BY_REGION_TOKEN = AREA_KEY_CONFIG["region_ids"]
+RAINBOW_ROUTE_AREA_ID = _AREA_ID_BY_REGION_TOKEN[AREA_KEY_CONFIG["starting_key_region"]]
+RAINBOW_ROUTE_AREA_KEY_ID = AREA_KEY_ITEMS[RAINBOW_ROUTE_AREA_ID].item_id
+FALLBACK_STARTING_AREA_ID = _AREA_ID_BY_REGION_TOKEN[AREA_KEY_CONFIG["fallback_key_region"]]
+DIMENSION_MIRROR_AREA_ID = _AREA_ID_BY_REGION_TOKEN["DIMENSION_MIRROR"]
 
-AREA_NAME_BY_ID: dict[int, str] = {
-    RAINBOW_ROUTE_AREA_ID: "Rainbow Route",
-    2: "Moonlight Mansion",
-    3: "Cabbage Cavern",
-    4: "Mustard Mountain",
-    5: "Carrot Castle",
-    6: "Olive Ocean",
-    7: "Peppermint Palace",
-    8: "Radish Ruins",
-    9: "Candy Constellation",
-}
-AREA_KEY_LABEL_BY_AREA_ID: dict[int, str] = {
-    area_id: f"{area_name} - Area Key"
-    for area_id, area_name in AREA_NAME_BY_ID.items()
-}
+AREA_KEY_LABEL_BY_AREA_ID = {area_id: item.label for area_id, item in AREA_KEY_ITEMS.items()}
+AREA_NAME_BY_ID = {area_id: label.removesuffix(" - Area Key")
+                   for area_id, label in AREA_KEY_LABEL_BY_AREA_ID.items()}
 AREA_KEY_AREA_ID_BY_LABEL: dict[str, int] = {
     label: area_id
     for area_id, label in AREA_KEY_LABEL_BY_AREA_ID.items()
@@ -49,19 +39,6 @@ RAINBOW_ROUTE_AREA_KEY_LABEL = AREA_KEY_LABEL_BY_AREA_ID[RAINBOW_ROUTE_AREA_ID]
 FALLBACK_STARTING_AREA_KEY_LABEL = AREA_KEY_LABEL_BY_AREA_ID[FALLBACK_STARTING_AREA_ID]
 
 _REGION_AREA_TOKEN_PATTERN = re.compile(r"^REGION_([A-Z_]+)(?:/|$)")
-_AREA_ID_BY_REGION_TOKEN: dict[str, int] = {
-    "TUTORIAL": 0,
-    "RAINBOW_ROUTE": 1,
-    "MOONLIGHT_MANSION": 2,
-    "CABBAGE_CAVERN": 3,
-    "MUSTARD_MOUNTAIN": 4,
-    "CARROT_CASTLE": 5,
-    "OLIVE_OCEAN": 6,
-    "PEPPERMINT_PALACE": 7,
-    "RADISH_RUINS": 8,
-    "CANDY_CONSTELLATION": 9,
-    "DIMENSION_MIRROR": DIMENSION_MIRROR_AREA_ID,
-}
 
 
 def area_id_from_region_key(region_key: str) -> int | None:
@@ -87,14 +64,14 @@ def area_key_entrance_area_ids() -> dict[str, int]:
             if destination_area_id == RAINBOW_ROUTE_AREA_ID:
                 # Boss and Goal Game return stars aren't area mirrors.
                 source_room = source_region.split("/", 1)[-1]
-                if source_area_id not in range(2, 10) or "_BOSS" in source_room or "_GOAL" in source_room:
+                if source_area_id not in AREA_KEY_ITEMS or any(
+                    marker in source_room for marker in AREA_KEY_CONFIG["rainbow_return_excluded_source_markers"]
+                ):
                     continue
             gated[f"{source_region} -> {destination_region}"] = destination_area_id
     # Gate admission to forced wind lanes before a player can be stranded at
     # the later cross-area exit. Other room edges retain destination semantics.
-    gated["REGION_MOONLIGHT_MANSION/ROOM_2_11_AFTER_LEVER -> "
-          "REGION_MOONLIGHT_MANSION/ROOM_2_12_LEFT"] = 6
-    gated["REGION_CARROT_CASTLE/ROOM_5_05 -> REGION_CARROT_CASTLE/ROOM_5_05__LOGIC__CHUTE_SIDE"] = 8
+    gated.update(FORCED_ROUTE_KEYS)
     return gated
 
 

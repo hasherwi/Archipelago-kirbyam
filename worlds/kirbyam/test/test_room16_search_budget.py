@@ -56,6 +56,7 @@ def test_exact_ci_seed_exhaustion_and_full_archive(monkeypatch, tmp_path, histor
         if cap is not None:
             kwargs['max_attempts'] = cap
             kwargs['allow_room16_shuffle_repair'] = False
+        kwargs["logic_aware_shuffle"] = False
         return original(initial, counted, statues, **kwargs)
 
     def audit(world, players):
@@ -146,6 +147,7 @@ def test_exact_high_weight_room16_seed_uses_reviewed_source(
         assert kwargs['require_room16'] == (not completion)
         assert kwargs['room16_for_completion'] == completion
         assert kwargs['allow_room16_shuffle_repair']
+        kwargs['logic_aware_shuffle'] = False  # Replay the historical retry stream.
         return select(initial, *args, **kwargs)
 
     def audit(world, players):

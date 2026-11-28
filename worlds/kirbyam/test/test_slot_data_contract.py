@@ -9,9 +9,11 @@ from unittest.mock import Mock
 import pytest
 
 from .. import KirbyAmWorld
-from ..candy912_fuse import SLOT_KEY as CANDY912_FUSE_SLOT_KEY
+from ..conditional_routes import CANDY_FUSE
 from ..options import Goal
 
+
+CANDY912_FUSE_SLOT_KEY = CANDY_FUSE.SLOT_KEY
 
 PROTOCOL_PATH = Path(__file__).resolve().parents[1] / "PROTOCOL.md"
 _DOC_SLOT_DATA_HEADER = "`slot_data` currently includes:"

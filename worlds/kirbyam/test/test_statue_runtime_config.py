@@ -52,7 +52,7 @@ async def test_legacy_slot_data_still_syncs_statue_gating_masks(
     with patch("worlds.kirbyam.client.bizhawk.write", new_callable=AsyncMock) as mock_write:
         await client._sync_enemy_copy_ability_runtime_config(mock_bizhawk_context)
 
-    gate_mask = 0x03FFFE76  # Frozen legacy catalog, independent of future generation.
+    gate_mask = 0x03FFFFFE  # Current gate catalog.
     assert client._last_ability_runtime_config_signature == (
         0,
         0,

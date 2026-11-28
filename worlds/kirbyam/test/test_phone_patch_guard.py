@@ -22,7 +22,7 @@ from ..rom import (
     HEALTH_INITIAL_ROM_OFFSET, KirbyAmPatchExtension, KirbyAmProcedurePatch,
     ROOM_VISIT_ART_CONFIG_ROM_OFFSET, ROOM_VISIT_ART_CORE_ONLY,
 )
-from .. import candy912_fuse
+from ..conditional_routes import CANDY_FUSE as candy912_fuse
 from ..statue_seed import STATUE_CONFIG_EMPTY, STATUE_CONFIG_ROM_OFFSET
 from ..vitality import HEALTH_CONFIG_MAGIC, HEALTH_ROM_TITLE
 

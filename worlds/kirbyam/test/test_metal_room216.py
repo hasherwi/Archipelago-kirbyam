@@ -1,4 +1,4 @@
-"""216 accepts only the reviewed statue-backed Burning chest branch."""
+"""Peppermint 7-19 requires one exact source-backed metal chest route."""
 
 from dataclasses import replace
 import random
@@ -22,6 +22,9 @@ OWNER = "REGION_PEPPERMINT_PALACE/ROOM_7_19"
 LOCATION = "MINOR_CHEST_PEPPERMINT_PALACE_7_19"
 CENTRAL = "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
 PEPPERMINT = "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_2"
+MISSILE_WITNESS = "peppermint291_local_missile"
+MISSILE_END = "metal_216_missile:chest"
+MISSILE_PERMISSION = frozenset({"Missile Ability"})
 END = "metal_216:chest"
 CONNECTIONS = frozenset({"Peppermint Palace East - Hub Connection", "Peppermint Palace West - Hub Connection"})
 KEYS = frozenset({"Peppermint Palace - Area Key"})
@@ -276,3 +279,54 @@ def test_unsupported_statue_policy_rejects_or_stays_closed_without_fallback(
         rules.install_extra_traversal_rules(world)
         state = SimpleNamespace(has=lambda name, player: True, can_reach_region=lambda name, player: True)
         assert not target.access_rule(state)
+
+
+@pytest.mark.parametrize("area_keys", [False, True])
+def test_local_kibble_requires_a_guaranteed_parent_grant_and_permission(area_keys: bool) -> None:
+    graph = room_traversal_graph(TARGET, MISSILE_WITNESS, area_keys)
+    assert graph.access_region == PEPPERMINT
+    assert graph.required_guaranteed_source == ("SIR_KIBBLE", "Missile")
+    assert len(graph.placements) == 1
+    source = graph.placements[0]
+    assert (source.source_key, source.identity, source.renewable) == ("SIR_KIBBLE", "0x088C13EC", False)
+
+    missile = policy(1, statues=True, pool=["Missile"])
+    assert graph.evaluate(missile, MISSILE_PERMISSION, True, advanced_logic=False).reaches(MISSILE_END)
+    result = graph.evaluate(missile, frozenset(), False, advanced_logic=False)
+    assert any(p.node == MISSILE_END and p.carried_room_transitions == 0 for p in result.positions)
+    assert not graph.evaluate(missile, frozenset(), True).reaches(MISSILE_END)
+    for unqualified in (policy(), policy(1, pool=["Cutter"]), policy(2, pool=["Missile", "Cutter"])):
+        assert not graph.evaluate(unqualified, MISSILE_PERMISSION, True, True).reaches(MISSILE_END)
+
+
+def test_guaranteed_peppermint_missile_is_an_independent_generation_alternative(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    resolver = policy(1, statues=True, pool=["Missile"])
+    row = target_row()
+    assert MISSILE_WITNESS not in row.get("advanced_graphs", ())
+    assert not any(
+        room_traversal_graph(TARGET, witness).evaluate(resolver, frozenset(), False).reaches(END)
+        for witness in WITNESSES
+    )
+    monkeypatch.setattr(rules, "extra_traversal_targets", lambda: (row,))
+    assert rules.static_extra_witness(resolver)  # No statue can supply Burning in this assignment.
+    target = SimpleNamespace(access_rule=lambda state: state.base)
+    world = SimpleNamespace(
+        player=1, _enemy_copy_ability_policy=resolver.policy, ENABLE_MINOR_CHESTS=True,
+        _ability_gating_enabled=lambda: True, _area_keys_enabled=lambda: True,
+        options=SimpleNamespace(ability_randomization_statues=SimpleNamespace(value=True)),
+        multiworld=SimpleNamespace(get_location=lambda name, player: target),
+    )
+    rules.install_extra_traversal_rules(world)
+    state = SimpleNamespace(base=True, has=lambda name, player: name in MISSILE_PERMISSION,
+                            can_reach_region=lambda region, player: region == OWNER)
+    assert not target.access_rule(state)  # Owning the check's region is not reaching the reviewed side.
+    state.can_reach_region = lambda region, player: region == PEPPERMINT
+    assert target.access_rule(state)
+    state.has = lambda name, player: False
+    assert not target.access_rule(state)
+    assert rules._permission_predicate(
+        world, "Missile", rules._progression_permissions()[0]["peppermint_7_19_local_kibble"],
+        rules._progression_permissions()[0],
+    )

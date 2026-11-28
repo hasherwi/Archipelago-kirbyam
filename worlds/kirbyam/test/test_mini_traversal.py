@@ -9,7 +9,6 @@ import pytest
 from BaseClasses import Entrance, Location, CollectionState, MultiWorld
 
 from .. import KirbyAmWorld
-from ..enemy_ability_data import starting_copy_abilities
 from ..mini_traversal import mini_routes
 from ..traversal import SourcePolicy
 from .support.integration_generation import generate_archive_from_fixture, load_multidata_from_archive
@@ -63,12 +62,6 @@ def test_only_minny_option_removed() -> None:
     assert "ability_randomization_minny" not in options
     assert {"ability_randomization_mode", "ability_randomization_statues", "ability_gating",
             "ability_randomization_minibosses", "ability_randomization_boss_spawns"} <= options.keys()
-
-
-def test_only_beam_is_forced_in_all_modes() -> None:
-    assert starting_copy_abilities(0) == starting_copy_abilities(1)
-    assert set(starting_copy_abilities(0)) == {"Beam", "Ice"}
-    assert starting_copy_abilities(2) == starting_copy_abilities(0)
 
 
 @pytest.mark.parametrize("mode,gating", [(0, 1), (1, 1), (1, 0), (2, 1)])

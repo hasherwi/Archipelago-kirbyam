@@ -10,7 +10,7 @@ from BaseClasses import CollectionState
 from ..traversal import SourcePolicy
 from ..traversal_data import graph_items, room_traversal_graph
 from ..wheel_traversal import (
-    CENTRAL_REGION, COPY_ROOM_REGION, HUB_SWITCH_LABELS, RACE, RACE_ENTRANCE, wheel_graph,
+    CENTRAL_REGION, COPY_ROOM_REGION, HUB_SWITCH_LABELS, LOCAL_SOURCE_REGION, RACE, RACE_ENTRANCE, wheel_graph,
 )
 from .test_mini_traversal import make_world
 
@@ -126,7 +126,8 @@ def test_wheel_and_mini_archive_accessibility(
     decoded = load_multidata_from_archive(archive)
     starts = decoded["precollected_items"][1]
     pool = {entry[0] for entry in decoded["locations"][1].values()}
-    assert 3860107 in starts  # Beam is the sole automatic ability.
+    assert 3860107 not in starts and (3860107 in pool) == bool(gating)
+    assert 3860102 not in starts and (3860102 in pool) == bool(gating)
     assert 3860103 not in starts and 3860108 not in starts
     assert 3860104 not in starts and 3860123 not in starts
     assert (3860104 in pool) == bool(gating)
@@ -142,3 +143,49 @@ def test_all_indirect_source_regions_are_registered() -> None:
     expected = {world.multiworld.get_region(name, 1)
                 for name in (LOCAL_SOURCE_REGION, CENTRAL_REGION, COPY_ROOM_REGION)}
     assert all(entrance in world.multiworld.indirect_connections.get(region, set()) for region in expected)
+
+
+def test_missile_alternative_requires_advanced_and_independent_source_side():
+    from ..wheel_traversal import missile_graph
+
+    witness = missile_graph()
+    source, = witness.placements
+    assert source.identity == "room:503/template:0x088B8E64"
+    for advanced in (False, True):
+        world = make_world(0, False, advanced_logic=advanced, area_keys=1)
+        state = CollectionState(world.multiworld)
+        entrance = world.multiworld.get_entrance(RACE_ENTRANCE, 1)
+        with patch.object(state, "can_reach_region", side_effect=lambda n, _: n == witness.access_region):
+            assert entrance.access_rule(state) is advanced
+        with patch.object(state, "can_reach_region", side_effect=lambda n, _: n == RACE["region"]):
+            assert not entrance.access_rule(state)
+        with patch.object(state, "can_reach_region", side_effect=lambda n, _: n == LOCAL_SOURCE_REGION):
+            assert entrance.access_rule(state)  # Existing Wheel alternative stays Standard.
+
+
+@pytest.mark.parametrize(("keys", "gating"), [(0, False), (1, True)])
+def test_missile_does_not_widen_beyond_verified_stock_option_profile(keys, gating):
+    from ..wheel_traversal import missile_graph
+
+    world = make_world(0, gating, advanced_logic=1, area_keys=keys)
+    state = CollectionState(world.multiworld)
+    with patch.object(state, "can_reach_region", side_effect=lambda n, _: n == missile_graph().access_region):
+        assert not world.multiworld.get_entrance(RACE_ENTRANCE, 1).access_rule(state)
+
+
+def test_missile_witness_depends_on_real_equipment_and_award():
+    from dataclasses import replace
+    from ..data import data
+    from ..special_route_data import SPECIAL_ROUTE_PROFILES
+    from ..wheel_traversal import missile_graph
+
+    graph = missile_graph()
+    profile = SPECIAL_ROUTE_PROFILES["rainbow_wheel_race_missile"]
+    location = data.locations[profile["check"]]
+    assert location.location_id == profile["location_id"] == 3960567
+    assert location.source_rom_offset == 0x008B7288
+    target, = graph.required_targets
+    policy = SourcePolicy({"mode": 0})
+    assert graph.evaluate(policy, frozenset(), False).reaches(target)
+    assert not replace(graph, placements=()).evaluate(policy, frozenset({"Missile Ability"}), False).reaches(target)
+    assert not replace(graph, routes=graph.routes[:-1]).evaluate(policy, frozenset(), False).reaches(target)

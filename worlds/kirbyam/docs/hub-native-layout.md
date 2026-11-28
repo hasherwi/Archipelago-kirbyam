@@ -21,14 +21,18 @@ The original generated C mapping from commit `6f951f7f` used door 1 (Moonlight)
 tracked C mapping. Main `99c63e3a` and published #932 `c176aa10` therefore contain
 JSON catalog bits 1/11 but compiled runtime bits 11/1 for those two doors.
 
-This optimization preserves compiled behavior; it does not establish which
-association is correct gameplay semantics. The contract now records explicit
-`runtime_ap_bit_index` overrides with reasons while retaining catalog
-`ap_bit_index`, location IDs and client compatibility aliases. The generator uses
-runtime bits for both C artifacts and validates complete door coverage, bit
-uniqueness and native index bounds. Regeneration leaves the existing switch
-reference byte-identical. Any future semantic reconciliation needs separate
-source/runtime evidence and compatibility review.
+The client and reward-art writer use the same generated runtime mapping as
+the ROM. The Moonlight Mansion door writes bit 11 and checks location 3960401;
+the Rainbow Route East door writes bit 1 and checks location 3960411. The
+catalog indices and location IDs remain unchanged. Rainbow Route North also
+continues to accept its older bit 15 alias.
+
+The ROM patch, save layout, local switch completion flags and native hub
+unlocks did not change. No save conversion is needed to interpret stored
+bits with the corrected client. Already acknowledged server checks cannot
+be reassigned, and previously generated ROMs may still show the old reward
+art for these two switches unless regenerated. Use a fresh seed for an
+unaffected playthrough if a wrong check already awarded an item.
 
 Tests compare all generated files, preserve a frozen original switch fixture,
 and exhaust every uint16 input with null and aliased output-pointer cases

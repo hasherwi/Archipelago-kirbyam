@@ -252,7 +252,7 @@ def test_set_rules_applies_shard_gate_to_dimension_mirror_and_goal_events() -> N
         set_rules(world)
 
     applied_names = [call.args[0].name for call in mock_add_rule.call_args_list]
-    assert "REGION_RAINBOW_ROUTE/MAIN -> REGION_DIMENSION_MIRROR/MAIN" in applied_names
+    assert "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE -> REGION_DIMENSION_MIRROR/MAIN" in applied_names
     assert "Defeat Dark Mind" in [call.args[0].name for call in mock_set_rule.call_args_list]
 
 
@@ -341,30 +341,24 @@ def test_every_dimension_mirror_ingress_preserves_the_all_shards_gate() -> None:
     set_rules(world)
 
     entrance_names = dimension_mirror_entrance_names()
-    assert "REGION_RAINBOW_ROUTE/MAIN -> REGION_DIMENSION_MIRROR/MAIN" in entrance_names
-    assert entrance_names == ("REGION_RAINBOW_ROUTE/MAIN -> REGION_DIMENSION_MIRROR/MAIN",)
+    assert "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE -> REGION_DIMENSION_MIRROR/MAIN" in entrance_names
+    assert entrance_names == ("REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE -> REGION_DIMENSION_MIRROR/MAIN",)
     for entrance_name in entrance_names:
         entrance = world.multiworld.get_entrance(entrance_name, world.player)
         assert not entrance.access_rule(_FakeState()), entrance_name
         assert entrance.access_rule(_FakeState(ALL_SHARDS)), entrance_name
 
 
-def test_area_topology_routes_start_through_rainbow_route_anchor() -> None:
-    from ..data import load_json_data
+def test_area_summaries_cannot_provide_travel() -> None:
+    from ..data import data, load_json_data
 
-    regions = load_json_data("regions/areas.json")
-
-    assert regions["REGION_GAME_START"]["exits"] == ["REGION_RAINBOW_ROUTE/MAIN"]
-
-    # Summary regions cannot fabricate traversal between physical areas.
-    assert set(regions["REGION_RAINBOW_ROUTE/MAIN"]["exits"]) == {
-        "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE",
-        "REGION_DIMENSION_MIRROR/MAIN",
-    }
-    for name, region in regions.items():
-        if name not in {"REGION_GAME_START", "REGION_RAINBOW_ROUTE/MAIN",
-                        "REGION_DIMENSION_MIRROR/MAIN"}:
-            assert region["exits"] == []
+    areas = load_json_data("regions/areas.json")
+    circle = "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
+    assert areas["REGION_GAME_START"]["exits"] == [circle]
+    assert "REGION_DIMENSION_MIRROR/MAIN" in data.regions[circle].exits
+    for name, region in areas.items():
+        if name != "REGION_GAME_START":
+            assert region["exits"] == [], name
 
 
 def test_room_subareas_pure_topology_with_all_rooms() -> None:
@@ -512,7 +506,8 @@ def test_room_reachability_from_start() -> None:
     assert "REGION_RADISH_RUINS/ROOM_8_12__ROOM_CHECK" in reachable
     assert "REGION_CARROT_CASTLE/ROOM_5_05__LOGIC__CHUTE_SIDE" in reachable
     assert "REGION_CARROT_CASTLE/ROOM_5_05__ROOM_CHECK" in reachable
-    assert len(reachable) == 364
+    assert "REGION_DIMENSION_MIRROR/MAIN" in reachable  # Structural only; still shard-gated.
+    assert len([name for name in reachable if not name.endswith("__ROOM_CHECK")]) == 344
     assert "REGION_MOONLIGHT_MANSION/ROOM_2_15__LOGIC__UPPER_RETURN" in reachable
     assert "REGION_MOONLIGHT_MANSION/ROOM_2_15__ROOM_CHECK" in reachable
     assert "REGION_COPY_ABILITY_ROOM/MAIN" in reachable
@@ -814,51 +809,31 @@ def test_legacy_split_rooms_define_logical_subregion_metadata() -> None:
         "REGION_RADISH_RUINS/ROOM_8_08", "REGION_RADISH_RUINS/ROOM_8_07__LOGIC__ENTRY_FROM_8_09"]
 
     room_5_13 = rooms["REGION_CARROT_CASTLE/ROOM_5_13"]
-    assert room_5_13["logical_subregions"]["ENTRY_FROM_5_12"]["exits"] == [
-        "REGION_CARROT_CASTLE/ROOM_5_12"
-    ]
-    assert set(room_5_13["logical_subregions"]["ENTRY_FROM_5_18_OR_5_WARP"]["exits"]) == {
-        "REGION_CARROT_CASTLE/ROOM_5_18",
-        "REGION_CARROT_CASTLE/ROOM_5_WARP",
-    }
-    assert rooms["REGION_CARROT_CASTLE/ROOM_5_12"]["logical_exit_overrides"] == {
-        "REGION_CARROT_CASTLE/ROOM_5_13": "ENTRY_FROM_5_12"
-    }
-    assert rooms["REGION_CARROT_CASTLE/ROOM_5_18"]["logical_exit_overrides"] == {
-        "REGION_CARROT_CASTLE/ROOM_5_13": "ENTRY_FROM_5_18_OR_5_WARP"
-    }
-    assert rooms["REGION_CARROT_CASTLE/ROOM_5_WARP"]["logical_exit_overrides"] == {
-        "REGION_CARROT_CASTLE/ROOM_5_13": "ENTRY_FROM_5_18_OR_5_WARP"
-    }
+    assert set(room_5_13["logical_subregions"]) == {"ENTRY_FROM_5_07", "ENTRY_FROM_5_14"}
+    for room in ("5_12", "5_18", "5_WARP"):
+        assert "REGION_CARROT_CASTLE/ROOM_5_13" not in rooms[f"REGION_CARROT_CASTLE/ROOM_{room}"]["exits"]
 
     room_6_05 = rooms["REGION_OLIVE_OCEAN/ROOM_6_05"]
-    assert set(room_6_05["logical_subregions"]["ENTRY_FROM_6_04_OR_6_06"]["exits"]) == {
-        "REGION_OLIVE_OCEAN/ROOM_6_04",
-        "REGION_OLIVE_OCEAN/ROOM_6_06",
-    }
-    assert "locations" not in room_6_05["logical_subregions"]["ENTRY_FROM_6_04_OR_6_06"]
-    assert room_6_05["logical_subregions"]["ENTRY_FROM_6_23"]["exits"] == [
-        "REGION_OLIVE_OCEAN/ROOM_6_23"
+    assert room_6_05["logical_subregions"]["ENTRY_FROM_6_04_OR_6_06"]["exits"] == [
+        "REGION_OLIVE_OCEAN/ROOM_6_06"
     ]
+    assert "ENTRY_FROM_6_23" not in room_6_05["logical_subregions"]
     assert rooms["REGION_OLIVE_OCEAN/ROOM_6_04"]["logical_exit_overrides"] == {
         "REGION_OLIVE_OCEAN/ROOM_6_05": "ENTRY_FROM_6_04_OR_6_06"
     }
-    assert rooms["REGION_OLIVE_OCEAN/ROOM_6_06"]["logical_exit_overrides"] == {
-        "REGION_OLIVE_OCEAN/ROOM_6_05": "ENTRY_FROM_6_04_OR_6_06"
-    }
-    assert rooms["REGION_OLIVE_OCEAN/ROOM_6_23"]["logical_exit_overrides"] == {
-        "REGION_OLIVE_OCEAN/ROOM_6_05": "ENTRY_FROM_6_23"
-    }
+    for room in ("6_06", "6_23"):
+        assert "REGION_OLIVE_OCEAN/ROOM_6_05" not in rooms[f"REGION_OLIVE_OCEAN/ROOM_{room}"]["exits"]
 
 
 def test_area_two_split_rooms_are_first_class_regions() -> None:
     from ..data import data as kirby_data
 
-    assert kirby_data.regions["REGION_MOONLIGHT_MANSION/ROOM_2_05"].exits[-1] == (
-        "REGION_MOONLIGHT_MANSION/ROOM_2_07_LOWER"
+    assert "REGION_MOONLIGHT_MANSION/ROOM_2_07_LOWER" in (
+        kirby_data.regions["REGION_MOONLIGHT_MANSION/ROOM_2_05"].exits
     )
     assert kirby_data.regions["REGION_MOONLIGHT_MANSION/ROOM_2_07_LOWER"].exits == [
-        "REGION_MOONLIGHT_MANSION/ROOM_2_05"
+        "REGION_MOONLIGHT_MANSION/ROOM_2_05",
+        "REGION_MOONLIGHT_MANSION/ROOM_2_07_UPPER_LEFT__ROOM_CHECK",
     ]
     assert "REGION_MOONLIGHT_MANSION/ROOM_2_12_LEFT" in (
         kirby_data.regions["REGION_MOONLIGHT_MANSION/ROOM_2_11_AFTER_LEVER"].exits
@@ -884,22 +859,14 @@ def test_logical_exit_overrides_route_to_synthetic_subregions() -> None:
     room_8_07_from_8_09 = "REGION_RADISH_RUINS/ROOM_8_07__LOGIC__ENTRY_FROM_8_09"
     room_8_09_from_8_06 = "REGION_RADISH_RUINS/ROOM_8_09__LOGIC__ENTRY_FROM_8_06"
     room_8_09_from_8_08 = "REGION_RADISH_RUINS/ROOM_8_09__LOGIC__ENTRY_FROM_8_08"
-    room_5_13_from_5_12 = "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_12"
-    room_5_13_from_5_18_or_5_warp = "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_18_OR_5_WARP"
     room_6_05_from_6_04_or_6_06 = "REGION_OLIVE_OCEAN/ROOM_6_05__LOGIC__ENTRY_FROM_6_04_OR_6_06"
-    room_6_05_from_6_23 = "REGION_OLIVE_OCEAN/ROOM_6_05__LOGIC__ENTRY_FROM_6_23"
 
     assert room_9_chest_2_from_9_01 in kirby_data.regions["REGION_CANDY_CONSTELLATION/ROOM_9_01"].exits
     assert room_9_chest_2_from_9_09 in kirby_data.regions["REGION_CANDY_CONSTELLATION/ROOM_9_09"].exits
     assert room_8_07_from_8_04 in kirby_data.regions["REGION_RADISH_RUINS/ROOM_8_04"].exits
     assert room_8_09_from_8_06 in kirby_data.regions["REGION_RADISH_RUINS/ROOM_8_06"].exits
     assert room_8_09_from_8_08 in kirby_data.regions["REGION_RADISH_RUINS/ROOM_8_08"].exits
-    assert room_5_13_from_5_12 in kirby_data.regions["REGION_CARROT_CASTLE/ROOM_5_12"].exits
-    assert room_5_13_from_5_18_or_5_warp in kirby_data.regions["REGION_CARROT_CASTLE/ROOM_5_18"].exits
-    assert room_5_13_from_5_18_or_5_warp in kirby_data.regions["REGION_CARROT_CASTLE/ROOM_5_WARP"].exits
     assert room_6_05_from_6_04_or_6_06 in kirby_data.regions["REGION_OLIVE_OCEAN/ROOM_6_04"].exits
-    assert room_6_05_from_6_04_or_6_06 in kirby_data.regions["REGION_OLIVE_OCEAN/ROOM_6_06"].exits
-    assert room_6_05_from_6_23 in kirby_data.regions["REGION_OLIVE_OCEAN/ROOM_6_23"].exits
 
     assert traversal_exits(room_9_chest_2_from_9_01) == ["REGION_CANDY_CONSTELLATION/ROOM_9_01"]
     assert traversal_exits(room_9_chest_2_from_9_09) == ["REGION_CANDY_CONSTELLATION/ROOM_9_09"]
@@ -915,29 +882,19 @@ def test_logical_exit_overrides_route_to_synthetic_subregions() -> None:
         "REGION_RADISH_RUINS/ROOM_8_06", "REGION_RADISH_RUINS/ROOM_8_GOAL_1"]
     assert traversal_exits(room_8_09_from_8_08) == [
         "REGION_RADISH_RUINS/ROOM_8_08", room_8_07_from_8_09]
-    assert traversal_exits(room_5_13_from_5_12) == ["REGION_CARROT_CASTLE/ROOM_5_12"]
     assert kirby_data.locations["MINOR_CHEST_CARROT_CASTLE_5_13_OBJECT_02"].parent_region == (
         "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_07"
     )
     assert kirby_data.regions["REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_14"].locations == [
         "MINOR_CHEST_MUSIC_NOTE_06"
     ]
-    assert kirby_data.regions[room_5_13_from_5_12].locations == []
     assert kirby_data.regions["REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_07"].locations == [
         "MINOR_CHEST_CARROT_CASTLE_5_13_OBJECT_02"
     ]
-    assert set(traversal_exits(room_5_13_from_5_18_or_5_warp)) == {
-        "REGION_CARROT_CASTLE/ROOM_5_18",
-        "REGION_CARROT_CASTLE/ROOM_5_WARP",
-    }
-    assert set(traversal_exits(room_6_05_from_6_04_or_6_06)) == {
-        "REGION_OLIVE_OCEAN/ROOM_6_04",
-        "REGION_OLIVE_OCEAN/ROOM_6_06",
-    }
+    assert traversal_exits(room_6_05_from_6_04_or_6_06) == ["REGION_OLIVE_OCEAN/ROOM_6_06"]
     assert kirby_data.regions["REGION_OLIVE_OCEAN/ROOM_6_05"].locations == []
     assert kirby_data.regions["REGION_OLIVE_OCEAN/ROOM_6_05__ROOM_CHECK"].locations == ["ROOM_SANITY_6_05"]
     assert kirby_data.regions[room_6_05_from_6_04_or_6_06].locations == []
-    assert traversal_exits(room_6_05_from_6_23) == ["REGION_OLIVE_OCEAN/ROOM_6_23"]
 
 
 def test_stake_breaking_abilities_are_shared_and_expected() -> None:
@@ -1048,46 +1005,17 @@ def test_lever_rooms_define_four_lever_events() -> None:
 def test_hub_switch_locations_have_matching_big_switch_events() -> None:
     from ..data import load_json_data
 
+    from ..data import data
+
     areas = load_json_data("regions/areas.json")
-    locations = load_json_data("locations.json")
-
-    expected_events_by_hub_switch = {
-        "HUB_SWITCH_MUSTARD": "Activate Big Switch - Mustard Mountain",
-        "HUB_SWITCH_MOONLIGHT": "Activate Big Switch - Moonlight Mansion",
-        "HUB_SWITCH_CANDY": "Activate Big Switch - Candy Constellation",
-        "HUB_SWITCH_OLIVE": "Activate Big Switch - Olive Ocean",
-        "HUB_SWITCH_PEPPERMINT_EAST": "Activate Big Switch - Peppermint Palace East",
-        "HUB_SWITCH_PEPPERMINT_WEST": "Activate Big Switch - Peppermint Palace West",
-        "HUB_SWITCH_CABBAGE_CAVERN_CENTER": "Activate Big Switch - Cabbage Cavern Center",
-        "HUB_SWITCH_CABBAGE_CAVERN_EAST": "Activate Big Switch - Cabbage Cavern East",
-        "HUB_SWITCH_CABBAGE_CAVERN_WEST": "Activate Big Switch - Cabbage Cavern West",
-        "HUB_SWITCH_CARROT": "Activate Big Switch - Carrot Castle",
-        "HUB_SWITCH_RADISH": "Activate Big Switch - Radish Ruins",
-        "HUB_SWITCH_RAINBOW_ROUTE_EAST": "Activate Big Switch - Rainbow Route East",
-        "HUB_SWITCH_RAINBOW_ROUTE_NORTH": "Activate Big Switch - Rainbow Route North",
-        "HUB_SWITCH_RAINBOW_ROUTE_SOUTH": "Activate Big Switch - Rainbow Route South",
-        "HUB_SWITCH_RAINBOW_ROUTE_WEST": "Activate Big Switch - Rainbow Route West",
-    }
-
-    found_events: set[str] = set()
-    for hub_switch_key, expected_event in expected_events_by_hub_switch.items():
-        loc_meta = locations.get(hub_switch_key)
-        assert isinstance(loc_meta, dict), f"Missing location metadata for {hub_switch_key}"
-        parent_region = str(loc_meta.get("parent_region", ""))
-        assert "/" in parent_region, f"Invalid parent region for {hub_switch_key}: {parent_region}"
-
-        area_region = parent_region.split("/", 1)[0] + "/MAIN"
-        area_data = areas.get(area_region)
-        assert isinstance(area_data, dict), f"Missing area region {area_region} for {hub_switch_key}"
-
-        events = area_data.get("events", [])
-        assert isinstance(events, list), f"Invalid events list for area {area_region}"
-        event_set = {event for event in events if isinstance(event, str)}
-
-        assert expected_event in event_set
-        found_events.add(expected_event)
-
-    assert found_events == set(expected_events_by_hub_switch.values())
+    assert not any(event.startswith("Activate Big Switch - ")
+                   for area in areas.values() for event in area.get("events", []))
+    expected = load_json_data("check_event_logic.json")["hub_switches"]
+    assert len(expected) == 15
+    for key, name in expected.items():
+        parent = data.locations[key].parent_region
+        event, = [event for event in data.regions[parent].events if event.name == name]
+        assert event.parent_region == parent and event.source_check == key
 
 
 def test_lever_locations_have_matching_lever_events() -> None:
@@ -1117,3 +1045,21 @@ def test_lever_locations_have_matching_lever_events() -> None:
         event_set = {event for event in events if isinstance(event, str)}
 
         assert expected_event in event_set
+
+
+@pytest.mark.parametrize("invalid", ["missing_mode", "non_goal", "unknown_operator", "unknown_event"])
+def test_json_goal_contract_rejects_invalid_references(monkeypatch, invalid):
+    from .. import rules
+
+    payload = rules.load_json_data("goal_logic.json")
+    if invalid == "missing_mode":
+        del payload["goals"]["dark_mind"]
+    elif invalid == "non_goal":
+        payload["goals"]["dark_mind"]["goal_location"] = "BOSS_DEFEAT_1"
+    elif invalid == "unknown_operator":
+        payload["goals"]["dark_mind"]["all_of"] = ["unreviewed_requirement"]
+    else:
+        payload["dark_mind_prerequisite_event"] = "Not a real event"
+    monkeypatch.setattr(rules, "load_json_data", lambda _: payload)
+    with pytest.raises(ValueError):
+        rules._load_goal_logic()

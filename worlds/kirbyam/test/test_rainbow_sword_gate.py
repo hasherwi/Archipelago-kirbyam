@@ -222,7 +222,7 @@ def test_actual_world_either_permission_opens_only_the_same_room9_exit(gating, a
 @pytest.mark.parametrize('mode,seed,gating,area_keys,statues', [
     (0, 110, 0, 0, 0), (0, 110, 1, 1, 1),
     (1, 30, 0, 0, 0), (1, 30, 1, 1, 0),
-    (1, 17, 0, 0, 1), (1, 17, 1, 1, 1),
+    (1, 30, 0, 0, 1), (1, 30, 1, 1, 1),
 ])
 def test_real_fill_full_accessibility_at_one_hp(mode, seed, gating, area_keys, statues):
     multiworld = setup_multiworld(KirbyAmWorld, seed=seed, options={

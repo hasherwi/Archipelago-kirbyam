@@ -129,7 +129,8 @@ def _build_statue_assignments(policy: dict[str, Any], mode: int) -> dict[str, st
     ]
 
     if mode == AbilityRandomizationMode.option_shuffled:
-        return build_shuffled_enemy_type_assignments(normalized_policy, slot_keys)
+        assignments = build_shuffled_enemy_type_assignments(normalized_policy, slot_keys)
+        return _apply_source_swaps(policy, _reserve_statue_grants(policy, assignments), statues=True)
     if mode == AbilityRandomizationMode.option_completely_random:
         return {
             slot_key: ability_for_enemy_grant_event(
@@ -179,6 +180,75 @@ def _included_randomizable_sources(policy: dict[str, Any]) -> tuple[list[Ability
 
 
 ROOM16_FOLEY_SWAP = "room16_foley_swap"
+SHUFFLE_SOURCE_SWAPS = "shuffle_source_swaps"
+SHUFFLE_STATUE_RESERVATIONS = "shuffle_statue_reservations"
+MAX_SHUFFLE_SOURCE_SWAPS = 32
+MAX_SHUFFLE_STATUE_RESERVATIONS = 4
+
+
+def _statue_reservations(policy: dict[str, Any]) -> dict[str, str]:
+    if SHUFFLE_STATUE_RESERVATIONS not in policy:
+        return {}
+    raw = policy[SHUFFLE_STATUE_RESERVATIONS]
+    if (policy.get("mode") != AbilityRandomizationMode.option_shuffled or ROOM16_FOLEY_SWAP in policy
+            or policy.get("ability_randomization_no_ability_weight") != 100
+            or not isinstance(raw, dict) or not 0 < len(raw) <= MAX_SHUFFLE_STATUE_RESERVATIONS
+            or any(not isinstance(key, str) or not key.startswith("STATUE:") or not isinstance(value, str)
+                   for key, value in raw.items())
+            or len(set(raw.values())) != len(raw)):
+        raise ValueError("Invalid Standard Shuffle statue roster reservation")
+    return raw
+
+
+def _reserve_statue_grants(policy: dict[str, Any], assignments: dict[str, str]) -> dict[str, str]:
+    reservations = _statue_reservations(policy)
+    pool = set(_normalized_statue_pool(policy)) if reservations else set()
+    if not reservations.keys() <= assignments.keys() or not set(reservations.values()) <= pool:
+        raise ValueError("Shuffle reservation must use an enabled world statue and eligible ability")
+    if set(reservations.values()) & set(assignments.values()):
+        raise ValueError("Shuffle roster may reserve only a missing ability")
+    return {**assignments, **reservations} if reservations else assignments
+
+
+def _source_swaps(policy: dict[str, Any]) -> tuple[tuple[str, str], ...]:
+    if SHUFFLE_SOURCE_SWAPS not in policy:
+        return ()
+    raw = policy[SHUFFLE_SOURCE_SWAPS]
+    if (policy.get("mode") != AbilityRandomizationMode.option_shuffled or ROOM16_FOLEY_SWAP in policy
+            or not isinstance(raw, (tuple, list)) or not 0 < len(raw) <= MAX_SHUFFLE_SOURCE_SWAPS):
+        raise ValueError("Invalid logic-aware ability shuffle plan")
+    swaps = []
+    for pair in raw:
+        if (not isinstance(pair, (tuple, list)) or len(pair) != 2
+                or any(not isinstance(key, str) or not key for key in pair) or pair[0] == pair[1]
+                or pair[0].startswith("STATUE:") != pair[1].startswith("STATUE:")):
+            raise ValueError("Invalid logic-aware ability source swap")
+        swaps.append((pair[0], pair[1]))
+    return tuple(swaps)
+
+
+def _apply_source_swaps(policy: dict[str, Any], assignments: dict[str, str], *, statues: bool) -> dict[str, str]:
+    """Rearrange only existing grants in the same enabled source pool."""
+    for first, second in _source_swaps(policy):
+        if first.startswith("STATUE:") != statues:
+            continue
+        if (first not in assignments or second not in assignments
+                or assignments[first] == assignments[second]):
+            raise ValueError("Logic-aware shuffle swap has no distinct enabled grants")
+        assignments[first], assignments[second] = assignments[second], assignments[first]
+    return assignments
+
+
+def shuffled_source_grants(policy: dict[str, Any], include_statues: bool) -> dict[str, str]:
+    """Return the exact movable grants; fixed enemies and Copy Room are not donors."""
+    if not include_statues and (_statue_reservations(policy)
+                                or any(first.startswith("STATUE:") for first, _ in _source_swaps(policy))):
+        raise ValueError("Logic-aware shuffle cannot move disabled statue grants")
+    enemies, _ = _included_randomizable_sources(policy)
+    assignments = _shuffled_enemy_assignments(policy, enemies)
+    if include_statues:
+        assignments.update(_build_statue_assignments(policy, AbilityRandomizationMode.option_shuffled))
+    return assignments
 
 
 def _shuffled_enemy_assignments(policy: dict[str, Any], sources: list[AbilitySource]) -> dict[str, str]:
@@ -191,7 +261,7 @@ def _shuffled_enemy_assignments(policy: dict[str, Any], sources: list[AbilitySou
                 or assignments[donor] == "Normal"):
             raise ValueError("Invalid Room 4-16 shuffled Foley donor")
         assignments["FOLEY"], assignments[donor] = assignments[donor], assignments["FOLEY"]
-    return assignments
+    return _apply_source_swaps(policy, assignments, statues=False)
 
 
 def room16_foley_swap_candidates(policy: dict[str, Any], abilities: frozenset[str]) -> tuple[str, ...]:
@@ -231,6 +301,8 @@ def build_enemy_copy_spoiler_rows(
 ) -> list[tuple[str, str, str]]:
     """Return deterministic spoiler rows: (source_kind, source_key, assigned_ability)."""
     mode = int(policy.get("mode", AbilityRandomizationMode.option_off))
+    _source_swaps(policy)  # Validate the plan even for an enemy-only projection.
+    _statue_reservations(policy)
     if mode == AbilityRandomizationMode.option_off:
         return []
 
@@ -286,6 +358,8 @@ def build_enemy_copy_runtime_patch_writes(
     :func:`build_statue_runtime_allowed_mask` for a fresh per-touch roll.
     """
     mode = int(policy.get("mode", AbilityRandomizationMode.option_off))
+    _source_swaps(policy)  # Validate the plan even for an enemy-only projection.
+    _statue_reservations(policy)
     if mode == AbilityRandomizationMode.option_off:
         return {}
 

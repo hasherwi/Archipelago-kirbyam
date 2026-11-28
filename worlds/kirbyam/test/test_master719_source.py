@@ -247,8 +247,9 @@ def test_current_catalog_changes_only_exact_master719_contract() -> None:
     # bytes are never refreshed by this structural projection.
     from .support.green138_history import catalog_before_green138
     from .support.phone_activation_history import catalog_scope_before_phone
-    # The separately guarded Yellow profile adds providers, not global graphs.
-    # Reverse only those exact additions; retain the complete historical hash.
+    # The separately guarded Mustard and Yellow profiles add providers, not
+    # global graphs. Reverse only the exact additions; retain the old hash.
+    assert catalog['capability_providers'].pop('switch_310_hub4_live_cutter_return') == ['Cutter']
     for capability in ('bomb_733_cupid_upper_from_below',
                        'bomb_733_cupid_lower_from_corridor'):
         assert catalog['capability_providers'].pop(capability) == ['Cupid']
@@ -282,6 +283,10 @@ def test_current_catalog_changes_only_exact_master719_contract() -> None:
             ability = 'Beam' if row['witness'] == 'room5_entry' else 'Fighter'
             assert row['graph_source_condition'] == ['WADDLE_DOO', ability]
             row['graph_source_condition'] = None
+    # Reconstruct the earlier ability catalog after 36d9ebcd made Beam gateable.
+    # This was the only remaining change to the historical Master scope census.
+    assert catalog['ungated_pool_abilities'] == []
+    catalog['ungated_pool_abilities'] = ['Beam']
     assert hashlib.sha256(json.dumps(catalog, sort_keys=True, separators=(',', ':')).encode()).hexdigest() == (
         "dd5eec552fce4ecc410c3c7f14508ed84b6e7ada6d7c9ab931937a491fc45fb8")
 

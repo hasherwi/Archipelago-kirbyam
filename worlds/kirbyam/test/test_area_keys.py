@@ -191,7 +191,7 @@ def test_directed_area_key_contract_includes_rainbow_return_mirrors_but_not_esca
                    for edge in rainbow)
     assert "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE -> REGION_RAINBOW_ROUTE/ROOM_1_01" not in gated
     assert "REGION_MOONLIGHT_MANSION/MAIN -> REGION_RAINBOW_ROUTE/MAIN" not in gated
-    assert "REGION_RAINBOW_ROUTE/MAIN -> REGION_DIMENSION_MIRROR/MAIN" not in gated
+    assert "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE -> REGION_DIMENSION_MIRROR/MAIN" not in gated
 
 
 def test_item_stage_precollects_moonlight_below_viability_threshold(

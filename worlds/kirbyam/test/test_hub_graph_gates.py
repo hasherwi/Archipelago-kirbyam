@@ -59,7 +59,7 @@ def test_hub_receipt_shortcuts_and_eight_distinct_shards(room_sanity):
         received = trial.copy()
         received.collect(world.worlds[1].create_item(label), True)
         assert entrance.access_rule(received)
-    dimension = world.get_entrance('REGION_RAINBOW_ROUTE/MAIN -> REGION_DIMENSION_MIRROR/MAIN', 1)
+    dimension = world.get_entrance('REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE -> REGION_DIMENSION_MIRROR/MAIN', 1)
     shards = [item for item in world.itempool if 'Mirror Shard' in item.name]
     assert len(shards) == 8
     for item in shards[:-1]:

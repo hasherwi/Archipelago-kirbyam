@@ -87,9 +87,14 @@ def test_live_statue_permission_filter_is_not_a_bounded_guarantee():
     # Runtime filters unavailable permissions, but later unlocks expand this
     # pool. Bounded logic must not rely on a temporarily singleton draw.
     assert p.grant('STATUE:353906', lambda a: a == 'Beam').guaranteed == frozenset({'Beam'})
-    assert not g.evaluate(p, frozenset(), True).reaches(goal)
-    assert not g.evaluate(p, frozenset({'Sword Ability'}), True).reaches(goal)
-    assert g.evaluate(p, frozenset(), True, allow_documented_retries=True).reaches(goal)
+    no_permissions = frozenset()
+    beam = frozenset({'Beam Ability'})
+    sword = frozenset({'Sword Ability'})
+    assert not g.evaluate(p, no_permissions, True, allow_documented_retries=True).reaches(goal)
+    assert not g.evaluate(p, beam, True).reaches(goal)
+    assert not g.evaluate(p, sword, True).reaches(goal)
+    assert not g.evaluate(p, beam | sword, True).reaches(goal)
+    assert g.evaluate(p, beam, True, allow_documented_retries=True).reaches(goal)
 
 
 @pytest.mark.parametrize('gating', [False, True])

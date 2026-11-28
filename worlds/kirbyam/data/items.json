@@ -25,7 +25,7 @@
   },
   "BATTERY": {
     "label": "Cell Phone Battery",
-    "classification": "FILLER",
+    "classification": "USEFUL",
     "item_id": 3860027,
     "tags": ["Filler", "Consumable", "Battery"]
   },
@@ -152,41 +152,49 @@
   "SHARD_1": {
     "label": "Mustard Mountain - Mirror Shard",
     "classification": "PROGRESSION",
+    "item_id": 3860002,
     "tags": ["Shards", "Unique"]
   },
   "SHARD_2": {
     "label": "Moonlight Mansion - Mirror Shard",
     "classification": "PROGRESSION",
+    "item_id": 3860003,
     "tags": ["Shards", "Unique"]
   },
   "SHARD_3": {
     "label": "Candy Constellation - Mirror Shard",
     "classification": "PROGRESSION",
+    "item_id": 3860004,
     "tags": ["Shards", "Unique"]
   },
   "SHARD_4": {
     "label": "Olive Ocean - Mirror Shard",
     "classification": "PROGRESSION",
+    "item_id": 3860005,
     "tags": ["Shards", "Unique"]
   },
   "SHARD_5": {
     "label": "Peppermint Palace - Mirror Shard",
     "classification": "PROGRESSION",
+    "item_id": 3860006,
     "tags": ["Shards", "Unique"]
   },
   "SHARD_6": {
     "label": "Cabbage Cavern - Mirror Shard",
     "classification": "PROGRESSION",
+    "item_id": 3860007,
     "tags": ["Shards", "Unique"]
   },
   "SHARD_7": {
     "label": "Carrot Castle - Mirror Shard",
     "classification": "PROGRESSION",
+    "item_id": 3860008,
     "tags": ["Shards", "Unique"]
   },
   "SHARD_8": {
     "label": "Radish Ruins - Mirror Shard",
     "classification": "PROGRESSION",
+    "item_id": 3860009,
     "tags": ["Shards", "Unique"]
   },
   "MAP_RAINBOW_ROUTE": {
@@ -785,7 +793,7 @@
   },
   "ABILITY_UNLOCK_BEAM": {
     "label": "Beam Ability",
-    "classification": "USEFUL",
+    "classification": "PROGRESSION",
     "item_id": 3860107,
     "tags": ["Abilities", "Unique"]
   },

@@ -1,0 +1,231 @@
+# Step 2: room, subroom and directed traversal audit
+
+## Compiled inventory
+
+Counts below pin the Step 2 graph. [Step 3](step-3-check-placement.md)
+adds terminal visit links only; it does not change the physical door sets.
+
+Join the production-normalized AP graph to the pinned [native room inventory](native-room-wikirby-map.md). The join accounts for all 354 physical AP compartment keys, including Copy Ability Room `/MAIN` (native 970), which is a physical room despite its suffix. The native table contains 286 populated records; not all are represented by an AP region. The other AP nodes are ten area summaries, 23 Room Sanity sinks, and two start nodes including Menu.
+
+| Link type | Count | Treatment in a physical carry route |
+| --- | ---: | --- |
+| Different native room IDs | 548 | Directed candidates only; verify the actual door/arrival and state restrictions |
+| Same native room ID | 82 | Compartments of one room; don't assume either direction is open or count an ordinary boundary as a crossing |
+| Area summary fan-in | 350 | Bookkeeping, never a physical crossing or shortcut |
+| Room Sanity sink links | 61 | Check ownership, never travel |
+| Area-summary bridges | 1 | Shard-gated final-goal entry from Central Circle; no physical carry credit |
+| Menu/start/tutorial bookkeeping bridges | 3 | Initial/spawn or tutorial state; not automatic physical return routes |
+
+Of the 548 directed cross-room candidates, 242 have no exact reverse AP edge. An existing reverse edge is also not native evidence; two mirrors between the same IDs may use different compartments or spawn points. Preserve doors that are truly one-way. The 134 unpaired generic-block entries from Step 1 are a separate audit queue, not a count of confirmed missing doors.
+
+### Area summaries are not travel
+
+Physical Rainbow compartments feed the terminal Rainbow area summary for area
+checks and goals. The start enters Central Circle directly, preserving the
+existing initial reachability; Circle still feeds the area summary. The
+shard-gated Dimension Mirror entry is on Central Circle itself, not on the
+Rainbow summary. No synthetic return from the Dimension Mirror summary or
+any Rainbow compartment is inferred. Charge-free Phone returns remain a
+separate state-specific review.
+
+The split-room check sink can be reached from multiple compartments to award a shared Room Sanity check. The area-summary builder used to give all 21 sinks a redundant outgoing summary link because their names contain `/ROOM_`. This pass removes those links. Each real feeder compartment already connects to the same area summary, so area visits still work; a sink no longer has an outgoing travel edge. Do not connect a sink back to the canonical room, which could leak other doors from the wrong compartment.
+
+### Physical witnesses and the three-transition rule
+
+Review the 165 graph variants under the 66 current catalog targets. In the Area Keys-off compilation, they contain 1,599 cross-native-ID witness edges; 97 are recognized by their differing native IDs without a literal `room_transition: true` flag. That matches the engine's existing transition detection and is not 97 missing gates. One explicit same-native transition, native 736 Mini `arrival → source`, is the authored down-cannon self-transition **before** acquiring Mini. Preserve its room-state handling and don't count it as an equipped carry crossing in this witness. These totals count declared edge instances across graphs, not unique doors, routed distance, or evidence that all alternatives are Standard. The Standard limit is calculated on the **actual equipped route to the required action**, not by counting every edge in a witness graph.
+
+### Charge-free Phone return
+
+The native L-return path is independent of the Phone-a-Friend item and battery charge. [Existing controller evidence](phone-implementation.md) proves a zero-charge return from native 190, dry returns with Cutter retained, and a separate underwater Normal return from 108. UFO can return but is cleared by arrival at Central Circle in its verified cases.
+
+Don't assume every room/state is eligible: the [native input path](https://github.com/jiangzhengwenjz/katam/blob/89a012c0d2e46a0ae87d9133c7a0435d95e348e8/src/kirby.c#L6968-L7126) checks room priority bit `0x40`, active encounter/session state and the eligible character state; the shown idle path excludes Mini. The [return sequence](https://github.com/jiangzhengwenjz/katam/blob/89a012c0d2e46a0ae87d9133c7a0435d95e348e8/src/kirby.c#L13124-L13401) leads to native 801, not an arbitrary Central Circle compartment. A source review found that all 24 direct entry call sites require the room bit, the encounter/session predicate and the global state gate. Which attack, movement, or ability states can take the branch still varies.
+
+The [local extraction tool](../tools/extract_phone_return_rooms.py) reads the room bit and the encounter-to-session-slot mapping from an exact SHA-1-matched USA image. The pinned retail extraction is now in [the native room return inventory](phone-return-native-rooms.json): 262 populated rooms have the enable bit and 24 do not. Central Circle, the three tutorial rooms, Copy Ability Room, and the final-area or minigame rooms on the excluded list do not acquire return edges. A room with the bit set is only statically eligible, and encounter rooms are not permanently excluded solely because they have a session slot. A return never implies a reverse route or grants a Hub Connection. No Phone edges are installed by this pass.
+
+### First native door crosswalk
+
+- **Rainbow 1-41 (141):** the pins cover four arrivals and their four outgoing doors. Native 543 (spawn 3,14) and 143 (43,19) enter the lower partition. Native 144 (43,9) enters `EAST_MOONLIGHT`; native 545 (34,4) enters `TOP_MUSTARD`. The existing normalized AP edges land in those exact partitions. The east-to-top flights and the Bomb Block routes between partitions are same-room logical moves, not four more doors; the observed one-way cap geometry is not grounds to add an opposite edge.
+- **Moonlight 2-14 / 2-15 (741/742):** there are two directed 741→742 records, with distinct spawns (19,8) and (30,29). Upper lands in `UPPER_RETURN`; lower lands in canonical 2-15. Native 742 exits to 741 upper (spawn 11,8) and 705 Warp (spawn 4,39). The native records prove their existence and landing, not a route from the upper return partition to either trigger. Current logic keeps the upper partition disconnected from the lower chest and Warp; the old permissive upper shortcut stays removed.
+
+### Full retail tile-door inventory
+
+[The decoded door catalog](native-tile-door-inventory.json) records 724 directed tile transitions from the SHA-1-matched USA image. It records each trigger and landing separately. Of the 548 cross-room AP edges, 459 match exactly one directed native room pair, 57 match multiple candidate doors, and 32 have no tile match. The last group includes known non-tile paths such as boss/Goal returns, portals and object-driven doors; it is not 48 confirmed errors. A one-door match still does not prove that an AP source compartment can reach the trigger or that the landing is assigned to the right compartment. The audit command reports all candidates per edge without installing new logic.
+
+## Next audit batch
+
+1. Crosswalk the candidate edges to actual native door/spawn records, expanding beyond the [141](ordinary-141-door-topology.json) and [742](ordinary-742-door-topology.json) pilot. Keep trigger direction and landing compartment explicit, and distinguish genuine reverse doors from room resets.
+2. Derive a clean room eligibility inventory for the charge-free return from the pinned retail table and test state/ability exceptions separately. Add only evidenced, correctly directed transitions.
+3. Keep Step 3 check/event ownership separate from movement; a successful room visit does not prove its chest, goal, or reverse door.
+
+Reproduce the full JSON inventory from the repository root:
+
+```sh
+python -m worlds.kirbyam.tools.audit_room_topology --output /tmp/kirby-room-topology.json
+```
+
+## Reconciling the tile-door exceptions
+
+The audit preserves the raw candidates and adds a separate evidence status per
+directed edge. A tile pin identifies the correct trigger and landing for the
+named compartments; it does not install a new requirement or prove that Kirby
+can reach the trigger under every setting.
+
+| Raw exception | Evidence status | AP edges |
+| --- | --- | ---: |
+| Multiple door records | Exact trigger and landing pinned to the named compartments | 31 |
+| Multiple door records | Exact multi-cell trigger group pinned to a single landing | 1 |
+| Multiple door records | All candidates land on the same tile with the same flags; keep all triggers | 13 |
+| Multiple door records | Reviewed parallel ports with individual landing profiles | 12 |
+| No matching tile record | Native controller witness, via a completion sequence, cannon or Warp Star | 18 |
+| No matching tile record | Native code supports a boss-shard return sequence, not a free exit | 8 |
+| No matching tile record | Native object target decoded; live arrival/state still unverified | 6 |
+
+
+Five single-tile-candidate edges also have explicit compartment pins; two
+other single-tile pairs also have separately decoded cannon evidence.
+The [explicit pins](native-door-reconciliation.json) include Moonlight's
+2-01/2-11 and 2-14/2-15 splits, Cabbage's 3-03/3-04 split, and the
+Bonkers-side and Snow Hall connections between Peppermint 7-05 and its Chest Room.
+A shared landing only settles arrival tile and flags, not whether separate trigger
+cells are reachable from the same source compartment.
+
+### Completion returns and the cannon
+
+- All 16 Goal Game sources have a recorded Central Circle return. These are
+  **source room → native Goal Game 980/981/982 → native 801**, not direct tile
+  doors or charge-free Phone returns. The audit joins source ID, Goal bit and
+  minigame destination against the actual [entry table](../data/goal_game_doors.json).
+  Fifteen fixtures record the return in the [rollup](goal-game-all-sources-successor.json);
+  Rainbow Goal 2 links to its [original fixture](goal-game-phone-successor.json).
+  This does not prove that the source-room entrance is reachable or that an
+  equipped ability survives the full sequence.
+- The eight area-boss rooms map to native encounter slots 1–8. The native
+  [shard sequence](https://github.com/jiangzhengwenjz/katam/blob/89a012c0d2e46a0ae87d9133c7a0435d95e348e8/src/shard.c#L231-L255)
+  starts the victory handler, which [loads Central Circle after the sequence](https://github.com/jiangzhengwenjz/katam/blob/89a012c0d2e46a0ae87d9133c7a0435d95e348e8/src/kirby.c#L9464-L9479).
+  This supports the mechanism; it does not verify every fresh/revisited boss
+  room, early exit, or post-defeat ability state. The audit does not promote
+  these edges to unconditional physical exits.
+- Rainbow 1-32 → 1-33 Left is a [witnessed fuse-cannon launch](rainbow-room32-crash-source-witness.md),
+  from native 126 to native 570 at (6,1). The cited run entered the cannon as
+  Normal after consuming Crash. Do not count it as proof of carrying Crash.
+
+- Rainbow Warp → Moonlight entry (142 → 195) is a
+  [witnessed Warp Star flight](area-key-native-evidence.json). The fixture
+  verifies the room change with the destination key, including a branch where
+  ownership is rolled back **after** boarding. It does not prove unauthorized
+  boarding or certify an exact arrival tile.
+
+The [legacy edge review](split-door-topology.md#retired-legacy-shortcuts)
+removed 16 generated shortcuts with no matching tile or supported native
+object destination. The active graph no longer has an unclassified
+no-tile destination. The physical carry or final arrival of a
+source-backed object transition is still a separate claim.
+
+### Carrot 5-13 and the object-door queue
+
+The [Carrot room evidence](carrot-topology-reconciliation.md) now supplies
+three explicit pins: the lower 5-07 entry and return, and the upper return to
+5-14. Entering from 5-14 uses eleven distinct trigger cells which all land
+at upper tile (14,5) with flags 2. The lower arrival is (13,14), below the
+solid divider. Keep the upper and lower routes separate. The historical
+5-12, 5-18 and Warp leads have been removed from the generated graph;
+only 5-07 and 5-14 feed the two real chest compartments.
+
+Each unresolved edge now lists the relevant native object templates in its
+source room, using the same retail image's
+[object inventory](../data/ability_source_inventory.json). The original 22 no-tile
+edges all have indexed source templates. A template address and position are a
+place to start looking, not proof of the destination, state, or access from
+the named compartment. In particular:
+
+- The Carrot Warp room contains both a mirror and a Warp Star. Native
+  [Warp Star code](https://github.com/jiangzhengwenjz/katam/blob/89a012c0d2e46a0ae87d9133c7a0435d95e348e8/src/warp_star.c#L1719-L1743)
+  loads the destination and spawn from the template's separate fields, not
+  from the star's subtype. Decode those fields before assigning the flight
+  to an edge. Do not infer that both Carrot Warp edges use the star.
+- The [Olive door crosswalk](olive-door-topology.md) pins both 6-04 → 6-05
+  landings and their distinct exits to 6-06 and 6-07. The possible cannon
+  return is a separate mechanism; its configured destination is verified
+  below, but live arrival and usable state are not.
+- Ordinary [MirrorDoor code](https://github.com/jiangzhengwenjz/katam/blob/89a012c0d2e46a0ae87d9133c7a0435d95e348e8/src/mirror_door.c#L101-L126)
+  consults the tile-transition table. A mirror template in a source room
+  isn't independent evidence of a missing route. Inspect the source
+  collision/trigger and actual destination rather than counting two exits
+  from a mirror and its paired tile record.
+
+These annotations change no generated region, edge, or check rule.
+
+### Decode the object destinations locally
+
+The [object destination decoder](../tools/extract_object_transition_destinations.py)
+uses the pinned US image and the existing object placement index. Run it
+where the original image is already available:
+
+```sh
+python -m worlds.kirbyam.tools.extract_object_transition_destinations \
+  --rom <local-usa-rom> --output /tmp/native-object-transition-destinations.json
+```
+
+It decodes Warp Stars and ordinary fuse cannons, keeping each native
+source and object address separate even if a room shares an object list.
+The output contains configured destinations and spawn arguments, not ROM
+bytes. Unpopulated targets are flagged, not treated as travel. Neither an
+object template nor a matching room pair can prove a boardable star, a
+lit and unoccupied cannon, a live landing compartment, or ability carry.
+The decoder tests use synthetic records. The [scoped retail decode](native-object-transition-review.json)
+joins the known Rainbow cannon and Warp Star witnesses as controls, plus
+six previous no-tile candidates: the Olive cannon and five Warp Stars.
+The Carrot Warp Star goes to native room 222, not to 5-13; the unsupported
+same-area 5-13 shortcut is no longer generated. Negative Warp Star arguments
+are retained as written and are not mapped to pixel positions. Ordinary
+mirror, hub, and area-door shortlists still need mechanism-specific evidence.
+
+The [split-door crosswalk](split-door-topology.md) provides additional
+compartment pins in Rainbow, Moonlight and Mustard. The existing Cabbage
+peg and Peppermint Happy Notes collision evidence supplies another four
+pins. These facts preserve the raw records and do not change solver rules.
+
+## Parallel ports and validation boundary
+
+The remaining 12 multi-landing AP edges (11 native room pairs) are now
+reviewed as **parallel native ports**, not interchangeable arrivals.
+The [retail geometry report](parallel-door-geometry.json) records separate
+profiles from the configured spawn of every arrival. A coarse cell
+comparison, over raw retail terrain at 16 pixels per cell, answers whether
+two arrivals are connected under each stated tile model. Use the room
+loader's spawn convention: (x,y) arguments start in cell (x−1,y−1) in
+the ordinary branch. Do not treat the report as an emulator replay.
+
+- Peppermint 7-02 → 7-03 and Radish 8-04 → 8-05 have matching connected
+  clear-cell regions even in the strict model.
+- The two Mustard 4-05 edges → 4-09, Mustard 4-07 → 4-08, and the
+  Peppermint 7-14 → 7-16 current have documented merging routes.
+  Preserve actual trigger coordinates and the conditional movement
+  between each arrival and the shared onward path.
+- Peppermint 7-03 → 7-02, 7-05 → 7-06, 7-13 → 7-14, Radish 8-04 → 8-03,
+  Rainbow 1-17 → 1-18 and 1-19 → Goal 2 have different strict arrival
+  profiles. All converge only in the optimistic tile model. This is
+  not permission to treat them as interchangeable for access or carry.
+  Keep those profiles for the Step 4/5 approach and equipment tests.
+- Native 323 → 300 has both an ordinary mirror and a fuse cannon. The
+  cannon belongs to the left AP compartments and uses spawn (2,1);
+  the Batafire-side mirror reaches the opposite side at (13,18).
+  Native 502 → 525 also has the ordinary mirror and a cannon with
+  spawn (2,1), both retained as candidates for the same compiled edge.
+  No fuse, live landing, or equipment retention is inferred.
+
+The room topology audit now accounts for every raw no-tile and
+multiple-tile exception: unsupported legacy links were retired, known
+objects/returns and explicit compartments have evidence, and parallel
+ports retain separately identified landings. This closes the static
+room/subroom/region crosswalk. It does not certify the playability of every
+directed port, an ability condition, or what location a landing grants.
+Those are intentionally enumerated with the Step 3, 4, and 5 work.
+
+To verify the recorded profiles with the original local game file, run:
+
+```sh
+python -m worlds.kirbyam.tools.review_parallel_door_geometry \
+  --rom <local-usa-rom> \
+  --review worlds/kirbyam/dev-docs/parallel-door-geometry.json
+```

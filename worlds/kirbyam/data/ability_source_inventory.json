@@ -4180,7 +4180,9 @@
     {
       "native_room": 229,
       "ap_room_keys": [
-        "REGION_PEPPERMINT_PALACE/ROOM_7_10"
+        "REGION_PEPPERMINT_PALACE/ROOM_7_10",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_10__LOGIC__CENTER_WARP",
+        "REGION_PEPPERMINT_PALACE/ROOM_7_10__LOGIC__RIGHT_SPRAY"
       ],
       "object_list_index": 100,
       "placements": [
@@ -7138,7 +7140,8 @@
     {
       "native_room": 419,
       "ap_room_keys": [
-        "REGION_CANDY_CONSTELLATION/ROOM_9_13"
+        "REGION_CANDY_CONSTELLATION/ROOM_9_13",
+        "REGION_CANDY_CONSTELLATION/ROOM_9_13__LOGIC__UPPER_WARP"
       ],
       "object_list_index": 160,
       "placements": [
@@ -17501,6 +17504,15 @@
       "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
     },
     {
+      "region": "REGION_CANDY_CONSTELLATION/ROOM_9_13__LOGIC__UPPER_WARP",
+      "parent_region": "REGION_CANDY_CONSTELLATION/ROOM_9_13",
+      "native_rooms": [
+        419
+      ],
+      "mapping_evidence": "declared_logical_parent_door_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
       "region": "REGION_CANDY_CONSTELLATION/ROOM_9_14",
       "parent_region": null,
       "native_rooms": [
@@ -17796,25 +17808,7 @@
       "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
     },
     {
-      "region": "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_12",
-      "parent_region": "REGION_CARROT_CASTLE/ROOM_5_13",
-      "native_rooms": [
-        734
-      ],
-      "mapping_evidence": "declared_logical_parent_door_alias",
-      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
-    },
-    {
       "region": "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_14",
-      "parent_region": "REGION_CARROT_CASTLE/ROOM_5_13",
-      "native_rooms": [
-        734
-      ],
-      "mapping_evidence": "declared_logical_parent_door_alias",
-      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
-    },
-    {
-      "region": "REGION_CARROT_CASTLE/ROOM_5_13__LOGIC__ENTRY_FROM_5_18_OR_5_WARP",
       "parent_region": "REGION_CARROT_CASTLE/ROOM_5_13",
       "native_rooms": [
         734
@@ -18662,15 +18656,6 @@
       "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
     },
     {
-      "region": "REGION_OLIVE_OCEAN/ROOM_6_05__LOGIC__ENTRY_FROM_6_23",
-      "parent_region": "REGION_OLIVE_OCEAN/ROOM_6_05",
-      "native_rooms": [
-        133
-      ],
-      "mapping_evidence": "declared_logical_parent_door_alias",
-      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
-    },
-    {
       "region": "REGION_OLIVE_OCEAN/ROOM_6_06",
       "parent_region": null,
       "native_rooms": [
@@ -19019,6 +19004,24 @@
         229
       ],
       "mapping_evidence": "native_door_list_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_PEPPERMINT_PALACE/ROOM_7_10__LOGIC__CENTER_WARP",
+      "parent_region": "REGION_PEPPERMINT_PALACE/ROOM_7_10",
+      "native_rooms": [
+        229
+      ],
+      "mapping_evidence": "declared_logical_parent_door_alias",
+      "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
+    },
+    {
+      "region": "REGION_PEPPERMINT_PALACE/ROOM_7_10__LOGIC__RIGHT_SPRAY",
+      "parent_region": "REGION_PEPPERMINT_PALACE/ROOM_7_10",
+      "native_rooms": [
+        229
+      ],
+      "mapping_evidence": "declared_logical_parent_door_alias",
       "compartment_placement_membership": "unresolved; use separately reviewed physical source bindings"
     },
     {
@@ -28412,6 +28415,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:129/template:0x088D2678",
+      "parent_copy_audit_key": "DARK_META_KNIGHT",
       "native_room": 129,
       "native_name": "OBJ_DARK_META_KNIGHT_W8",
       "source_key": null,
@@ -38117,6 +38121,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:148/template:0x088BBF64",
+      "parent_copy_audit_key": "BOXY",
       "native_room": 148,
       "native_name": "OBJ_BOXY",
       "source_key": "BOXY",
@@ -42559,6 +42564,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:176/template:0x088BAE50",
+      "parent_copy_audit_key": "BATAFIRE",
       "native_room": 176,
       "native_name": "OBJ_BATAFIRE",
       "source_key": "BATAFIRE",
@@ -42937,6 +42943,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:177/template:0x088BAFE4",
+      "parent_copy_audit_key": "BOX_BOXER",
       "native_room": 177,
       "native_name": "OBJ_BOX_BOXER",
       "source_key": "BOX_BOXER",
@@ -49466,6 +49473,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:210/template:0x088BF730",
+      "parent_copy_audit_key": "BONKERS",
       "native_room": 210,
       "native_name": "OBJ_BONKERS",
       "source_key": "BONKERS",
@@ -49672,6 +49680,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:210/template:0x088BF7E4",
+      "parent_copy_audit_key": "BOX_BOXER",
       "native_room": 210,
       "native_name": "OBJ_BOX_BOXER",
       "source_key": "BOX_BOXER",
@@ -52757,6 +52766,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:219/template:0x088C1830",
+      "parent_copy_audit_key": "WIZ",
       "native_room": 219,
       "native_name": "OBJ_WIZ",
       "source_key": null,
@@ -54926,6 +54936,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:224/template:0x088C1F6C",
+      "parent_copy_audit_key": "PHAN_PHAN",
       "native_room": 224,
       "native_name": "OBJ_PHAN_PHAN",
       "source_key": "PHAN_PHAN",
@@ -58784,6 +58795,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:230/template:0x088C08B4",
+      "parent_copy_audit_key": "MR_FROSTY",
       "native_room": 230,
       "native_name": "OBJ_MR_FROSTY",
       "source_key": "MR_FROSTY",
@@ -60036,6 +60048,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:232/template:0x088C0D84",
+      "parent_copy_audit_key": "BOMBAR",
       "native_room": 232,
       "native_name": "OBJ_BOMBAR",
       "source_key": "BOMBAR",
@@ -64827,6 +64840,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:317/template:0x088C4A00",
+      "parent_copy_audit_key": "PHAN_PHAN",
       "native_room": 317,
       "native_name": "OBJ_PHAN_PHAN",
       "source_key": "PHAN_PHAN",
@@ -65088,6 +65102,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:318/template:0x088C4B28",
+      "parent_copy_audit_key": "BOX_BOXER",
       "native_room": 318,
       "native_name": "OBJ_BOX_BOXER",
       "source_key": "BOX_BOXER",
@@ -66494,6 +66509,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:323/template:0x088C5148",
+      "parent_copy_audit_key": "BATAFIRE",
       "native_room": 323,
       "native_name": "OBJ_BATAFIRE",
       "source_key": "BATAFIRE",
@@ -66741,6 +66757,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:324/template:0x088C524C",
+      "parent_copy_audit_key": "KRACKO",
       "native_room": 324,
       "native_name": "OBJ_KRACKO",
       "source_key": null,
@@ -67415,6 +67432,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:326/template:0x088C5540",
+      "parent_copy_audit_key": "BOMBAR",
       "native_room": 326,
       "native_name": "OBJ_BOMBAR",
       "source_key": "BOMBAR",
@@ -69705,6 +69723,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:403/template:0x088C5F54",
+      "parent_copy_audit_key": "PHAN_PHAN",
       "native_room": 403,
       "native_name": "OBJ_PHAN_PHAN",
       "source_key": "PHAN_PHAN",
@@ -72803,6 +72822,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:413/template:0x088C6D9C",
+      "parent_copy_audit_key": "BOX_BOXER",
       "native_room": 413,
       "native_name": "OBJ_BOX_BOXER",
       "source_key": "BOX_BOXER",
@@ -74016,6 +74036,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:415/template:0x088C72DC",
+      "parent_copy_audit_key": "MASTER_HAND",
       "native_room": 415,
       "native_name": "OBJ_MASTER_HAND",
       "source_key": "MASTER_HAND",
@@ -74869,6 +74890,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:417/template:0x088C7694",
+      "parent_copy_audit_key": "CRAZY_HAND_1",
       "native_room": 417,
       "native_name": "OBJ_CRAZY_HAND_1",
       "source_key": null,
@@ -76539,6 +76561,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:420/template:0x088C7DCC",
+      "parent_copy_audit_key": "BONKERS",
       "native_room": 420,
       "native_name": "OBJ_BONKERS",
       "source_key": "BONKERS",
@@ -82773,6 +82796,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:508/template:0x088C8EA4",
+      "parent_copy_audit_key": "BONKERS",
       "native_room": 508,
       "native_name": "OBJ_BONKERS",
       "source_key": "BONKERS",
@@ -85029,6 +85053,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:514/template:0x088C9CE0",
+      "parent_copy_audit_key": "BATAFIRE",
       "native_room": 514,
       "native_name": "OBJ_BATAFIRE",
       "source_key": "BATAFIRE",
@@ -85694,6 +85719,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:515/template:0x088C9FB4",
+      "parent_copy_audit_key": "BONKERS",
       "native_room": 515,
       "native_name": "OBJ_BONKERS",
       "source_key": "BONKERS",
@@ -85862,6 +85888,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:516/template:0x088C9280",
+      "parent_copy_audit_key": "MOLEY",
       "native_room": 516,
       "native_name": "OBJ_MOLEY",
       "source_key": null,
@@ -88634,6 +88661,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:526/template:0x088D20EC",
+      "parent_copy_audit_key": "BOXY",
       "native_room": 526,
       "native_name": "OBJ_BOXY",
       "source_key": "BOXY",
@@ -90544,6 +90572,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:530/template:0x088CAAA8",
+      "parent_copy_audit_key": "BOX_BOXER",
       "native_room": 530,
       "native_name": "OBJ_BOX_BOXER",
       "source_key": "BOX_BOXER",
@@ -94800,6 +94829,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:539/template:0x088C2914",
+      "parent_copy_audit_key": "BOMBAR",
       "native_room": 539,
       "native_name": "OBJ_BOMBAR",
       "source_key": "BOMBAR",
@@ -98671,6 +98701,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:547/template:0x088C3670",
+      "parent_copy_audit_key": "BOXY",
       "native_room": 547,
       "native_name": "OBJ_BOXY",
       "source_key": "BOXY",
@@ -102159,6 +102190,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:557/template:0x088B9358",
+      "parent_copy_audit_key": "MASTER_HAND",
       "native_room": 557,
       "native_name": "OBJ_MASTER_HAND",
       "source_key": "MASTER_HAND",
@@ -107846,6 +107878,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:609/template:0x088D0820",
+      "parent_copy_audit_key": "MASTER_HAND",
       "native_room": 609,
       "native_name": "OBJ_MASTER_HAND",
       "source_key": "MASTER_HAND",
@@ -112207,6 +112240,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:623/template:0x088D0330",
+      "parent_copy_audit_key": "BONKERS",
       "native_room": 623,
       "native_name": "OBJ_BONKERS",
       "source_key": "BONKERS",
@@ -115667,6 +115701,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:710/template:0x088BD2B0",
+      "parent_copy_audit_key": "KING_GOLEM",
       "native_room": 710,
       "native_name": "OBJ_KING_GOLEM",
       "source_key": null,
@@ -116514,6 +116549,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:712/template:0x088BD618",
+      "parent_copy_audit_key": "BOXY",
       "native_room": 712,
       "native_name": "OBJ_BOXY",
       "source_key": "BOXY",
@@ -123300,6 +123336,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:736/template:0x088D43E0",
+      "parent_copy_audit_key": "PHAN_PHAN",
       "native_room": 736,
       "native_name": "OBJ_PHAN_PHAN",
       "source_key": "PHAN_PHAN",
@@ -124140,6 +124177,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:738/template:0x088D4794",
+      "parent_copy_audit_key": "MEGA_TITAN",
       "native_room": 738,
       "native_name": "OBJ_MEGA_TITAN",
       "source_key": null,
@@ -124254,6 +124292,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:740/template:0x088BD6F8",
+      "parent_copy_audit_key": "MR_FROSTY",
       "native_room": 740,
       "native_name": "OBJ_MR_FROSTY",
       "source_key": "MR_FROSTY",
@@ -125094,6 +125133,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:741/template:0x088BDA80",
+      "parent_copy_audit_key": "BONKERS",
       "native_room": 741,
       "native_name": "OBJ_BONKERS",
       "source_key": "BONKERS",
@@ -126741,6 +126781,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:745/template:0x088BE430",
+      "parent_copy_audit_key": "BATAFIRE",
       "native_room": 745,
       "native_name": "OBJ_BATAFIRE",
       "source_key": "BATAFIRE",
@@ -132063,6 +132104,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:816/template:0x088CE8FC",
+      "parent_copy_audit_key": "BONKERS",
       "native_room": 816,
       "native_name": "OBJ_BONKERS",
       "source_key": "BONKERS",
@@ -133390,6 +133432,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:822/template:0x088CEEA8",
+      "parent_copy_audit_key": "GOBBLER",
       "native_room": 822,
       "native_name": "OBJ_GOBBLER",
       "source_key": null,
@@ -134743,6 +134786,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:825/template:0x088CD3F0",
+      "parent_copy_audit_key": "MR_FROSTY",
       "native_room": 825,
       "native_name": "OBJ_MR_FROSTY",
       "source_key": "MR_FROSTY",
@@ -135261,6 +135305,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:827/template:0x088CD638",
+      "parent_copy_audit_key": "BOXY",
       "native_room": 827,
       "native_name": "OBJ_BOXY",
       "source_key": "BOXY",
@@ -138099,6 +138144,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:909/template:0x088D51E8",
+      "parent_copy_audit_key": "DARK_META_KNIGHT",
       "native_room": 909,
       "native_name": "OBJ_DARK_META_KNIGHT",
       "source_key": null,
@@ -138131,6 +138177,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:910/template:0x088D5230",
+      "parent_copy_audit_key": "DARK_MIND_FORM_1",
       "native_room": 910,
       "native_name": "OBJ_DARK_MIND_FORM_1",
       "source_key": null,
@@ -138541,6 +138588,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:912/template:0x088D542C",
+      "parent_copy_audit_key": "DARK_MIND_FORM_1",
       "native_room": 912,
       "native_name": "OBJ_DARK_MIND_FORM_1",
       "source_key": null,
@@ -138869,6 +138917,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:914/template:0x088D55BC",
+      "parent_copy_audit_key": "DARK_MIND_FORM_1",
       "native_room": 914,
       "native_name": "OBJ_DARK_MIND_FORM_1",
       "source_key": null,
@@ -139327,6 +139376,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:916/template:0x088D57E0",
+      "parent_copy_audit_key": "DARK_MIND_FORM_1",
       "native_room": 916,
       "native_name": "OBJ_DARK_MIND_FORM_1",
       "source_key": null,
@@ -139359,6 +139409,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:918/template:0x088D5828",
+      "parent_copy_audit_key": "DARK_MIND_FORM_2",
       "native_room": 918,
       "native_name": "OBJ_DARK_MIND_FORM_2",
       "source_key": null,
@@ -139391,6 +139442,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:919/template:0x088D5870",
+      "parent_copy_audit_key": "DARK_MIND_FORM_3_TRIGGER",
       "native_room": 919,
       "native_name": "OBJ_DARK_MIND_FORM_3_TRIGGER",
       "source_key": null,
@@ -140497,6 +140549,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:955/template:0x088D5CD0",
+      "parent_copy_audit_key": "MR_FROSTY",
       "native_room": 955,
       "native_name": "OBJ_MR_FROSTY",
       "source_key": "MR_FROSTY",
@@ -140645,6 +140698,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:956/template:0x088D5D60",
+      "parent_copy_audit_key": "BATAFIRE",
       "native_room": 956,
       "native_name": "OBJ_BATAFIRE",
       "source_key": "BATAFIRE",
@@ -140793,6 +140847,7 @@
         "predicate": "code_080023A4.c:CreateLevelObjects/sub_080027E8"
       },
       "id": "room:957/template:0x088D5DF0",
+      "parent_copy_audit_key": "WADDLE_DEE_MINI",
       "native_room": 957,
       "native_name": "OBJ_WADDLE_DEE_2",
       "source_key": "WADDLE_DEE_MINI",
@@ -148577,6 +148632,7 @@
     },
     {
       "id": "room:955/template:0x088D5CF4/spawner-output",
+      "parent_copy_audit_key": "PHAN_PHAN",
       "native_room": 955,
       "parent_placement": "room:955/template:0x088D5CF4",
       "spawn_table": 1,
@@ -148665,6 +148721,7 @@
     },
     {
       "id": "room:955/template:0x088D5D18/spawner-output",
+      "parent_copy_audit_key": "BONKERS",
       "native_room": 955,
       "parent_placement": "room:955/template:0x088D5D18",
       "spawn_table": 1,
@@ -148753,6 +148810,7 @@
     },
     {
       "id": "room:956/template:0x088D5D84/spawner-output",
+      "parent_copy_audit_key": "BOXY",
       "native_room": 956,
       "parent_placement": "room:956/template:0x088D5D84",
       "spawn_table": 1,
@@ -148841,6 +148899,7 @@
     },
     {
       "id": "room:956/template:0x088D5DA8/spawner-output",
+      "parent_copy_audit_key": "MASTER_HAND",
       "native_room": 956,
       "parent_placement": "room:956/template:0x088D5DA8",
       "spawn_table": 1,
@@ -148929,6 +148988,7 @@
     },
     {
       "id": "room:957/template:0x088D5E14/spawner-output",
+      "parent_copy_audit_key": "BOX_BOXER",
       "native_room": 957,
       "parent_placement": "room:957/template:0x088D5E14",
       "spawn_table": 1,
@@ -149017,6 +149077,7 @@
     },
     {
       "id": "room:957/template:0x088D5E38/spawner-output",
+      "parent_copy_audit_key": "BOMBAR",
       "native_room": 957,
       "parent_placement": "room:957/template:0x088D5E38",
       "spawn_table": 1,
@@ -149201,7 +149262,8 @@
         "outputs_per_call": 1,
         "selection": "RandLessThan3() nonzero selects166; zero selects167",
         "repeatability": "not_certified"
-      }
+      },
+      "encounter_copy_audit_key": "MR_FROSTY_ICE_CUBE"
     },
     {
       "id": "room:740/template:0x088BD6F8/encounter:56/src/mr_frosty.c:762/type:166",
@@ -149299,7 +149361,8 @@
         "outputs_per_call": 1,
         "selection": "RandLessThan3() nonzero selects166; zero selects167",
         "repeatability": "not_certified"
-      }
+      },
+      "encounter_copy_audit_key": "MR_FROSTY_ICE_CUBE"
     },
     {
       "id": "room:825/template:0x088CD3F0/encounter:56/src/mr_frosty.c:762/type:166",
@@ -149402,7 +149465,8 @@
         "outputs_per_call": 1,
         "selection": "RandLessThan3() nonzero selects166; zero selects167",
         "repeatability": "not_certified"
-      }
+      },
+      "encounter_copy_audit_key": "MR_FROSTY_ICE_CUBE"
     },
     {
       "id": "room:955/template:0x088D5CD0/encounter:56/src/mr_frosty.c:762/type:166",
@@ -149511,7 +149575,8 @@
         "mode": "boss_endurance",
         "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
         "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
-      }
+      },
+      "encounter_copy_audit_key": "MR_FROSTY_ICE_CUBE"
     },
     {
       "id": "room:230/template:0x088C08B4/encounter:56/src/mr_frosty.c:765/type:167",
@@ -149609,7 +149674,8 @@
         "outputs_per_call": 1,
         "selection": "RandLessThan3() nonzero selects166; zero selects167",
         "repeatability": "not_certified"
-      }
+      },
+      "encounter_copy_audit_key": "MR_FROSTY_ICE_CUBE"
     },
     {
       "id": "room:740/template:0x088BD6F8/encounter:56/src/mr_frosty.c:765/type:167",
@@ -149707,7 +149773,8 @@
         "outputs_per_call": 1,
         "selection": "RandLessThan3() nonzero selects166; zero selects167",
         "repeatability": "not_certified"
-      }
+      },
+      "encounter_copy_audit_key": "MR_FROSTY_ICE_CUBE"
     },
     {
       "id": "room:825/template:0x088CD3F0/encounter:56/src/mr_frosty.c:765/type:167",
@@ -149805,7 +149872,8 @@
         "outputs_per_call": 1,
         "selection": "RandLessThan3() nonzero selects166; zero selects167",
         "repeatability": "not_certified"
-      }
+      },
+      "encounter_copy_audit_key": "MR_FROSTY_ICE_CUBE"
     },
     {
       "id": "room:955/template:0x088D5CD0/encounter:56/src/mr_frosty.c:765/type:167",
@@ -149909,7 +149977,8 @@
         "mode": "boss_endurance",
         "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
         "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
-      }
+      },
+      "encounter_copy_audit_key": "MR_FROSTY_ICE_CUBE"
     },
     {
       "id": "room:210/template:0x088BF730/encounter:57/src/bonkers.c:701/type:168",
@@ -149988,7 +150057,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "BONKERS_NUT_SMALL"
     },
     {
       "id": "room:420/template:0x088C7DCC/encounter:57/src/bonkers.c:701/type:168",
@@ -150067,7 +150137,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "BONKERS_NUT_SMALL"
     },
     {
       "id": "room:508/template:0x088C8EA4/encounter:57/src/bonkers.c:701/type:168",
@@ -150146,7 +150217,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "BONKERS_NUT_SMALL"
     },
     {
       "id": "room:515/template:0x088C9FB4/encounter:57/src/bonkers.c:701/type:168",
@@ -150225,7 +150297,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "BONKERS_NUT_SMALL"
     },
     {
       "id": "room:623/template:0x088D0330/encounter:57/src/bonkers.c:701/type:168",
@@ -150304,7 +150377,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "BONKERS_NUT_SMALL"
     },
     {
       "id": "room:741/template:0x088BDA80/encounter:57/src/bonkers.c:701/type:168",
@@ -150383,7 +150457,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "BONKERS_NUT_SMALL"
     },
     {
       "id": "room:816/template:0x088CE8FC/encounter:57/src/bonkers.c:701/type:168",
@@ -150462,7 +150537,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "BONKERS_NUT_SMALL"
     },
     {
       "id": "room:955/template:0x088D5D18/spawner-output/encounter:57/src/bonkers.c:701/type:168",
@@ -150547,7 +150623,8 @@
         "mode": "boss_endurance",
         "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
         "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
-      }
+      },
+      "encounter_copy_audit_key": "BONKERS_NUT_SMALL"
     },
     {
       "id": "room:210/template:0x088BF730/encounter:57/src/bonkers.c:705/type:169",
@@ -150626,7 +150703,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "BONKERS_NUT_LARGE"
     },
     {
       "id": "room:420/template:0x088C7DCC/encounter:57/src/bonkers.c:705/type:169",
@@ -150705,7 +150783,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "BONKERS_NUT_LARGE"
     },
     {
       "id": "room:508/template:0x088C8EA4/encounter:57/src/bonkers.c:705/type:169",
@@ -150784,7 +150863,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "BONKERS_NUT_LARGE"
     },
     {
       "id": "room:515/template:0x088C9FB4/encounter:57/src/bonkers.c:705/type:169",
@@ -150863,7 +150943,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "BONKERS_NUT_LARGE"
     },
     {
       "id": "room:623/template:0x088D0330/encounter:57/src/bonkers.c:705/type:169",
@@ -150942,7 +151023,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "BONKERS_NUT_LARGE"
     },
     {
       "id": "room:741/template:0x088BDA80/encounter:57/src/bonkers.c:705/type:169",
@@ -151021,7 +151103,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "BONKERS_NUT_LARGE"
     },
     {
       "id": "room:816/template:0x088CE8FC/encounter:57/src/bonkers.c:705/type:169",
@@ -151100,7 +151183,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "BONKERS_NUT_LARGE"
     },
     {
       "id": "room:955/template:0x088D5D18/spawner-output/encounter:57/src/bonkers.c:705/type:169",
@@ -151185,7 +151269,8 @@
         "mode": "boss_endurance",
         "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
         "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
-      }
+      },
+      "encounter_copy_audit_key": "BONKERS_NUT_LARGE"
     },
     {
       "id": "room:224/template:0x088C1F6C/encounter:58/src/phan_phan.c:741/type:170",
@@ -151211,7 +151296,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "APPLE"
     },
     {
       "id": "room:317/template:0x088C4A00/encounter:58/src/phan_phan.c:741/type:170",
@@ -151237,7 +151323,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "APPLE"
     },
     {
       "id": "room:403/template:0x088C5F54/encounter:58/src/phan_phan.c:741/type:170",
@@ -151263,7 +151350,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "APPLE"
     },
     {
       "id": "room:736/template:0x088D43E0/encounter:58/src/phan_phan.c:741/type:170",
@@ -151289,7 +151377,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "APPLE"
     },
     {
       "id": "room:955/template:0x088D5CF4/spawner-output/encounter:58/src/phan_phan.c:741/type:170",
@@ -151321,7 +151410,8 @@
         "mode": "boss_endurance",
         "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
         "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
-      }
+      },
+      "encounter_copy_audit_key": "APPLE"
     },
     {
       "id": "room:176/template:0x088BAE50/encounter:59/src/batafire.c:905/type:161",
@@ -151347,7 +151437,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "BATAFIRE_FIREBALL"
     },
     {
       "id": "room:323/template:0x088C5148/encounter:59/src/batafire.c:905/type:161",
@@ -151373,7 +151464,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "BATAFIRE_FIREBALL"
     },
     {
       "id": "room:514/template:0x088C9CE0/encounter:59/src/batafire.c:905/type:161",
@@ -151399,7 +151491,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "BATAFIRE_FIREBALL"
     },
     {
       "id": "room:745/template:0x088BE430/encounter:59/src/batafire.c:905/type:161",
@@ -151425,7 +151518,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "BATAFIRE_FIREBALL"
     },
     {
       "id": "room:956/template:0x088D5D60/encounter:59/src/batafire.c:905/type:161",
@@ -151457,7 +151551,8 @@
         "mode": "boss_endurance",
         "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
         "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
-      }
+      },
+      "encounter_copy_audit_key": "BATAFIRE_FIREBALL"
     },
     {
       "id": "room:177/template:0x088BAFE4/encounter:60/src/box_boxer.c:762/type:180",
@@ -151483,7 +151578,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "BOX_BOXER_ENERGY_BALL"
     },
     {
       "id": "room:210/template:0x088BF7E4/encounter:60/src/box_boxer.c:762/type:180",
@@ -151509,7 +151605,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "BOX_BOXER_ENERGY_BALL"
     },
     {
       "id": "room:318/template:0x088C4B28/encounter:60/src/box_boxer.c:762/type:180",
@@ -151535,7 +151632,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "BOX_BOXER_ENERGY_BALL"
     },
     {
       "id": "room:413/template:0x088C6D9C/encounter:60/src/box_boxer.c:762/type:180",
@@ -151561,7 +151659,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "BOX_BOXER_ENERGY_BALL"
     },
     {
       "id": "room:530/template:0x088CAAA8/encounter:60/src/box_boxer.c:762/type:180",
@@ -151587,7 +151686,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "BOX_BOXER_ENERGY_BALL"
     },
     {
       "id": "room:957/template:0x088D5E14/spawner-output/encounter:60/src/box_boxer.c:762/type:180",
@@ -151619,7 +151719,8 @@
         "mode": "boss_endurance",
         "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
         "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
-      }
+      },
+      "encounter_copy_audit_key": "BOX_BOXER_ENERGY_BALL"
     },
     {
       "id": "room:148/template:0x088BBF64/encounter:61/src/boxy.c:666/type:176",
@@ -151698,7 +151799,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "BOXY_SPAWNED_OBJECT"
     },
     {
       "id": "room:526/template:0x088D20EC/encounter:61/src/boxy.c:666/type:176",
@@ -151777,7 +151879,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "BOXY_SPAWNED_OBJECT"
     },
     {
       "id": "room:547/template:0x088C3670/encounter:61/src/boxy.c:666/type:176",
@@ -151856,7 +151959,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "BOXY_SPAWNED_OBJECT"
     },
     {
       "id": "room:712/template:0x088BD618/encounter:61/src/boxy.c:666/type:176",
@@ -151935,7 +152039,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "BOXY_SPAWNED_OBJECT"
     },
     {
       "id": "room:827/template:0x088CD638/encounter:61/src/boxy.c:666/type:176",
@@ -152014,7 +152119,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "BOXY_SPAWNED_OBJECT"
     },
     {
       "id": "room:956/template:0x088D5D84/spawner-output/encounter:61/src/boxy.c:666/type:176",
@@ -152099,7 +152205,8 @@
         "mode": "boss_endurance",
         "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
         "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
-      }
+      },
+      "encounter_copy_audit_key": "BOXY_SPAWNED_OBJECT"
     },
     {
       "id": "room:148/template:0x088BBF64/encounter:61/src/boxy.c:783/type:94",
@@ -152877,7 +152984,8 @@
         "output_relationship": "mutually exclusive contents of one present, not simultaneous grants",
         "parent_attachment": "opening box",
         "child_lifetime": "not_certified; box expiry alone does not prove child expiry"
-      }
+      },
+      "encounter_copy_audit_key": "PRANK_BOMB"
     },
     {
       "id": "room:526/template:0x088D20EC/encounter:61/src/boxy.c:840/type:173",
@@ -152917,7 +153025,8 @@
         "output_relationship": "mutually exclusive contents of one present, not simultaneous grants",
         "parent_attachment": "opening box",
         "child_lifetime": "not_certified; box expiry alone does not prove child expiry"
-      }
+      },
+      "encounter_copy_audit_key": "PRANK_BOMB"
     },
     {
       "id": "room:547/template:0x088C3670/encounter:61/src/boxy.c:840/type:173",
@@ -152957,7 +153066,8 @@
         "output_relationship": "mutually exclusive contents of one present, not simultaneous grants",
         "parent_attachment": "opening box",
         "child_lifetime": "not_certified; box expiry alone does not prove child expiry"
-      }
+      },
+      "encounter_copy_audit_key": "PRANK_BOMB"
     },
     {
       "id": "room:712/template:0x088BD618/encounter:61/src/boxy.c:840/type:173",
@@ -152997,7 +153107,8 @@
         "output_relationship": "mutually exclusive contents of one present, not simultaneous grants",
         "parent_attachment": "opening box",
         "child_lifetime": "not_certified; box expiry alone does not prove child expiry"
-      }
+      },
+      "encounter_copy_audit_key": "PRANK_BOMB"
     },
     {
       "id": "room:827/template:0x088CD638/encounter:61/src/boxy.c:840/type:173",
@@ -153037,7 +153148,8 @@
         "output_relationship": "mutually exclusive contents of one present, not simultaneous grants",
         "parent_attachment": "opening box",
         "child_lifetime": "not_certified; box expiry alone does not prove child expiry"
-      }
+      },
+      "encounter_copy_audit_key": "PRANK_BOMB"
     },
     {
       "id": "room:956/template:0x088D5D84/spawner-output/encounter:61/src/boxy.c:840/type:173",
@@ -153083,7 +153195,8 @@
         "mode": "boss_endurance",
         "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
         "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
-      }
+      },
+      "encounter_copy_audit_key": "PRANK_BOMB"
     },
     {
       "id": "room:148/template:0x088BBF64/encounter:61/src/boxy.c:846/type:173",
@@ -153123,7 +153236,8 @@
         "output_relationship": "mutually exclusive contents of one present, not simultaneous grants",
         "parent_attachment": "opening box",
         "child_lifetime": "not_certified; box expiry alone does not prove child expiry"
-      }
+      },
+      "encounter_copy_audit_key": "PRANK_BOMB"
     },
     {
       "id": "room:526/template:0x088D20EC/encounter:61/src/boxy.c:846/type:173",
@@ -153163,7 +153277,8 @@
         "output_relationship": "mutually exclusive contents of one present, not simultaneous grants",
         "parent_attachment": "opening box",
         "child_lifetime": "not_certified; box expiry alone does not prove child expiry"
-      }
+      },
+      "encounter_copy_audit_key": "PRANK_BOMB"
     },
     {
       "id": "room:547/template:0x088C3670/encounter:61/src/boxy.c:846/type:173",
@@ -153203,7 +153318,8 @@
         "output_relationship": "mutually exclusive contents of one present, not simultaneous grants",
         "parent_attachment": "opening box",
         "child_lifetime": "not_certified; box expiry alone does not prove child expiry"
-      }
+      },
+      "encounter_copy_audit_key": "PRANK_BOMB"
     },
     {
       "id": "room:712/template:0x088BD618/encounter:61/src/boxy.c:846/type:173",
@@ -153243,7 +153359,8 @@
         "output_relationship": "mutually exclusive contents of one present, not simultaneous grants",
         "parent_attachment": "opening box",
         "child_lifetime": "not_certified; box expiry alone does not prove child expiry"
-      }
+      },
+      "encounter_copy_audit_key": "PRANK_BOMB"
     },
     {
       "id": "room:827/template:0x088CD638/encounter:61/src/boxy.c:846/type:173",
@@ -153283,7 +153400,8 @@
         "output_relationship": "mutually exclusive contents of one present, not simultaneous grants",
         "parent_attachment": "opening box",
         "child_lifetime": "not_certified; box expiry alone does not prove child expiry"
-      }
+      },
+      "encounter_copy_audit_key": "PRANK_BOMB"
     },
     {
       "id": "room:956/template:0x088D5D84/spawner-output/encounter:61/src/boxy.c:846/type:173",
@@ -153329,7 +153447,8 @@
         "mode": "boss_endurance",
         "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
         "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
-      }
+      },
+      "encounter_copy_audit_key": "PRANK_BOMB"
     },
     {
       "id": "room:415/template:0x088C72DC/encounter:62/src/master_hand.c:2456/type:200",
@@ -153411,7 +153530,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "MASTER_CRAZY_HAND_BULLET"
     },
     {
       "id": "room:557/template:0x088B9358/encounter:62/src/master_hand.c:2456/type:200",
@@ -153493,7 +153613,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "MASTER_CRAZY_HAND_BULLET"
     },
     {
       "id": "room:609/template:0x088D0820/encounter:62/src/master_hand.c:2456/type:200",
@@ -153575,7 +153696,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "MASTER_CRAZY_HAND_BULLET"
     },
     {
       "id": "room:956/template:0x088D5DA8/spawner-output/encounter:62/src/master_hand.c:2456/type:200",
@@ -153663,7 +153785,8 @@
         "mode": "boss_endurance",
         "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
         "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
-      }
+      },
+      "encounter_copy_audit_key": "MASTER_CRAZY_HAND_BULLET"
     },
     {
       "id": "room:232/template:0x088C0D84/encounter:63/src/bombar.c:1212/type:178",
@@ -153738,7 +153861,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "BOMBAR_BOMB"
     },
     {
       "id": "room:326/template:0x088C5540/encounter:63/src/bombar.c:1212/type:178",
@@ -153813,7 +153937,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "BOMBAR_BOMB"
     },
     {
       "id": "room:539/template:0x088C2914/encounter:63/src/bombar.c:1212/type:178",
@@ -153888,7 +154013,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "BOMBAR_BOMB"
     },
     {
       "id": "room:957/template:0x088D5E38/spawner-output/encounter:63/src/bombar.c:1212/type:178",
@@ -153969,7 +154095,8 @@
         "mode": "boss_endurance",
         "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
         "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
-      }
+      },
+      "encounter_copy_audit_key": "BOMBAR_BOMB"
     },
     {
       "id": "room:232/template:0x088C0D84/encounter:63/src/bombar.c:1260/type:179",
@@ -154053,7 +154180,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "BOMBAR_MISSILE"
     },
     {
       "id": "room:326/template:0x088C5540/encounter:63/src/bombar.c:1260/type:179",
@@ -154137,7 +154265,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "BOMBAR_MISSILE"
     },
     {
       "id": "room:539/template:0x088C2914/encounter:63/src/bombar.c:1260/type:179",
@@ -154221,7 +154350,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "BOMBAR_MISSILE"
     },
     {
       "id": "room:957/template:0x088D5E38/spawner-output/encounter:63/src/bombar.c:1260/type:179",
@@ -154311,7 +154441,8 @@
         "mode": "boss_endurance",
         "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
         "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
-      }
+      },
+      "encounter_copy_audit_key": "BOMBAR_MISSILE"
     },
     {
       "id": "room:232/template:0x088C0D84/encounter:63/src/bombar.c:1269/type:179",
@@ -154395,7 +154526,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "BOMBAR_MISSILE"
     },
     {
       "id": "room:326/template:0x088C5540/encounter:63/src/bombar.c:1269/type:179",
@@ -154479,7 +154611,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "BOMBAR_MISSILE"
     },
     {
       "id": "room:539/template:0x088C2914/encounter:63/src/bombar.c:1269/type:179",
@@ -154563,7 +154696,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "BOMBAR_MISSILE"
     },
     {
       "id": "room:957/template:0x088D5E38/spawner-output/encounter:63/src/bombar.c:1269/type:179",
@@ -154653,7 +154787,8 @@
         "mode": "boss_endurance",
         "evidence": "dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room",
         "reason": "Dedicated Boss Endurance room; local configured fixtures are not Adventure entries."
-      }
+      },
+      "encounter_copy_audit_key": "BOMBAR_MISSILE"
     },
     {
       "id": "room:324/template:0x088C524C/encounter:69/src/kracko.c:1258/type:18",
@@ -154932,7 +155067,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "KING_GOLEM_ROCK"
     },
     {
       "id": "room:710/template:0x088BD2B0/encounter:70/src/king_golem.c:424/type:156",
@@ -154959,7 +155095,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "KING_GOLEM_GORDO"
     },
     {
       "id": "room:710/template:0x088BD2B0/encounter:70/src/king_golem.c:439/type:31",
@@ -155396,7 +155533,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "MASTER_CRAZY_HAND_BULLET"
     },
     {
       "id": "room:417/template:0x088C7694/encounter:71/src/crazy_hand.c:3019/type:77",
@@ -155503,7 +155641,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "GOBBLER_BABY"
     },
     {
       "id": "room:219/template:0x088C1830/encounter:73/src/wiz.c:732/type:181",
@@ -155529,7 +155668,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "WIZ_FOOTBALL"
     },
     {
       "id": "room:219/template:0x088C1830/encounter:73/src/wiz.c:783/type:182",
@@ -155608,7 +155748,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "WIZ_CAR"
     },
     {
       "id": "room:219/template:0x088C1830/encounter:73/src/wiz.c:857/type:183",
@@ -155634,7 +155775,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "WIZ_BALLOON"
     },
     {
       "id": "room:219/template:0x088C1830/encounter:73/src/wiz.c:866/type:183",
@@ -155660,7 +155802,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "WIZ_BALLOON"
     },
     {
       "id": "room:219/template:0x088C1830/encounter:73/src/wiz.c:957/type:184",
@@ -155739,7 +155882,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "WIZ_BOMB"
     },
     {
       "id": "room:219/template:0x088C1830/encounter:73/src/wiz.c:1020/type:185",
@@ -155818,7 +155962,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "WIZ_CLOUD"
     },
     {
       "id": "room:219/template:0x088C1830/encounter:73/src/wiz.c:1107/type:186",
@@ -155897,7 +156042,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "WIZ_POISON_APPLE"
     },
     {
       "id": "room:219/template:0x088C1830/encounter:73/src/wiz.c:1161/type:1",
@@ -156024,7 +156170,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "WIZ_DROPPY"
     },
     {
       "id": "room:516/template:0x088C9280/encounter:74/src/moley.c:754/type:193",
@@ -156117,7 +156264,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "MOLEY_ROCK"
     },
     {
       "id": "room:516/template:0x088C9280/encounter:74/src/moley.c:754/type:194",
@@ -156210,7 +156358,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "MOLEY_SCREW"
     },
     {
       "id": "room:516/template:0x088C9280/encounter:74/src/moley.c:754/type:195",
@@ -156303,7 +156452,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "MOLEY_TIRE"
     },
     {
       "id": "room:516/template:0x088C9280/encounter:74/src/moley.c:754/type:196",
@@ -156396,7 +156546,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "MOLEY_BOMB"
     },
     {
       "id": "room:516/template:0x088C9280/encounter:74/src/moley.c:754/type:197",
@@ -156489,7 +156640,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "MOLEY_LARGE_ROCK"
     },
     {
       "id": "room:516/template:0x088C9280/encounter:74/src/moley.c:754/type:198",
@@ -156582,7 +156734,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "MOLEY_OIL_DRUM"
     },
     {
       "id": "room:516/template:0x088C9280/encounter:74/src/moley.c:754/type:199",
@@ -156675,7 +156828,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "MOLEY_SPINY"
     },
     {
       "id": "room:738/template:0x088D4794/encounter:75/src/mega_titan.c:701/type:188",
@@ -156701,7 +156855,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "TITAN_ARM_1"
     },
     {
       "id": "room:738/template:0x088D4794/encounter:75/src/mega_titan.c:2147/type:190",
@@ -156727,7 +156882,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "TITAN_ARM_3"
     },
     {
       "id": "room:738/template:0x088D4794/encounter:75/src/mega_titan.c:2711/type:189",
@@ -156753,7 +156909,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "TITAN_ARM_2"
     },
     {
       "id": "room:738/template:0x088D4794/encounter:75/src/mega_titan.c:3275/type:191",
@@ -156779,7 +156936,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "TITAN_ARM_4"
     },
     {
       "id": "room:738/template:0x088D4794/encounter:75/src/mega_titan.c:4135/type:76",
@@ -156831,7 +156989,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "TITAN_HEAD_MISSILE"
     },
     {
       "id": "room:738/template:0x088D4794/encounter:76/src/mega_titan.c:701/type:188",
@@ -156857,7 +157016,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "TITAN_ARM_1"
     },
     {
       "id": "room:738/template:0x088D4794/encounter:76/src/mega_titan.c:2147/type:190",
@@ -156883,7 +157043,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "TITAN_ARM_3"
     },
     {
       "id": "room:738/template:0x088D4794/encounter:76/src/mega_titan.c:2711/type:189",
@@ -156909,7 +157070,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "TITAN_ARM_2"
     },
     {
       "id": "room:738/template:0x088D4794/encounter:76/src/mega_titan.c:3275/type:191",
@@ -156935,7 +157097,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "TITAN_ARM_4"
     },
     {
       "id": "room:738/template:0x088D4794/encounter:76/src/mega_titan.c:4135/type:76",
@@ -156987,7 +157150,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "TITAN_HEAD_MISSILE"
     },
     {
       "id": "room:417/template:0x088C7694/encounter:77/src/crazy_hand.c:2902/type:200",
@@ -157068,7 +157232,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "MASTER_CRAZY_HAND_BULLET"
     },
     {
       "id": "room:417/template:0x088C7694/encounter:77/src/crazy_hand.c:3019/type:77",
@@ -157172,7 +157337,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "SHADOW_KIRBY_BOMB"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:79/src/dark_mind.c:3637/type:202",
@@ -157198,7 +157364,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "SHADOW_KIRBY_BOMB"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:79/src/dark_mind.c:3637/type:202",
@@ -157224,7 +157391,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "SHADOW_KIRBY_BOMB"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:79/src/dark_mind.c:3637/type:202",
@@ -157250,7 +157418,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "SHADOW_KIRBY_BOMB"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:79/src/dark_mind.c:3644/type:202",
@@ -157276,7 +157445,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "SHADOW_KIRBY_BOMB"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:79/src/dark_mind.c:3644/type:202",
@@ -157302,7 +157472,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "SHADOW_KIRBY_BOMB"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:79/src/dark_mind.c:3644/type:202",
@@ -157328,7 +157499,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "SHADOW_KIRBY_BOMB"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:79/src/dark_mind.c:3644/type:202",
@@ -157354,7 +157526,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "SHADOW_KIRBY_BOMB"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:79/src/dark_mind.c:3824/type:203",
@@ -157475,7 +157648,8 @@
         "candidate_possible_when_mode_flag4_clear": true,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_RED_STAR"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:79/src/dark_mind.c:3824/type:204",
@@ -157596,7 +157770,8 @@
         "candidate_possible_when_mode_flag4_clear": false,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_BLUE_STAR"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:79/src/dark_mind.c:3824/type:205",
@@ -157717,7 +157892,8 @@
         "candidate_possible_when_mode_flag4_clear": false,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_PURPLE_STAR"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:79/src/dark_mind.c:3824/type:206",
@@ -157838,7 +158014,8 @@
         "candidate_possible_when_mode_flag4_clear": false,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_STAR_MIX"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:79/src/dark_mind.c:3824/type:203",
@@ -157960,7 +158137,8 @@
         "candidate_possible_when_mode_flag4_clear": true,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_RED_STAR"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:79/src/dark_mind.c:3824/type:204",
@@ -158082,7 +158260,8 @@
         "candidate_possible_when_mode_flag4_clear": true,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_BLUE_STAR"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:79/src/dark_mind.c:3824/type:205",
@@ -158204,7 +158383,8 @@
         "candidate_possible_when_mode_flag4_clear": false,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_PURPLE_STAR"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:79/src/dark_mind.c:3824/type:206",
@@ -158326,7 +158506,8 @@
         "candidate_possible_when_mode_flag4_clear": false,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_STAR_MIX"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:79/src/dark_mind.c:3824/type:203",
@@ -158449,7 +158630,8 @@
         "candidate_possible_when_mode_flag4_clear": true,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_RED_STAR"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:79/src/dark_mind.c:3824/type:204",
@@ -158572,7 +158754,8 @@
         "candidate_possible_when_mode_flag4_clear": true,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_BLUE_STAR"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:79/src/dark_mind.c:3824/type:205",
@@ -158695,7 +158878,8 @@
         "candidate_possible_when_mode_flag4_clear": true,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_PURPLE_STAR"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:79/src/dark_mind.c:3824/type:206",
@@ -158818,7 +159002,8 @@
         "candidate_possible_when_mode_flag4_clear": false,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_STAR_MIX"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:79/src/dark_mind.c:3824/type:203",
@@ -158942,7 +159127,8 @@
         "candidate_possible_when_mode_flag4_clear": true,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_RED_STAR"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:79/src/dark_mind.c:3824/type:204",
@@ -159066,7 +159252,8 @@
         "candidate_possible_when_mode_flag4_clear": true,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_BLUE_STAR"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:79/src/dark_mind.c:3824/type:205",
@@ -159190,7 +159377,8 @@
         "candidate_possible_when_mode_flag4_clear": true,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_PURPLE_STAR"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:79/src/dark_mind.c:3824/type:206",
@@ -159314,7 +159502,8 @@
         "candidate_possible_when_mode_flag4_clear": true,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_STAR_MIX"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:79/src/dark_mind.c:3856/type:203",
@@ -159434,7 +159623,8 @@
         "candidate_possible_when_mode_flag4_clear": true,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_RED_STAR"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:79/src/dark_mind.c:3856/type:204",
@@ -159554,7 +159744,8 @@
         "candidate_possible_when_mode_flag4_clear": false,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_BLUE_STAR"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:79/src/dark_mind.c:3856/type:205",
@@ -159674,7 +159865,8 @@
         "candidate_possible_when_mode_flag4_clear": false,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_PURPLE_STAR"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:79/src/dark_mind.c:3856/type:206",
@@ -159794,7 +159986,8 @@
         "candidate_possible_when_mode_flag4_clear": false,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_STAR_MIX"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:79/src/dark_mind.c:3856/type:203",
@@ -159915,7 +160108,8 @@
         "candidate_possible_when_mode_flag4_clear": true,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_RED_STAR"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:79/src/dark_mind.c:3856/type:204",
@@ -160036,7 +160230,8 @@
         "candidate_possible_when_mode_flag4_clear": true,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_BLUE_STAR"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:79/src/dark_mind.c:3856/type:205",
@@ -160157,7 +160352,8 @@
         "candidate_possible_when_mode_flag4_clear": false,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_PURPLE_STAR"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:79/src/dark_mind.c:3856/type:206",
@@ -160278,7 +160474,8 @@
         "candidate_possible_when_mode_flag4_clear": false,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_STAR_MIX"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:79/src/dark_mind.c:3856/type:203",
@@ -160400,7 +160597,8 @@
         "candidate_possible_when_mode_flag4_clear": true,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_RED_STAR"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:79/src/dark_mind.c:3856/type:204",
@@ -160522,7 +160720,8 @@
         "candidate_possible_when_mode_flag4_clear": true,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_BLUE_STAR"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:79/src/dark_mind.c:3856/type:205",
@@ -160644,7 +160843,8 @@
         "candidate_possible_when_mode_flag4_clear": true,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_PURPLE_STAR"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:79/src/dark_mind.c:3856/type:206",
@@ -160766,7 +160966,8 @@
         "candidate_possible_when_mode_flag4_clear": false,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_STAR_MIX"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:79/src/dark_mind.c:3856/type:203",
@@ -160889,7 +161090,8 @@
         "candidate_possible_when_mode_flag4_clear": true,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_RED_STAR"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:79/src/dark_mind.c:3856/type:204",
@@ -161012,7 +161214,8 @@
         "candidate_possible_when_mode_flag4_clear": true,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_BLUE_STAR"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:79/src/dark_mind.c:3856/type:205",
@@ -161135,7 +161338,8 @@
         "candidate_possible_when_mode_flag4_clear": true,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_PURPLE_STAR"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:79/src/dark_mind.c:3856/type:206",
@@ -161258,7 +161462,8 @@
         "candidate_possible_when_mode_flag4_clear": true,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_STAR_MIX"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:79/src/dark_mind.c:3877/type:203",
@@ -161380,7 +161585,8 @@
         "candidate_possible_when_mode_flag4_clear": true,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_RED_STAR"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:79/src/dark_mind.c:3877/type:204",
@@ -161502,7 +161708,8 @@
         "candidate_possible_when_mode_flag4_clear": false,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_BLUE_STAR"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:79/src/dark_mind.c:3877/type:205",
@@ -161624,7 +161831,8 @@
         "candidate_possible_when_mode_flag4_clear": false,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_PURPLE_STAR"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:79/src/dark_mind.c:3877/type:206",
@@ -161746,7 +161954,8 @@
         "candidate_possible_when_mode_flag4_clear": false,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_STAR_MIX"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:79/src/dark_mind.c:3877/type:203",
@@ -161869,7 +162078,8 @@
         "candidate_possible_when_mode_flag4_clear": true,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_RED_STAR"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:79/src/dark_mind.c:3877/type:204",
@@ -161992,7 +162202,8 @@
         "candidate_possible_when_mode_flag4_clear": true,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_BLUE_STAR"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:79/src/dark_mind.c:3877/type:205",
@@ -162115,7 +162326,8 @@
         "candidate_possible_when_mode_flag4_clear": false,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_PURPLE_STAR"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:79/src/dark_mind.c:3877/type:206",
@@ -162238,7 +162450,8 @@
         "candidate_possible_when_mode_flag4_clear": false,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_STAR_MIX"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:79/src/dark_mind.c:3877/type:203",
@@ -162362,7 +162575,8 @@
         "candidate_possible_when_mode_flag4_clear": true,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_RED_STAR"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:79/src/dark_mind.c:3877/type:204",
@@ -162486,7 +162700,8 @@
         "candidate_possible_when_mode_flag4_clear": true,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_BLUE_STAR"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:79/src/dark_mind.c:3877/type:205",
@@ -162610,7 +162825,8 @@
         "candidate_possible_when_mode_flag4_clear": true,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_PURPLE_STAR"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:79/src/dark_mind.c:3877/type:206",
@@ -162734,7 +162950,8 @@
         "candidate_possible_when_mode_flag4_clear": false,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_STAR_MIX"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:79/src/dark_mind.c:3877/type:203",
@@ -162859,7 +163076,8 @@
         "candidate_possible_when_mode_flag4_clear": true,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_RED_STAR"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:79/src/dark_mind.c:3877/type:204",
@@ -162984,7 +163202,8 @@
         "candidate_possible_when_mode_flag4_clear": true,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_BLUE_STAR"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:79/src/dark_mind.c:3877/type:205",
@@ -163109,7 +163328,8 @@
         "candidate_possible_when_mode_flag4_clear": true,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_PURPLE_STAR"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:79/src/dark_mind.c:3877/type:206",
@@ -163234,7 +163454,8 @@
         "candidate_possible_when_mode_flag4_clear": true,
         "selection": "dark_mind.c:RandomFunction; paired helper propagates subtype2 to the first child before its second selection",
         "scope": "Direct static Form1 controller only; no attack-entry, allocation, acquisition, carry or repeatability guarantee."
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_STAR_MIX"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:79/src/dark_mind.c:4172/type:48",
@@ -163310,7 +163531,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_BOMB"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:79/src/dark_mind.c:4172/type:48",
@@ -163386,7 +163608,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_BOMB"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:79/src/dark_mind.c:4172/type:48",
@@ -163462,7 +163685,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_BOMB"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:79/src/dark_mind.c:4172/type:48",
@@ -163538,7 +163762,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_BOMB"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:79/src/dark_mind.c:4286/type:207",
@@ -163564,7 +163789,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "UNKNOWN_CF"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:79/src/dark_mind.c:4286/type:207",
@@ -163590,7 +163816,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "UNKNOWN_CF"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:79/src/dark_mind.c:4286/type:207",
@@ -163616,7 +163843,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "UNKNOWN_CF"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:79/src/dark_mind.c:4286/type:207",
@@ -163642,7 +163870,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "UNKNOWN_CF"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:79/src/dark_mind.c:4292/type:207",
@@ -163668,7 +163897,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "UNKNOWN_CF"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:79/src/dark_mind.c:4292/type:207",
@@ -163694,7 +163924,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "UNKNOWN_CF"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:79/src/dark_mind.c:4292/type:207",
@@ -163720,7 +163951,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "UNKNOWN_CF"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:79/src/dark_mind.c:4292/type:207",
@@ -163746,7 +163978,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "UNKNOWN_CF"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:79/src/dark_mind.c:5138/type:54",
@@ -164188,7 +164421,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:79/src/dark_mind.c:8012/type:208",
@@ -164214,7 +164448,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:79/src/dark_mind.c:8012/type:208",
@@ -164240,7 +164475,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:79/src/dark_mind.c:8012/type:208",
@@ -164266,7 +164502,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:79/src/dark_mind.c:8019/type:208",
@@ -164292,7 +164529,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:79/src/dark_mind.c:8019/type:208",
@@ -164318,7 +164556,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:79/src/dark_mind.c:8019/type:208",
@@ -164344,7 +164583,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:79/src/dark_mind.c:8019/type:208",
@@ -164370,7 +164610,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:79/src/dark_mind.c:8365/type:18",
@@ -170676,7 +170917,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_LASER"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:79/src/dark_mind.c:8952/type:209",
@@ -170702,7 +170944,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_LASER"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:79/src/dark_mind.c:8952/type:209",
@@ -170728,7 +170971,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_LASER"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:79/src/dark_mind.c:8952/type:209",
@@ -170754,7 +170998,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_LASER"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:79/src/dark_mind.c:9077/type:210",
@@ -170780,7 +171025,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_LASER_SHOWER"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:79/src/dark_mind.c:9077/type:210",
@@ -170806,7 +171052,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_LASER_SHOWER"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:79/src/dark_mind.c:9077/type:210",
@@ -170832,7 +171079,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_LASER_SHOWER"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:79/src/dark_mind.c:9077/type:210",
@@ -170858,7 +171106,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_LASER_SHOWER"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:79/src/dark_mind.c:9486/type:211",
@@ -170884,7 +171133,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR_CUTTER"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:79/src/dark_mind.c:9486/type:211",
@@ -170910,7 +171160,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR_CUTTER"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:79/src/dark_mind.c:9486/type:211",
@@ -170936,7 +171187,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR_CUTTER"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:79/src/dark_mind.c:9486/type:211",
@@ -170962,7 +171214,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR_CUTTER"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:79/src/dark_mind.c:9489/type:211",
@@ -170988,7 +171241,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR_CUTTER"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:79/src/dark_mind.c:9489/type:211",
@@ -171014,7 +171268,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR_CUTTER"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:79/src/dark_mind.c:9489/type:211",
@@ -171040,7 +171295,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR_CUTTER"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:79/src/dark_mind.c:9489/type:211",
@@ -171066,7 +171322,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR_CUTTER"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:79/src/dark_mind.c:9493/type:211",
@@ -171092,7 +171349,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR_CUTTER"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:79/src/dark_mind.c:9493/type:211",
@@ -171118,7 +171376,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR_CUTTER"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:79/src/dark_mind.c:9493/type:211",
@@ -171144,7 +171403,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR_CUTTER"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:79/src/dark_mind.c:9493/type:211",
@@ -171170,7 +171430,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR_CUTTER"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:79/src/dark_mind.c:9496/type:211",
@@ -171196,7 +171457,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR_CUTTER"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:79/src/dark_mind.c:9496/type:211",
@@ -171222,7 +171484,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR_CUTTER"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:79/src/dark_mind.c:9496/type:211",
@@ -171248,7 +171511,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR_CUTTER"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:79/src/dark_mind.c:9496/type:211",
@@ -171274,7 +171538,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR_CUTTER"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:79/src/dark_mind.c:11621/type:212",
@@ -171300,7 +171565,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "UNKNOWN_D4"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:79/src/dark_mind.c:11621/type:212",
@@ -171326,7 +171592,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "UNKNOWN_D4"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:79/src/dark_mind.c:11621/type:212",
@@ -171352,7 +171619,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "UNKNOWN_D4"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:79/src/dark_mind.c:11621/type:212",
@@ -171378,7 +171646,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "UNKNOWN_D4"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:79/src/dark_mind.c:11638/type:212",
@@ -171404,7 +171673,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "UNKNOWN_D4"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:79/src/dark_mind.c:11638/type:212",
@@ -171430,7 +171700,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "UNKNOWN_D4"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:79/src/dark_mind.c:11638/type:212",
@@ -171456,7 +171727,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "UNKNOWN_D4"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:79/src/dark_mind.c:11638/type:212",
@@ -171482,7 +171754,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "UNKNOWN_D4"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:80/src/dark_mind.c:3637/type:202",
@@ -171508,7 +171781,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "SHADOW_KIRBY_BOMB"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:80/src/dark_mind.c:3644/type:202",
@@ -171534,7 +171808,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "SHADOW_KIRBY_BOMB"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:80/src/dark_mind.c:3824/type:203",
@@ -171634,7 +171909,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_RED_STAR"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:80/src/dark_mind.c:3824/type:204",
@@ -171734,7 +172010,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_BLUE_STAR"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:80/src/dark_mind.c:3824/type:205",
@@ -171834,7 +172111,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_PURPLE_STAR"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:80/src/dark_mind.c:3824/type:206",
@@ -171934,7 +172212,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_STAR_MIX"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:80/src/dark_mind.c:3856/type:203",
@@ -172033,7 +172312,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_RED_STAR"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:80/src/dark_mind.c:3856/type:204",
@@ -172132,7 +172412,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_BLUE_STAR"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:80/src/dark_mind.c:3856/type:205",
@@ -172231,7 +172512,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_PURPLE_STAR"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:80/src/dark_mind.c:3856/type:206",
@@ -172330,7 +172612,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_STAR_MIX"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:80/src/dark_mind.c:3877/type:203",
@@ -172431,7 +172714,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_RED_STAR"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:80/src/dark_mind.c:3877/type:204",
@@ -172532,7 +172816,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_BLUE_STAR"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:80/src/dark_mind.c:3877/type:205",
@@ -172633,7 +172918,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_PURPLE_STAR"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:80/src/dark_mind.c:3877/type:206",
@@ -172734,7 +173020,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_STAR_MIX"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:80/src/dark_mind.c:4172/type:48",
@@ -172810,7 +173097,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_BOMB"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:80/src/dark_mind.c:4286/type:207",
@@ -172836,7 +173124,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "UNKNOWN_CF"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:80/src/dark_mind.c:4292/type:207",
@@ -172862,7 +173151,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "UNKNOWN_CF"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:80/src/dark_mind.c:5138/type:54",
@@ -172992,7 +173282,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:80/src/dark_mind.c:8019/type:208",
@@ -173018,7 +173309,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:80/src/dark_mind.c:8365/type:18",
@@ -174614,7 +174906,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_LASER"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:80/src/dark_mind.c:9077/type:210",
@@ -174640,7 +174933,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_LASER_SHOWER"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:80/src/dark_mind.c:9486/type:211",
@@ -174666,7 +174960,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR_CUTTER"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:80/src/dark_mind.c:9489/type:211",
@@ -174692,7 +174987,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR_CUTTER"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:80/src/dark_mind.c:9493/type:211",
@@ -174718,7 +175014,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR_CUTTER"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:80/src/dark_mind.c:9496/type:211",
@@ -174744,7 +175041,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR_CUTTER"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:80/src/dark_mind.c:11621/type:212",
@@ -174770,7 +175068,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "UNKNOWN_D4"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:80/src/dark_mind.c:11638/type:212",
@@ -174796,7 +175095,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "UNKNOWN_D4"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:81/src/dark_mind.c:3637/type:202",
@@ -174822,7 +175122,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "SHADOW_KIRBY_BOMB"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:81/src/dark_mind.c:3637/type:202",
@@ -174848,7 +175149,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "SHADOW_KIRBY_BOMB"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:81/src/dark_mind.c:3637/type:202",
@@ -174874,7 +175176,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "SHADOW_KIRBY_BOMB"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:81/src/dark_mind.c:3637/type:202",
@@ -174900,7 +175203,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "SHADOW_KIRBY_BOMB"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:81/src/dark_mind.c:3637/type:202",
@@ -174926,7 +175230,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "SHADOW_KIRBY_BOMB"
     },
     {
       "id": "room:919/template:0x088D5870/encounter:81/src/dark_mind.c:3637/type:202",
@@ -174952,7 +175257,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "SHADOW_KIRBY_BOMB"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:81/src/dark_mind.c:3644/type:202",
@@ -174978,7 +175284,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "SHADOW_KIRBY_BOMB"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:81/src/dark_mind.c:3644/type:202",
@@ -175004,7 +175311,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "SHADOW_KIRBY_BOMB"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:81/src/dark_mind.c:3644/type:202",
@@ -175030,7 +175338,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "SHADOW_KIRBY_BOMB"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:81/src/dark_mind.c:3644/type:202",
@@ -175056,7 +175365,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "SHADOW_KIRBY_BOMB"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:81/src/dark_mind.c:3644/type:202",
@@ -175082,7 +175392,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "SHADOW_KIRBY_BOMB"
     },
     {
       "id": "room:919/template:0x088D5870/encounter:81/src/dark_mind.c:3644/type:202",
@@ -175108,7 +175419,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "SHADOW_KIRBY_BOMB"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:81/src/dark_mind.c:3824/type:203",
@@ -175208,7 +175520,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_RED_STAR"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:81/src/dark_mind.c:3824/type:204",
@@ -175308,7 +175621,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_BLUE_STAR"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:81/src/dark_mind.c:3824/type:205",
@@ -175408,7 +175722,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_PURPLE_STAR"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:81/src/dark_mind.c:3824/type:206",
@@ -175508,7 +175823,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_STAR_MIX"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:81/src/dark_mind.c:3824/type:203",
@@ -175608,7 +175924,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_RED_STAR"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:81/src/dark_mind.c:3824/type:204",
@@ -175708,7 +176025,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_BLUE_STAR"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:81/src/dark_mind.c:3824/type:205",
@@ -175808,7 +176126,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_PURPLE_STAR"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:81/src/dark_mind.c:3824/type:206",
@@ -175908,7 +176227,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_STAR_MIX"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:81/src/dark_mind.c:3824/type:203",
@@ -176008,7 +176328,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_RED_STAR"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:81/src/dark_mind.c:3824/type:204",
@@ -176108,7 +176429,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_BLUE_STAR"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:81/src/dark_mind.c:3824/type:205",
@@ -176208,7 +176530,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_PURPLE_STAR"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:81/src/dark_mind.c:3824/type:206",
@@ -176308,7 +176631,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_STAR_MIX"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:81/src/dark_mind.c:3824/type:203",
@@ -176408,7 +176732,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_RED_STAR"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:81/src/dark_mind.c:3824/type:204",
@@ -176508,7 +176833,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_BLUE_STAR"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:81/src/dark_mind.c:3824/type:205",
@@ -176608,7 +176934,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_PURPLE_STAR"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:81/src/dark_mind.c:3824/type:206",
@@ -176708,7 +177035,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_STAR_MIX"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:81/src/dark_mind.c:3824/type:203",
@@ -176808,7 +177136,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_RED_STAR"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:81/src/dark_mind.c:3824/type:204",
@@ -176908,7 +177237,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_BLUE_STAR"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:81/src/dark_mind.c:3824/type:205",
@@ -177008,7 +177338,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_PURPLE_STAR"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:81/src/dark_mind.c:3824/type:206",
@@ -177108,7 +177439,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_STAR_MIX"
     },
     {
       "id": "room:919/template:0x088D5870/encounter:81/src/dark_mind.c:3824/type:203",
@@ -177208,7 +177540,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_RED_STAR"
     },
     {
       "id": "room:919/template:0x088D5870/encounter:81/src/dark_mind.c:3824/type:204",
@@ -177308,7 +177641,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_BLUE_STAR"
     },
     {
       "id": "room:919/template:0x088D5870/encounter:81/src/dark_mind.c:3824/type:205",
@@ -177408,7 +177742,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_PURPLE_STAR"
     },
     {
       "id": "room:919/template:0x088D5870/encounter:81/src/dark_mind.c:3824/type:206",
@@ -177508,7 +177843,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_STAR_MIX"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:81/src/dark_mind.c:3856/type:203",
@@ -177607,7 +177943,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_RED_STAR"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:81/src/dark_mind.c:3856/type:204",
@@ -177706,7 +178043,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_BLUE_STAR"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:81/src/dark_mind.c:3856/type:205",
@@ -177805,7 +178143,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_PURPLE_STAR"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:81/src/dark_mind.c:3856/type:206",
@@ -177904,7 +178243,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_STAR_MIX"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:81/src/dark_mind.c:3856/type:203",
@@ -178003,7 +178343,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_RED_STAR"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:81/src/dark_mind.c:3856/type:204",
@@ -178102,7 +178443,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_BLUE_STAR"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:81/src/dark_mind.c:3856/type:205",
@@ -178201,7 +178543,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_PURPLE_STAR"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:81/src/dark_mind.c:3856/type:206",
@@ -178300,7 +178643,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_STAR_MIX"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:81/src/dark_mind.c:3856/type:203",
@@ -178399,7 +178743,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_RED_STAR"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:81/src/dark_mind.c:3856/type:204",
@@ -178498,7 +178843,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_BLUE_STAR"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:81/src/dark_mind.c:3856/type:205",
@@ -178597,7 +178943,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_PURPLE_STAR"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:81/src/dark_mind.c:3856/type:206",
@@ -178696,7 +179043,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_STAR_MIX"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:81/src/dark_mind.c:3856/type:203",
@@ -178795,7 +179143,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_RED_STAR"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:81/src/dark_mind.c:3856/type:204",
@@ -178894,7 +179243,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_BLUE_STAR"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:81/src/dark_mind.c:3856/type:205",
@@ -178993,7 +179343,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_PURPLE_STAR"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:81/src/dark_mind.c:3856/type:206",
@@ -179092,7 +179443,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_STAR_MIX"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:81/src/dark_mind.c:3856/type:203",
@@ -179191,7 +179543,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_RED_STAR"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:81/src/dark_mind.c:3856/type:204",
@@ -179290,7 +179643,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_BLUE_STAR"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:81/src/dark_mind.c:3856/type:205",
@@ -179389,7 +179743,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_PURPLE_STAR"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:81/src/dark_mind.c:3856/type:206",
@@ -179488,7 +179843,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_STAR_MIX"
     },
     {
       "id": "room:919/template:0x088D5870/encounter:81/src/dark_mind.c:3856/type:203",
@@ -179587,7 +179943,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_RED_STAR"
     },
     {
       "id": "room:919/template:0x088D5870/encounter:81/src/dark_mind.c:3856/type:204",
@@ -179686,7 +180043,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_BLUE_STAR"
     },
     {
       "id": "room:919/template:0x088D5870/encounter:81/src/dark_mind.c:3856/type:205",
@@ -179785,7 +180143,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_PURPLE_STAR"
     },
     {
       "id": "room:919/template:0x088D5870/encounter:81/src/dark_mind.c:3856/type:206",
@@ -179884,7 +180243,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_STAR_MIX"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:81/src/dark_mind.c:3877/type:203",
@@ -179985,7 +180345,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_RED_STAR"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:81/src/dark_mind.c:3877/type:204",
@@ -180086,7 +180447,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_BLUE_STAR"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:81/src/dark_mind.c:3877/type:205",
@@ -180187,7 +180549,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_PURPLE_STAR"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:81/src/dark_mind.c:3877/type:206",
@@ -180288,7 +180651,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_STAR_MIX"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:81/src/dark_mind.c:3877/type:203",
@@ -180389,7 +180753,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_RED_STAR"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:81/src/dark_mind.c:3877/type:204",
@@ -180490,7 +180855,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_BLUE_STAR"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:81/src/dark_mind.c:3877/type:205",
@@ -180591,7 +180957,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_PURPLE_STAR"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:81/src/dark_mind.c:3877/type:206",
@@ -180692,7 +181059,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_STAR_MIX"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:81/src/dark_mind.c:3877/type:203",
@@ -180793,7 +181161,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_RED_STAR"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:81/src/dark_mind.c:3877/type:204",
@@ -180894,7 +181263,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_BLUE_STAR"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:81/src/dark_mind.c:3877/type:205",
@@ -180995,7 +181365,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_PURPLE_STAR"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:81/src/dark_mind.c:3877/type:206",
@@ -181096,7 +181467,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_STAR_MIX"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:81/src/dark_mind.c:3877/type:203",
@@ -181197,7 +181569,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_RED_STAR"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:81/src/dark_mind.c:3877/type:204",
@@ -181298,7 +181671,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_BLUE_STAR"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:81/src/dark_mind.c:3877/type:205",
@@ -181399,7 +181773,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_PURPLE_STAR"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:81/src/dark_mind.c:3877/type:206",
@@ -181500,7 +181875,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_STAR_MIX"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:81/src/dark_mind.c:3877/type:203",
@@ -181601,7 +181977,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_RED_STAR"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:81/src/dark_mind.c:3877/type:204",
@@ -181702,7 +182079,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_BLUE_STAR"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:81/src/dark_mind.c:3877/type:205",
@@ -181803,7 +182181,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_PURPLE_STAR"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:81/src/dark_mind.c:3877/type:206",
@@ -181904,7 +182283,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_STAR_MIX"
     },
     {
       "id": "room:919/template:0x088D5870/encounter:81/src/dark_mind.c:3877/type:203",
@@ -182005,7 +182385,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_RED_STAR"
     },
     {
       "id": "room:919/template:0x088D5870/encounter:81/src/dark_mind.c:3877/type:204",
@@ -182106,7 +182487,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_BLUE_STAR"
     },
     {
       "id": "room:919/template:0x088D5870/encounter:81/src/dark_mind.c:3877/type:205",
@@ -182207,7 +182589,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_PURPLE_STAR"
     },
     {
       "id": "room:919/template:0x088D5870/encounter:81/src/dark_mind.c:3877/type:206",
@@ -182308,7 +182691,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_STAR_MIX"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:81/src/dark_mind.c:4172/type:48",
@@ -182384,7 +182768,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_BOMB"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:81/src/dark_mind.c:4172/type:48",
@@ -182460,7 +182845,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_BOMB"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:81/src/dark_mind.c:4172/type:48",
@@ -182536,7 +182922,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_BOMB"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:81/src/dark_mind.c:4172/type:48",
@@ -182612,7 +182999,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_BOMB"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:81/src/dark_mind.c:4172/type:48",
@@ -182688,7 +183076,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_BOMB"
     },
     {
       "id": "room:919/template:0x088D5870/encounter:81/src/dark_mind.c:4172/type:48",
@@ -182764,7 +183153,8 @@
             "room reset or revival"
           ]
         }
-      }
+      },
+      "encounter_copy_audit_key": "DARK_MIND_BOMB"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:81/src/dark_mind.c:4286/type:207",
@@ -182790,7 +183180,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "UNKNOWN_CF"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:81/src/dark_mind.c:4286/type:207",
@@ -182816,7 +183207,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "UNKNOWN_CF"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:81/src/dark_mind.c:4286/type:207",
@@ -182842,7 +183234,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "UNKNOWN_CF"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:81/src/dark_mind.c:4286/type:207",
@@ -182868,7 +183261,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "UNKNOWN_CF"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:81/src/dark_mind.c:4286/type:207",
@@ -182894,7 +183288,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "UNKNOWN_CF"
     },
     {
       "id": "room:919/template:0x088D5870/encounter:81/src/dark_mind.c:4286/type:207",
@@ -182920,7 +183315,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "UNKNOWN_CF"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:81/src/dark_mind.c:4292/type:207",
@@ -182946,7 +183342,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "UNKNOWN_CF"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:81/src/dark_mind.c:4292/type:207",
@@ -182972,7 +183369,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "UNKNOWN_CF"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:81/src/dark_mind.c:4292/type:207",
@@ -182998,7 +183396,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "UNKNOWN_CF"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:81/src/dark_mind.c:4292/type:207",
@@ -183024,7 +183423,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "UNKNOWN_CF"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:81/src/dark_mind.c:4292/type:207",
@@ -183050,7 +183450,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "UNKNOWN_CF"
     },
     {
       "id": "room:919/template:0x088D5870/encounter:81/src/dark_mind.c:4292/type:207",
@@ -183076,7 +183477,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "UNKNOWN_CF"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:81/src/dark_mind.c:5138/type:54",
@@ -183726,7 +184128,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:81/src/dark_mind.c:8012/type:208",
@@ -183752,7 +184155,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:81/src/dark_mind.c:8012/type:208",
@@ -183778,7 +184182,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:81/src/dark_mind.c:8012/type:208",
@@ -183804,7 +184209,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:81/src/dark_mind.c:8012/type:208",
@@ -183830,7 +184236,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR"
     },
     {
       "id": "room:919/template:0x088D5870/encounter:81/src/dark_mind.c:8012/type:208",
@@ -183856,7 +184263,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:81/src/dark_mind.c:8019/type:208",
@@ -183882,7 +184290,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:81/src/dark_mind.c:8019/type:208",
@@ -183908,7 +184317,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:81/src/dark_mind.c:8019/type:208",
@@ -183934,7 +184344,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:81/src/dark_mind.c:8019/type:208",
@@ -183960,7 +184371,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:81/src/dark_mind.c:8019/type:208",
@@ -183986,7 +184398,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR"
     },
     {
       "id": "room:919/template:0x088D5870/encounter:81/src/dark_mind.c:8019/type:208",
@@ -184012,7 +184425,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:81/src/dark_mind.c:8365/type:18",
@@ -193458,7 +193872,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_LASER"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:81/src/dark_mind.c:8952/type:209",
@@ -193484,7 +193899,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_LASER"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:81/src/dark_mind.c:8952/type:209",
@@ -193510,7 +193926,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_LASER"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:81/src/dark_mind.c:8952/type:209",
@@ -193536,7 +193953,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_LASER"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:81/src/dark_mind.c:8952/type:209",
@@ -193562,7 +193980,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_LASER"
     },
     {
       "id": "room:919/template:0x088D5870/encounter:81/src/dark_mind.c:8952/type:209",
@@ -193588,7 +194007,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_LASER"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:81/src/dark_mind.c:9077/type:210",
@@ -193614,7 +194034,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_LASER_SHOWER"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:81/src/dark_mind.c:9077/type:210",
@@ -193640,7 +194061,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_LASER_SHOWER"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:81/src/dark_mind.c:9077/type:210",
@@ -193666,7 +194088,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_LASER_SHOWER"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:81/src/dark_mind.c:9077/type:210",
@@ -193692,7 +194115,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_LASER_SHOWER"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:81/src/dark_mind.c:9077/type:210",
@@ -193718,7 +194142,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_LASER_SHOWER"
     },
     {
       "id": "room:919/template:0x088D5870/encounter:81/src/dark_mind.c:9077/type:210",
@@ -193744,7 +194169,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_LASER_SHOWER"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:81/src/dark_mind.c:9486/type:211",
@@ -193770,7 +194196,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR_CUTTER"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:81/src/dark_mind.c:9486/type:211",
@@ -193796,7 +194223,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR_CUTTER"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:81/src/dark_mind.c:9486/type:211",
@@ -193822,7 +194250,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR_CUTTER"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:81/src/dark_mind.c:9486/type:211",
@@ -193848,7 +194277,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR_CUTTER"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:81/src/dark_mind.c:9486/type:211",
@@ -193874,7 +194304,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR_CUTTER"
     },
     {
       "id": "room:919/template:0x088D5870/encounter:81/src/dark_mind.c:9486/type:211",
@@ -193900,7 +194331,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR_CUTTER"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:81/src/dark_mind.c:9489/type:211",
@@ -193926,7 +194358,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR_CUTTER"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:81/src/dark_mind.c:9489/type:211",
@@ -193952,7 +194385,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR_CUTTER"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:81/src/dark_mind.c:9489/type:211",
@@ -193978,7 +194412,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR_CUTTER"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:81/src/dark_mind.c:9489/type:211",
@@ -194004,7 +194439,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR_CUTTER"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:81/src/dark_mind.c:9489/type:211",
@@ -194030,7 +194466,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR_CUTTER"
     },
     {
       "id": "room:919/template:0x088D5870/encounter:81/src/dark_mind.c:9489/type:211",
@@ -194056,7 +194493,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR_CUTTER"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:81/src/dark_mind.c:9493/type:211",
@@ -194082,7 +194520,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR_CUTTER"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:81/src/dark_mind.c:9493/type:211",
@@ -194108,7 +194547,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR_CUTTER"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:81/src/dark_mind.c:9493/type:211",
@@ -194134,7 +194574,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR_CUTTER"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:81/src/dark_mind.c:9493/type:211",
@@ -194160,7 +194601,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR_CUTTER"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:81/src/dark_mind.c:9493/type:211",
@@ -194186,7 +194628,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR_CUTTER"
     },
     {
       "id": "room:919/template:0x088D5870/encounter:81/src/dark_mind.c:9493/type:211",
@@ -194212,7 +194655,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR_CUTTER"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:81/src/dark_mind.c:9496/type:211",
@@ -194238,7 +194682,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR_CUTTER"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:81/src/dark_mind.c:9496/type:211",
@@ -194264,7 +194709,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR_CUTTER"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:81/src/dark_mind.c:9496/type:211",
@@ -194290,7 +194736,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR_CUTTER"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:81/src/dark_mind.c:9496/type:211",
@@ -194316,7 +194763,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR_CUTTER"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:81/src/dark_mind.c:9496/type:211",
@@ -194342,7 +194790,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR_CUTTER"
     },
     {
       "id": "room:919/template:0x088D5870/encounter:81/src/dark_mind.c:9496/type:211",
@@ -194368,7 +194817,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "DARK_MIND_MIRROR_CUTTER"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:81/src/dark_mind.c:11621/type:212",
@@ -194394,7 +194844,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "UNKNOWN_D4"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:81/src/dark_mind.c:11621/type:212",
@@ -194420,7 +194871,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "UNKNOWN_D4"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:81/src/dark_mind.c:11621/type:212",
@@ -194446,7 +194898,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "UNKNOWN_D4"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:81/src/dark_mind.c:11621/type:212",
@@ -194472,7 +194925,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "UNKNOWN_D4"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:81/src/dark_mind.c:11621/type:212",
@@ -194498,7 +194952,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "UNKNOWN_D4"
     },
     {
       "id": "room:919/template:0x088D5870/encounter:81/src/dark_mind.c:11621/type:212",
@@ -194524,7 +194979,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "UNKNOWN_D4"
     },
     {
       "id": "room:910/template:0x088D5230/encounter:81/src/dark_mind.c:11638/type:212",
@@ -194550,7 +195006,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "UNKNOWN_D4"
     },
     {
       "id": "room:912/template:0x088D542C/encounter:81/src/dark_mind.c:11638/type:212",
@@ -194576,7 +195033,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "UNKNOWN_D4"
     },
     {
       "id": "room:914/template:0x088D55BC/encounter:81/src/dark_mind.c:11638/type:212",
@@ -194602,7 +195060,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "UNKNOWN_D4"
     },
     {
       "id": "room:916/template:0x088D57E0/encounter:81/src/dark_mind.c:11638/type:212",
@@ -194628,7 +195087,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "UNKNOWN_D4"
     },
     {
       "id": "room:918/template:0x088D5828/encounter:81/src/dark_mind.c:11638/type:212",
@@ -194654,7 +195114,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "UNKNOWN_D4"
     },
     {
       "id": "room:919/template:0x088D5870/encounter:81/src/dark_mind.c:11638/type:212",
@@ -194680,7 +195141,8 @@
         "status": "unresolved",
         "reason": "Requires branch/activation, acquisition and encounter-lifetime evidence."
       },
-      "repeatability": "unresolved"
+      "repeatability": "unresolved",
+      "encounter_copy_audit_key": "UNKNOWN_D4"
     },
     {
       "id": "room:129/template:0x088D2678/encounter:82/src/dark_meta_knight.c:750/type:119",

@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "phone_item": "PHONE_A_FRIEND",
+  "battery_item": "BATTERY",
+  "cooperation_witness_items": {
+    "hub_connection": "HUB_CONNECTION_RAINBOW_ROUTE_EAST",
+    "area_key": "AREA_KEY_2"
+  },
+  "repeatable_refill_category": "GOAL_GAME",
+  "phone_required_checks": [
+    {
+      "from_region": "REGION_MOONLIGHT_MANSION/ROOM_2_18",
+      "to_region": "REGION_MOONLIGHT_MANSION/ROOM_2_18_BOTTOM_RIGHT",
+      "check": "MINOR_CHEST_SPRAY_PAINT_14",
+      "check_route": ["REGION_MOONLIGHT_MANSION/ROOM_2_GOAL_2_UPPER_LEFT"]
+    }
+  ]
+}
