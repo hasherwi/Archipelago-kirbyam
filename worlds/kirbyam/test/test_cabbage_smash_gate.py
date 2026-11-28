@@ -55,8 +55,11 @@ def test_only_guaranteed_singleton_beam_or_smash_applies(mode, pool, weight, app
     # Carrot's late OR is installed, but this matrix still has only the finite Beam alternative.
     carrot = next(row for row in room_traversal_targets('block') if row['id'] == 'bomb_719_room13')
     assert rules.target_applies(carrot, resolver)
-    results = [rules.graph_succeeds(graph, resolver, graph_items(graph) - {CENTRAL_RETURN_EVENT},
-                                    True, retries=False) for graph in rules.target_graphs(carrot, False)]
+    beam_graphs = rules.target_graphs(carrot, False)
+    assert not any(rules.graph_succeeds(graph, resolver, graph_items(graph) - {CENTRAL_RETURN_EVENT},
+                                       True, retries=False) for graph in beam_graphs)
+    results = [rules.graph_succeeds(graph, resolver, (graph_items(graph) - {CENTRAL_RETURN_EVENT})
+                                    | {"Beam Ability"}, True, retries=False) for graph in beam_graphs]
     beam = resolver.grant('WADDLE_DOO', lambda _: True).guaranteed == frozenset({'Beam'})
     assert results == [beam, False, False, False, False]
 
@@ -158,7 +161,7 @@ def test_actual_world_only_chocolate_chest_uses_smash_permission(
         with pytest.raises(KeyError):
             multiworld.get_location(data.locations[CHEST].label, 1)
     assert world.create_item('Smash Ability').classification == ItemClassification.progression
-    assert world.create_item('Beam Ability').classification == ItemClassification.useful
+    assert world.create_item('Beam Ability').classification == ItemClassification.progression
     # Neither item ownership nor the chest's independent Hub2 entry changes
     # unrelated exits, the RoomSanity check, or the Area Key on outer area access.
     state.can_reach_region = lambda name, player: name == OWNER

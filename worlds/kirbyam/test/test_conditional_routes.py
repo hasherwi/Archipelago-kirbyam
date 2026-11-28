@@ -31,3 +31,23 @@ def test_unknown_condition_ability_cannot_be_silently_ignored():
     bad["conditional_routes"][0]["witnesses"][1]["guaranteed_source"]["ability"] = "PossiblyFire"
     with pytest.raises(ValueError, match="grant"):
         _validate_conditional_routes(bad, set())
+
+
+@pytest.mark.parametrize("mutation,match", [
+    ("wrong_existing_region", "Detached"),
+    ("ambiguous_fixture_option", "activation"),
+    ("nonrepresentable_timer", "activation"),
+])
+def test_authoring_rejects_ambiguous_or_detached_conditions(mutation, match):
+    row, _ = rules.contract("mustard_room_4_16_timer" if mutation == "nonrepresentable_timer"
+                            else "carrot_yellow_cupid")
+    bad = deepcopy(row)
+    activation = bad["conditional_routes"][0]["activation"]
+    if mutation == "nonrepresentable_timer":
+        activation["source_policy_values"]["room16_switch_timer_frames"] = 65536
+    elif mutation == "wrong_existing_region":
+        activation["source_region"] = "REGION_GAME_START"
+    else:
+        activation["fixture_only_options"].extend(activation["any_boolean_options"])
+    with pytest.raises(ValueError, match=match):
+        _validate_conditional_routes(bad, set())

@@ -291,7 +291,7 @@ def install_extra_traversal_rules(world: Any) -> None:
                 target = world.multiworld.get_entrance(f"{row['region']} -> {row['exit']}", world.player)
                 add_rule(target, lambda state: False)
         return
-    policy = SourcePolicy(raw, bool(world.options.ability_randomization_statues.value))
+    policy = SourcePolicy.for_world(world, raw)
     gating = world._ability_gating_enabled()
     active_contracts = frozenset(name for name, enabled in (
         (conditional_routes.CANDY_FUSE.CONTRACT, getattr(world, "_candy912_linked_west_fuse", False)),

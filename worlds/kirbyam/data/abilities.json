@@ -1,7 +1,7 @@
 {
   "Beam": {
     "runtime_ability_id": 7,
-    "safe_to_gate": false
+    "safe_to_gate": true
   },
   "Bomb": {
     "runtime_ability_id": 9,

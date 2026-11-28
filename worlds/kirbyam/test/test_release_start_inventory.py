@@ -47,9 +47,9 @@ def test_release_catalog_preserves_legacy_receipt_protocol() -> None:
     legacy = sum(1 << ABILITY_NAME_TO_ID[n] for n in LEGACY_SLOT_GATEABLE_ABILITIES)
     current = sum(1 << ABILITY_NAME_TO_ID[n] for n in GATEABLE_ENEMY_COPY_ABILITIES)
     assert legacy == 0x03FFFE76
-    assert current == 0x03FFFF7E
-    assert len(GATEABLE_ENEMY_COPY_ABILITIES) == 24
-    assert set(GATEABLE_ENEMY_COPY_ABILITIES) == set(LEGACY_SLOT_GATEABLE_ABILITIES) | {'Stone', 'Burning'}
+    assert current == 0x03FFFFFE
+    assert len(GATEABLE_ENEMY_COPY_ABILITIES) == 25
+    assert set(GATEABLE_ENEMY_COPY_ABILITIES) == set(LEGACY_SLOT_GATEABLE_ABILITIES) | {'Stone', 'Burning', 'Beam'}
     empty_values: tuple[object, ...] = (None, [], '', (), 0)
     for empty in empty_values:
         assert resolve_slot_gateable_abilities(empty) == LEGACY_SLOT_GATEABLE_ABILITIES
@@ -78,7 +78,7 @@ def test_no_automatic_ability_starts_and_exact_gated_pool(mode: int, gating: boo
     world.set_rules()
     world.create_items()
     ability_pool = [i for i in world.multiworld.itempool if 'Abilities' in cast(KirbyAmItem, i).tags]
-    assert len(ability_pool) == (24 if gating else 0)
+    assert len(ability_pool) == (25 if gating else 0)
     assert Counter(i.name for i in ability_pool) == (
         Counter({n + ' Ability': 1 for n in GATEABLE_ENEMY_COPY_ABILITIES}) if gating else Counter())
     assert Counter(i.name for i in world.multiworld.precollected_items[1]
@@ -104,5 +104,5 @@ def test_explicit_starts_additive_main_order_and_multiplicity(mode: int) -> None
     pool = Counter(i.name for i in world.multiworld.itempool if 'Abilities' in cast(KirbyAmItem, i).tags)
     assert pool['Stone Ability'] == pool['Burning Ability'] == 1
     assert pool['Ice Ability'] == 1
-    assert pool['Beam Ability'] == 0
-    assert sum(pool.values()) == 24
+    assert pool['Beam Ability'] == 1
+    assert sum(pool.values()) == 25

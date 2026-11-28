@@ -73,14 +73,13 @@ def test_beam_source_after_carrot_gate_cannot_bootstrap_it():
                         owned=frozenset({'Beam Ability'})).reaches('opened')
     assert evaluate(719, 'bomb_719_room13', sources=(replace(source, node='approach'),),
                     owned=frozenset({'Beam Ability'})).reaches('opened')
-    # Beam is not gateable in the ROM; permission inventory is irrelevant.
-    assert evaluate(719, 'bomb_719_room13', sources=(replace(source, node='approach'),)).reaches('opened')
+    assert not evaluate(719, 'bomb_719_room13', sources=(replace(source, node='approach'),)).reaches('opened')
 
 
 @pytest.mark.parametrize('mode', [0, 1, 2])
 @pytest.mark.parametrize('statues', [False, True])
 @pytest.mark.parametrize('gating', [False, True])
-@pytest.mark.parametrize('ability,needs_permission', [('Beam', False), ('Spark', True), ('Ice', True), ('Smash', True)])
+@pytest.mark.parametrize('ability,needs_permission', [('Beam', True), ('Spark', True), ('Ice', True), ('Smash', True)])
 def test_bounded_moves_follow_rom_permission_and_source_policy(mode, statues, gating, ability, needs_permission):
     from .test_traversal import policy
     resolver = policy(mode, statues=statues, pool=[ability])

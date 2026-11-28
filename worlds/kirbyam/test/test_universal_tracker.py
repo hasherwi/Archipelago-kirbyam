@@ -325,3 +325,27 @@ def test_candy_linked_fuse_restores_separate_seed_intent_and_preserves_legacy_ru
             assert chest.access_rule(state) is expected
     with pytest.raises(ValueError, match="linked fuse patch contract"):
         reconstruct({**slot, candy912_fuse.SLOT_KEY: 1})
+
+
+@pytest.mark.parametrize("legacy", [False, True])
+def test_beam_gate_matches_the_seed_not_the_current_catalog(legacy):
+    from .test_beam538_crossover import EDGE, UPSTREAM
+
+    original = setup_multiworld(KirbyAmWorld, seed=773, options={
+        "ability_randomization_mode": 0, "ability_gating": 1, "area_keys": 0,
+    })
+    slot = json.loads(json.dumps(original.worlds[1].fill_slot_data()))
+    if legacy:
+        slot["ability_gateable_abilities"].remove("Beam")
+    world = reconstruct(slot).worlds[1]
+    state = CollectionState(world.multiworld)
+    edge = world.multiworld.get_entrance(EDGE, 1)
+    state.can_reach_region = lambda name, player: name == UPSTREAM
+    assert edge.access_rule(state) is legacy
+    state.collect(world.create_item("Beam Ability"), prevent_sweep=True)
+    assert edge.access_rule(state)
+    assert world.fill_slot_data()["ability_gateable_abilities"] == slot["ability_gateable_abilities"]
+    # The prior supported schema-2 slot omitted Beam from the random pool too.
+    pool = Counter(item.name for item in world.multiworld.itempool)
+    assert pool["Beam Ability"] == (0 if legacy else 1)
+    assert pool["Ice Ability"] == 1

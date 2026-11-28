@@ -192,7 +192,7 @@ def test_cabbage_conditional_policy_category_and_entry_matrix(
     state.base_rule = False
     assert not target.access_rule(state)
     item = KirbyAmWorld.create_item_by_code(world, KirbyAmWorld.item_name_to_id['Beam Ability'])
-    assert item.classification == ItemClassification.useful
+    assert item.classification == ItemClassification.progression
 
 
 def test_cabbage_complete_carry_does_not_inherit_other_target_providers():
@@ -203,7 +203,8 @@ def test_cabbage_complete_carry_does_not_inherit_other_target_providers():
     assert (source.identity, source.source_key, source.renewable) == ('0x088CA04C', 'WADDLE_DOO', False)
     assert graph.routes[-1].allowed_abilities == frozenset({'Beam'})
     target, = graph.required_targets
-    assert graph.evaluate(policy(), frozenset(), True).reaches(target)
+    assert not graph.evaluate(policy(), frozenset(), True).reaches(target)
+    assert graph.evaluate(policy(), frozenset({'Beam Ability'}), True).reaches(target)
     for ability in ('Spark', 'Ice', 'Smash'):
         assert not graph.evaluate(policy(1, pool=[ability]), frozenset({f'{ability} Ability'}), True).reaches(target)
     assert not replace(graph, placements=()).evaluate(policy(), frozenset({'Beam Ability'}), True).reaches(target)
@@ -243,11 +244,14 @@ def test_carrot_conditional_policy_entry_matrix(
             register_indirect_condition=lambda region, entrance: dependencies.append(region)),
     )
     rules.install_extra_traversal_rules(world)
-    state = SimpleNamespace(base_rule=True, upstream=False, has=lambda item, player: False)
+    owned = set()
+    state = SimpleNamespace(base_rule=True, upstream=False, has=lambda item, player: item in owned)
     state.can_reach_region = lambda name, player: name == 'REGION_CARROT_CASTLE/ROOM_5_07' or (
         name == 'REGION_CARROT_CASTLE/ROOM_5_05' and state.upstream)
     assert not target.access_rule(state)
     state.upstream = True
+    assert target.access_rule(state) is (applies and not gating)
+    owned.add('Beam Ability')
     assert target.access_rule(state) is applies
     state.base_rule = False
     assert not target.access_rule(state)
@@ -269,6 +273,8 @@ def test_carrot_actual_logical_entrance_keeps_other_exits_and_notes_separate(mon
     state.can_reach_region = lambda name, player: name == base
     assert not target.access_rule(state)
     state.can_reach_region = lambda name, player: name == 'REGION_CARROT_CASTLE/ROOM_5_05'
+    assert not target.access_rule(state)
+    state.collect(world.create_item('Beam Ability'), prevent_sweep=True)
     assert target.access_rule(state)
     for destination in ('ROOM_5_08', 'ROOM_5_14'):
         assert world.multiworld.get_entrance(f'{base} -> REGION_CARROT_CASTLE/{destination}', 1).access_rule(state)
@@ -288,5 +294,6 @@ def test_carrot_source_is_lower_native_instance_not_inventory_or_upper_doo():
     assert not source.renewable and not source.retry_evidence
     assert all(start.equipped == 'Normal' for start in graph.starts)
     target, = graph.required_targets
-    assert graph.evaluate(policy(), frozenset(), True).reaches(target)
+    assert not graph.evaluate(policy(), frozenset(), True).reaches(target)
+    assert graph.evaluate(policy(), frozenset({'Beam Ability'}), True).reaches(target)
     assert not replace(graph, placements=()).evaluate(policy(), frozenset({'Beam Ability'}), True).reaches(target)

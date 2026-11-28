@@ -76,7 +76,7 @@ def test_always_installed_optional_source_rule(monkeypatch, mode, pool, weight, 
     accessible.add(UPSTREAM)
     assert target.access_rule(state) is supported
     owned.clear()
-    assert target.access_rule(state) is supported  # Beam is not gateable.
+    assert target.access_rule(state) is (supported and not gating)
     state.base_rule = False
     assert not target.access_rule(state)
 
@@ -108,13 +108,13 @@ def test_actual_normalized_edge_preserves_corridors_checks_keys_and_classificati
     assert EDGE not in area_key_entrance_area_ids()  # Native537 is Rainbow39, not Mustard/native539.
     state = CollectionState(mw)
     state.can_reach_region = lambda name, player: name == UPSTREAM
-    assert target.access_rule(state) is supported
+    assert target.access_rule(state) is (supported and not gating)
     beam = world.create_item('Beam Ability')
-    assert beam.classification == ItemClassification.useful
+    assert beam.classification == ItemClassification.progression
     state.collect(beam, prevent_sweep=True)
     assert target.access_rule(state) is supported
     state.remove(beam)
-    assert target.access_rule(state) is supported
+    assert target.access_rule(state) is (supported and not gating)
     assert HORIZONTAL not in data.regions[OWNER].exits and RIGHT539 not in data.regions[OWNER].exits
     assert OWNER not in data.regions[HORIZONTAL].exits and OWNER not in data.regions[DESTINATION].exits
     for destination in ('REGION_RAINBOW_ROUTE/ROOM_1_35', SOURCE_ROOM):
@@ -155,7 +155,8 @@ def test_finite_normal_ingress_and_carried_beam_are_required(gating, area_keys):
     assert all(r.required_equipment == frozenset({'Beam'}) for r in graph.routes[5:])
     assert all(r.opens is None for r in graph.routes)
     resolver, target = SourcePolicy({'mode': 0}), next(iter(graph.required_targets))
-    result = graph.evaluate(resolver, frozenset(), gating)
+    assert graph.evaluate(resolver, frozenset(), gating).reaches(target) is (not gating)
+    result = graph.evaluate(resolver, frozenset({'Beam Ability'}), gating)
     assert result.reaches(target) and not result.retry_assumptions
     assert any(p.node == source.node and p.equipped == 'Beam' and source.identity in p.consumed
                for p in result.positions)
@@ -182,7 +183,7 @@ def test_raw_source_certainty_and_inventory_monotonicity(pool, weight):
         results = [graph.evaluate(resolver, owned, True, retries).reaches(next(iter(graph.required_targets)))
                    for owned in inventories]
         assert results == sorted(results)
-        assert results == ([True] * 4 if pool == ['Beam'] and not weight else [False] * 4)
+        assert results == ([False, True, True, True] if pool == ['Beam'] and not weight else [False] * 4)
 
 
 @pytest.mark.parametrize('mutation', ['swimming', 'wrong_room'])
@@ -292,6 +293,8 @@ def test_full_generation_accessibility_with_optional_supported_or_unsupported_so
     state = CollectionState(mw)
     state.can_reach_region = lambda name, player: name == UPSTREAM
     supported = SourcePolicy(raw).grant('WADDLE_DOO', lambda _: True).guaranteed == frozenset({'Beam'})
+    assert mw.get_entrance(EDGE, 1).access_rule(state) is (supported and not gating)
+    state.collect(mw.worlds[1].create_item('Beam Ability'), prevent_sweep=True)
     assert mw.get_entrance(EDGE, 1).access_rule(state) is supported
     if mode == 0:
         assert supported

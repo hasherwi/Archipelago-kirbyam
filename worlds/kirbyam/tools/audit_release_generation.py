@@ -187,13 +187,13 @@ def audit_archive(multiworld: MultiWorld, decoded: Record, archive: Path) -> lis
                          if name + ' Ability' in world.item_name_to_id}
         actual_starts = {code: starts[code] for code in ability_codes if starts[code]}
         assert actual_starts == {code: count for code, count in expected_starts.items() if code in ability_codes}
-        expected_gate = 0x03FFFF7E if gating else 0
+        expected_gate = 0x03FFFFFE if gating else 0
         assert gates[player] == expected_gate
         assert set(decoded['slot_data'][player]['ability_gateable_abilities']) == (
             set(GATEABLE_ENEMY_COPY_ABILITIES) if gating else set())
         whitelist = set(decoded['slot_data'][player]['enemy_copy_ability_whitelist'])
         assert whitelist == set(VALID_ENEMY_COPY_ABILITIES) and 'Beam' in whitelist
-        assert gates[player] & (1 << ABILITY_NAME_TO_ID['Beam']) == 0
+        assert bool(gates[player] & (1 << ABILITY_NAME_TO_ID['Beam'])) is gating
         linked = {}
         for group_id, group in multiworld.groups.items():
             if player in group['players']:
@@ -208,7 +208,6 @@ def audit_archive(multiworld: MultiWorld, decoded: Record, archive: Path) -> lis
             if owner != player:
                 assert placed[player, code] == 0
             pool[name] = {'owner': owner, 'placed': count}
-        assert placed[player, world.item_name_to_id['Beam Ability']] == 0
         audit_start = time.perf_counter()
         closure = audit_local_checks(multiworld, player)
         assert not closure.unfilled and not closure.inventory_unreachable and not closure.progression_unreachable

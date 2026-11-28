@@ -65,7 +65,7 @@ def install_wheel_rules(world: Any) -> None:
     raw = getattr(world, "_enemy_copy_ability_policy", None)
     if not isinstance(raw, dict):
         return
-    policy = SourcePolicy(raw, bool(world.options.ability_randomization_statues.value))
+    policy = SourcePolicy.for_world(world, raw)
     graphs = tuple(room_traversal_graph(RACE["id"], witness, world._area_keys_enabled()) for witness in RACE["graphs"])
     if missile_allowed(world, policy):
         graphs += (missile_graph(),)

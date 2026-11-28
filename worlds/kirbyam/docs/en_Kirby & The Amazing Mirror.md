@@ -22,7 +22,7 @@
 - Enemies that cannot be swallowed are excluded from the enemy copy-ability randomization pool.
 - The chance for an enemy to not have a copy ability can be controlled via the `ability_randomization_no_ability_weight`
 - Ability statues (sometimes called ability trophies or ability stands) have a dedicated boolean toggle (`ability_randomization_statues`). With the toggle off, statues retain their vanilla abilities. In `shuffled` mode, each statue keeps one seed-deterministic assignment, which appears in the spoiler log. In `completely_random` mode, a regular statue makes a fresh draw every time its grant is triggered; independent draws may still repeat by chance. Statue draws use the configured ability whitelist, exclude Mini from the regular-statue pool, and remove gated abilities until their AP unlock items are received. Statues always draw an ability when at least one eligible ability remains and intentionally ignore `ability_randomization_no_ability_weight`, `ability_randomization_passive_enemies`, `ability_randomization_minibosses`, and `ability_randomization_boss_spawns`. The Master Sword stand is not treated as a regular randomized statue.
-- All 25 AP ability items are listed in `data/items.json` with stable item IDs, labels, classifications, and tags for trackers. Beam is the only guaranteed starting item. The other abilities, including Burning and Stone, use source-backed traversal rules and remain gated when Ability Gating is enabled. `Ability Gating` defaults on under `Make the game harder`; when enabled, the other 24 ability items enter the pool and unlock their matching abilities when received. With gating off, those unlock items are omitted from the pool. `data/abilities.json` retains the runtime IDs and gating policy. Receiving an ability item grants ownership, not an immediate ability change.
+- All 25 AP ability items are listed in `data/items.json` with stable item IDs, labels, classifications, and tags for trackers. No copy ability unlock is automatically precollected. All 25 unlockable abilities, including Beam and Ice, use the same gating policy. `Ability Gating` defaults on under `Make the game harder`; when enabled, all 25 ability items enter the pool and unlock their matching abilities when received. With gating off, those unlock items are omitted from the pool. `data/abilities.json` retains the runtime IDs and gating policy. Receiving an ability item grants ownership, not an immediate ability change.
 
 
 
@@ -217,7 +217,7 @@ you're playing a multiworld game, the client will sync your game with the server
 
 New seeds do not start with any copy-ability unlocks by default. With Ability
 Gating on, the 24 gated unlocks, including Ice, Burning and Stone, enter the
-item pool. Beam remains ungated and is not placed in the pool. With gating
+item pool, including Beam and Ice. With gating
 off, all abilities remain usable and no ability unlocks enter the pool.
 
 An unlock only grants permission to acquire the ability normally. It does not

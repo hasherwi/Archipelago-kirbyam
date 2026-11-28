@@ -142,12 +142,19 @@ class SourcePolicy:
     with a finite guarantee. Excluded categories retain their native grant.
     """
 
-    def __init__(self, policy: dict[str, Any], include_statues: bool = False) -> None:
+    def __init__(self, policy: dict[str, Any], include_statues: bool = False, *,
+                 gateable_abilities: tuple[str, ...] = GATEABLE_ENEMY_COPY_ABILITIES) -> None:
         self.policy = dict(policy)
+        self.gateable_abilities = gateable_abilities
         self.mode = int(policy.get("mode", 0))
         self.writes = build_enemy_copy_runtime_patch_writes(policy, include_statues)
         self.source_config = build_enemy_source_runtime_config(policy)
         self.statue_mask = build_statue_runtime_allowed_mask(policy, include_statues)
+
+    @classmethod
+    def for_world(cls, world: Any, policy: dict[str, Any]) -> SourcePolicy:
+        return cls(policy, bool(world.options.ability_randomization_statues.value),
+                   gateable_abilities=getattr(world, "_seed_gateable_abilities", GATEABLE_ENEMY_COPY_ABILITIES))
 
     def grant(self, key: str, permitted: Callable[[str], bool],
               native_grants: tuple[str, ...] = (), *, native_room: int | None = None) -> Grant:
@@ -229,9 +236,10 @@ class SourcePolicy:
         return Grant(frozenset({previous_ability}) if permitted(previous_ability) else frozenset())
 
 
-def ability_permission(ability: str, owned: frozenset[str], gating: bool) -> bool:
+def ability_permission(ability: str, owned: frozenset[str], gating: bool,
+                       gateable_abilities: tuple[str, ...] = GATEABLE_ENEMY_COPY_ABILITIES) -> bool:
     """Match current runtime gateability without altering starting abilities."""
-    return not gating or ability not in GATEABLE_ENEMY_COPY_ABILITIES or f"{ability} Ability" in owned
+    return not gating or ability not in gateable_abilities or f"{ability} Ability" in owned
 
 
 @dataclass(frozen=True)
@@ -595,7 +603,8 @@ def reachable_positions(  # noqa: C901 - explicit finite-state transfer cases
     expanded_sources: set[tuple[str, frozenset[str], frozenset[str], frozenset[str], frozenset[str]]] = set()
 
     def permitted(ability: str) -> bool:
-        return ability_permission(ability, owned, gating)
+        return ability_permission(ability, owned, gating,
+                                  getattr(policy, "gateable_abilities", GATEABLE_ENEMY_COPY_ABILITIES))
 
     def grant_at(key: str, native_grants: tuple[str, ...], room: int | None,
                  allow: Callable[[str], bool]) -> Grant:

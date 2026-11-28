@@ -73,7 +73,7 @@ def _initial_ability_gate_mask(world: "KirbyAmWorld") -> int:
         return 0
 
     mask = 0
-    for ability_name in GATEABLE_ENEMY_COPY_ABILITIES:
+    for ability_name in getattr(world, "_seed_gateable_abilities", GATEABLE_ENEMY_COPY_ABILITIES):
         ability_id = ABILITY_NAME_TO_ID.get(ability_name)
         if ability_id is None or not 0 < ability_id <= 31:
             raise ValueError(

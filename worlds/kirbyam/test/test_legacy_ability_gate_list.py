@@ -251,3 +251,24 @@ def test_new_seed_serialization_and_bootstrap_keep_current_catalog(
     assert len(slot["ability_unlock_items"]) == 25
     assert rom._initial_ability_gate_mask(world) == (EXPANDED_MASK if gating else 0)
     assert resolve_slot_gateable_abilities(None) == LEGACY_NAMES
+
+
+@pytest.mark.asyncio
+async def test_new_seed_mailbox_requires_received_beam_and_ice_independently(mock_bizhawk_context):
+    from ..enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES
+
+    ctx = mock_bizhawk_context
+    ctx.game = KirbyAmClient.game
+    ctx.slot_data = _slot_data(True, True, list(GATEABLE_ENEMY_COPY_ABILITIES))
+    client = KirbyAmClient()
+    client.initialize_client()
+    for code, bit, name, other in (
+        (3860107, 0x80, "Beam", "Ice"), (3860102, 0x04, "Ice", "Beam")
+    ):
+        ctx.items_received = [NetworkItem(code, 3960566, 1, 2)]
+        with patch("worlds.kirbyam.client.bizhawk.write", new_callable=AsyncMock) as write:
+            await client._sync_enemy_copy_ability_runtime_config(ctx)
+        written = {addr: int.from_bytes(value, "little") for addr, value, _ in write.await_args.args[1]}
+        assert written[data.transport_ram_addresses["ability_gate_mask_runtime"]] == 0x03FFFFFE
+        assert written[data.transport_ram_addresses["ability_unlock_mask_runtime"]] == bit
+        assert name in _abilities(ctx) and other not in _abilities(ctx)

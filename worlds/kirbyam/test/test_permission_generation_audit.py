@@ -36,12 +36,9 @@ PROFILES = (
 )
 
 
-# Beam+Ice starts, Goal Game slots and Chocolate statue progression change fill.
-# Classify every retained minimal sample explicitly: neither outcome is optional,
-# and no seed is replaced.
-EXPECTED_REFUSED_MINIMAL_ARCHIVES = frozenset({
-    (0, 1, 1), (0, 2, 1), (2, 2, 1),
-})
+# Current layouts are accepted only after auditing all placed checks below.
+# Historical refusals and a controlled self-lock remain separate regressions.
+EXPECTED_REFUSED_MINIMAL_ARCHIVES: frozenset[tuple[int, int, int]] = frozenset()
 REQUIRED_MINIMAL_ARCHIVES = frozenset(
     (profile, mode, gating)
     for profile in range(len(PROFILES)) for mode in range(3) for gating in range(2)
@@ -206,11 +203,10 @@ def test_seed105101_is_now_safe_after_source_backed_goal_reconstruction(
 
 
 @pytest.mark.parametrize("mode", [1, 2])
-def test_seed105103_refuses_new_goal_game_fill_lock(
+def test_seed105103_replays_old_goal_game_fill_lock_with_current_pool(
     monkeypatch: pytest.MonkeyPatch, tmp_path: Path, mode: int,
 ) -> None:
-    # Keep the formerly accepted exact sample: Goal Game slots change its fill
-    # into a progression lock, which the unchanged guard must refuse.
+    # This exact historical refusal now generates with the current ability pool.
     options = {
         "random_starting_mirror": 0,
         "ability_randomization_mode": mode, "ability_gating": 1, "accessibility": "minimal",
@@ -218,17 +214,14 @@ def test_seed105103_refuses_new_goal_game_fill_lock(
         "ability_randomization_passive_enemies": 0, "ability_randomization_minibosses": 0,
         "ability_randomization_boss_spawns": 0, "room_sanity": 0, "area_keys": 1,
     }
-    with pytest.raises(KirbyAmCheckAccessibilityError) as caught:
-        _generate(monkeypatch, tmp_path, 105103, [options])
-    message = str(caught.value)
-    assert "Player 1" in message and "Cabbage Cavern - Goal Game" in message
-    assert "unfilled=[]; unavailable even with all inventory=[]" in message
-    assert not tuple((tmp_path / "output").glob("*.zip"))
+    multiworld, decoded, archive = _generate(monkeypatch, tmp_path, 105103, [options])
+    audit, _ = assert_generation_contract(multiworld, decoded, archive, 1)
+    assert audit == LocalCheckAudit((), (), ())
 
 
 @pytest.mark.parametrize("mode,controlled_smash_lock", [(1, False), (1, True), (2, False)],
                          ids=["mode1-original", "mode1-controlled-smash-lock", "mode2-original"])
-def test_seed105100_refuses_original_and_controlled_smash_lock(
+def test_seed105100_accepts_current_fill_but_refuses_controlled_smash_lock(
     monkeypatch: pytest.MonkeyPatch, tmp_path: Path, controlled_smash_lock: bool, mode: int,
 ) -> None:
     original = check_accessibility.validate_all_checks
@@ -238,11 +231,8 @@ def test_seed105100_refuses_original_and_controlled_smash_lock(
         location = multiworld.get_location("Moonlight Mansion 2-20 - Small Chest", 1)
         assert location.item and not location.item.advancement
         if not controlled_smash_lock:
-            # Chocolate statue progression changes fill; pin the four remaining strands.
             actual = audit_local_checks(multiworld, 1)
-            assert actual == LocalCheckAudit((), (
-                'Carrot Castle Vitality - Big Chest', 'Olive Ocean 6-06 - Spray Paint #7 Chest',
-                'Peppermint Palace 7-09 - Small Chest', 'Peppermint Palace 7-10 - Small Chest #2'), ()), actual
+            assert actual == LocalCheckAudit((), (), ()), actual
             inspected.append(True)
             original(multiworld, players)
             return
@@ -288,14 +278,18 @@ def test_seed105100_refuses_original_and_controlled_smash_lock(
         "ability_randomization_passive_enemies": 0, "ability_randomization_minibosses": 0,
         "ability_randomization_boss_spawns": 0, "room_sanity": 0, "area_keys": 1,
     }
-    with pytest.raises(KirbyAmCheckAccessibilityError) as caught:
-        _generate(monkeypatch, tmp_path, 105100, [options])
-    message = str(caught.value)
-    assert "unfilled=[]; unavailable even with all inventory=[]" in message
-    expected = "Moonlight Mansion 2-20 - Small Chest" if controlled_smash_lock else "Carrot Castle Vitality - Big Chest"
-    assert "Player 1" in message and expected in message
+    if not controlled_smash_lock:
+        multiworld, decoded, archive = _generate(monkeypatch, tmp_path, 105100, [options])
+        audit, _ = assert_generation_contract(multiworld, decoded, archive, 1)
+        assert audit == LocalCheckAudit((), (), ())
+    else:
+        with pytest.raises(KirbyAmCheckAccessibilityError) as caught:
+            _generate(monkeypatch, tmp_path, 105100, [options])
+        message = str(caught.value)
+        assert "unfilled=[]; unavailable even with all inventory=[]" in message
+        assert "Player 1" in message and "Moonlight Mansion 2-20 - Small Chest" in message
+        assert not tuple((tmp_path / "output").glob("*.zip"))
     assert inspected == [True]
-    assert not tuple((tmp_path / "output").glob("*.zip"))
 
 
 def test_historical_native105100_refusal_remains_distinct_from_goal_game_fill() -> None:

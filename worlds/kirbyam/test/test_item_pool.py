@@ -250,7 +250,7 @@ def test_ability_unlock_items_are_explicit_and_match_runtime_catalog() -> None:
     assert [item.label for item in ability_items] == expected_labels
     progression_abilities = {f"{name} Ability" for name in (
         "Mini", "Wheel", "Hammer", "Smash", "Fire", "Bomb", "Laser", "UFO", "Sword", "Cupid", "Cutter",
-        "Stone", "Burning",
+        "Stone", "Burning", "Beam",
     )}
     assert all(item.classification == (ItemClassification.progression if item.label in progression_abilities
                                        else ItemClassification.useful) for item in ability_items)
@@ -700,7 +700,6 @@ def test_completely_random_pool_contains_each_non_filler_item_exactly_once() -> 
     }
     expected_non_filler_codes -= {world.item_name_to_id[f"{name} Ability"] for name in starting_copy_abilities(0)}
     expected_non_filler_codes.discard(STARTING_MIRROR_ITEM_ID)  # Fixture has Random Starting Mirror off.
-    expected_non_filler_codes.discard(data.item_key_to_id["ABILITY_UNLOCK_BEAM"])  # Ungated, not randomized.
     expected_non_filler_codes.discard(data.item_key_to_id["AREA_KEY_1"])  # Always precollected, never randomized.
     expected_non_filler_codes -= set(range(3860224, 3860229))  # Default 6..10 uses four identities.
     assert 3860501 in expected_non_filler_codes  # Phone is a standard item.
@@ -732,7 +731,6 @@ def test_vanilla_pool_contains_each_non_shard_non_filler_item_exactly_once() -> 
     }
     expected_non_filler_codes -= {world.item_name_to_id[f"{name} Ability"] for name in starting_copy_abilities(0)}
     expected_non_filler_codes.discard(STARTING_MIRROR_ITEM_ID)  # Fixture has Random Starting Mirror off.
-    expected_non_filler_codes.discard(data.item_key_to_id["ABILITY_UNLOCK_BEAM"])  # Ungated, not randomized.
     expected_non_filler_codes.discard(data.item_key_to_id["AREA_KEY_1"])  # Always precollected, never randomized.
     expected_non_filler_codes -= set(range(3860224, 3860229))  # Default 6..10 uses four identities.
     assert 3860501 in expected_non_filler_codes  # Phone is a standard item.

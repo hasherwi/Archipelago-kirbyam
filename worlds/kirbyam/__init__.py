@@ -947,6 +947,13 @@ class KirbyAmWorld(World):
                 non_filler_item_codes = [
                     code for code in non_filler_item_codes if code not in ITEM_POOL_POLICY.pool_exclusions["always"]
                 ]
+                # A reconstructed seed retains its original gate catalog.
+                if (seed_gateable := getattr(self, "_seed_gateable_abilities", None)) is not None:
+                    seed_unlocks = {f"{name} Ability" for name in seed_gateable}
+                    non_filler_item_codes = [
+                        code for code in non_filler_item_codes
+                        if "Abilities" not in kirby_data.items[code].tags or self.item_id_to_name[code] in seed_unlocks
+                    ]
                 if not self._area_keys_enabled():
                     excluded_key_codes = ITEM_POOL_POLICY.pool_exclusions["area_keys_off"]
                     non_filler_item_codes = [code for code in non_filler_item_codes if code not in excluded_key_codes]
@@ -1361,7 +1368,7 @@ class KirbyAmWorld(World):
             ability_unlock_items[ability_name] = item_data.label
 
         if ability_gating_enabled:
-            slot_data["ability_gateable_abilities"] = list(GATEABLE_ENEMY_COPY_ABILITIES)
+            slot_data["ability_gateable_abilities"] = list(getattr(self, "_seed_gateable_abilities", GATEABLE_ENEMY_COPY_ABILITIES))
         else:
             slot_data["ability_gateable_abilities"] = []
         # Ownership is represented even when gates are disabled; it never equips.

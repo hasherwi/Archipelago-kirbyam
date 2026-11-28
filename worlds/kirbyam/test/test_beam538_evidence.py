@@ -140,8 +140,8 @@ def test_exact_owner_native_rooms_and_unchanged_neighbor_contracts():
                            'native_type': 18, 'native_ability': 7, 'finite': True}
     assert CAPABILITY_ABILITIES[CAPABILITY] == frozenset({'Beam'})
     assert ROOM_SCOPED_CAPABILITIES[CAPABILITY] == 538
-    assert 'Beam' not in GATEABLE_ENEMY_COPY_ABILITIES
-    assert load_json_data('abilities.json')['Beam'] == {'runtime_ability_id': 7, 'safe_to_gate': False}
+    assert 'Beam' in GATEABLE_ENEMY_COPY_ABILITIES
+    assert load_json_data('abilities.json')['Beam'] == {'runtime_ability_id': 7, 'safe_to_gate': True}
     union = json.loads((ROOT / 'dev-docs/main-ranged-union-catalog.json').read_text())
     for name, sha256 in e['preserved_region_sha256'].items():
         expected = union['adopted_main_region_spaced_sha256'].get(name, sha256)
@@ -248,6 +248,11 @@ def test_provenance_is_compact_separate_from_integration_and_private_payloads():
         if path == 'data/abilities.json':
             # Permission classification was not part of the recorded native ability catalog.
             raw = re.sub(rb',\r?\n    "progression_permission": \{[^{}]*\r?\n    \}', b'', raw)
+            # This witness used the older seed format in which Beam was ungated.
+            raw, count = re.subn(
+                rb'("Beam": \{\r?\n    "runtime_ability_id": 7,\r?\n    "safe_to_gate": )true',
+                rb'\g<1>false', raw)
+            assert count == 1
         assert lf_text_sha256(raw) == expected
     for path in (EVIDENCE, EVIDENCE.with_name('rainbow-beam538-source-witness.md')):
         text = path.read_text(encoding='utf-8')

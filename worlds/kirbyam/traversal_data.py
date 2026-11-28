@@ -224,18 +224,23 @@ def _validate_conditional_routes(row: Mapping[str, Any], seen: set[str]) -> None
             values = condition["source_policy_values"]
             valid = (type(condition["source_policy_mode"]) is int and condition["source_policy_mode"] in {0, 1, 2}
                      and isinstance(values, dict) and bool(values)
-                     and all(isinstance(k, str) and k != "mode" and type(v) is int for k, v in values.items()))
+                     and all(isinstance(k, str) and k != "mode" and type(v) is int for k, v in values.items())
+                     and ("room16_switch_timer_frames" not in values
+                          or 0 < values["room16_switch_timer_frames"] <= 0xFFFF))
         elif set(condition) == {"source_region", "guaranteed_source", "policy_sha256", "fixture_options",
                                 "fixture_only_options", "any_boolean_options", "physical_minor_check"}:
             verify_grant(condition["guaranteed_source"])
             checksum, options = condition["policy_sha256"], condition["fixture_options"]
             valid = (condition["physical_minor_check"] is True and bool(row.get("location"))
-                     and condition["source_region"] in data.regions
+                     and isinstance(condition["source_region"], str) and condition["source_region"] in data.regions
                      and isinstance(checksum, str) and len(checksum) == 64
                      and all(ch in "0123456789abcdef" for ch in checksum)
                      and isinstance(options, dict) and bool(options) and all(type(v) is int for v in options.values())
-                     and all(isinstance(condition[field], list) and all(k in options for k in condition[field])
-                             for field in ("fixture_only_options", "any_boolean_options")))
+                     and all(isinstance(condition[field], list)
+                             and all(isinstance(k, str) and k in options for k in condition[field])
+                             and len(set(condition[field])) == len(condition[field])
+                             for field in ("fixture_only_options", "any_boolean_options"))
+                     and not set(condition["fixture_only_options"]) & set(condition["any_boolean_options"]))
         else:
             valid = False
         if not valid:
@@ -250,6 +255,7 @@ def _validate_conditional_routes(row: Mapping[str, Any], seen: set[str]) -> None
             graph = compile_traversal_graph(witness["graph"])
             node_rooms = {node.key: node.room for node in graph.nodes}
             if (graph.access_region not in data.regions or not graph.required_targets
+                    or ("source_region" in condition and graph.access_region != condition["source_region"])
                     or any(node_rooms[target] != row["native_room"] for target in graph.required_targets)):
                 raise ValueError(f"Detached conditional witness for {row['id']}")
 

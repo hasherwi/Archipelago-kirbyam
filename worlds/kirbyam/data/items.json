@@ -793,7 +793,7 @@
   },
   "ABILITY_UNLOCK_BEAM": {
     "label": "Beam Ability",
-    "classification": "USEFUL",
+    "classification": "PROGRESSION",
     "item_id": 3860107,
     "tags": ["Abilities", "Unique"]
   },

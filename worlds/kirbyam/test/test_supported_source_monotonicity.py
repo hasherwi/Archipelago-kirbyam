@@ -18,8 +18,8 @@ from ..traversal_data import _room_catalog, room_traversal_graph, graph_items
 
 def test_public_generation_cannot_remove_beam_from_the_pool() -> None:
     assert 'Beam' in VALID_ENEMY_COPY_ABILITIES
-    assert 'Beam' not in GATEABLE_ENEMY_COPY_ABILITIES
-    assert ability_permission('Beam', frozenset(), True)
+    assert 'Beam' in GATEABLE_ENEMY_COPY_ABILITIES
+    assert not ability_permission('Beam', frozenset(), True)
     assert (inspect.signature(build_enemy_copy_ability_policy).parameters['whitelist'].default
             == VALID_ENEMY_COPY_ABILITIES)
     assert not any('whitelist' in name or 'ability_pool' in name
@@ -49,10 +49,12 @@ def test_live_supported_source_and_statue_pools_always_retain_beam() -> None:
         for key in keys:
             for owned in (frozenset(), frozenset({'Hammer Ability', 'Stone Ability'}), all_owned):
                 grant = resolver.grant(key, lambda name: ability_permission(name, owned, True))
-                if grant.randomized and grant.abilities:
-                    assert 'Beam' in grant.abilities, (key, weight, owned)
                 if grant.randomized:
-                    assert not (grant.guaranteed - {'Beam'}), (key, grant)
+                    raw_grant = resolver.grant(key, lambda _: True)
+                    assert grant.abilities == frozenset(
+                        name for name in raw_grant.abilities if ability_permission(name, owned, True))
+                    assert ('Beam' in grant.abilities) == (
+                        'Beam' in raw_grant.abilities and 'Beam Ability' in owned)
 
 
 def test_installed_beam_routes_require_raw_source_scope_or_source_free_water_gun() -> None:
@@ -218,7 +220,7 @@ def test_saved_catalog_enumerates_every_source_and_provider_variant() -> None:
     saved = {(row['target'], row['witness'], row['area_keys']): row for row in record['graphs']}
     assert len(saved) == len(record['graphs']) == record['variants'] == 372
     assert record['witnesses'] == 186 and set(saved) == set(actual)
-    assert record['ungated_pool_abilities'] == ['Beam']
+    assert record['ungated_pool_abilities'] == []
     assert record['capability_providers'] == {key: sorted(values) for key, values in CAPABILITY_ABILITIES.items()}
     source_ids = set()
     targets = {target['id']: target for target in _room_catalog()[0]}

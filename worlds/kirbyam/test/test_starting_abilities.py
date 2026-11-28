@@ -46,7 +46,7 @@ def test_generated_start_inventory_and_balanced_pool(tmp_path: Path, gating: boo
     locations = decoded["locations"][1]
     assert len(locations) == 140  # 124 existing checks plus sixteen default Goal Games.
     pool = Counter(item[0] for item in locations.values())
-    assert 3860107 not in pool
+    assert pool[3860107] == int(gating)
     gateable_ids = {3860100 + ABILITY_NAME_TO_ID[name] for name in GATEABLE_ENEMY_COPY_ABILITIES}
     assert gateable_ids.intersection(pool) == (gateable_ids if gating else set())
     assert pool[3860102] == int(gating)
@@ -59,7 +59,8 @@ def test_generated_start_inventory_and_balanced_pool(tmp_path: Path, gating: boo
 def test_bootstrap_preserves_initial_access_without_any_received_items(gating: bool) -> None:
     world = SimpleNamespace(options=SimpleNamespace(ability_gating=SimpleNamespace(value=gating)))
     gate = _initial_ability_gate_mask(cast(KirbyAmWorld, world))
-    assert not gate & (1 << 7)  # Only Beam is always permitted in a new patch.
+    assert bool(gate & (1 << 7)) == bool(gating)
+    assert bool(gate & (1 << 2)) == bool(gating)
     assert bool(gate & (1 << 3)) == bool(gating)
     assert bool(gate & (1 << 8)) == bool(gating)
     assert bool(gate & (1 << 23)) == bool(gating)
@@ -131,7 +132,7 @@ def test_starting_ownership_is_visible_to_collection_state_without_new_gates() -
     state = CollectionState(multiworld)
     for name in STARTING_COPY_ABILITIES:
         item = world.create_item(f"{name} Ability")
-        expected = (ItemClassification.progression if name in {"Cutter", "Mini", "Wheel", "Stone", "Burning"}
+        expected = (ItemClassification.progression if name in {"Beam", "Cutter", "Mini", "Wheel", "Stone", "Burning"}
                     else ItemClassification.useful)
         assert item.classification == expected
         assert not state.has(item.name, 1)
