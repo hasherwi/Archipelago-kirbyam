@@ -247,8 +247,9 @@ def test_current_catalog_changes_only_exact_master719_contract() -> None:
     # bytes are never refreshed by this structural projection.
     from .support.green138_history import catalog_before_green138
     from .support.phone_activation_history import catalog_scope_before_phone
-    # The separately guarded Yellow profile adds providers, not global graphs.
-    # Reverse only those exact additions; retain the complete historical hash.
+    # The separately guarded Mustard and Yellow profiles add providers, not
+    # global graphs. Reverse only the exact additions; retain the old hash.
+    assert catalog['capability_providers'].pop('switch_310_hub4_live_cutter_return') == ['Cutter']
     for capability in ('bomb_733_cupid_upper_from_below',
                        'bomb_733_cupid_lower_from_corridor'):
         assert catalog['capability_providers'].pop(capability) == ['Cupid']
