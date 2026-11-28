@@ -315,7 +315,7 @@
       "swallow_status": "swallowable",
       "vanilla_copy": "Burning",
       "when": "after_defeat",
-      "evidence": "src/batafire.c and src/object.c:1459–1482; use the defeated parent."
+      "evidence": "src/batafire.c and src/object.c:1459\u20131482; use the defeated parent."
     }
   },
   "BOMBAR": {
@@ -334,7 +334,7 @@
       "swallow_status": "swallowable",
       "vanilla_copy": "Missile",
       "when": "after_defeat",
-      "evidence": "src/bombar.c and src/object.c:1459–1482; use the defeated parent, not its bomb or missile."
+      "evidence": "src/bombar.c and src/object.c:1459\u20131482; use the defeated parent, not its bomb or missile."
     }
   },
   "BONKERS": {
@@ -353,7 +353,7 @@
       "swallow_status": "swallowable",
       "vanilla_copy": "Hammer",
       "when": "after_defeat",
-      "evidence": "src/bonkers.c and src/object.c:1459–1482; use the defeated parent, not a thrown object."
+      "evidence": "src/bonkers.c and src/object.c:1459\u20131482; use the defeated parent, not a thrown object."
     }
   },
   "BOX_BOXER": {
@@ -372,7 +372,7 @@
       "swallow_status": "swallowable",
       "vanilla_copy": "Fighter",
       "when": "after_defeat",
-      "evidence": "src/box_boxer.c and src/object.c:1459–1482; use the defeated parent."
+      "evidence": "src/box_boxer.c and src/object.c:1459\u20131482; use the defeated parent."
     }
   },
   "BOXY": {
@@ -391,7 +391,7 @@
       "swallow_status": "swallowable",
       "vanilla_copy": "Magic",
       "when": "after_defeat",
-      "evidence": "src/boxy.c and src/object.c:1459–1482; use the defeated parent, not a box spawn."
+      "evidence": "src/boxy.c and src/object.c:1459\u20131482; use the defeated parent, not a box spawn."
     }
   },
   "MASTER_HAND": {
@@ -410,7 +410,7 @@
       "swallow_status": "swallowable",
       "vanilla_copy": "Smash",
       "when": "after_defeat",
-      "evidence": "src/master_hand.c and src/object.c:1459–1482; solo Master Hand, not the Candy boss-pair handlers."
+      "evidence": "src/master_hand.c and src/object.c:1459\u20131482; solo Master Hand, not the Candy boss-pair handlers."
     }
   },
   "MR_FROSTY": {
@@ -429,7 +429,7 @@
       "swallow_status": "swallowable",
       "vanilla_copy": "Ice",
       "when": "after_defeat",
-      "evidence": "src/mr_frosty.c and src/object.c:1459–1482; use the defeated parent, not its ice cubes."
+      "evidence": "src/mr_frosty.c and src/object.c:1459\u20131482; use the defeated parent, not its ice cubes."
     }
   },
   "PHAN_PHAN": {
@@ -448,7 +448,7 @@
       "swallow_status": "swallowable",
       "vanilla_copy": "Throw",
       "when": "after_defeat",
-      "evidence": "src/phan_phan.c and src/object.c:1459–1482; use the defeated parent."
+      "evidence": "src/phan_phan.c and src/object.c:1459\u20131482; use the defeated parent."
     }
   },
   "WADDLE_DEE_MINI": {
@@ -467,7 +467,7 @@
       "swallow_status": "swallowable",
       "vanilla_copy": "Normal",
       "when": "ordinary",
-      "evidence": "src/waddle_dee.c:33–50,321–349; ordinary native Waddle Dee; uses the Normal copy table entry."
+      "evidence": "src/waddle_dee.c:33\u201350,321\u2013349; ordinary native Waddle Dee; uses the Normal copy table entry."
     }
   },
   "BOMBAR_BOMB": {
@@ -475,84 +475,216 @@
     "addresses": [
       "0x3526FE"
     ],
-    "default_ability": "Bomb"
+    "default_ability": "Bomb",
+    "encounter_copy_audit": [
+      {
+        "native_type": 178,
+        "native_name": "OBJ_BOMBAR_BOMB",
+        "swallow_status": "swallowable",
+        "vanilla_copy": "Bomb",
+        "copy_result": "fixed",
+        "phase": "falling bomb before impact",
+        "evidence": "src/bombar.c:1202-1243"
+      }
+    ]
   },
   "BOMBAR_MISSILE": {
     "kind": "boss_spawned",
     "addresses": [
       "0x352716"
     ],
-    "default_ability": "Missile"
+    "default_ability": "Missile",
+    "encounter_copy_audit": [
+      {
+        "native_type": 179,
+        "native_name": "OBJ_BOMBAR_MISSILE",
+        "swallow_status": "swallowable",
+        "vanilla_copy": "Missile",
+        "copy_result": "fixed",
+        "phase": "paired missiles after launch; each a separate object",
+        "evidence": "src/bombar.c:1256-1301"
+      }
+    ]
   },
   "DARK_MIND_BLUE_STAR": {
     "kind": "boss_spawned",
     "addresses": [
       "0x35296E"
     ],
-    "default_ability": "Ice"
+    "default_ability": "Ice",
+    "encounter_copy_audit": [
+      {
+        "native_type": 204,
+        "native_name": "OBJ_DARK_MIND_STAR_ICE",
+        "swallow_status": "swallowable",
+        "vanilla_copy": "Ice",
+        "copy_result": "fixed",
+        "phase": "released blue star in Dark Mind form 1",
+        "evidence": "src/dark_mind.c:3824,3856,3874-3903"
+      }
+    ]
   },
   "DARK_MIND_BOMB": {
     "kind": "boss_spawned",
     "addresses": [
       "0x351ACE"
     ],
-    "default_ability": "Crash"
+    "default_ability": "Crash",
+    "encounter_copy_audit": [
+      {
+        "native_type": 48,
+        "native_name": "OBJ_DARK_MIND_BOMB",
+        "swallow_status": "swallowable",
+        "vanilla_copy": "Crash",
+        "copy_result": "fixed",
+        "phase": "Dark Mind form 1 spawned bomb while active",
+        "evidence": "src/dark_mind.c:4179-4203"
+      }
+    ]
   },
   "DARK_MIND_PURPLE_STAR": {
     "kind": "boss_spawned",
     "addresses": [
       "0x352986"
     ],
-    "default_ability": "Spark"
+    "default_ability": "Spark",
+    "encounter_copy_audit": [
+      {
+        "native_type": 205,
+        "native_name": "OBJ_DARK_MIND_STAR_SPARK",
+        "swallow_status": "swallowable",
+        "vanilla_copy": "Spark",
+        "copy_result": "fixed",
+        "phase": "released purple star in Dark Mind form 1",
+        "evidence": "src/dark_mind.c:3824,3856,3874-3903"
+      }
+    ]
   },
   "DARK_MIND_RED_STAR": {
     "kind": "boss_spawned",
     "addresses": [
       "0x352956"
     ],
-    "default_ability": "Fire"
+    "default_ability": "Fire",
+    "encounter_copy_audit": [
+      {
+        "native_type": 203,
+        "native_name": "OBJ_DARK_MIND_STAR_FIRE",
+        "swallow_status": "swallowable",
+        "vanilla_copy": "Fire",
+        "copy_result": "fixed",
+        "phase": "released red star in Dark Mind form 1",
+        "evidence": "src/dark_mind.c:3824,3856,3874-3903"
+      }
+    ]
   },
   "MASTER_CRAZY_HAND_BULLET": {
     "kind": "boss_spawned",
     "addresses": [
       "0x35290E"
     ],
-    "default_ability": "Burning"
+    "default_ability": "Burning",
+    "encounter_copy_audit": [
+      {
+        "native_type": 200,
+        "native_name": "OBJ_MASTER_HAND_BULLET",
+        "swallow_status": "swallowable",
+        "vanilla_copy": "Burning",
+        "copy_result": "fixed",
+        "phase": "bullet after charge and release; distinct from either hand",
+        "evidence": "src/master_hand.c:2456; crazy_hand.c:2908-2949"
+      }
+    ]
   },
   "MOLEY_BOMB": {
     "kind": "boss_spawned",
     "addresses": [
       "0x3528AE"
     ],
-    "default_ability": "Bomb"
+    "default_ability": "Bomb",
+    "encounter_copy_audit": [
+      {
+        "native_type": 196,
+        "native_name": "OBJ_MOLEY_BOMB",
+        "swallow_status": "swallowable",
+        "vanilla_copy": "Bomb",
+        "copy_result": "fixed",
+        "phase": "thrown bomb before detonation",
+        "evidence": "src/moley.c:754-795"
+      }
+    ]
   },
   "MOLEY_LARGE_ROCK": {
     "kind": "boss_spawned",
     "addresses": [
       "0x3528C6"
     ],
-    "default_ability": "Stone"
+    "default_ability": "Stone",
+    "encounter_copy_audit": [
+      {
+        "native_type": 197,
+        "native_name": "OBJ_MOLEY_BIG_ROCK",
+        "swallow_status": "swallowable",
+        "vanilla_copy": "Stone",
+        "copy_result": "fixed",
+        "phase": "thrown large rock; larger inhale threshold",
+        "evidence": "src/moley.c:754-795"
+      }
+    ]
   },
   "MOLEY_OIL_DRUM": {
     "kind": "boss_spawned",
     "addresses": [
       "0x3528DE"
     ],
-    "default_ability": "Burning"
+    "default_ability": "Burning",
+    "encounter_copy_audit": [
+      {
+        "native_type": 198,
+        "native_name": "OBJ_MOLEY_BARREL",
+        "swallow_status": "swallowable",
+        "vanilla_copy": "Burning",
+        "copy_result": "fixed",
+        "phase": "thrown oil drum",
+        "evidence": "src/moley.c:754-795"
+      }
+    ]
   },
   "MOLEY_SPINY": {
     "kind": "boss_spawned",
     "addresses": [
       "0x3528F6"
     ],
-    "default_ability": "Cutter"
+    "default_ability": "Cutter",
+    "encounter_copy_audit": [
+      {
+        "native_type": 199,
+        "native_name": "OBJ_MOLEY_SPIKE_BALL",
+        "swallow_status": "swallowable",
+        "vanilla_copy": "Cutter",
+        "copy_result": "fixed",
+        "phase": "thrown spiked ball",
+        "evidence": "src/moley.c:754-795"
+      }
+    ]
   },
   "MOLEY_TIRE": {
     "kind": "boss_spawned",
     "addresses": [
       "0x352896"
     ],
-    "default_ability": "Wheel"
+    "default_ability": "Wheel",
+    "encounter_copy_audit": [
+      {
+        "native_type": 195,
+        "native_name": "OBJ_MOLEY_TIRE",
+        "swallow_status": "swallowable",
+        "vanilla_copy": "Wheel",
+        "copy_result": "fixed",
+        "phase": "thrown tire",
+        "evidence": "src/moley.c:754-795"
+      }
+    ]
   },
   "MR_FROSTY_ICE_CUBE": {
     "kind": "boss_spawned",
@@ -560,7 +692,27 @@
       "0x3525DE",
       "0x3525F6"
     ],
-    "default_ability": "Normal"
+    "default_ability": "Normal",
+    "encounter_copy_audit": [
+      {
+        "native_type": 166,
+        "native_name": "OBJ_MR_FROSTY_ICE_CUBE_SMALL",
+        "swallow_status": "swallowable",
+        "vanilla_copy": "Normal",
+        "copy_result": "fixed",
+        "phase": "small cube, after throw release",
+        "evidence": "src/mr_frosty.c:640-665,746-765"
+      },
+      {
+        "native_type": 167,
+        "native_name": "OBJ_MR_FROSTY_ICE_CUBE_LARGE",
+        "swallow_status": "swallowable",
+        "vanilla_copy": "Normal",
+        "copy_result": "fixed",
+        "phase": "large cube, after throw release",
+        "evidence": "src/mr_frosty.c:640-665,746-765"
+      }
+    ]
   },
   "PARASOL_OBJECT": {
     "kind": "boss_spawned",
@@ -574,14 +726,36 @@
     "addresses": [
       "0x3526CE"
     ],
-    "default_ability": "Normal"
+    "default_ability": "Normal",
+    "encounter_copy_audit": [
+      {
+        "native_type": 176,
+        "native_name": "OBJ_BOXY_BOX",
+        "swallow_status": "swallowable",
+        "vanilla_copy": "Normal",
+        "copy_result": "fixed",
+        "phase": "whole present before it opens",
+        "evidence": "src/boxy.c:666-735"
+      }
+    ]
   },
   "PRANK_BOMB": {
     "kind": "boss_spawned",
     "addresses": [
       "0x352686"
     ],
-    "default_ability": "Bomb"
+    "default_ability": "Bomb",
+    "encounter_copy_audit": [
+      {
+        "native_type": 173,
+        "native_name": "OBJ_PRANK_BOMB",
+        "swallow_status": "swallowable",
+        "vanilla_copy": "Bomb",
+        "copy_result": "fixed",
+        "phase": "live Prank Bomb from an opened present",
+        "evidence": "src/boxy.c:835-847; asm/prank.s:CreatePrankItem"
+      }
+    ]
   },
   "PRANK_FIREBALL": {
     "kind": "boss_spawned",
@@ -602,28 +776,72 @@
     "addresses": [
       "0x35278E"
     ],
-    "default_ability": "Bomb"
+    "default_ability": "Bomb",
+    "encounter_copy_audit": [
+      {
+        "native_type": 184,
+        "native_name": "OBJ_WIZ_BOMB",
+        "swallow_status": "swallowable",
+        "vanilla_copy": "Bomb",
+        "copy_result": "fixed",
+        "phase": "live bomb before explosion",
+        "evidence": "src/wiz.c:957,1310-1324"
+      }
+    ]
   },
   "WIZ_CAR": {
     "kind": "boss_spawned",
     "addresses": [
       "0x35275E"
     ],
-    "default_ability": "Wheel"
+    "default_ability": "Wheel",
+    "encounter_copy_audit": [
+      {
+        "native_type": 182,
+        "native_name": "OBJ_WIZ_CAR",
+        "swallow_status": "swallowable",
+        "vanilla_copy": "Wheel",
+        "copy_result": "fixed",
+        "phase": "toy car while active",
+        "evidence": "src/wiz.c:783,1287-1308"
+      }
+    ]
   },
   "WIZ_CLOUD": {
     "kind": "boss_spawned",
     "addresses": [
       "0x3527A6"
     ],
-    "default_ability": "Spark"
+    "default_ability": "Spark",
+    "encounter_copy_audit": [
+      {
+        "native_type": 185,
+        "native_name": "OBJ_WIZ_CLOUD",
+        "swallow_status": "swallowable",
+        "vanilla_copy": "Spark",
+        "copy_result": "fixed",
+        "phase": "cloud body, not its lightning hitbox",
+        "evidence": "src/wiz.c:1020-1043"
+      }
+    ]
   },
   "WIZ_POISON_APPLE": {
     "kind": "boss_spawned",
     "addresses": [
       "0x3527BE"
     ],
-    "default_ability": "Sleep"
+    "default_ability": "Sleep",
+    "encounter_copy_audit": [
+      {
+        "native_type": 186,
+        "native_name": "OBJ_WIZ_APPLE",
+        "swallow_status": "swallowable",
+        "vanilla_copy": "Sleep",
+        "copy_result": "fixed",
+        "phase": "poison apple while active",
+        "evidence": "src/wiz.c:1107,1338-1351"
+      }
+    ]
   },
   "KRACKO": {
     "kind": "boss",
@@ -757,7 +975,7 @@
       "swallow_status": "not_swallowable",
       "vanilla_copy": null,
       "when": null,
-      "evidence": "src/crazy_hand.c:166,3015–3026; second actor spawned for the Candy boss pair"
+      "evidence": "src/crazy_hand.c:166,3015\u20133026; second actor spawned for the Candy boss pair"
     }
   },
   "DARK_META_KNIGHT": {
@@ -821,7 +1039,371 @@
       "swallow_status": "not_swallowable",
       "vanilla_copy": null,
       "when": null,
-      "evidence": "src/dark_mind.c:10421–10455,11484–11499; final-phase controller and visual child, not a copy source"
+      "evidence": "src/dark_mind.c:10421\u201310455,11484\u201311499; final-phase controller and visual child, not a copy source"
     }
+  },
+  "KING_GOLEM_ROCK": {
+    "kind": "encounter_output",
+    "encounter_copy_audit": [
+      {
+        "native_type": 155,
+        "native_name": "OBJ_KING_GOLEM_ROCK",
+        "swallow_status": "swallowable",
+        "vanilla_copy": "Normal",
+        "copy_result": "fixed",
+        "phase": "rock roll",
+        "evidence": "src/king_golem.c:332-357"
+      }
+    ]
+  },
+  "KING_GOLEM_GORDO": {
+    "kind": "encounter_output",
+    "encounter_copy_audit": [
+      {
+        "native_type": 156,
+        "native_name": "OBJ_KING_GOLEM_GORDO",
+        "swallow_status": "not_swallowable",
+        "vanilla_copy": null,
+        "copy_result": null,
+        "phase": "Gordo roll",
+        "evidence": "src/king_golem.c:332-357"
+      }
+    ]
+  },
+  "GOBBLER_BABY": {
+    "kind": "encounter_output",
+    "encounter_copy_audit": [
+      {
+        "native_type": 159,
+        "native_name": "OBJ_GOBBLER_BABY",
+        "swallow_status": "swallowable",
+        "vanilla_copy": "Sword",
+        "copy_result": "fixed",
+        "phase": "baby spawn; baby object, not the adult",
+        "evidence": "src/gobbler.c:1596-1620,2378"
+      }
+    ]
+  },
+  "BATAFIRE_FIREBALL": {
+    "kind": "encounter_output",
+    "encounter_copy_audit": [
+      {
+        "native_type": 161,
+        "native_name": "OBJ_BATAFIRE_FIREBALL",
+        "swallow_status": "swallowable",
+        "vanilla_copy": "Normal",
+        "copy_result": "fixed",
+        "phase": "fireball flight",
+        "evidence": "src/batafire.c:836-859,905"
+      }
+    ]
+  },
+  "BONKERS_NUT_SMALL": {
+    "kind": "encounter_output",
+    "encounter_copy_audit": [
+      {
+        "native_type": 168,
+        "native_name": "OBJ_BONKERS_NUT_SMALL",
+        "swallow_status": "swallowable",
+        "vanilla_copy": "Normal",
+        "copy_result": "fixed",
+        "phase": "small nut in flight",
+        "evidence": "src/bonkers.c:702-731"
+      }
+    ]
+  },
+  "BONKERS_NUT_LARGE": {
+    "kind": "encounter_output",
+    "encounter_copy_audit": [
+      {
+        "native_type": 169,
+        "native_name": "OBJ_BONKERS_NUT_LARGE",
+        "swallow_status": "swallowable",
+        "vanilla_copy": "Normal",
+        "copy_result": "fixed",
+        "phase": "large nut in flight",
+        "evidence": "src/bonkers.c:706-731"
+      }
+    ]
+  },
+  "APPLE": {
+    "kind": "encounter_output",
+    "encounter_copy_audit": [
+      {
+        "native_type": 170,
+        "native_name": "OBJ_APPLE",
+        "swallow_status": "swallowable",
+        "vanilla_copy": "Normal",
+        "copy_result": "fixed",
+        "phase": "apple toss",
+        "evidence": "src/phan_phan.c:741-769"
+      }
+    ]
+  },
+  "BOX_BOXER_ENERGY_BALL": {
+    "kind": "encounter_output",
+    "encounter_copy_audit": [
+      {
+        "native_type": 180,
+        "native_name": "OBJ_BOX_BOXER_ENERGY_BALL",
+        "swallow_status": "swallowable",
+        "vanilla_copy": "Normal",
+        "copy_result": "fixed",
+        "phase": "energy ball flight",
+        "evidence": "src/box_boxer.c:762-790"
+      }
+    ]
+  },
+  "WIZ_FOOTBALL": {
+    "kind": "encounter_output",
+    "encounter_copy_audit": [
+      {
+        "native_type": 181,
+        "native_name": "OBJ_WIZ_FOOTBALL",
+        "swallow_status": "swallowable",
+        "vanilla_copy": "Normal",
+        "copy_result": "fixed",
+        "phase": "football toss",
+        "evidence": "src/wiz.c:1260-1285"
+      }
+    ]
+  },
+  "WIZ_BALLOON": {
+    "kind": "encounter_output",
+    "encounter_copy_audit": [
+      {
+        "native_type": 183,
+        "native_name": "OBJ_WIZ_BALLOON",
+        "swallow_status": "unknown",
+        "vanilla_copy": null,
+        "copy_result": null,
+        "phase": "balloon approach and pop phases not fully verified",
+        "evidence": "src/wiz.c:872"
+      }
+    ]
+  },
+  "WIZ_DROPPY": {
+    "kind": "encounter_output",
+    "encounter_copy_audit": [
+      {
+        "native_type": 187,
+        "native_name": "OBJ_WIZ_DROPPY",
+        "swallow_status": "swallowable",
+        "vanilla_copy": "Normal",
+        "copy_result": "fixed",
+        "phase": "Droppy summon, not the active Wizard body",
+        "evidence": "src/wiz.c:1176,1354-1366"
+      }
+    ]
+  },
+  "TITAN_ARM_1": {
+    "kind": "encounter_output",
+    "encounter_copy_audit": [
+      {
+        "native_type": 188,
+        "native_name": "OBJ_TITAN_ARM_1",
+        "swallow_status": "not_swallowable",
+        "vanilla_copy": null,
+        "copy_result": null,
+        "phase": "attached Titan arm",
+        "evidence": "src/mega_titan.c:708-718"
+      }
+    ]
+  },
+  "TITAN_ARM_2": {
+    "kind": "encounter_output",
+    "encounter_copy_audit": [
+      {
+        "native_type": 189,
+        "native_name": "OBJ_TITAN_ARM_2",
+        "swallow_status": "not_swallowable",
+        "vanilla_copy": null,
+        "copy_result": null,
+        "phase": "attached Titan arm",
+        "evidence": "src/mega_titan.c:2718-2728"
+      }
+    ]
+  },
+  "TITAN_ARM_3": {
+    "kind": "encounter_output",
+    "encounter_copy_audit": [
+      {
+        "native_type": 190,
+        "native_name": "OBJ_TITAN_ARM_3",
+        "swallow_status": "not_swallowable",
+        "vanilla_copy": null,
+        "copy_result": null,
+        "phase": "attached Titan arm",
+        "evidence": "src/mega_titan.c:2154-2164"
+      }
+    ]
+  },
+  "TITAN_ARM_4": {
+    "kind": "encounter_output",
+    "encounter_copy_audit": [
+      {
+        "native_type": 191,
+        "native_name": "OBJ_TITAN_ARM_4",
+        "swallow_status": "not_swallowable",
+        "vanilla_copy": null,
+        "copy_result": null,
+        "phase": "attached Titan arm",
+        "evidence": "src/mega_titan.c:3282-3292"
+      }
+    ]
+  },
+  "TITAN_HEAD_MISSILE": {
+    "kind": "encounter_output",
+    "encounter_copy_audit": [
+      {
+        "native_type": 192,
+        "native_name": "OBJ_TITAN_HEAD_MISSILE",
+        "swallow_status": "swallowable",
+        "vanilla_copy": "Normal",
+        "copy_result": "fixed",
+        "phase": "Titan Head missile flight",
+        "evidence": "src/mega_titan.c:4586-4620"
+      }
+    ]
+  },
+  "MOLEY_ROCK": {
+    "kind": "encounter_output",
+    "encounter_copy_audit": [
+      {
+        "native_type": 193,
+        "native_name": "OBJ_MOLEY_ROCK",
+        "swallow_status": "swallowable",
+        "vanilla_copy": "Normal",
+        "copy_result": "fixed",
+        "phase": "thrown rock",
+        "evidence": "src/moley.c:754-795"
+      }
+    ]
+  },
+  "MOLEY_SCREW": {
+    "kind": "encounter_output",
+    "encounter_copy_audit": [
+      {
+        "native_type": 194,
+        "native_name": "OBJ_MOLEY_SCREW",
+        "swallow_status": "swallowable",
+        "vanilla_copy": "Normal",
+        "copy_result": "fixed",
+        "phase": "thrown screw",
+        "evidence": "src/moley.c:754-795"
+      }
+    ]
+  },
+  "SHADOW_KIRBY_BOMB": {
+    "kind": "encounter_output",
+    "encounter_copy_audit": [
+      {
+        "native_type": 202,
+        "native_name": "OBJ_SHADOW_KIRBY_BOMB",
+        "swallow_status": "not_swallowable",
+        "vanilla_copy": null,
+        "copy_result": null,
+        "phase": "Shadow Kirby bomb, not the separate copyable Dark Mind bomb",
+        "evidence": "src/dark_mind.c:3648-3663"
+      }
+    ]
+  },
+  "DARK_MIND_STAR_MIX": {
+    "kind": "encounter_output",
+    "encounter_copy_audit": [
+      {
+        "native_type": 206,
+        "native_name": "OBJ_DARK_MIND_STAR_MIX",
+        "swallow_status": "swallowable",
+        "vanilla_copy": null,
+        "copy_result": "random",
+        "phase": "released mix star in Dark Mind form 1; table value Wait triggers roulette",
+        "evidence": "src/dark_mind.c:3886-3903; kirby.c:12130-12133"
+      }
+    ]
+  },
+  "UNKNOWN_CF": {
+    "kind": "encounter_output",
+    "encounter_copy_audit": [
+      {
+        "native_type": 207,
+        "native_name": "OBJ_UNKNOWN_CF",
+        "swallow_status": "not_swallowable",
+        "vanilla_copy": null,
+        "copy_result": null,
+        "phase": "effect object with inhale defense",
+        "evidence": "src/dark_mind.c:4300-4324"
+      }
+    ]
+  },
+  "DARK_MIND_MIRROR": {
+    "kind": "encounter_output",
+    "encounter_copy_audit": [
+      {
+        "native_type": 208,
+        "native_name": "OBJ_DARK_MIND_MIRROR",
+        "swallow_status": "not_swallowable",
+        "vanilla_copy": null,
+        "copy_result": null,
+        "phase": "Dark Mind form 2 orbiting mirror",
+        "evidence": "src/dark_mind.c:8012-8045"
+      }
+    ]
+  },
+  "DARK_MIND_LASER": {
+    "kind": "encounter_output",
+    "encounter_copy_audit": [
+      {
+        "native_type": 209,
+        "native_name": "OBJ_DARK_MIND_LASER",
+        "swallow_status": "not_swallowable",
+        "vanilla_copy": null,
+        "copy_result": null,
+        "phase": "Dark Mind form 2 laser",
+        "evidence": "src/dark_mind.c:8952-8973"
+      }
+    ]
+  },
+  "DARK_MIND_LASER_SHOWER": {
+    "kind": "encounter_output",
+    "encounter_copy_audit": [
+      {
+        "native_type": 210,
+        "native_name": "OBJ_DARK_MIND_LASER_SHOWER",
+        "swallow_status": "not_swallowable",
+        "vanilla_copy": null,
+        "copy_result": null,
+        "phase": "Dark Mind form 2 laser shower",
+        "evidence": "src/dark_mind.c:9077-9105"
+      }
+    ]
+  },
+  "DARK_MIND_MIRROR_CUTTER": {
+    "kind": "encounter_output",
+    "encounter_copy_audit": [
+      {
+        "native_type": 211,
+        "native_name": "OBJ_DARK_MIND_MIRROR_CUTTER",
+        "swallow_status": "not_swallowable",
+        "vanilla_copy": null,
+        "copy_result": null,
+        "phase": "Dark Mind form 2 mirror cutter",
+        "evidence": "src/dark_mind.c:9486-9519"
+      }
+    ]
+  },
+  "UNKNOWN_D4": {
+    "kind": "encounter_output",
+    "encounter_copy_audit": [
+      {
+        "native_type": 212,
+        "native_name": "OBJ_UNKNOWN_D4",
+        "swallow_status": "unknown",
+        "vanilla_copy": null,
+        "copy_result": null,
+        "phase": "later-phase hazard; constructor and collision coverage not complete",
+        "evidence": "src/dark_mind.c:sub_08106508"
+      }
+    ]
   }
 }

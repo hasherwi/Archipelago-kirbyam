@@ -461,3 +461,46 @@ def test_parent_audit_cannot_attach_to_projectiles_or_invent_a_boss_grant():
         parent_copy_audit_for_placement(dict(boss, parent_copy_audit_key="MASTER_HAND"))
     with pytest.raises(ValueError, match="native name mismatch"):
         parent_copy_audit_for_placement(dict(boss, native_name="OBJ_MASTER_HAND"))
+
+
+def test_encounter_output_audit_keeps_normal_immunity_unknown_and_mix_distinct():
+    from ..ability_source_inventory import encounter_copy_audit_for_placement
+    from ..enemy_ability_data import ABILITY_SOURCES, ENCOUNTER_OUTPUT_COPY_AUDITS
+
+    placements = source_inventory()
+    audited = [row for row in placements.values() if encounter_copy_audit_for_placement(row) is not None]
+    assert {row['type_id'] for row in audited} == set(ENCOUNTER_OUTPUT_COPY_AUDITS)
+    assert all(row['logic'] == 'advanced' and row['access']['status'] == 'unresolved'
+               and row['parent_placement'] in placements for row in audited)
+    audit = {row['type_id']: encounter_copy_audit_for_placement(row) for row in audited}
+    assert (audit[166].swallow_status, audit[166].vanilla_copy) == ('swallowable', 'Normal')
+    assert (audit[156].swallow_status, audit[156].vanilla_copy) == ('not_swallowable', None)
+    assert (audit[183].swallow_status, audit[183].vanilla_copy) == ('unknown', None)
+    assert (audit[206].swallow_status, audit[206].copy_result, audit[206].vanilla_copy) == (
+        'swallowable', 'random', None)
+    assert audit[178].vanilla_copy == 'Bomb'
+    assert audit[179].vanilla_copy == 'Missile'
+    assert audit[200].vanilla_copy == 'Burning'
+    assert audit[48].vanilla_copy == 'Crash'
+    assert not {'BATAFIRE_FIREBALL', 'KING_GOLEM_GORDO', 'DARK_MIND_STAR_MIX'} & {
+        source.key for source in ABILITY_SOURCES
+    }
+
+
+def test_encounter_projectile_audit_cannot_be_attached_to_parent_or_used_in_standard_logic():
+    from ..ability_source_inventory import encounter_copy_audit_for_placement
+
+    placements = source_inventory()
+    row = next(row for row in placements.values()
+               if row.get('encounter_copy_audit_key') == 'BOMBAR_MISSILE'
+               and 'world_access' not in row)
+    parent = placements[row['parent_placement']]
+    assert encounter_copy_audit_for_placement(parent) is None
+    with pytest.raises(ValueError, match='output copy audit mismatch'):
+        encounter_copy_audit_for_placement(dict(parent, encounter_copy_audit_key='BOMBAR_MISSILE'))
+    with pytest.raises(ValueError, match='output copy audit disagrees'):
+        encounter_copy_audit_for_placement(dict(row, logic='standard'))
+    with pytest.raises(ValueError, match='requires Advanced Logic'):
+        resolve_inventory_source({'inventory_id': row['id']}, row['native_room'])
+    with pytest.raises(ValueError, match='requires generation_evidence'):
+        resolve_inventory_source({'inventory_id': row['id']}, row['native_room'], advanced=True)

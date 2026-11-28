@@ -168,8 +168,8 @@ def test_canonical_tracked_text_and_private_packet_hashes_stay_separate():
             rows = json.loads(raw)
             assert {key for key, row in rows.items() if 'parent_copy_audit' in row} == set(
                 ENCOUNTER_PARENT_COPY_AUDITS)
-            rows = {key: {prop: value for prop, value in row.items() if prop != 'parent_copy_audit'}
-                    for key, row in rows.items() if row['kind'] != 'boss'}
+            rows = {key: {prop: value for prop, value in row.items() if prop not in {'parent_copy_audit', 'encounter_copy_audit'}}
+                    for key, row in rows.items() if row['kind'] not in {'boss', 'encounter_output'}}
             raw = (json.dumps(rows, indent=2) + '\n').encode()
         if name == 'data/items.json':
             from .support.phone_activation_history import items_before_phone

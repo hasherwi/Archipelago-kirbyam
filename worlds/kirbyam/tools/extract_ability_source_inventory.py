@@ -722,12 +722,18 @@ def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dic
              re.findall(r'#define\s+(OBJ_\w+)\s+(0x[0-9A-Fa-f]+)', header)}
     source_types = {}
     parent_audit_keys = {}
+    encounter_output_audit_keys = {}
     for key, spec in enemies.items():
         for native in spec.get('parent_copy_audit', {}).get('native_types', ()):
             typ = native['id']
             if names.get(typ) != native['name'] or typ in parent_audit_keys:
                 raise ValueError(f'Wrong or duplicated encounter parent type for {key}')
             parent_audit_keys[typ] = key
+        for output in spec.get('encounter_copy_audit', ()):
+            typ = output['native_type']
+            if names.get(typ) != output['native_name'] or typ in encounter_output_audit_keys:
+                raise ValueError(f'Wrong or duplicated encounter output type for {key}')
+            encounter_output_audit_keys[typ] = key
         for address in spec.get('addresses', ()):
             offset = int(address, 0) if isinstance(address, str) else address
             delta = offset - 0x35164E
@@ -1049,6 +1055,9 @@ def build_inventory(rom: bytes, decomp: Path, rooms: dict, enemies: dict) -> dic
                 'status': 'outside_adventure', 'mode': 'boss_endurance',
                 'evidence': 'dev-docs/native-room-wikirby-map.md#native-969-boss-endurance-nonparticipant-holding-room',
                 'reason': 'Dedicated Boss Endurance room; local configured fixtures are not Adventure entries.'}
+    for record in encounter_sources:
+        if record['type_id'] in encounter_output_audit_keys:
+            record['encounter_copy_audit_key'] = encounter_output_audit_keys[record['type_id']]
     return {'version': 1, 'rom_sha1': USA_SHA1, 'decomp_reference_commit': DECOMP_REFERENCE_COMMIT,
             'decomp_file_sha256': source_hashes,
             'scope': 'All native room object lists, including empty and aliased rooms; dynamic census is unresolved.',

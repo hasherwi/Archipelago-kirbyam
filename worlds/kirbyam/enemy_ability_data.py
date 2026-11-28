@@ -29,6 +29,19 @@ class EncounterParentCopyAudit:
     evidence: str
 
 
+@dataclass(frozen=True)
+class EncounterOutputCopyAudit:
+    """What a generated native object can yield, not a route or retry witness."""
+
+    native_type: int
+    native_name: str
+    swallow_status: str  # swallowable | not_swallowable | unknown
+    vanilla_copy: str | None
+    copy_result: str | None  # fixed (including Normal) | random (mix)
+    phase: str
+    evidence: str
+
+
 def _load_json_file(filename: str) -> dict[str, Any]:
     raw = pkgutil.get_data(__name__, "data/" + filename)
     if raw is None:
@@ -134,6 +147,28 @@ def _parse_parent_copy_audit(key: str, raw: Any) -> EncounterParentCopyAudit:
     return EncounterParentCopyAudit(tuple(native), status, ability, when, evidence)
 
 
+def _parse_encounter_output_copy_audit(key: str, row: Any) -> EncounterOutputCopyAudit:
+    fields = {"native_type", "native_name", "swallow_status", "vanilla_copy",
+              "copy_result", "phase", "evidence"}
+    if not isinstance(row, dict) or row.keys() != fields:
+        raise ValueError(f"Invalid encounter output copy audit: {key}")
+    native_type = row["native_type"]
+    if type(native_type) is not int or not 0 <= native_type <= 0xFF:
+        raise ValueError(f"Invalid native encounter output type: {key}")
+    if any(not isinstance(row[field], str) or not row[field].strip()
+           for field in ("native_name", "phase", "evidence")) or not row["native_name"].startswith("OBJ_"):
+        raise ValueError(f"Encounter output audit needs a native name, phase and evidence: {key}")
+    status, ability, result = row["swallow_status"], row["vanilla_copy"], row["copy_result"]
+    if status == "swallowable":
+        fixed = result == "fixed" and isinstance(ability, str) and ability in ABILITY_NAME_TO_ID
+        if not (fixed or (result == "random" and ability is None)):
+            raise ValueError(f"Swallowable encounter output needs a fixed or random result: {key}")
+    elif status not in ("not_swallowable", "unknown") or ability is not None or result is not None:
+        raise ValueError(f"Unswallowable or unknown encounter output cannot name a vanilla grant: {key}")
+    return EncounterOutputCopyAudit(**row)
+
+
+ENCOUNTER_OUTPUT_COPY_AUDITS: dict[int, tuple[str, EncounterOutputCopyAudit]] = {}
 ENCOUNTER_PARENT_COPY_AUDITS: dict[str, EncounterParentCopyAudit] = {}
 NATIVE_PARENT_COPY_AUDIT_KEYS: dict[int, str] = {}
 _ability_sources: list[AbilitySource] = []
@@ -144,7 +179,7 @@ for source_key, raw_entry in _ENEMY_DATA.items():
         raise ValueError(f"enemy source entry for {source_key} must be an object")
 
     kind = str(raw_entry.get("kind", "")).strip()
-    if kind not in {"enemy", "miniboss", "boss_spawned", "boss"}:
+    if kind not in {"enemy", "miniboss", "boss_spawned", "boss", "encounter_output"}:
         raise ValueError(f"enemy source {source_key} has unsupported kind: {kind}")
 
     audit = None
@@ -157,9 +192,23 @@ for source_key, raw_entry in _ENEMY_DATA.items():
             if type_id in NATIVE_PARENT_COPY_AUDIT_KEYS:
                 raise ValueError(f"Duplicate native encounter parent type: {type_id:#x}")
             NATIVE_PARENT_COPY_AUDIT_KEYS[type_id] = source_key
-    if kind == "boss":
+    if "encounter_copy_audit" in raw_entry or kind == "encounter_output":
+        rows = raw_entry.get("encounter_copy_audit")
+        if kind not in {"boss_spawned", "encounter_output"} or not isinstance(rows, list) or not rows:
+            raise ValueError(f"Expected encounter output audits: {source_key}")
+        for raw in rows:
+            output = _parse_encounter_output_copy_audit(source_key, raw)
+            if output.native_type in ENCOUNTER_OUTPUT_COPY_AUDITS:
+                raise ValueError(f"Duplicate native encounter output type: {output.native_type:#x}")
+            if kind == "boss_spawned" and (
+                    0x35164E + 24 * output.native_type not in
+                    {_parse_address(address) for address in raw_entry.get("addresses", ())}
+                    or (output.copy_result == "fixed" and output.vanilla_copy != raw_entry.get("default_ability"))):
+                raise ValueError(f"Runtime source and encounter output audit disagree: {source_key}")
+            ENCOUNTER_OUTPUT_COPY_AUDITS[output.native_type] = (source_key, output)
+    if kind in {"boss", "encounter_output"}:
         if {"addresses", "default_ability", "can_be_swallowed"} & raw_entry.keys():
-            raise ValueError(f"Boss parent audits must not define runtime ability patches: {source_key}")
+            raise ValueError(f"Catalog-only audits must not define runtime ability patches: {source_key}")
         continue
 
     can_be_swallowed_raw = raw_entry.get("can_be_swallowed", True)
