@@ -409,13 +409,23 @@ class KirbyAmWorld(World):
             return  # Preserve the generation RNG stream when the option is disabled.
         if not self._ability_gating_enabled():
             raise OptionError(f"KirbyAM ({self.player_name}): random_starting_abilities requires ability_gating.")
-        explicit = self.options.start_inventory.value
+        reserved = {name for name, quantity in self.options.start_inventory.value.items() if quantity > 0}
+        for block in self.options.plando_items.value:
+            if not block.from_pool:
+                continue
+            # At this stage Archipelago has resolved active blocks and item
+            # groups, but has not chosen a subset of a multi-item block.
+            # Keep every possible pool-backed pick available to plando.
+            if isinstance(block.items, dict):
+                reserved.update(name for name, quantity in block.items.items() if quantity > 0)
+            else:
+                reserved.update(block.items)
         candidates = [f"{ability} Ability" for ability in GATEABLE_ENEMY_COPY_ABILITIES
-                      if explicit.get(f"{ability} Ability", 0) <= 0]
+                      if f"{ability} Ability" not in reserved]
         if count > len(candidates):
             raise OptionError(
                 f"KirbyAM ({self.player_name}): random_starting_abilities requests {count}, "
-                f"but only {len(candidates)} distinct unlocks remain after start_inventory."
+                f"but only {len(candidates)} distinct unlocks remain after explicit starting inventory and pool-backed plando."
             )
         self._random_starting_ability_items = tuple(self.random.sample(candidates, count))
         for name in self._random_starting_ability_items:

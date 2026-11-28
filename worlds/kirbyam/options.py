@@ -276,8 +276,8 @@ class RandomStartingAbilities(Range):
 
     Requires Ability Gating when nonzero. Chosen unlocks move from the
     randomized pool into starting inventory; they are not equipped and their
-    in-game sources do not change. Abilities already in start_inventory
-    are not eligible for the random draw.
+    in-game sources do not change. Explicit starts and potential picks from
+    pool-backed item plando are not eligible for the random draw.
     """
     display_name = "Random Starting Abilities"
     range_start = 0

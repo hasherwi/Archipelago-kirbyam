@@ -332,6 +332,19 @@ def test_unconditional_phone_does_not_override_fuzz_profiles(room_sanity: str) -
     assert resolved == {**original, "maximum_health": "random-range-2-6"}
 
 
+@pytest.mark.parametrize("gating,expected", [("false", 0), ("true", 9)])
+def test_fuzz_random_starts_follow_ability_gating(gating: str, expected: int) -> None:
+    import yaml
+    from Generate import roll_triggers
+
+    game = "Kirby & The Amazing Mirror"
+    meta = yaml.safe_load(load_launcher().FUZZER_META_PATH.read_text(encoding="utf-8"))
+    options = {"ability_gating": gating, "random_starting_abilities": 9, "minimum_health": 2}
+    resolved = roll_triggers({game: options}, meta["triggers"], set())[game]
+    assert resolved["random_starting_abilities"] == expected
+    assert resolved["ability_gating"] == gating
+
+
 def room16_artifact(launcher: ModuleType, root: Path, *, ability: str | None = None,
                     advanced: int = 0, accessibility: int = 0, placed: list[str] | None = None,
                     weight: int = 0) -> tuple[dict[str, object], dict[str, object]]:

@@ -82,3 +82,41 @@ def test_repeat_seed_and_tracker_restore_the_same_unlocks_without_an_extra_grant
 def test_incompatible_options_fail_clearly(options, message):
     with pytest.raises(OptionError, match=message):
         setup_multiworld(KirbyAmWorld, seed=773, steps=("generate_early",), options=options)
+
+
+@pytest.mark.parametrize("from_pool,number", [(True, 24), (True, 25), (False, 25)])
+def test_generated_plando_does_not_recreate_a_pooled_unlock(tmp_path, monkeypatch, from_pool, number):
+    from argparse import Namespace
+    from BaseClasses import PlandoOptions
+    import Generate
+
+    original_args = Generate.mystery_argparse
+
+    def args_with_plando() -> Namespace:
+        args = original_args()
+        args.plando = PlandoOptions.items
+        return args
+
+    monkeypatch.setattr(Generate, "mystery_argparse", args_with_plando)
+    fixture = tmp_path / "plando.yaml"
+    fixture.write_text(
+        "name: PlandoTest\ngame: Kirby & The Amazing Mirror\nKirby & The Amazing Mirror:\n"
+        f"  random_starting_abilities: {number}\n"
+        "  plando_items:\n"
+        "    - item: Beam Ability\n"
+        "      location: Rainbow Route 1-06 (Lower) - Small Chest\n"
+        f"      from_pool: {str(from_pool).lower()}\n"
+        "      force: true\n",
+        encoding="utf-8",
+    )
+    if from_pool and number == 25:
+        with pytest.raises(OptionError, match="only 24 distinct unlocks remain.*pool-backed plando"):
+            generate_archive_from_fixture(fixture, tmp_path / "out", seed=773)
+        return
+    archive = generate_archive_from_fixture(fixture, tmp_path / "out", seed=773)
+    data = load_multidata_from_archive(archive)
+    beam = KirbyAmWorld.item_name_to_id["Beam Ability"]
+    assert (beam in data["precollected_items"][1]) is not from_pool
+    location = KirbyAmWorld.location_name_to_id["Rainbow Route 1-06 (Lower) - Small Chest"]
+    assert data["locations"][1][location][0] == beam
+    assert len(data["locations"][1]) == 140
