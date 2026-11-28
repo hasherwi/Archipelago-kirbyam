@@ -31,7 +31,7 @@ from ..client import (
 )
 from ..options import OneHitMode
 from ..rom import KirbyAmProcedurePatch
-from ..enemy_ability_data import ABILITY_NAME_TO_ID, LEGACY_SLOT_GATEABLE_ABILITIES
+from ..enemy_ability_data import ABILITY_NAME_TO_ID, GATEABLE_ENEMY_COPY_ABILITIES
 
 
 def _load_world_version_from_manifest() -> str:
@@ -193,7 +193,7 @@ def test_abilities_command_lists_unlocked_and_always_available_abilities(mock_bi
     mock_bizhawk_context.slot_data = {"ability_gating": True, "ability_gateable_abilities": []}
     mock_bizhawk_context.items_received = []
 
-    unlocked = sorted(set(ABILITY_NAME_TO_ID) - set(LEGACY_SLOT_GATEABLE_ABILITIES) - {"Wait"})
+    unlocked = sorted(set(ABILITY_NAME_TO_ID) - set(GATEABLE_ENEMY_COPY_ABILITIES) - {"Wait"})
     assert _run_abilities_command(mock_bizhawk_context) == [
         f"Unlocked Abilities for {KirbyAmClient.game}",
         *unlocked,
@@ -205,7 +205,7 @@ def test_abilities_command_includes_received_unlocks_once_and_ignores_other_item
     mock_bizhawk_context.slot_data = {"ability_gating": True}
     gated_ability = next(
         item for item in data.items.values()
-        if item.label.endswith(" Ability") and item.label.removesuffix(" Ability") in LEGACY_SLOT_GATEABLE_ABILITIES
+        if item.label.endswith(" Ability") and item.label.removesuffix(" Ability") in GATEABLE_ENEMY_COPY_ABILITIES
     )
     filler_item = next(item for item in data.items.values() if "Abilities" not in item.tags)
     mock_bizhawk_context.items_received = [
@@ -216,7 +216,7 @@ def test_abilities_command_includes_received_unlocks_once_and_ignores_other_item
     ]
 
     unlocked = sorted(
-        (set(ABILITY_NAME_TO_ID) - set(LEGACY_SLOT_GATEABLE_ABILITIES) - {"Wait"})
+        (set(ABILITY_NAME_TO_ID) - set(GATEABLE_ENEMY_COPY_ABILITIES) - {"Wait"})
         | {gated_ability.label.removesuffix(" Ability")}
     )
     assert _run_abilities_command(mock_bizhawk_context) == [
@@ -250,8 +250,9 @@ def test_abilities_command_hides_wait_without_removing_real_abilities(
     output = _run_abilities_command(mock_bizhawk_context)
 
     assert "Wait" not in output
-    assert "Beam" in output
     gating = not isinstance(slot_data, dict) or slot_data.get("ability_gating", True)
+    assert ("Beam" in output) == (not gating)
+    assert ("Ice" in output) == (not gating)
     assert ("Cutter" in output) == (received_cutter or not gating)
     assert output[1:] == sorted(set(output[1:]))
     # Wait is still needed by native ability logic; hide it only in this display.
@@ -6196,7 +6197,7 @@ async def test_sync_enemy_copy_ability_runtime_config_revalidates_each_tick_for_
     no_ability_weight = 55
     allowed_mask = 0
     ability_gating_enabled = True
-    gated_mask = 0x03FFFE76  # Frozen legacy catalog, not the current generation catalog.
+    gated_mask = 0x03FFFFFE  # Current gate catalog.
     unlocked_mask = 0
     client._last_ability_runtime_config_signature = (
         mode,
@@ -6248,7 +6249,7 @@ async def test_sync_enemy_copy_ability_runtime_config_rewrites_when_revalidation
     no_ability_weight = 55
     allowed_mask = 0
     ability_gating_enabled = True
-    gated_mask = 0x03FFFE76  # Frozen legacy catalog, not the current generation catalog.
+    gated_mask = 0x03FFFFFE  # Current gate catalog.
     unlocked_mask = 0
     client._last_ability_runtime_config_signature = (
         mode,

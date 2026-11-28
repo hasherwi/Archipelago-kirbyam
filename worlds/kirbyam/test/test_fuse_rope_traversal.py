@@ -13,7 +13,7 @@ from BaseClasses import CollectionState, ItemClassification
 
 from ..ability_randomization import build_enemy_copy_ability_policy
 from ..data import data
-from ..enemy_ability_data import ABILITY_NAME_TO_ID, ABILITY_SOURCES, starting_copy_abilities
+from ..enemy_ability_data import ABILITY_NAME_TO_ID, ABILITY_SOURCES
 from ..enemy_ability_runtime_patch import build_enemy_copy_runtime_patch_writes
 from ..traversal import CAPABILITY_ABILITIES, Grant, SourcePolicy
 from ..traversal_data import graph_items, room_traversal_graph, room_traversal_targets
@@ -135,13 +135,6 @@ def test_all_physical_source_identities_are_explicit_and_shared_consistently() -
 def test_new_provider_permission_items_are_progression(ability: str) -> None:
     item = next(item for item in data.items.values() if item.label == ability + ' Ability')
     assert item.classification & ItemClassification.progression
-    assert ability not in starting_copy_abilities(0)
-
-
-@pytest.mark.parametrize('mode', [0, 1, 2])
-def test_fuse_and_rope_permissions_are_not_forced_starts(mode: int) -> None:
-    assert 'Burning' not in starting_copy_abilities(mode)
-    assert 'Cutter' not in starting_copy_abilities(mode)
 
 
 @pytest.mark.parametrize('target', ['fuse_126', 'fuse_323', 'fuse_827'])

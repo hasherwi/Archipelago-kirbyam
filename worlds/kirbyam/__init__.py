@@ -32,8 +32,7 @@ from .data import (
     load_json_data,
     normalize_region_exits,
 )
-from .enemy_ability_data import (GATEABLE_ENEMY_COPY_ABILITIES, TUTORIAL_STARTING_ABILITY_RECEIPT_ITEMS,
-                                 starting_copy_abilities)
+from .enemy_ability_data import GATEABLE_ENEMY_COPY_ABILITIES
 from .mini_traversal import validate_mini_sources
 from .peg_traversal import peg_logic_enabled, validate_peg_assignment
 from .enemy_ability_runtime_patch import build_enemy_copy_spoiler_rows
@@ -578,16 +577,8 @@ class KirbyAmWorld(World):
                     self.player,
                 )
 
-            # Main applies explicit start_inventory after generate_early. Keep its
-            # requested multiplicity, but do not add another automatic copy.
-            starting_inventory = getattr(self.options, "start_inventory", None)
-            explicit_starting = getattr(starting_inventory, "value", {})
-            for ability_name in starting_copy_abilities(mode):
-                label = f"{ability_name} Ability"
-                if explicit_starting.get(label, 0) <= 0:
-                    self.push_precollected(self.create_item(label))
-
             if self._area_keys_enabled():
+                explicit_starting = getattr(getattr(self.options, "start_inventory", None), "value", {})
                 # Rainbow Route is a guaranteed start, not a random placement.
                 # Treat explicit "from pool" copies as the same guaranteed start.
                 from_pool = getattr(getattr(self.options, "start_inventory_from_pool", None), "value", {})
@@ -624,8 +615,7 @@ class KirbyAmWorld(World):
 
             # Main creates start_inventory before regions. Reclassify only the
             # conditional permissions whose actual target could not exist yet.
-            # Early useful instances need collection unless legacy-compatible starts
-            # were already tracked by collect_item.
+            # Useful items promoted here must now be collected.
             for item in self.multiworld.precollected_items[self.player]:
                 if item.name in {"Ice Ability", "Crash Ability", "Missile Ability",
                                  "Parasol Ability", "Magic Ability", "Spark Ability"} \
@@ -633,8 +623,7 @@ class KirbyAmWorld(World):
                     classification = self.create_item(item.name).classification
                     if classification & ItemClassification.progression:
                         item.classification = classification
-                        if item.name not in TUTORIAL_STARTING_ABILITY_RECEIPT_ITEMS:
-                            self.multiworld.state.collect(item, prevent_sweep=True)
+                        self.multiworld.state.collect(item, prevent_sweep=True)
 
             # Log region creation
             fillable_locations = len([
@@ -933,16 +922,6 @@ class KirbyAmWorld(World):
                         self.player,
                         excluded_map_count,
                     )
-
-                starting_ability_codes = {
-                    self.item_name_to_id[f"{name} Ability"]
-                    for name in starting_copy_abilities(int(getattr(
-                        getattr(self.options, "ability_randomization_mode", None), "value", 0
-                    )))
-                }
-                non_filler_item_codes = [
-                    code for code in non_filler_item_codes if code not in starting_ability_codes
-                ]
 
                 non_filler_item_codes = [
                     code for code in non_filler_item_codes if code not in ITEM_POOL_POLICY.pool_exclusions["always"]
@@ -1432,12 +1411,6 @@ class KirbyAmWorld(World):
         return slot_data
 
     # Helper methods to create items and events
-    def collect_item(self, state: CollectionState, item: Item, remove: bool = False) -> str | None:
-        # Preserve collection semantics for historical and explicit starting receipts.
-        if item.name in TUTORIAL_STARTING_ABILITY_RECEIPT_ITEMS:
-            return item.name
-        return super().collect_item(state, item, remove)
-
     def create_item(self, name: str) -> KirbyAmItem:
         return self.create_item_by_code(self.item_name_to_id[name])
 

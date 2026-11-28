@@ -83,11 +83,8 @@ def test_every_cluster_has_an_explicit_status_without_inventing_gate_acceptance(
                 assert cluster["classification"] == "bypass"
 
 
-def test_beam_only_release_has_no_pending_mandatory_metal_cluster() -> None:
+def test_release_has_no_pending_mandatory_metal_cluster() -> None:
     """Keep the native evidence census separate from generated graph feasibility."""
-    from ..enemy_ability_data import starting_copy_abilities
-
-    assert all(starting_copy_abilities(mode) == () for mode in range(3))
     for room in read("dev-docs/ordinary-metal-coverage.json")["rooms"]:
         for cluster in room["clusters"]:
             assert cluster["classification"] != "unknown", cluster["id"]

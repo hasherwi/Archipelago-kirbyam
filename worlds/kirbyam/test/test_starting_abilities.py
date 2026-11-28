@@ -1,4 +1,4 @@
-"""New seed inventory and legacy six-item history remain distinct."""
+"""Explicit starting inventory, gate masks, and receipt restoration."""
 
 from collections.abc import Awaitable, Callable
 from typing import cast
@@ -15,13 +15,14 @@ from NetUtils import NetworkItem
 
 from .. import KirbyAmWorld
 from ..data import data
-from ..enemy_ability_data import ABILITY_NAME_TO_ID, GATEABLE_ENEMY_COPY_ABILITIES, STARTING_COPY_ABILITIES
+from ..enemy_ability_data import ABILITY_NAME_TO_ID, GATEABLE_ENEMY_COPY_ABILITIES
 from ..rom import _initial_ability_gate_mask
 from .support.integration_generation import generate_archive_from_fixture, load_multidata_from_archive
 from .test_start_inventory_protocol import validated_client, server_history
 from .test_client import _run_abilities_command
 
-STARTING_IDS = {3860103, 3860104, 3860106, 3860107, 3860108, 3860123}
+EXPLICIT_ABILITIES = ("Beam", "Ice")
+STARTING_IDS = {3860107, 3860102}
 STARTING_MASK = sum(1 << (item - 3860100) for item in STARTING_IDS)
 
 
@@ -40,7 +41,6 @@ def test_generated_start_inventory_and_balanced_pool(tmp_path: Path, gating: boo
     inventory = Counter(decoded["precollected_items"][1])
     assert inventory[3860107] == explicit
     assert inventory[3860102] == 0
-    assert all(inventory[code] == 0 for code in STARTING_IDS - {3860107})
     assert inventory[3860118] == 1  # Explicit Sword retained.
     assert inventory[3860026] == 2  # Unrelated multiplicity retained.
     locations = decoded["locations"][1]
@@ -51,7 +51,7 @@ def test_generated_start_inventory_and_balanced_pool(tmp_path: Path, gating: boo
     assert gateable_ids.intersection(pool) == (gateable_ids if gating else set())
     assert pool[3860102] == int(gating)
     slot = decoded["slot_data"][1]
-    assert all(slot["ability_unlock_items"][name] == f"{name} Ability" for name in STARTING_COPY_ABILITIES)
+    assert all(slot["ability_unlock_items"][name] == f"{name} Ability" for name in EXPLICIT_ABILITIES)
     assert set(slot["ability_gateable_abilities"]) == (set(GATEABLE_ENEMY_COPY_ABILITIES) if gating else set())
 
 
@@ -67,7 +67,7 @@ def test_bootstrap_preserves_initial_access_without_any_received_items(gating: b
     assert bool(gate & (1 << 4)) == bool(gating)
     assert bool(gate & (1 << 6)) == bool(gating)
     assert bool(gate) == bool(gating)
-    assert {KirbyAmWorld.item_name_to_id[f"{name} Ability"] for name in STARTING_COPY_ABILITIES} == STARTING_IDS
+    assert {KirbyAmWorld.item_name_to_id[f"{name} Ability"] for name in EXPLICIT_ABILITIES} == STARTING_IDS
 
 
 @pytest.mark.asyncio
@@ -87,7 +87,7 @@ async def test_stock_history_and_unlock_restoration(
     assert packet["index"] == 0 and packet["items"] == starting + normal
     ctx.items_received = packet["items"]
     ctx.slot_data = {"ability_gating": gating, "ability_unlock_items": {
-        name: f"{name} Ability" for name in STARTING_COPY_ABILITIES
+        name: f"{name} Ability" for name in EXPLICIT_ABILITIES
     }}
     memory: dict[int, bytes] = {}
 
@@ -114,29 +114,10 @@ async def test_stock_history_and_unlock_restoration(
             unlock = int.from_bytes(memory[cast(int, client._transport_addr('ability_unlock_mask_runtime'))], 'little')
             gate = int.from_bytes(memory[cast(int, client._transport_addr('ability_gate_mask_runtime'))], 'little')
             assert unlock == STARTING_MASK
-            assert gate & (STARTING_MASK & ~((1 << 6) | (1 << 23) | (1 << 4))) == 0
-            assert bool(gate & (1 << 23)) == gating
+            assert gate & STARTING_MASK == (STARTING_MASK if gating else 0)
             assert bool(gate) == gating
             # Runtime config never writes a held ability or any native Kirby field.
             assert set(memory) <= set(data.transport_ram_addresses.values())
     lines = cast(Callable[[Any], list[str]], _run_abilities_command)(ctx)
-    assert all(name in lines for name in STARTING_COPY_ABILITIES)
+    assert all(name in lines for name in EXPLICIT_ABILITIES)
 
-
-def test_starting_ownership_is_visible_to_collection_state_without_new_gates() -> None:
-    from BaseClasses import CollectionState, ItemClassification, MultiWorld
-    multiworld = MultiWorld(1)
-    multiworld.game[1] = KirbyAmWorld.game
-    world = KirbyAmWorld(multiworld, 1)
-    multiworld.worlds[1] = world
-    state = CollectionState(multiworld)
-    for name in STARTING_COPY_ABILITIES:
-        item = world.create_item(f"{name} Ability")
-        expected = (ItemClassification.progression if name in {"Beam", "Cutter", "Mini", "Wheel", "Stone", "Burning"}
-                    else ItemClassification.useful)
-        assert item.classification == expected
-        assert not state.has(item.name, 1)
-        assert world.collect(state, item)
-        assert state.has(item.name, 1)
-        assert world.remove(state, item)
-        assert not state.has(item.name, 1)

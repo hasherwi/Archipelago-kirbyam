@@ -275,7 +275,7 @@ def test_historical_ownership_snapshot_and_current_union_are_separate():
         'data/full_completion.json',
         'data/goal_game_doors.json', 'data/locations_goal_games.json',
         'data/ability_source_inventory.json',
-        'data/ability_permission_defaults.json', 'data/compact_room_logic.json',
+        'data/compact_room_logic.json',
         'data/goal_logic.json', 'data/lever_wall_logic.json', 'data/mirror_access.json',
         'data/phone_logic.json',
         'data/traversal_capabilities.json', 'data/traversal_source_scopes.json',
@@ -400,7 +400,7 @@ def test_historical_client_projection_rejects_unreviewed_changes(mutation, line_
     elif mutation == 'duplicate':
         raw += b'\n# TUTORIAL_STARTING_ABILITY_RECEIPT_ITEMS\n'
     elif mutation == 'missing':
-        mutated = raw.replace(b'TUTORIAL_STARTING_ABILITY_RECEIPT_ITEMS, ', b'', 1)
+        mutated = raw.replace(b'import resolve_slot_gateable_abilities', b'import ABILITY_NAME_TO_ID', 1)
         assert mutated != raw
         raw = mutated
     else:

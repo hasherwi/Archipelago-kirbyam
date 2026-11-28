@@ -1615,6 +1615,34 @@
               ]
             }
           ]
+        },
+        {
+          "integrated_sha256": "d11682e155c853c7cd6b9adbf7dc15da5d2cc951f62603b20005295204b93680",
+          "previous_sha256": "58840f5bbad9e401759c7acc95862e210625972bd8a726a3c04df82128fb8439",
+          "reverse_slices": [
+            {
+              "start": 42,
+              "stop": 43,
+              "current": [
+                "from .enemy_ability_data import resolve_slot_gateable_abilities\n"
+              ],
+              "main": [
+                "from .enemy_ability_data import TUTORIAL_STARTING_ABILITY_RECEIPT_ITEMS, resolve_slot_gateable_abilities\n"
+              ]
+            },
+            {
+              "start": 4811,
+              "stop": 4813,
+              "current": [
+                "        # Current explicit start_inventory permissions may be delivered in tutorial.\n",
+                "        return entry is not None and \"Abilities\" in entry.tags\n"
+              ],
+              "main": [
+                "        return (entry is not None and entry.label in\n",
+                "                TUTORIAL_STARTING_ABILITY_RECEIPT_ITEMS)\n"
+              ]
+            }
+          ]
         }
       ]
     },

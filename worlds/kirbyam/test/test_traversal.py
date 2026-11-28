@@ -8,7 +8,7 @@ from typing import Any
 import pytest
 
 from ..ability_randomization import build_enemy_copy_ability_policy
-from ..enemy_ability_data import ABILITY_NAME_TO_ID, ABILITY_SOURCES, STARTING_COPY_ABILITIES
+from ..enemy_ability_data import ABILITY_NAME_TO_ID, ABILITY_SOURCES
 from ..enemy_ability_runtime_patch import build_enemy_copy_runtime_patch_writes
 from ..traversal import (
     Node, Placement, Position, Route, SourcePolicy, compile_traversal_graph,
@@ -186,10 +186,6 @@ def test_random_statue_ignores_enemy_weight_and_filters_locked_pool() -> None:
 
 def test_statue_toggle_off_is_vanilla_even_in_random_mode() -> None:
     assert policy(2, statues=False).grant("STATUE:353900", lambda _: True).guaranteed == {"Stone"}
-
-
-def test_stone_starting_permission_is_preserved() -> None:
-    assert "Stone" in STARTING_COPY_ABILITIES
 
 
 def test_invalid_cross_room_peg_event_is_rejected() -> None:

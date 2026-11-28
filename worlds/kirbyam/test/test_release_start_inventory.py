@@ -14,8 +14,7 @@ from .. import KirbyAmWorld
 from ..items import KirbyAmItem
 from ..enemy_ability_data import (
     ABILITY_NAME_TO_ID, GATEABLE_ENEMY_COPY_ABILITIES,
-    LEGACY_SLOT_GATEABLE_ABILITIES, STARTING_COPY_ABILITIES,
-    resolve_slot_gateable_abilities, starting_copy_abilities,
+    resolve_slot_gateable_abilities,
 )
 
 
@@ -41,35 +40,21 @@ def early_world(mode: int, gating: bool, explicit: dict[str, int] | None = None)
     return world
 
 
-def test_release_catalog_preserves_legacy_receipt_protocol() -> None:
-    assert STARTING_COPY_ABILITIES == ('Beam', 'Burning', 'Cutter', 'Mini', 'Stone', 'Wheel')
-    assert len(LEGACY_SLOT_GATEABLE_ABILITIES) == 22
-    legacy = sum(1 << ABILITY_NAME_TO_ID[n] for n in LEGACY_SLOT_GATEABLE_ABILITIES)
-    current = sum(1 << ABILITY_NAME_TO_ID[n] for n in GATEABLE_ENEMY_COPY_ABILITIES)
-    assert legacy == 0x03FFFE76
-    assert current == 0x03FFFFFE
+def test_missing_slot_catalog_uses_current_gates() -> None:
+    for missing in (None, [], '', (), 0):
+        assert resolve_slot_gateable_abilities(missing) == GATEABLE_ENEMY_COPY_ABILITIES
     assert len(GATEABLE_ENEMY_COPY_ABILITIES) == 25
-    assert set(GATEABLE_ENEMY_COPY_ABILITIES) == set(LEGACY_SLOT_GATEABLE_ABILITIES) | {'Stone', 'Burning', 'Beam'}
-    empty_values: tuple[object, ...] = (None, [], '', (), 0)
-    for empty in empty_values:
-        assert resolve_slot_gateable_abilities(empty) == LEGACY_SLOT_GATEABLE_ABILITIES
-    assert resolve_slot_gateable_abilities(list(GATEABLE_ENEMY_COPY_ABILITIES)) == GATEABLE_ENEMY_COPY_ABILITIES
+    assert sum(1 << ABILITY_NAME_TO_ID[n] for n in GATEABLE_ENEMY_COPY_ABILITIES) == 0x03FFFFFE
 
 
 @pytest.mark.parametrize('mode', [0, 1, 2])
 @pytest.mark.parametrize('gating', [False, True])
 def test_no_automatic_ability_starts_and_exact_gated_pool(mode: int, gating: bool) -> None:
-    assert starting_copy_abilities(mode) == ()
     world = early_world(mode, gating)
     before = Counter(i.name for i in world.multiworld.precollected_items[1] if 'Abilities' in cast(KirbyAmItem, i).tags)
     assert not before
     assert world.multiworld.state.count('Ice Ability', 1) == 0
     assert world.multiworld.state.count('Beam Ability', 1) == 0
-    ice = world.create_item('Ice Ability')
-    assert world.collect(world.multiworld.state, ice)
-    assert world.multiworld.state.count('Ice Ability', 1) == 1
-    assert world.remove(world.multiworld.state, ice)
-    assert not world.multiworld.state.has('Ice Ability', 1)
     for ability in ('Stone', 'Burning'):
         item = world.create_item(ability + ' Ability')
         assert item.classification == ItemClassification.progression
@@ -93,13 +78,19 @@ def test_explicit_starts_additive_main_order_and_multiplicity(mode: int) -> None
     world = early_world(mode, True, explicit)
     actual = Counter(i.name for i in world.multiworld.precollected_items[1] if 'Abilities' in cast(KirbyAmItem, i).tags)
     assert actual == explicit  # No additional automatic copy of an explicit Beam or Ice.
-    for name in ('Stone Ability', 'Burning Ability', 'Ice Ability'):
-        assert world.multiworld.state.count(name, 1) == explicit[name]
+    for item in world.multiworld.precollected_items[1]:
+        if item.name not in explicit:
+            continue
+        expected = explicit[item.name] if item.advancement else 0
+        assert world.multiworld.state.count(item.name, 1) == expected
     world.create_regions()
     world.set_rules()
     world.create_items()
-    for name in ('Stone Ability', 'Burning Ability', 'Ice Ability'):
-        assert world.multiworld.state.count(name, 1) == explicit[name]
+    for item in world.multiworld.precollected_items[1]:
+        if item.name not in explicit:
+            continue
+        expected = explicit[item.name] if item.advancement else 0
+        assert world.multiworld.state.count(item.name, 1) == expected
     # Explicit start_inventory is additive, unlike start_inventory_from_pool.
     pool = Counter(i.name for i in world.multiworld.itempool if 'Abilities' in cast(KirbyAmItem, i).tags)
     assert pool['Stone Ability'] == pool['Burning Ability'] == 1

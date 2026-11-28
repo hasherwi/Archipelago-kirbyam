@@ -6,7 +6,7 @@ from NetUtils import NetworkItem
 from ..client import KirbyAmClient
 from .test_start_inventory_protocol import validated_client, server_history, mailbox
 
-STARTING = [3860107, 3860103, 3860106, 3860123, 3860104, 3860108]
+EXPLICIT_STARTS = [3860107, 3860102, 3860118]
 
 
 @pytest.mark.asyncio
@@ -24,11 +24,10 @@ async def test_live_tutorial_readiness(mock_bizhawk_context, room, demo, hp, rea
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize('starting_ids', [STARTING, [3860107, 3860102]])
+@pytest.mark.parametrize('starting_ids', [[], EXPLICIT_STARTS])
 @pytest.mark.parametrize('blocked', [
     NetworkItem(3860026, -2, 0),  # Even precollected food stays deferred.
     NetworkItem(3860018, -2, 0),  # No health changes in the tutorial exception.
-    NetworkItem(3860118, -2, 0),  # Sword isn't a guaranteed permission.
     NetworkItem(3860107, 3960566, 1),  # Physical ability checks aren't precollects.
 ])
 async def test_stock_history_tutorial_ack_order_and_stop(mock_bizhawk_context, blocked, starting_ids):
@@ -36,7 +35,7 @@ async def test_stock_history_tutorial_ack_order_and_stop(mock_bizhawk_context, b
     client = await validated_client(ctx)
     starting = [NetworkItem(code, -2, 0) for code in starting_ids]
     # Stock server, not an invented ReceivedItems packet.
-    server, _ = await server_history(ctx, starting, [blocked, starting[0]])
+    server, _ = await server_history(ctx, starting, [blocked, NetworkItem(3860107, -2, 0)])
     packet = server.send_msgs.call_args.args[1][0]
     ctx.items_received = packet['items']
     client.on_package(ctx, 'ReceivedItems', packet)

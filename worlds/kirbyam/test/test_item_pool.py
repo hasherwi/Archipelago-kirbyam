@@ -13,7 +13,6 @@ from ..starting_mirror import STARTING_MIRROR_ITEM_ID
 from .. import KirbyAmWorld
 from ..data import BASE_OFFSET, LocationCategory, data, load_json_data
 from ..items import get_item_classification
-from ..enemy_ability_data import STARTING_COPY_ABILITIES, starting_copy_abilities
 from ..locations import KirbyAmLocation
 from ..options import OneHitMode, RandomizeShards
 
@@ -226,7 +225,7 @@ def test_ability_unlock_items_are_explicit_and_match_runtime_catalog() -> None:
         if isinstance(attrs, dict)
         and attrs.get("runtime_ability_id") is not None
         and attrs.get("enemy_copy_allowed", True) is not False
-        and (bool(attrs.get("safe_to_gate", False)) or ability_name in STARTING_COPY_ABILITIES)
+        and (bool(attrs.get("safe_to_gate", False)))
     )
     expected_labels = [
         f"{ability_name} Ability"
@@ -238,7 +237,7 @@ def test_ability_unlock_items_are_explicit_and_match_runtime_catalog() -> None:
                 and isinstance(attrs, dict)
                 and attrs.get("runtime_ability_id") is not None
                 and attrs.get("enemy_copy_allowed", True) is not False
-                and (bool(attrs.get("safe_to_gate", False)) or ability_name in STARTING_COPY_ABILITIES)
+                and (bool(attrs.get("safe_to_gate", False)))
             ),
             key=lambda entry: (int(entry[1]["runtime_ability_id"]), entry[0]),
         )
@@ -698,7 +697,6 @@ def test_completely_random_pool_contains_each_non_filler_item_exactly_once() -> 
         for item in data.items.values()
         if "Filler" not in item.tags and item.classification != ItemClassification.trap
     }
-    expected_non_filler_codes -= {world.item_name_to_id[f"{name} Ability"] for name in starting_copy_abilities(0)}
     expected_non_filler_codes.discard(STARTING_MIRROR_ITEM_ID)  # Fixture has Random Starting Mirror off.
     expected_non_filler_codes.discard(data.item_key_to_id["AREA_KEY_1"])  # Always precollected, never randomized.
     expected_non_filler_codes -= set(range(3860224, 3860229))  # Default 6..10 uses four identities.
@@ -729,7 +727,6 @@ def test_vanilla_pool_contains_each_non_shard_non_filler_item_exactly_once() -> 
             and item.item_id not in shard_codes
         )
     }
-    expected_non_filler_codes -= {world.item_name_to_id[f"{name} Ability"] for name in starting_copy_abilities(0)}
     expected_non_filler_codes.discard(STARTING_MIRROR_ITEM_ID)  # Fixture has Random Starting Mirror off.
     expected_non_filler_codes.discard(data.item_key_to_id["AREA_KEY_1"])  # Always precollected, never randomized.
     expected_non_filler_codes -= set(range(3860224, 3860229))  # Default 6..10 uses four identities.

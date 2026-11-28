@@ -40,42 +40,6 @@ def _parse_address(value: Any) -> int:
 
 
 _ABILITY_DATA = _load_json_file("abilities.json")
-_PERMISSION_DEFAULTS = _load_json_file("ability_permission_defaults.json")
-if type(_PERMISSION_DEFAULTS.get("schema")) is not int or _PERMISSION_DEFAULTS["schema"] != 1:
-    raise ValueError("Unsupported Kirby ability permission defaults schema")
-
-
-def _permission_list(field: str, *, allow_empty: bool = False) -> tuple[str, ...]:
-    names = _PERMISSION_DEFAULTS[field]
-    if (not isinstance(names, list) or (not names and not allow_empty)
-            or any(not isinstance(name, str) or name not in _ABILITY_DATA for name in names)
-            or len(set(names)) != len(names)):
-        raise ValueError(f"Invalid Kirby ability permission list: {field}")
-    return tuple(names)
-
-
-# Keep historical seed receipt handling independent of current generation.
-STARTING_COPY_ABILITIES = _permission_list("legacy_starting_abilities")
-LEGACY_SLOT_GATEABLE_ABILITIES = _permission_list("legacy_gateable_abilities")
-_CURRENT_STARTING_ABILITIES = _permission_list("starting_abilities", allow_empty=True)
-# Historical clients delivered these precollected permissions even in the tutorial.
-# This protocol set must not follow the new-generation inventory defaults.
-TUTORIAL_STARTING_ABILITY_RECEIPT_ITEMS = frozenset(
-    f"{name} Ability" for name in (*STARTING_COPY_ABILITIES, *_permission_list("legacy_tutorial_receipt_extensions"))
-)
-
-
-def resolve_slot_gateable_abilities(value: object) -> tuple[str, ...]:
-    """Honor a nonempty slot list, otherwise use the frozen legacy fallback."""
-    # Select before filtering: [None] is an explicit empty set of valid names,
-    # whereas [] retains the historical fallback convention.
-    selected = value if isinstance(value, list) and value else LEGACY_SLOT_GATEABLE_ABILITIES
-    return tuple(name for name in selected if isinstance(name, str))
-
-
-def starting_copy_abilities(mode: int) -> tuple[str, ...]:
-    """Return current automatic permission items, not historical receipt types."""
-    return _CURRENT_STARTING_ABILITIES
 
 _runtime_ability_name_to_id: dict[str, int] = {}
 _valid_enemy_copy_abilities: list[str] = []
@@ -123,6 +87,13 @@ ABILITY_NAME_TO_ID: dict[str, int] = dict(_runtime_ability_name_to_id)
 VALID_ENEMY_COPY_ABILITIES: tuple[str, ...] = tuple(_valid_enemy_copy_abilities)
 FORBIDDEN_ENEMY_COPY_ABILITIES: frozenset[str] = frozenset(_forbidden_enemy_copy_abilities)
 GATEABLE_ENEMY_COPY_ABILITIES: tuple[str, ...] = tuple(_gateable_enemy_copy_abilities)
+
+
+def resolve_slot_gateable_abilities(value: object) -> tuple[str, ...]:
+    """Use the seed's declared gates or the current catalog when unspecified."""
+    if not isinstance(value, list) or not value:
+        return GATEABLE_ENEMY_COPY_ABILITIES
+    return tuple(name for name in value if isinstance(name, str))
 
 
 _ENEMY_DATA = _load_json_file("enemies.json")

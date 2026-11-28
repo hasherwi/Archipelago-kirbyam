@@ -40,7 +40,7 @@ from .hub_protocol import HUB_MARKER, HUB_MARKER_OFFSET, hub_slot_version
 from .data import BASE_OFFSET, LocationCategory, data, format_room_region_label, load_json_data
 from .enemy_ability_data import ABILITY_SOURCES
 from .enemy_ability_data import ABILITY_NAME_TO_ID
-from .enemy_ability_data import TUTORIAL_STARTING_ABILITY_RECEIPT_ITEMS, resolve_slot_gateable_abilities
+from .enemy_ability_data import resolve_slot_gateable_abilities
 from .generated_hub_switch_contract import (
     HUB_SWITCH_COMPATIBILITY_AP_BITS_BY_LOCATION_KEY,
     HUB_SWITCH_RUNTIME_AP_BIT_BY_LOCATION_KEY,
@@ -4809,8 +4809,8 @@ class KirbyAmClient(BizHawkClient):
             return False
         item_id = cls._coerce_u32(getattr(item, "item", None))
         entry = data.items.get(item_id)
-        return (entry is not None and entry.label in
-                TUTORIAL_STARTING_ABILITY_RECEIPT_ITEMS)
+        # Current explicit start_inventory permissions may be delivered in tutorial.
+        return entry is not None and "Abilities" in entry.tags
 
     async def _restore_confirmed_file_progress(
         self, ctx: KirbyAmBizHawkClientContext, flag_addr: int,

@@ -430,7 +430,7 @@ no RAM reads, location sends, item writes, or goal reports occur.
 
 When runtime gate classifies non-gameplay:
 - Defer location polling and boss-defeat polling.
-- Defer new mailbox item writes, except precollect receipts for the six legacy starting-ability item IDs during a live tutorial (native rooms 803–805, AI state 100, positive HP, demo flags zero). This exception accepts only Archipelago-origin `location=-2, player=0` receipts at the current history cursor; it never skips an intervening item or equips an ability. Other precollects and ordinary items remain deferred. Permission masks already synchronize before this receipt processing.
+- Defer new mailbox item writes, except explicit copy-ability start inventory receipts during a live tutorial (native rooms 803–805, AI state 100, positive HP, demo flags zero). This exception accepts only Archipelago-origin `location=-2, player=0` receipts at the current history cursor; it never skips an intervening item or equips an ability. Seeds grant no copy-ability permissions automatically. Other precollects and ordinary items remain deferred. Permission masks already synchronize before this receipt processing.
 - Continue mailbox ACK/recovery handling for already-pending deliveries.
 - Continue goal polling (goal signal can occur in post-clear non-gameplay states).
 

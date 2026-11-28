@@ -21,7 +21,7 @@ import pytest
 from .. import KirbyAmWorld, check_accessibility
 from ..check_accessibility import KirbyAmCheckAccessibilityError
 from ..peg_traversal import KirbyAmRoom16SourceError, validate_peg_assignment
-from ..enemy_ability_data import ABILITY_NAME_TO_ID, GATEABLE_ENEMY_COPY_ABILITIES, starting_copy_abilities
+from ..enemy_ability_data import ABILITY_NAME_TO_ID, GATEABLE_ENEMY_COPY_ABILITIES
 from .support.check_accessibility import LocalCheckAudit, audit_local_checks
 from .test_cutter_progression import _generate, _gate_words
 
@@ -61,16 +61,11 @@ def assert_generation_contract(
     expected_timer = TIMER_FRAMES if world.options.ability_randomization_mode.value == 2 else 0
     assert source_policy.get(POLICY_KEY, 0) == expected_timer
     assert _gate_words(archive, ROM_OFFSET, 2)[player] == expected_timer
-    automatic = {world.item_name_to_id[f"{name} Ability"]
-                 for name in starting_copy_abilities(world.options.ability_randomization_mode.value)}
     gateable = {world.item_name_to_id[f"{name} Ability"] for name in GATEABLE_ENEMY_COPY_ABILITIES}
     inventory = Counter(decoded["precollected_items"][player])
-    assert automatic <= inventory.keys()
-    assert gateable.intersection(inventory) == gateable.intersection(automatic)
-    assert all(inventory[code] == 1 for code in automatic)
     placed = Counter(item[0] for locations in decoded["locations"].values()
                      for item in locations.values() if item[1] == player)
-    assert not automatic.intersection(placed)
+    assert not gateable.intersection(inventory)
     assert placed[3860501] == 1 and inventory[3860501] == 0
     assert decoded["slot_data"][player]["phone_protocol_version"] == 1
     assert decoded["slot_data"][player]["starting_phone_access"] is False
