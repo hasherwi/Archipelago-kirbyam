@@ -42,6 +42,7 @@ def historical_main_compiled(graph: TraversalGraph, target: str, witness: str) -
         assert placement.pop('native_grants') == ()
     for start in payload['starts']:
         assert start.pop('expired') == frozenset()
+        assert start.pop('carried_room_transitions') == 0
         assert start.pop('active') == frozenset()
     return payload
 

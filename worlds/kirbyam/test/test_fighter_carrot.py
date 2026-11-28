@@ -94,13 +94,9 @@ def test_source_condition_cannot_spread_to_another_surface():
 @pytest.mark.parametrize('room_sanity,minor_chests', [(0, False), (1, True)])
 @pytest.mark.parametrize('statues', [0, 1])
 def test_actual_world_binding_and_collect_remove(monkeypatch, gating, area_keys, room_sanity, minor_chests, statues):
-    generate = KirbyAmWorld.generate_early
+    from .support.source_policy import set_rule_test_policy
 
-    def generate_policy(world):
-        generate(world)
-        world._enemy_copy_ability_policy = manifest()['source_policy']
-
-    monkeypatch.setattr(KirbyAmWorld, 'generate_early', generate_policy)
+    set_rule_test_policy(monkeypatch, lambda: manifest()['source_policy'])
     monkeypatch.setattr(KirbyAmWorld, 'ENABLE_MINOR_CHESTS', minor_chests)
     world = make_world(1, gating, area_keys=area_keys, room_sanity=room_sanity,
                        ability_randomization_statues=statues, accessibility=2)

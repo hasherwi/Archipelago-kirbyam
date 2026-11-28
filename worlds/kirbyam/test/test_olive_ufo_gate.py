@@ -129,15 +129,10 @@ def test_real_world_conditional_binding_under_explicit_entry_qualification(monke
     from BaseClasses import CollectionState, ItemClassification
     from .. import KirbyAmWorld
     from ..data import data
+    from .support.source_policy import set_rule_test_policy
     from .test_mini_traversal import make_world
 
-    generate = KirbyAmWorld.generate_early
-
-    def generated_policy(world):
-        generate(world)
-        world._enemy_copy_ability_policy = policy(1, pool=['UFO']).policy
-
-    monkeypatch.setattr(KirbyAmWorld, 'generate_early', generated_policy)
+    set_rule_test_policy(monkeypatch, lambda: policy(1, pool=['UFO']).policy)
     monkeypatch.setattr(KirbyAmWorld, 'ENABLE_MINOR_CHESTS', enabled)
     world = make_world(1, gating, area_keys=keys, ability_randomization_statues=statues,
                        accessibility='minimal', room_sanity=not enabled)

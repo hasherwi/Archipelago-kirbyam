@@ -213,7 +213,7 @@ def test_natural_full_pool_fill_and_main_start_order(tmp_path, monkeypatch, abil
     assert raw['seed'] == natural_policy(ability)['seed']
     assert SourcePolicy(raw).grant('WADDLE_DOO', lambda _: True).guaranteed == frozenset({ability})
     starting_count = count
-    expected = starting_count if ability == 'Ice' or gating and minor_chests else 0
+    expected = starting_count if gating and minor_chests else 0
     assert before == [expected] and after == [expected]
     starting = [item for item in multiworld.precollected_items[1] if item.name == name]
     assert len(starting) == starting_count

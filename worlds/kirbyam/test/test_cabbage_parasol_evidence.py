@@ -119,6 +119,32 @@ def test_active_swing_contract_and_prior_graphs_are_unchanged():
         assert hashlib.sha256(raw).hexdigest() == digest
 
 
+
+# Reviewed JSON ownership migration and Beam gating (bc2fa97d and 36d9ebcd).
+_ABILITY_PROGRESSIONS = {
+    'Crash': ('mustard_advanced_crash',),
+    'Fighter': ('carrot_5_13_local_source', 'cabbage_chocolate_carry'),
+    'Ice': ('olive_goal_2_ice', 'cabbage_chocolate_carry', 'mustard_4_16_local_source'),
+    'Magic': ('mustard_4_16_advanced_source',),
+    'Missile': ('cabbage_chocolate_carry', 'candy_9_12_local_source', 'rainbow_1_39_bombar_missile',
+                'moonlight_2_01_golem_missile', 'moonlight_2_04_doo_missile'),
+    'Parasol': ('cabbage_chocolate_carry',),
+    'Spark': ('cabbage_chocolate_carry', 'candy_9_12_local_source'),
+}
+
+
+def _abilities_before_progression_migration(raw: bytes) -> bytes:
+    raw = raw.replace(b'\r\n', b'\n')
+    rows = json.loads(raw)
+    assert (json.dumps(rows, indent=2) + '\n').encode() == raw
+    for name, routes in _ABILITY_PROGRESSIONS.items():
+        assert rows[name].pop('progression_permission') == {
+            'item': f'ABILITY_UNLOCK_{name.upper()}', 'routes': list(routes),
+        }
+    assert rows['Beam']['safe_to_gate'] is True
+    rows['Beam']['safe_to_gate'] = False
+    return (json.dumps(rows, indent=2) + '\n').encode()
+
 def test_canonical_tracked_text_and_private_packet_hashes_stay_separate():
     evidence = json.loads(EVIDENCE.read_text(encoding='utf-8'))
     assert evidence['tracked_text_hash_format'] == 'UTF-8 text with LF line endings (Git blob content)'
@@ -135,6 +161,8 @@ def test_canonical_tracked_text_and_private_packet_hashes_stay_separate():
     for name, digest in evidence['preserved_source_text_sha256'].items():
         digest = union['adopted_main_source_sha256'].get(name, digest)
         raw = (root / name).read_bytes()
+        if name == 'data/abilities.json':
+            raw = _abilities_before_progression_migration(raw)
         if name == 'data/items.json':
             from .support.phone_activation_history import items_before_phone
             raw = items_before_phone(raw)

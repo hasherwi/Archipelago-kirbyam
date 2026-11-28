@@ -31,9 +31,11 @@ def test_requires_actual_local_beam_not_normal_or_permission(area_keys):
     assert CAPABILITY_ABILITIES[TARGET] == {"Beam"}
     assert target_applies(row, normal)
     assert not target_applies(row, wrong_source)
+    beam_permission = frozenset({"Beam Ability"})
     for gating in (False, True):
-        assert graph.evaluate(normal, frozenset(), gating).reaches(chest)
-        assert not graph.evaluate(wrong_source, frozenset({"Beam Ability"}), gating).reaches(chest)
+        assert graph.evaluate(normal, frozenset(), gating).reaches(chest) is (not gating)
+        assert graph.evaluate(normal, beam_permission, gating).reaches(chest)
+        assert not graph.evaluate(wrong_source, beam_permission, gating).reaches(chest)
     assert data.locations[LOCATION].location_id == 3960575
 
 

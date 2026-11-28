@@ -36,7 +36,12 @@ def test_exact_full_pool_source_config_and_scoped_capability():
     assert ROOM_SCOPED_CAPABILITIES[CAPABILITY] == 533 and ROOM_SCOPED_ATTACK_WATER_STATES[CAPABILITY] == 'dry'
     assert [key for key, values in CAPABILITY_ABILITIES.items() if 'Magic' in values] == [CAPABILITY]
     abilities = json.loads((Path(__file__).resolve().parents[1] / 'data/abilities.json').read_text())
-    assert abilities['Magic'] == {'runtime_ability_id': 21, 'safe_to_gate': True}
+    assert abilities['Magic'] == {
+        'runtime_ability_id': 21, 'safe_to_gate': True,
+        'progression_permission': {
+            'item': 'ABILITY_UNLOCK_MAGIC', 'routes': ['mustard_4_16_advanced_source'],
+        },
+    }
 
 
 def test_native_options_startup_write_fence_and_private_artifact_boundary():
