@@ -2,6 +2,7 @@
 Option definitions for Kirby & The Amazing Mirror
 """
 from dataclasses import dataclass
+from typing import Self, cast
 
 from Options import (
     Choice,
@@ -38,6 +39,8 @@ class Goal(Choice):
     - 100% Game Completion: Explore all native completion rooms, open every chest,
       activate every lever and Big Switch, obtain all shards and native unlocks,
       and finish Dark Mind. Vitality ownership and Goal Games are not required.
+    - Capture the Flag: Complete one randomly selected check in your world.
+      Use /goal reveal in the KirbyAM client only if you want to spoil the location.
     - Defeat Any Area Boss: Defeat any one eligible area boss.
     - Defeat Area Boss: Defeat the area boss selected by `configured_area_boss`.
       Set `configured_area_boss` to `random` to choose one boss at generation.
@@ -51,6 +54,7 @@ class Goal(Choice):
     # Value 3 remains reserved for legacy hidden-area-boss seeds.
     option_defeat_area_boss_count = 4
     option_full_completion = 5
+    option_capture_the_flag = 6
 
     # Issue #872 rename compatibility: the old configured-goal name had the
     # same semantics, so accepting it as an alias is safe. The old hidden-random
@@ -65,6 +69,9 @@ class Goal(Choice):
         if value == cls.option_defeat_area_boss_count:
             return "Defeat a Number of Area Bosses"
         return super().get_option_name(value)
+
+
+RANDOM_AREA_BOSS_SLOT_KEY = "goal_configured_area_boss_random"
 
 
 class ConfiguredAreaBoss(Choice):
@@ -89,6 +96,16 @@ class ConfiguredAreaBoss(Choice):
     option_wiz = 5
     option_dark_meta_knight = 6
     option_master_hand_crazy_hand_pair = 7
+
+    was_random: bool = False
+
+    @classmethod
+    def from_text(cls, text: str) -> Self:
+        # Keep Archipelago's ordinary draw and seed behavior. Only remember
+        # whether the result came from the literal 'random' option.
+        choice = cast(Self, super().from_text(text))
+        choice.was_random = text.lower() == "random"
+        return choice
 
 
 class RequiredAreaBosses(Range):

@@ -6,6 +6,9 @@
     {"slot_option": 3, "goal_location": "GOAL_HIDDEN_AREA_BOSS"}
   ],
   "goals": {
+    "capture_the_flag": {
+      "goal_event": "Capture the Flag"
+    },
     "dark_mind": {
       "goal_location": "GOAL_DARK_MIND",
       "all_of": ["all_shards", "dark_mind_prerequisite_event"]

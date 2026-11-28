@@ -55,7 +55,7 @@ from .vitality import (VITALITY_ITEM_BITS, VITALITY_MASK, HEALTH_CONFIG_OFFSET,
                        HEALTH_ROM_TITLE, decode_health_config, resolve_vitality_plan,
                        validate_health_protocol)
 from .kirby_ap_payload.thumb_branch import is_thumb_bl_instruction
-from .options import Goal, OneHitMode
+from .options import Goal, OneHitMode, RANDOM_AREA_BOSS_SLOT_KEY
 from .goal_reporting_data import (
     LEGACY_HIDDEN_BOSS_GOAL_OPTION as _LEGACY_GOAL_DEFEAT_RANDOM_HIDDEN_AREA_BOSS,
     goal_location_ids_by_option,
@@ -310,8 +310,8 @@ def _build_kirbyam_command_processor(base_command_processor: type) -> type:
             return
         return _base_toggle_text(self, category, toggle)
 
-    def _cmd_goal(self) -> bool:
-        """Show the current KirbyAM seed's victory condition without revealing hidden targets."""
+    def _cmd_goal(self, *arguments: str) -> bool:
+        """Show your victory condition. Use /goal reveal to spoil a hidden target."""
         if getattr(self.ctx, "game", None) != KirbyAmClient.game:
             self.output("Goal unavailable: no KirbyAM slot is active.")
             return False
@@ -326,9 +326,58 @@ def _build_kirbyam_command_processor(base_command_processor: type) -> type:
         if type(goal) is not int:
             self.output("Goal unavailable: unsupported or malformed KirbyAM goal data.")
             return False
+        hidden_boss = (goal == _LEGACY_GOAL_DEFEAT_RANDOM_HIDDEN_AREA_BOSS
+                       or (goal == Goal.option_defeat_area_boss
+                           and slot_data.get(RANDOM_AREA_BOSS_SLOT_KEY) is True))
+        flag_goal = goal == Goal.option_capture_the_flag
+        if arguments:
+            if arguments != ("reveal",) or not (flag_goal or hidden_boss):
+                self.output("Usage: /goal (use /goal reveal only for a hidden target).")
+                return False
+            if not KirbyAmClient._goal_slot_authenticated(self.ctx):
+                self.output("Spoiler unavailable: waiting for the current KirbyAM slot to connect.")
+                return False
+            if flag_goal:
+                from .capture_the_flag import LOCATION_NAMES, flag_location_id
+                target = flag_location_id(slot_data)
+                checked = KirbyAmClient._synced_server_checks(self.ctx)
+                if target is None or checked is None or target not in self.ctx.server_locations:
+                    self.output("Flag location unavailable: waiting for valid Capture the Flag data from the server.")
+                    return False
+                self.output(f"Capture the Flag location: {LOCATION_NAMES[target]}")
+                return True
+            key = slot_data.get("goal_hidden_area_boss_key" if goal == _LEGACY_GOAL_DEFEAT_RANDOM_HIDDEN_AREA_BOSS
+                                else "goal_configured_area_boss_key")
+            boss = _GOAL_BOSS_NAMES.get(key) if isinstance(key, str) else None
+            if boss is None:
+                self.output("Boss target unavailable: missing or unsupported in slot data.")
+                return False
+            self.output(f"Goal: Defeat {boss}.")
+            return True
+        if flag_goal:
+            self.output("Goal: Capture the Flag. Complete one hidden check in your world. "
+                        "Use /goal reveal to see the exact location (spoiler).")
+            return True
+        if hidden_boss:
+            self.output("Goal: Defeat the randomly selected hidden area boss. "
+                        "Use /goal reveal to see which boss (spoiler).")
+            return True
         if goal == Goal.option_dark_mind:
             description = "Defeat Dark Mind."
         elif goal == Goal.option_full_completion:
+            from .completion import PHYSICAL_CHECK_NAMES, PHYSICAL_IDS
+            checked = KirbyAmClient._synced_server_checks(self.ctx)
+            if checked is not None and PHYSICAL_IDS <= self.ctx.server_locations:
+                missing = sorted((PHYSICAL_CHECK_NAMES[location] for location in PHYSICAL_IDS - checked),
+                                 key=str.casefold)
+                message = f"{len(PHYSICAL_IDS) - len(missing)}/{len(PHYSICAL_IDS)} checks done."
+                if len(missing) > 10:
+                    message += f" Have you checked {missing[0]}?"
+                elif missing:
+                    message += " Here's what's left: " + ", ".join(missing)
+                self.output(message)
+                return True
+            # Older clients/seeds or a still-syncing server can still explain the goal.
             description = ("100% Game Completion: explore all 272 native rooms, open every chest, "
                            "activate all levers and Big Switches, obtain all shards and native unlocks, "
                            "and finish Dark Mind. Vitality ownership and Goal Games are not required.")
@@ -350,8 +399,6 @@ def _build_kirbyam_command_processor(base_command_processor: type) -> type:
             noun = "boss" if count == 1 else "bosses"
             defeated = _acknowledged_area_boss_count(self.ctx)
             description = f"Defeat any {count} distinct area {noun}. Bosses defeated: {defeated}/{count}."
-        elif goal == _LEGACY_GOAL_DEFEAT_RANDOM_HIDDEN_AREA_BOSS:
-            description = "Defeat the randomly selected hidden area boss (target hidden)."
         else:
             self.output("Goal unavailable: unsupported or malformed KirbyAM goal data.")
             return False
@@ -544,6 +591,8 @@ class KirbyAmClient(BizHawkClient):
 
     def initialize_client(self) -> None:
         self._full_completion_reported_scope = None
+        self._captured_flag_key = None
+        self._loaded_flag_key = None
         self._curated_color_rom_confirmed: bool | None = None
         old_journal = getattr(self, "_receipt_journal", None)
         if old_journal is not None:
@@ -767,6 +816,30 @@ class KirbyAmClient(BizHawkClient):
             return False
 
         return getattr(ctx, "slot_data", None) is not None
+
+    @staticmethod
+    def _goal_slot_authenticated(ctx: "BizHawkClientContext") -> bool:
+        from worlds._bizhawk.context import AuthStatus
+
+        seed = getattr(ctx, "server_seed_name", None)
+        team, slot = getattr(ctx, "team", None), getattr(ctx, "slot", None)
+        return (KirbyAmClient._server_session_ready(ctx)
+                and getattr(ctx, "auth_status", None) == AuthStatus.AUTHENTICATED
+                and isinstance(seed, str) and bool(seed) and type(team) is int and type(slot) is int
+                and getattr(ctx, "connected_identity", (seed, team, slot)) == (seed, team, slot))
+
+    @staticmethod
+    def _synced_server_checks(ctx: "BizHawkClientContext") -> set[int] | None:
+        """Use server acknowledgements, never local pending checks or slot catalog guesses."""
+        if not KirbyAmClient._goal_slot_authenticated(ctx):
+            return None
+        checked = getattr(ctx, "checked_locations", None)
+        missing = getattr(ctx, "missing_locations", None)
+        active = getattr(ctx, "server_locations", None)
+        if (not isinstance(checked, set) or not isinstance(missing, set) or not isinstance(active, set)
+                or not active or checked & missing or (checked | missing) != active):
+            return None
+        return checked
 
     @staticmethod
     def _slot_location_id_set(ctx: "BizHawkClientContext") -> set[int] | None:
@@ -2382,7 +2455,10 @@ class KirbyAmClient(BizHawkClient):
             await self._poll_hub_switch_locations(ctx)
 
             await self._reconcile_lever_activations(ctx)
-            await poll_goal_games(ctx)
+            flag_session = self._flag_observation_session(ctx)
+            goal_game_checks = await poll_goal_games(ctx)
+            if goal_game_checks:
+                await self._observe_capture_flag(ctx, goal_game_checks, flag_session)
             # Physical lever checks remain independent of native wall ownership.
             await self._poll_lever_locations(ctx)
 
@@ -3599,6 +3675,32 @@ class KirbyAmClient(BizHawkClient):
         """Mirror shard bits are progression state only; they no longer emit AP location checks."""
         return
 
+    async def _recover_saved_boss_flag(self, ctx, flag_session) -> int | None:
+        from .capture_the_flag import BOSS_FLAG_CONFIG_ROM_OFFSET, boss_flag_config
+        from .completion import PHYSICAL_SAVE_ADDRESS, SAVE_ID_ADDRESS, saved_boss_flag
+
+        if flag_session is None:
+            return None
+        proof = self._capture_flag_key(ctx)
+        if proof is None or self._captured_flag_key == proof:
+            return None
+        target = proof[1]
+        config = boss_flag_config(target)
+        cookie = self._transport_addr("mailbox_init_cookie")
+        auth = self._health_rom_auth
+        if config is None or cookie is None:
+            return None
+        auth_addr = _normalize_gba_rom_address(data.rom_addresses["gArchipelagoInfo"])
+        record = await bizhawk.guarded_read(ctx.bizhawk_ctx,
+            [(PHYSICAL_SAVE_ADDRESS, 20, "System Bus"), (SAVE_ID_ADDRESS, 2, "System Bus")],
+            [(auth_addr, auth, "ROM"), (BOSS_FLAG_CONFIG_ROM_OFFSET, config, "ROM"),
+             (cookie, (0x4B41504D).to_bytes(4, "little"), "System Bus")])
+        if (flag_session != self._flag_observation_session(ctx) or record is None or len(record) != 2
+                or len(record[1]) != 2 or int.from_bytes(record[1], "little") > 2
+                or not saved_boss_flag(record[0], auth)):
+            return None
+        return target
+
     async def _poll_boss_defeat_locations(self, ctx: KirbyAmBizHawkClientContext) -> None:
         """
         Read boss_defeat_flags transport bitfield and map set bits to boss-defeat locations.
@@ -3606,6 +3708,7 @@ class KirbyAmClient(BizHawkClient):
         This mirrors shard polling semantics: RAM-derived checks are resent until the
         server acknowledges them in ctx.checked_locations.
         """
+        flag_session = self._flag_observation_session(ctx)
         boss_addr = data.transport_ram_addresses.get("boss_defeat_flags")
         if boss_addr is None:
             return
@@ -3618,6 +3721,9 @@ class KirbyAmClient(BizHawkClient):
             if (boss_bits >> bit) & 1:
                 mapped_checked_locations.update(self._boss_location_ids_by_bit.get(bit, []))
 
+        if (saved := await self._recover_saved_boss_flag(ctx, flag_session)) is not None:
+            mapped_checked_locations.add(saved)
+        await self._observe_capture_flag(ctx, mapped_checked_locations, flag_session)
         missing_on_server = sorted(mapped_checked_locations - ctx.checked_locations)
         already_acknowledged = sorted(mapped_checked_locations & ctx.checked_locations)
         if missing_on_server:
@@ -3664,6 +3770,7 @@ class KirbyAmClient(BizHawkClient):
         Native gTreasures.bigChestField still reflects in-game map ownership and is no
         longer used as the AP check signal.
         """
+        flag_session = self._flag_observation_session(ctx)
         chest_addr = self._transport_addr("major_chest_flags")
         if chest_addr is None:
             return
@@ -3677,6 +3784,7 @@ class KirbyAmClient(BizHawkClient):
             if (chest_bits >> bit) & 1:
                 mapped_checked_locations.update(self._major_chest_location_ids_by_bit.get(bit, []))
 
+        await self._observe_capture_flag(ctx, mapped_checked_locations, flag_session)
         missing_on_server = sorted(mapped_checked_locations - ctx.checked_locations)
         already_acknowledged = sorted(mapped_checked_locations & ctx.checked_locations)
         if missing_on_server:
@@ -3712,6 +3820,7 @@ class KirbyAmClient(BizHawkClient):
         room ID (not area ID). Mirrors shard/boss/major polling semantics: resend
         RAM-derived checks until the server acknowledges them in ctx.checked_locations.
         """
+        flag_session = self._flag_observation_session(ctx)
         chest_addr = self._transport_addr("vitality_chest_flags")
         if chest_addr is None:
             return
@@ -3724,6 +3833,7 @@ class KirbyAmClient(BizHawkClient):
             if (chest_bits >> bit) & 1:
                 mapped_checked_locations.update(self._vitality_chest_location_ids_by_bit.get(bit, []))
 
+        await self._observe_capture_flag(ctx, mapped_checked_locations, flag_session)
         missing_on_server = sorted(mapped_checked_locations - ctx.checked_locations)
         already_acknowledged = sorted(mapped_checked_locations & ctx.checked_locations)
         if missing_on_server:
@@ -3762,6 +3872,7 @@ class KirbyAmClient(BizHawkClient):
         seeds or vanilla is unsupported because the native save has no seed ID.
         No client-side pending state is carried across authenticated sessions.
         """
+        flag_session = self._flag_observation_session(ctx)
         active = self._active_location_id_set(ctx)
         address = self._native_addr("other_chest_flags_native")
         if not self._server_session_ready(ctx) or not active or address is None:
@@ -3776,6 +3887,7 @@ class KirbyAmClient(BizHawkClient):
                   if bits & (1 << flag)} & active
         if tutorial_world_map_only:
             checks.intersection_update(self._major_chest_location_ids_by_bit.get(0, []))
+        await self._observe_capture_flag(ctx, checks, flag_session)
         missing = sorted(checks - ctx.checked_locations)
         if missing:
             await ctx.send_msgs([{"cmd": "LocationChecks", "locations": missing}])
@@ -3908,6 +4020,7 @@ class KirbyAmClient(BizHawkClient):
         client can match only a verified physical location. Nearby pointer aliases
         are deliberately not accepted.
         """
+        flag_session = self._flag_observation_session(ctx)
         if not self._minor_chest_location_id_by_source_ptr:
             return
 
@@ -4003,6 +4116,7 @@ class KirbyAmClient(BizHawkClient):
         # AP server. Retain every observed check before sending: send_msgs can
         # raise, or silently return when its socket disconnected between polls.
         self._last_minor_chest_event_counter = event_counter
+        await self._observe_capture_flag(ctx, exact_checked_locations, flag_session)
         self._pending_minor_chest_locations.update(exact_checked_locations)
         active_location_ids = self._active_location_id_set(ctx)
         if active_location_ids is not None:
@@ -4020,6 +4134,7 @@ class KirbyAmClient(BizHawkClient):
         This register is written by the ROM payload's Sound Player chest hook and mirrors
         the same resend/dedupe semantics used by boss, major, and vitality polling.
         """
+        flag_session = self._flag_observation_session(ctx)
         chest_addr = self._transport_addr("sound_player_chest_flags")
         if chest_addr is None:
             return
@@ -4032,6 +4147,7 @@ class KirbyAmClient(BizHawkClient):
             if (chest_bits >> bit) & 1:
                 mapped_checked_locations.update(self._sound_player_chest_location_ids_by_bit.get(bit, []))
 
+        await self._observe_capture_flag(ctx, mapped_checked_locations, flag_session)
         missing_on_server = sorted(mapped_checked_locations - ctx.checked_locations)
         already_acknowledged = sorted(mapped_checked_locations & ctx.checked_locations)
         if missing_on_server:
@@ -4067,6 +4183,7 @@ class KirbyAmClient(BizHawkClient):
         trigger a hub-door unlock callback. Polling mirrors existing resend/dedupe
         semantics used by other transport-backed location families.
         """
+        flag_session = self._flag_observation_session(ctx)
         switch_addr = self._transport_addr("hub_switch_flags")
         if switch_addr is None:
             return
@@ -4110,6 +4227,7 @@ class KirbyAmClient(BizHawkClient):
             if (effective_switch_bits >> bit) & 1:
                 mapped_checked_locations.update(self._hub_switch_location_ids_by_bit.get(bit, []))
 
+        await self._observe_capture_flag(ctx, mapped_checked_locations, flag_session)
         missing_on_server = sorted(mapped_checked_locations - ctx.checked_locations)
         already_acknowledged = sorted(mapped_checked_locations & ctx.checked_locations)
         if missing_on_server:
@@ -4155,8 +4273,14 @@ class KirbyAmClient(BizHawkClient):
                 or len(auth) != _AUTH_TOKEN_SIZE
                 or base64.b64encode(auth).decode() != ctx.auth):
             return
+        from .capture_the_flag import active_flag_location_id
+        flag = active_flag_location_id(ctx.slot_data)
         mask = 0
         for bit, locations in self._lever_location_ids_by_bit.items():
+            # Server acknowledgements can come from !collect / !release. Never
+            # synthesize the native signal for the selected flag from an AP ACK.
+            if flag in locations:
+                continue
             if any(location in checked and location in active for location in locations):
                 mask |= 1 << bit
         lever_addr = self._transport_addr(_LEVER_ACTIVATION_FLAGS_ADDR_KEY)
@@ -4224,6 +4348,7 @@ class KirbyAmClient(BizHawkClient):
         lever_activation_flags and suppresses the native wall effect; AP Lever
         Wall item delivery may therefore set native wall state independently.
         """
+        flag_session = self._flag_observation_session(ctx)
         lever_addr = self._transport_addr(_LEVER_ACTIVATION_FLAGS_ADDR_KEY)
         if lever_addr is None or not self._lever_location_ids_by_bit:
             return
@@ -4242,6 +4367,7 @@ class KirbyAmClient(BizHawkClient):
                 if active_location_ids is None or location_id in active_location_ids:
                     mapped_checked_locations.add(location_id)
 
+        await self._observe_capture_flag(ctx, mapped_checked_locations, flag_session)
         missing_on_server = sorted(mapped_checked_locations - ctx.checked_locations)
         already_acknowledged = sorted(mapped_checked_locations & ctx.checked_locations)
         if missing_on_server:
@@ -4537,6 +4663,7 @@ class KirbyAmClient(BizHawkClient):
         Polling is level-based and reconnect-safe: checks are resent until the server
         acknowledges them in ctx.checked_locations.
         """
+        flag_session = self._flag_observation_session(ctx)
         slot_data = getattr(ctx, "slot_data", None)
         if not isinstance(slot_data, dict):
             return
@@ -4590,6 +4717,7 @@ class KirbyAmClient(BizHawkClient):
         if active_location_ids is not None:
             mapped_checked_locations &= active_location_ids
 
+        await self._observe_capture_flag(ctx, mapped_checked_locations, flag_session)
         missing_on_server = sorted(mapped_checked_locations - ctx.checked_locations)
         already_acknowledged = sorted(mapped_checked_locations & ctx.checked_locations)
         if missing_on_server:
@@ -4625,6 +4753,7 @@ class KirbyAmClient(BizHawkClient):
         built from rooms.json. Polling is level-based and reconnect-safe: checks are
         resent until server acknowledgement is present in ctx.checked_locations.
         """
+        flag_session = self._flag_observation_session(ctx)
         if not self._area_visit_location_ids_by_area_id or not self._room_area_id_by_doors_idx:
             return
 
@@ -4645,6 +4774,7 @@ class KirbyAmClient(BizHawkClient):
             if area_id in visited_area_ids:
                 mapped_checked_locations.update(self._area_visit_location_ids_by_area_id.get(area_id, []))
 
+        await self._observe_capture_flag(ctx, mapped_checked_locations, flag_session)
         missing_on_server = sorted(mapped_checked_locations - ctx.checked_locations)
         already_acknowledged = sorted(mapped_checked_locations & ctx.checked_locations)
         if missing_on_server:
@@ -5633,6 +5763,105 @@ class KirbyAmClient(BizHawkClient):
         self._full_completion_reported_scope = scope
         await self._display_client_message(ctx, "Goal complete")
 
+    def _capture_flag_key(self, ctx):
+        import base64
+        from .capture_the_flag import active_flag_location_id
+
+        if not self._goal_slot_authenticated(ctx):
+            return None
+        target = active_flag_location_id(ctx.slot_data)
+        auth = self._health_rom_auth
+        if target is None or not isinstance(auth, bytes) or len(auth) != _AUTH_TOKEN_SIZE:
+            return None
+        if base64.b64encode(auth).decode() != ctx.auth:
+            return None
+        return scope_key(ctx.server_seed_name, auth, ctx.team, ctx.slot), target
+
+    def _capture_flag_journal(self, key):
+        scope, _target = key
+        return ReceiptJournal(Utils.user_path("kirbyam", "flag_proofs.sqlite3"), scope)
+
+    def _restore_capture_flag_proof(self, key) -> None:
+        if self._loaded_flag_key == key or self._captured_flag_key == key:
+            return
+        self._loaded_flag_key = key
+        try:
+            journal = self._capture_flag_journal(key)
+            try:
+                if journal.acknowledged(str(key[1])):
+                    self._captured_flag_key = key
+            finally:
+                journal.close()
+        except (OSError, sqlite3.Error):
+            self._log_verbose("warning", "KirbyAM: Could not read saved Capture the Flag proof.")
+
+    def _flag_observation_session(self, ctx):
+        from .capture_the_flag import active_flag_location_id
+        if active_flag_location_id(getattr(ctx, "slot_data", None)) is None or not self._goal_slot_authenticated(ctx):
+            return None
+        return (self._authenticated_session_key(ctx), id(ctx.server.socket), id(ctx.bizhawk_ctx), id(ctx.slot_data))
+
+    async def _observe_capture_flag(self, ctx, observed: set[int], flag_session) -> None:
+        # Most observations need no host or emulator I/O. For the selected
+        # flag, verify the current ROM and its initialized connector before
+        # saving a local observation, independently of the server check state.
+        if not observed or flag_session is None or flag_session != self._flag_observation_session(ctx):
+            return
+        from .capture_the_flag import active_flag_location_id
+        target = active_flag_location_id(getattr(ctx, "slot_data", None))
+        if target not in observed:
+            return
+        key = self._capture_flag_key(ctx)
+        if key is None:
+            return
+        self._restore_capture_flag_proof(key)
+        if self._captured_flag_key == key:
+            return
+
+        cookie = self._transport_addr("mailbox_init_cookie")
+        if cookie is None:
+            return
+        auth_addr = _normalize_gba_rom_address(data.rom_addresses["gArchipelagoInfo"])
+        server, socket, connector, slot_data = ctx.server, ctx.server.socket, ctx.bizhawk_ctx, ctx.slot_data
+        valid = await bizhawk.guarded_read(connector, [], [
+            (auth_addr, self._health_rom_auth, "ROM"),
+            (cookie, (0x4B41504D).to_bytes(4, "little"), "System Bus"),
+        ])
+        if (valid is None or self._capture_flag_key(ctx) != key or ctx.server is not server
+                or server.socket is not socket or ctx.bizhawk_ctx is not connector or ctx.slot_data is not slot_data):
+            return
+
+        self._captured_flag_key = key
+        try:
+            journal = self._capture_flag_journal(key)
+            try:
+                journal.acknowledge(str(target))
+            finally:
+                journal.close()
+        except (OSError, sqlite3.Error):
+            self._log_client("warning", "KirbyAM: Capture the Flag proof could not be saved; "
+                             "keep this client open until the goal is reported.")
+
+    async def _maybe_report_capture_the_flag(self, ctx: KirbyAmBizHawkClientContext) -> None:
+        from NetUtils import ClientStatus
+
+        key = self._capture_flag_key(ctx)
+        checked = self._synced_server_checks(ctx)
+        if key is None or checked is None or key[1] not in checked or ctx.finished_game:
+            return
+
+        # Archipelago can register a location through a collect or release.
+        # Only combine its ACK with physical proof from this authenticated game.
+        self._restore_capture_flag_proof(key)
+        if self._captured_flag_key != key:
+            return
+        server, socket, slot_data = ctx.server, ctx.server.socket, ctx.slot_data
+        await ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
+        if (self._capture_flag_key(ctx) == key and ctx.server is server and server.socket is socket
+                and ctx.slot_data is slot_data):
+            ctx.finished_game = True
+            await self._display_client_message(ctx, "Goal complete")
+
     async def _maybe_report_goal(
         self,
         ctx: KirbyAmBizHawkClientContext,
@@ -5652,6 +5881,10 @@ class KirbyAmClient(BizHawkClient):
             await self._maybe_report_full_completion(ctx)
             return
         self._full_completion_reported_scope = None
+        if (isinstance(slot_data, dict) and type(slot_data.get("goal")) is int
+                and slot_data["goal"] == Goal.option_capture_the_flag):
+            await self._maybe_report_capture_the_flag(ctx)
+            return
         if self._goal_reported:
             return
 

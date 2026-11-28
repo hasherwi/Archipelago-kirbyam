@@ -1,4 +1,5 @@
 """Bind client goal reporting to the same locations used by generation."""
+from .capture_the_flag import GOAL_EVENT as FLAG_GOAL_EVENT
 from .data import LocationCategory, data, load_json_data
 from .options import Goal
 
@@ -9,8 +10,18 @@ def _goal_locations(payload) -> dict[int, int]:
     goals = payload["goals"]
     if goals.keys() != set(Goal.name_lookup.values()):
         raise ValueError("Kirby goal reporting must bind each current goal mode")
-    rows = [(mode, goals[key]["goal_location"]) for mode, key in Goal.name_lookup.items()]
+    rows = []
+    for mode, key in Goal.name_lookup.items():
+        row = goals[key]
+        if mode == Goal.option_capture_the_flag:
+            if row != {"goal_event": FLAG_GOAL_EVENT}:
+                raise ValueError("Invalid Kirby Capture the Flag goal reporting binding")
+            # Client reporting uses the seed's selected check, never a static goal ID.
+            continue
+        rows.append((mode, row["goal_location"]))
     for legacy in payload["legacy_reporting_only_goals"]:
+        if legacy["slot_option"] in Goal.name_lookup:
+            raise ValueError("Legacy Kirby goal reporting binding overlaps a current mode")
         rows.append((legacy["slot_option"], legacy["goal_location"]))
     ids: dict[int, int] = {}
     for mode, key in rows:

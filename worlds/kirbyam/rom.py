@@ -19,6 +19,7 @@ from settings import get_settings
 from worlds.Files import APPatchExtension, APProcedurePatch, APTokenMixin, APTokenTypes
 
 from .conditional_routes import CANDY_FUSE as candy912_fuse
+from .capture_the_flag import BOSS_FLAG_CONFIG_ROM_OFFSET, boss_flag_config
 from .colors import encode_color_config
 from .data import data
 from .enemy_ability_data import ABILITY_NAME_TO_ID, GATEABLE_ENEMY_COPY_ABILITIES
@@ -258,6 +259,10 @@ def write_tokens(world: "KirbyAmWorld", patch: KirbyAmProcedurePatch, *,
         ENEMY_HEALTH_MULTIPLIER_FILE,
         health_multiplier.to_bytes(2, "little"),
     )
+
+    flag_config = boss_flag_config(getattr(world, "_flag_location_id", None))
+    if flag_config is not None:
+        patch.write_token(APTokenTypes.WRITE, BOSS_FLAG_CONFIG_ROM_OFFSET, flag_config)
 
     # Only write the auth token if a ROM address has been configured.
     # The injected base patch is expected to reserve 16 bytes for this.

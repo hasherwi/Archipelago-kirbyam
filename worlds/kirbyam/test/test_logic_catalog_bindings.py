@@ -5,7 +5,7 @@ import json
 
 import pytest
 
-from .. import goal_reporting_data, traversal_rules
+from .. import goal_reporting_data, rules, traversal_rules
 from ..data import data, load_json_data
 from ..options import Goal
 
@@ -27,6 +27,20 @@ def test_reporting_only_goal_cannot_override_current_slot_mode() -> None:
     assert isinstance(payload, dict)
     payload["legacy_reporting_only_goals"][0]["slot_option"] = Goal.option_dark_mind
     with pytest.raises(ValueError, match="goal reporting binding"):
+        goal_reporting_data._goal_locations(payload)
+
+
+def test_flag_has_a_seed_selected_event_not_a_static_goal_location(monkeypatch) -> None:
+    payload = deepcopy(load_json_data("goal_logic.json"))
+    assert isinstance(payload, dict)
+    flag = Goal.option_capture_the_flag
+    assert rules._GOAL_LOCATION_LABELS[flag] == "Capture the Flag"
+    assert flag not in goal_reporting_data.goal_location_ids_by_option()
+    payload["goals"]["capture_the_flag"] = payload["goals"]["full_completion"]
+    monkeypatch.setattr(rules, "load_json_data", lambda _: payload)
+    with pytest.raises(ValueError, match="Capture the Flag goal event"):
+        rules._load_goal_logic()
+    with pytest.raises(ValueError, match="Capture the Flag goal reporting binding"):
         goal_reporting_data._goal_locations(payload)
 
 

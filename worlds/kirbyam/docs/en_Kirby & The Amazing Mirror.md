@@ -70,11 +70,13 @@ Use exact item/location names from this world (or the item groups listed above) 
 - For a fixed one-hit challenge, set `minimum_health: 1` and `maximum_health: 1`. This removes Vitality Counters and healing filler from the pool. For a one-hit start with four upgrades, use `minimum_health: 1` and `maximum_health: 5`.
 - Filler items use weighted generation rather than equal odds. Current whole-number weights are: Cell Phone Battery 25, Energy Drink 17, 1 Up 15, Max Tomato 15, Small Food 14, Hunk of Meat 9, Invincibility Candy 5.
 - Goal modes:
+  - `capture_the_flag`: Complete one hidden check the seed selected from your world. It counts no matter who receives the item. The updated KirbyAM client and a newly generated patch are required. If the flag is a boss, the game saves the physical defeat even when playing offline. Enter `/goal` for the rules or explicitly enter `/goal reveal` to spoil the flag location in your client.
+  - `full_completion`: Explore all native completion rooms, open every chest, activate all levers and Big Switches, obtain all shards and native unlocks, and finish Dark Mind. Vitality ownership and Goal Games are not required. `/goal` shows progress on the required Archipelago checks and a hint for the first missing check alphabetically. With 10 or fewer left, it lists them all. Finishing the checks does not replace the other requirements.
   - `defeat_area_boss_count`: Defeat any `required_area_bosses` distinct area bosses (1–8, default 3). Repeats count once; Master Hand + Crazy Hand count as one. Shards and received items do not count. This setting is ignored by other goals. Count-goal seeds require the updated KirbyAM client; older clients incorrectly treat this new mode as Dark Mind.
   - `dark_mind`: Defeat Dark Mind to complete the seed.
   - `defeat_any_area_boss`: Defeat any one `* - Boss Defeat` location (Mustard Mountain, Moonlight Mansion, Candy Constellation, Olive Ocean, Peppermint Palace, Cabbage Cavern, Carrot Castle, or Radish Ruins). In this mode, collecting all Mirror Shards is not required by the goal mode itself.
     - Candy Constellation's Master Hand + Crazy Hand fight is treated as one pooled boss target (`BOSS_DEFEAT_3`).
-  - `defeat_area_boss`: Defeat the area boss selected by `configured_area_boss`. The default is Master Hand + Crazy Hand (`BOSS_DEFEAT_3`). Set `configured_area_boss` to `random` to have Archipelago choose one of the eight area bosses during option parsing. The old name `defeat_configured_area_boss` remains accepted as a compatibility alias. Replace the removed `defeat_random_hidden_area_boss` with `goal: defeat_area_boss` plus `configured_area_boss: random`.
+  - `defeat_area_boss`: Defeat the area boss selected by `configured_area_boss`. The default is Master Hand + Crazy Hand (`BOSS_DEFEAT_3`). Set `configured_area_boss` to `random` to have Archipelago choose one of the eight area bosses. The client keeps the random target hidden until you enter `/goal reveal`. The old name `defeat_configured_area_boss` remains accepted as a compatibility alias. Replace the removed `defeat_random_hidden_area_boss` with `goal: defeat_area_boss` plus `configured_area_boss: random`.
 
 See the [Kirby color palette gallery](https://github.com/hasherwi/Archipelago-kirbyam/blob/main/worlds/kirbyam/docs/color-palettes.md) to compare the original and additional KirbyAM starting colors. The `random_color_per_room` mode changes colors between rooms with a connected KirbyAM client on either BizHawk or mGBA. Without a connected client, the patched ROM applies only the initial color.
 
@@ -192,7 +194,7 @@ and follow the maintained [installation and support instructions](https://github
 See the [setup guide's PopTracker section](https://github.com/hasherwi/Archipelago-kirbyam/blob/main/worlds/kirbyam/docs/setup_en.md#optional-poptracker)
 for connection details and version requirements.
 
-Goal logic depends on the selected mode: either defeat Dark Mind, defeat any one area boss in `defeat_any_area_boss` mode, defeat the selected `configured_area_boss` in `defeat_area_boss` mode, or defeat any N distinct area bosses in `defeat_area_boss_count` mode. Enter `/goal` in the connected client to confirm the requirement; legacy hidden targets stay hidden.
+Enter `/goal` in the connected client to see your seed's victory condition or progress. For Capture the Flag and randomly selected area bosses, it tells you to use `/goal reveal` if you want the exact target spoiled.
 
 
 

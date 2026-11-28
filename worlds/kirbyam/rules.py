@@ -45,6 +45,7 @@ from .data import LocationCategory, data, load_json_data, normalize_region_exits
 from .generation_logging import logger
 from .groups import resolve_item_group
 from .options import Goal
+from .capture_the_flag import GOAL_EVENT as FLAG_GOAL_EVENT, install_goal_event
 from .completion import PHYSICAL_KEYS, REQUIRED_ITEMS, ROOM_REGIONS
 from .traversal import CAPABILITY_ABILITIES
 
@@ -69,6 +70,11 @@ def _load_goal_logic():
     modes = {}
     for value, name in Goal.name_lookup.items():
         row = goals[name]
+        if value == Goal.option_capture_the_flag:
+            if row != {"goal_event": FLAG_GOAL_EVENT}:
+                raise ValueError("Invalid Kirby Capture the Flag goal event")
+            modes[value] = (row["goal_event"], ())
+            continue
         if not isinstance(row, dict) or set(row) != {"goal_location", "all_of"}:
             raise ValueError(f"Invalid Kirby goal declaration: {name}")
         location = data.locations.get(row["goal_location"])
@@ -409,6 +415,9 @@ def set_rules(world: KirbyAmWorld) -> None:  # noqa: C901
         lambda state, required_goal=goal_label: state.has(required_goal, world.player)
     )
 
+    if goal_value == Goal.option_capture_the_flag:
+        install_goal_event(world)
+
     from .starting_mirror import STARTING_MIRROR_ENTRANCE, STARTING_MIRROR_ITEM, random_starting_mirror_enabled
     if random_starting_mirror_enabled(world):
         entrance = world.multiworld.get_entrance(STARTING_MIRROR_ENTRANCE, world.player)
@@ -567,6 +576,8 @@ def set_rules(world: KirbyAmWorld) -> None:  # noqa: C901
     install_phone_rules(world)
 
     for goal_location_name in _GOAL_LOCATION_LABELS.values():
+        if goal_location_name == FLAG_GOAL_EVENT:  # Installed separately; no static ROM check.
+            continue
         try:
             goal_location = world.multiworld.get_location(goal_location_name, world.player)
 

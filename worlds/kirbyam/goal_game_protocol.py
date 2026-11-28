@@ -21,7 +21,7 @@ def goal_slot_version(slot: dict) -> int:
     return version
 
 
-async def poll_goal_games(ctx) -> None:
+async def poll_goal_games(ctx) -> set[int] | None:
     slot = getattr(ctx, 'slot_data', None)
     if not isinstance(slot, dict) or not goal_slot_version(slot):
         return
@@ -64,3 +64,4 @@ async def poll_goal_games(ctx) -> None:
     missing = sorted(checks & set(ctx.missing_locations) - set(ctx.checked_locations))
     if missing:
         await ctx.send_msgs([{'cmd': 'LocationChecks', 'locations': missing}])
+    return checks
