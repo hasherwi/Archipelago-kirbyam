@@ -274,10 +274,12 @@ class AbilityGating(Toggle):
 class RandomStartingAbilities(Range):
     """Start with this many distinct, randomly selected copy-ability unlocks.
 
-    Requires Ability Gating when nonzero. Chosen unlocks move from the
-    randomized pool into starting inventory; they are not equipped and their
-    in-game sources do not change. Explicit starts and potential picks from
-    pool-backed item plando are not eligible for the random draw.
+    With Ability Gating on, this sets how many unlocks you get at random,
+    not which ones. To guarantee a specific starting unlock, use start_inventory.
+    To guarantee it at a specific check, use plando_items with from_pool: true
+    (requires host-enabled item plando). The random draw skips both.
+    Chosen unlocks move out of the item pool. They do not equip Kirby or change
+    where the abilities can be acquired in-game. Leave this at 0 with gating off.
     """
     display_name = "Random Starting Abilities"
     range_start = 0

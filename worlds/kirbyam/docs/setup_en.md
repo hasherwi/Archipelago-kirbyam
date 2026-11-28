@@ -40,6 +40,18 @@ If you're playing a single-player seed and you don't care about autotracking or 
 client, and load the patched ROM in any emulator. However, for multiworlds and other Archipelago features, continue
 below using your selected emulator and its connector.
 
+### Choosing starting abilities
+
+With **Ability Gating** on, **Random Starting Abilities** (`random_starting_abilities`) sets
+how many distinct unlocks the seed gives you at random, not which ones. The default is 0.
+
+- To guarantee a specific unlock at the start, list it in `start_inventory`.
+- To put a specific unlock at a specific check, use `plando_items` with `from_pool: true`.
+  The host must enable item plando.
+
+The random draw skips both. Unlocks let Kirby use abilities after finding a source in-game;
+they don't equip Kirby or change what enemies or statues grant.
+
 ## Checking Your Goal
 
 After connecting your KirbyAM slot, enter `/goal` in the client to display the seed's victory condition.
