@@ -217,8 +217,8 @@ def test_current_host_structure_preserves_404_and_tracks_master719_and_green138_
             len(coverage['installed_targets']), status['counts']['witnesses']) == (418, 401, 1178, 68, 186)
     # Project only the pinned feature surfaces, retaining the frozen native record.
     from .support.main_sync_history import main_surfaces
-    from .support.stock_short_carrier_history import before_stock_short_surfaces
-    assert digest(main_surfaces(before_stock_short_surfaces(coverage['surfaces']))) == contract['normalized_surface_sha256']
+    # main_surfaces already reverses the pinned stock Moonlight exits.
+    assert digest(main_surfaces(coverage['surfaces'])) == contract['normalized_surface_sha256']
     # Strictly project Green off the unchanged Master-era catalog pin; keep frozen404 evidence.
     from .support.green138_history import before_green138
     from .support.advanced_crash_history import before_advanced_crash
