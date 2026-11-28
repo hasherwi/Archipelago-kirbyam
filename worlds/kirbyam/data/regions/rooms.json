@@ -8480,6 +8480,138 @@
               "access": {
                 "region": "REGION_CABBAGE_CAVERN/ROOM_3_HUB_3"
               }
+            },
+            "short_bonkers_hammer": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_CABBAGE_CAVERN/ROOM_3_12_LOWER"
+              },
+              "nodes": [
+                {
+                  "id": "lower_528",
+                  "native_room": 528
+                },
+                {
+                  "id": "west_527",
+                  "native_room": 527
+                },
+                {
+                  "id": "upper_515",
+                  "native_room": 515
+                },
+                {
+                  "id": "bonkers",
+                  "native_room": 515
+                },
+                {
+                  "id": "lower_513",
+                  "native_room": 513
+                },
+                {
+                  "id": "east_509",
+                  "native_room": 509
+                },
+                {
+                  "id": "west_510",
+                  "native_room": 510
+                },
+                {
+                  "id": "target",
+                  "native_room": 510
+                }
+              ],
+              "routes": [
+                {
+                  "from": "lower_528",
+                  "to": "west_527",
+                  "evidence": "docs/traversal-logic.md#peg_527_18_13",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "Normal takes n528 (22,47) to n527 (3,17).",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ]
+                },
+                {
+                  "from": "west_527",
+                  "to": "upper_515",
+                  "evidence": "docs/traversal-logic.md#peg_527_18_13",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "Normal takes the upper n527 (69,5) door without either peg to n515 upper left.",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ]
+                },
+                {
+                  "from": "upper_515",
+                  "to": "bonkers",
+                  "evidence": "docs/traversal-logic.md#peg_527_18_13"
+                },
+                {
+                  "from": "bonkers",
+                  "to": "lower_513",
+                  "evidence": "docs/traversal-logic.md#peg_527_18_13",
+                  "room_transition": true,
+                  "room_instance": "reset",
+                  "reset_evidence": "After swallowing Bonkers, n515 (10,2) reaches the n513 lower-right arrival.",
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ],
+                  "required_equipment": [
+                    "Hammer"
+                  ]
+                },
+                {
+                  "from": "lower_513",
+                  "to": "east_509",
+                  "room_transition": true,
+                  "evidence": "docs/traversal-logic.md#peg_510_7_7; open lower F1 at (5,18), reverse ascent from lower entry, then n513 (8,2) \u2192 n509 (43,17).",
+                  "required_equipment": [
+                    "Hammer"
+                  ],
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ]
+                },
+                {
+                  "from": "east_509",
+                  "to": "west_510",
+                  "room_transition": true,
+                  "evidence": "docs/traversal-logic.md#peg_510_7_7; take original n509 (41,3) \u2192 n510 (4,6) with Hammer.",
+                  "required_equipment": [
+                    "Hammer"
+                  ],
+                  "area_key_items": [
+                    "Cabbage Cavern - Area Key"
+                  ]
+                },
+                {
+                  "from": "west_510",
+                  "to": "target",
+                  "evidence": "docs/traversal-logic.md#peg_510_7_7; low aerial Hammer drives (7,7) then drops through to exact chest template 0x088C9114.",
+                  "capability": "peg",
+                  "allowed_abilities": [
+                    "Hammer"
+                  ],
+                  "opens": "peg_510_7_7"
+                }
+              ],
+              "sources": [
+                {
+                  "node": "bonkers",
+                  "inventory_id": "room:515/template:0x088C9FB4",
+                  "renewable": false,
+                  "acquisition_evidence": "Defeated the original Bonkers as Normal and swallowed the parent, not the encounter projectile."
+                }
+              ],
+              "starts": [
+                "lower_528"
+              ],
+              "required_targets": [
+                "target"
+              ]
             }
           }
         }
@@ -10842,6 +10974,72 @@
               "access": {
                 "region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
               }
+            },
+            "short_308_cupie": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "lower_308",
+                  "native_room": 308
+                },
+                {
+                  "id": "cupie",
+                  "native_room": 308
+                },
+                {
+                  "id": "east_316",
+                  "native_room": 316
+                },
+                {
+                  "id": "target",
+                  "native_room": 316
+                }
+              ],
+              "routes": [
+                {
+                  "from": "lower_308",
+                  "to": "cupie",
+                  "evidence": "docs/traversal-logic.md#rope_316_35_5; Normal reaches the original lower Cupie at (280,312) from the ordinary west/lower approach."
+                },
+                {
+                  "from": "cupie",
+                  "to": "east_316",
+                  "evidence": "docs/traversal-logic.md#rope_316_35_5; Take n308 (26,3) to n316 (60,4) with Cupid.",
+                  "room_transition": true,
+                  "required_equipment": [
+                    "Cupid"
+                  ]
+                },
+                {
+                  "from": "east_316",
+                  "to": "target",
+                  "evidence": "docs/traversal-logic.md#rope_316_35_5; Charged Cupid breaks both exact rope cells and reaches native Energy Drink chest 0x088C4798.",
+                  "capability": "rope",
+                  "allowed_abilities": [
+                    "Cupid"
+                  ],
+                  "opens": "rope_316_35_5"
+                }
+              ],
+              "access": {
+                "region": "REGION_MUSTARD_MOUNTAIN/ROOM_4_09"
+              },
+              "starts": [
+                "lower_308"
+              ],
+              "required_targets": [
+                "target"
+              ],
+              "sources": [
+                {
+                  "node": "cupie",
+                  "inventory_id": "room:308/template:0x088C3DEC",
+                  "renewable": false,
+                  "acquisition_evidence": "docs/traversal-logic.md#rope_316_35_5; controller replay observed Normal inhale and swallow of the original placement before the obstacle.",
+                  "id": "0x088C3DEC"
+                }
+              ]
             }
           }
         }
@@ -16138,6 +16336,95 @@
               "access": {
                 "region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
               }
+            },
+            "short_sword_knight": {
+              "version": 1,
+              "status": "reviewed",
+              "access": {
+                "region": "REGION_PEPPERMINT_PALACE/ROOM_7_HUB_1"
+              },
+              "nodes": [
+                {
+                  "id": "hub",
+                  "native_room": 290
+                },
+                {
+                  "id": "lower_210",
+                  "native_room": 210
+                },
+                {
+                  "id": "sword_knight",
+                  "native_room": 210
+                },
+                {
+                  "id": "lower_205",
+                  "native_room": 205
+                },
+                {
+                  "id": "right_228",
+                  "native_room": 228
+                },
+                {
+                  "id": "target",
+                  "native_room": 228
+                }
+              ],
+              "sources": [
+                {
+                  "node": "sword_knight",
+                  "inventory_id": "room:210/template:0x088BF658",
+                  "renewable": false,
+                  "acquisition_evidence": "docs/traversal-logic.md#rope_228_11_21; ordinary Normal path from n290 lower entrance to original Sword Knight (112,464), swallowed directly.",
+                  "id": "0x088BF658"
+                }
+              ],
+              "routes": [
+                {
+                  "from": "hub",
+                  "to": "lower_210",
+                  "room_transition": true,
+                  "evidence": "docs/traversal-logic.md#rope_228_11_21; n290 (1,8) \u2192 n210 (27,49), no held tool required."
+                },
+                {
+                  "from": "lower_210",
+                  "to": "sword_knight",
+                  "evidence": "docs/traversal-logic.md#rope_228_11_21"
+                },
+                {
+                  "from": "sword_knight",
+                  "to": "lower_205",
+                  "room_transition": true,
+                  "evidence": "docs/traversal-logic.md#rope_228_11_21; retain Sword and use n210 (15,2) \u2192 n205 (10,19).",
+                  "required_equipment": [
+                    "Sword"
+                  ]
+                },
+                {
+                  "from": "lower_205",
+                  "to": "right_228",
+                  "room_transition": true,
+                  "evidence": "docs/traversal-logic.md#rope_228_11_21; n205 (44,2) \u2192 n228 (26,29) with Sword.",
+                  "required_equipment": [
+                    "Sword"
+                  ]
+                },
+                {
+                  "from": "right_228",
+                  "to": "target",
+                  "evidence": "docs/traversal-logic.md#rope_228_11_21; use outer (22,15) bomb, cut the exact rope and open Sparerib (0x088C04D8).",
+                  "capability": "rope",
+                  "allowed_abilities": [
+                    "Sword"
+                  ],
+                  "opens": "rope_228_11_21"
+                }
+              ],
+              "starts": [
+                "hub"
+              ],
+              "required_targets": [
+                "target"
+              ]
             }
           }
         },
@@ -17384,6 +17671,95 @@
               "access": {
                 "region": "REGION_RAINBOW_ROUTE/ROOM_1_CENTRAL_CIRCLE"
               }
+            },
+            "short_225_sword_knight": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "right_221",
+                  "native_room": 221
+                },
+                {
+                  "id": "lower_225",
+                  "native_room": 225
+                },
+                {
+                  "id": "sword_knight",
+                  "native_room": 225
+                },
+                {
+                  "id": "upper_221_return",
+                  "native_room": 221
+                },
+                {
+                  "id": "upper_217",
+                  "native_room": 217
+                },
+                {
+                  "id": "target",
+                  "native_room": 217
+                }
+              ],
+              "routes": [
+                {
+                  "from": "right_221",
+                  "to": "lower_225",
+                  "evidence": "docs/traversal-logic.md#rope_217_6_5; Normal takes n221 (58,4) to n225 lower arrival (6,89).",
+                  "room_transition": true
+                },
+                {
+                  "from": "lower_225",
+                  "to": "sword_knight",
+                  "evidence": "docs/traversal-logic.md#rope_217_6_5; Reach original lower Sword Knight (216,1256) from below, before either Goal 2 visit."
+                },
+                {
+                  "from": "sword_knight",
+                  "to": "upper_221_return",
+                  "evidence": "docs/traversal-logic.md#rope_217_6_5; Carry Sword back through n225 (4,88) to n221 (58,5).",
+                  "room_transition": true,
+                  "required_equipment": [
+                    "Sword"
+                  ]
+                },
+                {
+                  "from": "upper_221_return",
+                  "to": "upper_217",
+                  "evidence": "docs/traversal-logic.md#rope_217_6_5; Take n221 (57,18) to n217 (3,4).",
+                  "room_transition": true,
+                  "required_equipment": [
+                    "Sword"
+                  ]
+                },
+                {
+                  "from": "upper_217",
+                  "to": "target",
+                  "evidence": "docs/traversal-logic.md#rope_217_6_5; Cut the exact linked roof rope; the ordinary exit at (3,8) leads to n223.",
+                  "capability": "rope",
+                  "allowed_abilities": [
+                    "Sword"
+                  ],
+                  "opens": "rope_217_6_5"
+                }
+              ],
+              "access": {
+                "region": "REGION_PEPPERMINT_PALACE/ROOM_7_22"
+              },
+              "starts": [
+                "right_221"
+              ],
+              "required_targets": [
+                "target"
+              ],
+              "sources": [
+                {
+                  "node": "sword_knight",
+                  "inventory_id": "room:225/template:0x088C2514",
+                  "renewable": false,
+                  "acquisition_evidence": "docs/traversal-logic.md#rope_217_6_5; controller replay observed Normal inhale and swallow of the original placement before the obstacle.",
+                  "id": "0x088C2514"
+                }
+              ]
             }
           }
         }
@@ -19062,6 +19438,107 @@
               "access": {
                 "region": "REGION_RAINBOW_ROUTE/ROOM_1_HUB_1"
               }
+            },
+            "short_401_rocky": {
+              "version": 1,
+              "status": "reviewed",
+              "nodes": [
+                {
+                  "id": "entry_408",
+                  "native_room": 408
+                },
+                {
+                  "id": "top_401",
+                  "native_room": 401
+                },
+                {
+                  "id": "lower_rocky",
+                  "native_room": 401
+                },
+                {
+                  "id": "right_407",
+                  "native_room": 407
+                },
+                {
+                  "id": "left_490",
+                  "native_room": 490
+                },
+                {
+                  "id": "lower_411",
+                  "native_room": 411
+                },
+                {
+                  "id": "target",
+                  "native_room": 411
+                }
+              ],
+              "routes": [
+                {
+                  "from": "entry_408",
+                  "to": "top_401",
+                  "evidence": "docs/traversal-logic.md#peg_411_4_3; Normal takes n408 (1,3) to n401 upper (28,4).",
+                  "room_transition": true
+                },
+                {
+                  "from": "top_401",
+                  "to": "lower_rocky",
+                  "evidence": "docs/traversal-logic.md#peg_411_4_3; Normal descends to the original lower Rocky at (240,312)."
+                },
+                {
+                  "from": "lower_rocky",
+                  "to": "right_407",
+                  "evidence": "docs/traversal-logic.md#peg_411_4_3; Use the ordinary lower shortcut, then n401 (1,48) to n407 (41,13).",
+                  "room_transition": true,
+                  "required_equipment": [
+                    "Stone"
+                  ]
+                },
+                {
+                  "from": "right_407",
+                  "to": "left_490",
+                  "evidence": "docs/traversal-logic.md#peg_411_4_3; Keep the temporary ceiling intact until crossing, then n407 (10,3) to n490 (3,6).",
+                  "room_transition": true,
+                  "required_equipment": [
+                    "Stone"
+                  ]
+                },
+                {
+                  "from": "left_490",
+                  "to": "lower_411",
+                  "evidence": "docs/traversal-logic.md#peg_411_4_3; Use n490 (14,5) to n411 (3,19).",
+                  "room_transition": true,
+                  "required_equipment": [
+                    "Stone"
+                  ]
+                },
+                {
+                  "from": "lower_411",
+                  "to": "target",
+                  "evidence": "docs/traversal-logic.md#peg_411_4_3; Drive (4,3) on the upper-left ledge; this reveals the door to n405. Stone is not needed afterward.",
+                  "capability": "peg",
+                  "allowed_abilities": [
+                    "Stone"
+                  ],
+                  "opens": "peg_411_4_3"
+                }
+              ],
+              "access": {
+                "region": "REGION_CANDY_CONSTELLATION/ROOM_9_05"
+              },
+              "starts": [
+                "entry_408"
+              ],
+              "required_targets": [
+                "target"
+              ],
+              "sources": [
+                {
+                  "node": "lower_rocky",
+                  "inventory_id": "room:401/template:0x088C5864",
+                  "renewable": false,
+                  "acquisition_evidence": "docs/traversal-logic.md#peg_411_4_3; controller replay observed Normal inhale and swallow of the original placement before the obstacle."
+                }
+              ]
             }
           }
         }

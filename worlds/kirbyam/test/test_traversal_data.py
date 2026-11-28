@@ -419,3 +419,32 @@ def test_optional_route_requires_bypass_evidence(rooms):
         load_room_traversal(rooms)
     target["optional_route_evidence"] = "Reviewed independent ordinary bypass to all AP targets"
     load_room_traversal(rooms)
+
+
+@pytest.mark.parametrize(("target", "witness", "source", "ability", "carry"), [
+    ("peg_510_7_7", "short_bonkers_hammer", "room:515/template:0x088C9FB4", "Hammer", 3),
+    ("peg_411_4_3", "short_401_rocky", "room:401/template:0x088C5864", "Stone", 3),
+    ("rope_228_11_21", "short_sword_knight", "0x088BF658", "Sword", 2),
+    ("rope_217_6_5", "short_225_sword_knight", "0x088C2514", "Sword", 2),
+    ("rope_316_35_5", "short_308_cupie", "0x088C3DEC", "Cupid", 1),
+])
+def test_sheet_verified_short_carriers_require_exact_source_and_unlock(target, witness, source, ability, carry):
+    from dataclasses import replace
+    from ..traversal import SourcePolicy
+    from ..traversal_data import graph_items, room_traversal_graph
+
+    graph = room_traversal_graph(target, witness, area_keys=True)
+    placement, = graph.placements
+    assert placement.identity == source and not placement.renewable
+    assert graph.access_region
+    rooms = {node.key: node.room for node in graph.nodes}
+    after_acquisition = graph.routes[next(i for i, r in enumerate(graph.routes) if r.source == placement.node):]
+    assert sum(rooms[r.source] != rooms[r.target] for r in after_acquisition) == carry
+    keys = graph_items(graph)
+    owned = keys | {f"{ability} Ability"}
+    stock = SourcePolicy({"mode": 0})
+    goal, = graph.required_targets
+    assert graph.evaluate(stock, owned, gating=True, advanced_logic=False).reaches(goal)
+    assert not graph.evaluate(stock, keys, gating=True, advanced_logic=False).reaches(goal)
+    assert not replace(graph, placements=()).evaluate(
+        stock, owned, gating=True, advanced_logic=False).reaches(goal)

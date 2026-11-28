@@ -28,8 +28,13 @@ _NEW_ROUTES = {
     ('peg_527_56_16', 'short_bonkers_hammer'): 'ea03e381e5b690a9e31a0db4124cc2c372798c3cd69d0b88033b9584b66d7e66',
     ('peg_527_18_13', 'local_giant_rocky_stone'): '65d463316d44dd532255a75561d3efd75eb293c564bd1271311c71ac2ec6f250',
     ('peg_527_18_13', 'short_bonkers_hammer'): '5dccf00e44202bc11db6ae9a8422a372112fbf2bca41c6a68e46a20a64059fbf',
+    ('peg_411_4_3', 'short_401_rocky'): 'b874e05a48f4cb97b517e8e12a116f6de7a0bed5bd3fc220f75a8942836bd08a',
+    ('peg_510_7_7', 'short_bonkers_hammer'): 'be70fa057dff0925e51e7c3d7dfde30a8a26755c63b32614eab1b2e6595cc7db',
+    ('rope_217_6_5', 'short_225_sword_knight'): '8c23a9ccd2ea61a911c952fe6d43c0a2bbbdc9413fa9177a7c76e8d5ca31c999',
+    ('rope_228_11_21', 'short_sword_knight'): 'cb744a97a42b72bcc522b6645f529c680c3228829c3421bef970d704d339322d',
+    ('rope_316_35_5', 'short_308_cupie'): 'f81d7f121366d0e8ab956179fa9e8972330e4083f0c4005fec44d1bbd630b455',
 }
-_NEW_CATALOG_SHA = '946eee4c471b0946c7c6774f5a9e89ffdfd9255c8a917d11cd2a166f27665ad5'
+_NEW_CATALOG_SHA = '306e238ebf200a0a866cd4a80949336abd19b84cde64928b16201d930365ea5c'
 _NEW_SOURCES = ('BOMBAR@0x088C2914', 'GOLEM@0x088BC580', 'WADDLE_DOO@0x088BCCDC')
 
 
@@ -81,6 +86,9 @@ def before_stock_short_catalog(catalog):
     assert projected['sources'].pop('FOLEY@room:513/template:0x088C9B50') == [{'source_key': 'FOLEY', 'identity': 'room:513/template:0x088C9B50', 'renewable': False, 'documented_retry': False}]
     assert projected['sources'].pop('GIANT_ROCKY@room:527/template:0x088CA568') == [{'source_key': 'GIANT_ROCKY', 'identity': 'room:527/template:0x088CA568', 'renewable': False, 'documented_retry': False}]
     assert projected['sources'].pop('BONKERS@room:515/template:0x088C9FB4') == [{'source_key': 'BONKERS', 'identity': 'room:515/template:0x088C9FB4', 'renewable': False, 'documented_retry': False}]
+    assert projected['sources'].pop('CUPIE@0x088C3DEC') == [{'source_key': 'CUPIE', 'identity': '0x088C3DEC', 'renewable': False, 'documented_retry': False}]
+    assert projected['sources'].pop('ROCKY@room:401/template:0x088C5864') == [{'source_key': 'ROCKY', 'identity': 'room:401/template:0x088C5864', 'renewable': False, 'documented_retry': False}]
+    assert projected['sources'].pop('SWORD_KNIGHT@0x088C2514') == [{'source_key': 'SWORD_KNIGHT', 'identity': '0x088C2514', 'renewable': False, 'documented_retry': False}]
     extra = [row for row in projected["graphs"]
              if row["target"] in _MOON or row["witness"] == "bonkers_stock_short"]
     assert digest(extra) == "03fc233163c0076914c383f259cfb1852d6b8b899659945a9c0728a9dbd1375b"

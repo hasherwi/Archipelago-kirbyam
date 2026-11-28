@@ -1049,6 +1049,8 @@ AP region: `REGION_CANDY_CONSTELLATION/ROOM_9_08`.
 
 Actual resolved statue slots STATUE:353900 and STATUE:3538FC; independently reachable hub190; explicit hub/area requirements. Renewable randomized statues use documented possible-acquisition assumption.
 
+**Shorter natural Stone route.** Start at n408 and take its top entrance to n401 as Normal. Swallow the original lower Rocky (`0x088C5864`), then carry Stone through n401 (1,48) → n407, n407 (10,3) → n490, and n490 (14,5) → n411. Preserve the n407 temporary ceiling until crossing. Drive peg (4,3), discard Stone, and use the actual n411 (2,7) → n405 door (native bit 147). The later Vitality chest (`0x088C5EC4`) also completed as Normal after the n403 Phan Phan fight; this is not a separate Stone or helper requirement. Ability Trials rows 72 and 122; controller SHA-256 `abe3291af3bdcc5534084d5b5d17d5e6507dc452d748afe930db9dca281167bd`. No AP acknowledgment.
+
 #### `peg_509_32_2`
 
 AP region: `REGION_CABBAGE_CAVERN/ROOM_3_10`.
@@ -1114,6 +1116,8 @@ AP region: `REGION_CABBAGE_CAVERN/ROOM_3_09`.
 
 - Path: 592, 528, 513, 509, 510.
 - Qualification: 528 wall puff and upper513 transition retain Stone.513 exit0889D458 ->509spawn43,17;509 exit0889B9AC ->510spawn4,6. Exact13px-body initial-map paths reach upperpeg with no prior peg/rope/metal. ChestUFO cannot bootstrap. Horizontalmetal alternate uncredited, not declared impossible.
+
+**Natural Hammer alternative.** From the proved n527 upper exit (not the lower chest door), enter n515 as Normal, defeat Bonkers and swallow the original parent (`0x088C9FB4`). Retain Hammer across n515→n513 lower; clear (5,18) and climb back up to n513 (8,2)→n509; then take n509 (41,3)→n510. Low aerial Hammer opens peg (7,7); the exact chest `0x088C9114` raised the native ring 5→6 at 9 HP. Three carries, no AP acknowledgment. Matched no-attack leaves peg and award unchanged. Controller SHA-256 `991ebf58a6de29742027cc99c4aea068b97454f0b4d5ecb96bbb757aaa353dac`; Ability Trials row 118.
 
 #### `peg_513_4_7`
 
@@ -1495,6 +1499,8 @@ providers retain ordinary movement here.
 
 Source: https://wikirby.com/wiki/Peppermint_Palace_-_Room_20
 
+**Shorter natural Sword route.** Start from independent n221 access, take the n225 lower entrance, and copy the original Sword Knight (`0x088C2514`), not the other spawn. Carry back through n221 to n217 and cut both exact rope cells. After dropping Sword, Kirby reached n223 and n224 as Normal (visit bits 113/114), went on to open Frosty's chest separately, and completed the native Goal Game. No AP acknowledgment. Ability Trials rows 79–80 and 119–120; controller SHA-256 `a94e6a90d0414ed388440ef07dd6f1bf9ca7b629e827a360389d7fe89ede6118`.
+
 ### rope_227_20_12
 
 Owner: Peppermint Room6. Bind only MINOR_CHEST_PEPPERMINT_PALACE_7_06_OBJECT_03,
@@ -1541,6 +1547,8 @@ same right-hand bomb approach above, without replacing the carried ability.
 
 Source: https://wikirby.com/wiki/Peppermint_Palace_-_Room_9
 
+**Natural Sword alternative.** From n290 take the n210 lower arrival and swallow original Sword Knight `0x088BF658`, the same source used for the distinct n227 rope. Carry through n210→n205→n228, take the outer Bomb (22,15) approach, cut the exact two rope tiles with a jump slash, and award Sparerib `0x088C04D8` (ring 4→5 at 9 HP). Two carries; no AP acknowledgment. Controller SHA-256 `aff50f57c03488ac49efa0b8e66160de9d0e03ef23b63f75ce3438bdbf6217de`; Ability Trials row 27.
+
 ### rope_316_35_5
 
 Owner: Mustard Room10. Bind only MINOR_CHEST_MUSTARD_MOUNTAIN_4_10_OBJECT_01,
@@ -1565,6 +1573,8 @@ crumble block is required. Path after activation:
 All five providers retain ordinary flight and puffing.
 
 Source: https://wikirby.com/wiki/Mustard_Mountain_-_Room_10 (oldid574589)
+
+**Shorter natural Cupid route.** Original lower Cupie (`0x088C3DEC`) in n308, one carried transition from n308 (26,3) to n316, exact rope cells (34/35,5) and native chest `0x088C4798`, event ring 0→1. No AP acknowledgment. Ability Trials row 95; controller SHA-256 `510423d881417b16a89e7c2b8769f70f99df862e40d98cdc0d322aed97426e16`.
 
 ### rope_553_26_7
 
