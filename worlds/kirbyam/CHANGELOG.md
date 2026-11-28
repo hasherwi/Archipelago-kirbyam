@@ -11,6 +11,7 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
 ## Unreleased
 
 ### New Features
+- Add **Capture the Flag** goal: physically complete one hidden, randomly selected check. Use `/goal reveal` only if you want to spoil its location (Issue #1173).
 - Add **Random Starting Mirror** (on by default). The tutorial World Map chest awards a random usable Central Circle Hub Connection. The original mirror to Room 1-01 stays locked until its Hub Connection is received (PR #1156).
 - Add 38 Kirby starting color palettes and a [visual gallery of all 65 colors](docs/color-palettes.md) (PR #1135).
 - Play distinct in-game sound cues and display item sprites when new Archipelago items are received (PR #1136, PR #1137).
@@ -20,6 +21,8 @@ Contract for `## Unreleased` and post-public `## v...` sections going forward:
   - Random Teleport moves Kirby to a safe room already in logic (Issue #696).
 
 ### Improvements
+- Keep randomly selected area bosses hidden unless the player uses `/goal reveal` (PR #1175).
+- Show required check progress for **100% Game Completion** in `/goal`, with an alphabetical hint or the full list when ten or fewer remain (Issue #1174).
 - The title screen now shows **Aarcayne Art**’s Archipelago badge so you can tell you’re running the randomizer.
 - When statues are included in Ability Randomization, Shuffled statues show the abilities they grant and Completely Random statues show a question mark. Six new sprites by **Aarcayne Art** appear for the Sleep, Cook, UFO, Magic, Mini, and Crash unlocks and on eligible Shuffled statues (PR #1141).
 - Ability Randomization no longer affects the Copy Ability Room: its statues always grant their original abilities once unlocked (PR #1141).

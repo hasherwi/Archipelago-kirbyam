@@ -94,7 +94,9 @@ def fixture(  # noqa: C901 - one explicit isolated-world dependency matrix
     assert isinstance(event, KirbyAmLocation) and event.item is not None
     assert event.address is None and event.item.code is None and event.locked
     assert CENTRAL_RETURN_EVENT not in _GOAL_LOCATION_LABELS.values()
-    keep = set(_BOSS_DEFEAT_LOCATION_LABELS) | set(_GOAL_LOCATION_LABELS.values()) | {
+    # The Flag event exists only in seeds using that goal. Keep the live goal checks.
+    goal_locations = [loc for loc in mw.get_locations(1) if loc.name in _GOAL_LOCATION_LABELS.values()]
+    keep = set(_BOSS_DEFEAT_LOCATION_LABELS) | {loc.name for loc in goal_locations} | {
         CENTRAL_RETURN_EVENT, _DMK_DIMENSION_MIRROR_EVENT}
     for region in mw.regions:
         for entrance in region.exits:
@@ -122,8 +124,8 @@ def fixture(  # noqa: C901 - one explicit isolated-world dependency matrix
     connect(mw.get_region(DIMENSION, 1), lambda state: dimension and dimension_rule(state))
     mw.get_location(_DMK_DIMENSION_MIRROR_EVENT, 1).access_rule = lambda state: dmk
     # Goal location parent access is independent of clear availability.
-    for name in _GOAL_LOCATION_LABELS.values():
-        region = cast(Region, mw.get_location(name, 1).parent_region)
+    for goal_location in goal_locations:
+        region = cast(Region, goal_location.parent_region)
         if region.name not in {DIMENSION, CENTRAL_REGION}:
             connect(region)
 

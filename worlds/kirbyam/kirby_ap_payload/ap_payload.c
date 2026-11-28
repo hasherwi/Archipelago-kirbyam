@@ -1,7 +1,9 @@
 #include <stdint.h>
 
 #include "hub_connection_runtime_logic.h"
+#define AP_PHYSICAL_SAVE_CODE __attribute__((noinline, long_call, section(".aphub")))
 #include "hub_save_logic.h"
+#undef AP_PHYSICAL_SAVE_CODE
 #include "copy_room.h"
 AP_COPY_EXT void ap_goal_poll(void);
 #include "phone.h"
@@ -680,6 +682,18 @@ void ap_chest_reward_art(void *chest, int16_t x, int16_t y, uint16_t item) {
 #define AP_HUB_SAVED_CHECKS ((volatile uint32_t*)0x02028C7Cu)
 #define AP_HUB_ROM_AUTH ((const volatile uint32_t*)0x08F00000u)
 
+const volatile uint32_t gApBossFlagConfig __attribute__((used, section(".apbossflagconfig"))) = 0xFF424643u;
+
+/* Use both exact native boss-reward hooks, including the already-owned path;
+ * item delivery and cosmetic spawn events must never mint this proof. The
+ * shard cutscene already saves. The repeat-reward path below performs the
+ * same guarded native world save once for each newly captured boss flag. */
+static __attribute__((noinline, long_call, section(".aphub")))
+uint8_t ap_persist_selected_boss_flag(uint32_t defeated_boss) {
+    return ap_record_selected_boss_flag(AP_HUB_SAVED_CHECKS, AP_HUB_ROM_AUTH,
+                                        gApBossFlagConfig, defeated_boss);
+}
+
 static __attribute__((noinline, long_call, section(".aphub")))
 void ap_set_lever_activation_flag(uint32_t lever_bit) {
     uint32_t bit;
@@ -716,9 +730,7 @@ void ap_record_minor_chest_collection_from_obj_ptr(uint32_t chest_obj_ptr) {
 }
 
 static __attribute__((noinline, long_call, section(".aphub")))
-void ap_set_hub_switch_flag(uint32_t bit) {
-    if (!ap_hub_record_check(AP_HUB_SAVED_CHECKS, AP_HUB_ROM_AUTH, bit)) return;
-    AP_HUB_SWITCH_FLAGS = ap_hub_saved_checks(AP_HUB_SAVED_CHECKS, AP_HUB_ROM_AUTH);
+void ap_commit_physical_world_save(void) {
     switch (ap_hub_save_action(*(volatile uint32_t*)0x0203AD10u,
                               *(volatile uint8_t*)0x0203AD3Cu,
                               *(volatile uint8_t*)0x0203AD24u)) {
@@ -729,6 +741,13 @@ void ap_set_hub_switch_flag(uint32_t bit) {
         case 2u: ((void (*)(uint32_t))0x08031CE5u)(8u); break;
         default: break;
     }
+}
+
+static __attribute__((noinline, long_call, section(".aphub")))
+void ap_set_hub_switch_flag(uint32_t bit) {
+    if (!ap_hub_record_check(AP_HUB_SAVED_CHECKS, AP_HUB_ROM_AUTH, bit)) return;
+    AP_HUB_SWITCH_FLAGS = ap_hub_saved_checks(AP_HUB_SAVED_CHECKS, AP_HUB_ROM_AUTH);
+    ap_commit_physical_world_save();
 }
 
 static __attribute__((noinline, long_call, section(".aphub")))
@@ -1799,6 +1818,7 @@ __attribute__((used)) void ap_on_chest_popup_room_counter(uint32_t room_slot, ui
 // after the shard-to-hub-mirror cutscene.
 __attribute__((used)) void ap_on_boss_defeat_collect_shard(uint32_t boss_index) {
     ap_set_boss_defeat_flag(boss_index);
+    ap_persist_selected_boss_flag(boss_index);
     // Replicate CollectShard(boss_index): update native EWRAM shard bitfield and
     // retain it for the post-cutscene transition; native save flow owns persistence.
     if (boss_index < 8u) {
@@ -1831,8 +1851,10 @@ typedef void (*KirbyBossAlreadyOwnedRewardFn)(void *obj2, int16_t x, int16_t y, 
 // original reward function.
 __attribute__((used)) void ap_on_boss_defeat_already_owned_reward(void *obj2, int16_t x, int16_t y, uint32_t boss_index) {
     ap_set_boss_defeat_flag(boss_index);
+    uint8_t new_flag = ap_persist_selected_boss_flag(boss_index);
     ap_note_boss_tomato_for_reward_art(boss_index);
     KIRBY_BOSS_ALREADY_OWNED_REWARD_FN(obj2, x, y, boss_index);
+    if (new_flag) ap_commit_physical_world_save();
 }
 
 // Hook target for native big chest reward collection. The game passes the area ID

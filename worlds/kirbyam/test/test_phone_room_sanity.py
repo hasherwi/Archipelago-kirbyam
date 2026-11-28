@@ -109,6 +109,8 @@ def test_actual_visit_poll_expands_checks_without_writing_native_state():
             _core_landmark_location_ids_by_bit={1:[101]},
             _get_room_visit_flags_view=read, _active_location_id_set=lambda ctx: {101,102},
             _last_room_sanity_poll_log=None)
+        client._flag_observation_session = KirbyAmClient._flag_observation_session.__get__(client)
+        client._observe_capture_flag = KirbyAmClient._observe_capture_flag.__get__(client)
         ctx = NS(slot_data={'room_sanity':enabled,'core_landmark_location_ids':[101]},
                  checked_locations=set(), send_msgs=send)
         await KirbyAmClient._poll_room_sanity_locations(client,ctx)

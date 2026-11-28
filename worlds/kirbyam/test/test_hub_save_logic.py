@@ -89,6 +89,33 @@ int main(void) {
     auth[0]^=1;
     CHECK(ap_physical_saved_bits(disk[0]+27,auth)==0);
     CHECK(ap_physical_saved_bits(disk[1]+27,auth) >> AP_BOSS_ART_SAVE_SHIFT == 2u);
+    /* The selected boss flag is a distinct, authenticated tag. Neither
+     * cosmetic display nor an unrelated boss can mint it. Every older
+     * physical/cosmetic writer must preserve it after a cold save reload. */
+    memset(world,0,sizeof(world));
+    const uint32_t boss_config=AP_BOSS_FLAG_CONFIG_MAGIC | (6u << 24);
+    CHECK(ap_boss_item_record_display(world+27,auth,6));
+    CHECK(!ap_boss_flag_saved(world+27,auth));
+    CHECK(!ap_record_selected_boss_flag(world+27,auth,boss_config,5));
+    CHECK(!ap_record_selected_boss_flag(world+27,auth,AP_BOSS_FLAG_CONFIG_MAGIC | (255u << 24),6));
+    CHECK(ap_record_selected_boss_flag(world+27,auth,boss_config,6));
+    CHECK(!ap_record_selected_boss_flag(world+27,auth,boss_config,6));
+    memcpy(disk[0],world,sizeof(world));
+    memset(world,0,sizeof(world));
+    CHECK(!ap_boss_flag_saved(world+27,auth));
+    memcpy(world,disk[0],sizeof(world));
+    CHECK(ap_boss_flag_saved(world+27,auth));
+    CHECK(ap_hub_record_check(world+27,auth,4));
+    CHECK(ap_lever_record_check(world+27,auth,2));
+    CHECK(ap_boss_item_record_display(world+27,auth,7));
+    CHECK(ap_boss_flag_saved(world+27,auth));
+    CHECK(ap_physical_saved_checks(world+27,auth) == ((1u<<4) | (1u<<17)));
+    CHECK(ap_physical_saved_bits(world+27,auth) >> AP_BOSS_ART_SAVE_SHIFT == ((1u<<6) | (1u<<7)));
+    auth[1]^=1;
+    CHECK(!ap_boss_flag_saved(world+27,auth));
+    CHECK(ap_physical_saved_bits(world+27,auth)==0);
+    auth[1]^=1;
+    CHECK(ap_boss_flag_saved(world+27,auth));
     for(unsigned flags=0;flags<32;flags++) for(unsigned local=0;local<4;local++)
         for(unsigned owner=0;owner<4;owner++)
             CHECK(ap_hub_save_action(flags,local,owner)==
